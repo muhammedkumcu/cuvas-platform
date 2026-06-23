@@ -179,3 +179,136 @@ class NounGenerator:
             "plural": {c: r.word for c, r in self.case_paradigm(stem, True).items()},
             "possessive": {p: r.word for p, r in self.possessive_paradigm(stem).items()},
         }
+
+
+class VerbGenerator:
+    """
+    Fiil çekimi: KÖK + [OLUMSUZ] + ZAMAN/KİP + ŞAHIS.
+    Zaman ekleri ve şahıs setleri apertium-chv lexc (V-T*, V-PERS-*) verisinden.
+
+    Desteklenen: şimdiki/geniş (pres), belirli geçmiş (past), gelecek (fut),
+    emir (imp), mastar (inf). Sentetik olumsuzluk dahil.
+
+    NOT (MVP): öğrenilen geçmiş (-нӑ), koşul, çatı yığılması ve düzensiz fiiller
+    (ту→тӑв-) henüz dahil değil; past'taki -р- düşmesi sık fiillerle sınırlı liste.
+    """
+
+    # Kapalı sınıf: geçmiş/olumsuz/şimdiki önünde kök-sonu -р- düşen sık fiiller
+    # (apertium twol "Final -р- ... deletes"). Sık örneklerle sınırlı — genişletilecek.
+    R_DROP = frozenset({"пар", "тӑр", "кур", "кӗр", "хур", "сар", "яр", "вӗр", "тӑр"})
+
+    def __init__(self, lexicon=None):
+        self.lexicon = lexicon
+
+    # -- yardımcılar ----------------------------------------------------------
+
+    @staticmethod
+    def _drop_final_ae(stem: str) -> str:
+        """Şimdiki zaman {A}-başlı ek öncesi kök-sonu а/е düşer (ӗҫле→ӗҫл-)."""
+        if stem and stem[-1] in "ае":
+            return stem[:-1]
+        return stem
+
+    def _T_before_reduced(self, stem: str):
+        """Geçmiş {T}, {Ă}-başlı şahıs eki (p1/p2) öncesi: р/л/н→т, r-drop, aksi→р."""
+        if stem in self.R_DROP:
+            return stem[:-1], "т"
+        if stem and stem[-1] in "рлн":
+            return stem, "т"
+        return stem, "р"
+
+    def _T_before_e(self, stem: str):
+        """Geçmiş {T}, ӗ-başlı şahıs eki (p3) öncesi: р/л/н→ч (palatalize), r-drop→ч, aksi→р."""
+        if stem in self.R_DROP:
+            return stem[:-1], "ч"
+        if stem and stem[-1] in "рлн":
+            return stem, "ч"
+        return stem, "р"
+
+    # -- zamanlar -------------------------------------------------------------
+
+    def present(self, stem: str, person: str, neg: bool = False) -> str:
+        back = not P.is_front(stem)
+        s = self._drop_final_ae(stem)
+        if neg:
+            base = s + P.V("маст", "мест", stem)
+            if person == "p3sg":
+                return base + ("ь" if back else "")
+            if person == "p3pl":
+                return s + P.V("маҫҫӗ", "меҫҫӗ", stem)
+            end = {"p1sg": P.V("ӑп", "ӗп", stem), "p2sg": P.V("ӑн", "ӗн", stem),
+                   "p1pl": P.V("пӑр", "пӗр", stem), "p2pl": P.V("ӑр", "ӗр", stem)}
+            return base + end[person]
+        base = s + P.V("ат", "ет", stem)
+        if person == "p3sg":
+            return base + ("ь" if back else "")
+        if person == "p3pl":
+            return s + P.V("аҫҫӗ", "еҫҫӗ", stem)
+        end = {"p1sg": P.V("ӑп", "ӗп", stem), "p2sg": P.V("ӑн", "ӗн", stem),
+               "p1pl": P.V("пӑр", "пӗр", stem), "p2pl": P.V("ӑр", "ӗр", stem)}
+        return base + end[person]
+
+    def future(self, stem: str, person: str, neg: bool = False) -> str:
+        base = stem + ("м" if neg else "")
+        end = {"p1sg": P.V("ӑп", "ӗп", stem), "p2sg": P.V("ӑн", "ӗн", stem),
+               "p3sg": "ӗ", "p1pl": P.V("ӑпӑр", "ӗпӗр", stem),
+               "p2pl": P.V("ӑр", "ӗр", stem), "p3pl": "ӗҫ"}
+        return base + end[person]
+
+    def _past_person_ending(self, stem: str, person: str) -> str:
+        return {"p1sg": P.V("ӑм", "ӗм", stem), "p2sg": P.V("ӑн", "ӗн", stem),
+                "p1pl": P.V("ӑмӑр", "ӗмӗр", stem), "p2pl": P.V("ӑр", "ӗр", stem),
+                "p3sg": "ӗ", "p3pl": "ӗҫ"}[person]
+
+    def past(self, stem: str, person: str, neg: bool = False) -> str:
+        if neg:
+            base = stem + P.V("мар", "мер", stem)
+            return base + self._past_person_ending(base, person)
+        if person in ("p1sg", "p2sg", "p1pl", "p2pl"):
+            st, t = self._T_before_reduced(stem)
+            return st + t + self._past_person_ending(stem, person)
+        st, t = self._T_before_e(stem)
+        return st + t + ("ӗ" if person == "p3sg" else "ӗҫ")
+
+    def imperative(self, stem: str, person: str) -> str:
+        return {
+            "p2sg": stem,
+            "p2pl": stem + P.V("ӑр", "ӗр", stem),
+            "p3sg": stem + P.V("тӑр", "тӗр", stem),
+            "p1sg": stem + P.V("ам", "ем", stem),
+            "p1pl": stem + P.V("ар", "ер", stem),
+            "p3pl": stem + P.V("ччӑр", "ччӗр", stem),
+        }[person]
+
+    def infinitive(self, stem: str) -> str:
+        return stem + P.V("ма", "ме", stem)
+
+    # -- birleşik API ---------------------------------------------------------
+
+    def generate(self, stem: str, tense: str, person: Optional[str] = None,
+                 neg: bool = False) -> GenResult:
+        stem = stem.strip()
+        if tense == "inf":
+            w = self.infinitive(stem)
+            return GenResult(w, w, stem + "<v><inf>")
+        if tense == "imp":
+            w = self.imperative(stem, person or "p2sg")
+            return GenResult(w, w, stem + M.verb_analysis_tag("imp", person or "p2sg"))
+        fn = {"pres": self.present, "past": self.past, "fut": self.future}[tense]
+        w = fn(stem, person, neg)
+        return GenResult(w, w, stem + M.verb_analysis_tag(tense, person, neg))
+
+    def tense_paradigm(self, stem: str, tense: str, neg: bool = False) -> Dict[str, str]:
+        """Bir zamanın 6 şahıs çekimi."""
+        return {p: self.generate(stem, tense, p, neg).word for p in M.PERSONS}
+
+    def conjugation_table(self, stem: str) -> Dict[str, Dict[str, str]]:
+        """Öğrenme platformu için fiil çekim tablosu."""
+        return {
+            "pres": self.tense_paradigm(stem, "pres"),
+            "pres_neg": self.tense_paradigm(stem, "pres", neg=True),
+            "past": self.tense_paradigm(stem, "past"),
+            "fut": self.tense_paradigm(stem, "fut"),
+            "imp": {p: self.imperative(stem, p) for p in M.PERSONS},
+            "inf": self.infinitive(stem),
+        }

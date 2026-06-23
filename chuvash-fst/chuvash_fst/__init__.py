@@ -7,7 +7,7 @@ Düşük kaynaklı, Oğur (Bulgar) kolu Türk dili Çuvaşça (chv) için.
 """
 from .phonology import Alphabet, Phonology, normalize, has_latin_homoglyph
 from .lexicon import Lexicon, Entry
-from .generator import NounGenerator, GenResult
+from .generator import NounGenerator, VerbGenerator, GenResult
 from . import morphotactics
 
 __version__ = "0.1.0"
@@ -20,6 +20,7 @@ __all__ = [
     "Lexicon",
     "Entry",
     "NounGenerator",
+    "VerbGenerator",
     "GenResult",
     "morphotactics",
 ]

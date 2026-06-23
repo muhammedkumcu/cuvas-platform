@@ -75,3 +75,21 @@ def noun_analysis_tag(pos, possessive=None, plural=False, case="nom") -> str:
         tags.append("<pl>")
     tags.append(f"<{case}>")
     return "".join(tags)
+
+
+# p1sg -> <p1><sg> ayrıştırması (apertium etiket stili)
+_PERSON_TAGS = {
+    "p1sg": "<p1><sg>", "p2sg": "<p2><sg>", "p3sg": "<p3><sg>",
+    "p1pl": "<p1><pl>", "p2pl": "<p2><pl>", "p3pl": "<p3><pl>",
+}
+
+
+def verb_analysis_tag(tense, person=None, neg=False) -> str:
+    """apertium-stili fiil etiketi: kil<v><pres><p1><sg> / kil<v><neg><pres>..."""
+    tags = ["<v>"]
+    if neg:
+        tags.append("<neg>")
+    tags.append(f"<{tense}>")
+    if person:
+        tags.append(_PERSON_TAGS[person])
+    return "".join(tags)

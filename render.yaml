@@ -1,0 +1,14 @@
+# Render.com deploy yapılandırması — Çuvaşça ICALL platformu
+# Kurulum: render.com -> New -> Blueprint -> muhammedkumcu/cuvas-platform reposunu seç
+# Render bu dosyayı otomatik okur ve Flask API + web arayüzünü canlıya alır.
+services:
+  - type: web
+    name: cuvas-platform
+    runtime: python
+    plan: free
+    region: frankfurt
+    buildCommand: "pip install -r chuvash-fst/requirements.txt"
+    startCommand: "cd chuvash-fst/web && gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120"
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"

@@ -1,5 +1,6 @@
 # ChuvashFST — çalıştırma bağımlılıkları
 flask>=3.0
+gunicorn>=21.0   # production WSGI sunucusu (Render/Heroku)
 
 # Geliştirme/test:
 #   pip install pytest

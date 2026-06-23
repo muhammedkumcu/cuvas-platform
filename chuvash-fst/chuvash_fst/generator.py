@@ -81,6 +81,8 @@ class NounGenerator:
             return base, P.V("сӑр", "сӗр", base)
         if case == "ter":
             return base, P.V("шӑн", "шӗн", base)
+        if case == "attr":   # sıfat-fiil: bulunma -ри/-ти + и (хула->хулари, кӗл->кӗлти)
+            return base, ("т" if P.takes_t_allomorph(base) else "р") + "и"
         raise ValueError(f"bilinmeyen hal: {case}")
 
     def _possessive_part(self, stem: str, person: str, geminate: bool):
@@ -120,7 +122,7 @@ class NounGenerator:
 
     # 3. şahıs iyelik oblik hal ekleri (bağlayıcı -н- + değişmez son ekler)
     _PX3_CASE = {"gen": "н", "dat": "не", "loc": "нче", "abl": "нчен",
-                 "ins": "пе", "abe": "сӗр", "ter": "шӗн"}
+                 "ins": "пе", "abe": "сӗр", "ter": "шӗн", "attr": "нчи"}
 
     def _possessive_case(self, possessive, stem, poss_word, case):
         """İyelik formuna hal eki ekler (iyelik+hal birleşik çekim)."""

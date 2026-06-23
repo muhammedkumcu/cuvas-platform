@@ -64610,3 +64610,14 @@ XXI	%<num%>
 ӳркевҫӗ	%<n%>	src:hunspell
 ӳркенӗҫ	%<n%>	src:hunspell
 ӳсен	%<n%>	src:hunspell
+санӑн	%<prn%>	src:manual
+она	%<prn%>	src:manual
+унӑн	%<prn%>	src:manual
+пирӗн	%<prn%>	src:manual
+пире	%<prn%>	src:manual
+пирӗне	%<prn%>	src:manual
+сирӗн	%<prn%>	src:manual
+сире	%<prn%>	src:manual
+куна	%<prn%>	src:manual
+мӗне	%<prn%>	src:manual
+камӑн	%<prn%>	src:manual

@@ -44,13 +44,24 @@ class AnalysisResult:
 # İsim çekim kombinasyonları (generator.generate'in desteklediği yollar)
 def _noun_combos():
     yield (None, False, "nom")
+    yield (None, False, "attr")      # sıfat-fiil -ри/-чи
     for c in M.CASES:
         yield (None, False, c)
         yield (None, True, c)
     for p in M.POSSESSIVES:
-        for c in M.CASES:        # iyelik + hal (3.şh dahil)
+        for c in M.CASES:            # iyelik + hal (3.şh dahil)
             yield (p, False, c)
         yield (p, True, "nom")
+    yield ("px3sp", False, "attr")   # 3.şh + sıfat-fiil (районӗнчи)
+
+
+# Üretken türetim ekleri (uzun -> kısa sıralı eşleşme) ve ürettiği POS
+_DERIV_SUFFIXES = [
+    ("чӑлӑх", "n"), ("чӗлӗх", "n"), ("лӑх", "n"), ("лӗх", "n"),
+    ("сӑр", "adj"), ("сӗр", "adj"), ("ҫӑ", "n"), ("ҫӗ", "n"),
+    ("лӑ", "adj"), ("лӗ", "adj"), ("лан", "v"), ("лен", "v"),
+    ("ла", "v"), ("ле", "v"), ("ӑш", "n"), ("ӗш", "n"),
+]
 
 
 def _verb_combos():
@@ -120,6 +131,21 @@ class Analyzer:
                         seen.add(r.analysis)
                         parses.append(Parse(stem, "v", r.analysis,
                                             r.breakdown, gloss))
+
+        # Türetim: kelime = kök + üretken türetim eki (bare türetilmiş biçim)
+        if not parses:
+            for suf, outpos in _DERIV_SUFFIXES:
+                if word.endswith(suf) and len(word) - len(suf) >= 2:
+                    base = word[: -len(suf)]
+                    if self.lex.lookup(base):
+                        tag = f"{base}<{outpos}><der>"
+                        if tag not in seen:
+                            seen.add(tag)
+                            g = next((e.gloss_ru for e in self.lex.lookup(base)
+                                      if e.gloss_ru), "")
+                            parses.append(Parse(base, outpos, tag,
+                                                f"{base} + {suf}", g))
+                        break
 
         # Çekimsiz/yalın sözlük kelimesi (zarf, bağlaç, edat, ünlem, yalın isim…):
         # üretici bir çekim bulamadıysa ama kelime aynen sözlükteyse tanı.

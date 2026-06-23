@@ -61,7 +61,7 @@ def valid_noun_slots(possessive=None, plural=False, case="nom") -> bool:
     """İsim için verilen slot kombinasyonu morfotaktik olarak geçerli mi?"""
     if possessive is not None and possessive not in POSSESSIVES:
         return False
-    if case not in CASES:
+    if case not in CASES and case != "attr":   # attr = sıfat-fiil (-ри/-чи)
         return False
     return True
 

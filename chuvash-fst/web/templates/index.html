@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Чӑвашла — Çuvaşça Morfoloji & Öğrenme Platformu</title>
+<style>
+  :root { --bg:#fbf7ef; --ink:#2b2118; --accent:#b5121b; --accent2:#f2b50a;
+          --root:#1466b5; --suf:#178a4c; --suf2:#b5121b; --card:#fff; --line:#e7ded0; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,Segoe UI,Roboto,sans-serif;
+         background:var(--bg); color:var(--ink); }
+  header { background:linear-gradient(135deg,var(--accent),#7d0d13); color:#fff;
+           padding:18px 20px; }
+  header h1 { margin:0; font-size:22px; letter-spacing:.5px; }
+  header p { margin:4px 0 0; opacity:.9; font-size:13px; }
+  .wrap { max-width:860px; margin:18px auto; padding:0 14px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px;
+          padding:16px; margin-bottom:16px; box-shadow:0 1px 3px rgba(0,0,0,.04); }
+  .tabs { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .tabs button { border:1px solid var(--line); background:#fff; padding:8px 12px;
+          border-radius:20px; cursor:pointer; font-size:14px; }
+  .tabs button.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  input,select { padding:10px; border:1px solid var(--line); border-radius:8px;
+          font-size:16px; }
+  input[type=text] { flex:1; min-width:180px; }
+  .kb { display:flex; gap:6px; margin-top:8px; }
+  .kb button { width:42px; height:38px; font-size:18px; border:1px solid var(--line);
+          background:#fffdf6; border-radius:8px; cursor:pointer; }
+  .go { background:var(--accent2); border:none; padding:10px 16px; border-radius:8px;
+          font-weight:600; cursor:pointer; }
+  table { border-collapse:collapse; width:100%; margin-top:10px; font-size:14px; }
+  th,td { border:1px solid var(--line); padding:6px 8px; text-align:left; }
+  th { background:#f6efe2; }
+  .root { color:var(--root); font-weight:700; }
+  .suf  { color:var(--suf);  font-weight:600; }
+  .pill { display:inline-block; background:#f1ebdd; border-radius:6px; padding:1px 6px;
+          font-size:12px; color:#6a5b44; }
+  .ok { color:var(--suf); font-weight:700; } .no { color:var(--accent); font-weight:700; }
+  .muted { color:#8a7c66; font-size:13px; }
+  .opt { display:block; width:100%; text-align:left; margin:6px 0; padding:10px;
+         border:1px solid var(--line); border-radius:8px; background:#fff; cursor:pointer; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Чӑвашла · Çuvaşça Morfoloji & Öğrenme</h1>
+  <p>Düşük kaynaklı, tehlikedeki Oğur-kolu Türk dili için açık kaynak üretim motoru + ICALL · sözlük: {{ lexicon_count }} kök</p>
+</header>
+
+<div class="wrap">
+  <div class="card">
+    <div class="row">
+      <input id="word" type="text" placeholder="Çuvaşça kelime/kök (Kiril)… ör. кӗнеке, кил, ҫын">
+      <button class="go" onclick="run()">Çalıştır</button>
+    </div>
+    <div class="kb">
+      <span class="muted" style="align-self:center">Özel harfler:</span>
+      <button onclick="ins('ӑ')">ӑ</button><button onclick="ins('ӗ')">ӗ</button>
+      <button onclick="ins('ҫ')">ҫ</button><button onclick="ins('ӳ')">ӳ</button>
+      <span class="muted" style="align-self:center">(Latin a/c/e/o/p/x otomatik Kiril'e çevrilir)</span>
+    </div>
+    <div class="tabs" style="margin-top:12px">
+      <button class="active" data-m="pn" onclick="setMode('pn')">İsim Paradigması</button>
+      <button data-m="pv" onclick="setMode('pv')">Fiil Çekimi</button>
+      <button data-m="an" onclick="setMode('an')">Analiz (açıkla)</button>
+      <button data-m="sp" onclick="setMode('sp')">Yazım</button>
+      <button data-m="ex" onclick="exercise()">Alıştırma</button>
+    </div>
+  </div>
+  <div id="out" class="card">Bir kelime girip <b>Çalıştır</b>'a basın.</div>
+</div>
+
+<script>
+let mode = 'pn';
+const $ = s => document.querySelector(s);
+const W = () => $('#word');
+function ins(c){ const i=W(); i.value+=c; i.focus(); }
+function setMode(m){ mode=m; document.querySelectorAll('.tabs button').forEach(b=>
+  b.classList.toggle('active', b.dataset.m===m)); if(W().value.trim()) run(); }
+
+async function jget(u){ return (await fetch(u)).json(); }
+async function jpost(u,b){ return (await fetch(u,{method:'POST',
+  headers:{'Content-Type':'application/json'},body:JSON.stringify(b)})).json(); }
+
+const CASE={nom:'Yalın',gen:'İlgi',dat:'Yön-Belirtme',loc:'Bulunma',abl:'Ayrılma',
+  ins:'Vasıta',abe:'Mahrumiyet',ter:'Sebep'};
+const PX={px1sg:'1.tk',px2sg:'2.tk',px3sp:'3.şh',px1pl:'1.çoğ',px2pl:'2.çoğ'};
+const PERS={p1sg:'1.tk',p2sg:'2.tk',p3sg:'3.tk',p1pl:'1.çoğ',p2pl:'2.çoğ',p3pl:'3.çoğ'};
+
+function run(){
+  const w=W().value.trim(); if(!w){return;}
+  if(mode==='pn') paradigmNoun(w);
+  else if(mode==='pv') paradigmVerb(w);
+  else if(mode==='an') analyze(w);
+  else if(mode==='sp') spell(w);
+}
+
+async function paradigmNoun(w){
+  const d=await jget('/api/paradigm/noun?stem='+encodeURIComponent(w)); const t=d.table;
+  let h=`<h3>İsim paradigması: <span class="root">${w}</span></h3><table><tr><th>Hal</th><th>Tekil</th><th>Çoğul</th></tr>`;
+  for(const c in CASE) h+=`<tr><td class="pill">${CASE[c]}</td><td>${t.singular[c]}</td><td>${t.plural[c]}</td></tr>`;
+  h+=`</table><h4>İyelik</h4><table><tr>`;
+  for(const p in PX) h+=`<th>${PX[p]}</th>`; h+=`</tr><tr>`;
+  for(const p in PX) h+=`<td>${t.possessive[p]}</td>`; h+=`</tr></table>`;
+  $('#out').innerHTML=h;
+}
+async function paradigmVerb(w){
+  const d=await jget('/api/paradigm/verb?stem='+encodeURIComponent(w)); const t=d.table;
+  const tn={pres:'Şimdiki',pres_neg:'Şimdiki (olumsuz)',past:'Geçmiş',fut:'Gelecek',imp:'Emir'};
+  let h=`<h3>Fiil çekimi: <span class="root">${w}-</span> · mastar: <b>${t.inf}</b></h3><table><tr><th>Zaman</th>`;
+  for(const p in PERS) h+=`<th>${PERS[p]}</th>`; h+=`</tr>`;
+  for(const k in tn){ h+=`<tr><td class="pill">${tn[k]}</td>`;
+    for(const p in PERS) h+=`<td>${t[k][p]||''}</td>`; h+=`</tr>`; }
+  h+=`</table>`; $('#out').innerHTML=h;
+}
+async function analyze(w){
+  const d=await jpost('/api/analyze',{word:w});
+  if(!d.success){ $('#out').innerHTML=`<p class="no">"${d.word}" çözümlenemedi.</p>`; return; }
+  let h=`<h3>Analiz: ${d.word}</h3>`;
+  for(const p of d.parses){
+    const parts=p.breakdown.split(' + ').map((x,i)=>i===0?`<span class="root">${x}</span>`:`<span class="suf">${x}</span>`).join(' + ');
+    h+=`<div style="margin:8px 0">${parts} &nbsp; <span class="pill">${p.analysis}</span> ${p.gloss?`<span class="muted">${p.gloss}</span>`:''}</div>`;
+  }
+  $('#out').innerHTML=h;
+}
+async function spell(w){
+  const d=await jpost('/api/spellcheck',{word:w});
+  $('#out').innerHTML=`<h3>Yazım denetimi</h3><p>${d.word}: `+
+    (d.correct?`<span class="ok">✓ geçerli Çuvaşça biçim</span>`:`<span class="no">✗ tanınmadı</span>`)+`</p>`;
+}
+async function exercise(){
+  setMode('ex');
+  const d=await jget('/api/exercise');
+  let h=`<h3>Alıştırma (ICALL)</h3><p>${d.prompt} ${d.gloss?`<span class="muted">(${d.gloss})</span>`:''}</p>`;
+  for(const o of d.options) h+=`<button class="opt" onclick="check(this,'${o}','${d.answer}')">${o}</button>`;
+  h+=`<p id="fb" class="muted"></p>`;
+  $('#out').innerHTML=h;
+}
+function check(btn,opt,ans){
+  if(opt===ans){ btn.style.background='#dff5e6'; $('#fb').innerHTML='<span class="ok">Doğru! 🎉</span>'; }
+  else { btn.style.background='#fde2e2'; $('#fb').innerHTML='<span class="no">Yanlış — tekrar deneyin.</span>'; }
+}
+W().addEventListener('keydown',e=>{ if(e.key==='Enter') run(); });
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+# ChuvashFST — çalıştırma bağımlılıkları
+flask>=3.0
+
+# Geliştirme/test:
+#   pip install pytest
+#   python -m pytest

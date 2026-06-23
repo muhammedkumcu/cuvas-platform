@@ -48,7 +48,8 @@ def _noun_combos():
         yield (None, False, c)
         yield (None, True, c)
     for p in M.POSSESSIVES:
-        yield (p, False, "nom")
+        for c in M.CASES:        # iyelik + hal (3.şh dahil)
+            yield (p, False, c)
         yield (p, True, "nom")
 
 
@@ -60,6 +61,10 @@ def _verb_combos():
     for person in M.PERSONS:
         yield ("imp", person, False)
     yield ("inf", None, False)
+    # çekimsiz/yarı-çekimli: partisip, zarf-fiil, sıfat-fiiller
+    for form in ("nar", "cvb", "ppres", "pfut"):
+        yield (form, None, False)
+    yield ("nar", None, True)
 
 
 class Analyzer:
@@ -68,17 +73,34 @@ class Analyzer:
         self.ng = NounGenerator(lexicon)
         self.vg = VerbGenerator(lexicon)
 
+    def _candidate_stems(self, word: str):
+        """Yüzey kelimeden olası kökleri topla (prefix + ünlü-restorasyonu +
+        palatalizasyon tersine). Üret-ve-doğrula tam form eşleşmesiyle filtreler,
+        bu yüzden fazla aday yalnızca recall artırır, precision'ı düşürmez."""
+        cands = set()
+        for k in range(2, len(word) + 1):
+            p = word[:k]
+            if self.lex.lookup(p):
+                cands.add(p)
+            # ünlü-sonu kök, iyelik/hal ile son ünlüyü değiştirmiş olabilir
+            # (республик+а -> республик+и); ön-eke ünlü ekleyerek dene
+            for v in "аеӑӗиоуӳ":
+                if self.lex.lookup(p + v):
+                    cands.add(p + v)
+            # palatalizasyon: yüzeydeki ч, kökte т/д olabilir (ят -> ячӗ)
+            if p.endswith("ч"):
+                for c in "тд":
+                    if self.lex.lookup(p[:-1] + c):
+                        cands.add(p[:-1] + c)
+        return cands
+
     def analyze(self, word: str) -> AnalysisResult:
         word = normalize(word.strip())
         seen = set()
         parses: List[Parse] = []
 
-        # aday kökler: kelimenin sözlükteki ön ekleri (+ tam kelime)
-        for k in range(2, len(word) + 1):
-            stem = word[:k]
+        for stem in self._candidate_stems(word):
             entries = self.lex.lookup(stem)
-            if not entries:
-                continue
             poses = {e.pos for e in entries}
             gloss = next((e.gloss_ru for e in entries if e.gloss_ru), "")
 

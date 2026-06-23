@@ -101,8 +101,11 @@ class NounGenerator:
         if person == "px3sp":
             if ev:
                 return drop, "и"
-            b = P.geminate_final(stem) if geminate else stem
-            return b, "и"
+            if geminate:
+                return P.geminate_final(stem), "и"
+            # ünsüz-sonu, gemination yok: т/д -> ч palatalizasyon + ӗ (ят -> ячӗ)
+            base = stem[:-1] + "ч" if stem[-1] in "тд" else stem
+            return base, "ӗ"
         if person == "px1pl":
             if ev:
                 return stem, P.V("мӑр", "мӗр", stem)
@@ -114,6 +117,24 @@ class NounGenerator:
             b = P.geminate_final(stem) if geminate else stem
             return b, P.V("ӑр", "ӗр", stem)
         raise ValueError(f"bilinmeyen iyelik: {person}")
+
+    # 3. şahıs iyelik oblik hal ekleri (bağlayıcı -н- + değişmez son ekler)
+    _PX3_CASE = {"gen": "н", "dat": "не", "loc": "нче", "abl": "нчен",
+                 "ins": "пе", "abe": "сӗр", "ter": "шӗн"}
+
+    def _possessive_case(self, possessive, stem, poss_word, case):
+        """İyelik formuna hal eki ekler (iyelik+hal birleşik çekim)."""
+        if possessive == "px3sp":
+            # Yönelme-belirtme: ünsüz-sonu kökte ӗ düşer -> stem+не (ятне, чысне);
+            # ünlü-sonu kökte poss_word+не (хули+не -> хулине)
+            if case == "dat":
+                base = poss_word if P.ends_with_vowel(stem) else stem
+                return base + "не", [base, "не"]
+            suf = self._PX3_CASE[case]
+            return poss_word + suf, [poss_word, suf]
+        # diğer şahıslar: iyelik formunu yeni gövde gibi çek (gemination yok)
+        b, suf = self._case_part(poss_word, case, False)
+        return b + suf, ([b, suf] if suf else [b])
 
     # -- ana üretim -----------------------------------------------------------
 
@@ -152,8 +173,12 @@ class NounGenerator:
                              stem + M.noun_analysis_tag(pos, possessive, True, case))
 
         if possessive:
-            return GenResult(word, " + ".join(parts),
-                             stem + M.noun_analysis_tag(pos, possessive, False, "nom"))
+            if case == "nom":
+                return GenResult(word, " + ".join(parts),
+                                 stem + M.noun_analysis_tag(pos, possessive, False, "nom"))
+            cword, cparts = self._possessive_case(possessive, stem, word, case)
+            return GenResult(cword, " + ".join(cparts),
+                             stem + M.noun_analysis_tag(pos, possessive, False, case))
 
         # 3) HAL (tekil, iyeliksiz)
         b, suf = self._case_part(stem, case, geminate)
@@ -283,6 +308,20 @@ class VerbGenerator:
     def infinitive(self, stem: str) -> str:
         return stem + P.V("ма", "ме", stem)
 
+    # -- çekimsiz/yarı-çekimli (non-finite) biçimler --------------------------
+    NONFIN_FORMS = ("nar", "cvb", "ppres", "pfut")
+
+    def nonfinite(self, stem: str, form: str, neg: bool = False) -> str:
+        if form == "nar":    # öğrenilen geçmiş / geçmiş sıfat-fiil -нӑ/-нӗ
+            return stem + (P.V("ман", "мен", stem) if neg else P.V("нӑ", "нӗ", stem))
+        if form == "cvb":    # zarf-fiil -са/-се
+            return stem + P.V("са", "се", stem)
+        if form == "ppres":  # şimdiki sıfat-fiil -акан/-екен
+            return self._drop_final_ae(stem) + P.V("акан", "екен", stem)
+        if form == "pfut":   # gelecek sıfat-fiil -ас/-ес
+            return stem + P.V("ас", "ес", stem)
+        raise ValueError(form)
+
     # -- birleşik API ---------------------------------------------------------
 
     def generate(self, stem: str, tense: str, person: Optional[str] = None,
@@ -291,6 +330,11 @@ class VerbGenerator:
         if tense == "inf":
             w = self.infinitive(stem)
             return GenResult(w, w, stem + "<v><inf>")
+        if tense in self.NONFIN_FORMS:
+            w = self.nonfinite(stem, tense, neg)
+            tagmap = {"nar": "nar", "cvb": "gna", "ppres": "gpr_pres", "pfut": "gpr_fut"}
+            tag = stem + "<v>" + ("<neg>" if neg else "") + f"<{tagmap[tense]}>"
+            return GenResult(w, w, tag)
         if tense == "imp":
             w = self.imperative(stem, person or "p2sg")
             return GenResult(w, w, stem + M.verb_analysis_tag("imp", person or "p2sg"))
@@ -311,4 +355,8 @@ class VerbGenerator:
             "fut": self.tense_paradigm(stem, "fut"),
             "imp": {p: self.imperative(stem, p) for p in M.PERSONS},
             "inf": self.infinitive(stem),
+            "nar": self.nonfinite(stem, "nar"),
+            "converb": self.nonfinite(stem, "cvb"),
+            "part_pres": self.nonfinite(stem, "ppres"),
+            "part_fut": self.nonfinite(stem, "pfut"),
         }

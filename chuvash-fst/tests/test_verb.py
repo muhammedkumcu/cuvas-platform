@@ -103,6 +103,13 @@ def test_analysis_tag():
 
 def test_conjugation_table_shape():
     t = g.conjugation_table("кил")
-    assert set(t) == {"pres", "pres_neg", "past", "fut", "imp", "inf"}
+    assert {"pres", "pres_neg", "past", "fut", "imp", "inf"} <= set(t)
     assert t["inf"] == "килме"
     assert t["pres"]["p1sg"] == "килетӗп"
+
+
+def test_nonfinite_forms():
+    assert g.nonfinite("пул", "nar") == "пулнӑ"        # öğrenilen geçmiş
+    assert g.nonfinite("кил", "cvb") == "килсе"        # zarf-fiil
+    assert g.nonfinite("кил", "ppres") == "килекен"    # şimdiki sıfat-fiil
+    assert g.nonfinite("кил", "pfut") == "килес"       # gelecek sıfat-fiil

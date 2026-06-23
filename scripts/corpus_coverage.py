@@ -95,7 +95,7 @@ def main():
         "corpus": "cv.wikipedia.org (random)", "tokens": len(tokens),
         "types": len(freq), "token_coverage": round(tok_cov, 2),
         "type_coverage": round(typ_cov, 2),
-        "top_unrecognized": unrec[:50],
+        "top_unrecognized": unrec[:150],
     }, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\nRapor: {out}")
 

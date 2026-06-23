@@ -116,19 +116,31 @@ def main():
             if all(not (c.isalpha()) for c in lemma):
                 continue
 
+            # Gemination: apertium morfofonemik gövdesinde %{ː%} işareti varsa
+            # kök sonu ünsüz ek alırken ikizleşir (ҫын -> ҫынн-)
+            rhs = entry_tok.split(":", 1)[1] if ":" in entry_tok else ""
+            geminates = ("ː" in rhs) or ("%{ː%}" in entry_tok)
+
             key = (lemma, pos)
             if key in entries:
                 dup += 1
                 continue
-            entries[key] = gloss
+            entries[key] = {"gloss": gloss, "gem": geminates}
             per_pos[pos] += 1
 
     # yaz
     OUT.parent.mkdir(parents=True, exist_ok=True)
+    gem_count = 0
     with OUT.open("w", encoding="utf-8") as out:
-        for (lemma, pos), gloss in entries.items():
-            if gloss:
-                out.write(f"{lemma}\t%<{pos}%>\tru:{gloss}\n")
+        for (lemma, pos), info in entries.items():
+            feats = []
+            if info["gem"]:
+                feats.append("gemination")
+                gem_count += 1
+            if info["gloss"]:
+                feats.append("ru:" + info["gloss"])
+            if feats:
+                out.write(f"{lemma}\t%<{pos}%>\t{';'.join(feats)}\n")
             else:
                 out.write(f"{lemma}\t%<{pos}%>\n")
 
@@ -139,6 +151,7 @@ def main():
     print("POS dağılımı:")
     for p, c in per_pos.most_common():
         print(f"  {p:6s} {c:6d}  (%{100*c/total:.1f})")
+    print(f"Gemination işaretli kök: {gem_count}")
     print(f"\nÇıktı: {OUT}")
 
     # benzersiz lemma (POS'tan bağımsız)

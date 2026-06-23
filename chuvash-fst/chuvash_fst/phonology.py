@@ -49,7 +49,15 @@ HOMOGLYPH_MAP = {
     "A": "А", "B": "В", "C": "С", "E": "Е", "H": "Н", "K": "К", "M": "М",
     "O": "О", "P": "Р", "T": "Т", "X": "Х", "Y": "У",
 }
-_HOMO_TABLE = {ord(k): v for k, v in HOMOGLYPH_MAP.items()}
+
+# Çuvaşça'nın özel harflerinin Latin breve/sedilla karşılıkları → Kiril.
+# Bazı metinler (Wikipedia dahil) Kiril ӑ/ӗ/ҫ/ӳ yerine Latin ă/ĕ/ç/ÿ kullanır;
+# bu, kelimelerin morfem ortasında bölünmesine ve sahte OOV'ye yol açar.
+CHUVASH_LATIN_MAP = {
+    "ă": "ӑ", "ĕ": "ӗ", "ç": "ҫ", "ÿ": "ӳ", "ӱ": "ӳ",
+    "Ă": "ӑ", "Ĕ": "ӗ", "Ç": "ҫ", "Ÿ": "ӳ",
+}
+_HOMO_TABLE = {ord(k): v for k, v in {**HOMOGLYPH_MAP, **CHUVASH_LATIN_MAP}.items()}
 
 
 def normalize(text: str) -> str:

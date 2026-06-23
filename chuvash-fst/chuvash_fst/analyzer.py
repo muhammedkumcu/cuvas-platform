@@ -99,6 +99,15 @@ class Analyzer:
                         parses.append(Parse(stem, "v", r.analysis,
                                             r.breakdown, gloss))
 
+        # Çekimsiz/yalın sözlük kelimesi (zarf, bağlaç, edat, ünlem, yalın isim…):
+        # üretici bir çekim bulamadıysa ama kelime aynen sözlükteyse tanı.
+        if not parses:
+            for e in self.lex.lookup(word):
+                tag = f"{word}<{e.pos}>"
+                if tag not in seen:
+                    seen.add(tag)
+                    parses.append(Parse(word, e.pos, tag, word, e.gloss_ru))
+
         return AnalysisResult(word, parses)
 
     def is_valid(self, word: str) -> bool:

@@ -1,0 +1,18 @@
+# Klonlanan 3. parti referans repolar (bizim değil; GPL; büyük)
+sources/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+
+# Geçici çıkarılmış referans metinleri
+_*_text.txt
+
+# İşletim sistemi
+Thumbs.db
+.DS_Store

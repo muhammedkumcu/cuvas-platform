@@ -8,6 +8,7 @@ Düşük kaynaklı, Oğur (Bulgar) kolu Türk dili Çuvaşça (chv) için.
 from .phonology import Alphabet, Phonology, normalize, has_latin_homoglyph
 from .lexicon import Lexicon, Entry
 from .generator import NounGenerator, VerbGenerator, GenResult
+from .analyzer import Analyzer, Parse, AnalysisResult
 from . import morphotactics
 
 __version__ = "0.1.0"
@@ -22,5 +23,8 @@ __all__ = [
     "NounGenerator",
     "VerbGenerator",
     "GenResult",
+    "Analyzer",
+    "Parse",
+    "AnalysisResult",
     "morphotactics",
 ]

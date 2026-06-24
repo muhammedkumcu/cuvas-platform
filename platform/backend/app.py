@@ -73,6 +73,10 @@ class GenerateReq(BaseModel):
     query: str          # ör. "хӗр<n><pl><dat>"
 
 
+class AnalyzeAllReq(BaseModel):
+    word: str
+
+
 @app.get("/health")
 def health():
     return {"ok": True, "langs": LANGS, "models_base": BASE, "_source": SOURCE}
@@ -97,6 +101,21 @@ def analyze(req: AnalyzeReq):
     analyses = [{**_parse(r[0]), "weight": r[1]} for r in res]
     return {"lang": req.lang, "word": req.word, "count": len(analyses),
             "analyses": analyses, "_source": SOURCE}
+
+
+@app.post("/analyze_all")
+def analyze_all(req: AnalyzeAllReq):
+    """Kelimeyi TÜM MVP dillerinde dener; yalnız çözümlenen diller döner (multi-dil otomatik)."""
+    word = req.word.strip()
+    out = {}
+    for lang in LANGS:
+        try:
+            res = _fst(lang, "automorf").lookup(word)
+        except HTTPException:
+            continue
+        if res:
+            out[lang] = [{**_parse(r[0]), "weight": r[1]} for r in res]
+    return {"word": word, "count": len(out), "langs": out, "_source": SOURCE}
 
 
 @app.post("/generate")

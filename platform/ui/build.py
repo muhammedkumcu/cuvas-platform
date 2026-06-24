@@ -101,6 +101,16 @@ COG_CONC = {"EYE": ("göz", "goz"), "WATER": ("su", "su"), "YEAR": ("yıl", "yil
             "ARM OR HAND": ("el / kol", "el"), "DAY (NOT NIGHT)": ("gün", "gun")}
 
 
+# C — kognat düğüm sözcükleri okunur karşılaştırmalı yazıma çevrilir (Savelyev IPA-vari → sade Latin).
+# Bunlar YEREL ortografi DEĞİL; kaynak yerel-script vermiyor → dürüst etiket: "karşılaştırmalı biçim".
+COG_READABLE = {"ḳ": "q", "χ": "h", "ɣ": "ğ", "γ": "ğ", "ŋ": "ñ", "ə": "ä", "ɘ": "ĕ",
+                "ɯ": "ı", "ɨ": "ı", "ʒ": "j", "ɕ": "ś", "ʃ": "ş", "ʷ": "", "ụ": "u", "ỹ": "y"}
+
+
+def readable(s):
+    return "".join(COG_READABLE.get(ch, ch) for ch in str(s))
+
+
 def build_cognates(cog):
     from collections import Counter
     disp_ids = {d[0] for d in COG_DISP}
@@ -119,11 +129,11 @@ def build_cognates(cog):
             continue
         dom = Counter(v[0] for v in langset.values()).most_common(1)[0][0]
         dom_root = next(v[1] for v in langset.values() if v[0] == dom)
-        nodes = [{"lang": name, "word": langset[sid][2], "branch": branch, "shift": langset[sid][0] != dom}
+        nodes = [{"lang": name, "word": readable(langset[sid][2]), "branch": branch, "shift": langset[sid][0] != dom}
                  for sid, name, branch in COG_DISP if sid in langset]
         gaps = [n["lang"] for n in nodes if n["shift"]]
         note = f"Proto-Türkçe kök {dom_root}. Aynı renk = aynı kognat seti; farklı düğüm = kognat boşluğu" + \
-               (f" ({', '.join(gaps)})." if gaps else ".")
+               (f" ({', '.join(gaps)})." if gaps else ".") + " Biçimler okunur karşılaştırmalı yazımdadır."
         out[key] = {"gloss": tr, "proto": dom_root, "note": note, "nodes": nodes}
         if first is None:
             first = key

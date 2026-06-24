@@ -1,0 +1,730 @@
+KÖKEN Diller-Arası Motoru İçin Türk 
+Dilleri Morfolojik FST Entegrasyonu: 
+Etiket Taşınabilirliği, İzole Dil Eşlemeleri 
+ve Füzyonel Ayrışma Analizi 
+
+Türk dilleri arasında kural tabanlı makine çevirisi ve kök/etiket eşleme operasyonları, dillerin 
+yüksek morfolojik karmaşıklığı (aglütinatif yapı) ve tarihsel süreçte gelişen asimetrik morfotaktik 
+kuralları nedeniyle ciddi hesapsal zorluklar barındırmaktadır. Apertium platformu temel alınarak 
+geliştirilen ve diller-arası kök-eşleme stratejisiyle çalışan bir çapraz-dil motorunun (örneğin 
+/crosslang), isim çekimlerinde yüksek başarı gösterirken fiil TAM (Zaman-Görünüş-Kip) 
+kategorilerinde sekteye uğraması, Apertium Sonlu Durum Çeviricileri (FST) arasındaki etiket 
+envanteri uyumsuzluğundan kaynaklanmaktadır. Benzer şekilde, izole dillerin (Saha/Yakut ve 
+Çuvaşça) iki-dilli sözlük grafiklerindeki eksikliği ve bazı morfemlerin yüzeyde sergilediği ağır 
+allomorfik/füzyonel (kaynaşık) yapılar, graf tabanlı morfolojik analizlerin sınırlarını belirlemektedir. 
+Bu araştırma raporu; fiil etiketlerinin diller arası homojenizasyonu, izole dillerin sözlük ağlarına 
+açık-kaynaklı entegrasyonu ve kaynaşık eklerin alt-morfemlere parçalanması problemlerini 
+hesapsal dilbilim prensipleri çerçevesinde kapsamlı bir biçimde çözümlemektedir. 
+FİİL TAM (Zaman-Görünüş-Kip) Etiketlerinin Türk 
+Dilleri Arası Karşılığı ve Normalizasyonu 
+Apertium FST mimarisinde Türkçe (tur), Kazakça (kaz), Tatarca (tat), Başkurtça (bak), Kırgızca 
+(kir), Azerbaycanca (aze), Özbekçe (uzb), Uygurca (uig), Çuvaşça (chv) ve Sahaca (sah) dillerinin 
+morfolojik analizörleri (.lexc ve .twol dosyaları) bağımsız projeler ve farklı geliştiriciler tarafından 
+inşa edilmiştir1. Bu bağımsız gelişim süreci, evrensel POS etiketleri (örneğin <vblex> fiil, <n> isim, 
+<adj> sıfat) ve isim çekim etiketleri (örneğin <nom>, <acc>, <pl>, <px1sg>) düzeyinde büyük 
+oranda uyum sağlasa da, fiillerin Zaman-Görünüş-Kip (TAM) kategorilerinde her dilin kendi içsel 
+dilbilgisi geleneğine ve FST geliştiricisinin tercihine dayalı ciddi yapısal farklılıklara yol açmıştır6. 
+Kişi etiketleri (<p1><sg>, <p2><pl>, <p3><pl> vb.) tüm Türk dilleri Apertium depo standartlarında 
+evrensel olarak ortak ve taşınabilirdir6. Fiil köküne eklenen zaman ve kip etiketleri ise dilin 
+tarihsel evrimi (Oğuz, Kıpçak, Karluk, Sibirya ve Oğur dalları) sebebiyle farklılaşır. 
+Apertium TAM Etiket Envanteri ve Karşılaştırmalı Analiz 
+
+Fiil çekimlerini kaynak dilden hedef dillere kayıpsız veya en az kayıpla aktarabilmek için, her bir 
+veri kümesinin kaynak kodlarındaki TAM etiket dizilimlerinin yapısal denkliği haritalandırılmalıdır. 
+Aşağıdaki tablo, Apertium depolarında yer alan güncel .lexc dosyalarından elde edilen 
+karşılaştırmalı fiil etiket envanterini sunmaktadır. 
+
+ 
+Türkçe 
+(tur/aze) 
+
+Apertiu
+m Etiketi 
+
+Kaz/Tat/
+Kir/Bak 
+
+Uzb/Uig 
+(Karluk) 
+
+Chuvash 
+(chv) 
+
+Sakha 
+(sah) 
+
+Görülen 
+Geçmiş 
+
+<ifi> 
+
+<ifi> 
+
+<ifi> / 
+<past> 
+
+<past> 
+
+<past> 
+
+Duyulan 
+Geçmiş 
+
+<ifi_evid> 
+/ <evid> 
+
+<ifi_evid> 
+
+<past><e
+vid> 
+
+(Analitik/F
+arklı) 
+
+(Analitik) 
+
+Şimdiki 
+
+<pres> 
+
+<pres> 
+veya 
+
+<pres> 
+
+<pres> 
+
+<pres> 
+
+Uygulan
+abilirlik & 
+Sınırlar 
+
+Tüm 
+ailede 
+ortak bir 
+kategori 
+olup, 
+sentetik 
+eşleşme 
+sağlanır. 
+Çuvaşça 
+ve 
+Sahaca 
+için 
+<past> 
+etiketi ile 
+normalize 
+edilmelidi
+r8. 
+
+-mIş / 
+-IptI 
+yapıları. 
+Çuvaşça 
+ve 
+Sahaca 
+FST'lerind
+e 
+doğrudan 
+morfoloji
+k denkliği 
+bulunmaz
+, yapısal 
+transfer 
+(.t1x) 
+gerektirir1
+2. 
+
+Türkçede
+ki 
+
+Zaman 
+
+<aor> 
+
+Geniş 
+Zaman 
+
+<aor> 
+
+<aor> 
+
+<aor> 
+
+<fut> / 
+<pres> 
+
+<aor> / 
+<fut> 
+
+Gelecek 
+Zaman 
+
+<fut> 
+
+<fut> 
+
+<fut> 
+
+<fut> / 
+<pros> 
+
+<fut> 
+
+sentetik 
+-Iyor 
+yapısına 
+karşın, 
+Kıpçak 
+dillerinde 
+<pres> 
+çoğunlukl
+a 
+yardımcı 
+fiillerle 
+analitik 
+kurulur. 
+Doğruda
+n etiket 
+transferin
+de en çok 
+hata 
+üreten 
+kategorid
+ir9. 
+
+Tüm 
+dillerde 
+sentetik 
+olarak 
+bulunur. 
+Hedef 
+dilde 
+<pres> 
+analitik 
+ise, 
+güvenli 
+"fallback" 
+(ikame) 
+etiketidir1
+1. 
+
+Çuvaşça
+da 
+prospekti
+f -Ă 
+
+Geçmiş 
+Ulaç 
+
+<ger_past
+> 
+
+<ger_past
+> / 
+<past><s
+ubst> 
+
+<ger_past
+> 
+
+<part_pa
+st> 
+
+<part_pa
+st> 
+
+Şimdiki 
+Ulaç 
+
+<ger_pres
+> 
+
+<ger_pres
+> 
+
+<part_pre
+s> 
+
+<part_pre
+s> 
+
+(Değişke
+n) 
+
+morfemid
+ir, 
+Sahacada 
+sentetik 
+işler9. 
+Doğruda
+n 
+eşleşme 
+mümkün
+dür. 
+
+Türkçede
+ki -DIk 
+ulaç/sıfat-
+fiilidir6. 
+Kırgızca 
+ve 
+Kazakçad
+a 
+mevcuttu
+r ancak 
+sentaksı 
+farklıdır15. 
+Çuvaşça
+da 
+<part_pa
+st> olarak 
+işaretlenir
+9. 
+
+Türkçe 
+-An 
+sıfat-fiilidi
+r. 
+Çuvaşça
+da -AkAn 
+olarak 
+yapılandır
+ılmıştır9. 
+
+Etiket Haritalama (Tag Normalization) ve Taşınabilirlik Sınırları 
+
+Apertium altyapısında "katı" (strict) bir 1:1 TAM morfem taşınabilirliği, dillerin tarihsel evrimi 
+
+nedeniyle her kategori için geçerli değildir. Uygulanabilirlik açısından, bir kaynak-dil fiil 
+çözümünü hedef-dilde geçerli bir çekime çevirmek için stratejik bir normalizasyon gereklidir. 
+<ifi> (görülen geçmiş zaman), <aor> (geniş zaman) ve <imp> (emir kipi) gibi kategoriler "Oğuz -> 
+Kıpçak -> Karluk" ekseninde büyük ölçüde evrensel bir geçerliliğe sahiptir ve çapraz dil 
+üretiminde güvenilirlikle haritalanabilir16. 
+Ancak, <pres> (şimdiki zaman) kategorisi dürüst sınırın aşıldığı noktadır. Kazakça ve Kırgızcada 
+şimdiki zaman çoğunlukla zarf-fiil ve otur, tur, zhür, zhat gibi yönelim yardımcı fiillerinin (auxiliary 
+verbs) birleşimiyle analitik olarak kurulmaktadır13. Eğer kaynak dil Türkçe ise, kelime analizi 
+oku<v><tv><pres><p1><sg> biçiminde tek bir birim olarak çıkar. Hedef bir Kazak .dix sözlüğünde 
+bu birimin doğrudan sentetik bir karşılığı yoktur; hedef dilde oqi<v><tv><ger_pres> 
+zhat<vaux><pres><p1><sg> dizilimine çevrilmesi gerekir16. Bu durum, /crosslang motorunun salt 
+.dix üzerinden yürüttüğü tek kelimeyi tek kelimeye eşleme (1:1 mapping) kısıtına çarpar. 
+Bu kısıtlamayı aşmak ve Apertium kural yazımına (RLX/T1X) girmeden doğrudan motor içinde 
+çözmek için uygulanabilir en pratik öneri, bir JSON etiket haritası (Tag Normalization Map) 
+oluşturmaktır. Hemen uygulanabilir nitelikteki bu haritalama, çapraz eşleşmesi riskli olan 
+kategorileri, o dilin morfotaktiğinde sentetik olarak üretimi garanti olan ikame (fallback) 
+kategorilere düşürür. Bu eşlemelerin uygulanabilirlik durumu "Hemen Yapılabilir" (Actionable 
+Immediately) statüsündedir, zira sistemin dışsal bir gramer analizcisine ihtiyacı kalmaz. 
+
+JSON 
+{ 
+  "tag_normalization": { 
+    "tur": { 
+      "<ifi>": { 
+        "aze": ["<ifi>"], "kaz": ["<ifi>"], "tat": ["<ifi>"], "kir": ["<ifi>"], 
+        "uzb": ["<ifi>"], "uig": ["<ifi>"], "chv": ["<past>"], "sah": ["<past>"] 
+      }, 
+      "<aor>": { 
+        "aze": ["<aor>"], "kaz": ["<aor>"], "tat": ["<aor>"], "kir": ["<aor>"], 
+        "uzb": ["<aor>"], "uig": ["<aor>"], "chv": ["<pres>"], "sah": ["<aor>"] 
+      }, 
+      "<fut>": { 
+        "aze": ["<fut>"], "kaz": ["<fut>"], "tat": ["<fut>"], "kir": ["<fut>"], 
+        "uzb": ["<fut>"], "uig": ["<fut>"], "chv": ["<fut>"], "sah": ["<fut>"] 
+      }, 
+      "<pres>": { 
+        "_WARNING_": "Analytic mapping risk. Using synthetic fallbacks where required.", 
+        "aze": ["<pres>"],  
+
+ 
+ 
+ 
+        "kaz": ["<aor>"],  
+        "kir": ["<aor>"],  
+        "tat": ["<pres>"],  
+        "uzb": ["<pres>"],  
+        "uig": ["<pres>"],  
+        "chv": ["<pres>"],  
+        "sah": ["<pres>"] 
+      }, 
+      "<ger_past>": { 
+        "aze": ["<ger_past>"],  
+        "kaz": ["<past>"],  
+        "tat": ["<past>"],  
+        "uzb": ["<ger_past>"],  
+        "uig": ["<past>"],  
+        "chv": ["<part_past>"],  
+        "sah": ["<part_past>"] 
+      } 
+    } 
+  } 
+} 
+
+Bu normalizasyon şemasındaki dürüst sınır şudur: Sentetik biçimbirimler doğrudan 1:1 
+kopyalaması ile hedef üretecine (generator) beslenebilir ve gramatik olarak geçerli çıktı alınır. 
+Kaynak dilde sentetik olup hedef dilde analitik ifade edilen TAM kategorileri için en az kayıplı 
+(lossy) fallback etiketi olarak <aor> (geniş zaman) kullanılarak, makinenin çökmesi veya kelimeyi 
+üretemeyip * işaretiyle dışarı atması engellenmiş olur. 
+İzole Dillerin Çapraz-Dil Ağına Entegrasyonu: Saha ve 
+Çuvaşça 
+Diller-arası motor, farklı dilleri birbirine bağlamak için apertium .dix (bilingual dictionary) sözlük 
+grafiğine dayanmaktadır. Oğuz, Kıpçak ve Karluk grubu dilleri arasında çoklu yönlü, zengin 
+iki-dilli veri ağları bulunurken; Türk dil ailesinin izole dallarını temsil eden Sahaca (Sibirya grubu) 
+ve Çuvaşça (Oğur grubu) dilleri için çapraz-dil motorunun düğümlerinin eksik olduğu 
+düşünülmektedir. İlgili veri depoları ve açık erişim kaynakları analiz edildiğinde bu sorunun 
+mevcut apertium havuzları ve standart CLDF (Cross-Linguistic Data Formats) standartlarındaki 
+etimolojik sözlüklerle aşılabileceği görülmektedir. 
+Saha (Yakut) Dili: Açık Kaynak İki-Dilli Sözlük Stratejileri 
+
+Saha dilinin morfolojik analizörü apertium-sah büyük ölçüde tamamlanmış, Vikipedi ve bölgesel 
+haber derlemlerinde %90'ın üzerinde güçlü bir kapsama (coverage) oranına ulaşmıştır5. 
+Doğrudan iki-dilli apertium kaynakları bulunmadığı yanılgısına karşın, arşiv taramaları sonucunda 
+apertium-kaz-sah (Kazakça-Sahaca) çeviri çiftinin Apertium geliştirme havuzunda 
+
+ 
+(incubator/nursery) halihazırda var olduğu ve kaz-sah.dix adlı iki-dilli sözlüğün mevcut 
+olduğu teyit edilmiştir18. Bu depo, GPL v3 açık kaynak lisansına sahiptir. 
+Bu durum, çapraz-dil motoru için "Hemen Yapılabilir" statüsündedir. Kazakça, Kırgız-Kazak ve 
+Kazak-Tatar hatları üzerinden sistemin tam kalbinde yer aldığından, kaz-sah.dix sözlüğü 
+Sahacayı doğrudan ana Türk dilleri kök haritasına bağlayacak en uygulanabilir yoldur. Ayrıca, 
+İngilizce üzerinden bir köprü kurmayı hedefleyen apertium-sah-eng projesi de geliştirme 
+aşamasında bulunmaktadır19. 
+Bölgesel veya bağımsız girişimler olarak değerlendirilen sahatyla.ru, PanLex ve GiellaLT gibi 
+projeler, muazzam bir dijital leksikon sunmalarına rağmen, çapraz-dil motorunun spesifik olarak 
+ihtiyaç duyduğu "Apertium formatlı" (lemma + <tag> uyumlu) iki dilli kök yapılarını doğrudan 
+sağlamazlar20. Bu nedenle Sahacanın entegrasyonu için dış kaynaklı API'leri kazımak veya 
+eşlemek (araştırma gerektirir) yerine, hazır durumdaki apertium-kaz-sah deposunun sisteme 
+entegre edilmesi optimal, yasal ve doğrudan işlevsel çözümdür. 
+Çuvaşça İki-Dilli Kök Genişletme Kaynakları 
+
+Çuvaşçanın kök haritasında sadece Tatarca (chv-tat) ile bağlı olduğu varsayımı operasyonel bir 
+eksikliktir. Apertium GitHub depolarında yapılan kod analizleri, apertium-chv-tur 
+(Çuvaşça-Türkçe) çeviri çiftinin varlığını ve aktif olarak geliştirildiğini ortaya koymaktadır1. 
+Bu .dix sözlüğü, bünyesinde 31.946'dan fazla eşlenmiş kök ve madde barındırmaktadır1. Bu 
+bulgu, Çuvaşça gibi rhotacism ve lambdacism (ş->l, z->r değişimi) geçirdiği için Genel Türk 
+dillerinden kelime bazında tanınmaz ölçüde uzaklaşmış bir dilin, merkez dillerden biri olan Türkçe 
+ile halihazırda Apertium uyumlu şekilde hizalanmış olması bakımından kritik bir veri kaynağıdır. 
+Ek olarak, Çuvaşça için apertium-chv-rus (Çuvaşça-Rusça) çeviri çifti de bulunmakta olup, bu 
+kaynak üzerinden Rusça kelimeler pivot (ortak düğüm) alınarak diğer Türki dillere çapraz 
+haritalama yapılabilir19. Bu işlemler tamamen açık lisans (GPL) kapsamındadır ve "Hemen 
+Yapılabilir" çerçevesindedir. 
+SavelyevTurkic CLDF: İzole Diller İçin Genel Fallback Entegrasyonu 
+
+Geniş metin analizlerinde apertium .dix dosyalarındaki kelime örtüşmesi yetersiz kaldığında veya 
+"out-of-vocabulary" (OOV) durumlarına düşüldüğünde, genel bir fallback (yedek) mekanizması 
+olarak SavelyevTurkic CLDF veri setinin kullanılması son derece pratik ve etkilidir21. Alexander 
+Savelyev ve Martine Robbeets tarafından oluşturulan bu veri seti, 32 farklı Türk dili 
+varyetesinden 254 temel kavram için 8.360 leksikal birim ve eşasıllı (cognate) kök hizalaması 
+içermektedir21. Lexibank altyapısı kullanılarak Cross-Linguistic Data Formats (CLDF) 
+standartlarında yapılandırılmıştır22. 
+Uygulanabilirlik ve Lisans: Veri seti CC-BY-4.0 lisansıyla tamamen açık erişimlidir, bu da 
+platformunuza yasal olarak doğrudan entegre edilmesine olanak tanır21. Sınırlar ve Pratiklik: 
+SavelyevTurkic, Apertium morfolojik etiketlerini barındırmaz; yalnızca hedef dillerdeki yalın ve 
+çekimsiz kök varyantlarını içerir (örneğin: Concept: EYE bağlamında tur: göz, chv: kuś, sah: 
+qaraq). Bu bağlamda, morfolojik üreteciden hemen önce işletilen birincil "leksikal seçim" (lexical 
+fallback) katmanı olarak programlanabilir. Sadece 254 temel Swadesh kavramını kapsadığı için 
+genel metinleri çözemez, ancak kök dillerin temel vokabülerini birbirine bağlayarak motorun en 
+
+azından izole dillerdeki çekirdek kelimeleri tanımasını garanti eder. Bu entegrasyon "Hemen 
+Yapılabilir" statüsündedir. 
+Füzyonel (Kaynaşık) Morfoloji: İyelik ve Hâl Eklerinin 
+İnce Ayrışması 
+Türk dillerinin aglütinatif karakterine karşın, özellikle Çuvaşça ve Uygurca gibi bazı dillerde 
+(kısmen de Sahacada), eklerin birleşme sınırlarında meydana gelen radikal ses olayları, 
+morfemlerin birbiri içinde erimesine (füzyon) neden olmaktadır. Mevcut kural-tabanlı ve 
+Needleman-Wunsch (NW) gibi hizalama algoritmaları, bu yapıları "tek parça" bir portmanteau 
+morfem olarak ele alıp parçalayamamakta, bu da morfem analizindeki dilbilimsel çözünürlüğü 
+azaltmaktadır. 
+Çuvaşça ve Sahaca: İyelik + Hâl Yüzey Allomorfları Analizi 
+
+Çuvaşçada morfotaktik dizilim, Genel Türk dillerinden temelden farklıdır. Kök + Çoğul + İyelik + 
+Hâl (ör. ev-ler-im-de) sıralaması yerine Çuvaşçada dizilim Kök + İyelik + Çoğul + Hâl biçiminde 
+gerçekleşir (ör. xịr-ịm-sän-ǰän - kız-iyelik.1.t-çoğul-ayrılma "kızlarımdan")9. Bu dizilim 
+değişikliğinden öte asıl sorun, 3. Tekil Şahıs İyelik ekinin, Yönelme/Belirtme (Datif-Akkuzatif) hâl 
+eki ile birleştiğinde yarattığı füzyonel yapıdır26. 
+Çuvaşçada 3. tekil iyelik eki, ünsüz harflerden sonra -ĕ, ünlü harflerden sonra -i formundadır9. 
+Datif/Akkuzatif eki ise -a veya -e biçimindedir. Bu iki morfem yan yana geldiğinde (örneğin ҫурт 
+"ev" + 3.Tekil İyelik + Datif/Akkuzatif), morfemler arasına epentetik (pronominal) bir "n" ünsüzü 
+türetilir. Bu ses türemesi sonucunda yüzeyde -ne veya -na formunda allomorflar ortaya çıkar 
+(ҫуртне "onun evini/evine")26. 
+Aşağıdaki tablo Çuvaşça ve Sahaca için iyelik ve hâl ekinin birleşimiyle oluşan allomorfik yüzey 
+biçimlerini özetlemektedir: 
+
+Dil 
+
+Kök Örneği 
+
+Kanonik 
+Biçimbiriml
+er 
+
+Beklenen 
+Sentetik 
+Dizi 
+
+Yüzey 
+Allomorfu 
+(Füzyon) 
+
+Kaynaşık 
+Görünüm 
+
+Çuvaşça 
+
+ҫурт (ev) 
+
+Çuvaşça 
+
+лаша (at) 
+
++ĕ/i (px3sg) 
++ +e/a 
+(dat/acc) 
+
++ĕ/i (px3sg) 
++ +e/a 
+(dat/acc) 
+
+ҫурт-ĕ-e 
+
+ҫурт-н-е 
+
+-ne (px3sg 
++ dat/acc)29 
+
+лаша-i-a 
+
+лаш-и-н-е / 
+лаши-н-а 
+
+-ne / -na 
+[cite: 29] 
+
+Sahaca 
+
+baay 
+(servet) 
+
++(T)A 
+(px3sg) + 
+
+baay-a-ni 
+
+baay-in 
+
+-in (oblik 
+gövde)30 
+
+ 
+Sahaca 
+
+oğo (çocuk) 
+
++(n)I (acc) 
+
++(T)A 
+(px3sg) + 
++(n)I (acc) 
+
+oğo-ta-ni 
+
+oğo-tun 
+
+-tun (oblik 
+gövde)30 
+
+Sahaca (Yakut) Özel Durumu: Sahacada durum biraz farklıdır. 3. tekil şahıs iyelik eki nominatif 
+(yalın) durumlarda -(T)A iken, kelime herhangi bir oblik hâl (yönelme, belirtme, bulunma) 
+aldığında iyelik gövdesi -(T)In şekline dönüşür30. Örneğin "servet" anlamındaki baay kelimesi 
+iyelik aldığında baay-a olur, ancak accusative (belirtme) hâlinde baay-in şekline dönüşür31. Bu 
+durum Apertium morfotaktiğinde ayrıntılı olarak işlenmiştir ancak yüzeyde tek parça bir ek gibi 
+görünür. 
+Linguistik Teşhis (Portmanteau Analizi): Bu yapılar dilbilimsel bir bakış açısıyla gerçek bir 
+"portmanteau" (örneğin Fransızca "à + le = au" gibi yapısal olarak tamamen geri döndürülemez 
+ve bölünemez morfem) değildir. Çuvaşçadaki -ne / -na ekinin tarihsel ve eşzamanlı fonolojik 
+analizleri, bu yapının +i (iyelik) morfeminin araya pronominal bir +n+ epentezi alarak -a/e hâl 
+ekiyle birleşmesinden türediğini kesin olarak göstermektedir27. Apertium .lexc ve .twol 
+mimarisinde bu durum, araya bir kontrol karakteri (archiphoneme) yerleştirilerek kurallı hale 
+getirilmiştir32. Dolayısıyla linguistik olarak bu yapılar alt-morfemlerine (iyelik ve hâl olarak) 
+kesinlikle bölünebilirdir. 
+Uygurca: Çoğul ve İyelik Kesişiminde Ünlü Daralması (Vowel 
+Weakening) 
+
+Uygurcada közlirim (gözlerim) veya almiliri (elmaları) örneklerinde karşılaşılan füzyonel sorun, 
+Çuvaşçadaki gibi ünsüz türemesinden değil, spesifik bir ünlü daralması/zayıflaması (vowel 
+weakening/raising) fenomeninden kaynaklanır33. Uygurca çoğul eki -lar / -lär, ardından iyelik eki 
+-(s)i (3. tekil) veya -(i)m (1. tekil) geldiğinde, açık hecede bulunan düz-geniş ünlü harf (a/ä) 
+daralarak 'i' sesine dönüşür34. 
+Bu değişim mekanizması şöyledir: 
+
+●  köz + -lär (çoğul) + -i (3. tekil iyelik) normalde közläri olması gerekirken, vurgu ve hece 
+
+yapısı sebebiyle közliri şekline dönüşür36. 
+
+●  alma + -lar (çoğul) + -i (3. tekil iyelik) normalde almaları olması gerekirken almiliri olur33. 
+
+Linguistik Teşhis: Bu durum kesinlikle bölünemez bir portmanteau morfem değildir. 
+Uygurcadaki Vowel Weakening (Ünlü daralması) fonolojide tamamen düzenli ve kurallı bir ses 
+değişimidir. Apertium Uygurca analizörü (apertium-uig.uig.twol) bu kuralları algoritmik olarak 
+açıkça formüle etmiştir10. Morfem sınırları dilbilimsel olarak lär ve i arasında çok net olarak 
+bulunmaktadır; sadece yüzeyde lär eki fonetik bir yansıma olarak lir görünümündedir37. 
+Needleman-Wunsch Algoritması ile Tek-Hizalama Optimizasyonu 
+
+Mevcut durumda motorunuzun kullandığı Needleman-Wunsch (NW) dizilim hizalama (sequence 
+alignment) algoritmasının, yüzey biçimleri ile "lemma + kanonik-allomorf-dizisi" arasında 
+
+tekli-hizalamaya çevrilmesi, füzyon ve kaynaşma sorununu kesin bir biçimde ve yüksek başarıyla 
+çözer. NW algoritmasının matematiksel doğası gereği, uygun bir "substitution" (yer değiştirme) 
+maliyet matrisi (scoring matrix) uygulandığında, fonolojik kaynaklı ses değişimleri ceza (penalty) 
+almadan esnetilebilmektedir. 
+Uygurca Modeli İçin Kanonik Hizalama: Motor Apertium'dan kanonik diziyi aldığında çıktı: k ö 
+z + l ä r + i m olacaktır. Yüzey dizisi (girdi metni) ise k ö z + l i r + i m şeklindedir. 
+Needleman-Wunsch algoritmasının "scoring matrix" yapısına, Uygurca sesbilgisindeki "ä -> i" 
+dönüşümünün maliyeti 0 veya sıfıra çok yakın bir ceza değeri olarak tanımlandığında, algoritma 
+lär morfemini lir yüzey formuyla, im morfemini ise im ile hatasız bir şekilde hizalayacaktır. 
+Böylece sistemi lirim ekini kaba bir biçimde tek parça (portmanteau) olarak kabul etme 
+zorunluluğundan kurtarıp, -lir (çoğul) ve -im (iyelik) olarak alt-morfemlerine (sub-morphemic 
+segmentation) kusursuz şekilde bölebilirsiniz. 
+Çuvaşça Modeli İçin Kanonik Hizalama: Kanonik Dizi Apertium'dan şu şekilde gelir: ҫ у р т + i 
+(px3sg) + e (dat/acc). Yüzey Dizisi şöyledir: ҫ у р т + н + е. Burada epentetik olarak türeyen н 
+harfinin algoritmadaki "Insertion/Deletion (Gap)" maliyetini dile özgü bir kural olarak sıfırlayarak, 
+algoritmanın i + e kanonik dizilimini yüzeydeki н + e ile doğrudan hizalaması sağlanır. Pronominal 
+N harfi hizalama boşluğunda sönümlenir ve iyelik ekinin yüzey sınırları, hâl ekinin sınırlarından net 
+biçimde ayrıştırılır. 
+Bu algoritma optimizasyonlarının tamamı kod düzeyinde "Hemen Yapılabilir" müdahalelerdir. 
+Algoritmanın maliyet matrisinin (cost matrix), dillerin Apertium .twol dosyalarındaki (two-level 
+morphophonology) spesifik kurallar taranarak belirlenmesi, morfemlerin yüzey formlarını tek 
+parça yığınlar olmaktan çıkarıp, morfolojik analizde gerçek anlamıyla atomik birimlere ayırmayı 
+başaracaktır. 
+
+Alıntılanan çalışmalar 
+
+1.  Труды конференции - TurkLang, 
+
+http://www.turklang.net/wp-content/uploads/2021/12/TurkLang2019-1.pdf 
+
+2.  APERTIUM-KAZ: A MORPHOLOGICAL TRANSDUCER AND, 
+
+https://apertium.github.io/apertium-kaz/ 
+
+3.  Finite-state morphological transducers for three Kypchak languages, 
+http://www.lrec-conf.org/proceedings/lrec2014/pdf/1207_Paper.pdf 
+
+4.  Kazakh: apertium-kaz - GitHub, https://github.com/apertium/apertium-kaz 
+5.  Sakha: apertium-sah - GitHub, https://github.com/apertium/apertium-sah 
+6.  List of symbols - Apertium, https://wiki.apertium.org/wiki/List_of_symbols 
+7.  A finite-state morphological transducer for Kyrgyz, 
+
+https://mt-archive.net/10/LREC-2012-Washington.pdf 
+
+8.  Tools for supporting language learning for Sakha - ACL Anthology, 
+
+https://aclanthology.org/W19-6117.pdf 
+
+9.  Chuvash - The Language Gulper, https://languagesgulper.com/eng/Chuvash.html 
+10. Uyghur ( apertium-uig ) - GitHub, https://github.com/apertium/apertium-uig 
+11. apertium-uzb/ozboutput at master · apertium/apertium-uzb · GitHub, 
+https://github.com/apertium/apertium-uzb/blob/master/ozboutput 
+
+12. https://raw.githubusercontent.com/apertium/apertium-kaz/master/apertium-kaz.k
+
+az.lexc 
+
+13. Rule-based machine translation from Kazakh to Turkish, 
+
+https://aclanthology.org/2018.eamt-main.5.pdf 
+
+14. Turkic lexicon - Apertium, https://wiki.apertium.org/wiki/Turkic_lexicon 
+15. Morphology of Kyrgyz language - Apertium, 
+
+https://wiki.apertium.org/wiki/Morphology_of_Kyrgyz_language 
+
+16. Rule-Based Machine Translation From Kazakh To Turkish, 
+
+https://works.swarthmore.edu/cgi/viewcontent.cgi?article=1269&context=fac-ling
+uistics 
+
+17. A Free/Open-Source Morphological Analyser and Generator for Sakha, 
+
+https://f003.backblazeb2.com/file/lrec2022/posters/1161.pdf 
+
+18. Apertium translation pair for Kazakh and Sakha · GitHub, 
+
+https://github.com/apertium/apertium-kaz-sah/ 
+
+19. List of language pairs - Apertium, 
+
+https://wiki.apertium.org/wiki/List_of_language_pairs 
+
+20. Jakuudi / Yakut / Саха тыла Saha tyla - EKI.ee, 
+
+https://arhiiv.eki.ee/knab/lat/kblsah.pdf 
+
+21. CLDF dataset derived from Savelyev and Robbeet's ... - GitHub, 
+
+https://github.com/lexibank/savelyevturkic 
+
+22. Lexibank 2: pre-computed features for large-scale lexical data, 
+
+https://open-research-europe.ec.europa.eu/articles/5-126/v2/pdf?article_uuid=82
+831776-eecd-478b-bad1-5abf3fe973d7 
+
+23. Using Correspondence Patterns to Identify Irregular Words in, 
+
+https://aclanthology.org/2026.lchange-1.6.pdf 
+
+24. Chuvash - Brill Reference Works, 
+
+https://referenceworks.brill.com/display/entries/ETLO/SIM-031965.xml?language=
+en 
+
+25. The Multilingual Assessment Instrument for Narratives (MAIN), 
+https://zaspil.leibniz-zas.de/article/download/614/574/1124 
+
+26. Nominals: Noun Inflection (Chapter 22) - Turkic, 
+
+https://www.cambridge.org/core/books/turkic/nominals-noun-inflection/91C0CA
+8DFB839F7DC3F165A29F029776 
+
+27. An Attribute-Sample Database System for Describing Chuvash Affixes, 
+
+https://aclanthology.org/www.mt-archive.info/05/LREC-2006-Zheltov.pdf 
+
+28. Chuvash - Brill Reference Works, 
+
+https://referenceworks.brill.com/display/entries/ETLO/SIM-031965.xml 
+
+29. Chuvash language - Wikipedia, https://en.wikipedia.org/wiki/Chuvash_language 
+30. Plural Possession in Turkish and Sakha - Ian Kirby, 
+
+https://iankirby.github.io/Docs/HandoutsSlides/Kirby%20Sevgi%20tu_handout_Re
+vised.pdf 
+
+31. Tools for supporting language learning for Sakha - Helda, 
+
+https://helda.helsinki.fi/bitstreams/cfa67fc1-e40c-48aa-8e9a-b7300286c85c/dow
+nload 
+
+32. A Free/Open-Source Morphological Analyser and Generator for Sakha, 
+
+https://aclanthology.org/2022.lrec-1.550.pdf 
+
+33. Research on Uyghur Pattern Matching Based on Syllable Features, 
+
+https://www.mdpi.com/2078-2489/11/5/248 
+
+34. Annotated Turki Manuscripts from the Jarring Collection Online project, 
+
+https://uyghur.linguistics.indiana.edu/manuals/MorphologicalAnnotation.xhtml 
+
+35. Appendix:Uyghur suffixes - Wiktionary, the free dictionary, 
+https://en.wiktionary.org/wiki/Appendix:Uyghur_suffixes 
+
+36. Rule Based Analysis of the Uyghur Nouns - COLIPS, 
+
+http://www.colips.org/journals/volume19/19_1_-3-Turkey.pdf 
+37. Issues in Uyghur backness harmony: Corpus, experimental, and, 
+
+https://sites.socsci.uci.edu/~cjmayer/papers/cmayer_dissertation_final_2021.pdf 
+
+

@@ -37,7 +37,7 @@
   - [x] **Harita** ← Glottolog koordinatları (14 dil, gerçek projeksiyon); doğrulandı.
   - [x] **Uzaklık Gezgini** ← gerçek matrisler: 3/5 eksen (leksikal Savelyev + tipolojik WALS + coğrafi koordinat); filo/anla illüstratif kaldı (#4 J matrisleri gelince). Doğrulandı: chv→tt coğrafi 0.02 / leksikal 0.37 / tipolojik 0.26.
   - [ ] **Analiz / Paradigma / Üretim** → canlı API (host:8000) — sıradaki (FST kök+etiket verir; en iyi araştırmacı-merkezi/ham çıktı ile).
-  - [ ] **Kognat Ağı** → `cognates.json` (Savelyev formları fonemik; orijinal ortografi için apertium/Wiktionary değerlendir).
+  - [x] **Kognat Ağı** ← `cognates.json` (14 kavram, gerçek kognat setleri + boşluklar; Savelyev karşılaştırmalı transkripsiyon — yerel ortografi sonra apertium/translit ile güzelleştirilebilir). Doğrulandı: göz *görs vs Yakut χaraχ boşluğu.
   - [ ] **filo/anla mesafe eksenleri** ← #4 Bölüm J matrislerini çıkar.
 - [ ] **MIMARI.md**: UI veri-sözleşmesi → API uçları + JSON şeması.
 

@@ -72,6 +72,45 @@ def build_distance(prof, lex, typ):
     return {"leks": leks, "tipo": tipo, "geo": geo}
 
 
+# Kognat Ağı: gösterilecek diller (Savelyev ID, UI adı, kol) + kavramlar (Concepticon → Türkçe, anahtar)
+COG_DISP = [("Chuvash", "Çuvaşça", "Ogur"), ("Turkish", "Türkçe", "Oğuz"), ("Azeri", "Azerbaycanca", "Oğuz"),
+            ("Tatar", "Tatarca", "Kıpçak"), ("Kazakh", "Kazakça", "Kıpçak"), ("Uighur", "Uygurca", "Karluk"),
+            ("Yakut", "Yakutça", "Sibirya")]
+COG_CONC = {"EYE": ("göz", "goz"), "WATER": ("su", "su"), "YEAR": ("yıl", "yil"), "STONE": ("taş", "tas"),
+            "FOREST": ("orman", "orman"), "FIVE": ("beş", "bes"), "NAME": ("ad", "ad"), "TONGUE": ("dil", "dil"),
+            "HEAD": ("baş", "bas"), "BLOOD": ("kan", "kan"), "BONE": ("kemik", "kemik"), "TWO": ("iki", "iki"),
+            "ARM OR HAND": ("el / kol", "el"), "DAY (NOT NIGHT)": ("gün", "gun")}
+
+
+def build_cognates(cog):
+    from collections import Counter
+    disp_ids = {d[0] for d in COG_DISP}
+    by_gloss = {c["gloss"]: c for c in cog["concepts"]}
+    out, first = {}, None
+    for gloss, (tr, key) in COG_CONC.items():
+        c = by_gloss.get(gloss)
+        if not c:
+            continue
+        langset = {}
+        for s in c["sets"]:
+            for m in s["members"]:
+                if m["lang"] in disp_ids and m["lang"] not in langset:
+                    langset[m["lang"]] = (s["cognateset_id"], s["root"], m["value"])
+        if len(langset) < 3:
+            continue
+        dom = Counter(v[0] for v in langset.values()).most_common(1)[0][0]
+        dom_root = next(v[1] for v in langset.values() if v[0] == dom)
+        nodes = [{"lang": name, "word": langset[sid][2], "branch": branch, "shift": langset[sid][0] != dom}
+                 for sid, name, branch in COG_DISP if sid in langset]
+        gaps = [n["lang"] for n in nodes if n["shift"]]
+        note = f"Proto-Türkçe kök {dom_root}. Aynı renk = aynı kognat seti; farklı düğüm = kognat boşluğu" + \
+               (f" ({', '.join(gaps)})." if gaps else ".") + " Kaynak: SavelyevTurkic CLDF."
+        out[key] = {"gloss": tr, "proto": dom_root, "note": note, "nodes": nodes}
+        if first is None:
+            first = key
+    return out, first
+
+
 def project(lon, lat):
     x = max(4, min(95, round(0.7517 * lon - 14.71, 1)))
     y = max(6, min(91, round(-1.6949 * lat + 118.58, 1)))
@@ -99,6 +138,7 @@ def main():
     prof = {p["iso"]: p for p in json.load(open(DATA / "profiles.json", encoding="utf-8"))["profiles"]}
     lex = json.load(open(DATA / "distance.lexical.json", encoding="utf-8"))["matrix"]
     typ = json.load(open(DATA / "distance.typological.json", encoding="utf-8"))["matrix"]
+    cog = json.load(open(DATA / "cognates.json", encoding="utf-8"))
 
     changed = []
     for code, iso in CODE2ISO.items():
@@ -141,6 +181,13 @@ def main():
     ndist = 1 if old_val in html else 0
     html = html.replace(old_val, new_val, 1)
 
+    # Kognat Ağı ← gerçek kognat setleri (SavelyevTurkic)
+    cog_obj, cog_default = build_cognates(cog)
+    new_cog = "COGNATES = " + json.dumps(cog_obj, ensure_ascii=False) + ";"
+    html, ncog = re.subn(r"COGNATES = \{.*?\n  \};", lambda m: new_cog, html, flags=re.DOTALL)
+    if cog_default:
+        html = html.replace("cognateKey: 'kiz',", f"cognateKey: '{cog_default}',", 1)
+
     (DIST / "index.html").write_text(html, encoding="utf-8")
     shutil.copy(UI / "support.js", DIST / "support.js")
 
@@ -148,6 +195,7 @@ def main():
     print(f"  LANGPROFILE canlılık (Glottolog AES): {len(changed)} dil")
     print(f"  MAP harita koordinatları (Glottolog): {nmap} blok, {new_map.count('{name')} dil")
     print(f"  Uzaklık matrisleri (Savelyev+WALS+coğrafi): val patch={ndist}, REAL_DIST enjekte")
+    print(f"  Kognat Ağı (SavelyevTurkic): {ncog} blok, {len(cog_obj)} kavram (default '{cog_default}')")
 
 
 if __name__ == "__main__":

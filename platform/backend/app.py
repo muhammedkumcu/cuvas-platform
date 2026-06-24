@@ -382,6 +382,35 @@ def _segment_align(gen, lemma, tags, word):
     return morphs, _sound_changes(lemma, root_surface), forms
 
 
+V_TENSE_TAGS = {"pres", "past", "ifi", "fut", "aor", "cond", "imp", "prc_perf", "prc_impf",
+                "ger", "ger_past", "ger_perf", "gpr_past", "gpr_pot"}
+
+
+def _segment_verb_align(gen, lemma, tags, word):
+    """FİİL: kök (yalın gövde) + kaynaşık zaman·kişi eki. NW-align ile gövde sınırı + ses olayı.
+    Türk dillerinde zaman+kişi çoğu zaman portmanteau → 2 katman (kök + çekim eki) DÜRÜST seçimdir.
+    Üretim eksikse None → çağıran fallback'e düşer."""
+    if not tags or tags[0] != "v":
+        return None
+    trans = "tv" if "tv" in tags else ("iv" if "iv" in tags else "")
+    if not trans:
+        return None
+    stem = _gen1(gen, f"{lemma}<v><{trans}><imp><p2><sg>") or lemma
+    # gövde kelimenin başına makul oturmuyorsa güvenme
+    if _nw_score(stem, word[:len(stem) + 2]) < len(stem):
+        return None
+    aff = _trailing_affix(stem, word)
+    if not aff or not word.endswith(aff):
+        return None
+    feats = [t for t in tags if t not in ("v", "tv", "iv")]
+    morphs = [{"surface": lemma, "tag": "KÖK", "feat": "fiil kökü", "type": "kök"},
+              {"surface": aff, "tag": "+".join(t.upper() for t in feats) or "EK",
+               "feat": " · ".join(TAG_TR.get(t, t) for t in feats) or "çekim", "type": "zaman"}]
+    surface_stem = word[:len(word) - len(aff)]  # ses olayı: gövdenin kelimedeki yüzey hâli (git→gid)
+    forms = [stem, word]
+    return morphs, _sound_changes(lemma, surface_stem), forms
+
+
 def _build_verb(gen, lemma):
     """Fiil çekim blokları: yalnız ÜRETİLEN zaman/kişi hücreleri (dile göre dinamik)."""
     blocks = []
@@ -527,7 +556,17 @@ def segment(req: AnalyzeReq):
                 chosen = (r[0], rp["lemma"], rp["tags"], morphs, sc, "nw-align", forms)
                 break
     if chosen is None:
-        # align eden isim yok → ilk analiz + mevcut mantık (cumulative / fiil / fallback)
+        # align eden isim yoksa: align eden FİİL (kök + kaynaşık çekim eki, NW-align + ses olayı)
+        for r in res:
+            rp = _parse(r[0])
+            if rp["tags"] and rp["tags"][0] == "v":
+                va = _segment_verb_align(gen, rp["lemma"], rp["tags"], word)
+                if va:
+                    morphs, sc, forms = va
+                    chosen = (r[0], rp["lemma"], rp["tags"], morphs, sc, "verb-align", forms)
+                    break
+    if chosen is None:
+        # align eden isim/fiil yok → ilk analiz + mevcut mantık (cumulative / fiil / fallback)
         p = _parse(res[0][0])
         lemma, tags = p["lemma"], p["tags"]
         pos = tags[0] if tags else ""

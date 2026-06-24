@@ -36,6 +36,42 @@ TR_NAME = {"tur": "Türkçe", "azj": "Azerbaycanca", "tuk": "Türkmence", "chv":
            "tyv": "Tuvaca", "kjh": "Hakasça", "klj": "Halaçça", "cjs": "Şorca"}
 
 
+# Uzaklık Gezgini: UI dil kodu -> veri anahtarları
+DIST_LEX = {"chv": "Chuvash", "tt": "Tatar", "bak": "Bashkir", "kk": "Kazakh", "kg": "Kirghiz",
+            "tr": "Turkish", "az": "Azeri", "tk": "Turkmen", "ug": "Uighur", "sah": "Yakut"}
+DIST_ISO = {"chv": "chv", "tt": "tat", "bak": "bak", "kk": "kaz", "kg": "kir",
+            "tr": "tur", "az": "azj", "tk": "tuk", "ug": "uig", "sah": "sah"}
+
+
+def haversine(a, b):
+    from math import radians, sin, cos, asin, sqrt
+    la1, lo1, la2, lo2 = map(radians, [a[0], a[1], b[0], b[1]])
+    h = sin((la2 - la1) / 2) ** 2 + cos(la1) * cos(la2) * sin((lo2 - lo1) / 2) ** 2
+    return 2 * 6371 * asin(sqrt(h))
+
+
+def build_distance(prof, lex, typ):
+    codes = list(DIST_LEX)
+    coords = {c: (prof[DIST_ISO[c]]["lat"], prof[DIST_ISO[c]]["lon"]) for c in codes
+              if prof.get(DIST_ISO[c]) and prof[DIST_ISO[c]].get("lat") is not None}
+    # coğrafi: haversine, en büyük çiftle normalize
+    geo_km = {a: {} for a in coords}
+    mx = 1.0
+    for a in coords:
+        for b in coords:
+            d = haversine(coords[a], coords[b]); geo_km[a][b] = d; mx = max(mx, d)
+    leks, tipo, geo = {}, {}, {}
+    for a in codes:
+        leks[a], tipo[a], geo[a] = {}, {}, {}
+        for b in codes:
+            lv = lex.get(DIST_LEX[a], {}).get(DIST_LEX[b], {})
+            tv = typ.get(DIST_ISO[a], {}).get(DIST_ISO[b], {})
+            if lv.get("distance") is not None: leks[a][b] = lv["distance"]
+            if tv.get("distance") is not None: tipo[a][b] = tv["distance"]
+            if a in geo_km and b in geo_km[a]: geo[a][b] = round(geo_km[a][b] / mx, 3)
+    return {"leks": leks, "tipo": tipo, "geo": geo}
+
+
 def project(lon, lat):
     x = max(4, min(95, round(0.7517 * lon - 14.71, 1)))
     y = max(6, min(91, round(-1.6949 * lat + 118.58, 1)))
@@ -61,6 +97,8 @@ def build_map(prof):
 def main():
     html = SRC.read_text(encoding="utf-8")
     prof = {p["iso"]: p for p in json.load(open(DATA / "profiles.json", encoding="utf-8"))["profiles"]}
+    lex = json.load(open(DATA / "distance.lexical.json", encoding="utf-8"))["matrix"]
+    typ = json.load(open(DATA / "distance.typological.json", encoding="utf-8"))["matrix"]
 
     changed = []
     for code, iso in CODE2ISO.items():
@@ -91,12 +129,25 @@ def main():
     new_map = build_map(prof)
     html, nmap = re.subn(r"MAP = \[.*?\n  \];", lambda m: new_map, html, flags=re.DOTALL)
 
+    # Uzaklık Gezgini ← gerçek matrisler: leksikal(Savelyev) + tipolojik(WALS) + coğrafi(koordinat)
+    real_dist = build_distance(prof, lex, typ)
+    if "REAL_DIST" not in html:
+        html = html.replace("  KOKEN_API = '" + API + "';",
+                            "  KOKEN_API = '" + API + "';\n  REAL_DIST = " + json.dumps(real_dist) + ";", 1)
+    old_val = "    const val = (key)=> Math.abs(base[key]-t[key]);"
+    new_val = ("    const RD = this.REAL_DIST || {};\n"
+               "    const realv = (m)=>{ const r=(RD[m]||{})[S.distBase]; return (r && r[S.distTarget]!=null) ? r[S.distTarget] : null; };\n"
+               "    const val = (key)=>{ const m = {leks:'leks', tipo:'tipo', cogr:'geo'}[key]; const rv = m ? realv(m) : null; return rv!=null ? rv : Math.abs(base[key]-t[key]); };")
+    ndist = 1 if old_val in html else 0
+    html = html.replace(old_val, new_val, 1)
+
     (DIST / "index.html").write_text(html, encoding="utf-8")
     shutil.copy(UI / "support.js", DIST / "support.js")
 
     print(f"dist/index.html yazıldı.")
     print(f"  LANGPROFILE canlılık (Glottolog AES): {len(changed)} dil")
     print(f"  MAP harita koordinatları (Glottolog): {nmap} blok, {new_map.count('{name')} dil")
+    print(f"  Uzaklık matrisleri (Savelyev+WALS+coğrafi): val patch={ndist}, REAL_DIST enjekte")
 
 
 if __name__ == "__main__":

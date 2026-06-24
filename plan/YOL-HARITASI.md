@@ -21,7 +21,9 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 ## FAZ 1 — Yakın kalite (mevcut MVP'yi akademik-mükemmel yap) — ÖNCE BU
 Çekirdek morfoloji + karşılaştırma zaten çalışıyor; bu faz onu "%100 doğru / paper-hazır" yapar.
 
-### 1.1 ⏳ Füzyonel ek ince-ayrışması (NW kanonik-allomorf tek-hizalama) — ★ yüksek değer
+### 1.1 🔶 Füzyonel ek ince-ayrışması — KISMİ (Çuvaş SIRA ✅ yapıldı; kanonik-allomorf füzyon-bölme ⏳ sırada)
+- **✅ Yapıldı (Çuvaş morfotaktik sıra):** deepsearch 5c'nin dediği gibi chv sırası Kök+İyelik+Çoğul (px<pl) — apertium-chv yalnız `<px><pl>` üretir; `_segment_align`'a dile-duyarlı slot sırası eklendi → `хӗррӗмсем` artık `хӗр+рӗм+сем`. Basit çoğul/hâl bozulmadı. (`app.py: _segment_align(lang)`.)
+- **⏳ Kalan (kanonik-allomorf füzyon-bölme) — DİKKATLİ:** chv `-не`/uig `lir`/sah oblik-gövde gibi kaynaşık ekleri ALT-morfeme bölme. Yöntem (5c): "lemma + KANONİK allomorf dizisi" vs yüzey TEK NW; dile-özgü 0-ceza (uig ä→i; chv epentetik н). **100% doğruluk için** kanonik allomorf tabloları (chv px3sg -ĕ/-i + dat -e/-a + epentez n; uig -lär/-im) gramer kaynağıyla doğrulanmalı → bu yüzden aceleye getirilmedi.
 - **Ne:** chv `-не`, uig `lir`, sah oblik-gövde gibi kaynaşık ekleri ŞU AN tek kaynaşık ek bırakıyoruz (yeniden-üretim %93 ama tam ayrışma değil). Deepsearch (5c) bunların **gerçek portmanteau OLMADIĞINI** kanıtladı: chv -не = +i(iyelik)+**n**(epentez)+e(hâl); uig lär+i (ä→i daralması); **bölünebilir.**
 - **Yapar mıyız:** EVET — paper'ın morfoloji çekirdeğini güçlendirir, Çuvaşçayı derinleştirir.
 - **Nasıl:** deepsearch'ün önerdiği yöntem — "lemma + KANONİK allomorf dizisi" vs yüzey TEK Needleman-Wunsch hizalaması; dile-özgü maliyet matrisi (uig ä→i = 0 ceza; chv epentetik н = 0 gap). Kanonik allomorf dizileri apertium `.twol` dosyalarından + dilbilgisinden. **chv morfotaktik sırası farklı: Kök+İyelik+Çoğul+Hâl** (ortak Türkçe Kök+Çoğul+İyelik+Hâl değil) — kümülatif seviyelerimizi chv için bu sıraya göre düzelt.
@@ -108,6 +110,7 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 - **Faz 1.2 ses denklikleri:** ✅ **(A) Kanıt-destekli yerleşik kurallar** — kurallar ground truth, Savelyev verisinden KANITLA + kognatı kurala bağla. (Saf çıkarım reddedildi: spürios riski.)
 - **Faz 1.1 + 1.2 ayrı deepsearch:** ✅ HAYIR — eldeki 5c + Savelyev ile dikkatlice ilerle.
 - **Faz 2.2 ekosistem yeri:** ⏳ deepsearch 7 sonucu gelince karar.
-- **Faz 2.5 kollar açıklayıcı yeri:** ❓ ayrı sol-menü kategorisi mi / Tarih & Köken içine mi?
-- **Faz 1.3 harita:** ❓ gerçek coğrafi mi / şematik mi; inline panel mı popover mı?
+- **Faz 2.5 kollar açıklayıcı:** ✅ **deepsearch 8 sonrası, Tarih & Köken'i BAŞTAN kurarken orada** (ayrı menü değil).
+- **Faz 1.3 harita:** ✅ **gerçek dünya haritası DEĞİL** — mevcut tatlı/akademik ŞEMATİK duruşu KORU, ama dil konumlarını + dünya şeklini **gerçeğe daha yakın** yap (kalite+tutarlılık). İnline kart (tıkla→sayfa değiştirme yerine).
+- **ŞİMDİ:** ✅ Faz **1.1 füzyonel ayrışma** (kullanıcı seçti).
 - **Faz 3.1 Çuvaşça "Dilin Kalbi":** ✅ AYRI anlatı sayfası (onaylı; Saha/Şor için de şablon).

@@ -104,7 +104,7 @@ def build_cognates(cog):
                  for sid, name, branch in COG_DISP if sid in langset]
         gaps = [n["lang"] for n in nodes if n["shift"]]
         note = f"Proto-Türkçe kök {dom_root}. Aynı renk = aynı kognat seti; farklı düğüm = kognat boşluğu" + \
-               (f" ({', '.join(gaps)})." if gaps else ".") + " Kaynak: SavelyevTurkic CLDF."
+               (f" ({', '.join(gaps)})." if gaps else ".")
         out[key] = {"gloss": tr, "proto": dom_root, "note": note, "nodes": nodes}
         if first is None:
             first = key
@@ -188,6 +188,15 @@ def main():
     if cog_default:
         html = html.replace("cognateKey: 'kiz',", f"cognateKey: '{cog_default}',", 1)
 
+    # kopya/metin düzeltmeleri — yalnız NET redundant/teknik ifadeler (tasarımı bozmadan, minimal)
+    copy_fix = {
+        "14 dil · soldan kenar rengi = canlılık": "Türk dilleri ve canlılık durumları",
+    }
+    nfix = 0
+    for old, new in copy_fix.items():
+        if old in html:
+            html = html.replace(old, new); nfix += 1
+
     (DIST / "index.html").write_text(html, encoding="utf-8")
     shutil.copy(UI / "support.js", DIST / "support.js")
 
@@ -196,6 +205,7 @@ def main():
     print(f"  MAP harita koordinatları (Glottolog): {nmap} blok, {new_map.count('{name')} dil")
     print(f"  Uzaklık matrisleri (Savelyev+WALS+coğrafi): val patch={ndist}, REAL_DIST enjekte")
     print(f"  Kognat Ağı (SavelyevTurkic): {ncog} blok, {len(cog_obj)} kavram (default '{cog_default}')")
+    print(f"  Kopya düzeltmeleri: {nfix}")
 
 
 if __name__ == "__main__":

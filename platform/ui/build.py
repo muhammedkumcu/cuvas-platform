@@ -270,7 +270,7 @@ def main():
     nlive = 0
     live = []
     # 1) state alanları
-    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null, searchLang: 'auto', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null, compareApi: null, compareQ: '',"))
+    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null, searchLang: 'auto', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null, compareApi: null, compareQ: '', paradigmPos: 'noun',"))
     # küratörlü kök seçilince serbest çekimi temizle
     live.append(("        go:()=>this.setState({paradigmRoot:k}),", "        go:()=>this.setState({paradigmRoot:k, paradigmFree:null}),"))
     # paradigmVals return: serbest çekim (herhangi bir kök, seçili dil) + handler'lar
@@ -280,12 +280,19 @@ def main():
         "      paradigmSub: isVerb ? (p.label+' · şahıs çekimi') : 'Ad çekimi · hâl × sayı' };",
         "    const F = this.state.paradigmFree;\n"
         "    const cF = (s)=> s ? [{ text:this.disp(s), hue:this.hue('kök'), bg:this.hueBg('kök'), border:this.hueBorder('kök') }] : null;\n"
-        "    const freeRows = (F && Array.isArray(F.rows)) ? F.rows.map(r=>({ caseLabel:r.case_tr, tag:(r.case||'').toUpperCase(), sg:cF(r.sg), pl:cF(r.pl), trSg:'', trPl:'' })) : null;\n"
+        "    const hasNounF = !!(F && Array.isArray(F.rows) && F.rows.length);\n"
+        "    const hasVerbF = !!(F && Array.isArray(F.verb) && F.verb.length);\n"
+        "    const isFree = hasNounF || hasVerbF;\n"
+        "    let posF = this.state.paradigmPos || 'noun';\n"
+        "    if (isFree){ if(posF==='noun' && !hasNounF && hasVerbF) posF='verb'; if(posF==='verb' && !hasVerbF) posF='noun'; }\n"
+        "    const freeRows = (isFree && posF==='noun' && hasNounF) ? F.rows.map(r=>({ caseLabel:r.case_tr, tag:(r.case||'').toUpperCase(), sg:cF(r.sg), pl:cF(r.pl), trSg:'', trPl:'' })) : null;\n"
+        "    const verbBlocks = (isFree && posF==='verb' && hasVerbF) ? F.verb.map(b=>({ tense:b.tense, cells:b.cells.map(c=>({ person:c.person, surface:c.surface?this.disp(c.surface):'—' })) })) : null;\n"
+        "    const posTabs = isFree ? [['noun','İsim çekimi',hasNounF],['verb','Fiil çekimi',hasVerbF]].filter(t=>t[2]).map(t=>({ label:t[1], go:()=>this.setState({paradigmPos:t[0]}), style:`cursor:pointer;border:none;border-radius:8px;padding:8px 15px;font-size:13px;font-weight:600;font-family:inherit;background:${posF===t[0]?'#211d17':'transparent'};color:${posF===t[0]?'#f4f1ea':'#5f574b'}` })) : [];\n"
         "    const LNp = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça'};\n"
-        "    return { paradigmRoots:roots, paradigmIsVerb:isVerb && !freeRows, paradigmIsNoun:(!isVerb)||!!freeRows, paradigmRows: freeRows||rows,\n"
-        "      paradigmTitle: freeRows ? this.disp(F.lemma) : this.disp(p.root, p.rootLat),\n"
-        "      paradigmGloss: freeRows ? ('· '+F.langName) : `“${p.gloss}”`,\n"
-        "      paradigmSub: freeRows ? ('canlı apertium çekimi · '+F.langName) : (isVerb ? (p.label+' · şahıs çekimi') : 'Ad çekimi · hâl × sayı'),\n"
+        "    return { paradigmRoots:roots, paradigmIsVerb:isVerb && !isFree, paradigmIsNoun: isFree ? (posF==='noun') : !isVerb, paradigmIsVerbView: isFree && posF==='verb', paradigmRows: freeRows||rows, paradigmVerbBlocks: verbBlocks||[], paradigmPosTabs: posTabs, paradigmHasPosTabs: posTabs.length>1,\n"
+        "      paradigmTitle: isFree ? this.disp(F.lemma) : this.disp(p.root, p.rootLat),\n"
+        "      paradigmGloss: isFree ? ('· '+F.langName) : `“${p.gloss}”`,\n"
+        "      paradigmSub: isFree ? ('canlı apertium çekimi · '+F.langName) : (isVerb ? (p.label+' · şahıs çekimi') : 'Ad çekimi · hâl × sayı'),\n"
         "      paradigmFreeQ: this.state.paradigmFreeQ||'',\n"
         "      onParadigmFreeInput:(e)=>this.setState({paradigmFreeQ:e.target.value}),\n"
         "      onParadigmFreeKey:(e)=>{ if(e.key!=='Enter') return; const lemma=(this.state.paradigmFreeQ||'').trim(); if(!lemma) return; const lg=this.state.searchLang||'chv'; fetch(this.KOKEN_API+'/paradigm/'+lg+'/'+encodeURIComponent(lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma, langName:(LNp[lg]||lg), rows:(d&&d.rows)||[]}})).catch(()=>{}); } };"))
@@ -648,6 +655,46 @@ def main():
         else:
             print("  ! B eşleşmedi:", label)
     print(f"  Araştırmacı Merkezi canlı (B): {nb}/{len(bfix)}")
+
+    # ============================================================
+    #  PARADİGMA — İSİM/FİİL sekmeleri + fiil çekim tablosu (zaman × kişi); "at" gibi köklerde fiil de
+    #  (G1'in ÇEKİM TABLOSU başlığından SONRA çalışmalı)
+    # ============================================================
+    cfix = []
+    cfix.append(("paradigma pos tabs",
+        '        <div style="margin-top:22px;display:flex;align-items:center;gap:10px">\n'
+        "          <span style=\"font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px\">ÇEKİM TABLOSU</span>",
+        '        <sc-if value="{{ paradigmHasPosTabs }}" hint-placeholder-val="{{ false }}">\n'
+        '        <div style="display:flex;gap:8px;background:#ece7dc;padding:5px;border-radius:11px;width:fit-content;margin-top:18px">\n'
+        '          <sc-for list="{{ paradigmPosTabs }}" as="t" hint-placeholder-count="2"><button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.label }}</button></sc-for>\n'
+        '        </div>\n'
+        '        </sc-if>\n'
+        '        <div style="margin-top:18px;display:flex;align-items:center;gap:10px">\n'
+        "          <span style=\"font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px\">ÇEKİM TABLOSU</span>"))
+    verbview = (
+        '          <sc-if value="{{ paradigmIsVerbView }}" hint-placeholder-val="{{ false }}">\n'
+        '          <sc-for list="{{ paradigmVerbBlocks }}" as="blk" hint-placeholder-count="3">\n'
+        "            <div style=\"background:#211d17;color:#f4f1ea;font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;padding:9px 22px\">{{ blk.tense }}</div>\n"
+        '            <div style="display:grid;grid-template-columns:repeat(3,1fr)">\n'
+        '              <sc-for list="{{ blk.cells }}" as="c" hint-placeholder-count="6">\n'
+        '                <div style="padding:11px 18px;border-bottom:1px solid rgba(33,29,23,.07);border-right:1px solid rgba(33,29,23,.05)">\n'
+        "                  <div style=\"font-size:10.5px;color:#9a9082;font-family:'IBM Plex Mono',monospace\">{{ c.person }}</div>\n"
+        "                  <div style=\"font-family:'Spectral',serif;font-size:18px;font-weight:600;color:#211d17;margin-top:2px\">{{ c.surface }}</div>\n"
+        '                </div>\n'
+        '              </sc-for>\n'
+        '            </div>\n'
+        '          </sc-for>\n'
+        '          </sc-if>\n')
+    cfix.append(("paradigma fiil tablosu",
+        '        </div>\n        <div style="margin-top:14px;display:flex;gap:16px;flex-wrap:wrap"><sc-for list="{{ legend }}"',
+        verbview + '        </div>\n        <div style="margin-top:14px;display:flex;gap:16px;flex-wrap:wrap"><sc-for list="{{ legend }}"'))
+    ncfix = 0
+    for label, old, new in cfix:
+        if old in html:
+            html = html.replace(old, new, 1); ncfix += 1
+        else:
+            print("  ! C(paradigma) eşleşmedi:", label)
+    print(f"  Paradigma isim/fiil sekmeleri + fiil tablosu: {ncfix}/{len(cfix)}")
 
     # ============================================================
     #  D — KARŞILAŞTIR "dizilim" CANLI: aranan kelime tüm dillerde (/analyze_all) → satırlar

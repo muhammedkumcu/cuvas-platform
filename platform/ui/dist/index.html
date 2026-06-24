@@ -760,7 +760,12 @@
             <button onClick="{{ r.go }}" style="{{ r.style }}"><span style="font-family:'Spectral',serif;font-size:17px;font-weight:700">{{ r.label }}</span><span style="{{ r.glossStyle }}">{{ r.gloss }} · {{ r.kind }}</span></button>
           </sc-for>
         </div>
-        <div style="margin-top:22px;display:flex;align-items:center;gap:10px">
+        <sc-if value="{{ paradigmHasPosTabs }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;gap:8px;background:#ece7dc;padding:5px;border-radius:11px;width:fit-content;margin-top:18px">
+          <sc-for list="{{ paradigmPosTabs }}" as="t" hint-placeholder-count="2"><button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.label }}</button></sc-for>
+        </div>
+        </sc-if>
+        <div style="margin-top:18px;display:flex;align-items:center;gap:10px">
           <span style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px">ÇEKİM TABLOSU</span>
           <button onClick="{{ copyParadigm }}" style="margin-left:auto;cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:8px;padding:6px 12px;font-size:12px;font-family:inherit;color:#211d17">⧉ Tabloyu kopyala</button>
         </div>
@@ -794,6 +799,19 @@
                 <div style="display:flex;gap:3px;align-items:center;flex-wrap:wrap"><sc-for list="{{ row.sg }}" as="m"><span style="display:inline-flex;padding:6px 11px;border-radius:8px;background:{{ m.bg }};border:1px solid {{ m.border }};color:{{ m.hue }};font-family:'Spectral',serif;font-size:18px;font-weight:600">{{ m.text }}</span></sc-for></div>
                 <span style="font-size:13px;color:#9a9082;font-style:italic">{{ row.trSg }}</span>
               </div>
+            </div>
+          </sc-for>
+          </sc-if>
+          <sc-if value="{{ paradigmIsVerbView }}" hint-placeholder-val="{{ false }}">
+          <sc-for list="{{ paradigmVerbBlocks }}" as="blk" hint-placeholder-count="3">
+            <div style="background:#211d17;color:#f4f1ea;font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;padding:9px 22px">{{ blk.tense }}</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr)">
+              <sc-for list="{{ blk.cells }}" as="c" hint-placeholder-count="6">
+                <div style="padding:11px 18px;border-bottom:1px solid rgba(33,29,23,.07);border-right:1px solid rgba(33,29,23,.05)">
+                  <div style="font-size:10.5px;color:#9a9082;font-family:'IBM Plex Mono',monospace">{{ c.person }}</div>
+                  <div style="font-family:'Spectral',serif;font-size:18px;font-weight:600;color:#211d17;margin-top:2px">{{ c.surface }}</div>
+                </div>
+              </sc-for>
             </div>
           </sc-for>
           </sc-if>
@@ -1015,7 +1033,7 @@ class Component extends DCLogic {
     distBase: 'chv',        // distance explorer base lang
     distTarget: 'tt',       // distance explorer target lang
     paradigmRoot: 'hĕr',
-    apiParadigm: {}, apiWord: null, searchLang: 'auto', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null, compareApi: null, compareQ: '',
+    apiParadigm: {}, apiWord: null, searchLang: 'auto', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null, compareApi: null, compareQ: '', paradigmPos: 'noun',
     cognateKey: 'goz',
     profileSel: 'chv',
     researchWord: 'oku',
@@ -1836,12 +1854,19 @@ class Component extends DCLogic {
         fst: r.sg.map(([t,ty],i)=> i===0 ? this.cyr2lat(t) : '+'+r.tag).join('') }));
     const F = this.state.paradigmFree;
     const cF = (s)=> s ? [{ text:this.disp(s), hue:this.hue('kök'), bg:this.hueBg('kök'), border:this.hueBorder('kök') }] : null;
-    const freeRows = (F && Array.isArray(F.rows)) ? F.rows.map(r=>({ caseLabel:r.case_tr, tag:(r.case||'').toUpperCase(), sg:cF(r.sg), pl:cF(r.pl), trSg:'', trPl:'' })) : null;
+    const hasNounF = !!(F && Array.isArray(F.rows) && F.rows.length);
+    const hasVerbF = !!(F && Array.isArray(F.verb) && F.verb.length);
+    const isFree = hasNounF || hasVerbF;
+    let posF = this.state.paradigmPos || 'noun';
+    if (isFree){ if(posF==='noun' && !hasNounF && hasVerbF) posF='verb'; if(posF==='verb' && !hasVerbF) posF='noun'; }
+    const freeRows = (isFree && posF==='noun' && hasNounF) ? F.rows.map(r=>({ caseLabel:r.case_tr, tag:(r.case||'').toUpperCase(), sg:cF(r.sg), pl:cF(r.pl), trSg:'', trPl:'' })) : null;
+    const verbBlocks = (isFree && posF==='verb' && hasVerbF) ? F.verb.map(b=>({ tense:b.tense, cells:b.cells.map(c=>({ person:c.person, surface:c.surface?this.disp(c.surface):'—' })) })) : null;
+    const posTabs = isFree ? [['noun','İsim çekimi',hasNounF],['verb','Fiil çekimi',hasVerbF]].filter(t=>t[2]).map(t=>({ label:t[1], go:()=>this.setState({paradigmPos:t[0]}), style:`cursor:pointer;border:none;border-radius:8px;padding:8px 15px;font-size:13px;font-weight:600;font-family:inherit;background:${posF===t[0]?'#211d17':'transparent'};color:${posF===t[0]?'#f4f1ea':'#5f574b'}` })) : [];
     const LNp = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça'};
-    return { paradigmRoots:roots, paradigmIsVerb:isVerb && !freeRows, paradigmIsNoun:(!isVerb)||!!freeRows, paradigmRows: freeRows||rows,
-      paradigmTitle: freeRows ? this.disp(F.lemma) : this.disp(p.root, p.rootLat),
-      paradigmGloss: freeRows ? ('· '+F.langName) : `“${p.gloss}”`,
-      paradigmSub: freeRows ? ('canlı apertium çekimi · '+F.langName) : (isVerb ? (p.label+' · şahıs çekimi') : 'Ad çekimi · hâl × sayı'),
+    return { paradigmRoots:roots, paradigmIsVerb:isVerb && !isFree, paradigmIsNoun: isFree ? (posF==='noun') : !isVerb, paradigmIsVerbView: isFree && posF==='verb', paradigmRows: freeRows||rows, paradigmVerbBlocks: verbBlocks||[], paradigmPosTabs: posTabs, paradigmHasPosTabs: posTabs.length>1,
+      paradigmTitle: isFree ? this.disp(F.lemma) : this.disp(p.root, p.rootLat),
+      paradigmGloss: isFree ? ('· '+F.langName) : `“${p.gloss}”`,
+      paradigmSub: isFree ? ('canlı apertium çekimi · '+F.langName) : (isVerb ? (p.label+' · şahıs çekimi') : 'Ad çekimi · hâl × sayı'),
       paradigmLang: (this.state.paradigmFree && Array.isArray(this.state.paradigmFree.rows)) ? this.state.paradigmFree.langName : 'Çuvaşça', paradigmFreeQ: this.state.paradigmFreeQ||'',
       onParadigmFreeInput:(e)=>this.setState({paradigmFreeQ:e.target.value}),
       onParadigmFreeKey:(e)=>{ if(e.key!=='Enter') return; const lemma=(this.state.paradigmFreeQ||'').trim(); if(lemma) this.runParadigm(lemma); } };

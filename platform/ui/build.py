@@ -219,6 +219,82 @@ def main():
         if old in html:
             html = html.replace(old, new); nfix += 1
 
+    # --- CANLI API bağlama (Paradigma + Analiz) — VM kapalıysa illüstratife düşer ---
+    nlive = 0
+    live = []
+    # 1) state alanları
+    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null,"))
+    # 2) componentDidUpdate → ekrana girince paradigma çek
+    live.append((
+        "  componentDidUpdate(prevProps, prevState){\n"
+        "    if (prevState && prevState.screen !== this.state.screen){\n"
+        "      try { const el = document.getElementById('content-scroll'); if (el) el.scrollTop = 0; } catch(e){}\n"
+        "    }\n"
+        "  }",
+        "  componentDidUpdate(prevProps, prevState){\n"
+        "    if (prevState && prevState.screen !== this.state.screen){\n"
+        "      try { const el = document.getElementById('content-scroll'); if (el) el.scrollTop = 0; } catch(e){}\n"
+        "    }\n"
+        "    if (this.state.screen==='paradigm'){\n"
+        "      const p = this.PARADIGM[this.state.paradigmRoot]; const root = p && p.root;\n"
+        "      if (root && this.state.apiParadigm[root]===undefined){\n"
+        "        this.setState(s=>({apiParadigm:{...s.apiParadigm,[root]:null}}));\n"
+        "        fetch(this.KOKEN_API+'/paradigm/chv/'+encodeURIComponent(root)).then(r=>r.json())\n"
+        "          .then(d=>this.setState(s=>({apiParadigm:{...s.apiParadigm,[root]:(d&&d.rows)||[]}}))).catch(()=>{});\n"
+        "      }\n"
+        "    }\n"
+        "  }"))
+    # 3) paradigmVals: API satırları varsa onları kullan
+    live.append((
+        "    const isVerb = p.kind==='fiil';\n"
+        "    const rows = p.rows.map(r=>({ caseLabel:r.case, tag:r.tag, sg:cell(r.sg), pl:r.pl?cell(r.pl):null, trSg:r.trSg, trPl:r.trPl,\n"
+        "      fst: r.sg.map(([t,ty],i)=> i===0 ? this.cyr2lat(t) : '+'+r.tag).join('') }));",
+        "    const isVerb = p.kind==='fiil';\n"
+        "    const apiR = this.state.apiParadigm && this.state.apiParadigm[p.root];\n"
+        "    const cellOne = (s)=> s ? [{ text:this.disp(s), hue:this.hue('kök'), bg:this.hueBg('kök'), border:this.hueBorder('kök') }] : null;\n"
+        "    const rows = (Array.isArray(apiR) && apiR.length)\n"
+        "      ? apiR.map(r=>({ caseLabel:r.case_tr, tag:(r.case||'').toUpperCase(), sg:cellOne(r.sg), pl:cellOne(r.pl), trSg:'', trPl:'', fst:r.sg||'' }))\n"
+        "      : p.rows.map(r=>({ caseLabel:r.case, tag:r.tag, sg:cell(r.sg), pl:r.pl?cell(r.pl):null, trSg:r.trSg, trPl:r.trPl,\n"
+        "        fst: r.sg.map(([t,ty],i)=> i===0 ? this.cyr2lat(t) : '+'+r.tag).join('') }));"))
+    # 4) active(): canlı analiz kelimesi
+    live.append((
+        "  active(){ return this.WORDS[this.state.activeWordId]; }",
+        "  active(){ return this.state.activeWordId==='__api' && this.state.apiWord ? this.state.apiWord : this.WORDS[this.state.activeWordId]; }"))
+    # 5) runSearch(): eşleşme yoksa canlı /analyze
+    live.append((
+        "  runSearch(){\n"
+        "    const q = (this.state.query||'').trim().toLowerCase();\n"
+        "    if (!q) return;\n"
+        "    for (const id in this.WORDS){ const w = this.WORDS[id];\n"
+        "      if ([w.gloss, w.surface, w.translit].some(s=>String(s).toLowerCase().includes(q))){\n"
+        "        this.setState({ screen:'analiz', activeWordId:id, selMorphIdx:0, stripCount:0 }); return; } }\n"
+        "  }",
+        "  runSearch(){\n"
+        "    const q = (this.state.query||'').trim().toLowerCase();\n"
+        "    if (!q) return;\n"
+        "    for (const id in this.WORDS){ const w = this.WORDS[id];\n"
+        "      if ([w.gloss, w.surface, w.translit].some(s=>String(s).toLowerCase().includes(q))){\n"
+        "        this.setState({ screen:'analiz', activeWordId:id, selMorphIdx:0, stripCount:0 }); return; } }\n"
+        "    const word = (this.state.query||'').trim();\n"
+        "    const TT = {n:'kök',v:'kök',pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',fut:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};\n"
+        "    fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:'chv',word})}).then(r=>r.json()).then(d=>{\n"
+        "      const a = (d.analyses&&d.analyses[0])||null;\n"
+        "      const ms = a ? [{text:a.lemma, tag:'KÖK', type:'kök', label:'kök (apertium FST)', gloss:a.lemma, gItem:a.lemma, note:'Apertium morfolojik çözümlemesi.'}]\n"
+        "        .concat((a.tags||[]).map(t=>({text:t, tag:String(t).toUpperCase(), type:(TT[t]||'kök'), label:'etiket: '+t, gloss:t, gItem:t, note:'Apertium etiketi.'})))\n"
+        "        : [{text:word, tag:'?', type:'kök', label:'çözümlenemedi', gloss:'?', gItem:word, note:'Apertium bu biçimi tanımadı.'}];\n"
+        "      const apiWord = {lang:'cv', langName:'Çuvaşça · canlı FST', surface:word, translit:'', gloss:(a?('apertium: '+a.raw):'çözümlenemedi'), morphemes:ms, cognates:[]};\n"
+        "      this.setState({ apiWord, activeWordId:'__api', screen:'analiz', selMorphIdx:0, stripCount:0 });\n"
+        "    }).catch(()=>{});\n"
+        "  }"))
+    # 6) USAGE: paradigma demo'dan çıktı (canlı FST)
+    live.append(("    {mod:'Paradigma Gezgini', srcs:['fst','unimorph','demo']},",
+                 "    {mod:'Paradigma Gezgini', srcs:['fst','unimorph']},"))
+    for old, new in live:
+        if old in html:
+            html = html.replace(old, new, 1); nlive += 1
+        else:
+            print("  ! CANLI bağlama eşleşmedi:", old[:48])
+
     (DIST / "index.html").write_text(html, encoding="utf-8")
     shutil.copy(UI / "support.js", DIST / "support.js")
 
@@ -229,6 +305,7 @@ def main():
     print(f"  Kognat Ağı (SavelyevTurkic): {ncog} blok, {len(cog_obj)} kavram (default '{cog_default}')")
     print(f"  Kopya düzeltmeleri: {nfix}")
     print(f"  Dil profili zenginleştirme (Wikipedia, çapraz-kontrollü): {nenrich} alan ({len(extra)} dil)")
+    print(f"  Canlı API bağlama (Paradigma+Analiz): {nlive}/6 yama")
 
 
 if __name__ == "__main__":

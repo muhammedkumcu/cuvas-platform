@@ -998,6 +998,7 @@ class Component extends DCLogic {
     distBase: 'chv',        // distance explorer base lang
     distTarget: 'tt',       // distance explorer target lang
     paradigmRoot: 'hĕr',
+    apiParadigm: {}, apiWord: null,
     cognateKey: 'goz',
     profileSel: 'chv',
     researchWord: 'oku',
@@ -1082,6 +1083,14 @@ class Component extends DCLogic {
   componentDidUpdate(prevProps, prevState){
     if (prevState && prevState.screen !== this.state.screen){
       try { const el = document.getElementById('content-scroll'); if (el) el.scrollTop = 0; } catch(e){}
+    }
+    if (this.state.screen==='paradigm'){
+      const p = this.PARADIGM[this.state.paradigmRoot]; const root = p && p.root;
+      if (root && this.state.apiParadigm[root]===undefined){
+        this.setState(s=>({apiParadigm:{...s.apiParadigm,[root]:null}}));
+        fetch(this.KOKEN_API+'/paradigm/chv/'+encodeURIComponent(root)).then(r=>r.json())
+          .then(d=>this.setState(s=>({apiParadigm:{...s.apiParadigm,[root]:(d&&d.rows)||[]}}))).catch(()=>{});
+      }
     }
   }
   saveProgress(xp, completed){ try { localStorage.setItem('koken_progress', JSON.stringify({ xp, completed })); } catch(e){} }
@@ -1277,7 +1286,7 @@ class Component extends DCLogic {
   // hangi modül hangi kaynaktan yararlanıyor
   USAGE = [
     {mod:'Morfolojik Analiz', srcs:['fst','ud']},
-    {mod:'Paradigma Gezgini', srcs:['fst','unimorph','demo']},
+    {mod:'Paradigma Gezgini', srcs:['fst','unimorph']},
     {mod:'Kognat Ağı', srcs:['cldf','nel']},
     {mod:'Karşılaştır', srcs:['cldf','glottolog']},
     {mod:'Uzaklık Gezgini', srcs:['cldf','wals','glottolog','demo']},
@@ -1462,8 +1471,18 @@ class Component extends DCLogic {
     for (const id in this.WORDS){ const w = this.WORDS[id];
       if ([w.gloss, w.surface, w.translit].some(s=>String(s).toLowerCase().includes(q))){
         this.setState({ screen:'analiz', activeWordId:id, selMorphIdx:0, stripCount:0 }); return; } }
+    const word = (this.state.query||'').trim();
+    const TT = {n:'kök',v:'kök',pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',fut:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};
+    fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:'chv',word})}).then(r=>r.json()).then(d=>{
+      const a = (d.analyses&&d.analyses[0])||null;
+      const ms = a ? [{text:a.lemma, tag:'KÖK', type:'kök', label:'kök (apertium FST)', gloss:a.lemma, gItem:a.lemma, note:'Apertium morfolojik çözümlemesi.'}]
+        .concat((a.tags||[]).map(t=>({text:t, tag:String(t).toUpperCase(), type:(TT[t]||'kök'), label:'etiket: '+t, gloss:t, gItem:t, note:'Apertium etiketi.'})))
+        : [{text:word, tag:'?', type:'kök', label:'çözümlenemedi', gloss:'?', gItem:word, note:'Apertium bu biçimi tanımadı.'}];
+      const apiWord = {lang:'cv', langName:'Çuvaşça · canlı FST', surface:word, translit:'', gloss:(a?('apertium: '+a.raw):'çözümlenemedi'), morphemes:ms, cognates:[]};
+      this.setState({ apiWord, activeWordId:'__api', screen:'analiz', selMorphIdx:0, stripCount:0 });
+    }).catch(()=>{});
   }
-  active(){ return this.WORDS[this.state.activeWordId]; }
+  active(){ return this.state.activeWordId==='__api' && this.state.apiWord ? this.state.apiWord : this.WORDS[this.state.activeWordId]; }
 
   styleBlock(type, selected){
     return {
@@ -1751,8 +1770,12 @@ class Component extends DCLogic {
     });
     const cell = (morphs)=> morphs.map(([text,type])=>({ text:this.disp(text), hue:this.hue(type), bg:this.hueBg(type), border:this.hueBorder(type) }));
     const isVerb = p.kind==='fiil';
-    const rows = p.rows.map(r=>({ caseLabel:r.case, tag:r.tag, sg:cell(r.sg), pl:r.pl?cell(r.pl):null, trSg:r.trSg, trPl:r.trPl,
-      fst: r.sg.map(([t,ty],i)=> i===0 ? this.cyr2lat(t) : '+'+r.tag).join('') }));
+    const apiR = this.state.apiParadigm && this.state.apiParadigm[p.root];
+    const cellOne = (s)=> s ? [{ text:this.disp(s), hue:this.hue('kök'), bg:this.hueBg('kök'), border:this.hueBorder('kök') }] : null;
+    const rows = (Array.isArray(apiR) && apiR.length)
+      ? apiR.map(r=>({ caseLabel:r.case_tr, tag:(r.case||'').toUpperCase(), sg:cellOne(r.sg), pl:cellOne(r.pl), trSg:'', trPl:'', fst:r.sg||'' }))
+      : p.rows.map(r=>({ caseLabel:r.case, tag:r.tag, sg:cell(r.sg), pl:r.pl?cell(r.pl):null, trSg:r.trSg, trPl:r.trPl,
+        fst: r.sg.map(([t,ty],i)=> i===0 ? this.cyr2lat(t) : '+'+r.tag).join('') }));
     return { paradigmRoots:roots, paradigmIsVerb:isVerb, paradigmIsNoun:!isVerb, paradigmRows:rows,
       paradigmTitle:this.disp(p.root, p.rootLat), paradigmGloss:`“${p.gloss}”`,
       paradigmSub: isVerb ? (p.label+' · şahıs çekimi') : 'Ad çekimi · hâl × sayı' };

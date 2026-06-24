@@ -42,10 +42,15 @@
   - Çıkarım betikleri: `platform/etl/` (savelyev/glottolog/wals). Hasat: `sources/` (savelyevturkic, glottolog-cldf, northeuralex, wals, unimorph×9, UD×4). Defter: `platform/KAYNAKLAR.md`.
 - **BACKEND CANLI (VM):** `platform/backend/app.py` (FastAPI) → MVP 10 dil için **apertium analiz + üretim + paradigma**. Host'tan `http://127.0.0.1:8000` (VBox port-forward `koken` 8000 + guest firewalld 8000 açık). Test: tur/chv/kaz/sah analiz, chv üretim (`кӗнеке<n><pl><dat>→кӗнекесене`) + paradigma. Her yanıt `_source` (Apertium GPL-3.0). **Başlat/durdur + erişim: `platform/backend/README.md`.**
   - Hızlı başlat (VM kapanıp açılırsa uvicorn'u tekrar başlat): `ssh ... 'cd /root/koken_api && setsid /root/apv/bin/uvicorn app:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 < /dev/null &'`
-- **UI BAĞLAMA BAŞLADI** (`platform/ui/build.py` → `dist/index.html`; **kaynak `.dc.html` elle düzenlenmez**, build adımı veriyi enjekte eder, re-export'ta tekrar çalıştır):
-  - ✅ **Dil Profilleri + Canlılık** ← `profiles.json` (Glottolog AES). Önizlemede (http.server + Claude_Preview) doğrulandı: Şorca `EGIDS 8a · ölmekte`, Glottolog kaynağı görünüyor, "⚠ örnek" rozeti kalktı.
-- **SIRADAKİ:** (a) **Analiz/Paradigma/Üretim → canlı API** (host:8000; CORS açık) — build.py'ye fetch wiring ekle, önizlemede test et. (b) Kognat/Harita/Uzaklık → `platform/data/*.json`. (c) kalan çıkarım: UniMorph→paradigma, UD→bağlam, #4→filo/anla eksenleri. (d) araştırmacı uçları (dışa aktarım/API doc).
-- **Önizleme:** `python -m http.server 8080` (repo kökü) → `http://127.0.0.1:8080/platform/ui/dist/index.html`. (`.claude/launch.json` = Claude_Preview server config.)
+- **UI BAĞLAMA — `platform/ui/build.py` → `dist/index.html`** (**kaynak `.dc.html` ELLE DÜZENLENMEZ**; build veriyi enjekte eder; kullanıcı re-export'ta `python platform/ui/build.py` tekrar çalışır). Hepsi Claude_Preview'da doğrulandı:
+  - ✅ **Dil Profilleri + Canlılık** ← Glottolog AES (`profiles.json`); "örnek" rozeti kalktı.
+  - ✅ **Harita** ← Glottolog koordinatları (14 dil projeksiyon).
+  - ✅ **Uzaklık Gezgini** ← gerçek matrisler 3/5 eksen (leksikal Savelyev + tipolojik WALS + coğrafi koordinat); filo/anla illüstratif (örnek rozeti durur).
+  - ✅ **Kognat Ağı** ← `cognates.json` (14 kavram, kognat boşlukları işaretli; Savelyev karşılaştırmalı transkripsiyon).
+- **METODOLOJİ (kullanıcı teyidi):** PDF'ler **doğrudan veri değil**; PDF'lerin işaret ettiği veri setlerini internetten `git clone` ile **locale çekip** (`sources/`) inceleyip `etl/` ile çıkarıyoruz. "Uydurma yok" (ör. Uzbek AES yok → null).
+- **SIRADAKİ:** (a) **Analiz/Paradigma/Üretim → canlı API** (host:8000, CORS açık) — NOT: FST kök+etiket verir, yüzey-segmentasyon değil; en doğal yer Araştırmacı Merkezi ham çıktısı / uzman modu `fstAnalysis`. (b) **filo/anla eksenleri**: yayınlanmış Savelyev/Robbeets Bayes ağacı + Lindsay anlaşılabilirlik verisi (temiz dataset değil → kaynak bul ya da literatür-temelli işaretle). (c) Kognat formlarını yerel ortografiye translit. (d) araştırmacı uçları (dışa aktarım/API doc).
+- **YATAY ÖLÇEK (tüm Türk dilleri):** veri zaten 23-32 dili kapsıyor; MVP 10 uçtan uca bitince kalan FST'leri indir + UI dil listesini aç (ucuz). "Önce dikey, sonra yatay."
+- **Önizleme:** `python -m http.server 8080` (repo kökü) → `http://127.0.0.1:8080/platform/ui/dist/index.html` (VM açık + uvicorn çalışır olmalı canlı API için). `.claude/launch.json` = Claude_Preview config.
 5. **Sona:** UniMorph/UD/Wiktionary değerlendirme + karışık‑yazı bulgusu + Çuvaşça derin vaka + paper.
 
 > Akademik katkı (gap): **Türk dilleri için çift‑kitleli (öğrenen + araştırmacı), çok‑dilli, çok‑boyutlu morfoloji + karşılaştırma + araştırma merkezi YOK** (apertium=CLI/MT, turkicnlp=dev‑kütüphane). Onu açıyoruz + karşılaştırma/uzaklık ağı + araştırmacı hub'ı + (sona) karışık‑yazı.

@@ -32,7 +32,10 @@
 - [x] **Çıkarım — WALS** → tipolojik mesafe + özellik matrisi (`distance.typological.json`, `features.wals.json`).
 - [ ] **Çıkarım — kalan:** UniMorph → paradigma · NorthEuraLex → kognat(ikincil) · UD → analiz bağlamı. Joshi/Yunusbayev makaleleri.
 - [x] **VM BACKEND CANLI:** apertium FST (10 dil) indirildi → `platform/backend/app.py` (FastAPI) host:8000'de analiz/üretim/paradigma servis ediyor. Test edildi. (`platform/backend/README.md`)
-- [ ] **UI'ya bağlama:** Analiz/Paradigma/Üretim → API (host:8000); Kognat/Harita/Uzaklık/Profil/Canlılık → `platform/data/*.json`; "⚠ örnek" rozetlerini gerçek-veri olanlarda kaldır.
+- [~] **UI'ya bağlama** (`platform/ui/build.py` → `dist/`; kaynak .dc.html elle düzenlenmez):
+  - [x] **Dil Profilleri + Canlılık** ← `profiles.json` (Glottolog AES); önizlemede doğrulandı (Şorca `EGIDS 8a · ölmekte`), "⚠ örnek" rozeti kalktı.
+  - [ ] **Analiz / Paradigma / Üretim** → canlı API (host:8000) — sıradaki.
+  - [ ] **Kognat / Harita / Uzaklık** → `cognates.json` / `languages.geo.json` / `distance.*.json`.
 - [ ] **MIMARI.md**: UI veri-sözleşmesi → API uçları + JSON şeması.
 
 ## 2) #4 GELİNCE — Mimari tasarımı (BİRLİKTE kesinleştirilecek)

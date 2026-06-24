@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: #ece7dc; font-family: 'IBM Plex Sans', system-ui, sans-serif; }
+  @keyframes kokenFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes kokenPop { 0% { opacity: 0; transform: scale(.85); } 60% { transform: scale(1.04); } 100% { opacity: 1; transform: scale(1); } }
+  ::selection { background: #d8c8a8; }
+  button:focus-visible, input:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px solid #d98b4a; outline-offset: 2px; border-radius: 5px; }
+  button { font: inherit; }
+</style>
+</helmet>
+<div style="height:100vh;overflow:hidden;display:flex;background:#f4f1ea;color:#211d17;font-family:'IBM Plex Sans',sans-serif">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside style="width:230px;flex-shrink:0;background:#211d17;color:#f4f1ea;display:flex;flex-direction:column;position:sticky;top:0;height:100vh">
+    <div style="padding:26px 24px 22px;border-bottom:1px solid rgba(244,241,234,.12)">
+      <div style="display:flex;align-items:baseline;gap:8px">
+        <span style="font-family:'Spectral',serif;font-weight:700;font-size:25px;letter-spacing:2px">KÖKEN</span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#d98b4a;display:inline-block;transform:translateY(-2px)"></span>
+      </div>
+      <div style="font-size:11px;letter-spacing:.4px;color:rgba(244,241,234,.55);margin-top:5px">Türk dilleri atlası & laboratuvarı</div>
+    </div>
+    <nav style="display:flex;flex-direction:column;padding:8px 12px 12px;gap:1px;overflow-y:auto;flex:1">
+      <sc-for list="{{ navGroups }}" as="g" hint-placeholder-count="4">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1.5px;color:rgba(244,241,234,.36);padding:15px 14px 5px">{{ g.group }}</div>
+        <sc-for list="{{ g.items }}" as="item" hint-placeholder-count="3">
+          <button onClick="{{ item.go }}" style="{{ item.style }}">
+            <span style="flex:1;text-align:left">{{ item.label }}</span>
+            <span style="{{ item.badgeStyle }}">{{ item.badge }}</span>
+          </button>
+        </sc-for>
+      </sc-for>
+    </nav>
+    <div style="padding:14px 20px 16px;border-top:1px solid rgba(244,241,234,.12)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+        <span style="font-family:'Spectral',serif;font-size:18px;font-weight:700;color:#d98b4a">{{ hubXp }}</span>
+        <span style="font-size:11px;color:rgba(244,241,234,.5)">XP · {{ hubDoneCount }}/{{ hubTotal }} ünite tamam</span>
+      </div>
+      <div style="font-size:10.5px;color:rgba(244,241,234,.34);line-height:1.6;font-family:'IBM Plex Mono',monospace">5 KOL · 14 DİL · ÇUVAŞ ÇEKİRDEK · v0.4</div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main style="flex:1;min-width:0;display:flex;flex-direction:column">
+
+    <!-- context bar -->
+    <div style="display:flex;align-items:center;gap:14px;padding:14px 34px;border-bottom:1px solid rgba(33,29,23,.1);background:#faf8f2;position:sticky;top:0;z-index:5">
+      <div style="position:relative;flex:1;max-width:520px">
+        <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Kelime ara, Enter’a bas — örn. okuduk, ormanda, kızlar…"
+          style="width:100%;padding:11px 14px 11px 38px;border:1px solid rgba(33,29,23,.16);border-radius:9px;background:#fff;font-size:14px;font-family:inherit;color:#211d17;outline:none">
+        <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#9a9082;font-size:14px">⌕</span>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+        <div style="display:flex;background:#ece7dc;border-radius:9px;padding:3px">
+          <sc-for list="{{ modeToggle }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>
+        </div>
+        <div style="display:flex;background:#ece7dc;border-radius:9px;padding:3px">
+          <sc-for list="{{ scriptToggle }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>
+        </div>
+      </div>
+    </div>
+
+    <div id="content-scroll" style="flex:1;overflow:auto">
+
+      <!-- ===================== HOME ===================== -->
+      <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <section style="max-width:1040px;margin:0 auto;padding:56px 40px 70px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:2px;color:#d98b4a;text-transform:uppercase">Türk Dilleri Atlası + Laboratuvarı</div>
+        <h1 style="font-family:'Spectral',serif;font-weight:600;font-size:52px;line-height:1.06;margin:14px 0 0;max-width:18ch">Kaybolan dilleri sök, kur, kendi dilinle karşılaştır.</h1>
+        <p style="font-size:17px;line-height:1.6;color:#5f574b;max-width:62ch;margin:20px 0 0">Çuvaşçadan başlayarak Türk dillerinin kelimelerini köküne ve eklerine ayırır; aynı anlamı diller arasında yan yana dizer, ses denkliklerini, tarihi, canlılığı ve kaynaklarıyla gösterir. Çift kitle: hem araştırmacı hem öğrenci için.</p>
+
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px">
+          <sc-for list="{{ homeCards }}" as="c" hint-placeholder-count="3">
+            <button onClick="{{ c.go }}" style="text-align:left;cursor:pointer;background:#fbfaf6;border:1px solid rgba(33,29,23,.12);border-radius:14px;padding:24px 22px 26px;display:flex;flex-direction:column;gap:10px;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-3px);box-shadow:0 10px 26px rgba(33,29,23,.1);border-color:rgba(33,29,23,.22)">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ c.hue }};letter-spacing:1px">{{ c.kicker }}</span>
+              <span style="font-family:'Spectral',serif;font-size:24px;font-weight:600">{{ c.title }}</span>
+              <span style="font-size:13.5px;line-height:1.55;color:#5f574b">{{ c.desc }}</span>
+              <span style="margin-top:auto;padding-top:8px;font-size:13px;color:{{ c.hue }};font-weight:600">{{ c.cta }} →</span>
+            </button>
+          </sc-for>
+        </div>
+
+        <div style="margin-top:46px;display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+          <span style="font-size:12.5px;color:#9a9082;font-family:'IBM Plex Mono',monospace">ÖRNEK SÖZCÜK:</span>
+          <sc-for list="{{ wordChips }}" as="w" hint-placeholder-count="3">
+            <button onClick="{{ w.goAnaliz }}" style="cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.14);border-radius:20px;padding:8px 16px;font-size:14px;font-family:'Spectral',serif;font-weight:500;color:#211d17">{{ w.surface }} <span style="color:#9a9082;font-family:'IBM Plex Sans';font-size:12px">· {{ w.gloss }}</span></button>
+          </sc-for>
+        </div>
+
+        <div style="margin-top:48px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9a9082">TÜM MODÜLLER · ATLAS + LABORATUVAR</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:10px;margin-top:14px">
+            <sc-for list="{{ homeModules }}" as="m" hint-placeholder-count="8">
+              <button onClick="{{ m.go }}" style="{{ m.style }}" style-hover="border-color:rgba(33,29,23,.28);transform:translateY(-2px)">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.5px;color:#d98b4a">{{ m.group }}</span>
+                <span style="font-family:'Spectral',serif;font-size:16px;font-weight:600;color:#211d17">{{ m.label }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </section>
+      </sc-if>
+
+      <!-- ===================== ANALIZ ===================== -->
+      <sc-if value="{{ isAnaliz }}" hint-placeholder-val="{{ true }}">
+      <section style="max-width:1100px;margin:0 auto;padding:34px 40px 70px">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">ANALİZ · {{ active.langName }}</div>
+            <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:46px;margin:8px 0 4px">{{ active.headword }}</h2>
+            <div style="font-size:15px;color:#5f574b;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+              <span><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#9a9082">[{{ active.translit }}]</span> &nbsp;“{{ active.gloss }}”</span>
+              <button onClick="{{ speakActive }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:18px;padding:5px 13px;font-size:12.5px;font-family:inherit;color:#211d17">▷ Seslendir</button>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;background:#ece7dc;padding:5px;border-radius:11px">
+            <sc-for list="{{ viewTabs }}" as="t" hint-placeholder-count="2">
+              <button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- morpheme blocks -->
+        <div style="margin-top:30px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:34px 30px">
+          <div style="display:flex;align-items:stretch;gap:10px;flex-wrap:wrap">
+            <sc-for list="{{ active.morphemes }}" as="m" hint-placeholder-count="3">
+              <button onClick="{{ m.select }}" style="{{ m.blockStyle }}">
+                <span style="font-family:'Spectral',serif;font-size:30px;font-weight:600;line-height:1">{{ m.disp }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.5px;opacity:.85;margin-top:7px">{{ m.tag }}</span>
+              </button>
+            </sc-for>
+          </div>
+
+          <!-- interlinear glossing -->
+          <div style="margin-top:26px;padding-top:22px;border-top:1px dashed rgba(33,29,23,.16)">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9a9082;letter-spacing:1px;margin-bottom:10px">SATIR ARASI ÇÖZÜMLEME (GLOSSING)</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:flex-start;font-family:'IBM Plex Mono',monospace">
+              <sc-for list="{{ active.morphemes }}" as="m" hint-placeholder-count="3">
+                <div style="display:flex;flex-direction:column;gap:3px">
+                  <span style="font-size:15px;color:#211d17;font-weight:500">{{ m.gItem }}</span>
+                  <span style="font-size:11px;color:{{ m.hue }};font-weight:600">{{ m.gloss }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <sc-if value="{{ isExpert }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:20px;padding-top:18px;border-top:1px dashed rgba(33,29,23,.16);display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9a9082;letter-spacing:1px">FST ÇÖZÜMLEMESİ</span>
+            <code style="font-family:'IBM Plex Mono',monospace;font-size:14px;color:#2f6fb0;background:#eaf1f8;padding:6px 12px;border-radius:7px">{{ fstAnalysis }}</code>
+            <span style="margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-size:11px;color:#5f574b;font-family:'IBM Plex Mono',monospace"><span style="width:8px;height:8px;border-radius:2px;background:#9abf8f"></span>{{ fstSource }} · {{ fstLicense }}</span>
+          </div>
+          </sc-if>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:20px;margin-top:20px">
+          <!-- left: tree OR strip -->
+          <sc-if value="{{ isTreeView }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:26px 28px">
+            <div style="font-family:'Spectral',serif;font-weight:600;font-size:18px;margin-bottom:4px">Katman ağacı</div>
+            <div style="font-size:13px;color:#5f574b;margin-bottom:20px">Kökten dışa, her ek bir katman ekler.</div>
+            <div style="display:flex;flex-direction:column;gap:0">
+              <sc-for list="{{ treeRows }}" as="r" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:12px;padding-left:{{ r.indent }}">
+                  <span style="width:10px;height:10px;border-radius:2px;background:{{ r.hue }};flex-shrink:0"></span>
+                  <div style="padding:9px 14px;border-radius:9px;background:{{ r.bg }};border:1px solid {{ r.border }};display:flex;align-items:baseline;gap:10px;margin:5px 0">
+                    <span style="font-family:'Spectral',serif;font-size:19px;font-weight:600;color:#211d17">{{ r.text }}</span>
+                    <span style="font-size:12px;color:#5f574b">{{ r.label }}</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ isStripView }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:26px 28px">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px">
+              <div style="font-family:'Spectral',serif;font-weight:600;font-size:18px">Ekleri soy</div>
+              <div style="display:flex;gap:6px">
+                <button onClick="{{ stripOne }}" style="cursor:pointer;border:1px solid rgba(33,29,23,.18);background:#fff;border-radius:8px;padding:6px 12px;font-size:12.5px;font-weight:600;color:#211d17">− Ek çıkar</button>
+                <button onClick="{{ stripReset }}" style="cursor:pointer;border:1px solid rgba(33,29,23,.18);background:#fff;border-radius:8px;padding:6px 12px;font-size:12.5px;color:#5f574b">↺ Geri kur</button>
+              </div>
+            </div>
+            <div style="font-size:13px;color:#5f574b;margin-bottom:22px">Eklerini soydukça kelimenin köküne inersin.</div>
+            <div style="display:flex;flex-direction:column;gap:9px">
+              <sc-for list="{{ stripRows }}" as="m" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:12px;opacity:{{ m.op }};transition:opacity .25s">
+                  <span style="font-family:'Spectral',serif;font-size:22px;font-weight:600;min-width:90px;color:{{ m.txtColor }}">{{ m.text }}</span>
+                  <span style="font-size:13px;color:#5f574b">{{ m.label }} <span style="color:#9a9082">· {{ m.gloss }}</span></span>
+                  <span style="margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:11px;color:{{ m.hue }}">{{ m.tag }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin-top:20px;padding:14px 16px;background:{{ stripRootBg }};border-radius:10px;text-align:center">
+              <span style="font-size:13px;color:#5f574b">Kalan kök: </span>
+              <span style="font-family:'Spectral',serif;font-size:22px;font-weight:700;color:#2f6fb0">{{ stripRoot }}</span>
+            </div>
+          </div>
+          </sc-if>
+
+          <!-- right: detail panel -->
+          <div style="background:#211d17;color:#f4f1ea;border-radius:16px;padding:26px 26px;display:flex;flex-direction:column">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:rgba(244,241,234,.5)">SEÇİLİ MORFEM</div>
+            <div style="font-family:'Spectral',serif;font-size:42px;font-weight:600;margin:10px 0 2px;color:{{ sel.hueLight }}">{{ sel.text }}</div>
+            <div style="display:inline-flex;align-self:flex-start;align-items:center;gap:7px;padding:5px 11px;border-radius:20px;background:rgba(244,241,234,.1);font-size:12px;margin-top:4px">
+              <span style="width:8px;height:8px;border-radius:50%;background:{{ sel.hueLight }}"></span>{{ sel.typeLabel }}
+            </div>
+            <div style="margin-top:20px;display:flex;flex-direction:column;gap:14px">
+              <div>
+                <div style="font-size:11px;color:rgba(244,241,234,.45);letter-spacing:.5px">İŞLEV</div>
+                <div style="font-size:15px;line-height:1.5;margin-top:3px">{{ sel.label }}</div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:rgba(244,241,234,.45);letter-spacing:.5px">GLOSS ETİKETİ</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:{{ sel.hueLight }};margin-top:3px">{{ sel.gloss }}</div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:rgba(244,241,234,.45);letter-spacing:.5px">NOT</div>
+                <div style="font-size:13.5px;line-height:1.55;color:rgba(244,241,234,.85);margin-top:3px">{{ sel.note }}</div>
+              </div>
+            </div>
+            <button onClick="{{ goCompareActive }}" style="margin-top:auto;cursor:pointer;background:#d98b4a;color:#211d17;border:none;border-radius:9px;padding:11px;font-size:13.5px;font-weight:600;font-family:inherit">Bu kelimeyi dillerde karşılaştır →</button>
+            <div style="margin-top:10px;display:flex;gap:8px">
+              <button onClick="{{ goParadigm }}" style="flex:1;cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:8px;padding:9px;font-size:12px;font-family:inherit">Paradigma</button>
+              <button onClick="{{ goCognate }}" style="flex:1;cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:8px;padding:9px;font-size:12px;font-family:inherit">Kognat ağı</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      </sc-if>
+
+      <!-- ===================== KARSILASTIR ===================== -->
+      <sc-if value="{{ isCompare }}" hint-placeholder-val="{{ true }}">
+      <section style="max-width:1100px;margin:0 auto;padding:34px 40px 70px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">KARŞILAŞTIR</div>
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:8px">
+          <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:0">“{{ active.gloss }}” — diller arası</h2>
+          <div style="display:flex;gap:8px;background:#ece7dc;padding:5px;border-radius:11px">
+            <sc-for list="{{ compareTabs }}" as="t" hint-placeholder-count="3">
+              <button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- TAB: dizilim -->
+        <sc-if value="{{ isCmpRows }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ compareRows }}" as="row" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:18px;background:{{ row.rowBg }};border:1px solid {{ row.rowBorder }};border-radius:13px;padding:16px 20px">
+              <div style="width:130px;flex-shrink:0">
+                <div style="font-family:'Spectral',serif;font-size:16px;font-weight:600;color:{{ row.nameColor }}">{{ row.langName }}</div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9a9082">{{ row.branch }}</div>
+              </div>
+              <div style="display:flex;gap:7px;flex-wrap:wrap;flex:1">
+                <sc-for list="{{ row.morphemes }}" as="m" hint-placeholder-count="3">
+                  <div style="{{ m.cmpStyle }}">
+                    <span style="font-family:'Spectral',serif;font-size:19px;font-weight:600">{{ m.text }}</span>
+                    <span style="font-family:'IBM Plex Mono',monospace;font-size:9.5px;opacity:.8;margin-top:3px">{{ m.tag }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;width:148px;justify-content:flex-end">
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ row.nameColor }};opacity:.7">{{ row.translit }}</span>
+                <button onClick="{{ row.speak }}" style="cursor:pointer;flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1px solid {{ row.rowBorder }};background:rgba(255,255,255,.08);color:{{ row.nameColor }};font-size:11px;display:flex;align-items:center;justify-content:center">▷</button>
+              </div>
+            </div>
+          </sc-for>
+          <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:8px;padding:0 4px">
+            <sc-for list="{{ legend }}" as="l" hint-placeholder-count="4">
+              <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:11px;height:11px;border-radius:3px;background:{{ l.hue }}"></span>{{ l.label }}</span>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- TAB: ses denklikleri -->
+        <sc-if value="{{ isCmpSound }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top:24px">
+          <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:70ch;margin:0 0 14px">Çuvaşça, Türk dil ailesinin en erken ayrılan kolu (Ogur/Bulgar). Bu yüzden düzenli ses denklikleri taşır: bir Çuvaşça sesi, ortak Türkçedeki başka bir sese karşılık gelir. Bir kartı seç, harfler eşleşsin.</p>
+          <button onClick="{{ goCognate }}" style="cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:8px 14px;font-size:13px;font-family:inherit;color:#2f6fb0;margin-bottom:18px">Bu denklikleri kognat ağında gör →</button>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+            <sc-for list="{{ soundCards }}" as="s" hint-placeholder-count="4">
+              <button onClick="{{ s.select }}" style="{{ s.cardStyle }}">
+                <div style="display:flex;align-items:center;gap:14px">
+                  <span style="font-family:'Spectral',serif;font-size:30px;font-weight:700;color:#2f6fb0">{{ s.cv }}</span>
+                  <span style="font-size:20px;color:#9a9082">↔</span>
+                  <span style="font-family:'Spectral',serif;font-size:30px;font-weight:700;color:#b86a2e">{{ s.ct }}</span>
+                  <span style="margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9a9082;letter-spacing:.5px;text-align:right">{{ s.name }}</span>
+                </div>
+                <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
+                  <sc-for list="{{ s.examples }}" as="e" hint-placeholder-count="2">
+                    <div style="display:flex;align-items:center;gap:10px;font-family:'Spectral',serif">
+                      <span style="font-size:17px;font-weight:600;color:#2f6fb0">{{ e.cv }}</span>
+                      <span style="font-size:13px;color:#9a9082;font-family:'IBM Plex Sans'">Çuv.</span>
+                      <span style="margin-left:auto;font-size:17px;font-weight:600;color:#b86a2e">{{ e.tr }}</span>
+                      <span style="font-size:13px;color:#9a9082;font-family:'IBM Plex Sans';width:54px;text-align:right">Tür.</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- TAB: soy agaci + zaman -->
+        <sc-if value="{{ isCmpTree }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top:24px;display:grid;grid-template-columns:1fr;gap:22px">
+          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:28px 30px">
+            <div style="font-family:'Spectral',serif;font-weight:600;font-size:20px;margin-bottom:18px">Soy ağacı</div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <sc-for list="{{ familyRows }}" as="f" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;gap:0;padding-left:{{ f.indent }}">
+                  <span style="width:{{ f.barW }};height:2px;background:rgba(33,29,23,.2)"></span>
+                  <div style="padding:8px 15px;border-radius:9px;background:{{ f.bg }};border:1px solid {{ f.border }};display:flex;align-items:baseline;gap:10px">
+                    <span style="font-family:'Spectral',serif;font-size:16px;font-weight:600;color:{{ f.color }}">{{ f.name }}</span>
+                    <span style="font-size:12px;color:#9a9082">{{ f.note }}</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:28px 30px">
+            <div style="font-family:'Spectral',serif;font-weight:600;font-size:20px;margin-bottom:22px">Zaman çizelgesi</div>
+            <div style="position:relative;padding-left:6px">
+              <div style="position:absolute;left:11px;top:6px;bottom:6px;width:2px;background:rgba(33,29,23,.15)"></div>
+              <sc-for list="{{ timeline }}" as="t" hint-placeholder-count="4">
+                <div style="position:relative;padding-left:32px;padding-bottom:22px">
+                  <span style="position:absolute;left:5px;top:3px;width:14px;height:14px;border-radius:50%;background:{{ t.dot }};border:2px solid #fbfaf6;box-shadow:0 0 0 1px rgba(33,29,23,.15)"></span>
+                  <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#d98b4a">{{ t.when }}</div>
+                  <div style="font-family:'Spectral',serif;font-size:17px;font-weight:600;margin:2px 0 3px">{{ t.title }}</div>
+                  <div style="font-size:13.5px;line-height:1.5;color:#5f574b;max-width:62ch">{{ t.desc }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- TAB: harita -->
+        <sc-if value="{{ isCmpMap }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top:24px">
+          <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:72ch;margin:0 0 18px">Şematik yayılım: batıdan doğuya Türk dilleri ve kolları. Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur.</p>
+          <div style="position:relative;width:100%;aspect-ratio:1000/560;background:#cdd9da;border:1px solid rgba(33,29,23,.12);border-radius:18px;overflow:hidden">
+            <svg viewBox="0 0 1000 560" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">
+              <defs>
+                <linearGradient id="seaG" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#d4dfdf"></stop>
+                  <stop offset="1" stop-color="#c2d0d1"></stop>
+                </linearGradient>
+              </defs>
+              <rect x="0" y="0" width="1000" height="560" fill="url(#seaG)"></rect>
+              <!-- graticule -->
+              <g stroke="rgba(33,29,23,.06)" stroke-width="1">
+                <line x1="200" y1="0" x2="200" y2="560"></line>
+                <line x1="400" y1="0" x2="400" y2="560"></line>
+                <line x1="600" y1="0" x2="600" y2="560"></line>
+                <line x1="800" y1="0" x2="800" y2="560"></line>
+                <line x1="0" y1="140" x2="1000" y2="140"></line>
+                <line x1="0" y1="280" x2="1000" y2="280"></line>
+                <line x1="0" y1="420" x2="1000" y2="420"></line>
+              </g>
+              <!-- Asia landmass (stylized) -->
+              <path d="M 95 70 C 80 55 130 48 175 52 C 360 38 560 30 760 34 C 870 36 960 44 980 70 C 994 120 986 180 950 212 C 906 248 906 286 872 302 C 842 314 848 346 818 362 C 804 406 774 420 763 446 C 754 472 736 472 729 449 C 721 420 701 416 696 441 C 691 476 669 500 649 505 C 629 510 623 480 629 455 C 635 426 611 416 591 431 C 560 454 546 502 501 542 C 486 554 470 549 470 528 C 470 500 452 470 458 446 C 462 420 440 416 420 421 C 395 427 388 406 378 389 C 360 361 320 361 300 351 C 250 362 236 410 216 472 C 206 507 181 517 169 502 C 157 484 176 442 186 412 C 199 374 166 362 151 367 C 121 374 111 322 121 272 C 81 212 78 130 95 70 Z" fill="#e6dfce" stroke="#cdbfa3" stroke-width="2"></path>
+              <!-- Black Sea -->
+              <ellipse cx="150" cy="232" rx="38" ry="20" fill="url(#seaG)" stroke="#bcc9ca" stroke-width="1.5"></ellipse>
+              <!-- Caspian Sea -->
+              <ellipse cx="232" cy="270" rx="20" ry="40" fill="url(#seaG)" stroke="#bcc9ca" stroke-width="1.5"></ellipse>
+            </svg>
+            <!-- region labels -->
+            <span style="position:absolute;left:7%;top:60%;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;color:#9a8f7a">ANADOLU</span>
+            <span style="position:absolute;left:30%;top:14%;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;color:#9a8f7a">İDİL-URAL</span>
+            <span style="position:absolute;left:42%;top:60%;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;color:#9a8f7a">ORTA ASYA</span>
+            <span style="position:absolute;left:72%;top:8%;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;color:#9a8f7a">SİBİRYA</span>
+            <!-- language dots -->
+            <sc-for list="{{ mapNodes }}" as="n" hint-placeholder-count="6">
+              <div style="{{ n.dotStyle }}">
+                <span style="{{ n.ball }}"></span>
+                <span style="{{ n.label }}">{{ n.name }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;padding:0 4px">
+            <sc-for list="{{ mapLegend }}" as="l" hint-placeholder-count="5">
+              <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:11px;height:11px;border-radius:50%;background:{{ l.hue }}"></span>{{ l.label }} kolu</span>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+      </section>
+      </sc-if>
+
+      <!-- ===================== OGREN ===================== -->
+      <sc-if value="{{ isLearn }}" hint-placeholder-val="{{ true }}">
+      <section style="max-width:980px;margin:0 auto;padding:34px 40px 80px">
+
+        <!-- ---------- HUB ---------- -->
+        <sc-if value="{{ learnHub }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">ÖĞREN · Çuvaşça yolculuğu</div>
+            <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:40px;margin:8px 0 6px">Kaybolan bir dili adım adım keşfet</h2>
+            <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:58ch;margin:0">Her ünite bir morfoloji kavramını öğretir, alıştırmalarla pekiştirir ve sürekli kendi dilinle karşılaştırır. Sırayla ilerle, rozetini topla.</p>
+          </div>
+          <div style="display:flex;gap:10px;flex-shrink:0">
+            <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:14px;padding:14px 18px;text-align:center;min-width:78px">
+              <div style="font-family:'Spectral',serif;font-size:26px;font-weight:700;color:#c0492f">🔥{{ streakCount }}</div>
+              <div style="font-size:11px;color:#9a9082;letter-spacing:.5px">SERİ</div>
+            </div>
+            <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:14px;padding:14px 18px;text-align:center;min-width:78px">
+              <div style="font-family:'Spectral',serif;font-size:26px;font-weight:700;color:#d98b4a">{{ hubXp }}</div>
+              <div style="font-size:11px;color:#9a9082;letter-spacing:.5px">XP</div>
+            </div>
+            <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:14px;padding:14px 18px;text-align:center;min-width:78px">
+              <div style="font-family:'Spectral',serif;font-size:26px;font-weight:700;color:#2f8a5b">{{ hubDoneCount }}<span style="font-size:15px;color:#9a9082">/{{ hubTotal }}</span></div>
+              <div style="font-size:11px;color:#9a9082;letter-spacing:.5px">ÜNİTE</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:28px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9a9082;margin-bottom:12px">ATÖLYELER</div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px">
+            <sc-for list="{{ workshops }}" as="w" hint-placeholder-count="4">
+              <button onClick="{{ w.go }}" style="{{ w.style }}">
+                <div style="display:flex;align-items:center;gap:8px"><span style="font-family:'Spectral',serif;font-size:16px;font-weight:600;flex:1">{{ w.label }}</span><span style="{{ w.badgeStyle }}">{{ w.badge }}</span></div>
+                <div style="{{ w.subStyle }}">{{ w.sub }}</div>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:26px">
+          <button onClick="{{ startFlash }}" style="cursor:pointer;text-align:left;background:#211d17;color:#f4f1ea;border:none;border-radius:16px;padding:20px 24px;display:flex;align-items:center;gap:18px;font-family:inherit">
+            <span style="font-size:30px">🃏</span>
+            <span style="flex:1">
+              <span style="display:block;font-family:'Spectral',serif;font-size:20px;font-weight:600">Tekrar Kartları</span>
+              <span style="display:block;font-size:13px;color:rgba(244,241,234,.6);margin-top:2px">Aralıklı tekrar (SRS) · {{ dueCount }} kart · {{ masteredCount }} öğrenildi</span>
+            </span>
+            <span style="font-size:18px;color:#d98b4a">→</span>
+          </button>
+          <button onClick="{{ startReview }}" style="{{ weakCardStyle }}">
+            <span style="font-size:30px">🎯</span>
+            <span style="flex:1">
+              <span style="display:block;font-family:'Spectral',serif;font-size:20px;font-weight:600;color:#211d17">Zayıf Noktalar</span>
+              <span style="display:block;font-size:13px;color:#5f574b;margin-top:2px">{{ weakSub }}</span>
+            </span>
+            <span style="font-size:18px;color:#d98b4a;opacity:{{ weakArrowOpacity }}">→</span>
+          </button>
+        </div>
+
+        <div style="margin-top:22px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:20px 24px">
+          <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:1px;color:#9a9082;margin-bottom:14px">ROZETLER</div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap">
+            <sc-for list="{{ badges }}" as="b" hint-placeholder-count="5">
+              <div style="{{ b.style }}" title="{{ b.desc }}">
+                <span style="{{ b.iconStyle }}">{{ b.icon }}</span>
+                <span style="font-size:11.5px;font-weight:600;color:#211d17;line-height:1.2">{{ b.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="margin-top:22px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9a9082;margin-bottom:12px">DİĞER ÇALIŞMA YORDAMLARI <span style="color:#b86a2e">· yakında</span></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px">
+            <sc-for list="{{ extraModes }}" as="m" hint-placeholder-count="4">
+              <div style="background:#fbfaf6;border:1px dashed rgba(33,29,23,.18);border-radius:13px;padding:14px 16px;opacity:.72">
+                <div style="display:flex;align-items:center;gap:9px"><span style="font-size:20px">{{ m.icon }}</span><span style="font-family:'Spectral',serif;font-size:15px;font-weight:600">{{ m.label }}</span></div>
+                <div style="font-size:12px;color:#9a9082;margin-top:5px">{{ m.desc }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9a9082;margin:32px 0 -4px">ÜNİTELER</div>
+        <div style="margin-top:18px;position:relative">
+          <div style="position:absolute;left:27px;top:20px;bottom:20px;width:2px;background:rgba(33,29,23,.12)"></div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <sc-for list="{{ lessonCards }}" as="l" hint-placeholder-count="5">
+              <button onClick="{{ l.go }}" style="{{ l.cardStyle }}">
+                <span style="{{ l.badgeStyle }}">{{ l.badge }}</span>
+                <span style="flex:1;text-align:left">
+                  <span style="display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:{{ l.hue }}">ÜNİTE {{ l.num }} · {{ l.exCount }} ADIM</span>
+                  <span style="display:block;font-family:'Spectral',serif;font-size:21px;font-weight:600;margin:3px 0 2px;color:#211d17">{{ l.title }}</span>
+                  <span style="display:block;font-size:13.5px;color:#5f574b;line-height:1.5">{{ l.desc }}</span>
+                </span>
+                <span style="{{ l.statusStyle }}">{{ l.status }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- ---------- LESSON RUNNER ---------- -->
+        <sc-if value="{{ learnLesson }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:16px">
+          <button onClick="{{ exitLesson }}" style="cursor:pointer;background:#fbfaf6;border:1px solid rgba(33,29,23,.14);border-radius:9px;padding:9px 14px;font-size:13px;font-family:inherit;color:#5f574b">← Yol</button>
+          <div style="flex:1;height:10px;background:#e6e0d3;border-radius:6px;overflow:hidden">
+            <div style="height:100%;width:{{ progPct }};background:linear-gradient(90deg,#d98b4a,#2f8a5b);border-radius:6px;transition:width .35s"></div>
+          </div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#9a9082;white-space:nowrap">{{ exCounter }}</div>
+        </div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#d98b4a;margin-top:18px">{{ curLessonTitle }}</div>
+
+        <!-- INFO -->
+        <sc-if value="{{ exInfo }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top:12px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:18px;padding:34px 34px;animation:kokenFade .3s ease both">
+          <div style="display:inline-flex;align-items:center;gap:8px;background:{{ info.tagBg }};color:{{ info.tagColor }};border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px">{{ info.tag }}</div>
+          <h3 style="font-family:'Spectral',serif;font-size:28px;font-weight:600;margin:16px 0 12px">{{ info.title }}</h3>
+          <p style="font-size:16px;line-height:1.7;color:#3f3a32;max-width:64ch;margin:0">{{ info.body }}</p>
+          <div style="margin-top:24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:#fff;border:1px solid rgba(33,29,23,.1);border-radius:13px;padding:18px 22px">
+            <div style="text-align:center">
+              <div style="font-size:11px;color:#9a9082;letter-spacing:.5px;margin-bottom:4px">ÇUVAŞÇA</div>
+              <div style="font-family:'Spectral',serif;font-size:26px;font-weight:700;color:#2f6fb0">{{ info.exCv }}</div>
+            </div>
+            <span style="font-size:22px;color:#cbbfa8">→</span>
+            <div style="text-align:center">
+              <div style="font-size:11px;color:#9a9082;letter-spacing:.5px;margin-bottom:4px">TÜRKÇE</div>
+              <div style="font-family:'Spectral',serif;font-size:26px;font-weight:700;color:#b86a2e">{{ info.exTr }}</div>
+            </div>
+            <div style="font-size:13.5px;color:#5f574b;line-height:1.55;flex:1;min-width:180px">{{ info.exNote }}</div>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- CHOICE -->
+        <sc-if value="{{ exChoice }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:12px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:18px;padding:32px 34px;animation:kokenFade .3s ease both">
+          <div style="font-size:13px;color:#9a9082;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px">ÇOKTAN SEÇMELİ</div>
+          <h3 style="font-family:'Spectral',serif;font-size:24px;font-weight:600;margin:8px 0 22px;line-height:1.3">{{ choiceQ }}</h3>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ choiceOptions }}" as="o" hint-placeholder-count="4">
+              <button onClick="{{ o.pick }}" style="{{ o.style }}">
+                <span style="font-family:'Spectral',serif;font-size:19px;font-weight:600">{{ o.text }}</span>
+                <span style="font-size:13px;color:#9a9082;margin-left:10px">{{ o.sub }}</span>
+                <span style="margin-left:auto;font-size:16px">{{ o.mark }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- BUILD -->
+        <sc-if value="{{ exBuild }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:12px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:18px;padding:32px 34px;animation:kokenFade .3s ease both">
+          <div style="font-size:13px;color:#9a9082;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px">KELİMEYİ KUR</div>
+          <h3 style="font-family:'Spectral',serif;font-size:24px;font-weight:600;margin:8px 0 4px">Türkçe “<span style="color:#b86a2e">{{ build.tr }}</span>” → Çuvaşça</h3>
+          <div style="font-size:13.5px;color:#5f574b">İpucu: {{ build.hint }}</div>
+          <div style="margin-top:22px;display:flex;align-items:center;gap:10px;min-height:74px;flex-wrap:wrap;border-bottom:2px dashed rgba(33,29,23,.14);padding-bottom:18px">
+            <sc-for list="{{ buildSlots }}" as="b" hint-placeholder-count="3">
+              <button onClick="{{ b.remove }}" style="{{ b.slotStyle }}">
+                <span style="font-family:'Spectral',serif;font-size:24px;font-weight:600;line-height:1">{{ b.text }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;opacity:.8;margin-top:5px">{{ b.tag }}</span>
+              </button>
+              <span style="font-size:20px;color:#cbbfa8">{{ b.plus }}</span>
+            </sc-for>
+            <sc-if value="{{ buildEmpty }}" hint-placeholder-val="{{ true }}">
+              <span style="font-size:14px;color:#9a9082;font-style:italic">Aşağıdan parçaları sırayla seç… (kaldırmak için üstüne dokun)</span>
+            </sc-if>
+          </div>
+          <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+            <sc-for list="{{ choices }}" as="c" hint-placeholder-count="4">
+              <button onClick="{{ c.pick }}" style="{{ c.style }}">
+                <span style="font-family:'Spectral',serif;font-size:19px;font-weight:600">{{ c.text }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;opacity:.75;margin-top:3px">{{ c.tag }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- MATCH -->
+        <sc-if value="{{ exMatch }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:12px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:18px;padding:32px 34px;animation:kokenFade .3s ease both">
+          <div style="font-size:13px;color:#9a9082;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px">EŞLEŞTİR · {{ match.rule }}</div>
+          <h3 style="font-family:'Spectral',serif;font-size:24px;font-weight:600;margin:8px 0 22px">{{ match.q }}</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 26px">
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="font-size:11px;color:#2f6fb0;font-weight:600;letter-spacing:.5px">ÇUVAŞÇA</div>
+              <sc-for list="{{ matchLeft }}" as="m" hint-placeholder-count="3">
+                <button onClick="{{ m.pick }}" style="{{ m.style }}">{{ m.text }} <span style="margin-left:auto;font-size:14px">{{ m.mark }}</span></button>
+              </sc-for>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="font-size:11px;color:#b86a2e;font-weight:600;letter-spacing:.5px">TÜRKÇE</div>
+              <sc-for list="{{ matchRight }}" as="m" hint-placeholder-count="3">
+                <button onClick="{{ m.pick }}" style="{{ m.style }}">{{ m.text }} <span style="margin-left:auto;font-size:14px">{{ m.mark }}</span></button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- explanation + footer -->
+        <sc-if value="{{ exExplainShow }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:14px;background:{{ explainBg }};border:1px solid {{ explainBorder }};border-radius:14px;padding:18px 22px;animation:kokenPop .3s ease both;display:flex;gap:14px;align-items:flex-start">
+          <span style="font-size:20px">{{ explainIcon }}</span>
+          <div style="font-size:14px;line-height:1.6;color:#3f3a32">{{ exExplain }}</div>
+        </div>
+        </sc-if>
+
+        <div style="margin-top:20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <sc-if value="{{ showCheck }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ onCheck }}" style="cursor:pointer;background:#211d17;color:#f4f1ea;border:none;border-radius:11px;padding:13px 26px;font-size:14.5px;font-weight:600;font-family:inherit;opacity:{{ checkOpacity }}">Kontrol et</button>
+          </sc-if>
+          <sc-if value="{{ showContinue }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ onContinue }}" style="cursor:pointer;background:#2f8a5b;color:#fff;border:none;border-radius:11px;padding:13px 30px;font-size:14.5px;font-weight:600;font-family:inherit">{{ continueLabel }} →</button>
+          </sc-if>
+          <span style="{{ footerFeedbackStyle }}">{{ footerFeedback }}</span>
+        </div>
+        </sc-if>
+
+        <!-- ---------- DONE ---------- -->
+        <sc-if value="{{ learnDone }}" hint-placeholder-val="{{ false }}">
+        <div style="text-align:center;padding:50px 30px;animation:kokenPop .4s ease both">
+          <div style="font-size:60px">🏅</div>
+          <h2 style="font-family:'Spectral',serif;font-weight:700;font-size:36px;margin:16px 0 8px">Ünite tamam!</h2>
+          <p style="font-size:16px;color:#5f574b;margin:0 0 4px">{{ doneTitle }}</p>
+          <div style="display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:20px;padding:10px 20px">
+            <span style="font-size:14px;color:#5f574b">Kazandığın</span>
+            <span style="font-family:'Spectral',serif;font-size:22px;font-weight:700;color:#d98b4a">+{{ doneXp }} XP</span>
+          </div>
+          <div style="margin-top:30px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+            <button onClick="{{ backToHub }}" style="cursor:pointer;background:#211d17;color:#f4f1ea;border:none;border-radius:11px;padding:13px 26px;font-size:14px;font-weight:600;font-family:inherit">Öğrenme yoluna dön</button>
+            <sc-if value="{{ hasNextLesson }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ goNextLesson }}" style="cursor:pointer;background:#2f8a5b;color:#fff;border:none;border-radius:11px;padding:13px 26px;font-size:14px;font-weight:600;font-family:inherit">Sıradaki ünite →</button>
+            </sc-if>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- ---------- FLASHCARDS (SRS) ---------- -->
+        <sc-if value="{{ learnFlash }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ flashDone }}" hint-placeholder-val="{{ false }}">
+        <div style="text-align:center;padding:50px 30px;animation:kokenPop .4s ease both">
+          <div style="font-size:56px">🃏</div>
+          <h2 style="font-family:'Spectral',serif;font-weight:700;font-size:34px;margin:14px 0 8px">Tur tamam!</h2>
+          <p style="font-size:15px;color:#5f574b;margin:0">Bildiğin: <strong style="color:#2f8a5b">{{ flashKnowN }}</strong> · Tekrar: <strong style="color:#c0492f">{{ flashAgainN }}</strong></p>
+          <div style="margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+            <button onClick="{{ flashExit }}" style="cursor:pointer;background:#211d17;color:#f4f1ea;border:none;border-radius:11px;padding:13px 26px;font-size:14px;font-weight:600;font-family:inherit">Öğrenme yoluna dön</button>
+            <button onClick="{{ flashRestart }}" style="cursor:pointer;background:#2f8a5b;color:#fff;border:none;border-radius:11px;padding:13px 26px;font-size:14px;font-weight:600;font-family:inherit">Yeni tur →</button>
+          </div>
+        </div>
+        </sc-if>
+        <sc-if value="{{ flashActive }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;gap:16px">
+          <button onClick="{{ flashExit }}" style="cursor:pointer;background:#fbfaf6;border:1px solid rgba(33,29,23,.14);border-radius:9px;padding:9px 14px;font-size:13px;font-family:inherit;color:#5f574b">← Çık</button>
+          <div style="flex:1;height:10px;background:#e6e0d3;border-radius:6px;overflow:hidden"><div style="height:100%;width:{{ flashPct }};background:linear-gradient(90deg,#d98b4a,#2f8a5b);border-radius:6px;transition:width .3s"></div></div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#9a9082;white-space:nowrap">{{ flashProg }}</div>
+        </div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#d98b4a;margin-top:18px">TEKRAR KARTI · Çuvaşça → Türkçe</div>
+        <button onClick="{{ flashFlip }}" style="cursor:pointer;width:100%;margin-top:12px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:20px;padding:60px 30px;display:flex;flex-direction:column;align-items:center;gap:14px;font-family:inherit;min-height:280px;justify-content:center">
+          <span style="font-family:'Spectral',serif;font-size:54px;font-weight:700;color:#211d17">{{ flashFront }}</span>
+          <sc-if value="{{ flashFlipped }}" hint-placeholder-val="{{ false }}">
+            <span style="display:flex;flex-direction:column;align-items:center;gap:8px;animation:kokenFade .25s ease both">
+              <span style="width:60px;height:1px;background:rgba(33,29,23,.16)"></span>
+              <span style="font-family:'Spectral',serif;font-size:34px;font-weight:600;color:#b86a2e">{{ flashBack }}</span>
+              <span style="font-size:12px;font-family:'IBM Plex Mono',monospace;color:#9a9082">[{{ flashLat }}] · denklik: {{ flashRule }}</span>
+            </span>
+          </sc-if>
+          <sc-if value="{{ flashUnflipped }}" hint-placeholder-val="{{ true }}">
+            <span style="font-size:13px;color:#9a9082;font-style:italic">Çevirmek için dokun</span>
+          </sc-if>
+        </button>
+        <sc-if value="{{ flashFlipped }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:16px;display:flex;gap:12px">
+          <button onClick="{{ flashAgainBtn }}" style="flex:1;cursor:pointer;background:#fff;border:1.5px solid #c0492f;color:#c0492f;border-radius:12px;padding:15px;font-size:15px;font-weight:600;font-family:inherit">↻ Tekrar göster</button>
+          <button onClick="{{ flashKnow }}" style="flex:1;cursor:pointer;background:#2f8a5b;border:none;color:#fff;border-radius:12px;padding:15px;font-size:15px;font-weight:600;font-family:inherit">✓ Biliyorum</button>
+        </div>
+        </sc-if>
+        </sc-if>
+        </sc-if>
+
+      </section>
+      </sc-if>
+
+      <!-- ===================== UZAKLIK GEZGİNİ ===================== -->
+      <sc-if value="{{ isDistance }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:1100px;margin:0 auto;padding:34px 40px 70px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">UZAKLIK GEZGİNİ</div>
+        <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 6px">{{ distBaseName }} ↔ <span style="color:{{ distBranchColor }}">{{ distTargetName }}</span></h2>
+        <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:66ch;margin:0">Akrabalık tek bir sayı değildir. Aynı iki dil, hangi ekseni sorduğunuza göre yakın da olur uzak da. Bir dil seçin; soy, kelime, anlaşılabilirlik, dilbilgisi ve coğrafyayı birlikte okuyun.</p>
+        <div style="display:grid;grid-template-columns:230px 1fr;gap:24px;margin-top:26px">
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <div style="font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;margin-bottom:3px">TABAN DİL</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">
+              <sc-for list="{{ distLangOptions }}" as="o" hint-placeholder-count="9"><button onClick="{{ o.go }}" style="{{ o.style }}">{{ o.name }}</button></sc-for>
+            </div>
+            <div style="font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;margin-bottom:3px">KARŞILAŞTIRILAN DİL</div>
+            <sc-for list="{{ distLangs }}" as="l" hint-placeholder-count="5">
+              <button onClick="{{ l.go }}" style="{{ l.style }}"><span style="{{ l.dot }}"></span>{{ l.name }}<span style="{{ l.branchStyle }}">{{ l.branch }}</span></button>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+            <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:14px;display:flex;align-items:center;justify-content:center">
+              <svg viewBox="0 0 360 330" style="width:100%;height:auto">
+                <sc-for list="{{ radarRings }}" as="r"><polygon points="{{ r.points }}" fill="none" stroke="rgba(33,29,23,.1)" stroke-width="1"></polygon></sc-for>
+                <sc-for list="{{ radarSpokes }}" as="s"><line x1="180" y1="165" x2="{{ s.x2 }}" y2="{{ s.y2 }}" stroke="rgba(33,29,23,.12)" stroke-width="1"></line></sc-for>
+                <polygon points="{{ radarPoly }}" fill="rgba(217,139,74,.22)" stroke="#d98b4a" stroke-width="2"></polygon>
+                <sc-for list="{{ radarDots }}" as="d"><circle cx="{{ d.x }}" cy="{{ d.y }}" r="3.5" fill="#d98b4a"></circle></sc-for>
+                <sc-for list="{{ radarLabels }}" as="l"><text x="{{ l.x }}" y="{{ l.y }}" text-anchor="{{ l.anchor }}" font-family="IBM Plex Sans, sans-serif" font-size="11" font-weight="600" fill="#211d17">{{ l.label }}</text></sc-for>
+              </svg>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px;justify-content:center">
+              <sc-for list="{{ distRows }}" as="d" hint-placeholder-count="5">
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span style="color:#3f3a32">{{ d.label }}</span><span style="font-family:'IBM Plex Mono',monospace;color:#9a9082">{{ d.val }}</span></div>
+                  <div style="height:8px;background:#ece7dc;border-radius:5px;overflow:hidden"><div style="height:100%;width:{{ d.barW }};background:{{ d.hue }};border-radius:5px"></div></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:20px;background:#211d17;color:#f4f1ea;border-radius:14px;padding:20px 24px;display:flex;gap:14px;align-items:flex-start">
+          <span style="font-size:20px">◎</span>
+          <div><div style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:1px;color:rgba(244,241,234,.5);margin-bottom:6px">OKUMA</div><div style="font-size:14.5px;line-height:1.6">{{ distNarr }}</div></div>
+        </div>
+        <div style="margin-top:14px;display:inline-flex;align-items:center;gap:8px;font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace"><span style="width:8px;height:8px;border-radius:2px;background:#cbbfa8"></span>Kaynak: SavelyevTurkic CLDF · NorthEuraLex — örnek/illüstratif değerler</div>
+      </section>
+      </sc-if>
+
+      <!-- ===================== PARADİGMA GEZGİNİ ===================== -->
+      <sc-if value="{{ isParadigm }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:1040px;margin:0 auto;padding:34px 40px 70px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">PARADİGMA GEZGİNİ · Çuvaşça</div>
+        <div style="display:flex;align-items:baseline;gap:14px;margin:8px 0 2px;flex-wrap:wrap">
+          <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:42px;margin:0">{{ paradigmTitle }}</h2>
+          <span style="font-size:18px;color:#5f574b">{{ paradigmGloss }}</span>
+        </div>
+        <div style="font-size:14px;color:#5f574b">{{ paradigmSub }}</div>
+        <sc-if value="{{ isExpert }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:14px;display:flex;align-items:center;gap:12px;background:#15120e;color:#f4f1ea;border-radius:11px;padding:11px 16px;flex-wrap:wrap">
+          <span style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#9abf8f">UZMAN MODU</span>
+          <span style="font-size:12.5px;color:rgba(244,241,234,.8)">Ham morfolojik etiketler ve kaynak künyeleri görünür.</span>
+          <button onClick="{{ goResearch }}" style="margin-left:auto;cursor:pointer;background:#2f6fb0;color:#fff;border:none;border-radius:8px;padding:7px 13px;font-size:12px;font-family:inherit">⬇ Dışa aktar</button>
+        </div>
+        </sc-if>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px">
+          <sc-for list="{{ paradigmRoots }}" as="r" hint-placeholder-count="3">
+            <button onClick="{{ r.go }}" style="{{ r.style }}"><span style="font-family:'Spectral',serif;font-size:17px;font-weight:700">{{ r.label }}</span><span style="{{ r.glossStyle }}">{{ r.gloss }} · {{ r.kind }}</span></button>
+          </sc-for>
+        </div>
+        <div style="margin-top:22px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">
+          <sc-if value="{{ paradigmIsNoun }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;grid-template-columns:150px 1fr 1fr;background:#211d17;color:#f4f1ea;font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px">
+            <div style="padding:11px 22px">HÂL</div><div style="padding:11px 16px">TEKİL</div><div style="padding:11px 16px">ÇOĞUL</div>
+          </div>
+          <sc-for list="{{ paradigmRows }}" as="row" hint-placeholder-count="6">
+            <div style="display:grid;grid-template-columns:150px 1fr 1fr;border-bottom:1px solid rgba(33,29,23,.07);align-items:center">
+              <div style="padding:13px 22px;font-size:13.5px;color:#211d17">{{ row.caseLabel }}</div>
+              <div style="padding:11px 16px">
+                <div style="display:flex;gap:3px;align-items:center;flex-wrap:wrap"><sc-for list="{{ row.sg }}" as="m"><span style="display:inline-flex;padding:6px 11px;border-radius:8px;background:{{ m.bg }};border:1px solid {{ m.border }};color:{{ m.hue }};font-family:'Spectral',serif;font-size:18px;font-weight:600">{{ m.text }}</span></sc-for></div>
+                <div style="font-size:12px;color:#9a9082;font-style:italic;margin-top:4px">{{ row.trSg }}</div>
+              </div>
+              <div style="padding:11px 16px">
+                <div style="display:flex;gap:3px;align-items:center;flex-wrap:wrap"><sc-for list="{{ row.pl }}" as="m"><span style="display:inline-flex;padding:6px 11px;border-radius:8px;background:{{ m.bg }};border:1px solid {{ m.border }};color:{{ m.hue }};font-family:'Spectral',serif;font-size:18px;font-weight:600">{{ m.text }}</span></sc-for></div>
+                <div style="font-size:12px;color:#9a9082;font-style:italic;margin-top:4px">{{ row.trPl }}</div>
+              </div>
+            </div>
+          </sc-for>
+          </sc-if>
+          <sc-if value="{{ paradigmIsVerb }}" hint-placeholder-val="{{ false }}">
+          <div style="display:grid;grid-template-columns:150px 1fr;background:#211d17;color:#f4f1ea;font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px">
+            <div style="padding:11px 22px">ŞAHIS</div><div style="padding:11px 16px">ÇEKİM</div>
+          </div>
+          <sc-for list="{{ paradigmRows }}" as="row" hint-placeholder-count="6">
+            <div style="display:grid;grid-template-columns:150px 1fr;border-bottom:1px solid rgba(33,29,23,.07);align-items:center">
+              <div style="padding:13px 22px;font-size:13.5px;color:#211d17">{{ row.caseLabel }}</div>
+              <div style="padding:11px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                <div style="display:flex;gap:3px;align-items:center;flex-wrap:wrap"><sc-for list="{{ row.sg }}" as="m"><span style="display:inline-flex;padding:6px 11px;border-radius:8px;background:{{ m.bg }};border:1px solid {{ m.border }};color:{{ m.hue }};font-family:'Spectral',serif;font-size:18px;font-weight:600">{{ m.text }}</span></sc-for></div>
+                <span style="font-size:13px;color:#9a9082;font-style:italic">{{ row.trSg }}</span>
+              </div>
+            </div>
+          </sc-for>
+          </sc-if>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:16px;flex-wrap:wrap"><sc-for list="{{ legend }}" as="l" hint-placeholder-count="4"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#5f574b"><span style="width:10px;height:10px;border-radius:3px;background:{{ l.hue }}"></span>{{ l.label }}</span></sc-for></div>
+      </section>
+      </sc-if>
+
+      <!-- ===================== KOGNAT AĞI ===================== -->
+      <sc-if value="{{ isCognate }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:1040px;margin:0 auto;padding:34px 40px 70px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">KOGNAT AĞI</div>
+        <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 6px">“{{ cognateGloss }}” kökteşleri</h2>
+        <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:64ch;margin:0 0 12px">Ortak bir atadan gelen biçimler. Turuncu kesik çizgi, o dilde düzenli bir <strong>ses değişimi</strong> olduğunu gösterir — kök aynı, görünüş farklı.</p>
+        <sc-if value="{{ isExpert }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-bottom:14px;display:flex;align-items:center;gap:12px;background:#15120e;color:#f4f1ea;border-radius:11px;padding:11px 16px;flex-wrap:wrap">
+          <span style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#9abf8f">UZMAN MODU</span>
+          <span style="font-size:12.5px;color:rgba(244,241,234,.8)">Kognat seti makine-okunur biçimde alınabilir.</span>
+          <button onClick="{{ goResearch }}" style="margin-left:auto;cursor:pointer;background:#2f6fb0;color:#fff;border:none;border-radius:8px;padding:7px 13px;font-size:12px;font-family:inherit">⬇ Dışa aktar</button>
+        </div>
+        </sc-if>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <sc-for list="{{ cognateKeys }}" as="k" hint-placeholder-count="3"><button onClick="{{ k.go }}" style="{{ k.style }}">{{ k.label }}</button></sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 290px;gap:24px;margin-top:22px;align-items:center">
+          <div style="position:relative;width:100%;max-width:460px;aspect-ratio:1/1;margin:0 auto">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">
+              <sc-for list="{{ cognateNodes }}" as="n"><line x1="50" y1="50" x2="{{ n.xp }}" y2="{{ n.yp }}" stroke="{{ n.edgeStroke }}" stroke-width="{{ n.edgeWidth }}" stroke-dasharray="{{ n.edgeDash }}" vector-effect="non-scaling-stroke"></line></sc-for>
+            </svg>
+            <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#d98b4a;color:#211d17;border-radius:50%;width:88px;height:88px;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3;box-shadow:0 4px 16px rgba(217,139,74,.4)">
+              <span style="font-size:9px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px">ANA TÜRKÇE</span>
+              <span style="font-family:'Spectral',serif;font-size:19px;font-weight:700">{{ cognateProto }}</span>
+            </div>
+            <sc-for list="{{ cognateNodes }}" as="n">
+              <div style="{{ n.nodeStyle }}"><span style="{{ n.wordStyle }}">{{ n.word }}</span><span style="{{ n.langStyle }}">{{ n.lang }}</span></div>
+            </sc-for>
+          </div>
+          <div style="background:#211d17;color:#f4f1ea;border-radius:16px;padding:24px">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:rgba(244,241,234,.5)">SES NOTU</div>
+            <div style="font-size:14.5px;line-height:1.6;margin-top:10px">{{ cognateNote }}</div>
+            <div style="margin-top:18px;padding-top:16px;border-top:1px solid rgba(244,241,234,.14);display:flex;flex-direction:column;gap:9px">
+              <span style="display:inline-flex;align-items:center;gap:9px;font-size:12.5px"><span style="width:22px;height:0;border-top:2px solid #d98b4a"></span>düzenli ses değişimi</span>
+              <span style="display:inline-flex;align-items:center;gap:9px;font-size:12.5px"><span style="width:22px;height:0;border-top:1.5px solid rgba(244,241,234,.4)"></span>doğrudan kökteş</span>
+            </div>
+            <button onClick="{{ goCompareSound }}" style="margin-top:18px;cursor:pointer;width:100%;background:#d98b4a;color:#211d17;border:none;border-radius:9px;padding:10px;font-size:13px;font-weight:600;font-family:inherit">Ses denkliklerinde incele →</button>
+            <div style="margin-top:14px;font-size:11px;color:rgba(244,241,234,.4);font-family:'IBM Plex Mono',monospace">Kaynak: SavelyevTurkic CLDF · CC BY 4.0</div>
+          </div>
+        </div>
+      </section>
+      </sc-if>
+
+      <!-- ===================== DİL PROFİLLERİ + CANLILIK ===================== -->
+      <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:1120px;margin:0 auto;padding:34px 40px 70px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">DİL PROFİLLERİ · CANLILIK ISI-HARİTASI</div>
+        <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 6px">14 dil · soldan kenar rengi = canlılık</h2>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:6px"><sc-for list="{{ vitLegend }}" as="l" hint-placeholder-count="4"><span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:11px;height:11px;border-radius:3px;background:{{ l.c }}"></span>{{ l.l }}</span></sc-for></div>
+        <div style="display:grid;grid-template-columns:310px 1fr;gap:24px;margin-top:22px;align-items:start">
+          <div style="display:flex;flex-direction:column;gap:8px;max-height:600px;overflow:auto;padding-right:4px">
+            <sc-for list="{{ profileCards }}" as="c" hint-placeholder-count="6">
+              <button onClick="{{ c.go }}" style="{{ c.style }}">
+                <div style="display:flex;align-items:center;gap:8px"><span style="{{ c.nameStyle }}">{{ c.name }}</span><span style="{{ c.dotStyle }}"></span></div>
+                <div style="{{ c.metaStyle }}">{{ c.branch }} · {{ c.speakers }}</div>
+              </button>
+            </sc-for>
+          </div>
+          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:18px;padding:30px 32px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
+              <div>
+                <div style="display:inline-flex;align-items:center;gap:8px;background:{{ profileSel.branchColor }};color:#fff;border-radius:16px;padding:4px 12px;font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px">{{ profileSel.branch }} kolu</div>
+                <h3 style="font-family:'Spectral',serif;font-size:34px;font-weight:600;margin:12px 0 2px">{{ profileSel.name }}</h3>
+                <div style="font-size:14px;color:#5f574b">{{ profileSel.region }}</div>
+              </div>
+              <div style="text-align:right">
+                <div style="display:inline-flex;align-items:center;gap:7px;border:1.5px solid {{ profileSel.vc }};color:{{ profileSel.vc }};border-radius:10px;padding:8px 14px;font-size:13px;font-weight:600"><span style="width:9px;height:9px;border-radius:50%;background:{{ profileSel.vc }}"></span>EGIDS {{ profileSel.egids }}</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px">
+              <div style="background:#fff;border:1px solid rgba(33,29,23,.08);border-radius:11px;padding:14px 16px"><div style="font-size:11px;color:#9a9082;letter-spacing:.5px">KONUŞUR</div><div style="font-family:'Spectral',serif;font-size:18px;font-weight:600;margin-top:3px">{{ profileSel.speakers }}</div></div>
+              <div style="background:#fff;border:1px solid rgba(33,29,23,.08);border-radius:11px;padding:14px 16px"><div style="font-size:11px;color:#9a9082;letter-spacing:.5px">YAZI</div><div style="font-family:'Spectral',serif;font-size:18px;font-weight:600;margin-top:3px">{{ profileSel.script }}</div></div>
+              <div style="background:#fff;border:1px solid rgba(33,29,23,.08);border-radius:11px;padding:14px 16px"><div style="font-size:11px;color:#9a9082;letter-spacing:.5px">KOL</div><div style="font-family:'Spectral',serif;font-size:18px;font-weight:600;margin-top:3px">{{ profileSel.branch }}</div></div>
+            </div>
+            <p style="font-size:15px;line-height:1.7;color:#3f3a32;margin:22px 0 0">{{ profileSel.note }}</p>
+          </div>
+        </div>
+      </section>
+      </sc-if>
+
+      <!-- ===================== ARAŞTIRMACI MERKEZİ ===================== -->
+      <sc-if value="{{ isResearch }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:1040px;margin:0 auto;padding:34px 40px 70px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">ARAŞTIRMACI MERKEZİ</div>
+        <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 6px">Birleşik sorgu · dışa aktarım · API</h2>
+        <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:66ch;margin:0 0 16px">Bir sözcük seç; çözümlemeyi makine-okunur biçimlerde al. Her kayıt kaynak + lisans alanlıdır; sonuç alıntılanabilir kalıcı bir bağlantı üretir.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <sc-for list="{{ researchWords }}" as="w" hint-placeholder-count="4"><button onClick="{{ w.go }}" style="{{ w.style }}">{{ w.surface }} <span style="font-size:11px;opacity:.6;font-family:'IBM Plex Sans'">{{ w.gloss }}</span></button></sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 300px;gap:20px;margin-top:22px;align-items:start">
+          <div style="background:#15120e;border-radius:16px;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:6px;padding:10px 14px;background:#0e0c09;border-bottom:1px solid rgba(244,241,234,.08)">
+              <div style="display:flex;gap:2px;background:rgba(244,241,234,.06);border-radius:8px;padding:3px"><sc-for list="{{ researchFmtTabs }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.label }}</button></sc-for></div>
+              <button onClick="{{ copyResearch }}" style="margin-left:auto;cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:7px;padding:7px 13px;font-size:12px;font-family:inherit">⧉ Kopyala</button>
+            </div>
+            <pre style="margin:0;padding:20px 22px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.6;color:#cfe3d6;overflow:auto;white-space:pre-wrap;word-break:break-word">{{ researchCode }}</pre>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:14px;padding:20px">
+              <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px">AÇIK API</div>
+              <code style="display:block;margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2f6fb0;background:#eaf1f8;padding:10px 12px;border-radius:8px;word-break:break-all">{{ researchApiUrl }}</code>
+              <div style="font-size:12.5px;color:#5f574b;margin-top:10px;line-height:1.5">REST uç noktası; programatik erişim baştan tasarıma dahil.</div>
+            </div>
+            <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:14px;padding:20px;font-size:13px;color:#3f3a32;line-height:1.7">
+              <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px;margin-bottom:8px">ÖZELLİKLER</div>
+              • Toplu analiz / üretim<br>• CSV · JSON · CoNLL-U dışa aktarım<br>• Lisans şeffaflığı (her satır)<br>• Alıntılanabilir kalıcı bağlantı
+            </div>
+          </div>
+        </div>
+      </section>
+      </sc-if>
+
+      <!-- ===================== TARİH & KÖKEN ===================== -->
+      <sc-if value="{{ isHistory }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:900px;margin:0 auto;padding:34px 40px 70px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">TARİH & KÖKEN</div>
+        <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 18px">Proto-Türkçeden bugüne</h2>
+        <div style="position:relative;padding-left:8px">
+          <div style="position:absolute;left:14px;top:8px;bottom:8px;width:2px;background:rgba(33,29,23,.14)"></div>
+          <sc-for list="{{ historyRows }}" as="h" hint-placeholder-count="6">
+            <div style="position:relative;padding-left:40px;padding-bottom:26px">
+              <span style="position:absolute;left:7px;top:4px;width:16px;height:16px;border-radius:50%;background:{{ h.dot }};border:3px solid #f4f1ea;box-shadow:0 0 0 1px rgba(33,29,23,.15)"></span>
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#d98b4a">{{ h.era }}</span><span style="font-size:9px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#fff;background:{{ h.dot }};padding:2px 7px;border-radius:5px">{{ h.kindLabel }}</span></div>
+              <div style="font-family:'Spectral',serif;font-size:20px;font-weight:600;margin:3px 0 4px">{{ h.title }}</div>
+              <div style="font-size:14px;line-height:1.6;color:#5f574b;max-width:64ch">{{ h.desc }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:14px;background:#211d17;color:#f4f1ea;border-radius:18px;padding:28px 32px">
+          <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(217,139,74,.2);color:#e9a978;border-radius:16px;padding:5px 13px;font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px">⚠ TARTIŞMALI · DİKKATLİ ÇERÇEVELEME</div>
+          <h3 style="font-family:'Spectral',serif;font-size:24px;font-weight:600;margin:14px 0 10px">Dil ailesi = ırk ya da gen midir?</h3>
+          <p style="font-size:14.5px;line-height:1.7;color:rgba(244,241,234,.85);margin:0;max-width:70ch">Hayır. “Türk dilleri” bir <em>dil</em> ailesidir; biyolojik bir soy değil. Bir topluluğun Türkçe konuşması, ortak bir genetik kökenden değil çoğunlukla <strong>dil değiştirme</strong> ve elit/siyasi baskınlıktan kaynaklanır. Genetik çalışmalar (ör. Yunusbayev ve ark., 2015) Türk dili konuşan halkların genetik olarak <strong>komşularına</strong> benzediğini, ortak bir “Türk geni” bulunmadığını gösterir. Dil yayılır; gen havuzu büyük ölçüde yerinde kalır.</p>
+          <div style="margin-top:14px;font-size:11px;color:rgba(244,241,234,.4);font-family:'IBM Plex Mono',monospace">Bu kutu bilinçli olarak siyaset/ırk çıkarımından uzak tutulmuştur.</div>
+        </div>
+      </section>
+      </sc-if>
+
+      <!-- ===================== YAKINDA (planlanan modüller) ===================== -->
+      <sc-if value="{{ isSoon }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:760px;margin:0 auto;padding:84px 40px;text-align:center">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:2px;color:#d98b4a">YAKINDA</div>
+        <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:40px;margin:14px 0 12px">{{ soonLabel }}</h2>
+        <p style="font-size:16px;line-height:1.7;color:#5f574b;margin:0 auto;max-width:56ch">Bu modül yol haritasında. Çekirdek — Morfolojik Analiz, Karşılaştır, Uzaklık Gezgini ve Çuvaşça Atölyesi — şu an çalışır durumda; bu bölüm sıradaki fazda veri ve API katmanıyla geliyor.</p>
+        <div style="margin-top:28px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <sc-for list="{{ wordChips }}" as="w" hint-placeholder-count="3"><button onClick="{{ w.goAnaliz }}" style="cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.14);border-radius:20px;padding:8px 16px;font-size:14px;font-family:'Spectral',serif;font-weight:500;color:#211d17">{{ w.surface }}</button></sc-for>
+        </div>
+      </section>
+      </sc-if>
+
+      <!-- ===================== KAYNAKLAR & LİSANSLAR ===================== -->
+      <sc-if value="{{ isSources }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:1000px;margin:0 auto;padding:34px 40px 70px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">KAYNAKLAR & LİSANSLAR</div>
+        <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 6px">Her veri, kaynağı ve lisansıyla</h2>
+        <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:68ch;margin:0 0 22px">Akademik dürüstlük ilkesi: hiçbir veri kaynaksız değildir. Aşağıda her kaynak, lisansı ve <strong>hangi modüllerde kullanıldığı</strong> listelenir. “Örnek/illüstratif” işaretli alanlar, gerçek backend (Apertium + CLDF) bağlandığında değişecektir.</p>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ sourceRows }}" as="s" hint-placeholder-count="6">
+            <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:13px;padding:16px 20px">
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                <span style="font-family:'Spectral',serif;font-size:17px;font-weight:600;color:#211d17">{{ s.label }}</span>
+                <span style="{{ s.kindStyle }}">{{ s.kind }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9a9082;margin-left:auto">{{ s.lic }}</span>
+              </div>
+              <div style="font-size:13px;color:#5f574b;margin-top:5px">{{ s.detail }}</div>
+              <div style="font-size:12px;color:#9a9082;margin-top:8px;font-family:'IBM Plex Mono',monospace">KULLANIM: {{ s.used }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+      </sc-if>
+
+      <!-- global source strip (her modülün altında) -->
+      <sc-if value="{{ showSrcStrip }}" hint-placeholder-val="{{ false }}">
+      <div style="max-width:1100px;margin:0 auto;padding:0 40px 44px">
+        <div style="border-top:1px solid rgba(33,29,23,.1);padding-top:14px;display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+          <span style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px">KAYNAKLAR</span>
+          <sc-for list="{{ pageSources }}" as="s" hint-placeholder-count="2"><span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#5f574b;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:14px;padding:4px 11px">{{ s.label }} <span style="color:#9a9082;font-family:'IBM Plex Mono',monospace;font-size:10px">{{ s.lic }}</span></span></sc-for>
+          <sc-if value="{{ pageHasDemo }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:#b86a2e;font-family:'IBM Plex Mono',monospace">⚠ örnek/illüstratif</span></sc-if>
+          <button onClick="{{ goSources }}" style="margin-left:auto;cursor:pointer;background:none;border:none;color:#2f6fb0;font-size:12px;font-family:inherit;text-decoration:underline">Tüm kaynaklar →</button>
+        </div>
+      </div>
+      </sc-if>
+
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:760}}">
+class Component extends DCLogic {
+  KOKEN_API = 'http://127.0.0.1:8000';
+  state = {
+    screen: 'home',
+    activeWordId: 'oku',
+    selMorphIdx: 0,
+    analizView: 'tree',     // tree | strip
+    stripCount: 0,
+    compareTab: 'rows',     // rows | sound | tree
+    soundSel: 0,
+    query: '',
+    mode: 'learner',        // learner | expert
+    script: 'cyrillic',     // cyrillic | latin
+    distBase: 'chv',        // distance explorer base lang
+    distTarget: 'tt',       // distance explorer target lang
+    paradigmRoot: 'hĕr',
+    cognateKey: 'kiz',
+    profileSel: 'chv',
+    researchWord: 'oku',
+    researchFmt: 'json',
+    // learn
+    learnView: 'hub',   // hub | lesson | done
+    lessonId: null,
+    exIdx: 0,
+    build: [],          // [{text,type,tag}]
+    choiceSel: null,
+    matchSelLeft: null,
+    matchDone: [],      // matched left-texts
+    matchWrong: null,   // [leftText, rightText] flashing wrong
+    exDone: false,
+    footerFeedback: '',
+    footerOk: null,
+    xp: 0,
+    completed: [],      // lesson ids
+    // FAZ 3 — SRS / streak / badges / weak points
+    srsMap: {},         // {cardId:{box}}
+    streakCount: 0,
+    lastActive: null,
+    weak: [],           // wrong-answered exercises
+    flashQueue: [],
+    flashIdx: 0,
+    flashFlipped: false,
+    flashSessionDone: false,
+    flashStats: {know:0, again:0},
+  };
+
+  FLASHCARDS = [
+    {id:'hĕr', cv:'хӗр', lat:'hĕr', tr:'kız', rule:'z↔r'},
+    {id:'śul', cv:'ҫул', lat:'śul', tr:'yıl', rule:'y-↔ҫ'},
+    {id:'kuś', cv:'куҫ', lat:'kuś', tr:'göz', rule:'z↔ҫ'},
+    {id:'vărman', cv:'вӑрман', lat:'vărman', tr:'orman', rule:'ünlü indirgeme'},
+    {id:'şıv', cv:'шыв', lat:'şıv', tr:'su', rule:'-b/-v korunması'},
+    {id:'hĕl', cv:'хӗл', lat:'hĕl', tr:'kış', rule:'ş↔l'},
+    {id:'çul', cv:'чул', lat:'çul', tr:'taş', rule:'ş↔l'},
+    {id:'pilĕk', cv:'пилӗк', lat:'pilĕk', tr:'beş', rule:'ş↔l'},
+    {id:'tăhăr', cv:'тӑхӑр', lat:'tăhăr', tr:'dokuz', rule:'z↔r'},
+    {id:'śĕr', cv:'ҫӗр', lat:'śĕr', tr:'yer', rule:'y-↔ҫ'},
+    {id:'kun', cv:'кун', lat:'kun', tr:'gün', rule:'doğrudan'},
+    {id:'ală', cv:'алӑ', lat:'ală', tr:'el', rule:'ünlü indirgeme'},
+  ];
+
+  // Eğitim genişletilebilir: yeni atölye = bu listeye bir kayıt (+ LESSONS dizisi)
+  WORKSHOPS = [
+    {id:'chv', label:'Çuvaşça Atölyesi', sub:'Ogur kolu · 5 ünite', active:true},
+    {id:'sound', label:'Ses Denkliği Ustalığı', sub:'r↔z · l↔ş · y-↔ҫ', soon:true},
+    {id:'tat', label:'Tatarca Atölyesi', sub:'Kıpçak kolu', soon:true},
+    {id:'sah', label:'Saha (Yakut) Atölyesi', sub:'Sibirya kolu', soon:true},
+  ];
+  // Atölye dışı çalışma yordamları (gelecekte etkinleşecek)
+  EXTRAMODES = [
+    {icon:'🎧', label:'Dinleme & Telaffuz', desc:'Ses kaydından tanıma'},
+    {icon:'🧩', label:'Eşleştirme Maratonu', desc:'Süreli kognat eşleme'},
+    {icon:'📅', label:'Günlük Meydan Okuma', desc:'Her gün yeni set'},
+    {icon:'✍️', label:'Yazım Alıştırması', desc:'Kiril/Latin yazım'},
+  ];
+
+  BADGES = [
+    {id:'first', icon:'🌱', label:'İlk Adım', desc:'İlk üniteyi bitir', test:c=>c.completed>=1},
+    {id:'half', icon:'🪜', label:'Yarı Yol', desc:'3 ünite bitir', test:c=>c.completed>=3},
+    {id:'master', icon:'🏅', label:'Atölye Ustası', desc:'Tüm üniteleri bitir', test:c=>c.completed>=5},
+    {id:'words', icon:'📚', label:'Kelime Avcısı', desc:'10 kart öğren', test:c=>c.mastered>=10},
+    {id:'streak', icon:'🔥', label:'İstikrar', desc:'3 gün seri', test:c=>c.streak>=3},
+  ];
+
+  componentDidMount(){
+    try {
+      const raw = localStorage.getItem('koken_progress');
+      if (raw){ const p = JSON.parse(raw); this.setState({ xp: p.xp||0, completed: p.completed||[] }); }
+      const srs = localStorage.getItem('koken_srs'); if (srs) this.setState({ srsMap: JSON.parse(srs)||{} });
+      const wk = localStorage.getItem('koken_weak'); if (wk) this.setState({ weak: JSON.parse(wk)||[] });
+      const sk = localStorage.getItem('koken_streak');
+      if (sk){ const s = JSON.parse(sk); let count = s.count||0;
+        if (s.last){ const today=new Date().toISOString().slice(0,10); const diff=(Date.parse(today)-Date.parse(s.last))/86400000; if (diff>1) count=0; }
+        this.setState({ streakCount:count, lastActive:s.last||null });
+      }
+    } catch(e){}
+  }
+  componentDidUpdate(prevProps, prevState){
+    if (prevState && prevState.screen !== this.state.screen){
+      try { const el = document.getElementById('content-scroll'); if (el) el.scrollTop = 0; } catch(e){}
+    }
+  }
+  saveProgress(xp, completed){ try { localStorage.setItem('koken_progress', JSON.stringify({ xp, completed })); } catch(e){} }
+  saveSrs(map){ try { localStorage.setItem('koken_srs', JSON.stringify(map)); } catch(e){} }
+  saveWeak(weak){ try { localStorage.setItem('koken_weak', JSON.stringify(weak)); } catch(e){} }
+  touchStreak(){
+    const today = new Date().toISOString().slice(0,10);
+    this.setState(s=>{
+      if (s.lastActive===today) return null;
+      let count = 1;
+      if (s.lastActive){ const diff=(Date.parse(today)-Date.parse(s.lastActive))/86400000; count = diff===1 ? (s.streakCount+1) : 1; }
+      try { localStorage.setItem('koken_streak', JSON.stringify({count, last:today})); } catch(e){}
+      return { streakCount:count, lastActive:today };
+    });
+  }
+  addWeak(ex){
+    this.setState(s=>{
+      const key = JSON.stringify([ex.type, ex.q||ex.tr]);
+      if (s.weak.some(w=>JSON.stringify([w.type, w.q||w.tr])===key)) return null;
+      const weak = [...s.weak, ex];
+      this.saveWeak(weak);
+      return { weak };
+    });
+  }
+
+  // ---- type system ----
+  TYPES = {
+    'kök':    { hue: 250, label: 'Kök' },
+    'zaman':  { hue: 28,  label: 'Zaman eki' },
+    'kişi':   { hue: 150, label: 'Şahıs eki' },
+    'çokluk': { hue: 305, label: 'Çokluk eki' },
+    'hâl':    { hue: 90,  label: 'Hâl eki' },
+    'iyelik': { hue: 200, label: 'İyelik eki' },
+  };
+  hue(t){ return `oklch(0.52 0.13 ${this.TYPES[t].hue})`; }
+  hueLight(t){ return `oklch(0.74 0.13 ${this.TYPES[t].hue})`; }
+  hueBg(t){ return `oklch(0.94 0.045 ${this.TYPES[t].hue})`; }
+  hueBorder(t){ return `oklch(0.84 0.07 ${this.TYPES[t].hue})`; }
+
+  WORDS = {
+    oku: {
+      lang:'cv', langName:'Çuvaşça', surface:'вуларӑмӑр', translit:'vularămăr', gloss:'okuduk',
+      morphemes:[
+        {text:'вула', tag:'KÖK', type:'kök', label:'“oku-” fiil kökü', gloss:'oku', gItem:'vula-', note:'Eylemin temel anlamını taşıyan değişmez parça. Çuvaşçada da Türkçede de aynı kökten gelir.'},
+        {text:'рӑ', tag:'GEÇ', type:'zaman', label:'Görülen geçmiş zaman', gloss:'GEÇ', gItem:'-ră-', note:'Türkçedeki -DI ekinin karşılığı. Eylemin geçmişte olduğunu belirtir.'},
+        {text:'мӑр', tag:'1ÇĞ', type:'kişi', label:'1. çoğul şahıs (biz)', gloss:'1ÇĞ', gItem:'-măr', note:'“Biz” öznesini işaretler; Türkçedeki -k ekine denktir. Çuvaşçada şahıs eki daha dolgundur.'},
+      ],
+      cognates:[
+        {lang:'tr', langName:'Türkçe', branch:'Oğuz', translit:'okuduk', morphemes:[['oku','KÖK','kök'],['du','GEÇ','zaman'],['k','1ÇĞ','kişi']]},
+        {lang:'az', langName:'Azerbaycanca', branch:'Oğuz', translit:'oxuduq', morphemes:[['oxu','KÖK','kök'],['du','GEÇ','zaman'],['q','1ÇĞ','kişi']]},
+        {lang:'tt', langName:'Tatarca', branch:'Kıpçak', translit:'uqıdıq', morphemes:[['уқы','KÖK','kök'],['ды','GEÇ','zaman'],['к','1ÇĞ','kişi']]},
+        {lang:'kk', langName:'Kazakça', branch:'Kıpçak', translit:'oqıdıq', morphemes:[['оқы','KÖK','kök'],['ды','GEÇ','zaman'],['қ','1ÇĞ','kişi']]},
+        {lang:'kg', langName:'Kırgızca', branch:'Kıpçak', translit:'okuduk', morphemes:[['оку','KÖK','kök'],['ду','GEÇ','zaman'],['к','1ÇĞ','kişi']]},
+        {lang:'ug', langName:'Uygurca', branch:'Karluk', translit:'oquduq', morphemes:[['oqu','KÖK','kök'],['du','GEÇ','zaman'],['q','1ÇĞ','kişi']]},
+      ],
+    },
+    orman: {
+      lang:'cv', langName:'Çuvaşça', surface:'вӑрманта', translit:'vărmanta', gloss:'ormanda',
+      morphemes:[
+        {text:'вӑрман', tag:'KÖK', type:'kök', label:'“orman” ad kökü', gloss:'orman', gItem:'vărman', note:'Ortak bir Türk dili sözcüğü; Çuvaşçada vurgusuz a sesi “ӑ” (ă) olarak indirgenir.'},
+        {text:'та', tag:'BUL', type:'hâl', label:'Bulunma hâli (locative)', gloss:'BUL', gItem:'-ta', note:'Türkçedeki -DA ekine denk: “-de/-da, içinde”. Yer/konum bildirir.'},
+      ],
+      cognates:[
+        {lang:'tr', langName:'Türkçe', branch:'Oğuz', translit:'ormanda', morphemes:[['orman','KÖK','kök'],['da','BUL','hâl']]},
+        {lang:'tt', langName:'Tatarca', branch:'Kıpçak', translit:'urmanda', morphemes:[['урман','KÖK','kök'],['да','BUL','hâl']]},
+        {lang:'kk', langName:'Kazakça', branch:'Kıpçak', translit:'ormanda', morphemes:[['орман','KÖK','kök'],['да','BUL','hâl']]},
+        {lang:'tk', langName:'Türkmence', branch:'Oğuz', translit:'tokaýda', morphemes:[['tokaý','KÖK','kök'],['da','BUL','hâl']]},
+      ],
+    },
+    kiz: {
+      lang:'cv', langName:'Çuvaşça', surface:'хӗрсем', translit:'hĕrsem', gloss:'kızlar',
+      morphemes:[
+        {text:'хӗр', tag:'KÖK', type:'kök', label:'“kız” ad kökü', gloss:'kız', gItem:'hĕr', note:'Klasik rotasizm örneği: ortak Türkçe “kız”daki z sesi Çuvaşçada r olur → hĕr.'},
+        {text:'сем', tag:'ÇĞL', type:'çokluk', label:'Çokluk eki (çoğul)', gloss:'ÇĞL', gItem:'-sem', note:'Türkçedeki -lAr ekine denk. Çuvaşçada çoğul eki -sem/-sen biçimindedir, -lar değil.'},
+      ],
+      cognates:[
+        {lang:'tr', langName:'Türkçe', branch:'Oğuz', translit:'kızlar', morphemes:[['kız','KÖK','kök'],['lar','ÇĞL','çokluk']]},
+        {lang:'tt', langName:'Tatarca', branch:'Kıpçak', translit:'qızlar', morphemes:[['кыз','KÖK','kök'],['лар','ÇĞL','çokluk']]},
+        {lang:'kk', langName:'Kazakça', branch:'Kıpçak', translit:'qızdar', morphemes:[['қыз','KÖK','kök'],['дар','ÇĞL','çokluk']]},
+        {lang:'sah', langName:'Yakutça', branch:'Sibirya', translit:'kııs(tar)', morphemes:[['кыыс','KÖK','kök'],['тар','ÇĞL','çokluk']]},
+      ],
+    },
+    yil: {
+      lang:'cv', langName:'Çuvaşça', surface:'ҫулсем', translit:'śulsem', gloss:'yıllar',
+      morphemes:[
+        {text:'ҫул', tag:'KÖK', type:'kök', label:'“yıl” ad kökü', gloss:'yıl', gItem:'śul', note:'Söz başındaki y- sesi Çuvaşçada ҫ (ś) olur: yıl → śul. Düzenli bir ses denkliğidir.'},
+        {text:'сем', tag:'ÇĞL', type:'çokluk', label:'Çokluk eki (çoğul)', gloss:'ÇĞL', gItem:'-sem', note:'Türkçedeki -lAr karşılığı; Çuvaşçada çoğul -sem ile yapılır.'},
+      ],
+      cognates:[
+        {lang:'tr', langName:'Türkçe', branch:'Oğuz', translit:'yıllar', morphemes:[['yıl','KÖK','kök'],['lar','ÇĞL','çokluk']]},
+        {lang:'az', langName:'Azerbaycanca', branch:'Oğuz', translit:'illər', morphemes:[['il','KÖK','kök'],['lər','ÇĞL','çokluk']]},
+        {lang:'tt', langName:'Tatarca', branch:'Kıpçak', translit:'yıllar', morphemes:[['ел','KÖK','kök'],['лар','ÇĞL','çokluk']]},
+        {lang:'kk', langName:'Kazakça', branch:'Kıpçak', translit:'jıldar', morphemes:[['жыл','KÖK','kök'],['дар','ÇĞL','çokluk']]},
+      ],
+    },
+    goz: {
+      lang:'cv', langName:'Çuvaşça', surface:'куҫӑм', translit:'kuśăm', gloss:'gözüm',
+      morphemes:[
+        {text:'куҫ', tag:'KÖK', type:'kök', label:'“göz” ad kökü', gloss:'göz', gItem:'kuś', note:'Ortak Türkçe “göz”; Çuvaşçada söz sonu z burada ҫ (ś) ile temsil edilir → kuś.'},
+        {text:'ӑм', tag:'İYL1', type:'iyelik', label:'1. tekil iyelik (benim)', gloss:'İYL.1T', gItem:'-ăm', note:'“Benim” aitliğini kurar; Türkçedeki -(I)m ekine denktir: göz-üm.'},
+      ],
+      cognates:[
+        {lang:'tr', langName:'Türkçe', branch:'Oğuz', translit:'gözüm', morphemes:[['göz','KÖK','kök'],['üm','İYL1','iyelik']]},
+        {lang:'az', langName:'Azerbaycanca', branch:'Oğuz', translit:'gözüm', morphemes:[['göz','KÖK','kök'],['üm','İYL1','iyelik']]},
+        {lang:'tt', langName:'Tatarca', branch:'Kıpçak', translit:'küzem', morphemes:[['күз','KÖK','kök'],['ем','İYL1','iyelik']]},
+        {lang:'kk', langName:'Kazakça', branch:'Kıpçak', translit:'közim', morphemes:[['köz','KÖK','kök'],['im','İYL1','iyelik']]},
+      ],
+    },
+  };
+
+  SOUND = [
+    { cv:'r', ct:'z', name:'ROTASİZM', examples:[{cv:'hĕr',tr:'kız'},{cv:'tăhăr',tr:'dokuz'},{cv:'văkăr',tr:'öküz'}] },
+    { cv:'l', ct:'ş', name:'LAMBDASİZM', examples:[{cv:'hĕl',tr:'kış'},{cv:'çul',tr:'taş'},{cv:'pilĕk',tr:'beş'}] },
+    { cv:'ҫ (ś)', ct:'y-', name:'BAŞ Y- > Ś', examples:[{cv:'śul',tr:'yıl'},{cv:'śĕr',tr:'yer'},{cv:'śын',tr:'yön/insan'}] },
+    { cv:'ă/ĕ', ct:'a/e', name:'ÜNLÜ İNDİRGEME', examples:[{cv:'vărman',tr:'orman'},{cv:'tăvattă',tr:'dört'}] },
+  ];
+
+  FAMILY = [
+    {name:'Proto-Türkçe', note:'ana dil', depth:0},
+    {name:'Ogur (Bulgar) kolu', note:'erken ayrılan dal', depth:1},
+    {name:'Çuvaşça', note:'tek yaşayan Ogur dili', depth:2, hi:true},
+    {name:'Ortak Türkçe', note:'diğer tüm diller', depth:1},
+    {name:'Oğuz · Kıpçak · Karluk · Sibirya', note:'Türkçe, Tatarca, Kazakça, Yakutça…', depth:2},
+  ];
+
+  TIMELINE = [
+    {when:'~MÖ 1. binyıl', title:'Proto-Türkçe', desc:'Bütün Türk dillerinin ortak atası; henüz tek bir dil.'},
+    {when:'~MS 1.–4. yy', title:'Ogur kolunun ayrılışı', desc:'Bulgar/Ogur grubu ana gövdeden erken kopar; rotasizm ve lambdasizm bu kolu ayırır.'},
+    {when:'Orta Çağ', title:'İdil Bulgarcası', desc:'Volga (İdil) boyunda yazılı izler bırakan Bulgarca, Çuvaşçanın doğrudan atası.'},
+    {when:'Bugün', title:'Çuvaşça', desc:'Ogur kolunun yaşayan tek temsilcisi; ~1 milyon konuşur, tehlike altında.'},
+  ];
+
+  BRANCHCOLOR = {
+    'Ogur':'#b8602e', 'Oğuz':'oklch(0.55 0.13 35)', 'Kıpçak':'oklch(0.5 0.13 150)',
+    'Karluk':'oklch(0.5 0.13 295)', 'Sibirya':'oklch(0.52 0.13 235)',
+  };
+  MAP = [
+    {name:'Türkçe', branch:'Oğuz', x:10, y:51, below:true},
+    {name:'Azerbaycanca', branch:'Oğuz', x:22, y:43},
+    {name:'Türkmence', branch:'Oğuz', x:33, y:50, below:true},
+    {name:'Çuvaşça', branch:'Ogur', x:18, y:20, hi:true},
+    {name:'Tatarca', branch:'Kıpçak', x:27, y:26},
+    {name:'Başkurtça', branch:'Kıpçak', x:34, y:29, below:true},
+    {name:'Kazakça', branch:'Kıpçak', x:41, y:35},
+    {name:'Kırgızca', branch:'Kıpçak', x:46, y:46, below:true},
+    {name:'Uygurca', branch:'Karluk', x:55, y:41},
+    {name:'Yakutça', branch:'Sibirya', x:86, y:14},
+  ];
+
+  // illustrative distance matrix from Çuvaşça (0 = yakın, 1 = uzak) — örnek veri
+  DISTAXES = [
+    {key:'filo', label:'Filogenetik'},
+    {key:'leks', label:'Leksikal'},
+    {key:'anla', label:'Anlaşılabilirlik'},
+    {key:'tipo', label:'Tipolojik'},
+    {key:'cogr', label:'Coğrafi'},
+  ];
+  // Her dil 5-boyutlu bir konum vektörü; iki dil arası uzaklık = eksen bazında |fark|.
+  // Böylece herhangi iki dil seçilebilir (taban + hedef). Değerler illüstratiftir.
+  LANGVEC = {
+    chv: {name:'Çuvaşça',      branch:'Ogur',    filo:.97, leks:.92, anla:.96, tipo:.82, cogr:.36},
+    tt:  {name:'Tatarca',      branch:'Kıpçak',  filo:.42, leks:.46, anla:.40, tipo:.44, cogr:.30},
+    bak: {name:'Başkurtça',    branch:'Kıpçak',  filo:.44, leks:.50, anla:.43, tipo:.46, cogr:.36},
+    kk:  {name:'Kazakça',      branch:'Kıpçak',  filo:.50, leks:.55, anla:.46, tipo:.48, cogr:.50},
+    kg:  {name:'Kırgızca',     branch:'Kıpçak',  filo:.53, leks:.58, anla:.49, tipo:.50, cogr:.60},
+    tr:  {name:'Türkçe',       branch:'Oğuz',    filo:.22, leks:.28, anla:.24, tipo:.34, cogr:.10},
+    az:  {name:'Azerbaycanca', branch:'Oğuz',    filo:.24, leks:.30, anla:.26, tipo:.35, cogr:.18},
+    tk:  {name:'Türkmence',    branch:'Oğuz',    filo:.27, leks:.33, anla:.30, tipo:.33, cogr:.30},
+    ug:  {name:'Uygurca',      branch:'Karluk',  filo:.60, leks:.63, anla:.56, tipo:.50, cogr:.72},
+    sah: {name:'Yakutça',      branch:'Sibirya', filo:.88, leks:.90, anla:.93, tipo:.92, cogr:.96},
+  };
+
+  // ---- MERKEZİ KAYNAK KÜTÜĞÜ (her kayıt: ad, lisans, tür, künye) ----
+  SOURCES = {
+    fst:    {label:'Apertium', detail:'apertium-tur, -chv … morfolojik FST’ler', lic:'GPL-3.0', kind:'araç', url:'apertium.org'},
+    cldf:   {label:'SavelyevTurkic CLDF', detail:'32 dil · 254 kavram · 905 kognat seti', lic:'CC BY 4.0', kind:'veri', url:'github.com/lexibank/savelyevturkic'},
+    nel:    {label:'NorthEuraLex', detail:'Kuzey Avrasya leksikal veritabanı', lic:'CC BY 4.0', kind:'veri', url:'northeuralex.org'},
+    ud:     {label:'Universal Dependencies', detail:'UD_Turkish, UD_Chukchi … ağaç bankaları', lic:'CC BY-SA 4.0', kind:'veri', url:'universaldependencies.org'},
+    unimorph:{label:'UniMorph', detail:'morfolojik paradigma hizalaması', lic:'CC BY 4.0', kind:'veri', url:'unimorph.github.io'},
+    wals:   {label:'WALS', detail:'tipolojik özellikler (uzaklık ekseni)', lic:'CC BY 4.0', kind:'veri', url:'wals.info'},
+    glottolog:{label:'Glottolog', detail:'soy ağacı / sınıflandırma', lic:'CC BY 4.0', kind:'veri', url:'glottolog.org'},
+    ethnologue:{label:'Ethnologue / EGIDS', detail:'canlılık & konuşur sayıları', lic:'tescilli', kind:'veri', url:'ethnologue.com'},
+    joshi:  {label:'Joshi ve ark. 2020', detail:'dijital kaynak sınıfları (0–5)', lic:'akademik', kind:'literatür', url:'aclanthology.org'},
+    yunusbayev:{label:'Yunusbayev ve ark. 2015', detail:'dil ≠ gen; popülasyon genetiği', lic:'akademik', kind:'literatür', url:'doi.org/10.1371/journal.pgen.1005068'},
+    kasgari:{label:'Dîvânu Lugâti’t-Türk (~1075)', detail:'Kâşgarlı Mahmud · tarihsel atıf', lic:'kamu malı', kind:'literatür', url:'—'},
+    demo:   {label:'Örnek veri (illüstratif)', detail:'gerçek backend bağlanınca değişecek', lic:'—', kind:'geçici', url:'—'},
+  };
+  // hangi modül hangi kaynaktan yararlanıyor
+  USAGE = [
+    {mod:'Morfolojik Analiz', srcs:['fst','ud']},
+    {mod:'Paradigma Gezgini', srcs:['fst','unimorph','demo']},
+    {mod:'Kognat Ağı', srcs:['cldf','nel']},
+    {mod:'Karşılaştır', srcs:['cldf','glottolog']},
+    {mod:'Uzaklık Gezgini', srcs:['cldf','wals','glottolog','demo']},
+    {mod:'Dil Profilleri', srcs:['glottolog','joshi','ethnologue']},
+    {mod:'Tarih & Köken', srcs:['kasgari','yunusbayev','glottolog']},
+    {mod:'Çuvaşça Atölyesi', srcs:['fst','cldf']},
+    {mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph']},
+  ];
+
+  // navigation groups
+  NAVGROUPS = [
+    {group:'KEŞFET', items:[
+      {id:'home', label:'Ana Sayfa'},
+      {id:'profile', label:'Dil Profilleri'},
+      {id:'history', label:'Tarih & Köken'},
+    ]},
+    {group:'ANALİZ', items:[
+      {id:'analiz', label:'Morfolojik Analiz'},
+      {id:'paradigm', label:'Paradigma Gezgini'},
+      {id:'cognate', label:'Kognat Ağı'},
+      {id:'compare', label:'Karşılaştır'},
+      {id:'distance', label:'Uzaklık Gezgini'},
+    ]},
+    {group:'ÖĞREN', items:[
+      {id:'learn', label:'Çuvaşça Atölyesi'},
+    ]},
+    {group:'ARAŞTIR', items:[
+      {id:'research', label:'Araştırmacı Merkezi'},
+      {id:'sources', label:'Kaynaklar & Lisanslar'},
+    ]},
+  ];
+
+  // ---- PARADIGM data (illustrative, standard Chuvash) ----
+  PARADIGM = {
+    hĕr: { kind:'ad', root:'хӗр', rootLat:'hĕr', gloss:'kız',
+      rows:[
+        {case:'Yalın (Nom.)',   tag:'NOM', sg:[['хӗр','kök']],                 pl:[['хӗр','kök'],['сем','çokluk']],            trSg:'kız',    trPl:'kızlar'},
+        {case:'İlgi (Gen.)',    tag:'GEN', sg:[['хӗр','kök'],['ӗн','hâl']],     pl:[['хӗр','kök'],['сен','çokluk']],            trSg:'kızın',  trPl:'kızların'},
+        {case:'Yönelme (Dat.)', tag:'DAT', sg:[['хӗр','kök'],['е','hâl']],      pl:[['хӗр','kök'],['сене','çokluk']],           trSg:'kıza',   trPl:'kızlara'},
+        {case:'Bulunma (Loc.)', tag:'LOC', sg:[['хӗр','kök'],['те','hâl']],     pl:[['хӗр','kök'],['сенче','çokluk']],          trSg:'kızda',  trPl:'kızlarda'},
+        {case:'Ayrılma (Abl.)', tag:'ABL', sg:[['хӗр','kök'],['тен','hâl']],    pl:[['хӗр','kök'],['сенчен','çokluk']],         trSg:'kızdan', trPl:'kızlardan'},
+        {case:'Araç (Ins.)',    tag:'INS', sg:[['хӗр','kök'],['пе','hâl']],     pl:[['хӗр','kök'],['семпе','çokluk']],          trSg:'kızla',  trPl:'kızlarla'},
+      ]},
+    śul: { kind:'ad', root:'ҫул', rootLat:'śul', gloss:'yıl',
+      rows:[
+        {case:'Yalın (Nom.)',   tag:'NOM', sg:[['ҫул','kök']],                 pl:[['ҫул','kök'],['сем','çokluk']],            trSg:'yıl',    trPl:'yıllar'},
+        {case:'İlgi (Gen.)',    tag:'GEN', sg:[['ҫул','kök'],['ӑн','hâl']],     pl:[['ҫул','kök'],['сен','çokluk']],            trSg:'yılın',  trPl:'yılların'},
+        {case:'Yönelme (Dat.)', tag:'DAT', sg:[['ҫул','kök'],['а','hâl']],      pl:[['ҫул','kök'],['сене','çokluk']],           trSg:'yıla',   trPl:'yıllara'},
+        {case:'Bulunma (Loc.)', tag:'LOC', sg:[['ҫул','kök'],['та','hâl']],     pl:[['ҫул','kök'],['сенче','çokluk']],          trSg:'yılda',  trPl:'yıllarda'},
+        {case:'Ayrılma (Abl.)', tag:'ABL', sg:[['ҫул','kök'],['тан','hâl']],    pl:[['ҫул','kök'],['сенчен','çokluk']],         trSg:'yıldan', trPl:'yıllardan'},
+      ]},
+    vula: { kind:'fiil', root:'вула', rootLat:'vula', gloss:'oku-', label:'Görülen geçmiş zaman',
+      rows:[
+        {case:'1. tekil',  tag:'1T', sg:[['вула','kök'],['рӑм','kişi']],  trSg:'okudum'},
+        {case:'2. tekil',  tag:'2T', sg:[['вула','kök'],['рӑн','kişi']],  trSg:'okudun'},
+        {case:'3. tekil',  tag:'3T', sg:[['вула','kök'],['рӗ','kişi']],   trSg:'okudu'},
+        {case:'1. çoğul',  tag:'1Ç', sg:[['вула','kök'],['рӑмӑр','kişi']],trSg:'okuduk'},
+        {case:'2. çoğul',  tag:'2Ç', sg:[['вула','kök'],['рӑр','kişi']],  trSg:'okudunuz'},
+        {case:'3. çoğul',  tag:'3Ç', sg:[['вула','kök'],['рӗҫ','kişi']],  trSg:'okudular'},
+      ]},
+  };
+
+  // ---- COGNATE network data ----
+  COGNATES = {
+    kiz: { gloss:'kız', proto:'*kïŕ', note:'z↔r denkliği (rotasizm) Çuvaşçada kökü görünmez kılar: kız→hĕr.',
+      nodes:[
+        {lang:'Çuvaşça', word:'хӗр', branch:'Ogur', shift:true},
+        {lang:'Türkçe', word:'kız', branch:'Oğuz'},
+        {lang:'Azerbaycanca', word:'qız', branch:'Oğuz'},
+        {lang:'Tatarca', word:'кыз', branch:'Kıpçak'},
+        {lang:'Kazakça', word:'қыз', branch:'Kıpçak'},
+        {lang:'Uygurca', word:'qiz', branch:'Karluk'},
+        {lang:'Yakutça', word:'кыыс', branch:'Sibirya'},
+      ]},
+    yil: { gloss:'yıl', proto:'*yïl', note:'Söz başı y- Çuvaşçada ҫ (ś) olur: yıl→śul.',
+      nodes:[
+        {lang:'Çuvaşça', word:'ҫул', branch:'Ogur', shift:true},
+        {lang:'Türkçe', word:'yıl', branch:'Oğuz'},
+        {lang:'Azerbaycanca', word:'il', branch:'Oğuz'},
+        {lang:'Tatarca', word:'ел', branch:'Kıpçak'},
+        {lang:'Kazakça', word:'жыл', branch:'Kıpçak'},
+        {lang:'Yakutça', word:'сыл', branch:'Sibirya', shift:true},
+      ]},
+    su: { gloss:'su', proto:'*sub', note:'Nadir korunmuş söz sonu -b/-v: Çuvaşça şıv, ortak Türkçe su.',
+      nodes:[
+        {lang:'Çuvaşça', word:'шыв', branch:'Ogur', shift:true},
+        {lang:'Türkçe', word:'su', branch:'Oğuz'},
+        {lang:'Tatarca', word:'су', branch:'Kıpçak'},
+        {lang:'Kazakça', word:'су', branch:'Kıpçak'},
+        {lang:'Yakutça', word:'уу', branch:'Sibirya', shift:true},
+      ]},
+  };
+
+  // ---- LANGUAGE PROFILES (illustrative figures) ----
+  LANGPROFILE = [
+    {code:'tr', name:'Türkçe', branch:'Oğuz', speakers:'~84 milyon', egids:'<=6a · güvende', vit:6, script:'Latin', region:'Türkiye, Kıbrıs', note:'En çok konuşulan Türk dili; resmî, standartlaşmış, güçlü dijital varlık.'},
+    {code:'az', name:'Azerbaycanca', branch:'Oğuz', speakers:'~23 milyon', egids:'<=6a · güvende', vit:6, script:'Latin/Arap', region:'Azerbaycan, İran', note:'İki büyük varyant (kuzey/güney); İran’da Arap yazısı.'},
+    {code:'tk', name:'Türkmence', branch:'Oğuz', speakers:'~7 milyon', egids:'<=6a · güvende', vit:6, script:'Latin', region:'Türkmenistan', note:'Uzun ünlü ayrımını koruyan Oğuz dili.'},
+    {code:'kk', name:'Kazakça', branch:'Kıpçak', speakers:'~13 milyon', egids:'<=6a · güvende', vit:6, script:'Kiril→Latin', region:'Kazakistan', note:'Latin yazısına geçiş sürüyor (2017+).'},
+    {code:'kg', name:'Kırgızca', branch:'Kıpçak', speakers:'~5 milyon', egids:'<=6a · güvende', vit:6, script:'Kiril', region:'Kırgızistan', note:'Manas destanı geleneği; güçlü sözlü kültür.'},
+    {code:'tt', name:'Tatarca', branch:'Kıpçak', speakers:'~5 milyon', egids:'<=6a · güvende', vit:6, script:'Kiril', region:'Tataristan (RF)', note:'Zengin yazılı gelenek; RF’de eğitim baskısı altında.'},
+    {code:'bak', name:'Başkurtça', branch:'Kıpçak', speakers:'~1,2 milyon', egids:'6b · tehdit altında', vit:4, script:'Kiril', region:'Başkurdistan (RF)', note:'Özgün ҙ/ҫ sesleri; Tatarcaya yakın.'},
+    {code:'ug', name:'Uygurca', branch:'Karluk', speakers:'~10 milyon', egids:'<=6a · güvende', vit:6, script:'Arap (UEY)', region:'Sincan (ÇHC)', note:'Arap kökenli yazı, sağdan sola; ciddi politik baskı.'},
+    {code:'chv', name:'Çuvaşça', branch:'Ogur', speakers:'~1 milyon', egids:'6b · tehdit altında', vit:4, script:'Kiril', region:'Çuvaşistan (RF)', note:'Ogur kolunun yaşayan tek üyesi; aktarım zayıflıyor.'},
+    {code:'sah', name:'Yakutça (Saha)', branch:'Sibirya', speakers:'~450 bin', egids:'6b · tehdit altında', vit:4, script:'Kiril', region:'Saha (RF)', note:'Sibirya’nın en kuzeyindeki Türk dili; arkaik özellikler.'},
+    {code:'tyv', name:'Tuvaca', branch:'Sibirya', speakers:'~280 bin', egids:'<=6a · güvende', vit:6, script:'Kiril', region:'Tuva (RF)', note:'Gırtlaksı ünlüler; boğaz/khöömei geleneği.'},
+    {code:'kjh', name:'Hakasça', branch:'Sibirya', speakers:'~40 bin', egids:'7 · değişen', vit:3, script:'Kiril', region:'Hakasya (RF)', note:'Aktarım büyük ölçüde kesilmiş; ciddi tehlike.'},
+    {code:'shor', name:'Şorca', branch:'Sibirya', speakers:'~2,8 bin', egids:'8a · ölmekte', vit:2, script:'Kiril', region:'Kemerovo (RF)', note:'Sınıf 0: neredeyse hiç dijital/yapısal veri yok.'},
+    {code:'clw', name:'Halaçça', branch:'Argu', speakers:'~30 bin', egids:'6b · tehdit altında', vit:4, script:'—', region:'İran (Merkezî)', note:'Argu kolu; arkaik *h- ve *d seslerini korur — paha biçilmez tanık.'},
+  ];
+
+  // ---- HISTORY timeline ----
+  HISTORY = [
+    {era:'~MÖ 1.binyıl', title:'Proto-Türkçe', desc:'Bütün Türk dillerinin ortak atası. Henüz tek dil; Ogur ve Ortak Türkçe ayrımı yok.', kind:'dil'},
+    {era:'~MS 1–4.yy', title:'Ogur / Ortak Türkçe ayrılışı', desc:'Bulgar-Ogur kolu erken kopar. Rotasizm (z→r) ve lambdasizm (ş→l) bu kolu işaretler — Çuvaşçanın atası.', kind:'dil'},
+    {era:'552–744', title:'Göktürk Kağanlığı · Orhun yazıtları', desc:'İlk Türkçe yazılı anıtlar (Orhun alfabesi). Ortak Türkçenin en eski tanıklığı.', kind:'yazı'},
+    {era:'744–840', title:'Uygur Kağanlığı', desc:'Uygur alfabesi ve geniş yazılı/dinî edebiyat; Maniheist ve Budist metinler.', kind:'yazı'},
+    {era:'~1075', title:'Kâşgarlı Mahmud · Dîvânu Lugâti’t-Türk', desc:'İlk karşılaştırmalı Türk dilleri sözlüğü/atlası. Bu platformun tarihsel atası.', kind:'eser'},
+    {era:'13–16.yy', title:'Altın Orda · Çağatayca', desc:'Kıpçak ve Karluk yazı dilleri olgunlaşır; İdil Bulgarcası Çuvaşçaya evrilir.', kind:'dil'},
+    {era:'1920–30’lar', title:'Sovyet alfabe reformları', desc:'Arap → Latin → Kiril dalgaları. Her dile farklı Kiril envanteri; bugünkü yazı kakofonisinin kökeni.', kind:'yazı'},
+    {era:'1991–', title:'Bağımsızlık & Latinleşme', desc:'Bağımsız cumhuriyetlerde (Azerbaycan, Türkmenistan, Özbekistan, Kazakistan) Latin yazısına dönüş.', kind:'yazı'},
+    {era:'Bugün', title:'Dijital çağ & tehlike', desc:'Büyük diller dijitalde güçlü; Çuvaş, Şor, Hakas gibi diller “dijital ölüm” riski altında.', kind:'dil'},
+  ];
+
+  TASKS = [
+    { tr:'okuduk', hint:'kök “vula” + geçmiş + biz', answer:['вула','рӑ','мӑр'],
+      pool:['вула','рӑ','мӑр','сем','та','лар'],
+      cv:[['вула','kök'],['рӑ','zaman'],['мӑр','kişi']], trM:[['oku','kök'],['du','zaman'],['k','kişi']],
+      note:'İki dilde de sıra aynı: KÖK + ZAMAN + ŞAHIS. Çuvaşça ekler yalnızca ses olarak farklı.' },
+    { tr:'kızlar', hint:'kök “hĕr” + çokluk', answer:['хӗр','сем'],
+      pool:['хӗр','сем','лар','рӑ','та','мӑр'],
+      cv:[['хӗр','kök'],['сем','çokluk']], trM:[['kız','kök'],['lar','çokluk']],
+      note:'Dikkat: Türkçe “kız”daki z, Çuvaşçada r olur (rotasizm) → hĕr. Çoğul eki ise -lar değil -sem.' },
+    { tr:'ormanda', hint:'kök “vărman” + bulunma hâli', answer:['вӑрман','та'],
+      pool:['вӑрман','та','да','сем','рӑ','мӑр'],
+      cv:[['вӑрман','kök'],['та','hâl']], trM:[['orman','kök'],['da','hâl']],
+      note:'Bulunma hâli her iki dilde de yakın: Türkçe -da, Çuvaşça -ta. Kök neredeyse aynı.' },
+  ];
+
+  LESSONS = [
+    { id:'l1', num:'01', title:'Kök: değişmeyen çekirdek', hue:250,
+      desc:'Bir sözcüğün anlamını taşıyan en küçük parça. Buradan başlıyoruz.',
+      exercises:[
+        {type:'info', tag:'KAVRAM', title:'Kök nedir?', exCv:'kuś', exTr:'göz', exNote:'“kuś” daha fazla bölünemez; anlam çekirdeği budur.',
+          body:'Kök, bir sözcüğün daha küçük anlamlı parçalara bölünemeyen çekirdeğidir. Ekler hep kökün üstüne eklenir. Çuvaşça “kuś” (göz) bir köktür — Türkçe “göz” ile aynı ataya dayanır, yalnızca sesçe değişmiştir.'},
+        {type:'choice', q:'Aşağıdakilerden hangisi bir KÖK’tür (ek değil)?',
+          options:[{text:'вула',sub:'oku-'},{text:'сем',sub:'-ler'},{text:'та',sub:'-da'},{text:'мӑр',sub:'biz'}], answer:0,
+          explain:'“вула” (oku-) anlam taşıyan köktür. -сем, -та, -мӑр ise yalnızca ek; tek başına anlam taşımazlar.'},
+        {type:'choice', q:'Çuvaşça “хӗр” (hĕr) sözcüğünün Türkçe karşılığı?',
+          options:[{text:'kız',sub:''},{text:'yıl',sub:''},{text:'orman',sub:''},{text:'göz',sub:''}], answer:0,
+          explain:'хӗр = kız. Türkçedeki z sesi Çuvaşçada r olur (rotasizm): kız → hĕr. Bunu birazdan ayrıntılı göreceğiz.'},
+      ]},
+    { id:'l2', num:'02', title:'Ses denklikleri: r↔z, l↔ş', hue:35,
+      desc:'Çuvaşça erken ayrıldığı için sesler düzenli biçimde değişti. Kuralı yakala.',
+      exercises:[
+        {type:'info', tag:'KURAL', title:'Rotasizm ve Lambdasizm', exCv:'hĕr', exTr:'kız', exNote:'z → r ve ş → l düzenli değişimleri.',
+          body:'Çuvaşça, Türk dillerinin en erken kopan kolu (Ogur). Bu yüzden iki ünlü ses kuralı taşır: ortak Türkçedeki z sesi Çuvaşçada r olur (ROTASİZM), ş sesi ise l olur (LAMBDASİZM). Bu yüzden “kız” → hĕr, “kış” → hĕl.'},
+        {type:'match', rule:'r↔z', q:'Çuvaşça sözcükleri Türkçe karşılıklarıyla eşle.',
+          pairs:[['hĕr','kız'],['tăhăr','dokuz'],['văkăr','öküz']],
+          explain:'Üçünde de Çuvaşça r, Türkçe z’ye karşılık geliyor. Tek bir kural, üç sözcük: rotasizm.'},
+        {type:'match', rule:'l↔ş', q:'Lambdasizm: l ↔ ş eşlemesini yap.',
+          pairs:[['hĕl','kış'],['çul','taş'],['pilĕk','beş']],
+          explain:'Çuvaşça l, ortak Türkçe ş’ye denk düşer. “taş” → çul, “beş” → pilĕk.'},
+        {type:'choice', q:'“Dokuz” Çuvaşçada neden “tăhăr” olur?',
+          options:[{text:'z sesi r’ye döndüğü için',sub:'rotasizm'},{text:'ş sesi l’ye döndüğü için',sub:'lambdasizm'},{text:'ek düştüğü için',sub:''},{text:'ünlü uyumu yüzünden',sub:''}], answer:0,
+          explain:'Doğru — rotasizm. Sözcük sonundaki z, Çuvaşçada düzenli olarak r’ye döner: dokuz → tăhăr.'},
+      ]},
+    { id:'l3', num:'03', title:'Çokluk: -sem', hue:305,
+      desc:'Türkçe -lar/-ler nerede? Çuvaşça çoğulu kendince yapar.',
+      exercises:[
+        {type:'info', tag:'EK', title:'Çokluk eki -sem', exCv:'хӗр-сем', exTr:'kız-lar', exNote:'Aynı işlev, farklı biçim.',
+          body:'Türkçe çoğulu -lAr ile yapar (kız-lar). Çuvaşça ise -sem ekini kullanır: хӗр-сем (kız-lar). İşlev birebir aynı — “birden çok” — ama ekin biçimi tamamen farklıdır. Kök aynı ata, ek ayrışmış.'},
+        {type:'build', tr:'kızlar', hint:'kök “hĕr” + çokluk', answer:['хӗр','сем'],
+          pool:['хӗр','сем','лар','та'], explain:'хӗр + сем = хӗрсем (kızlar). Dikkat: çoğul -лар değil -сем.'},
+        {type:'build', tr:'yıllar', hint:'kök “śul” + çokluk', answer:['ҫул','сем'],
+          pool:['ҫул','сем','рӑ','лар'], explain:'ҫул + сем = ҫулсем. Ayrıca söz başı y- → ҫ (ś): yıl → śul.'},
+      ]},
+    { id:'l4', num:'04', title:'Hâl ekleri: nerede? -ta', hue:90,
+      desc:'Yer ve konum bildiren bulunma hâli iki dilde de çok yakın.',
+      exercises:[
+        {type:'info', tag:'EK', title:'Bulunma hâli -ta / -te', exCv:'вӑрман-та', exTr:'orman-da', exNote:'-DA ≈ -ta, çok yakın akraba.',
+          body:'Bulunma hâli “-de/-da, içinde” anlamını verir. Türkçe -DA, Çuvaşça -ta/-te. Bu ek, çoğul ekinin aksine iki dilde de neredeyse aynı kalmıştır — ortak mirasın hâlâ görünen yüzü.'},
+        {type:'build', tr:'ormanda', hint:'kök “vărman” + bulunma hâli', answer:['вӑрман','та'],
+          pool:['вӑрман','та','сем','рӑ'], explain:'вӑрман + та = вӑрманта (ormanda). Kök de ek de Türkçeye çok yakın.'},
+        {type:'choice', q:'Çuvaşça bulunma hâli eki hangisi?',
+          options:[{text:'-та / -те',sub:'-da/-de'},{text:'-сем',sub:'çoğul'},{text:'-мӑр',sub:'biz'},{text:'-рӑ',sub:'geçmiş'}], answer:0,
+          explain:'-та/-те bulunma hâli ekidir, Türkçe -DA ile akrabadır.'},
+      ]},
+    { id:'l5', num:'05', title:'Fiil: geçmiş + kişi', hue:150,
+      desc:'Birden çok eki üst üste diz: oku + du + k → kur bakalım.',
+      exercises:[
+        {type:'info', tag:'DİZİLİM', title:'Ekler sırayla dizilir', exCv:'вула-рӑ-мӑр', exTr:'oku-du-k', exNote:'KÖK + ZAMAN + ŞAHIS — sıra aynı.',
+          body:'Fiil çekiminde ekler belli bir sırayla gelir: önce kök, sonra zaman, en sonda şahıs. Türkçe “oku-du-k” ile Çuvaşça “вула-рӑ-мӑр” birebir aynı dizilime sahiptir. Yalnızca eklerin sesi farklıdır: -du≈-ră, -k≈-măr.'},
+        {type:'build', tr:'okuduk', hint:'kök “vula” + geçmiş + biz', answer:['вула','рӑ','мӑр'],
+          pool:['вула','рӑ','мӑр','сем','та'], explain:'вула + рӑ + мӑр = вуларӑмӑр. Sıra Türkçeyle aynı: kök → zaman → şahıs.'},
+        {type:'choice', q:'“вуларӑмӑр” sözcüğünde -мӑр eki neyi gösterir?',
+          options:[{text:'1. çoğul şahıs (biz)',sub:'-k'},{text:'geçmiş zaman',sub:'-dı'},{text:'çokluk',sub:'-lar'},{text:'bulunma',sub:'-da'}], answer:0,
+          explain:'-мӑр “biz” öznesini işaretler; Türkçedeki -k ekine denktir.'},
+        {type:'build', tr:'gözüm', hint:'kök “kuś” + iyelik (benim)', answer:['куҫ','ӑм'],
+          pool:['куҫ','ӑм','сем','та'], explain:'куҫ + ӑм = куҫӑм (gözüm). -ӑм iyelik eki, Türkçe -(I)m ile akraba.'},
+      ]},
+  ];
+
+  speak(text){ try { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang='tr-TR'; u.rate=0.82; window.speechSynthesis.speak(u); } catch(e){} }
+  scrollTop(){ setTimeout(()=>{ try { const el = document.getElementById('content-scroll'); if (el) el.scrollTop = 0; } catch(e){} }, 0); }
+  go(screen){ return () => { this.setState({ screen }); this.scrollTop(); }; }
+  runSearch(){
+    const q = (this.state.query||'').trim().toLowerCase();
+    if (!q) return;
+    for (const id in this.WORDS){ const w = this.WORDS[id];
+      if ([w.gloss, w.surface, w.translit].some(s=>String(s).toLowerCase().includes(q))){
+        this.setState({ screen:'analiz', activeWordId:id, selMorphIdx:0, stripCount:0 }); return; } }
+  }
+  active(){ return this.WORDS[this.state.activeWordId]; }
+
+  styleBlock(type, selected){
+    return {
+      cursor:'pointer', display:'flex', flexDirection:'column', alignItems:'center',
+      padding:'16px 22px', borderRadius:'13px',
+      background:this.hueBg(type),
+      border:`2px solid ${selected ? this.hue(type) : this.hueBorder(type)}`,
+      color:this.hue(type),
+      boxShadow: selected ? `0 6px 18px ${this.hueBg(type)}` : 'none',
+      transition:'all .15s',
+    };
+  }
+
+  renderVals(){
+    const S = this.state, w = this.active();
+    if (this._lastScreen !== S.screen){ this._lastScreen = S.screen; this.scrollTop(); }
+    const tag = { home:'/ ana sayfa', analiz:'/ analiz', compare:'/ karşılaştır', learn:'/ öğren', distance:'/ uzaklık gezgini', profile:'/ dil profilleri', history:'/ tarih', paradigm:'/ paradigma', research:'/ araştırmacı', cognate:'/ kognat', sources:'/ kaynaklar' }[S.screen] || '';
+
+    // grouped nav
+    const navGroups = this.NAVGROUPS.map(g=>({
+      group:g.group,
+      items:g.items.map(it=>{
+        const act = S.screen===it.id;
+        return {
+          label:it.label,
+          go: it.soon ? this.go(it.id) : this.go(it.id),
+          badge: it.soon ? 'yakında' : '',
+          badgeStyle: it.soon
+            ? `font-size:9px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:rgba(244,241,234,.4);background:rgba(244,241,234,.08);padding:2px 6px;border-radius:5px`
+            : `display:none`,
+          style:`cursor:pointer;display:flex;align-items:center;gap:6px;border:none;border-radius:9px;padding:9px 14px;font-size:13.5px;font-family:inherit;font-weight:${act?'600':'400'};color:${act?'#211d17':(it.soon?'rgba(244,241,234,.55)':'rgba(244,241,234,.82)')};background:${act?'#f4f1ea':'transparent'}`,
+        };
+      }),
+    }));
+
+    // word chips
+    const chipDefs = [['oku','вуларӑмӑр','okuduk'],['orman','вӑрманта','ormanda'],['kiz','хӗрсем','kızlar'],['yil','ҫулсем','yıllar'],['goz','куҫӑм','gözüm']];
+    const wordChips = chipDefs.map(([id,surface,gloss])=>({
+      surface, gloss,
+      go:()=>this.setState({activeWordId:id, selMorphIdx:0, stripCount:0}),
+      goAnaliz:()=>this.setState({activeWordId:id, selMorphIdx:0, stripCount:0, screen:'analiz'}),
+      style:`cursor:pointer;border:1px solid ${S.activeWordId===id?'#211d17':'rgba(33,29,23,.16)'};background:${S.activeWordId===id?'#211d17':'#fff'};color:${S.activeWordId===id?'#f4f1ea':'#211d17'};border-radius:18px;padding:6px 13px;font-size:13px;font-family:'Spectral',serif;font-weight:500`,
+    }));
+
+    // home cards
+    const homeCards = [
+      {kicker:'ARAŞTIRMACI', title:'Analiz', desc:'Kelimeyi kök ve eklere ayır; renkli morfem blokları, katman ağacı ve satır arası çözümleme.', cta:'Çözümle', hue:this.hue('kök'), go:this.go('analiz')},
+      {kicker:'KÖKENBİLİM', title:'Karşılaştır', desc:'Aynı anlamı yedi dilde yan yana diz; ç↔ş, z↔r ses denkliklerini ve soy ağacını gör.', cta:'Karşılaştır', hue:this.hue('zaman'), go:this.go('compare')},
+      {kicker:'ÖĞRENCİ', title:'Öğren', desc:'Parçalardan Çuvaşça kelime kur, kendi dilinle eşleştir, puan topla.', cta:'Başla', hue:this.hue('kişi'), go:this.go('learn')},
+    ];
+
+    // ---- ANALIZ ----
+    const morphemes = w.morphemes.map((m,i)=>({
+      ...m,
+      disp: this.disp(m.text, (m.gItem||m.text).replace(/-/g,'')),
+      hue:this.hue(m.type),
+      blockStyle:this.styleBlock(m.type, i===S.selMorphIdx),
+      select:()=>this.setState({selMorphIdx:i}),
+    }));
+    const sel = w.morphemes[S.selMorphIdx] || w.morphemes[0];
+    const selOut = {
+      text:sel.text, typeLabel:this.TYPES[sel.type].label, label:sel.label,
+      gloss:sel.gloss, note:sel.note, hueLight:this.hueLight(sel.type),
+    };
+    const viewTabs = [['tree','Ağaç'],['strip','Ek soy']].map(([id,label])=>({
+      label, go:()=>this.setState({analizView:id}),
+      style:`cursor:pointer;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;font-family:inherit;background:${S.analizView===id?'#211d17':'transparent'};color:${S.analizView===id?'#f4f1ea':'#5f574b'}`,
+    }));
+    const treeRows = w.morphemes.map((m,i)=>({
+      text: w.morphemes.slice(0,i+1).map(x=>x.text).join(''),
+      label: i===0 ? 'kök' : `+ ${this.TYPES[m.type].label.toLowerCase()}`,
+      indent:`${i*22}px`, hue:this.hue(m.type), bg:this.hueBg(m.type), border:this.hueBorder(m.type),
+    }));
+    const stripRows = w.morphemes.map((m,i)=>{
+      const removed = i >= (w.morphemes.length - S.stripCount);
+      return { text:m.text, label:m.label, gloss:m.gloss, tag:m.tag, hue:this.hue(m.type),
+        op: removed ? 0.25 : 1, txtColor: removed ? '#9a9082' : this.hue(m.type) };
+    });
+    const remaining = w.morphemes.slice(0, w.morphemes.length - S.stripCount);
+    const stripRoot = remaining.map(x=>x.text).join('') || w.morphemes[0].text;
+
+    // ---- COMPARE ----
+    const compareTabs = [['rows','Dizilim'],['sound','Ses denklikleri'],['tree','Soy ağacı'],['map','Harita']].map(([id,label])=>({
+      label, go:()=>this.setState({compareTab:id}),
+      style:`cursor:pointer;border:none;border-radius:8px;padding:8px 15px;font-size:13px;font-weight:600;font-family:inherit;background:${S.compareTab===id?'#211d17':'transparent'};color:${S.compareTab===id?'#f4f1ea':'#5f574b'}`,
+    }));
+    const cmpBlock = (type)=>`display:flex;flex-direction:column;align-items:center;padding:9px 14px;border-radius:9px;background:${this.hueBg(type)};border:1px solid ${this.hueBorder(type)};color:${this.hue(type)}`;
+    const allLangs = [{lang:w.lang,langName:w.langName,branch:'Ogur',translit:w.translit,morphemes:w.morphemes.map(m=>[m.text,m.tag,m.type]),self:true}, ...w.cognates];
+    const compareRows = allLangs.map(r=>({
+      langName:r.langName, branch:r.branch, translit:r.translit,
+      speak:()=>this.speak(r.translit),
+      rowBg: r.self ? '#211d17' : '#fbfaf6',
+      rowBorder: r.self ? '#211d17' : 'rgba(33,29,23,.1)',
+      nameColor: r.self ? '#f4f1ea' : '#211d17',
+      morphemes: r.morphemes.map(([text,tag,type])=>({text,tag,cmpStyle:cmpBlock(type)})),
+    }));
+    const legend = Object.entries(this.TYPES).map(([k,v])=>({label:v.label, hue:this.hue(k)}));
+    const soundCards = this.SOUND.map((s,i)=>({
+      ...s,
+      select:()=>this.setState({soundSel:i}),
+      cardStyle:`cursor:pointer;text-align:left;background:${i===S.soundSel?'#fff':'#fbfaf6'};border:2px solid ${i===S.soundSel?'#d98b4a':'rgba(33,29,23,.1)'};border-radius:14px;padding:20px 22px;font-family:inherit;box-shadow:${i===S.soundSel?'0 8px 20px rgba(33,29,23,.08)':'none'};transition:all .15s`,
+    }));
+    const familyRows = this.FAMILY.map(f=>({
+      name:f.name, note:f.note, indent:`${f.depth*30}px`, barW:`${f.depth*14}px`,
+      bg: f.hi ? this.hueBg('kök') : '#fff',
+      border: f.hi ? this.hueBorder('kök') : 'rgba(33,29,23,.12)',
+      color: f.hi ? this.hue('kök') : '#211d17',
+    }));
+    const timeline = this.TIMELINE.map((t,i)=>({...t, dot: i===this.TIMELINE.length-1 ? '#d98b4a' : '#2f6fb0'}));
+
+    // ---- LEARN ----
+    const learn = this.learnVals();
+
+    return {
+      navGroups, wordChips, screenTag:tag, query:S.query,
+      onQuery:(e)=>this.setState({query:e.target.value}),
+      onSearchKey:(e)=>{ if(e.key==='Enter') this.runSearch(); },
+      homeModules:this.NAVGROUPS.flatMap(g=>g.items.filter(it=>it.id!=='home').map(it=>({
+        label:it.label, group:g.group, go:this.go(it.id),
+        style:`cursor:pointer;text-align:left;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:11px;padding:12px 15px;font-family:inherit;display:flex;flex-direction:column;gap:2px;transition:border-color .15s,transform .12s`,
+      }))),
+      hubXp:S.xp, hubDoneCount:S.completed.length, hubTotal:this.LESSONS.length,
+      ...this.modeVals(),
+      isHome:S.screen==='home', isAnaliz:S.screen==='analiz', isCompare:S.screen==='compare', isLearn:S.screen==='learn',
+      isDistance:S.screen==='distance', isProfile:S.screen==='profile', isHistory:S.screen==='history', isParadigm:S.screen==='paradigm', isResearch:S.screen==='research', isCognate:S.screen==='cognate',
+      isSoon:false, soonLabel:'',
+      ...this.distanceVals(),
+      ...this.paradigmVals(),
+      ...this.cognateVals(),
+      ...this.profileVals(),
+      ...this.researchVals(),
+      historyRows:this.HISTORY.map(h=>({...h, dot:({dil:'#2f6fb0',yazı:'#d98b4a',eser:'#2f8a5b'})[h.kind]||'#9a9082', kindLabel:h.kind.toUpperCase()})),
+      goCognate:()=>this.setState({screen:'cognate'}),
+      goCompareSound:()=>this.setState({screen:'compare', compareTab:'sound'}),
+      goParadigm:()=>this.setState({screen:'paradigm'}),
+      goResearch:()=>this.setState({screen:'research'}),
+      ...this.sourceVals(),
+      homeCards,
+      // analiz
+      active:{surface:w.surface, translit:w.translit, gloss:w.gloss, langName:w.langName, headword:this.disp(w.surface,w.translit), morphemes},
+      fstAnalysis: (w.morphemes[0].gItem||'').replace(/-/g,'') + w.morphemes.slice(1).map(m=>'+'+m.gloss).join(''),
+      fstSource:this.SOURCES.fst.label, fstLicense:this.SOURCES.fst.lic,
+      speakActive:()=>this.speak(w.translit),
+      sel:selOut, viewTabs,
+      isTreeView:S.analizView==='tree', isStripView:S.analizView==='strip',
+      treeRows, stripRows, stripRoot, stripRootBg:this.hueBg('kök'),
+      stripOne:()=>this.setState(st=>({stripCount:Math.min(st.stripCount+1, w.morphemes.length-1)})),
+      stripReset:()=>this.setState({stripCount:0}),
+      goCompareActive:()=>this.setState({screen:'compare', compareTab:'rows'}),
+      // compare
+      compareTabs, isCmpRows:S.compareTab==='rows', isCmpSound:S.compareTab==='sound', isCmpTree:S.compareTab==='tree', isCmpMap:S.compareTab==='map',
+      compareRows, legend, soundCards, familyRows, timeline,
+      mapNodes:this.MAP.map(m=>{
+        const col = this.BRANCHCOLOR[m.branch];
+        return { name:m.name, branch:m.branch, col,
+          dotStyle:`position:absolute;left:${m.x}%;top:${m.y}%;transform:translate(-50%,-50%);display:flex;flex-direction:${m.below?'column-reverse':'column'};align-items:center;gap:4px;z-index:${m.hi?3:2}`,
+          ball:`width:${m.hi?18:13}px;height:${m.hi?18:13}px;border-radius:50%;background:${col};border:2px solid #fbfaf6;box-shadow:0 0 0 ${m.hi?'4px':'1px'} ${m.hi?'rgba(184,96,46,.25)':'rgba(33,29,23,.12)'}`,
+          label:`font-size:${m.hi?'13px':'12px'};font-weight:${m.hi?'700':'500'};font-family:'Spectral',serif;color:#211d17;white-space:nowrap;background:rgba(251,250,246,.85);padding:1px 6px;border-radius:5px` };
+      }),
+      mapLegend:Object.entries(this.BRANCHCOLOR).map(([k,v])=>({label:k, hue:v})),
+      // learn
+      ...learn,
+    };
+  }
+
+  // ---------- morpheme type lookup ----------
+  typeOf(text){
+    for (const id in this.WORDS){ for (const m of this.WORDS[id].morphemes){ if(m.text===text) return {type:m.type, tag:m.tag}; } }
+    const guess = {'та':{type:'hâl',tag:'BUL'},'да':{type:'hâl',tag:'BUL'},'лар':{type:'çokluk',tag:'ÇĞL'},'сем':{type:'çokluk',tag:'ÇĞL'},'рӑ':{type:'zaman',tag:'GEÇ'},'мӑр':{type:'kişi',tag:'1ÇĞ'},'ӑм':{type:'iyelik',tag:'İYL1'}};
+    return guess[text] || {type:'kök',tag:'KÖK'};
+  }
+
+  lesson(){
+    if (this.state.lessonId==='__weak') return {id:'__weak', num:'★', title:'Zayıf Noktalar', exercises:this.state.weak};
+    return this.LESSONS.find(l=>l.id===this.state.lessonId);
+  }
+  curEx(){ const l=this.lesson(); return l ? l.exercises[this.state.exIdx] : null; }
+
+  // ---------- MODE / SCRIPT ----------
+  modeVals(){
+    const S = this.state;
+    const seg = (active)=>`cursor:pointer;border:none;padding:6px 13px;font-size:12px;font-weight:600;font-family:inherit;border-radius:7px;background:${active?'#211d17':'transparent'};color:${active?'#f4f1ea':'#5f574b'}`;
+    const modeToggle = [['learner','Öğrenen'],['expert','Uzman']].map(([id,label])=>({
+      label, go:()=>this.setState({mode:id}), style:seg(S.mode===id) }));
+    const scriptToggle = [['cyrillic','Кир'],['latin','Lat']].map(([id,label])=>({
+      label, go:()=>this.setState({script:id}), style:seg(S.script===id) }));
+    return { modeToggle, scriptToggle, isExpert:S.mode==='expert' };
+  }
+  // Dile-duyarlı transliterasyon: ortak Kiril tabanı + dile özgü harita.
+  // Yeni dil eklemek = TRANSLIT'e bir kayıt (backend'de her dilin kendi haritası olacak).
+  BASECYR = {'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ж':'j','з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'ts','ч':'ç','ш':'ş','щ':'şç','ъ':'','ы':'ı','ь':'','э':'e','ю':'yu','я':'ya','ё':'yo'};
+  TRANSLIT = {
+    chv: {'ӑ':'ă','ӗ':'ĕ','ҫ':'ś','ӳ':'ü'},                                   // Çuvaşça
+    gen: {'қ':'q','ғ':'ğ','ң':'ñ','ә':'ä','ө':'ö','ү':'ü','ұ':'u','і':'i','һ':'h','ҙ':'ź','ҫ':'ś','ў':'w','ҡ':'q'}, // genel Türkçe Kiril (yaklaşık)
+  };
+  cyr2lat(s, variant){
+    const map = Object.assign({}, this.BASECYR, this.TRANSLIT[variant] || this.TRANSLIT.gen);
+    return String(s).split('').map(ch=>{
+      const up = ch===ch.toUpperCase() && ch!==ch.toLowerCase();
+      const low = ch.toLowerCase();
+      let out = map[ch] !== undefined ? map[ch] : (map[low] !== undefined ? map[low] : ch);
+      if (up && out) out = out.charAt(0).toUpperCase() + out.slice(1);
+      return out;
+    }).join('');
+  }
+  disp(cyr, lat, variant){ if (this.state.script!=='latin') return cyr; return lat || this.cyr2lat(cyr, variant || 'chv'); }
+
+  // ---------- DISTANCE EXPLORER ----------
+  distanceVals(){
+    const S = this.state;
+    const base = this.LANGVEC[S.distBase], t = this.LANGVEC[S.distTarget];
+    if (!base || !t) return {};
+    const val = (key)=> Math.abs(base[key]-t[key]);
+    const pickBase = (code)=> this.setState(st=>({ distBase:code, distTarget: st.distTarget===code ? Object.keys(this.LANGVEC).find(k=>k!==code) : st.distTarget }));
+    const distLangOptions = Object.entries(this.LANGVEC).map(([code,d])=>{
+      const sel = code===S.distBase;
+      return { code, name:d.name, go:()=>pickBase(code),
+        style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:16px;padding:6px 12px;font-size:12.5px;font-family:inherit` };
+    });
+    const distLangs = Object.entries(this.LANGVEC).filter(([code])=>code!==S.distBase).map(([code,d])=>{
+      const sel = code===S.distTarget;
+      const col = this.BRANCHCOLOR[d.branch] || '#5f574b';
+      return { code, name:d.name, branch:d.branch, go:()=>this.setState({distTarget:code}),
+        style:`cursor:pointer;display:flex;align-items:center;gap:9px;text-align:left;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.12)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:10px;padding:10px 13px;font-family:inherit`,
+        dot:`width:9px;height:9px;border-radius:50%;background:${col};flex-shrink:0`,
+        branchStyle:`font-family:'IBM Plex Mono',monospace;font-size:10px;margin-left:auto;color:${sel?'rgba(244,241,234,.6)':'#9a9082'}` };
+    });
+    const axes = this.DISTAXES, n = axes.length;
+    const cx=180, cy=165, R=120;
+    const pt=(v,i)=>{ const a=(-90 + i*(360/n))*Math.PI/180; return [ (cx+R*v*Math.cos(a)).toFixed(1), (cy+R*v*Math.sin(a)).toFixed(1) ]; };
+    const radarPoly = axes.map((ax,i)=>pt(val(ax.key),i).join(',')).join(' ');
+    const radarSpokes = axes.map((ax,i)=>{ const [x,y]=pt(1,i); return {x2:x,y2:y}; });
+    const radarRings = [0.25,0.5,0.75,1].map(r=>({points: axes.map((ax,i)=>pt(r,i).join(',')).join(' ')}));
+    const radarLabels = axes.map((ax,i)=>{ const [x,y]=pt(1.17,i); const xf=parseFloat(x);
+      return {x, y, label:ax.label, anchor: xf<cx-6?'end':(xf>cx+6?'start':'middle') }; });
+    const radarDots = axes.map((ax,i)=>{ const [x,y]=pt(val(ax.key),i); return {x,y}; });
+    const distRows = axes.map(ax=>{ const v=val(ax.key);
+      return { label:ax.label, val:v.toFixed(2), barW:`${Math.round(v*100)}%`,
+        hue:`oklch(${0.78-v*0.28} 0.13 ${40+ (1-v)*120})` }; });
+    const vc=val('cogr'), vl=val('leks'), va=val('anla'), vf=val('filo');
+    let narr;
+    if (vc < 0.2 && vl > 0.4){
+      narr = `${base.name} ile ${t.name} coğrafi olarak komşu (${vc.toFixed(2)}), ama leksikal olarak hâlâ uzak (${vl.toFixed(2)}): yakın yaşamak akraba kelime demek değildir.`;
+    } else if (va > 0.5){
+      narr = `${base.name} ile ${t.name} arasında karşılıklı anlaşılabilirlik düşük (${va.toFixed(2)}): ortak köklere rağmen erken ayrılış anlaşmayı koparmış.`;
+    } else if (vf < 0.15 && vl < 0.2){
+      narr = `${base.name} ile ${t.name} her eksende yakın — aynı kola ait, birbirine çok benzeyen iki dil.`;
+    } else {
+      narr = `${base.name} ile ${t.name} arasında en büyük mesafe filogenetik eksende (${vf.toFixed(2)}); ortak köken derinde ama dallar ayrılmış.`;
+    }
+    return { distLangs, distLangOptions, distBase:S.distBase,
+      distBaseName:base.name, distTargetName:t.name, distBranch:t.branch,
+      distBranchColor:this.BRANCHCOLOR[t.branch]||'#5f574b',
+      radarPoly, radarSpokes, radarRings, radarLabels, radarDots, distRows, distNarr:narr };
+  }
+
+  // ---------- SOURCES ----------
+  sourceVals(){
+    const S = this.state;
+    const screenToMod = {analiz:'Morfolojik Analiz', paradigm:'Paradigma Gezgini', cognate:'Kognat Ağı', compare:'Karşılaştır', distance:'Uzaklık Gezgini', profile:'Dil Profilleri', history:'Tarih & Köken', learn:'Çuvaşça Atölyesi', research:'Araştırmacı Merkezi'};
+    const usage = this.USAGE.find(u=>u.mod===screenToMod[S.screen]);
+    const pageSources = usage ? usage.srcs.map(k=>({label:this.SOURCES[k].label, lic:this.SOURCES[k].lic})) : [];
+    const kindHue = {veri:'#2f6fb0', 'araç':'#2f8a5b', 'literatür':'#8a5cc0', 'geçici':'#b86a2e'};
+    const sourceRows = Object.entries(this.SOURCES).map(([k,v])=>({
+      label:v.label, detail:v.detail, lic:v.lic, kind:v.kind, url:v.url,
+      used: this.USAGE.filter(u=>u.srcs.includes(k)).map(u=>u.mod).join(' · ') || '—',
+      kindStyle:`font-size:10px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;padding:2px 8px;border-radius:5px;color:#fff;background:${kindHue[v.kind]||'#9a9082'}`,
+    }));
+    return { showSrcStrip:!!usage, pageSources, pageHasDemo: usage ? usage.srcs.includes('demo') : false,
+      goSources:this.go('sources'), isSources:S.screen==='sources', sourceRows };
+  }
+
+  // ---------- PARADIGM ----------
+  paradigmVals(){
+    const S = this.state, p = this.PARADIGM[S.paradigmRoot];
+    if (!p) return {};
+    const roots = Object.entries(this.PARADIGM).map(([k,v])=>{
+      const sel = k===S.paradigmRoot;
+      return { key:k, label:v.root, gloss:v.gloss, kind:v.kind, sel,
+        go:()=>this.setState({paradigmRoot:k}),
+        style:`cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:11px;padding:10px 15px;font-family:inherit`,
+        glossStyle:`font-size:11px;color:${sel?'rgba(244,241,234,.6)':'#9a9082'}` };
+    });
+    const cell = (morphs)=> morphs.map(([text,type])=>({ text:this.disp(text), hue:this.hue(type), bg:this.hueBg(type), border:this.hueBorder(type) }));
+    const isVerb = p.kind==='fiil';
+    const rows = p.rows.map(r=>({ caseLabel:r.case, tag:r.tag, sg:cell(r.sg), pl:r.pl?cell(r.pl):null, trSg:r.trSg, trPl:r.trPl,
+      fst: r.sg.map(([t,ty],i)=> i===0 ? this.cyr2lat(t) : '+'+r.tag).join('') }));
+    return { paradigmRoots:roots, paradigmIsVerb:isVerb, paradigmIsNoun:!isVerb, paradigmRows:rows,
+      paradigmTitle:this.disp(p.root, p.rootLat), paradigmGloss:`“${p.gloss}”`,
+      paradigmSub: isVerb ? (p.label+' · şahıs çekimi') : 'Ad çekimi · hâl × sayı' };
+  }
+
+  // ---------- COGNATE NETWORK ----------
+  cognateVals(){
+    const S = this.state, c = this.COGNATES[S.cognateKey];
+    if (!c) return {};
+    const keys = Object.entries(this.COGNATES).map(([k,v])=>{
+      const sel = k===S.cognateKey;
+      return { key:k, label:v.gloss, sel, go:()=>this.setState({cognateKey:k}),
+        style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:18px;padding:7px 16px;font-size:14px;font-family:'Spectral',serif;font-weight:600` };
+    });
+    const n = c.nodes.length;
+    const nodes = c.nodes.map((nd,i)=>{
+      const a = (-90 + i*(360/n))*Math.PI/180;
+      const xp = 50 + 37*Math.cos(a), yp = 50 + 37*Math.sin(a);
+      const col = this.BRANCHCOLOR[nd.branch] || '#5f574b';
+      return { lang:nd.lang, word:this.disp(nd.word, null, nd.lang==='Çuvaşça'?'chv':'gen'), branch:nd.branch, shift:!!nd.shift,
+        xp:xp.toFixed(2), yp:yp.toFixed(2),
+        edgeStroke: nd.shift ? '#d98b4a' : 'rgba(33,29,23,.22)',
+        edgeWidth: nd.shift ? '2' : '1.3', edgeDash: nd.shift ? '5,4' : '0',
+        nodeStyle:`position:absolute;left:${xp.toFixed(2)}%;top:${yp.toFixed(2)}%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;background:${nd.shift?'#211d17':'#fff'};border:2px solid ${col};border-radius:12px;padding:8px 13px;min-width:62px;box-shadow:0 3px 10px rgba(33,29,23,.1);z-index:2`,
+        wordStyle:`font-family:'Spectral',serif;font-size:20px;font-weight:700;color:${nd.shift?'#f4f1ea':'#211d17'}`,
+        langStyle:`font-size:10px;font-family:'IBM Plex Mono',monospace;color:${nd.shift?'rgba(244,241,234,.6)':'#9a9082'}` };
+    });
+    return { cognateKeys:keys, cognateGloss:c.gloss, cognateProto:c.proto, cognateNote:c.note, cognateNodes:nodes };
+  }
+
+  // ---------- LANGUAGE PROFILES ----------
+  vitColor(v){ return v>=5 ? '#2f8a5b' : v>=3 ? '#b89331' : v>=1 ? '#d98b4a' : '#c0492f'; }
+  profileVals(){
+    const S = this.state;
+    const cards = this.LANGPROFILE.map(l=>{
+      const sel = l.code===S.profileSel, vc = this.vitColor(l.vit);
+      return { code:l.code, name:l.name, branch:l.branch, speakers:l.speakers, vc,
+        go:()=>this.setState({profileSel:l.code}),
+        style:`cursor:pointer;text-align:left;background:${sel?'#211d17':'#fbfaf6'};border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.1)'};border-left:4px solid ${vc};border-radius:12px;padding:13px 15px;font-family:inherit`,
+        nameStyle:`font-family:'Spectral',serif;font-size:16px;font-weight:600;color:${sel?'#f4f1ea':'#211d17'}`,
+        metaStyle:`font-size:11px;font-family:'IBM Plex Mono',monospace;color:${sel?'rgba(244,241,234,.6)':'#9a9082'}`,
+        dotStyle:`width:9px;height:9px;border-radius:50%;background:${vc}` };
+    });
+    const sel = this.LANGPROFILE.find(l=>l.code===S.profileSel) || this.LANGPROFILE[0];
+    return { profileCards:cards,
+      profileSel:{...sel, vc:this.vitColor(sel.vit), branchColor:this.BRANCHCOLOR[sel.branch]||'#5f574b'},
+      vitLegend:[{l:'Canlı / ulusal',c:'#2f8a5b'},{l:'Bölgesel',c:'#b89331'},{l:'Tehlikede',c:'#d98b4a'},{l:'Ölmekte (Sınıf 0)',c:'#c0492f'}] };
+  }
+
+  // ---------- RESEARCHER HUB ----------
+  researchVals(){
+    const S = this.state, w = this.WORDS[S.researchWord];
+    if (!w) return {};
+    const words = Object.entries(this.WORDS).map(([k,v])=>{
+      const sel = k===S.researchWord;
+      return { key:k, surface:v.surface, gloss:v.gloss, sel, go:()=>this.setState({researchWord:k}),
+        style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:18px;padding:7px 15px;font-size:14px;font-family:'Spectral',serif;font-weight:600` };
+    });
+    const lemma = (w.morphemes[0].gItem||'').replace(/-/g,'');
+    const feats = w.morphemes.slice(1).map(m=>m.gloss);
+    const pos = w.morphemes.some(m=>m.type==='zaman'||m.type==='kişi') ? 'VERB' : 'NOUN';
+    const json = JSON.stringify({ form:w.surface, translit:w.translit, lang:'chv', lemma, gloss:w.gloss,
+      morphemes:w.morphemes.map(m=>({form:m.text, gloss:m.gloss, type:m.type})),
+      source:'Apertium FST', license:'GPL-3.0' }, null, 2);
+    const conllu = `# lang = chv\n# text = ${w.surface}\n# translit = ${w.translit}\n# gloss = ${w.gloss}\n1\t${w.surface}\t${lemma}\t${pos}\t_\t${feats.join('|')||'_'}\t0\troot\t_\t_`;
+    const csv = `form,translit,lemma,pos,gloss,features\n${w.surface},${w.translit},${lemma},${pos},${w.gloss},${feats.join('+')||'_'}`;
+    const fmts = { json, conllu, csv };
+    const fmtTabs = [['json','JSON'],['conllu','CoNLL-U'],['csv','CSV']].map(([id,label])=>({
+      label, go:()=>this.setState({researchFmt:id}),
+      style:`cursor:pointer;border:none;border-radius:7px;padding:7px 15px;font-size:12.5px;font-weight:600;font-family:'IBM Plex Mono',monospace;background:${S.researchFmt===id?'#2f6fb0':'transparent'};color:${S.researchFmt===id?'#fff':'#5f574b'}` }));
+    return { researchWords:words, researchFmtTabs:fmtTabs, researchCode:fmts[S.researchFmt],
+      researchApiUrl:`GET /api/v1/analyze?lang=chv&form=${encodeURIComponent(w.surface)}`,
+      copyResearch:()=>{ try{ navigator.clipboard.writeText(fmts[S.researchFmt]); }catch(e){} } };
+  }
+
+  // ---------- LEARN render ----------
+  learnVals(){
+    const S = this.state;
+    const base = {
+      learnHub: S.learnView==='hub', learnLesson: S.learnView==='lesson', learnDone: S.learnView==='done', learnFlash: S.learnView==='flash',
+      hubXp:S.xp,
+    };
+    if (S.learnView==='hub') return { ...base, ...this.hubVals() };
+    if (S.learnView==='done') return { ...base, ...this.doneVals() };
+    if (S.learnView==='flash') return { ...base, ...this.flashVals() };
+    return { ...base, ...this.runnerVals() };
+  }
+
+  flashVals(){
+    const S = this.state;
+    if (S.flashSessionDone || S.flashQueue.length===0){
+      return { flashDone:true, flashActive:false, flashKnowN:S.flashStats.know, flashAgainN:S.flashStats.again,
+        flashExit:()=>this.setState({learnView:'hub'}), flashRestart:()=>this.startFlash() };
+    }
+    const card = this.FLASHCARDS.find(c=>c.id===S.flashQueue[S.flashIdx]);
+    return { flashDone:false, flashActive:true,
+      flashFront:this.disp(card.cv, card.lat), flashBack:card.tr, flashRule:card.rule, flashLat:card.lat,
+      flashFlipped:S.flashFlipped, flashUnflipped:!S.flashFlipped, flashFlip:()=>this.flashFlip(),
+      flashProg:`${S.flashIdx+1} / ${S.flashQueue.length}`, flashPct:`${Math.round((S.flashIdx/S.flashQueue.length)*100)}%`,
+      flashKnow:()=>this.flashRate(true), flashAgainBtn:()=>this.flashRate(false),
+      flashExit:()=>this.setState({learnView:'hub'}) };
+  }
+
+  hubVals(){
+    const S = this.state;
+    const cards = this.LESSONS.map((l,i)=>{
+      const done = S.completed.includes(l.id);
+      const prevDone = i===0 || S.completed.includes(this.LESSONS[i-1].id);
+      const locked = !done && !prevDone;
+      const hue = `oklch(0.52 0.13 ${l.hue})`;
+      const bg = `oklch(0.94 0.045 ${l.hue})`;
+      const status = done ? 'Tamamlandı' : locked ? 'Kilitli' : 'Başla';
+      return {
+        num:l.num, title:l.title, desc:l.desc, hue, exCount:l.exercises.length,
+        badge: done ? '✓' : locked ? '🔒' : l.num,
+        badgeStyle:`flex-shrink:0;width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Spectral',serif;font-size:${done||locked?'22px':'20px'};font-weight:700;color:${locked?'#9a9082':done?'#fff':hue};background:${done?'#2f8a5b':locked?'#e6e0d3':bg};border:2px solid ${done?'#2f8a5b':locked?'transparent':hue};z-index:1`,
+        statusStyle:`flex-shrink:0;font-size:12px;font-weight:600;font-family:'IBM Plex Mono',monospace;color:${done?'#2f8a5b':locked?'#9a9082':hue}`,
+        status,
+        cardStyle:`cursor:${locked?'not-allowed':'pointer'};display:flex;align-items:center;gap:18px;text-align:left;background:${done?'#f3f6f1':'#fbfaf6'};border:1px solid ${done?'rgba(47,138,91,.3)':'rgba(33,29,23,.1)'};border-radius:16px;padding:18px 22px;font-family:inherit;opacity:${locked?'0.6':'1'};transition:transform .12s,box-shadow .12s`,
+        go: locked ? ()=>{} : ()=>this.startLesson(l.id),
+      };
+    });
+    const mastered = Object.values(S.srsMap||{}).filter(x=>x.box>=5).length;
+    const ctx = { completed:S.completed.length, mastered, streak:S.streakCount, xp:S.xp };
+    const badges = this.BADGES.map(b=>{ const earned=b.test(ctx);
+      return { icon:b.icon, label:b.label, desc:b.desc, earned,
+        style:`display:flex;flex-direction:column;align-items:center;gap:5px;width:88px;text-align:center;opacity:${earned?1:0.3}`,
+        iconStyle:`width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;background:${earned?'#fbfaf6':'#ece7dc'};border:1.5px solid ${earned?'#d98b4a':'rgba(33,29,23,.12)'}` }; });
+    const workshops = this.WORKSHOPS.map(w=>({
+      label:w.label, sub:w.sub, soon:!!w.soon, active:!!w.active,
+      go: w.active ? ()=>this.setState({learnView:'hub'}) : ()=>{},
+      badge: w.soon ? 'yakında' : 'aktif',
+      style:`cursor:${w.active?'default':'not-allowed'};text-align:left;background:${w.active?'#211d17':'#fbfaf6'};color:${w.active?'#f4f1ea':'#211d17'};border:1px solid ${w.active?'#211d17':'rgba(33,29,23,.12)'};border-radius:13px;padding:14px 16px;font-family:inherit;opacity:${w.soon?0.62:1}`,
+      badgeStyle:`font-size:9.5px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;padding:2px 7px;border-radius:5px;color:${w.active?'#211d17':'#9a8f7a'};background:${w.active?'#d98b4a':'rgba(33,29,23,.07)'}`,
+      subStyle:`font-size:11.5px;margin-top:2px;color:${w.active?'rgba(244,241,234,.6)':'#9a9082'}` }));
+    const extraModes = this.EXTRAMODES.map(m=>({ icon:m.icon, label:m.label, desc:m.desc }));
+    return { lessonCards:cards, hubDoneCount:S.completed.length, hubTotal:this.LESSONS.length,
+      streakCount:S.streakCount, badges, masteredCount:mastered, dueCount:this.FLASHCARDS.length, weakCount:S.weak.length,
+      hasWeak:S.weak.length>0, workshops, extraModes,
+      weakSub: S.weak.length>0 ? `Yanlış yaptığın ${S.weak.length} soruyu tekrarla` : 'Henüz yanlışın yok — ünitelerde birikir',
+      weakArrowOpacity: S.weak.length>0 ? '1' : '0',
+      weakCardStyle:`cursor:${S.weak.length>0?'pointer':'default'};text-align:left;background:#fbfaf6;border:1px solid rgba(33,29,23,.12);border-radius:16px;padding:20px 24px;display:flex;align-items:center;gap:18px;font-family:inherit;opacity:${S.weak.length>0?'1':'0.55'}`,
+      startFlash:()=>this.startFlash(), startReview:()=>this.startReview() };
+  }
+
+  runnerVals(){
+    const S = this.state, l = this.lesson(), ex = this.curEx();
+    const total = l.exercises.length;
+    const out = {
+      curLessonTitle:`ÜNİTE ${l.num} · ${l.title}`,
+      progPct:`${Math.round((S.exIdx/total)*100)}%`,
+      exCounter:`${S.exIdx+1} / ${total}`,
+      exInfo:ex.type==='info', exChoice:ex.type==='choice', exBuild:ex.type==='build', exMatch:ex.type==='match',
+      exitLesson:()=>this.setState({learnView:'hub'}),
+      exExplain: ex.explain || '', exExplainShow: S.exDone && !!ex.explain,
+      explainBg: S.footerOk ? '#eef5ee' : '#fbeee9',
+      explainBorder: S.footerOk ? 'rgba(47,138,91,.3)' : 'rgba(192,73,47,.3)',
+      explainIcon: S.footerOk ? '✓' : '↻',
+      footerFeedback:S.footerFeedback,
+      footerFeedbackStyle:`font-size:13.5px;font-weight:600;color:${S.footerOk===true?'#2f8a5b':S.footerOk===false?'#c0492f':'transparent'}`,
+      onContinue:()=>this.advance(),
+      continueLabel: S.exIdx===total-1 ? 'Bitir' : 'Devam',
+    };
+
+    // INFO
+    if (ex.type==='info'){
+      out.info = { tag:ex.tag, title:ex.title, body:ex.body, exCv:ex.exCv, exTr:ex.exTr, exNote:ex.exNote,
+        tagBg:'oklch(0.94 0.05 35)', tagColor:'#b86a2e' };
+      out.showCheck=false; out.showContinue=true; out.checkOpacity=1;
+    }
+
+    // CHOICE
+    if (ex.type==='choice'){
+      out.choiceQ = ex.q;
+      out.choiceOptions = ex.options.map((o,i)=>{
+        const picked = S.choiceSel===i;
+        const correct = i===ex.answer;
+        let bg='#fff', border='rgba(33,29,23,.16)', mark='';
+        if (S.exDone){
+          if (correct){ bg='#eef5ee'; border='#2f8a5b'; mark='✓'; }
+          else if (picked){ bg='#fbeee9'; border='#c0492f'; mark='✕'; }
+        } else if (picked){ bg='#f2ede0'; border='#d98b4a'; }
+        return { text:o.text, sub:o.sub, mark,
+          pick: S.exDone ? ()=>{} : ()=>this.setState({choiceSel:i, footerFeedback:'', footerOk:null}),
+          style:`cursor:pointer;display:flex;align-items:center;text-align:left;background:${bg};border:1.5px solid ${border};border-radius:12px;padding:14px 18px;font-family:inherit;color:#211d17` };
+      });
+      out.showCheck = !S.exDone; out.showContinue = S.exDone;
+      out.checkOpacity = S.choiceSel===null ? 0.5 : 1;
+      out.onCheck = ()=>this.checkChoice();
+    }
+
+    // BUILD
+    if (ex.type==='build'){
+      out.build = { tr:ex.tr, hint:ex.hint };
+      out.buildSlots = S.build.map((b,i)=>({
+        text:b.text, tag:b.tag, plus: i===S.build.length-1 ? '' : '+',
+        remove: S.exDone ? ()=>{} : ()=>this.setState(st=>({build:st.build.filter((_,k)=>k!==i), footerFeedback:'', footerOk:null})),
+        slotStyle:`cursor:pointer;display:flex;flex-direction:column;align-items:center;padding:11px 16px;border-radius:11px;background:${this.hueBg(b.type)};border:2px solid ${this.hueBorder(b.type)};color:${this.hue(b.type)};font-family:inherit`,
+      }));
+      out.buildEmpty = S.build.length===0;
+      // shuffle pool deterministically by exercise
+      out.choices = ex.pool.map(text=>{
+        const info = this.typeOf(text);
+        return { text, tag:info.tag,
+          pick: S.exDone ? ()=>{} : ()=>this.setState(st=>({build:[...st.build,{text,type:info.type,tag:info.tag}], footerFeedback:'', footerOk:null})),
+          style:`cursor:pointer;display:flex;flex-direction:column;align-items:center;padding:11px 16px;border-radius:11px;background:#fff;border:1px solid rgba(33,29,23,.16);color:${this.hue(info.type)};font-family:inherit` };
+      });
+      out.showCheck = !S.exDone; out.showContinue = S.exDone;
+      out.checkOpacity = S.build.length===0 ? 0.5 : 1;
+      out.onCheck = ()=>this.checkBuild();
+    }
+
+    // MATCH
+    if (ex.type==='match'){
+      out.match = { rule:ex.rule, q:ex.q };
+      const rights = ex.rightOrder || ex.pairs.map(p=>p[1]);
+      out.matchLeft = ex.pairs.map((p,i)=>{
+        const matched = S.matchDone.includes(p[0]);
+        const sel = S.matchSelLeft===p[0];
+        const wrong = S.matchWrong && S.matchWrong[0]===p[0];
+        let bg='#fff',border='rgba(33,29,23,.16)',mark='';
+        if (matched){ bg='#eef5ee'; border='#2f8a5b'; mark='✓'; }
+        else if (wrong){ bg='#fbeee9'; border='#c0492f'; }
+        else if (sel){ bg='#eaf1f8'; border='#2f6fb0'; }
+        return { text:p[0], mark,
+          pick: matched ? ()=>{} : ()=>this.matchPickLeft(p[0]),
+          style:`cursor:pointer;display:flex;align-items:center;background:${bg};border:1.5px solid ${border};border-radius:11px;padding:13px 16px;font-family:'Spectral',serif;font-size:18px;font-weight:600;color:#2f6fb0` };
+      });
+      out.matchRight = rights.map((r)=>{
+        const pair = ex.pairs.find(p=>p[1]===r);
+        const matched = S.matchDone.includes(pair[0]);
+        const wrong = S.matchWrong && S.matchWrong[1]===r;
+        let bg='#fff',border='rgba(33,29,23,.16)',mark='';
+        if (matched){ bg='#eef5ee'; border='#2f8a5b'; mark='✓'; }
+        else if (wrong){ bg='#fbeee9'; border='#c0492f'; }
+        return { text:r, mark,
+          pick: matched ? ()=>{} : ()=>this.matchPickRight(r),
+          style:`cursor:pointer;display:flex;align-items:center;background:${bg};border:1.5px solid ${border};border-radius:11px;padding:13px 16px;font-family:'Spectral',serif;font-size:18px;font-weight:600;color:#b86a2e` };
+      });
+      out.showCheck=false; out.showContinue=S.exDone;
+    }
+
+    return out;
+  }
+
+  doneVals(){
+    const S = this.state, l = this.lesson();
+    const idx = this.LESSONS.findIndex(x=>x.id===l.id);
+    const next = this.LESSONS[idx+1];
+    return {
+      doneTitle:`“${l.title}” ünitesini bitirdin.`,
+      doneXp: l.exercises.length*10,
+      backToHub:()=>this.setState({learnView:'hub'}),
+      hasNextLesson:!!next,
+      goNextLesson: next ? ()=>this.startLesson(next.id) : ()=>{},
+    };
+  }
+
+  // ---------- LEARN actions ----------
+  startLesson(id){
+    this.setState({ learnView:'lesson', lessonId:id, exIdx:0, build:[], choiceSel:null, matchSelLeft:null, matchDone:[], matchWrong:null, exDone:false, footerFeedback:'', footerOk:null });
+  }
+  advance(){
+    const l = this.lesson();
+    if (this.state.exIdx >= l.exercises.length-1){ this.finishLesson(); return; }
+    this.setState(st=>({ exIdx:st.exIdx+1, build:[], choiceSel:null, matchSelLeft:null, matchDone:[], matchWrong:null, exDone:false, footerFeedback:'', footerOk:null }));
+  }
+  finishLesson(){
+    const l = this.lesson();
+    if (l.id==='__weak'){ this.clearWeak(); this.setState({ learnView:'done' }); return; }
+    this.touchStreak();
+    this.setState(st=>{
+      const completed = st.completed.includes(l.id) ? st.completed : [...st.completed, l.id];
+      const xp = st.xp + (st.completed.includes(l.id) ? 0 : l.exercises.length*10);
+      this.saveProgress(xp, completed);
+      return { learnView:'done', completed, xp };
+    });
+  }
+  checkChoice(){
+    const ex = this.curEx();
+    if (this.state.choiceSel===null) return;
+    const ok = this.state.choiceSel===ex.answer;
+    this.setState({ exDone:true, footerOk:ok, footerFeedback: ok?'Doğru!':'Tekrar dene — yeşil olan doğru cevap.' });
+    if (!ok && this.state.lessonId!=='__weak') this.addWeak(ex);
+  }
+  checkBuild(){
+    const ex = this.curEx();
+    if (this.state.build.length===0) return;
+    const ok = this.state.build.map(b=>b.text).join('|') === ex.answer.join('|');
+    if (ok){ this.setState({ exDone:true, footerOk:true, footerFeedback:'Doğru! 🎉' }); }
+    else { this.setState({ build:[], footerOk:false, footerFeedback:'Olmadı — sırayı ve parçaları gözden geçir, tekrar kur.' });
+      if (this.state.lessonId!=='__weak') this.addWeak(ex); }
+  }
+
+  // ---------- FLASHCARDS (SRS) ----------
+  startFlash(){
+    this.touchStreak();
+    const map = this.state.srsMap || {};
+    const q = this.FLASHCARDS.map(c=>c.id).sort((a,b)=>((map[a]&&map[a].box)||0)-((map[b]&&map[b].box)||0));
+    this.setState({ learnView:'flash', flashQueue:q, flashIdx:0, flashFlipped:false, flashSessionDone:false, flashStats:{know:0,again:0} });
+  }
+  flashFlip(){ this.setState(s=>({ flashFlipped:!s.flashFlipped })); }
+  flashRate(known){
+    this.setState(s=>{
+      const id = s.flashQueue[s.flashIdx];
+      const map = {...s.srsMap};
+      const cur = (map[id]&&map[id].box) || 0;
+      map[id] = { box: known ? Math.min(cur+1,5) : 1 };
+      this.saveSrs(map);
+      let queue = s.flashQueue;
+      if (!known && s.flashStats.again < 12) queue = [...queue, id];
+      const next = s.flashIdx+1;
+      return { srsMap:map, flashQueue:queue, flashIdx:next, flashFlipped:false,
+        flashStats:{ know:s.flashStats.know+(known?1:0), again:s.flashStats.again+(known?0:1) },
+        flashSessionDone: next>=queue.length };
+    });
+  }
+  startReview(){
+    if (this.state.weak.length===0) return;
+    this.setState({ learnView:'lesson', lessonId:'__weak', exIdx:0, build:[], choiceSel:null, matchSelLeft:null, matchDone:[], matchWrong:null, exDone:false, footerFeedback:'', footerOk:null });
+  }
+  clearWeak(){ this.saveWeak([]); this.setState({ weak:[] }); }
+  matchPickLeft(left){ this.setState({ matchSelLeft:left, matchWrong:null }); }
+  matchPickRight(right){
+    const ex = this.curEx();
+    const left = this.state.matchSelLeft;
+    if (!left) return;
+    const pair = ex.pairs.find(p=>p[0]===left);
+    if (pair && pair[1]===right){
+      this.setState(st=>{
+        const matchDone = [...st.matchDone, left];
+        const allDone = matchDone.length===ex.pairs.length;
+        return { matchDone, matchSelLeft:null, matchWrong:null,
+          exDone: allDone, footerOk: allDone? true : null,
+          footerFeedback: allDone ? 'Hepsi eşleşti! 🎉' : '' };
+      });
+    } else {
+      this.setState({ matchWrong:[left,right], matchSelLeft:null });
+      setTimeout(()=>{ try{ this.setState({matchWrong:null}); }catch(e){} }, 650);
+    }
+  }
+}
+</script>
+</body>
+</html>

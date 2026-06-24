@@ -32,12 +32,21 @@ Ek katmanlar: **mod** (`learner`/`expert` — uzman modda FST çözümlemesi + h
 | `SOURCES`/`USAGE` | kaynak kütüğü + modül→kaynak | `platform/KAYNAKLAR.md` ile senkron |
 | `FLASHCARDS`/`LESSONS`/`WORKSHOPS`/`BADGES` | ICALL içerik | apertium üretim + ders tasarımı |
 
-## Çalışma yöntemi (bu UI üzerinde)
-1. **Kaynakları çek** (`sources/`) → `platform/KAYNAKLAR.md` defterini güncelle.
-2. **Çıkarım betikleri** (`platform/data/` → `scripts/`): her kaynaktan UI sabitinin şekline uygun **JSON** üret; her kayıt `source`+`license` taşır.
-3. **Backend** (VM, FastAPI): canlı FST analiz/üretim/paradigma + statik JSON servis.
-4. **UI'yı bağla:** illüstratif sabitleri gerçek veri/uç ile değiştir; ilgili modülün **"⚠ örnek"** rozetini kaldır; "KAYNAKLAR" şeridini doğru tut.
-5. **Önizleme:** klasörü statik servis et (ör. `python -m http.server`) → `.dc.html` `support.js` runtime'ı ile render olur.
+## Build (gerçek veri enjeksiyonu) — `build.py`
+> **Kaynak dosya (`Morfoloji Platformu.dc.html`) ASLA elle düzenlenmez** — o senin tasarım export'un, tek doğruluk. Gerçek veri ayrı bir **build adımında** enjekte edilir:
+```
+python platform/ui/build.py        # -> platform/ui/dist/index.html (+ support.js)
+```
+`build.py`, kaynağı + `platform/data/*.json`'u okuyup gerçek-veri sürümünü `dist/`'e üretir. **Sen tasarımı tekrar export edince → sadece `build.py`'yi tekrar çalıştır.** Şu an enjekte edilen: `LANGPROFILE` canlılık alanları ← **Glottolog AES** (Dil Profilleri + Canlılık gerçek; profil modülünün "⚠ örnek" rozeti kalktı) + canlı API tabanı (`KOKEN_API`).
+
+**Önizleme:** `python -m http.server 8080` (repo kökünde) → `http://127.0.0.1:8080/platform/ui/dist/index.html`.
+
+## Çalışma yöntemi (her modül için döngü)
+1. **Kaynağı çek** (`sources/`) → `platform/KAYNAKLAR.md` güncelle.
+2. **Çıkar** (`platform/etl/`): kaynaktan UI sabitine uygun **kaynaklı JSON** (`platform/data/`).
+3. **Backend** (VM, FastAPI): canlı FST analiz/üretim/paradigma (`platform/backend/`).
+4. **`build.py` ile enjekte et:** statik veriyi sabitlere bak; canlı uçları API'ye bağla; ilgili modülün **"⚠ örnek"** rozetini kaldır.
+5. **Önizle & doğrula** (yukarıdaki server).
 
 ## Önemli notlar
 - **MVP dilleri:** tur, aze, kaz, kir, uzb, uig, tat, bak, chv, sah (UI ayrıca tyv/kjh/şor/halaç profili taşır — tehlikedeki odak).

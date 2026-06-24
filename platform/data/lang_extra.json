@@ -1,29 +1,81 @@
 {
   "_meta": {
-    "source": "Wikipedia (en) — Glottolog ve kendi verimizle çapraz-kontrol",
+    "source": "Wikipedia (en) — Glottolog ve kendi verimizle (Savelyev kognat, AES) çapraz-kontrol",
     "license": "CC BY-SA 4.0 (Wikipedia metni)",
     "accessed": "2026-06-24",
-    "note": "speakers/script/serbest-metin Wikipedia'dan (çapraz-kontrollü); kimlik/kol/canlılık Glottolog'dan; ses-denkliği bizim Savelyev verimizden. Doğrulanmamış edebî iddia eklenmedi.",
-    "status": "3/14 dil dolduruldu — kalanlar aynı desenle (Wikipedia + çapraz-kontrol) eklenecek"
+    "note": "speakers/script/serbest-metin Wikipedia'dan (çapraz-kontrollü); kimlik/kol/canlılık Glottolog'dan; ses-denkliği Savelyev verimizden. Doğrulanmamış iddia eklenmedi; kaynakta olmayan kültür notu boş bırakıldı.",
+    "status": "14/14 dil dolduruldu"
   },
   "languages": {
+    "tr": {
+      "speakers": "~85 milyon (2021)", "script": "Latin (1928)",
+      "note": "En çok konuşulan Türk dili; Türkiye'nin ve Kıbrıs'ın resmî dili. 1928'de Atatürk reformuyla Arap kökenli Osmanlı alfabesinden Latin'e geçildi. Belirgin ön/art ünlü uyumu taşır. Dede Korkut Kitabı önemli bir Oğuz anıtıdır.",
+      "src": "en.wikipedia.org/wiki/Turkish_language"
+    },
+    "az": {
+      "speakers": "~24 milyon (2022)", "script": "Latin / Arap (İran)",
+      "note": "Oğuz kolunda Türkçe ve Türkmenceye yakın. Azerbaycan'da Latin (1991'den), İran'da Arap, Dağıstan'da Kiril yazısı kullanılır. Şehriyar'ın 'Heydar Babaya Salam'ı Azerbaycan edebiyatının zirvesi sayılır.",
+      "src": "en.wikipedia.org/wiki/Azerbaijani_language"
+    },
+    "tk": {
+      "speakers": "~6,8 milyon (2023)", "script": "Latin",
+      "note": "Türkmenistan'ın resmî dili. Ana Türkçe'nin birincil uzun ünlülerini koruyan arkaik Oğuz dili (fonemik ünlü uzunluğu). Mahtumkulu Firaki, Türkmen edebiyatının babası sayılır.",
+      "src": "en.wikipedia.org/wiki/Turkmen_language"
+    },
+    "kk": {
+      "speakers": "~16 milyon (2021 sayımı)", "script": "Kiril → Latin (2023–2031)",
+      "note": "Kazakistan'ın resmî dili (Kıpçak kolu). Kiril'den Latin'e kademeli geçiş sürüyor (2023–2031); Çin'de Arap yazısı. Güçlü ünlü uyumlu, sondan eklemeli.",
+      "src": "en.wikipedia.org/wiki/Kazakh_language"
+    },
+    "kg": {
+      "speakers": "~5,6 milyon", "script": "Kiril (Çin'de Arap)",
+      "note": "Kırgızistan'ın resmî dili. Çok katı (sıkı) ünlü/dudak uyumuyla dikkat çeker. Manas Destanı (UNESCO), dünyanın en uzun destanlarından biri olarak bu dile bağlıdır.",
+      "src": "en.wikipedia.org/wiki/Kyrgyz_language"
+    },
+    "tt": {
+      "speakers": "~4 milyon (2020)", "script": "Kiril",
+      "note": "Tataristan Cumhuriyeti (RF) ve İdil-Ural'da konuşulan Kıpçak dili. 9–10 ünlülü, ünlü uyumlu. Altın Orda döneminden gelen zengin yazılı edebî gelenek; RF'de eğitim baskısı altında.",
+      "src": "en.wikipedia.org/wiki/Tatar_language"
+    },
+    "bak": {
+      "speakers": "~1,08 milyon (2020)", "script": "Kiril (ҙ ҫ ғ ҡ)",
+      "note": "Başkurdistan'ın (RF) resmî dili. Diğer Türk dillerindeki t/d/s/z yerine peltek dişsi sürtünmeliler /θ/ /ð/ (ҫ/ҙ) kullanır — Tatarcadan ayıran başlıca özellik. Tehdit altında.",
+      "src": "en.wikipedia.org/wiki/Bashkir_language"
+    },
+    "ug": {
+      "speakers": "~8–13 milyon (2021)", "script": "Arap (UEY)",
+      "note": "Sincan'da (Çin) konuşulan Karluk dili; resmî yazısı Arap kökenli (UEY, sağdan sola). Ünlü daralması ve uyumu taşır. Kaşgarlı Mahmud'un Dîvânu Lugâti't-Türk'ü (11. yy) bu geleneğin anıtıdır. Siyasi baskı altında.",
+      "src": "en.wikipedia.org/wiki/Uyghur_language"
+    },
     "chv": {
-      "speakers": "~740.000 (2020 sayımı)",
-      "script": "Kiril (Ӑ Ӗ Ҫ Ӳ)",
+      "speakers": "~740.000 (2020 sayımı)", "script": "Kiril (Ӑ Ӗ Ҫ Ӳ)",
       "note": "İdil-Ural'da, Çuvaş Cumhuriyeti'nde konuşulur; Oğur (Bulgar) kolunun yaşayan TEK üyesidir. Ayırt edici düzenli ses denklikleri: rotasizm (ortak Türkçe z → Çuvaşça r) ve lambdasizm (ş → l). Nesiller arası aktarım zayıflıyor.",
       "src": "en.wikipedia.org/wiki/Chuvash_language"
     },
     "sah": {
-      "speakers": "~450.000",
-      "script": "Kiril (1939)",
+      "speakers": "~450.000", "script": "Kiril (1939)",
       "note": "Sibirya'nın kuzeyinde, Saha (Yakutistan) Cumhuriyeti'nde konuşulan Sibirya Türk dili. Türk dilleri içindeki en karmaşık ünlü uyumu sistemine sahiptir. Şamanik sözlü destan Olonho (UNESCO) bu dile bağlıdır; geleneksel anlatıcılar azalıyor.",
       "src": "en.wikipedia.org/wiki/Yakut_language"
     },
+    "tyv": {
+      "speakers": "~253.000 (2020)", "script": "Kiril (Ң Ө Ү)",
+      "note": "Güney Sibirya'da, Tuva Cumhuriyeti'nde (RF) konuşulur. Kısa ünlülerde ayırt edici 'düşük perde' (kimi zaman gıcırtılı ses) taşır. Moğolistan ve Çin'de de azınlık olarak yaşar.",
+      "src": "en.wikipedia.org/wiki/Tuvan_language"
+    },
+    "kjh": {
+      "speakers": "~29.000 (2021)", "script": "Kiril (1939)",
+      "note": "Güneybatı Sibirya'da, Hakasya Cumhuriyeti'nde (RF) konuşulan tehlikedeki dil. ~61.000 Hakasın yaklaşık yarısı konuşur; gençlerde Rusçaya kayma belirgin. Genizsil benzeşme süreci taşır.",
+      "src": "en.wikipedia.org/wiki/Khakas_language"
+    },
     "shor": {
-      "speakers": "~2.800 (2010 sayımı)",
-      "script": "Kiril (1938; 1980 reform)",
+      "speakers": "~2.800 (2010 sayımı)", "script": "Kiril (1938; 1980 reform)",
       "note": "Güneybatı Sibirya'da, Kemerovo'daki Dağlık Şoriya'da konuşulan, ciddi tehlikedeki Türk dili (UNESCO: ciddi tehlikede). İki ağzı (Mrassu, Kondoma) farklı Türk alt-kollarına bağlanır. 1930'lar–1980'ler arası ne yazıldı ne okutuldu; 1980'lerden beri canlandırma çabaları var.",
       "src": "en.wikipedia.org/wiki/Shor_language"
+    },
+    "clw": {
+      "speakers": "~19.000 (2018)", "script": "Arap / Latin (transkripsiyon)",
+      "note": "İran'da (Markazi) konuşulan, Argu kolunun yegane temsilcisi — Oğuz değil bağımsız bir dal. Ana Türkçe söz başı *h-'yi ve uzun ünlüleri korur (hadaq 'ayak' ↔ Oğuz ayaq); *d→y değişimini yapmaz. Türkolojinin 'arkaik müzesi'; çocuklara aktarım ~%5, tehlikede.",
+      "src": "en.wikipedia.org/wiki/Khalaj_language"
     }
   }
 }

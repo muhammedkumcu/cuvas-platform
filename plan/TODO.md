@@ -36,7 +36,7 @@
   - [x] **Dil Profilleri + Canlılık** ← `profiles.json` (Glottolog AES); önizlemede doğrulandı (Şorca `EGIDS 8a · ölmekte`), "⚠ örnek" rozeti kalktı.
   - [x] **Harita** ← Glottolog koordinatları (14 dil, gerçek projeksiyon); doğrulandı.
   - [x] **Uzaklık Gezgini** ← gerçek matrisler: 3/5 eksen (leksikal Savelyev + tipolojik WALS + coğrafi koordinat); filo/anla illüstratif kaldı (#4 J matrisleri gelince). Doğrulandı: chv→tt coğrafi 0.02 / leksikal 0.37 / tipolojik 0.26.
-  - [~] **Dil Profilleri zenginleştirme** ← `lang_extra.json` (Wikipedia, Glottolog/kendi verimizle çapraz-kontrollü, atıflı): **3/14 dil** (chv/sah/shor) — speakers(güncel)/script/zengin not. Doğrulandı (Çuvaşça 740k+rotasizm+Wikipedia kaynağı). Kalan 11 dil aynı desenle.
+  - [x] **Dil Profilleri zenginleştirme** ← `lang_extra.json` (Wikipedia, Glottolog/Savelyev ile çapraz-kontrollü, atıflı): **14/14 dil** — güncel speakers/script/zengin not (kaynakta olmayan kültür notu boş bırakıldı). Layout değişmedi (mevcut slotlar).
   - [ ] **Analiz / Paradigma / Üretim** → canlı API (host:8000) — sıradaki (FST kök+etiket verir; en iyi araştırmacı-merkezi/ham çıktı ile).
   - [ ] (öneri) Harita düğümüne tıklayınca → o dilin profiline git (küçük bağ).
   - [x] **Kognat Ağı** ← `cognates.json` (14 kavram, gerçek kognat setleri + boşluklar; Savelyev karşılaştırmalı transkripsiyon — yerel ortografi sonra apertium/translit ile güzelleştirilebilir). Doğrulandı: göz *görs vs Yakut χaraχ boşluğu.

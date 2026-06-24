@@ -1,170 +1,158 @@
-# DEVAM — Oturum Devir Notu (Türk Dilleri Morfoloji Platformu)
+# DEVAM — Oturum Devir Notu (KÖKEN · Türk Dilleri Morfoloji Platformu)
 
-> Yeni oturumda / compact sonrası **İLK BUNU OKU.** Nerede kaldık, sıradaki iş, nasıl sürdürülür — tek kaynak.
-> Sonra ihtiyaca göre: `plan/YOLCULUK-VE-VAZGECILENLER.md` (ne bıraktık+neden), `arastirma/*.prompt.md` (3 derin araştırma),
-> `platform/NOTLAR.md` (apertium nasıl kullanılır), `plan/PLATFORM-OZELLIKLERI.md`.
-> **Güncelleme: 24 Haziran 2026 (2. tur).** §0=güncel durum+sıradaki · §2=VM/apertium ERİŞİMİ (kritik) · §4.6=hatalar/dersler — KAYBOLMASIN · §9=compact sonrası örnek prompt.
-> Yol haritası/todolist: [`plan/TODO.md`](plan/TODO.md). Araştırma promptları: `arastirma/1..4-*.prompt.md`.
+> **Compact sonrası / yeni oturumda İLK BUNU OKU.** Bu §0 = güncel tek-bakış. Sonra: §2 (VM erişimi), §3 (apertium), §4.5 (FELSEFE), §4.6 (HATALAR+ÇÖZÜMLER), §7 (konvansiyonlar).
+> **Güncelleme: 24 Haziran 2026.** Repo: github.com/muhammedkumcu/cuvas-platform (main, push'lu).
 
 ---
 
-## 0) ŞU AN NEREDE KALDIK — TEK BAKIŞ (24 Haz 2026)
+## 0) ŞU AN NEREDE KALDIK — TEK BAKIŞ
 
-**BÜYÜK PİVOT YAPILDI.** Proje artık: *tek dilli "kendi Python motoru" Çuvaşça analizör* DEĞİL → **~20 Türk dili için Apertium-temelli, öğrenen-odaklı morfoloji + KARŞILAŞTIRMA platformu.**
+### NE YAPIYORUZ — amaç
+**KÖKEN** — "Türk dilleri atlası & laboratuvarı." ~20 Türk dili için Apertium FST'leriyle çalışan, **çift kitleli** açık kaynak **morfoloji + karşılaştırma + araştırma platformu**:
+analiz · üretim · paradigma · kognat ağı · ses denkliği · çok-boyutlu uzaklık · dil profilleri · harita · tarih · ICALL.
+- **İki kitle:** (1) **öğrenenler** (çocuk/öğrenci) + (2) **araştırmacılar (KRİTİK)** — "literatür karşısındaymış gibi", Türk dil dünyasının takip edildiği, araştırmacının **ilk uğrağı**, işini kolaylaştıran (birleşik sorgu, toplu analiz, dışa aktarım, açık API) merkez.
+- Düşük-kaynaklı/**tehlikedeki** üyelere (Çuvaş, Saha, Tuva, Hakas, Şor, Halaç) özel önem (dijital kapsayıcılık misyonu).
+- **Felsefe/ilkeler: §4.5 — MUTLAKA OKU.** Akademik hedef: çift-kitleli çok-dilli çok-boyutlu böyle bir platform YOK (apertium=CLI/MT, turkicnlp=dev-kütüphane). Venue: UBMK/TurkLang ya da daha güçlüsü (tarihe sıkışma).
 
-- **Motor kararı KESİN:** Apertium FST'leri (analiz **ve** üretim), `turkicnlp`+`hfst` ile, **Linux'ta** çalışır. ~20 Türk dili. **KANITLANDI** (VM'de canlı test — §3).
-- **Kendi Python motorumuz TERK EDİLDİ** → `arsiv/cuvasca-kendi-motor/` (neden: `plan/YOLCULUK-VE-VAZGECILENLER.md`). Saklanan varlık: **karışık-yazı kirliliği bulgusu %45.85** (sona saklandı, kullanıcı kararı).
-- **Klasör YENİDEN DÜZENLENDİ** (24 Haz): `arastirma/` · `plan/` · `platform/` · `arsiv/`. Kök sade.
-- **Repo temiz + push'lu:** github.com/muhammedkumcu/cuvas-platform (main). Commit'lerde **yalnız kullanıcı** görünür (Co-Authored-By Claude YOK — §7).
+### MİMARİ — 3 katman
+1. **Backend (VM/Linux)** — `platform/backend/app.py` (FastAPI), apertium FST sarıcı. Uçlar: `/health /languages /analyze {lang,word} /analyze_all {word} /generate {lang,query} /paradigm/{lang}/{lemma}`. 10 MVP dil FST'si indirilmiş. Host'tan `http://127.0.0.1:8000` (VBox port-forward `koken`:8000 + guest firewalld 8000). **Başlat/durdur + ⚠ uvicorn restart tuzağı: §4.6 + `platform/backend/README.md`.**
+2. **Veri (gerçek, locale çekilmiş, kaynaklı)** — `platform/data/*.json` (her dosya `_meta`+lisans):
+   `cognates.json` · `languages.geo.json` · `distance.lexical.json` · `distance.typological.json` · `features.wals.json` · `profiles.json` (+AES canlılık) · `intelligibility.json` (Lindsay) · `lang_extra.json` (Wikipedia, 14 dil).
+   Çıkarım betikleri: `platform/etl/` (savelyev/glottolog/wals). Ham kaynaklar: `sources/` (gitignored: savelyevturkic, glottolog-cldf, wals, northeuralex, unimorph×9, UD×4). **Provenance defteri: `platform/KAYNAKLAR.md`.**
+3. **UI (KÖKEN)** — `platform/ui/`. ⚠⚠ **KURAL: kullanıcının tasarım export'u `Morfoloji Platformu.dc.html` (DesignCanvas; `support.js`=runtime) ELLE DÜZENLENMEZ.** Tüm değişiklikler **`platform/ui/build.py`** ile enjekte edilir → **`dist/index.html`** (çalıştırılabilir). Kullanıcı tasarımı tekrar export edince → `python platform/ui/build.py` tekrar çalıştır. Veri sözleşmesi + modül haritası: `platform/ui/README.md`.
 
-### ★ ÇİFT KİTLE & TAKVİM (24 Haz, 2. tur kararları)
-- **İki hedef kitle:** (1) **Öğrenenler** (çocuk/öğrenci/meraklı) + (2) **Araştırmacılar (KRİTİK):** "literatür karşılarındaymış gibi", **Türk dil dünyasının takip edildiği**, araştırmacının **ilk uğrayacağı**, işini gerçekten kolaylaştıran (birleşik arama, karşılaştırmalı sorgu, toplu üretim/analiz, dışa aktarım, açık API, kaynak/literatür hub'ı) **çözüm‑odaklı merkez.**
-- **Takvim:** Platformun hakkını ver; **30 Haziran UBMK son tarihine SIKIŞMA** (yetişirsek sunarız). Daha ileri/güçlü venue hedefle. "Tarih yokmuşçasına" sağlam çalış.
-- **MVP dilleri (KESİN):** 5-kol 10 dil → **tur, aze, kaz, kir, uzb, uig, tat, bak, chv, sah** → sonra 20'ye ölçekle.
+### MODÜL DURUMU (hepsi build.py ile enjekte, Claude_Preview'da doğrulandı)
+- ✅ **Dil Profilleri + Canlılık** — Glottolog AES + 14/14 dil Wikipedia zengin metin (çapraz-kontrollü, atıflı). Harita düğümü → profil.
+- ✅ **Harita** — 14 dil Glottolog koordinat (şematik projeksiyon).
+- ✅ **Uzaklık Gezgini** — **5/5 eksen kaynaklı**: leksikal+filogenetik (Savelyev), tipolojik (WALS), coğrafi (koordinat), anlaşılabilirlik (Lindsay).
+- ✅ **Kognat Ağı** — 14 kavram, gerçek kognat setleri+boşluklar (Savelyev). NOT: formlar **karşılaştırmalı transkripsiyon** (kuś, χaraχ); yerel ortografi = **C planı**.
+- ✅ **Analiz + Paradigma → CANLI API, herhangi kelime/dil** — bağlam çubuğunda **10-dil seçici** (`searchLang`); Analiz seçili dilde herhangi kelimeyi `/analyze`; Paradigma'da **serbest kök girişi** (örneklerin üstünde) → `/paradigm/<dil>/<kök>`. Graceful fallback (VM kapalıysa illüstratif).
+- ✅ **öğrenen/uzman KALDIRILDI** (her şey hep görünür, `isExpert=true`); **script toggle (Кир/Lat) KALDI**. Paradigma başlığı **dinamik** (sabit "Çuvaşça" bug'ı düzeldi).
 
-### ★ SIRADAKİ İŞ (compact sonrası buradan devam) — bkz. [`plan/TODO.md`](plan/TODO.md)
-**ARAŞTIRMA FAZI TAMAM — sırada MİMARİ tasarımı (BİRLİKTE).**
-1. **Elde 3 geçerli derleme** (`arastirma/`):
-   - `3-turk-dilleri-karsilastirma.pdf` (#3, eşzamanlı dilbilim, 26 sf/108 kaynak: ses denklikleri, paradigmalar, kognatlar, veri envanteri).
-   - `3b-karsilastirma-agi-temeli.pdf` (#3'ün 2. motoru — **ÜRÜN/MÜHENDİSLİK odaklı**: 3-katman veri mimarisi, **Apertium FST olgunluk seviyeleri** [prod: tat/sah/kaz/tur/kir/crh/tyv · working: chv/uzb/bak/kaa/uig/krc/gag/kum · proto: aze/tuk/nog/kjh/alt], SavelyevTurkic CLDF + NorthEuraLex veri setleri+lisans, core/extended hal DB tasarımı, önerilen MVP seti).
-   - `4-turk-dilleri-tarih-sosyokultur-iliski.pdf` (#4, 24 sf/68 kaynak: tarih, 20-dil profili, alfabe reformu, canlılık/EGIDS+Joshi, Altay tartışması, areal, kültür/destan, genetik-vs-dil, **çok-boyutlu uzaklık matrisleri J.1-3**, araştırmacı ekosistemi, 20-dil profil matrisi).
-2. **NOT (misfire):** `4-KONUDISI-derin-arastirma-metodolojisi.pdf` = bir motor promptu YANLIŞ anlayıp "derin araştırma nedir" metodoloji denemesi yazmış (PRISMA/Cochrane/KVKK). İçerik için KULLANILMAZ; kayıt için duruyor.
-3. **KARARLAR KİLİTLENDİ:** MVP = 5-kol 10 dil (tur,aze,kaz,kir,uzb,uig,tat,bak,chv,sah) · ilk dilim = morfoloji çekirdeği · FastAPI+SQLite+açık API · **UI'yı kullanıcı veriyor.** Vizyon: `plan/PLATFORM-VIZYON.md`.
+### ★★ SIRADAKİ İŞ — A→F PLANI (compact sonrası TEK PATCHTE; her adımda commit+push+kontrol)
+**Kullanıcı bu planı ve sırayı ONAYLADI.** "tek patchte bitir, aralarda commit atıp kontrolleri yap."
+- **A) Multi-dil OTOMATİK analiz** — backend `/analyze_all` ✅ YAZILDI+COMMIT (`c0efe60`) **ama ⚠ VM uvicorn ESKİ kodu servis ediyordu → ÖNCE temiz restart + `/analyze_all` doğrula (§4.6).** UI YAPILACAK: dil seçicide **"⚡ Otomatik (tüm diller)"** seçeneği → `runSearch` otomatik dalı → `/analyze_all` → ilk eşleşen dil aktif + Analiz görünümünde **"bu kelime şu dillerde:"** çip satırı (tıkla → o dile geç). State: `apiMatches`. (FST kök+etiket verir, yüzey-segmentasyon değil — kabul.)
+- **B) Araştırmacı Merkezi'ni CANLIYA bağla** — şu an küratörlü WORDS. Serbest kelime girişi + seçili dil → canlı `/analyze` → **gerçek CSV/JSON/CoNLL-U dışa aktarım**.
+- **C) Kognat yerel ortografi** — Savelyev formları Latin transkripsiyon (kuś, χaraχ). Doğru yerel-script türetmek zor (kaynak vermiyor) → **okunur transkripsiyon temizliği** (χ→h, ɕ→ś, ŋ→ñ, ʃ→ş, ɣ→ğ, ɯ→ı …) + "karşılaştırmalı biçim" etiketi (dürüst).
+- **D) Karşılaştır "dizilim" sekmesi canlı** — aranan kelimeyi diller-arası analiz (`analyze_all`). Sınırlı (FST kök+etiket).
+- **E) Tarih & Köken kaynaklı genişletme** — `#4`/Glottolog'dan kaynaklı zaman çizelgesi olayları/profil notları.
+- **F) Kaynaklar 'demo' temizliği** — kullanılmayan 'demo' SOURCES kaydını çıkar.
 
-### ★★ UI GELDİ — KÖKEN (24 Haz, 3. tur) — ŞİMDİ BURADAN DEVAM
-- **UI entegre edildi** → `platform/ui/` ("KÖKEN — Türk dilleri atlası & laboratuvarı"). DesignCanvas prototipi (`Morfoloji Platformu.dc.html` + `support.js` runtime). **Güncel hâl KODDA** (screenshots ESKİ). Tam modül seti + 14 dil profili + öğrenen/uzman modu + Kiril/Latin translit + **yerleşik SOURCES/USAGE kaynak-kütüğü** (her veride lisans, "⚠ örnek/illüstratif" rozeti). Veri şu an **illüstratif**.
-- **Kullanıcı ilkesi (KRİTİK):** kaynaklar çok önemli → **doğrudan kaynakları belirt + locale çek + incele**, uydurma yok. → `platform/KAYNAKLAR.md` (provenance defteri) + `platform/ui/README.md` (veri sözleşmesi).
-- **İlk kaynak çekildi:** `sources/savelyevturkic` (SavelyevTurkic CLDF, CC BY 4.0): 32 dil (10 MVP'nin hepsi var) + glottocode/ISO/**lat-long** + 254 kavram + 8360 form + 8360 kognat yargısı. → Kognat Ağı + Harita + Uzaklık(leksikal) gerçek veri kaynağı.
-### ★★★ VERİ + BACKEND CANLI (24 Haz, 4. tur) — BURADAN DEVAM
-- **Kaynak hasadı + ÇIKARIM YAPILDI (hepsi kaynaklı, `_meta` ile):** `platform/data/` →
-  - `cognates.json` (SavelyevTurkic CLDF, 254 kavram/905 kognat seti) · `languages.geo.json` (32 dil lat/lon/kol) · `distance.lexical.json` (32×32 derin-kognat mesafe)
-  - `profiles.json` (Glottolog, 23 dil + **AES canlılık** EGIDS/UNESCO eşlemeli) · `distance.typological.json` + `features.wals.json` (WALS, 192 özellik)
-  - Çıkarım betikleri: `platform/etl/` (savelyev/glottolog/wals). Hasat: `sources/` (savelyevturkic, glottolog-cldf, northeuralex, wals, unimorph×9, UD×4). Defter: `platform/KAYNAKLAR.md`.
-- **BACKEND CANLI (VM):** `platform/backend/app.py` (FastAPI) → MVP 10 dil için **apertium analiz + üretim + paradigma**. Host'tan `http://127.0.0.1:8000` (VBox port-forward `koken` 8000 + guest firewalld 8000 açık). Test: tur/chv/kaz/sah analiz, chv üretim (`кӗнеке<n><pl><dat>→кӗнекесене`) + paradigma. Her yanıt `_source` (Apertium GPL-3.0). **Başlat/durdur + erişim: `platform/backend/README.md`.**
-  - Hızlı başlat (VM kapanıp açılırsa uvicorn'u tekrar başlat): `ssh ... 'cd /root/koken_api && setsid /root/apv/bin/uvicorn app:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 < /dev/null &'`
-- **UI BAĞLAMA — `platform/ui/build.py` → `dist/index.html`** (**kaynak `.dc.html` ELLE DÜZENLENMEZ**; build veriyi enjekte eder; kullanıcı re-export'ta `python platform/ui/build.py` tekrar çalışır). Hepsi Claude_Preview'da doğrulandı:
-  - ✅ **Dil Profilleri + Canlılık** ← Glottolog AES + **14/14 dil zengin metin** (`lang_extra.json`, Wikipedia çapraz-kontrollü+atıflı: güncel konuşur/yazı/not).
-  - ✅ **Harita** ← Glottolog koordinatları (14 dil) + **düğüme tıkla → profil**.
-  - ✅ **Uzaklık Gezgini** ← **5/5 eksen kaynaklı**: leksikal+filogenetik (Savelyev), tipolojik (WALS), coğrafi (koordinat), anlaşılabilirlik (Lindsay `intelligibility.json`). "örnek" rozeti kalktı.
-  - ✅ **Kognat Ağı** ← `cognates.json` (14 kavram, kognat boşlukları; Savelyev transkripsiyon).
-  - ✅ **Analiz + Paradigma → CANLI API, HERHANGİ KELİME/DİL** (host:8000): bağlam çubuğunda **10-dil seçici** (searchLang); Analiz seçili dilde herhangi kelimeyi /analyze eder; Paradigma'da **serbest kök girişi** → /paradigm/<dil>/<kök> canlı çekim. Doğrulandı (tur+'ev'→evin/eve/…). VM kapalıysa graceful fallback.
-- **Gelecek planı kaydedildi:** `plan/GELECEK-PLANLAR.md` — çocuk/eğitim portalı (öğrenen modu, onaylı, yatay ölçek sonrası).
-- **3 kopya düzeltmesi** (konservatif): profil başlığı · kognat notu kaynak tekrarı · Uzaklık illüstratif caption.
-- **METODOLOJİ (kullanıcı teyidi):** PDF'ler **doğrudan veri değil**; PDF'lerin işaret ettiği veri setlerini internetten `git clone` ile **locale çekip** (`sources/`) inceleyip `etl/` ile çıkarıyoruz. "Uydurma yok" (ör. Uzbek AES yok → null).
-- **SIRADAKİ:** (a) **Analiz/Paradigma/Üretim → canlı API** (host:8000, CORS açık) — NOT: FST kök+etiket verir, yüzey-segmentasyon değil; en doğal yer Araştırmacı Merkezi ham çıktısı / uzman modu `fstAnalysis`. (b) **filo/anla eksenleri**: yayınlanmış Savelyev/Robbeets Bayes ağacı + Lindsay anlaşılabilirlik verisi (temiz dataset değil → kaynak bul ya da literatür-temelli işaretle). (c) Kognat formlarını yerel ortografiye translit. (d) araştırmacı uçları (dışa aktarım/API doc).
-- **YATAY ÖLÇEK (tüm Türk dilleri):** veri zaten 23-32 dili kapsıyor; MVP 10 uçtan uca bitince kalan FST'leri indir + UI dil listesini aç (ucuz). "Önce dikey, sonra yatay."
-- **Önizleme:** `python -m http.server 8080` (repo kökü) → `http://127.0.0.1:8080/platform/ui/dist/index.html` (VM açık + uvicorn çalışır olmalı canlı API için). `.claude/launch.json` = Claude_Preview config.
-5. **Sona:** UniMorph/UD/Wiktionary değerlendirme + karışık‑yazı bulgusu + Çuvaşça derin vaka + paper.
+> Her adım döngüsü: `build.py`'ye yama → `python platform/ui/build.py` → Claude_Preview'da doğrula → commit+push. **Preview: reload/click sonrası eval ASYNC — bir tık sonra tekrar oku.**
 
-> Akademik katkı (gap): **Türk dilleri için çift‑kitleli (öğrenen + araştırmacı), çok‑dilli, çok‑boyutlu morfoloji + karşılaştırma + araştırma merkezi YOK** (apertium=CLI/MT, turkicnlp=dev‑kütüphane). Onu açıyoruz + karşılaştırma/uzaklık ağı + araştırmacı hub'ı + (sona) karışık‑yazı.
+### OKUNMASI GEREKEN MD'LER (sırayla)
+1. **Bu DEVAM.md** — özellikle §0, §2 (VM), §3 (apertium), §4.5 (felsefe), §4.6 (hatalar), §7.
+2. `platform/ui/README.md` — UI veri sözleşmesi + **build.py workflow** (kritik: .dc.html elle düzenlenmez).
+3. `platform/KAYNAKLAR.md` — kaynak/lisans defteri (provenance).
+4. `platform/backend/README.md` — API başlat/durdur/erişim.
+5. `plan/TODO.md` (yol haritası, A→F işli) · `plan/PLATFORM-VIZYON.md` (vizyon/modüller/ekran haritası) · `plan/GELECEK-PLANLAR.md` (çocuk eğitim portalı — onaylı, yatay ölçek sonrası) · `plan/YOLCULUK-VE-VAZGECILENLER.md` (ne bıraktık+neden).
+
+### KRİTİK HATIRLATMALAR
+- Commit'lerde **yalnız kullanıcı (Muhammed Kumcu)** görünür — **Co-Authored-By Claude YOK**.
+- **`.dc.html` ELLE DÜZENLENMEZ** → her şey `build.py`. Siteyi BOZMA (güzel tasarım); değişiklikleri abartma, net olanları yap.
+- **Kaynak ilkesi:** PDF doğrudan veri değil; işaret ettiği veri setini locale çek, çapraz-kontrol et (özellikle Wikipedia), atıf+lisans ver, **uydurma yok** (kaynak yoksa null/boş bırak).
+- **Önce dikey (MVP sağlam+kaliteli), SONRA yatay (tüm Türk dillerine ölçek).** Yatay ölçek EN SON.
+- Canlı API için **VM açık + uvicorn çalışır** olmalı.
 
 ---
 
-## 1) PROJE
-**Açık kaynak, öğrenen-odaklı Türk dilleri morfoloji + karşılaştırma platformu.** ~20 dil için (Apertium FST): analiz + üretim + paradigma + ICALL (oyunlaştırılmış öğrenme) + **diller arası kognat/ses-denkliği karşılaştırma ağı**. Düşük kaynaklı/tehlikedeki üyelere (Çuvaş, Hakas, Tuva, Saha…) önem. **Hedef:** UBMK 2026 / TurkLang. Repo: `muhammedkumcu/cuvas-platform`.
-
-Diller (apertium morph): **chv tur aze tuk gag crh tat bak kaz kir kaa krc kum nog uzb uig alt kjh tyv sah** (+klj kısmi).
+## 1) PROJE (özet)
+Açık kaynak, çift-kitleli (öğrenen+araştırmacı) **Türk dilleri morfoloji + karşılaştırma + araştırma platformu**. Diller (apertium morph backend): **chv tur aze tuk gag crh tat bak kaz kir kaa krc kum nog uzb uig alt kjh tyv sah** (+klj kısmi). MVP 10: tur, aze, kaz, kir, uzb, uig, tat, bak, chv, sah.
 
 ---
 
 ## 2) ORTAM — VM/APERTIUM ERİŞİMİ (KRİTİK)
 - **Proje kökü (Windows/host):** `C:\Users\Tombulteke\Desktop\cuvas-guncelleme`
-- **Windows'ta apertium ÇALIŞMAZ** (`pip install hfst` wheel-build hatası, C++ derleme). **Geliştirme Linux VM'de yapılır.**
-- **VM:** VirtualBox `RHEL9-Bootcamp` (RHEL 9.8, Python 3.9, 4 CPU, 7.6GB). Host'tan **SSH ERİŞİMİ KURULU:**
+- **Windows'ta apertium ÇALIŞMAZ** (`pip install hfst` derlenmez). **Geliştirme/canlı API Linux VM'de.**
+- **VM:** VirtualBox `RHEL9-Bootcamp` (RHEL 9.8, Python 3.9). Host'tan SSH:
   ```bash
   ssh -i ~/.ssh/cuvas_vm -p 2222 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@127.0.0.1
   ```
-  - VirtualBox NAT port-yönlendirme (host 2222 → guest 22) host'tan eklenmişti:
-    `VBoxManage controlvm "RHEL9-Bootcamp" natpf1 "ssh,tcp,127.0.0.1,2222,,22"` (kalıcı; VM kapanırsa tekrar gerekebilir).
-  - Anahtar: `~/.ssh/cuvas_vm` (host). VM'de `/root/.ssh/authorized_keys`. (Kullanıcı isterse anahtarı silip erişimi geri alabilir.)
-  - **apertium venv VM'de hazır:** `/root/apv` (`hfst`+`turkicnlp` kurulu). apertium-chv FST indirilmiş.
-  - Bağlanamazsan: VM açık mı, port-forward duruyor mu (`VBoxManage showvminfo "RHEL9-Bootcamp" --machinereadable | grep -i forwarding`), sshd çalışıyor mu kontrol et.
-- `VBoxManage` host'ta: `/c/Program Files/Oracle/VirtualBox/VBoxManage.exe`.
-- **gh** (host) `muhammedkumcu` ile authenticated → repo push/oluşturma çalışır.
+  - NAT port-forward (host 2222→guest 22) + (host 8000→guest 8000, adı `koken`). VM kapanırsa tekrar gerekebilir:
+    `VBoxManage controlvm "RHEL9-Bootcamp" natpf1 "ssh,tcp,127.0.0.1,2222,,22"` / `... "koken,tcp,127.0.0.1,8000,,8000"`.
+  - venv: `/root/apv` (hfst+turkicnlp+fastapi+uvicorn). FST'ler `/root/.turkicnlp/models/`. API kodu: `/root/koken_api/app.py`.
+  - guest firewalld'de 8000 açık (`firewall-cmd --add-port=8000/tcp --permanent`).
+- `VBoxManage` host'ta: `/c/Program Files/Oracle/VirtualBox/VBoxManage.exe`. `gh` (host) `muhammedkumcu` authenticated.
 
 ---
 
-## 3) APERTIUM — NASIL KULLANILIR (kanıtlanmış, VM'de)
-```bash
-# VM'de (Linux):
-pip install hfst turkicnlp        # hfst Linux'ta hazır wheel (Windows'ta DERLENMEZ)
-python3 -c "import turkicnlp; turkicnlp.download('chv')"   # apertium FST indir
-```
-- FST yolları: `~/.turkicnlp/models/<dil>/<script>/morph/apertium/`
-  - `<dil>.automorf.hfst` = **ANALİZ** (yüzey → kök+etiket)
-  - `<dil>.autogen.hfst` = **ÜRETİM** (etiket → yüzey)
-- **Yüksek seviye (turkicnlp):** `Pipeline("chv", processors=["tokenize","morph"])` → token'lara `.lemma` + `.feats` (UD-tarzı). (`torch yok` uyarıları zararsız — nöral backend atlanır.)
-- **Düşük seviye (hfst, üretim için):**
-  ```python
-  import hfst
-  gen = hfst.HfstInputStream(".../chv.autogen.hfst").read()
-  gen.lookup("кӗнеке<n><pl><dat>")   # -> [('кӗнекесене', 0.0)]
+## 3) APERTIUM / BACKEND — NASIL ÇALIŞIR (kanıtlanmış)
+- FST yolları: `~/.turkicnlp/models/<dil>/<script>/morph/apertium/<dil>.{automorf|autogen}.hfst` (analiz | üretim).
+- İndirme (yalnız morph, nöral modeller DEĞİL): `turkicnlp.download(lang, processors=['morph'], script=<Latn|Cyrl|Arab>)`.
+- Düşük seviye: `hfst.HfstInputStream(path).read().lookup("кӗнеке<n><pl><dat>")` → `[('кӗнекесене',0.0)]`.
+- **API başlat (VM'de) — TEMİZ restart (§4.6'daki tuzağa dikkat):**
+  ```bash
+  ssh ... 'pkill -9 -f "uvicorn app:app"; sleep 2; cd /root/koken_api && setsid /root/apv/bin/uvicorn app:app --host 0.0.0.0 --port 8000 >uvicorn.log 2>&1 </dev/null & '
+  # SONRA VM-İÇİ doğrula: ssh ... 'curl -s http://127.0.0.1:8000/health'  (host'tan önce!)
   ```
-- **KANITLANMIŞ çıktılar (chv):**
-  - Analiz: `кӗнекесене → кӗнеке<n><pl><dat>`, `вулатӑп → вула<v><...><pres><p1><sg>`
-  - Üretim: `кӗнеке<n><pl><dat> → кӗнекесене`, `вула<v><tv><pres><p1><sg> → вулатӑп`
 
 ---
 
-## 4) PİVOT GEÇMİŞİ & KARARLAR (kısa)
-- **Faz 1 (terk):** Türkmence kendi-motorunu Çuvaşça için tekrarladık → `arsiv/cuvasca-kendi-motor/` (63.5K sözlük, Python motor, %75 kapsam, web/ICALL, 62 test, **karışık-yazı %45.85 bulgusu**). Detay+neden: `plan/YOLCULUK-VE-VAZGECILENLER.md`.
-- **Kırılma:** apertium olgun + Linux'ta çalışıyor → kendi motor gereksizdi. Kullanıcı itirazı haklıydı.
-- **Pivot:** çok-dilli apertium platformu + **karşılaştırma ağı** (kullanıcı fikri — Türk dillerini birbiriyle karşılaştır).
-- **Onaylı kararlar:** çok-dilli yön (Option 1); paper İngilizce; commit'lerde Claude görünmez; karışık-yazı bulgusu **sona**.
+## 4) PİVOT GEÇMİŞİ (kısa)
+- **Faz 1 (terk):** Türkmence kendi-motorunu Çuvaşça için tekrarladık → `arsiv/cuvasca-kendi-motor/` (Python motor, %75 kapsam, **karışık-yazı %45.85 bulgusu** — sona saklandı). Detay: `plan/YOLCULUK-VE-VAZGECILENLER.md`.
+- **Kırılma:** apertium olgun + Linux'ta çalışıyor → kendi motor gereksizdi (kullanıcı haklıydı).
+- **Pivot:** çok-dilli apertium platformu + karşılaştırma ağı (kullanıcı fikri).
 
 ## 4.5) FELSEFE & İLKELER (yön bunlardan çıkar)
 - **Olgun açık kaynağı yeniden icat etme** → üstüne değer kat (erişilebilirlik, pedagoji, karşılaştırma).
-- **Düşük-kaynak/tehlikedeki Türk dilleri için dijital kapsayıcılık** — "dijital uçurum" misyonu (Joshi 2020 Class0-5).
-- **Apertium = motor (rakip değil); biz = erişilebilirlik + öğrenme + karşılaştırma katmanı.** Apertium'a hata-düzeltme geri katkısı.
-- **Akademik ağırlık = özellikler + değerlendirme** (UniMorph/UD altın standart, ML değil), salt "UI sarmak" değil.
-- **Kanıtla, iddia etme** (özellikle "X kullanılamaz" demeden önce empirik test).
+- **Düşük-kaynak/tehlikedeki Türk dilleri için dijital kapsayıcılık.**
+- **Apertium = motor (rakip değil); biz = erişilebilirlik + öğrenme + karşılaştırma + araştırma katmanı.** Hatalar yüzeye çıkınca apertium'a geri katkı.
+- **Gerçek kaynak, locale çek, çapraz-kontrol, atıf+lisans, UYDURMA YOK.** PDF'ler pusula; veri PDF'in işaret ettiği setlerden.
+- **Kanıtla, iddia etme** (empirik test).
+- **Önce dikey (MVP sağlam), sonra yatay (ölçek).** Siteyi bozma; değişiklik abartma.
 
-## 4.6) HATALAR & DERSLER (tekrar düşmemek için)
-- **"Apertium kullanılamaz" yanlışıydı:** Windows'ta hfst derlenmez ≠ apertium kullanılamaz; **deploy/dev ortamı Linux** (VM). Empirik test (VM) her şeyi çözdü. **DERS:** ortam-spesifik engeli genel imkânsızlık sanma.
-- **Güvenlik sınıflandırıcısı (classifier) engelleri:** (a) public repo oluşturma — kullanıcı "public" demeden engellenir → açık onay al. (b) dış paste servisi/HTTP-server/SSH-anahtarı-kurma `curl|bash` → "kalıcı uzaktan erişim" diye engellenir. **DERS:** bunları BYPASS etme; kullanıcı açık-rızasıyla yap (anahtarı kullanıcı kendi yapıştırdı).
-- **VM kopyala-yapıştır:** VirtualBox host→guest pano **Guest Additions** ister; yoksa çalışmaz. ISO host'tan takıldı (`VBoxManage storageattach ... --medium .../VBoxGuestAdditions.iso`), guest'te `dnf install gcc make kernel-devel-$(uname -r) ... && mount /dev/cdrom /mnt && sh /mnt/VBoxLinuxAdditions.run && reboot`. Terminalde paste = **Ctrl+Shift+V**.
-- **SSH anahtarı elle yazılınca base64 BOZULDU** (fingerprint farklı) → pano düzelince doğru yapıştırıldı. **DERS:** uzun base64'ü elle yazdırma.
-- **Karışık-yazı tuzağı (önemli bulgu):** Çuvaş Wikipedia'sının %45.85'i Kiril kelimelere **Latin breve** (ă/ĕ/ç U+0103/0115/00E7) karıştırıyor → normalize etmeden hepsi OOV. (arsiv `phonology.py` CHUVASH_LATIN_MAP + `corpus_coverage.py` ölçümü.)
-- **Hunspell host down → Wayback Machine** snapshot'ından `.oxt` kurtarıldı (30.494 giriş). **DERS:** ölü host = web.archive.org dene.
-- **Windows git CRLF uyarıları** zararsız; görmezden gel.
+## 4.6) HATALAR & ÇÖZÜMLER (tekrar düşmemek için)
+- **Apertium "kullanılamaz" YANLIŞTI** → Windows'ta hfst yok ≠ apertium yok; **Linux VM**. DERS: ortam-engelini genel imkânsızlık sanma.
+- **⚠ uvicorn ESKİ kod tuzağı (YENİ):** Çok önceki bir turda `setsid uvicorn ... &` bir SSH komutunda başlatıldı ve harness o kanalı **uzun süre arka planda tuttu** (pid 6157/6159); app.py değişince **eski uvicorn ESKİ kodu servis etmeye devam etti** (404 /analyze_all). ÇÖZÜM: `pkill -9 -f "uvicorn app:app"; sleep 2; setsid ... uvicorn ... </dev/null &` → **VM-İÇİ `curl localhost:8000/health` ile doğrula, SONRA host'tan test et.** Host'tan "connection reset/10054" = uvicorn down. DERS: kanalı tutan uvicorn-start komutları sorun; her zaman temiz pkill+restart+VM-içi doğrula.
+- **build.py string-yama yaklaşımı:** `.dc.html` elle düzenlenmez; build.py'de **birebir string** eşleşmesi gerekir. Apostrof: tasarımcı **kıvrık ' (U+2019)** kullanmış → ASCII ' ile eşleşmez. Apostrof içeren metni JS'e enjekte ederken **`json.dumps`** kullan (çift tırnak, güvenli). Eşleşme tutmazsa build.py uyarı basar.
+- **Claude_Preview async:** `location.reload()`/`click()` sonrası eval HEMEN okursa boş döner (render async) → bir eval sonra tekrar oku. `<select>`/`<input>` simülasyonu: `el.value=...; el.dispatchEvent(new Event('input',{bubbles:true}))` (+ Enter için `KeyboardEvent('keydown',{key:'Enter',bubbles:true})`).
+- **Windows konsol (cp1254) Türkçe ı/ş + Kiril'i bozar** → dosyaya UTF-8 yaz, `Read`/python (`sys.stdout.reconfigure(encoding='utf-8')`) ile doğrula; konsola güvenme.
+- **Güvenlik classifier:** public repo / kalıcı-uzaktan-erişim engellenebilir → kullanıcı açık onayıyla yap, BYPASS etme.
+- **Ölü host → Wayback Machine** (web.archive.org) dene. **Windows git CRLF uyarıları** zararsız.
 
 ---
 
-## 5) ARAŞTIRMA TEMELİ (`arastirma/`)
-- **1-cuvasca-morfoloji** (prompt.md + pdf): Çuvaş morfolojisi/kaynakları (kendi-motor fazını besledi).
-- **2-egitim-platform** (prompt.md + pdf): NLP+eğitim platformu konumlandırma (Joshi dijital uçurum, ICALL, Eryiğit/İTÜRK, MUDT, homoglyph, Hamăr Yal, UniMorph/UD).
-- **3-turk-dilleri-karsilastirma** (prompt.md + **pdf GELDİ**): karşılaştırmalı Türk dilbilimi (kollar, ses denklikleri rotasizm/lambdasizm/*d-t-y-z/*h-/*g-v-w, ünlü uyumu tipolojisi, karşılaştırmalı paradigmalar hal/iyelik/çoğul/fiil+morfotaktik, kognat setleri, alıntı katmanları, yazı sistemleri, anlaşılabilirlik %'leri, açık-veri envanteri, 4-modül veri haritası). 26 sf/108 kaynak → **eşzamanlı dilbilim çekirdeği.**
-- **4-turk-dilleri-tarih-sosyokultur-iliski** (prompt.md — **PDF BEKLENİYOR**): tarih/sosyokültür/disiplinlerarası ilişki (köken/ana yurt, dönemleşme & yazılı gelenek, 20 dil bireysel profili, alfabe reformları, canlılık/EGIDS, Altay/Transavrasya tartışması, areal/temas Sprachbund, kültür/din/destan, genetik-vs-dil, **çok-boyutlu uzaklık matrisleri**, **araştırmacı ekosistemi+boşluklar+çözüm**) → **artzamanlı tarih/ilişki + araştırmacı-merkezi temeli.** 40-50 sf hedef.
+## 5) ARAŞTIRMA TEMELİ (`arastirma/`) — HEPSİ ELDE
+- **1-cuvasca-morfoloji**, **2-egitim-platform** (prompt+pdf) — eski faz/konumlandırma.
+- **3-turk-dilleri-karsilastirma** (+pdf) — eşzamanlı dilbilim çekirdeği (ses denklikleri, paradigmalar, kognatlar, veri envanteri).
+- **3b-karsilastirma-agi-temeli** (pdf) — ÜRÜN/MÜHENDİSLİK (3-katman veri mimarisi, **FST olgunluk seviyeleri**, MVP seti, veri setleri+lisans).
+- **4-turk-dilleri-tarih-sosyokultur-iliski** (+pdf) — tarih/sosyokültür/ilişki (profiller, AES, **uzaklık matrisleri J.1-3**, areal, genetik-vs-dil, araştırmacı ekosistemi).
+- **4-KONUDISI-...pdf** = misfire (metodoloji denemesi), içerik için KULLANILMAZ.
+- Çıkarılmış metinler `_research*_text.txt` (gitignored).
 
 ## 6) KLASÖR HARİTASI
 ```
 DEVAM.md · README.md
-arastirma/  1-/2-/3- prompt.md (+1-/2- pdf) · _*.txt (gitignored çıkarımlar)
-plan/       PLAN.md · PLATFORM-OZELLIKLERI.md · YOLCULUK-VE-VAZGECILENLER.md
-platform/   apertium_probe.py (+ inşa edilecek backend/frontend)
-arsiv/cuvasca-kendi-motor/  chuvash-fst/ (motor+web+data+tests) · scripts/ · kurallar/ · render.yaml · DEPLOY.md
-sources/    (gitignored) apertium-chv · hunspell_cv · cuvasca_old · chv_corpus · _pkgcheck
+arastirma/   1..4 prompt.md + pdf'ler · _*.txt (gitignored)
+plan/        TODO.md · PLATFORM-VIZYON.md · GELECEK-PLANLAR.md · YOLCULUK-VE-VAZGECILENLER.md · PLAN.md · PLATFORM-OZELLIKLERI.md
+platform/
+  backend/   app.py (FastAPI) · README.md · requirements.txt
+  ui/        Morfoloji Platformu.dc.html (TASARIM, elle düzenleme!) · support.js (runtime) · build.py (ENJEKSİYON) · dist/index.html (çalışır) · README.md · screenshots/(eski)
+  data/      *.json (çıkarılmış kaynaklı veri)
+  etl/       savelyev_extract.py · glottolog_extract.py · wals_extract.py
+  KAYNAKLAR.md · NOTLAR.md · apertium_probe.py
+arsiv/cuvasca-kendi-motor/   (terk edilen Python motor)
+sources/     (gitignored) savelyevturkic · glottolog-cldf · wals · northeuralex · unimorph* · UD_* · apertium-chv · hunspell_cv …
+.claude/launch.json   (Claude_Preview "koken" :8090)
 ```
 
 ## 7) KONVANSİYONLAR / TUZAKLAR
-- **Git commit'lerde Claude GÖRÜNMEZ:** Co-Authored-By Claude **EKLENMEZ** (kullanıcı kararı). Yazar = Muhammed Kumcu <muhammedkumcu@marun.edu.tr> (local config kurulu). Her adımda commit+push.
-- **gh** `muhammedkumcu` authenticated. Repo public.
-- **Deploy/public/uzaktan-erişim** = classifier engelleyebilir → kullanıcı açık onayı al, bypass etme.
-- **Apertium dev = VM'de** (host Windows'ta hfst yok). VM: `/root/apv` venv.
-- md'leri güncel tut: iş ilerledikçe DEVAM.md + ilgili plan güncellensin.
+- **Commit'lerde Claude GÖRÜNMEZ** (Co-Authored-By YOK). Yazar = Muhammed Kumcu. Her adımda commit+push.
+- **`.dc.html` elle düzenlenmez** → build.py. Önizleme: `python -m http.server 8080` (repo kökü) → `http://127.0.0.1:8080/platform/ui/dist/index.html`.
+- **gh** `muhammedkumcu` authenticated. Repo public. Deploy/uzaktan-erişim = classifier engelleyebilir → açık onay.
+- Türkmence klasörü (`Desktop/turkmence-guncelleme`) = kullanıcının AYRI projesi; DOKUNMA (push yetkisi de yok, 403).
+- md'leri güncel tut (iş ilerledikçe DEVAM.md + plan/TODO.md).
 
 ## 8) HEMEN BAŞLAMAK İÇİN (yeni oturum)
-1. **§0** (güncel durum + sıradaki) + **§2** (VM/apertium erişimi) + **§4.6** (dersler) oku.
-2. Karşılaştırma PDF'i geldiyse → `arastirma/3-...prompt.md` + PDF'ten karşılaştırma ağı verisini kur.
-3. Platform backend'i **VM'de** kur: `ssh ... root@127.0.0.1`, `/root/apv/bin/python`, apertium analiz+üretim → JSON API.
-4. Her adımda commit+push (Claude attribution YOK).
+1. §0 (A→F planı) + §2 (VM) + §3 (API restart) + §4.5 (felsefe) + §4.6 (hatalar, özellikle uvicorn) oku.
+2. **VM'i kontrol et + uvicorn temiz restart + `/analyze_all` doğrula** (A planının ön şartı).
+3. A→F'yi sırayla uygula: her adım build.py → `python platform/ui/build.py` → Claude_Preview doğrula → commit+push.
+4. Yatay ölçek YOK (MVP bitene kadar).
 
-## 9) COMPACT SONRASI — KULLANICININ GÖNDERECEĞİ ÖRNEK PROMPT (şablon)
+## 9) COMPACT SONRASI — KULLANICININ GÖNDERECEĞİ ÖRNEK PROMPT
 ```
-cuvas-guncelleme projesindeyiz (C:\Users\Tombulteke\Desktop\cuvas-guncelleme). Önce DEVAM.md §0 (güncel durum+pivot) +
-§2 (VM/apertium SSH erişimi: ssh -i ~/.ssh/cuvas_vm -p 2222 root@127.0.0.1; apertium Windows'ta DEĞİL VM'de çalışır) +
-§3 (apertium nasıl kullanılır: automorf/autogen FST) + §4.6 (dersler) oku. Yön: ~20 Türk dili için Apertium-temelli
-morfoloji + KARŞILAŞTIRMA platformu; kendi motorumuz arsiv'de. Commit'lerde Claude görünmez. Şimdi: [ÖRNEK]
-"karşılaştırma PDF'i hazır, yolu: <path> — karşılaştırma ağını kurmaya başla" / "platform backend'ini VM'de kur" /
-"paradigma API'sini yaz".
+cuvas-guncelleme projesindeyiz. Önce DEVAM.md'yi oku (§0 A→F planı + §2 VM + §3 API restart + §4.5 felsefe + §4.6 hatalar).
+KÖKEN = ~20 Türk dili morfoloji+karşılaştırma+araştırma platformu; backend VM'de canlı (apertium), UI build.py ile
+dist/index.html'e enjekte (.dc.html ELLE DÜZENLENMEZ). Şimdi: A→F planını TEK PATCHTE, aralarda commit+kontrol ile bitir.
+Önce VM uvicorn'u temiz restart edip /analyze_all'ı doğrula, sonra A (multi-dil otomatik) UI'sini yap. Commit'lerde Claude görünmesin.
 ```

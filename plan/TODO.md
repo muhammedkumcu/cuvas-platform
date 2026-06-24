@@ -46,7 +46,16 @@
   - [x] **Kognat Ağı** ← `cognates.json` (14 kavram, gerçek kognat setleri + boşluklar; Savelyev karşılaştırmalı transkripsiyon — yerel ortografi sonra apertium/translit ile güzelleştirilebilir). Doğrulandı: göz *görs vs Yakut χaraχ boşluğu.
   - [x] **filogenetik eksen** ← Savelyev kognat-karakteri Jaccard mesafesi (Bayes ağacının girdisi; yenilikleri yakalar). Doğrulandı: chv→tt 0.61 (>leksikal 0.37). → Uzaklık 4/5 gerçek.
   - [x] **anlaşılabilirlik eksen** ← Lindsay (deneysel/yaklaşık, `intelligibility.json`, atıflı). → **Uzaklık 5/5 eksen kaynaklı**, "örnek" rozeti + eski illüstratif caption kalktı. Doğrulandı: chv→tt anla 0.92 (Çuvaş izolasyonu).
-- [ ] **MIMARI.md**: UI veri-sözleşmesi → API uçları + JSON şeması.
+- [x] **Denetim #1** (görünür taraf): Paradigma başlığı dinamik (sabit "Çuvaşça" bug'ı); öğrenen/uzman + mod-gizleme KALDIRILDI (her şey görünür); "UZMAN MODU"→"HAM ÇIKTI"; paradigma serbest girişi yukarı + örnekler etiketli; stale ~1milyon chv→740bin.
+
+## 1.7) ★ SIRADAKİ — A→F PLANI (compact sonrası, TEK PATCH, aralarda commit+kontrol — kullanıcı ONAYLI)
+> Detay + tuzaklar: `DEVAM.md` §0. **ÖN ŞART: VM uvicorn temiz restart + `/analyze_all` doğrula (§4.6 uvicorn tuzağı).**
+- [~] **A) Multi-dil OTOMATİK analiz** — backend `/analyze_all` ✅ (commit c0efe60). UI: dil seçicide "⚡ Otomatik (tüm diller)" → runSearch otomatik dalı → /analyze_all → ilk eşleşen dil aktif + "bu kelime şu dillerde:" çip satırı (tıkla→geç). State apiMatches.
+- [ ] **B) Araştırmacı Merkezi CANLI** — serbest kelime+dil → /analyze → gerçek CSV/JSON/CoNLL-U export.
+- [ ] **C) Kognat yerel ortografi** — transkripsiyon temizliği (χ→h, ɕ→ś, ŋ→ñ, ʃ→ş…) + "karşılaştırmalı biçim" etiketi.
+- [ ] **D) Karşılaştır "dizilim" canlı** — aranan kelime diller-arası (/analyze_all). Sınırlı.
+- [ ] **E) Tarih & Köken kaynaklı genişletme** — #4/Glottolog'dan olaylar.
+- [ ] **F) Kaynaklar 'demo' temizliği** — kullanılmayan 'demo' SOURCES kaydını çıkar.
 
 ## 2) #4 GELİNCE — Mimari tasarımı (BİRLİKTE kesinleştirilecek)
 - [ ] #4 PDF metnini çıkar + #3 ile birlikte **birleşik veri modeli** tasarla (dil profili, ses‑denkliği kuralı, kognat seti, paradigma, çok‑boyutlu uzaklık matrisi, zaman çizelgesi olayı, kaynak/lisans).

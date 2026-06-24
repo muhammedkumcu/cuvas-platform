@@ -487,7 +487,7 @@ def main():
         "    fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{\n"
         "      if(!d || !d.morphemes || !d.morphemes.length) return;\n"
         "      const ms = d.morphemes.map((m,i)=>({ text:m.surface, tag:m.tag, type:m.type||'kök', label:(i===0?'kök':'ek')+' · '+m.feat, gloss:m.feat, gItem:m.surface, note:(i===0?'Apertium çözümlemesinin köküdür.':('Apertium üretiminden çıkarılan yüzey eki — işlevi: '+m.feat+'.')) }));\n"
-        "      this.setState(s=>{ if(!s.apiWord || s.apiWord.surface!==word) return {}; return { apiWord: Object.assign({}, s.apiWord, {morphemes: ms, soundChanges: d.sound_changes||[]}) }; });\n"
+        "      this.setState(s=>{ if(!s.apiWord || s.apiWord.surface!==word) return {}; return { apiWord: Object.assign({}, s.apiWord, {morphemes: ms, soundChanges: d.sound_changes||[], forms: d.forms||null}) }; });\n"
         "    }).catch(()=>{});\n"
         "  }\n"
         "  runParadigm(lemma){"))
@@ -867,6 +867,15 @@ def main():
         else:
             print("  ! E eşleşmedi:", label)
     print(f"  Tarih & Köken kaynaklı genişletme (E): {ne}/{len(efix)}")
+
+    # --- Katman ağacı / soyma: canlı kelimede GERÇEK yüzey kümülatif biçim (kitap→kitabımız→kitabımızda)
+    #     morfem-metni birleştirmek yerine /segment'in döndürdüğü forms[] kullanılır (ses olayı dahil) ---
+    html = html.replace(
+        "      text: w.morphemes.slice(0,i+1).map(x=>x.text).join(''),",
+        "      text: (w.forms && w.forms[i]!=null) ? w.forms[i] : w.morphemes.slice(0,i+1).map(x=>x.text).join(''),", 1)
+    html = html.replace(
+        "    const stripRoot = remaining.map(x=>x.text).join('') || w.morphemes[0].text;",
+        "    const stripRoot = (w.forms && w.forms[w.morphemes.length-1-S.stripCount]!=null) ? w.forms[w.morphemes.length-1-S.stripCount] : (remaining.map(x=>x.text).join('') || w.morphemes[0].text);", 1)
 
     # --- DENETİM DÜZELTMELERİ (görünür taraftaki sabit/eskimiş/tutarsız öğeler) ---
     audit = [

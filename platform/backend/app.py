@@ -297,15 +297,16 @@ def _segment_align(gen, lemma, tags, word):
         surfaces.append(s)
     if surfaces[-1] != word:
         return None
-    affixes = []
-    for i in range(1, len(levels)):
-        affixes.append((levels[i][0], _trailing_affix(surfaces[i - 1], surfaces[i])))
-    total = sum(len(a) for _, a in affixes)
+    # her seviye için: (etiket, o seviyedeki KÜMÜLATİF gerçek yüzey, eklenen yüzey eki)
+    steps = [(levels[i][0], surfaces[i], _trailing_affix(surfaces[i - 1], surfaces[i]))
+             for i in range(1, len(levels))]
+    total = sum(len(a) for _, _, a in steps)
     root_surface = word[:len(word) - total] if 0 < total <= len(word) else surfaces[0]
     # Büyük kutuda SÖZLÜK kökü (lemma) gösterilir; yüzeydeki ses-değişmiş gövde (root_surface) yalnız
     # ses-olayı rozetinde işaretlenir (kitap → kitab). Linguistik olarak doğrusu kanonik köktür.
     morphs = [{"surface": lemma, "tag": "KÖK", "feat": "kök", "type": "kök"}]
-    for tag, aff in affixes:
+    forms = [surfaces[0]]  # katman ağacı için kümülatif GERÇEK yüzey (kitap → kitabımız → kitabımızda)
+    for tag, surf, aff in steps:
         if not aff:
             continue
         if tag == "pl":
@@ -317,7 +318,8 @@ def _segment_align(gen, lemma, tags, word):
         else:
             typ, feat = "hâl", TAG_TR.get(tag, tag)
         morphs.append({"surface": aff, "tag": tag.upper(), "feat": feat, "type": typ})
-    return morphs, _sound_changes(lemma, root_surface)
+        forms.append(surf)
+    return morphs, _sound_changes(lemma, root_surface), forms
 
 
 def _build_verb(gen, lemma):
@@ -426,7 +428,8 @@ def segment(req: AnalyzeReq):
         if rp["tags"] and rp["tags"][0] == "n":
             aligned = _segment_align(gen, rp["lemma"], rp["tags"], word)
             if aligned:
-                chosen = (r[0], rp["lemma"], rp["tags"], aligned[0], aligned[1], "nw-align")
+                morphs, sc, forms = aligned
+                chosen = (r[0], rp["lemma"], rp["tags"], morphs, sc, "nw-align", forms)
                 break
     if chosen is None:
         # align eden isim yok → ilk analiz + mevcut mantık (cumulative / fiil / fallback)
@@ -449,11 +452,11 @@ def segment(req: AnalyzeReq):
                 method = "verb"
         else:
             morphs = [{"surface": word, "tag": pos.upper() or "?", "feat": pos or "", "type": "kök"}]
-        chosen = (res[0][0], lemma, tags, morphs, sc, method)
-    raw, lemma, tags, morphs, sound_changes, method = chosen
+        chosen = (res[0][0], lemma, tags, morphs, sc, method, None)
+    raw, lemma, tags, morphs, sound_changes, method, forms = chosen
     pos = tags[0] if tags else ""
     return {"lang": req.lang, "word": word, "raw": raw, "lemma": lemma, "tags": tags,
-            "pos": pos, "ok": pos in ("n", "v"), "morphemes": morphs,
+            "pos": pos, "ok": pos in ("n", "v"), "morphemes": morphs, "forms": forms,
             "sound_changes": sound_changes, "method": method, "_source": SOURCE}
 
 

@@ -1518,7 +1518,7 @@ class Component extends DCLogic {
     fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{
       if(!d || !d.morphemes || !d.morphemes.length) return;
       const ms = d.morphemes.map((m,i)=>({ text:m.surface, tag:m.tag, type:m.type||'kök', label:(i===0?'kök':'ek')+' · '+m.feat, gloss:m.feat, gItem:m.surface, note:(i===0?'Apertium çözümlemesinin köküdür.':('Apertium üretiminden çıkarılan yüzey eki — işlevi: '+m.feat+'.')) }));
-      this.setState(s=>{ if(!s.apiWord || s.apiWord.surface!==word) return {}; return { apiWord: Object.assign({}, s.apiWord, {morphemes: ms, soundChanges: d.sound_changes||[]}) }; });
+      this.setState(s=>{ if(!s.apiWord || s.apiWord.surface!==word) return {}; return { apiWord: Object.assign({}, s.apiWord, {morphemes: ms, soundChanges: d.sound_changes||[], forms: d.forms||null}) }; });
     }).catch(()=>{});
   }
   runParadigm(lemma){
@@ -1628,7 +1628,7 @@ class Component extends DCLogic {
       style:`cursor:pointer;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;font-family:inherit;background:${S.analizView===id?'#211d17':'transparent'};color:${S.analizView===id?'#f4f1ea':'#5f574b'}`,
     }));
     const treeRows = w.morphemes.map((m,i)=>({
-      text: w.morphemes.slice(0,i+1).map(x=>x.text).join(''),
+      text: (w.forms && w.forms[i]!=null) ? w.forms[i] : w.morphemes.slice(0,i+1).map(x=>x.text).join(''),
       label: i===0 ? 'kök' : `+ ${this.TYPES[m.type].label.toLowerCase()}`,
       indent:`${i*22}px`, hue:this.hue(m.type), bg:this.hueBg(m.type), border:this.hueBorder(m.type),
     }));
@@ -1638,7 +1638,7 @@ class Component extends DCLogic {
         op: removed ? 0.25 : 1, txtColor: removed ? '#9a9082' : this.hue(m.type) };
     });
     const remaining = w.morphemes.slice(0, w.morphemes.length - S.stripCount);
-    const stripRoot = remaining.map(x=>x.text).join('') || w.morphemes[0].text;
+    const stripRoot = (w.forms && w.forms[w.morphemes.length-1-S.stripCount]!=null) ? w.forms[w.morphemes.length-1-S.stripCount] : (remaining.map(x=>x.text).join('') || w.morphemes[0].text);
 
     // ---- COMPARE ----
     const compareTabs = [['rows','Dizilim'],['sound','Ses denklikleri'],['tree','Soy ağacı'],['map','Harita']].map(([id,label])=>({

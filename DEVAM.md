@@ -20,7 +20,7 @@
 ### ★ ÇİFT KİTLE & TAKVİM (24 Haz, 2. tur kararları)
 - **İki hedef kitle:** (1) **Öğrenenler** (çocuk/öğrenci/meraklı) + (2) **Araştırmacılar (KRİTİK):** "literatür karşılarındaymış gibi", **Türk dil dünyasının takip edildiği**, araştırmacının **ilk uğrayacağı**, işini gerçekten kolaylaştıran (birleşik arama, karşılaştırmalı sorgu, toplu üretim/analiz, dışa aktarım, açık API, kaynak/literatür hub'ı) **çözüm‑odaklı merkez.**
 - **Takvim:** Platformun hakkını ver; **30 Haziran UBMK son tarihine SIKIŞMA** (yetişirsek sunarız). Daha ileri/güçlü venue hedefle. "Tarih yokmuşçasına" sağlam çalış.
-- **MVP dilleri:** temsilci alt küme → **tur, kaz, uzb, chv, sah, tyv, kjh** (~7) → sonra 20'ye ölçekle.
+- **MVP dilleri (KESİN):** 5-kol 10 dil → **tur, aze, kaz, kir, uzb, uig, tat, bak, chv, sah** → sonra 20'ye ölçekle.
 
 ### ★ SIRADAKİ İŞ (compact sonrası buradan devam) — bkz. [`plan/TODO.md`](plan/TODO.md)
 **ARAŞTIRMA FAZI TAMAM — sırada MİMARİ tasarımı (BİRLİKTE).**
@@ -35,8 +35,14 @@
 - **UI entegre edildi** → `platform/ui/` ("KÖKEN — Türk dilleri atlası & laboratuvarı"). DesignCanvas prototipi (`Morfoloji Platformu.dc.html` + `support.js` runtime). **Güncel hâl KODDA** (screenshots ESKİ). Tam modül seti + 14 dil profili + öğrenen/uzman modu + Kiril/Latin translit + **yerleşik SOURCES/USAGE kaynak-kütüğü** (her veride lisans, "⚠ örnek/illüstratif" rozeti). Veri şu an **illüstratif**.
 - **Kullanıcı ilkesi (KRİTİK):** kaynaklar çok önemli → **doğrudan kaynakları belirt + locale çek + incele**, uydurma yok. → `platform/KAYNAKLAR.md` (provenance defteri) + `platform/ui/README.md` (veri sözleşmesi).
 - **İlk kaynak çekildi:** `sources/savelyevturkic` (SavelyevTurkic CLDF, CC BY 4.0): 32 dil (10 MVP'nin hepsi var) + glottocode/ISO/**lat-long** + 254 kavram + 8360 form + 8360 kognat yargısı. → Kognat Ağı + Harita + Uzaklık(leksikal) gerçek veri kaynağı.
-- **SIRADAKİ:** (a) kalan kaynakları çek (Glottolog, NorthEuraLex, UD, UniMorph, WALS + apertium FST'leri VM'de + Joshi/Yunusbayev makaleleri) → `platform/KAYNAKLAR.md` güncelle; (b) `platform/data/` çıkarım betikleri → UI sabitlerinin (WORDS/PARADIGM/COGNATES/LANGVEC/LANGPROFILE…) şekline uygun **kaynaklı JSON**; (c) VM'de FastAPI backend (canlı FST analiz/üretim/paradigma + JSON servis); (d) UI'daki illüstratif sabitleri gerçek veriyle değiştir, "örnek" rozetlerini kaldır.
-4. **Sonra:** backend (VM'de apertium analiz+üretim+paradigma+transliterasyon+araştırmacı uçları) → karşılaştırma/içerik katmanı (ses‑denkliği, kognat ağı, uzaklık gezgini, dil profilleri, harita/zaman çizelgesi) → frontend (paradigma gezgini, ICALL, uzman modu).
+### ★★★ VERİ + BACKEND CANLI (24 Haz, 4. tur) — BURADAN DEVAM
+- **Kaynak hasadı + ÇIKARIM YAPILDI (hepsi kaynaklı, `_meta` ile):** `platform/data/` →
+  - `cognates.json` (SavelyevTurkic CLDF, 254 kavram/905 kognat seti) · `languages.geo.json` (32 dil lat/lon/kol) · `distance.lexical.json` (32×32 derin-kognat mesafe)
+  - `profiles.json` (Glottolog, 23 dil + **AES canlılık** EGIDS/UNESCO eşlemeli) · `distance.typological.json` + `features.wals.json` (WALS, 192 özellik)
+  - Çıkarım betikleri: `platform/etl/` (savelyev/glottolog/wals). Hasat: `sources/` (savelyevturkic, glottolog-cldf, northeuralex, wals, unimorph×9, UD×4). Defter: `platform/KAYNAKLAR.md`.
+- **BACKEND CANLI (VM):** `platform/backend/app.py` (FastAPI) → MVP 10 dil için **apertium analiz + üretim + paradigma**. Host'tan `http://127.0.0.1:8000` (VBox port-forward `koken` 8000 + guest firewalld 8000 açık). Test: tur/chv/kaz/sah analiz, chv üretim (`кӗнеке<n><pl><dat>→кӗнекесене`) + paradigma. Her yanıt `_source` (Apertium GPL-3.0). **Başlat/durdur + erişim: `platform/backend/README.md`.**
+  - Hızlı başlat (VM kapanıp açılırsa uvicorn'u tekrar başlat): `ssh ... 'cd /root/koken_api && setsid /root/apv/bin/uvicorn app:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 < /dev/null &'`
+- **SIRADAKİ:** (a) **UI'yı bağla** — Analiz/Paradigma/Üretim → API (`fetch` 127.0.0.1:8000); Kognat/Harita/Uzaklık/Profil/Canlılık → `platform/data/*.json`; bağlanan modülde **"⚠ örnek" rozetini kaldır**. (b) kalan çıkarım: UniMorph→paradigma, UD→analiz bağlamı, #4→filogenetik+anlaşılabilirlik mesafe eksenleri. (c) transliterasyon + araştırmacı uçları (dışa aktarım, API doc).
 5. **Sona:** UniMorph/UD/Wiktionary değerlendirme + karışık‑yazı bulgusu + Çuvaşça derin vaka + paper.
 
 > Akademik katkı (gap): **Türk dilleri için çift‑kitleli (öğrenen + araştırmacı), çok‑dilli, çok‑boyutlu morfoloji + karşılaştırma + araştırma merkezi YOK** (apertium=CLI/MT, turkicnlp=dev‑kütüphane). Onu açıyoruz + karşılaştırma/uzaklık ağı + araştırmacı hub'ı + (sona) karışık‑yazı.

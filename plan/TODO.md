@@ -31,9 +31,9 @@
 - [x] **Çıkarım — Glottolog** → `profiles.json` (23 dil + AES canlılık). Betik: `etl/glottolog_extract.py`.
 - [x] **Çıkarım — WALS** → tipolojik mesafe + özellik matrisi (`distance.typological.json`, `features.wals.json`).
 - [ ] **Çıkarım — kalan:** UniMorph → paradigma · NorthEuraLex → kognat(ikincil) · UD → analiz bağlamı. Joshi/Yunusbayev makaleleri.
-- [ ] **UI'ya bağlama:** `platform/data/*.json` → KÖKEN sabitleri (COGNATES/MAP/LANGVEC/LANGPROFILE…); "⚠ örnek" rozetlerini gerçek-veri olanlarda kaldır.
+- [x] **VM BACKEND CANLI:** apertium FST (10 dil) indirildi → `platform/backend/app.py` (FastAPI) host:8000'de analiz/üretim/paradigma servis ediyor. Test edildi. (`platform/backend/README.md`)
+- [ ] **UI'ya bağlama:** Analiz/Paradigma/Üretim → API (host:8000); Kognat/Harita/Uzaklık/Profil/Canlılık → `platform/data/*.json`; "⚠ örnek" rozetlerini gerçek-veri olanlarda kaldır.
 - [ ] **MIMARI.md**: UI veri-sözleşmesi → API uçları + JSON şeması.
-- [ ] **VM**: apertium FST (10 dil) → FastAPI canlı analiz/üretim/paradigma (kullanıcı VM'yi açınca).
 
 ## 2) #4 GELİNCE — Mimari tasarımı (BİRLİKTE kesinleştirilecek)
 - [ ] #4 PDF metnini çıkar + #3 ile birlikte **birleşik veri modeli** tasarla (dil profili, ses‑denkliği kuralı, kognat seti, paradigma, çok‑boyutlu uzaklık matrisi, zaman çizelgesi olayı, kaynak/lisans).

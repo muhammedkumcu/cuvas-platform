@@ -1,0 +1,6 @@
+# KÖKEN Morfoloji API — VM/Linux bağımlılıkları
+# NOT: hfst + turkicnlp yalnız Linux'ta kurulur (Windows'ta hfst derlenmez).
+fastapi
+uvicorn[standard]
+hfst
+turkicnlp

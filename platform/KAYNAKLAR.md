@@ -12,7 +12,7 @@
 | id (UI) | Ad | Tür | Lisans | Yerel yol / çekme | Durum | Beslediği modül / veri |
 |---|---|---|---|---|---|---|
 | `cldf` | **SavelyevTurkic CLDF** | veri | **CC BY 4.0** | `sources/savelyevturkic` (`git clone github.com/lexibank/savelyevturkic`) | **✅ çekildi + çıkarıldı** | Kognat Ağı, Karşılaştır, Uzaklık(leksikal), Harita (lat/long). 32 dil · 254 kavram · 8360 form · 905 kognat seti (uzman yargısı). → `platform/data/*` (aşağıda). |
-| `fst` | **Apertium** morfolojik FST | araç | GPL-3.0 | VM `/root/apv` + `sources/apertium-chv` (diğer diller: `git clone github.com/apertium/apertium-{tur,tat,kaz,kir,uzb,uig,azj,bak,sah}`) | **🖥️ VM** (chv ✅; diğerleri ⏳) | Morfolojik Analiz, Paradigma, Araştırmacı (canlı analiz+üretim). |
+| `fst` | **Apertium** morfolojik FST | araç | GPL-3.0 | VM `/root/.turkicnlp/models/<dil>` (turkicnlp ile indirildi, `processors=['morph']`) | **🖥️ CANLI** (10/10 MVP dil; FastAPI `platform/backend/app.py`, host:8000) | Morfolojik Analiz, Paradigma, Üretim, Araştırmacı (canlı). |
 | `nel` | **NorthEuraLex** | veri | CC BY 4.0 | `sources/northeuralex` | **✅ çekildi** (çıkarım ⏳) | Kognat Ağı (ikincil), yüzey benzerliği. |
 | `ud` | **Universal Dependencies** | veri | CC BY-SA 4.0 (ağaçbank bazlı değişir!) | `sources/UD_Turkish-IMST,-BOUN,UD_Kazakh-KTB,UD_Uyghur-UDT` | **✅ çekildi** (çıkarım ⏳) | Analiz bağlamı, POS, örnek cümle. **Lisans ağaçbank bazında kaydedilecek.** |
 | `unimorph` | **UniMorph** | veri | CC BY 4.0 | `sources/{tur,tat,kaz,kir,uzb,uig,bak,sah,aze}` (chv yok) | **✅ çekildi** (çıkarım ⏳) | Paradigma Gezgini (`lemma⇥form⇥öznitelik`). |

@@ -1,0 +1,29 @@
+{
+  "_meta": {
+    "source": "Wikipedia (en) — Glottolog ve kendi verimizle çapraz-kontrol",
+    "license": "CC BY-SA 4.0 (Wikipedia metni)",
+    "accessed": "2026-06-24",
+    "note": "speakers/script/serbest-metin Wikipedia'dan (çapraz-kontrollü); kimlik/kol/canlılık Glottolog'dan; ses-denkliği bizim Savelyev verimizden. Doğrulanmamış edebî iddia eklenmedi.",
+    "status": "3/14 dil dolduruldu — kalanlar aynı desenle (Wikipedia + çapraz-kontrol) eklenecek"
+  },
+  "languages": {
+    "chv": {
+      "speakers": "~740.000 (2020 sayımı)",
+      "script": "Kiril (Ӑ Ӗ Ҫ Ӳ)",
+      "note": "İdil-Ural'da, Çuvaş Cumhuriyeti'nde konuşulur; Oğur (Bulgar) kolunun yaşayan TEK üyesidir. Ayırt edici düzenli ses denklikleri: rotasizm (ortak Türkçe z → Çuvaşça r) ve lambdasizm (ş → l). Nesiller arası aktarım zayıflıyor.",
+      "src": "en.wikipedia.org/wiki/Chuvash_language"
+    },
+    "sah": {
+      "speakers": "~450.000",
+      "script": "Kiril (1939)",
+      "note": "Sibirya'nın kuzeyinde, Saha (Yakutistan) Cumhuriyeti'nde konuşulan Sibirya Türk dili. Türk dilleri içindeki en karmaşık ünlü uyumu sistemine sahiptir. Şamanik sözlü destan Olonho (UNESCO) bu dile bağlıdır; geleneksel anlatıcılar azalıyor.",
+      "src": "en.wikipedia.org/wiki/Yakut_language"
+    },
+    "shor": {
+      "speakers": "~2.800 (2010 sayımı)",
+      "script": "Kiril (1938; 1980 reform)",
+      "note": "Güneybatı Sibirya'da, Kemerovo'daki Dağlık Şoriya'da konuşulan, ciddi tehlikedeki Türk dili (UNESCO: ciddi tehlikede). İki ağzı (Mrassu, Kondoma) farklı Türk alt-kollarına bağlanır. 1930'lar–1980'ler arası ne yazıldı ne okutuldu; 1980'lerden beri canlandırma çabaları var.",
+      "src": "en.wikipedia.org/wiki/Shor_language"
+    }
+  }
+}

@@ -149,6 +149,7 @@ def main():
     lex = json.load(open(DATA / "distance.lexical.json", encoding="utf-8"))["matrix"]
     typ = json.load(open(DATA / "distance.typological.json", encoding="utf-8"))["matrix"]
     cog = json.load(open(DATA / "cognates.json", encoding="utf-8"))
+    extra = json.load(open(DATA / "lang_extra.json", encoding="utf-8"))["languages"]
 
     changed = []
     for code, iso in CODE2ISO.items():
@@ -166,9 +167,20 @@ def main():
         if n1 or n2:
             changed.append(f"{code}/{iso}: egids='{egids}' vit={vit}")
 
-    # profil modülünün kaynaklarından 'demo'yu çıkar (artık gerçek AES)
+    # Dil profili serbest-metin zenginleştirmesi ← lang_extra.json (Wikipedia, çapraz-kontrollü)
+    nenrich = 0
+    for code, e in extra.items():
+        for field in ("speakers", "script", "note"):
+            if field in e:
+                pat = re.compile(r"(\{code:'" + re.escape(code) + r"',[^\n]*?" + field + r":)'[^']*'")
+                html, n = pat.subn(lambda m, v=e[field]: m.group(1) + json.dumps(v, ensure_ascii=False), html, count=1)
+                nenrich += n
+    # Wikipedia kaynağını kütüğe ekle + profil modülünün kaynaklarını güncelle (demo çıktı, wiki girdi)
+    html = html.replace(
+        "glottolog:{label:'Glottolog', detail:'soy ağacı / sınıflandırma', lic:'CC BY 4.0', kind:'veri', url:'glottolog.org'},",
+        "glottolog:{label:'Glottolog', detail:'soy ağacı / sınıflandırma / AES canlılık', lic:'CC BY 4.0', kind:'veri', url:'glottolog.org'},\n    wiki:{label:'Wikipedia', detail:'dil profili serbest-metni (çapraz-kontrollü)', lic:'CC BY-SA 4.0', kind:'veri', url:'wikipedia.org'},")
     html = html.replace("{mod:'Dil Profilleri', srcs:['ethnologue','joshi','glottolog','demo']}",
-                        "{mod:'Dil Profilleri', srcs:['glottolog','joshi','ethnologue']}")
+                        "{mod:'Dil Profilleri', srcs:['glottolog','wiki','joshi']}")
 
     # canlı API tabanı (sonraki adımda Analiz/Paradigma bağlanacak)
     if "KOKEN_API" not in html:
@@ -216,6 +228,7 @@ def main():
     print(f"  Uzaklık matrisleri (Savelyev+WALS+coğrafi): val patch={ndist}, REAL_DIST enjekte")
     print(f"  Kognat Ağı (SavelyevTurkic): {ncog} blok, {len(cog_obj)} kavram (default '{cog_default}')")
     print(f"  Kopya düzeltmeleri: {nfix}")
+    print(f"  Dil profili zenginleştirme (Wikipedia, çapraz-kontrollü): {nenrich} alan ({len(extra)} dil)")
 
 
 if __name__ == "__main__":

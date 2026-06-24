@@ -36,7 +36,9 @@
   - [x] **Dil Profilleri + Canlılık** ← `profiles.json` (Glottolog AES); önizlemede doğrulandı (Şorca `EGIDS 8a · ölmekte`), "⚠ örnek" rozeti kalktı.
   - [x] **Harita** ← Glottolog koordinatları (14 dil, gerçek projeksiyon); doğrulandı.
   - [x] **Uzaklık Gezgini** ← gerçek matrisler: 3/5 eksen (leksikal Savelyev + tipolojik WALS + coğrafi koordinat); filo/anla illüstratif kaldı (#4 J matrisleri gelince). Doğrulandı: chv→tt coğrafi 0.02 / leksikal 0.37 / tipolojik 0.26.
+  - [~] **Dil Profilleri zenginleştirme** ← `lang_extra.json` (Wikipedia, Glottolog/kendi verimizle çapraz-kontrollü, atıflı): **3/14 dil** (chv/sah/shor) — speakers(güncel)/script/zengin not. Doğrulandı (Çuvaşça 740k+rotasizm+Wikipedia kaynağı). Kalan 11 dil aynı desenle.
   - [ ] **Analiz / Paradigma / Üretim** → canlı API (host:8000) — sıradaki (FST kök+etiket verir; en iyi araştırmacı-merkezi/ham çıktı ile).
+  - [ ] (öneri) Harita düğümüne tıklayınca → o dilin profiline git (küçük bağ).
   - [x] **Kognat Ağı** ← `cognates.json` (14 kavram, gerçek kognat setleri + boşluklar; Savelyev karşılaştırmalı transkripsiyon — yerel ortografi sonra apertium/translit ile güzelleştirilebilir). Doğrulandı: göz *görs vs Yakut χaraχ boşluğu.
   - [x] **filogenetik eksen** ← Savelyev kognat-karakteri Jaccard mesafesi (Bayes ağacının girdisi; yenilikleri yakalar). Doğrulandı: chv→tt 0.61 (>leksikal 0.37). → Uzaklık 4/5 gerçek.
   - [ ] **anlaşılabilirlik eksen**: temiz açık dataset yok (Lindsay deneysel/asimetrik; Çuvaş≈0). Lindsay'i kaynak göstererek illüstratif kalır VEYA yayınlanmış %tablosu (ResearchGate tbl 321875105) çekilip eklenir.

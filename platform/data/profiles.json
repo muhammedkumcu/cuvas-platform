@@ -1,0 +1,443 @@
+{
+  "_meta": {
+    "source": "Glottolog 5.x CLDF",
+    "license": "CC BY 4.0",
+    "url": "https://github.com/glottolog/glottolog-cldf",
+    "accessed": "2026-06-24",
+    "module": "Dil Profilleri / Canlılık",
+    "note": "vitality_aes = Glottolog AES (açık); EGIDS/UNESCO/ElCat eşlemesi crosswalk'ta."
+  },
+  "profiles": [
+    {
+      "iso": "klj",
+      "glottocode": "turk1303",
+      "name": "Khalaj Turkic",
+      "branch": "Argu",
+      "macroarea": "Eurasia",
+      "countries": "IR",
+      "lat": 34.42237,
+      "lon": 50.32223,
+      "level": "language",
+      "vitality_aes": {
+        "level": 2,
+        "label": "threatened",
+        "crosswalk": "EGIDS: 6b; UNESCO: vulnerable; ElCat: vulnerable",
+        "comment": "Khalaj (4396-klj) = Vulnerable (20 percent certain, based on the evidence available) [Knüppel 2010](cldf:knueppel:10)",
+        "source_glottolog": true
+      },
+      "mvp": false
+    },
+    {
+      "iso": "uig",
+      "glottocode": "uigh1240",
+      "name": "Uighur",
+      "branch": "Karluk",
+      "macroarea": "Eurasia",
+      "countries": "CN;IN;KG;KZ;MN;PK;UZ",
+      "lat": 43.88,
+      "lon": 87.38,
+      "level": "language",
+      "vitality_aes": {
+        "level": 1,
+        "label": "not endangered",
+        "crosswalk": "EGIDS: <=6a; UNESCO: safe; ElCat: safe",
+        "comment": "Uyghur (uig-uig) = 2 (Provincial). Language of recognized nationality: Uygur.",
+        "source_glottolog": true
+      },
+      "mvp": true
+    },
+    {
+      "iso": "uzb",
+      "glottocode": "uzbe1247",
+      "name": "Uzbek",
+      "branch": "Karluk",
+      "macroarea": "Eurasia",
+      "countries": "UZ",
+      "lat": 38.74795,
+      "lon": 64.95085,
+      "level": "family",
+      "vitality_aes": null,
+      "mvp": true
+    },
+    {
+      "iso": "bak",
+      "glottocode": "bash1264",
+      "name": "Bashkir",
+      "branch": "Kıpçak",
+      "macroarea": "Eurasia",
+      "countries": "KZ;RU;UA",
+      "lat": 53.59671,
+      "lon": 56.55937,
+      "level": "language",
+      "vitality_aes": {
+        "level": 2,
+        "label": "threatened",
+        "crosswalk": "EGIDS: 6b; UNESCO: vulnerable; ElCat: vulnerable",
+        "comment": "Bashkir (334-bak) = Vulnerable",
+        "source_glottolog": true
+      },
+      "mvp": true
+    },
+    {
+      "iso": "crh",
+      "glottocode": "crim1257",
+      "name": "Crimean Tatar",
+      "branch": "Kıpçak",
+      "macroarea": "Eurasia",
+      "countries": "BG;KG;LT;MD;RO;RU;TR;UA;UZ",
+      "lat": 45.0,
+      "lon": 34.08,
+      "level": "language",
+      "vitality_aes": {
+        "level": 2,
+        "label": "threatened",
+        "crosswalk": "EGIDS: 6b; UNESCO: vulnerable; ElCat: vulnerable",
+        "comment": "Crimean Tatar (10423-crh) = Vulnerable (60 percent certain, based on the evidence available) (In some communities, children learn the language, but many stop using it in adulthood. Probably all speakers exhibit strong influence of related Turkic languages, Russian or Bulgarian, and younger people may be less competent in Crimean Tatar. Definitely endangered.) [Salminen 2007](cldf:salminen:07:2)",
+        "source_glottolog": true
+      },
+      "mvp": false
+    },
+    {
+      "iso": "kaa",
+      "glottocode": "kara1467",
+      "name": "Kara-Kalpak",
+      "branch": "Kıpçak",
+      "macroarea": "Eurasia",
+      "countries": "AF;KG;KZ;TM;UZ",
+      "lat": 39.98005,
+      "lon": 63.32233,
+      "level": "language",
+      "vitality_aes": {
+        "level": 1,
+        "label": "not endangered",
+        "crosswalk": "EGIDS: <=6a; UNESCO: safe; ElCat: safe",
+        "comment": "Karakalpak (kaa-kaa) = 5* (Developing). Statutory provincial language in Karakalpakstan Autonomous Republic (1993, Constitution of the Republic of Karakalpakstan, Part I, Chapter 1, Article 4).",
+        "source_glottolog": true
+      },
+      "mvp": false
+    },
+    {
+      "iso": "krc",
+      "glottocode": "kara1465",
+      "name": "Karachay-Balkar",
+      "branch": "Kıpçak",
+      "macroarea": "Eurasia",
+      "countries": "AZ;GE;KZ;RU",
+      "lat": 43.565,
+      "lon": 42.2606,
+      "level": "language",
+      "vitality_aes": {
+        "level": 2,
+        "label": "threatened",
+        "crosswalk": "EGIDS: 6b; UNESCO: vulnerable; ElCat: vulnerable",
+        "comment": "Karachay-Balkar (1075-krc) = Vulnerable",
+        "source_glottolog": true
+      },
+      "mvp": false
+    },
+    {
+      "iso": "kaz",
+      "glottocode": "kaza1248",
+      "name": "Kazakh",
+      "branch": "Kıpçak",
+      "macroarea": "Eurasia",
+      "countries": "AF;CN;IR;KG;KZ;MN;RU;TJ;TM;UZ",
+      "lat": 51.17,
+      "lon": 71.454,
+      "level": "language",
+      "vitality_aes": {
+        "level": 1,
+        "label": "not endangered",
+        "crosswalk": "EGIDS: <=6a; UNESCO: safe; ElCat: safe",
+        "comment": "Kazakh (kaz-kaz) = 1 (National). Statutory national language (1995, Constitution, Article 7(1)).",
+        "source_glottolog": true
+      },
+      "mvp": true
+    },
+    {
+      "iso": "kir",
+      "glottocode": "kirg1245",
+      "name": "Kirghiz",
+      "branch": "Kıpçak",
+      "macroarea": "Eurasia",
+      "countries": "AF;CN;KG;KZ;TJ;UZ",
+      "lat": 42.0,
+      "lon": 74.0,
+      "level": "language",
+      "vitality_aes": {
+        "level": 1,
+        "label": "not endangered",
+        "crosswalk": "EGIDS: <=6a; UNESCO: safe; ElCat: safe",
+        "comment": "Kyrgyz (kir-kir) = 1 (National). Statutory national language (2010, Constitution, Art 5 (1)).",
+        "source_glottolog": true
+      },
+      "mvp": true
+    },
+    {
+      "iso": "kum",
+      "glottocode": "kumy1244",
+      "name": "Kumyk",
+      "branch": "Kıpçak",
+      "macroarea": "Eurasia",
+      "countries": "KZ;RU",
+      "lat": 43.0,
+      "lon": 47.0,
+      "level": "language",
+      "vitality_aes": {
+        "level": 2,
+        "label": "threatened",
+        "crosswalk": "EGIDS: 6b; UNESCO: vulnerable; ElCat: vulnerable",
+        "comment": "Kumyk (1074-kum) = Vulnerable",
+        "source_glottolog": true
+      },
+      "mvp": false
+    },
+    {
+      "iso": "nog",
+      "glottocode": "noga1249",
+      "name": "Nogai",
+      "branch": "Kıpçak",
+      "macroarea": "Eurasia",
+      "countries": "KZ;RU",
+      "lat": 44.89776,
+      "lon": 43.1656,
+      "level": "language",
+      "vitality_aes": {
+        "level": 3,
+        "label": "shifting",
+        "crosswalk": "EGIDS: 7; UNESCO: definitely endangered; ElCat: definitely endangered",
+        "comment": "Noghay (2897-nog) = Threatened (80 percent certain, based on the evidence available) [Salminen 2007](cldf:salminen:07:2)",
+        "source_glottolog": true
+      },
+      "mvp": false
+    },
+    {
+      "iso": "tat",
+      "glottocode": "tata1255",
+      "name": "Tatar",
+      "branch": "Kıpçak",
+      "macroarea": "Eurasia",
+      "countries": "AZ;BY;CN;EE;FI;GE;KZ;LT;LV;RU;UA",
+      "lat": 55.79592,
+      "lon": 49.11577,
+      "level": "language",
+      "vitality_aes": {
+        "level": 1,
+        "label": "not endangered",
+        "crosswalk": "EGIDS: <=6a; UNESCO: safe; ElCat: safe",
+        "comment": "Tatar (tat-tat) = 2 (Provincial). Statutory provincial language in Tatarstan Republic (1992, Constitution of the Republic of Tatarstan, Article 8).",
+        "source_glottolog": true
+      },
+      "mvp": true
+    },
+    {
+      "iso": "chv",
+      "glottocode": "chuv1255",
+      "name": "Chuvash",
+      "branch": "Ogur",
+      "macroarea": "Eurasia",
+      "countries": "EE;KZ;RU",
+      "lat": 55.48701,
+      "lon": 47.16298,
+      "level": "language",
+      "vitality_aes": {
+        "level": 2,
+        "label": "threatened",
+        "crosswalk": "EGIDS: 6b; UNESCO: vulnerable; ElCat: vulnerable",
+        "comment": "Chuvash (338-chv) = Vulnerable",
+        "source_glottolog": true
+      },
+      "mvp": true
+    },
+    {
+      "iso": "gag",
+      "glottocode": "gaga1249",
+      "name": "Gagauz",
+      "branch": "Oğuz",
+      "macroarea": "Eurasia",
+      "countries": "BG;GR;MD;MK;RO;UA",
+      "lat": 44.59876,
+      "lon": 28.02769,
+      "level": "language",
+      "vitality_aes": {
+        "level": 2,
+        "label": "threatened",
+        "crosswalk": "EGIDS: 6b; UNESCO: vulnerable; ElCat: vulnerable",
+        "comment": "Gagauz (3406-gag) = Vulnerable (80 percent certain, based on the evidence available) [Salminen 2007](cldf:salminen:07:2)",
+        "source_glottolog": true
+      },
+      "mvp": false
+    },
+    {
+      "iso": "azj",
+      "glottocode": "nort2697",
+      "name": "North Azerbaijani",
+      "branch": "Oğuz",
+      "macroarea": "Eurasia",
+      "countries": "AM;AZ;GE;IR;RU;TR",
+      "lat": 40.97768,
+      "lon": 46.4737,
+      "level": "language",
+      "vitality_aes": {
+        "level": 1,
+        "label": "not endangered",
+        "crosswalk": "EGIDS: <=6a; UNESCO: safe; ElCat: safe",
+        "comment": "Azerbaijani, North (azj-azj) = 1 (National). Statutory national language (1995, Constitution, Article 21(1)).",
+        "source_glottolog": true
+      },
+      "mvp": true
+    },
+    {
+      "iso": "tur",
+      "glottocode": "nucl1301",
+      "name": "Turkish",
+      "branch": "Oğuz",
+      "macroarea": "Eurasia",
+      "countries": "AL;AM;AZ;BG;CY;GE;GR;IQ;IR;MK;SY;TR",
+      "lat": 39.8667,
+      "lon": 32.8667,
+      "level": "language",
+      "vitality_aes": {
+        "level": 1,
+        "label": "not endangered",
+        "crosswalk": "EGIDS: <=6a; UNESCO: safe; ElCat: safe",
+        "comment": "Turkish (tur-tur) = 1 (National). Statutory national language (1982, Constitution, Article 3).",
+        "source_glottolog": true
+      },
+      "mvp": true
+    },
+    {
+      "iso": "tuk",
+      "glottocode": "turk1304",
+      "name": "Turkmen",
+      "branch": "Oğuz",
+      "macroarea": "Eurasia",
+      "countries": "AF;IQ;IR;PK;TJ;TM;TR;UZ",
+      "lat": 37.08719,
+      "lon": 59.17574,
+      "level": "language",
+      "vitality_aes": {
+        "level": 1,
+        "label": "not endangered",
+        "crosswalk": "EGIDS: <=6a; UNESCO: safe; ElCat: safe",
+        "comment": "Turkmen (tuk-tuk) = 1 (National). Statutory national language (1992, Constitution, Article 13).",
+        "source_glottolog": true
+      },
+      "mvp": false
+    },
+    {
+      "iso": "dlg",
+      "glottocode": "dolg1241",
+      "name": "Dolgan",
+      "branch": "Sibirya",
+      "macroarea": "Eurasia",
+      "countries": "RU",
+      "lat": 71.10828,
+      "lon": 94.29358,
+      "level": "language",
+      "vitality_aes": {
+        "level": 3,
+        "label": "shifting",
+        "crosswalk": "EGIDS: 7; UNESCO: definitely endangered; ElCat: definitely endangered",
+        "comment": "Dolgan (2213-dlg) = Threatened (60 percent certain, based on the evidence available) [Salminen 2007](cldf:salminen:07:1)",
+        "source_glottolog": true
+      },
+      "mvp": false
+    },
+    {
+      "iso": "kjh",
+      "glottocode": "khak1248",
+      "name": "Khakas",
+      "branch": "Sibirya",
+      "macroarea": "Eurasia",
+      "countries": "CN;RU",
+      "lat": 52.66002,
+      "lon": 89.67409,
+      "level": "language",
+      "vitality_aes": {
+        "level": 3,
+        "label": "shifting",
+        "crosswalk": "EGIDS: 7; UNESCO: definitely endangered; ElCat: definitely endangered",
+        "comment": "Khakas (2434-kjh) = Threatened (80 percent certain, based on the evidence available) [Salminen 2007](cldf:salminen:07:2)",
+        "source_glottolog": true
+      },
+      "mvp": false
+    },
+    {
+      "iso": "cjs",
+      "glottocode": "shor1247",
+      "name": "Mrassu Shor-Tutal",
+      "branch": "Sibirya",
+      "macroarea": "Eurasia",
+      "countries": "RU",
+      "lat": 53.70953,
+      "lon": 87.84468,
+      "level": "language",
+      "vitality_aes": {
+        "level": 4,
+        "label": "moribund",
+        "crosswalk": "EGIDS: 8a; UNESCO: severely endangered; ElCat: severely endangered",
+        "comment": "Shor (3048-cjs) = Severely Endangered (80 percent certain, based on the evidence available) (There are probably no child speakers, except possibly in a few rural families,\nand most speakers are middle-aged or older.) [Salminen 2007](cldf:salminen:07:2)",
+        "source_glottolog": true
+      },
+      "mvp": false
+    },
+    {
+      "iso": "sah",
+      "glottocode": "yaku1245",
+      "name": "Sakha",
+      "branch": "Sibirya",
+      "macroarea": "Eurasia",
+      "countries": "RU",
+      "lat": 61.69744,
+      "lon": 133.98031,
+      "level": "language",
+      "vitality_aes": {
+        "level": 2,
+        "label": "threatened",
+        "crosswalk": "EGIDS: 6b; UNESCO: vulnerable; ElCat: vulnerable",
+        "comment": "Yakut (10454-sah) = Vulnerable (60 percent certain, based on the evidence available) (approximately 93% of Sakha know their heritage language) [Pakendorf 2007](cldf:pakendorf:07)",
+        "source_glottolog": true
+      },
+      "mvp": true
+    },
+    {
+      "iso": "alt",
+      "glottocode": "sout2694",
+      "name": "Southern Altai",
+      "branch": "Sibirya",
+      "macroarea": "Eurasia",
+      "countries": "CN;KZ;MN;RU",
+      "lat": 50.1347,
+      "lon": 86.8705,
+      "level": "language",
+      "vitality_aes": {
+        "level": 3,
+        "label": "shifting",
+        "crosswalk": "EGIDS: 7; UNESCO: definitely endangered; ElCat: definitely endangered",
+        "comment": "Southern Altai (3044-alt) = Threatened (80 percent certain, based on the evidence available) [Salminen 2000](cldf:salminen:00)",
+        "source_glottolog": true
+      },
+      "mvp": false
+    },
+    {
+      "iso": "tyv",
+      "glottocode": "tuvi1240",
+      "name": "Tuvinian",
+      "branch": "Sibirya",
+      "macroarea": "Eurasia",
+      "countries": "CN;MN;RU",
+      "lat": 51.7,
+      "lon": 94.36667,
+      "level": "language",
+      "vitality_aes": {
+        "level": 1,
+        "label": "not endangered",
+        "crosswalk": "EGIDS: <=6a; UNESCO: safe; ElCat: safe",
+        "comment": "Tuva (7309-tyv) = At risk (20 percent certain, based on the evidence available) [ed. 2010](cldf:ed:10)",
+        "source_glottolog": true
+      },
+      "mvp": false
+    }
+  ]
+}

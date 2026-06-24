@@ -1,0 +1,868 @@
+Yüzey Morfem Bölümleme ve Türk Dilleri 
+Arası Eşdeğerlik Sağlama: KÖKEN 
+Platformu İçin Mimari ve Algoritmik 
+Analiz Raporu 
+
+Doğal dil işleme (NLP) ekosisteminde kural tabanlı sistemler, özellikle Türk dilleri gibi sondan 
+eklemeli (agglutinative) ve karmaşık morfonolojik kurallara sahip dillerin analizinde kritik bir rol 
+oynamaktadır. KÖKEN platformunun altyapısını oluşturan Apertium tabanlı sonlu durum 
+dönüştürücüleri (Finite-State Transducers - FST), morfolojik analiz ve üretim aşamalarında 
+kelimenin kökünü ve aldığı morfolojik etiketleri yüksek doğrulukla tespit edebilmektedir. Ancak 
+bu süreçte ortaya çıkan iki temel mühendislik problemi, platformun analitik yeteneklerini 
+sınırlandırmaktadır. Birincisi, analiz edilen morfolojik etiketlerin metin üzerindeki fiziksel yüzey 
+sınırlarının (surface morpheme segmentation) belirlenmesindeki zorluktur. Ünlü uyumu, ünsüz 
+yumuşaması ve ünlü düşmesi gibi ses olayları, eklerin derin yapıları ile yüzey yapıları arasında bir 
+asimetri yaratmakta, bu da basit kümülatif string farkı alma yöntemlerinin başarısız olmasına yol 
+açmaktadır. İkinci problem ise, analiz edilen bir kelimenin tüm Türk dillerindeki morfolojik 
+eşdeğerlerinin (cross-lingual equivalence) canlı ve dinamik olarak üretilebilmesidir. 
+Bu rapor, söz konusu iki mühendislik açığını kapatmak amacıyla, açık kaynaklı araçların, 
+kütüphanelerin ve algoritmik yaklaşımların derinlemesine bir analizini sunmaktadır. İnceleme; 
+lisans uyumluluğu, Python entegrasyonu, olgunluk ve hemen uygulanabilirlik (deployability) 
+kriterleri çerçevesinde yapılandırılmıştır. 
+Bölüm 1: Yüzey Morfem Bölümleme (Surface 
+Morpheme Segmentation) 
+Morfem sınırlarının yüzey formda, yani kelimenin metin üzerinde göründüğü fiziksel haliyle tespit 
+edilmesi, Apertium gibi geleneksel FST'lerin standart analiz çıktılarında doğrudan yer almaz. 
+Sistem kitabımızda kelimesini kitap<n><px1pl><loc> olarak analiz ederken, kitap kökünün kitab 
+formuna dönüştüğünü ve eklerin ımız ve da şeklinde yüzeye çıktığını açıkça raporlamaz. Kesin 
+sınır tespiti için ya doğrudan bu amaca yönelik tasarlanmış dil spesifik araçlara ya da FST'lerin iç 
+mekanizmalarına müdahale eden evrensel hizalama algoritmalarına ihtiyaç duyulmaktadır. 
+Açık Kaynaklı Segmentasyon Araçları ve Mimari Analizleri 
+
+Yüzey morfem bölümlemesini sağlayan açık kaynaklı araçlar, kütüphane olgunluğu ve 
+entegrasyon kapasiteleri bakımından farklılık göstermektedir. 
+Zemberek (Türkiye Türkçesi) 
+
+Türkiye Türkçesi için geliştirilmiş en olgun açık kaynaklı doğal dil işleme kütüphanesi olan 
+Zemberek, Apache-2.0 lisansı altında sunulmaktadır ve mimari olarak yüzey morfem sınırlarını 
+
+doğrudan raporlayabilecek şekilde tasarlanmıştır1. Java tabanlı olan bu kütüphane, 
+TurkishMorphology sınıfı üzerinden kelime ve cümle seviyesinde morfolojik analiz yapmaktadır1. 
+Zemberek'in analiz mekanizması, Apertium'dan farklı olarak kelimeyi ayrıştırırken geçtiği tüm 
+düğümlerin yüzeydeki harf karşılıklarını bellekte tutar. TurkishMorphology.analyze metodu 
+çağrıldığında sistem bir WordAnalysis nesnesi döndürür ve bu nesne olası tüm analizleri içeren 
+SingleAnalysis objelerini barındırır4. SingleAnalysis sınıfının kaynak kodları ve veri yapıları 
+incelendiğinde, bu sınıfın getMorphemeDataList() adında bir metoda sahip olduğu ve bu 
+metodun bir MorphemeData listesi döndürdüğü görülmektedir5. MorphemeData nesnesi, her 
+bir morfemi (Morpheme sınıfı) ve bu morfemin metin üzerindeki fiziksel yüzey formunu (surface 
+string değişkeni) eşleştirilmiş olarak tutar5. 
+Örneğin, ses değişimine uğramış "kitabımızsa" kelimesi analiz edildiğinde, sistem 
+SingleAnalysis.getStems() ile "kitab" ve "kitabımız" gövdelerini verirken, kök olarak "kitap" 
+formunu tanımlar1. Yüzey formlarına erişmek için getMorphemeDataList() çağrıldığında sistem 
+sırasıyla MorphemeData(Noun, "kitab"), MorphemeData(P1pl, "ımız") ve MorphemeData(Cond, 
+"sa") verilerini döndürür5. Eğer bir morfemin yüzeyde fiziksel bir karşılığı yoksa (örneğin A3sg - 3. 
+Tekil Şahıs eki), Zemberek bu durumu emptyMorphemeCache üzerinden boş bir string ("") 
+olarak yansıtır4. Bu yapı, kümülatif üretime gerek kalmadan "kitab|ımız|sa" şeklindeki kesin yüzey 
+bölümlemesini doğrudan verir. 
+Java-Python Köprüsü ve Entegrasyon Pratikleri: KÖKEN platformunun Python tabanlı 
+olması, Java ile yazılmış Zemberek'in entegrasyonu için bir köprü teknolojisi kullanımını gerektirir. 
+Endüstri standardı olan ve Zemberek ile birlikte en sık kullanılan entegrasyon aracı JPype 
+(jpype1) kütüphanesidir2. JPype, Python süreci içerisinde yerleşik bir Java Sanal Makinesi (JVM) 
+başlatarak Java sınıflarına native hızda erişim sağlar7. Kurulum aşamasında startJVM metodu ile 
+Zemberek JAR dosyası sisteme tanıtılır ve JClass aracılığıyla TurkishMorphology sınıfı Python 
+objesi gibi kullanılır2. 
+Alternatif olarak, Zemberek'in Python portu olan ve NumPy kullanılarak yeniden yazılan 
+zemberek-python modülü mevcuttur10. Loodos tarafından geliştirilen bu port, Java ortamı 
+gerektirmemesi açısından avantajlı görünse de, Java'nın 4-byte tamsayı (integer) mimarisi ile 
+Python'ın dinamik tamsayı mimarisi arasındaki farklar nedeniyle MultiLevelMphf sınıfında 
+tamsayı taşması (overflow) hatalarına yol açmaktadır3. Geliştiriciler bu sorunu NumPy'ın int32 ve 
+float32 veri tipleriyle çözmeye çalışmış ve çalışma zamanı uyarılarını (RuntimeWarnings) 
+baskılamak zorunda kalmışlardır3. Bu durum, SingleAnalysis ve morfem haritalama 
+algoritmalarında uç durumlarda (edge cases) stabilite riskleri barındırır. Bu nedenle, olgunluk ve 
+hata toleransı açısından JPype üzerinden doğrudan Java Zemberek JAR dosyasını 
+çağırmak en güvenilir, performanslı ve uygulanabilir (hemen yapılabilir) yöntemdir. 
+Apertium ve HFST (Helsinki Finite-State Technology) 
+
+Apertium projelerinde analizörler çoğunlukla Helsinki Finite-State Technology (HFST) 
+standardına göre lexc (lexicon) ve twolc (two-level kurallar) dosyaları ile derlenmektedir12. 
+Standart bir Apertium derlemesinde, analiz süreci tamamlandığında morfem sınırlarını 
+işaretleyen özel karakterler (genellikle +, >, veya %>) yüzey formundan silinir (epsilon geçişlerine 
+
+dönüştürülür), çünkü çeviri boru hattında bu işaretleyicilere ihtiyaç duyulmaz14. Ancak bu sınır 
+işaretleyicileri kaynak kod seviyesinde iki-seviyeli morfolojinin ayrılmaz bir parçasıdır15. 
+Apertium/HFST ekosisteminde FST'lerin segment-marker üreten özel bir formunu derlemek 
+kesinlikle mümkündür ve pratiktir. HFST araç setinde yer alan hfst-tokenize (eski adıyla 
+hfst-proc2) aracı, metni segmentlere ayırmak ve belirteç sınırlarını korumak üzere 
+tasarlanmıştır14. Örneğin, Uspanteko dili (apertium-usp) için geliştirilen dil paketinde, ana 
+analizörün yanı sıra bir usp-segmenter derlenmektedir. Bu segmenter FST, "Xinloqʼ" kelimesini 
+alıp morfem sınırlarını koruyarak X>>in>loqʼ çıktısını üretmektedir16. Kırgızca (apertium-kir) paketi 
+deposunda da segmenter oluşturmaya yönelik (first stab at segmenter) twol kural dosyaları ve 
+altyapı mevcuttur17. KÖKEN platformunda halihazırda Apertium kullanıldığına göre, mevcut lexc 
+dosyalarındaki morfem sınır karakterlerini (%> gibi) silen kuralları yorum satırına alarak (veya 
+derleme Makefile'ında ilgili argümanları değiştirerek) yüzey bölümlemesi veren paralel bir 
+segmenter FST (tur-segmenter.fst, aze-segmenter.fst) derlemek en düşük maliyetli ve en 
+uygulanabilir (pratik) yöntemdir. 
+GiellaLT, TRmorph ve UniParser-Morph Değerlendirmesi 
+
+GiellaLT: Ural ve Arktik dilleri odaklı başlayan GiellaLT altyapısı, HFST tabanlı çalışır ve Apertium 
+ile yakından entegredir13. twolc kurallarında morfem sınırı olarak %> ve kelime sınırı olarak # 
+kullanır15. GiellaLT altyapısında Tatarca, Başkurtça, Kazakça ve Kırgızca gibi diller için geliştirilmiş 
+sistemler bulunmaktadır18. Bu sistemler de tıpkı Apertium gibi hfst-tokenise komutu üzerinden 
+yüzey bölümleme sağlayacak şekilde yapılandırılabilir21. 
+TRmorph: Çağrı Çöltekin tarafından Türkçe için geliştirilen TRmorph, MIT lisanslı kural tabanlı bir 
+analizördür23. Paket içerisinde morfolojik analizörün yanı sıra, özel olarak derlenebilen bir 
+morfolojik segmenter (segment.xfst) otomatı hazır bulunmaktadır23. Python entegrasyonu 
+Foma arka ucu veya subprocess ile sağlanabilir23. Sadece Türkiye Türkçesi ile sınırlı olması 
+nedeniyle KÖKEN'in çok dilli yapısına doğrudan genişletilemez, ancak Türkiye Türkçesi için 
+Zemberek'e güçlü bir alternatiftir. 
+UniParser-Morph: Rusya merkezli araştırmacılar tarafından geliştirilen UniParser-morph, kural 
+tabanlı ve Python native bir araçtır24. En büyük avantajı, "glossing" özelliği sayesinde morfem 
+bölümlemesini ve etiketlemesini varsayılan olarak yapmasıdır24. Ancak, FST'lerin saniyede yüz 
+binlerce kelime işleme hızına kıyasla, UniParser-morph saniyede sadece 200 ila 20.000 kelime 
+analiz edebilir ve endüstriyel kullanıma uygun değildir24. Ayrıca, Udmurtça, Komice, Mokşa gibi 
+diller için paketleri bulunmasına rağmen27, Türk dilleri için (Tatarca veya Başkurtça için bazı 
+akademik çalışmalar olsa da) erişilebilir, kapsamlı ve olgun bir sözlük/kurallar bütünü GitHub 
+depolarında yer almamaktadır29. Bu durum UniParser'ı pratik bir seçenek olmaktan çıkarır. 
+Denetimsiz Yöntemler (Morfessor ve SentencePiece): Morfessor (özellikle Baseline modeli), 
+Minimum Tanım Uzunluğu (MDL) prensibiyle istatistiksel ve denetimsiz segmentasyon yapar31. 
+Ancak, kelimeler fonolojik değişimlere uğradığında (ör. yumuşama, ünlü düşmesi), Morfessor bu 
+ses değişimlerinin kökenini bilemez ve yüzeydeki karakter dizisini istatistiksel olarak en olası 
+noktalardan böler31. Aynı kökün farklı çekimlerini yanlış yerlerden kesme veya anlamsal 
+bütünlüğü olan ekleri parçalama eğilimindedir. SentencePiece veya BPE (Byte-Pair Encoding) ise 
+
+tamamen frekans odaklı olduğu için gramatikal morfem sınırlarına saygı duymaz32. KÖKEN gibi 
+kökbilimsel ve gramer hassasiyeti gerektiren bir platform için bu istatistiksel araçlar uygun 
+değildir. 
+Genel Yöntem: FST İnversiyonu ve Dinamik Hizalama (Alignment) 
+
+FST kaynak dosyalarını (lexc/twol) değiştirip yeniden derleme imkanının bulunmadığı 
+senaryolarda, sadece lemma+etiket çıktısından yüzey hece sınırına geçmek için literatürde 
+kabul gören en sağlam açık yöntem Dizi Hizalama (Sequence Alignment) yaklaşımıdır. Bu 
+bağlamda, Needleman-Wunsch veya Levenshtein düzenleme mesafesi (edit distance) 
+algoritmaları kullanılarak morfem sınırları tespit edilebilir33. 
+Kümülatif Üretim + Hizalama Boru Hattı: 
+
+1.  Derin Yapı Üretimi: Apertium'dan gelen kitap<n><px1pl><loc> analizi baz alınır. Bu 
+
+etiketlerin temel/kanonik yüzey formları bir allomorf tablosundan veya üretim motorunun 
+adım adım çalıştırılmasından elde edilir. Dizilim şu şekilde kurgulanır: kitap + ImIz + dA. 
+2.  Karakter Bazlı Dinamik Hizalama: Elde edilen hedef yüzey kelimesi ("kitabımızda") ile 
+
+temel morfem dizisi ("kitapImIzdA"), Needleman-Wunsch algoritması ile karakter bazında 
+hizalanır33. 
+
+3.  Fonolojik Ceza Matrisi (Scoring/Penalty Matrix): Standart eşleşmelere pozitif puan (+1), 
+boşluklara (gap) ise ceza verilir33. Türk dillerindeki ses değişimlerinin (ünsüz yumuşaması, 
+ünlü uyumu, ünlü düşmesi) doğruluğunu artırmak için dinamik hizalama matrisinde 
+cezalar özelleştirilir. Örneğin, "p" ile "b" harflerinin, "k" ile "ğ" harflerinin veya büyük "I" 
+(değişken ünlü) ile "ı/i/u/ü" harflerinin eşleşmesi sıfır ceza (tam eşleşme) olarak kabul edilir. 
+4.  Sınır Çıkarımı: Hizalama tamamlandığında, temel dizideki morfem ayırıcı sembollerin (+) 
+yüzey dizisinde hangi indekslere denk geldiği tespit edilir. "kitap+ImIz+dA" dizisindeki + 
+işaretleri, "kitabımızda" kelimesinin kitab | ımız | da şeklinde bölünmesini kesin ve 
+matematiksel olarak doğrular33. 
+
+Bu yöntem her Türk dili için ortaktır ve evrenseldir; sadece hizalama matrisindeki toleranslar 
+(A-e/a, I-i/ı vb.) dilin fonolojik kurallarına göre küçük bir JSON tablosu ile tanımlanır. Python'ın 
+native kütüphaneleriyle veya edlib gibi modüllerle hızlıca entegre edilebilir. FST kaynaklarına 
+müdahale gerektirmemesi ve allomorf tablolarıyla desteklendiğinde ses değişimlerini 
+mükemmel çözmesi nedeniyle son derece somut ve uygulanabilir bir teknik öneridir. 
+Karar Tablosu 1: Yüzey Bölümleme Stratejisi 
+
+Dil / Grup 
+
+Yüzey 
+Bölümleme 
+Aracı 
+
+Araç / API / 
+Yöntem 
+Detayı 
+
+Lisans 
+
+Python 
+Kullanılabili
+rliği 
+
+Uygulanabi
+lirlik 
+(Karar) 
+
+Türkiye 
+Türkçesi 
+
+Zemberek 
+
+TurkishMor
+phology.an
+alyze 
+üzerinden 
+
+Apache-2.0 
+
+Evet (JPype 
+ile JVM 
+üzerinden) 
+
+Hemen 
+Yapılabilir. 
+Türkiye 
+Türkçesi için 
+
+Türkiye 
+Türkçesi 
+
+TRmorph 
+
+Apertium 
+Dilleri (Kaz, 
+Kir, Tat, 
+Bak vb.) 
+
+Apertium / 
+HFST 
+Segmenter 
+
+Tüm Türk 
+Dilleri 
+
+Dinamik Dizi 
+Hizalama 
+(Alignment) 
+
+Diğer Diller 
+
+UniParser-
+Morph 
+
+SingleAnaly
+sis.getMorp
+hemeDataLi
+st çağrısı. 
+
+segment.xf
+st 
+modülünün 
+Foma 
+üzerinden 
+çalıştırılması
+. 
+
+lexc/twol 
+modifikasyo
+nu ile sınır 
+işaretlerini 
+koruyan 
+derleme ve 
+hfst-tokeniz
+e kullanımı. 
+
+Apertium 
+çıktısı 
+(Lemma+Eti
+ket) + 
+Needleman
+-Wunsch 
+Karakter 
+Hizalaması 
+ve Fonolojik 
+Ceza 
+Matrisi. 
+
+Udmurt, 
+Mokşa, 
+Arnavutça 
+vb. için var, 
+ancak Türk 
+
+MIT 
+
+Evet 
+(Subproces
+s veya 
+Foma API) 
+
+GPL-3.0 
+
+Evet 
+(Subproces
+s veya HFST 
+bindings) 
+
+N/A (Özel 
+Kod) 
+
+Evet (Native 
+Python / 
+edlib) 
+
+MIT 
+
+Evet (Native 
+Python) 
+
+başka bir 
+araca 
+ihtiyaç 
+yoktur. 
+
+Alternatif. 
+Zemberek 
+entegre 
+edilemezse 
+güçlü bir 
+yedektir. 
+
+Hemen 
+Yapılabilir. 
+Ancak FST 
+kaynak 
+dosyalarının 
+modifikasyo
+nunu ve 
+derleme 
+sürecini 
+gerektirir. 
+
+Hemen 
+Yapılabilir. 
+Her dil için 
+çalışır, FST 
+modifikasyo
+nu 
+gerektirmez
+. Kesin ve 
+kontrol 
+edilebilir 
+sonuç verir. 
+
+Araştırma 
+gerektirir. 
+Sözlüklerin 
+baştan 
+yazılmasını 
+
+dilleri 
+kütüphanes
+i eksik veya 
+deneysel. 
+
+gerektirir, 
+hızı 
+endüstriyel 
+kullanıma 
+uygun 
+değildir. 
+
+Bölüm 2: Diller-Arası Eşdeğer Bulma (Cross-Lingual 
+Equivalence) 
+KÖKEN platformunun temel vizyonu, kullanıcının girdiği bir kelimeyi (örneğin "okuduk") analiz 
+etmek ve bunu diğer Türk dillerinde (Azerbaycanca: "oxuduq", Tatarca: "uqıdıq", Kırgızca: 
+"okuduk" vb.) canlı olarak üretip göstermektir. Analiz süreci ("okuduk" → 
+oku<v><tv><past><p1pl>) kaynak dilde başarıyla tamamlandığında, eşdeğerini bulmak için temel 
+problem oku lemmasının hedef dillerdeki yapısal kök karşılıklarını bulmak ve bu kökleri aynı 
+gramer etiketleri (<v><tv><past><p1pl>) ile hedef dilin FST üreticisine (generator) sokmaktır. 
+Kök/Lemma Çapraz-Dil Eşlemesi Araçları ve Kaynakları 
+
+Apertium İki-Dilli Sözlükler (.dix dosyaları) 
+
+Apertium makine çevirisi platformunun merkezinde, kaynak dil ve hedef dil arasında kelime 
+düzeyinde çeviri ve yapısal aktarım sağlayan iki-dilli sözlük (bilingual dictionary) dosyaları yer alır. 
+Bu dosyalar XML tabanlı .dix (dictionary) formatındadır ve kökten köke yapısal bir eşleşme 
+tanımlar35. 
+Apertium, Türk dilleri ailesi için son derece geniş ve spesifik bir iki-dilli sözlük ağına sahiptir. 
+Özellikle tur-aze (Türkçe-Azerbaycanca), kaz-tat (Kazakça-Tatarca), tat-bak 
+(Tatarca-Başkurtça), tur-kir (Türkçe-Kırgızca), tur-tat (Türkçe-Tatarca), tur-uzb 
+(Türkçe-Özbekçe) ve tuk-tur (Türkmence-Türkçe) gibi olgunlaşmış ve test edilmiş ikililer 
+mevcuttur35. Bu sözlükler, sadece kelimelerin anlamlarını eşleştirmekle kalmaz, aynı zamanda 
+kelimelerin POS (part-of-speech) etiketlerini de içerir. XML formatında bir eşleşme, 
+<e><p><l>oku<s n="v"/></l><r>oxu<s n="v"/></r></p></e> şeklinde tanımlanır ve bu da eşleme 
+kalitesini kök-düzeyinde mükemmele yakın, deterministik bir hale getirir35. 
+Eğer tur-bak (Türkçe-Başkurtça) gibi doğrudan bir sözlük dosyası yoksa, tur-tat 
+(Türkçe-Tatarca) ve ardından tat-bak (Tatarca-Başkurtça) sözlükleri kullanılarak "pivot" (merkez 
+dil) aktarımı üzerinden zincirleme lemma eşleşmesi kurulabilir. Apertium verileri GPL-3.0 
+lisanslıdır ve GitHub üzerinden erişilebilmektedir36. Python ortamında standart XML ayrıştırıcıları 
+(lxml veya xml.etree.ElementTree) kullanılarak bu dosyalar belleğe alınabilir ve diller arası bir 
+"Evrensel Kök Grafiği" (Graph) oluşturulabilir. 
+Lexibank / CLDF (SavelyevTurkic) 
+
+Alexander Savelyev ve Martine Robbeets (2020) tarafından geliştirilen ve Lexibank 
+(Cross-Linguistic Data Format - CLDF) altyapısında sunulan bu veri seti, 32 farklı Türk dili ve 
+diyalekti arasında doğrudan kökensel (cognate) eşleşmeleri içerir41. Veri seti, evrensel ve kültürel 
+bağlamdan bağımsız olan Leipzig–Jakarta ve Jena temel kelime listelerini baz alan 254 temel 
+kavramı (concept) kapsamaktadır43. 
+Veri setinin kalitesi ve kapsamı, filogenetik analizler için profesyonel dilbilimciler tarafından 
+kodlandığından altın standart niteliğindedir. Azerbaycanca, Başkurtça, Kazakça, Kırgızca, 
+Tatarca, Çuvaşça, Yakutça, Tuvaca vb. neredeyse tüm varyantlar temsil edilmektedir44. Ancak en 
+büyük dezavantajı, sadece 254 temel kavram (örneğin su, kan, göz, ateş, okumak) ile sınırlı 
+olması ve toplamda 8.360 kelime barındırmasıdır41. Geniş kapsamlı ve genel amaçlı bir canlı 
+karşılaştırma aracı için tek başına yetersizdir. Bununla birlikte, CC-BY-4.0 lisansına sahip olması 
+ve GitHub üzerinden CSV formatında indirilebilmesi, Python pandas kütüphanesi ile anında 
+sisteme dahil edilmesini sağlar41. Temel kelime hazinesi (core vocabulary) eşleşmeleri için 
+kusursuz bir doğrulama (fallback) kaynağıdır. 
+PanLex, Wikidata/Wiktionary ve Makine Çevirisi (NLLB-200) 
+
+PanLex: Dünya genelinde 5.700'den fazla dil arasında kelime çevirileri sağlayan devasa bir 
+sözlük veritabanıdır46. Türkçe, Kazakça, Kırgızca, Tatarca, Azerbaycanca dahil olmak üzere 
+birçok Türk dilini kapsar49. Ancak PanLex verisi, çeşitli PDF sözlüklerinin otomatik taranması ve 
+hizalanması ile oluşturulduğu için kalite dalgalıdır ve yüksek oranda gürültü içerir49. POS 
+etiketleri eksik olabilir ve tek bir kök için alakasız eşanlamlılar döndürebilir. 
+Wikidata / Wiktionary: Kapsamlı leksikografik veriler içermelerine rağmen, bu verileri Apertium 
+POS etiketleriyle hizalayarak offline, temiz ve yapılandırılmış bir "Türk dilleri kök haritasına" 
+dönüştürmek, kullanıma hazır açık kaynaklı bir kütüphane bulunmadığından karmaşık SPARQL 
+sorguları gerektirir. Bu durum "Hemen yapılabilir" kategorisinden çıkarak ciddi bir veri temizliği 
+ve araştırma ihtiyacı doğurur. 
+NLLB-200 / OPUS-MT: Meta'nın NLLB-200 modeli, aralarında Kazakça, Kırgızca, Özbekçe, 
+Tatarca, Türkmence ve Kırım Tatarcasının da bulunduğu çok sayıda dili destekler50. Benzer 
+şekilde Helsinki-NLP'nin OPUS-MT modelleri de çeviri yetenekleri sunar53. Ancak bu modeller 
+KÖKEN platformu için uygun değildir. Birinci engel lisanstır; NLLB-200 ağırlıkları CC-BY-NC 
+(Commercial Use Forbidden / Ticari Kullanım Yasak) lisansına sahiptir ve kurumsal projelerde 
+hukuki bir bariyer yaratır50. İkinci ve teknik engel ise determinizm eksikliğidir; NLLB seq2seq 
+mimarisinde cümle tabanlı bir modeldir. "okuduk" kelimesi verildiğinde hedefe morfolojik 
+konfigürasyonu birebir yansıtarak "oxuduq" vermesi garanti edilemez, bunun yerine eşanlamlı 
+veya farklı bir zaman kipinde anlamsal bir çeviri üretebilir. 
+Boru Hattı (Pipeline) Kurulumu ve Pratik Yöntem 
+
+"Kaynak dilde çöz (lemma+etiket) → lemmayı hedef dile eşle → aynı etiketleri hedef dilde ÜRET" 
+boru hattı, sadece pratik olmakla kalmayıp, KÖKEN platformunun vizyonu için uygulanabilecek 
+tek deterministik ve morfolojik sadakati (morphological fidelity) yüksek yöntemdir. Türk 
+dilleri, eklemeli yapıları gereği morfotaktik dizilimlerini büyük oranda ortaklaşa kullanırlar. 
+Apertium dil paketleri de bu dilbilimsel akrabalığa uygun olarak ortak bir etiket seti (örn. <v>, 
+
+<past>, <p1pl>) kullanacak şekilde tasarlanmıştır. 
+Hızlı Kurulabilir Zincir (Fast Deployable Chain): 
+
+1.  Analiz (Analysis): Kelime kaynak Apertium FST'sine verilir. (Ör: okuduk -> 
+
+oku<v><tv><past><p1pl>). 
+
+2.  Kök Eşleme (Lemma Mapping): tur-aze.dix sözlüğü XML üzerinden taranır. <l>oku<s 
+
+n="v"/></l> düğümünün karşılığı olan <r>oxu<s n="v"/></r> tespit edilir. (Python lxml modülü 
+ve bir XPath sorgusu bu işlemi mikrosaniyeler içinde yapar). 
+
+3.  Üretim (Generation): Bulunan hedef kök ve kaynak dilden alınan morfolojik etiketler 
+
+dizisi birleştirilir. ^oxu<v><tv><past><p1pl>$ stringi Apertium Hedef FST'sine (generator 
+modunda) verilir ve çıktı olarak oxuduq elde edilir. 
+
+Eğer doğrudan sözlük yoksa (Örn. Türkiye Türkçesi -> Başkurtça), grafik (graph) tabanlı bir 
+yaklaşım izlenir. Python'ın networkx kütüphanesi kullanılarak .dix dosyalarındaki tüm lemma 
+ilişkileri birbirine bağlanır. Türkçe oku düğümünden yola çıkılır, tur-tat üzerinden Tatarca uqı 
+bulunur, oradan tat-bak üzerinden Başkurtça köke ulaşılır. Tüm etiketler sabit kaldığı için, ulaşılan 
+kök Başkurtça FST üretecisine verilerek anında çekimli kelime elde edilir. 
+Karar Tablosu 2: Çapraz-Dil Eşleme Stratejisi 
+
+Kaynak / 
+Araç 
+
+Türk Dilleri 
+Kapsamı 
+
+Apertium 
+İki-Dilli 
+Sözlükler 
+(.dix) 
+
+Yüksek (Tur, 
+Aze, Kaz, 
+Tat, Kir, Bak, 
+Uzb, Tuk 
+ikilileri) 
+
+Eşleme 
+Düzeyi ve 
+Kalitesi 
+
+Kök düzeyi 
+(Lemma+Po
+S). Kalite: 
+Çok Yüksek, 
+Kural 
+Tabanlı. 
+
+Lisans 
+
+GPL-3.0 
+
+Python 
+Kullanılabili
+rliği 
+
+Uygulanabi
+lirlik 
+(Karar) 
+
+Evet (XML 
+Parsing, 
+NetworkX) 
+
+Çok Yüksek 
+(32 varyant) 
+
+SavelyevTu
+rkic 
+(Lexibank/
+CLDF) 
+
+Kök düzeyi. 
+Kalite: Altın 
+Standart. 
+Kapsam: 
+Dar (254 
+Kavram). 
+
+CC-BY-4.0 
+
+Evet 
+(Pandas ile 
+CSV 
+okuma) 
+
+Hemen 
+Yapılabilir 
+ve Birincil 
+Tercih. 
+Deterministi
+k kök 
+aktarımı ve 
+FST 
+jeneratörü 
+ile %100 
+uyum 
+sağlar. 
+
+Hemen 
+Yapılabilir. 
+Temel 
+kelime 
+dağarcığı 
+için 
+doğrulama 
+
+PanLex 
+
+Çok Yüksek 
+
+NLLB-200 / 
+OPUS-MT 
+
+Yüksek (10+ 
+Türk dili) 
+
+Açık / Çeşitli 
+
+Evet (API 
+veya DB 
+İndirme) 
+
+CC-BY-NC 
+
+Evet 
+(HuggingFa
+ce 
+Transforme
+rs) 
+
+Kök düzeyi. 
+Kalite: 
+Düşük/Dalg
+alı 
+(Otomatik 
+hizalama 
+gürültüsü 
+içerir). 
+
+Yüzey/Cüml
+e düzeyi 
+çeviri. 
+Kalite: 
+Semantik 
+olarak 
+yüksek, 
+morfolojik 
+olarak zayıf. 
+
+(fallback) 
+tablosu 
+olarak 
+sisteme 
+gömülmelid
+ir. 
+
+Araştırma 
+gerektirir. 
+Sadece 
+Apertium'd
+a 
+bulunmayan 
+kelimeler 
+için 
+genişletilmi
+ş bir 
+veritabanı 
+olarak 
+değerlendiri
+lmelidir. 
+
+İptal. Hem 
+ticari 
+kullanım 
+kısıtlamaları 
+hem de 
+kelimenin 
+morfolojik 
+çekim izini 
+(tense, 
+person) 
+koruma 
+garantisi 
+olmaması 
+nedeniyle 
+uygunsuzdu
+r. 
+
+Wikidata / 
+Wiktionary 
+
+Yüksek 
+
+Kök düzeyi. 
+Kalite: 
+
+CC0 / 
+CC-BY-SA 
+
+Evet 
+(SPARQL 
+
+Araştırma 
+gerektirir. 
+
+sorguları ile) 
+
+Yüksek 
+ancak 
+yapılandırıl
+mamış ve 
+dağınık. 
+
+Hazır bir 
+Türk dilleri 
+kök haritası 
+("kaynak 
+bulunamadı
+") 
+sunmadığı 
+için 
+Apertium 
+formatına 
+dönüştürül
+mesi ciddi 
+mühendislik 
+eforu ister. 
+
+Sonuç ve Entegrasyon Yol Haritası 
+KÖKEN platformunun morfolojik analiz sınırlarını genişletmek ve canlı çapraz-dil üretimi 
+sağlamak için elde edilen bulgular, dışarıdan büyük ölçekli ve hantal dil modellerine ihtiyaç 
+duyulmadan, tamamen kural tabanlı, deterministik ve açık kaynaklı araçlarla çözüme 
+ulaşılabileceğini kanıtlamaktadır. 
+Yüzey morfem bölümlemesi için Türkiye Türkçesinde Zemberek, en güvenilir ve hızlı araç olarak 
+öne çıkmaktadır. Python entegrasyonu aşamasında veri tipi taşmalarını (integer overflow) 
+önlemek adına doğrudan Java JAR dosyasını çalıştıran JPype köprüsü kullanılmalıdır. Apertium 
+destekli diğer Türk dillerinde ise yüzey hecelerini tespit etmek için FST derleme süreçlerini 
+değiştirmek yerine, Apertium'dan dönen lemma+etiket bilgisini kök ve temel ek haritalamasına 
+dönüştürüp, ortaya çıkan birleşik dizeyi yüzey kelimesiyle Needleman-Wunsch karakter 
+hizalama algoritması üzerinden eşleştirmek en güçlü ve evrensel stratejidir. 
+Diller-arası eşdeğerlik kurulumunda ise, makine çevirisi yöntemlerinin morfolojik kayıplarından 
+kaçınmak amacıyla Apertium .dix XML sözlükleri merkeze alınmalıdır. kaynak dilde analiz -> 
+.dix sözlüğünde kök eşleştirme -> hedef dilde aynı etiketlerle üretim boru hattı sadece teorik 
+olarak değil, pratik olarak da en yüksek morfolojik sadakati sunar. Bu ağın kapsamadığı temel 
+kavramlar için SavelyevTurkic veri setinin CSV formunda sisteme bir "altın standart doğrulama" 
+modülü olarak entegre edilmesi, KÖKEN platformunun dilbilimsel doğruluğunu en üst düzeye 
+taşıyacaktır. 
+
+Alıntılanan çalışmalar 
+
+1.  ZEMBEREK — Doğal Dil İşleme - Uğur Özker - Medium, 
+
+https://ugurozker.medium.com/zemberek-nlp-7add032881e9 
+
+2.  Preprocessing Turkish Texts Using Zemberek with Python - Medium, 
+
+https://medium.com/@semasahin934/preprocessing-turkish-texts-using-zember
+
+ek-with-python-6f8e47ff8f8c 
+
+3.  loodos/zemberek-python - GitHub, https://github.com/loodos/zemberek-python 
+4.  zemberek-nlp/morphology/README.md at master - GitHub, 
+
+https://github.com/ahmetaa/zemberek-nlp/blob/master/morphology/README.md 
+
+5.  SingleAnalysis.java - ahmetaa/zemberek-nlp - GitHub, 
+
+https://github.com/ahmetaa/zemberek-nlp/blob/master/morphology/src/main/java
+/zemberek/morphology/analysis/SingleAnalysis.java 
+
+6.  Author-text classification in Turkish texts with 80% accuracy in svm, 
+https://github.com/ulkudilemre/Turkish-text-author-classification 
+7.  Python ile Zemberek Kullanarak Türkçe Metin Ön İşleme - Medium, 
+
+https://medium.com/@semasahin934/python-ile-zemberek-kullanarak-t%C3%BC
+rk%C3%A7e-metin-%C3%B6n-i%CC%87%C5%9Fleme-727ca0056810 
+
+8.  Zemberek Kütüphanesi ile Türkçe Metinlerde Kelime Köklerinin, 
+
+https://melikebektas95.medium.com/zemberek-k%C3%BCt%C3%BCphanesi-ile-
+t%C3%BCrk%C3%A7e-metinlerde-kelime-k%C3%B6klerinin-bulunmas%C4%B1-
+6ddd3a875d5f 
+
+9.  DETECTING TURKISH PHISHING ATTACKS WITH MACHINE, 
+
+https://etd.lib.metu.edu.tr/upload/12624689/index.pdf 
+
+10. zemberek-python/setup.py at master - GitHub, 
+
+https://github.com/loodos/zemberek-python/blob/master/setup.py 
+11. zemberek-python - PyPI, https://pypi.org/project/zemberek-python/ 
+12. Semi-supervised induction of a concatenative ... - Aaltodoc, 
+
+https://aaltodoc.aalto.fi/bitstreams/f2d3bb3d-07d9-48f5-9e15-0f8bc0868ec8/do
+wnload 
+
+13. (PDF) HFST—Framework for Compiling and Applying Morphologies, 
+
+https://www.researchgate.net/publication/225878745_HFST-Framework_for_Com
+piling_and_Applying_Morphologies 
+14. hfst/NEWS at master · hfst/hfst - GitHub, 
+
+https://github.com/hfst/hfst/blob/master/NEWS 
+
+15. Komi-Permyak NLP Grammar - GiellaLT, 
+
+https://giellalt.github.io/lang-koi/src-fst-morphology-phonology.twolc.html 
+16. Uspantek: apertium-usp - GitHub, https://github.com/apertium/apertium-usp 
+17. apertium/apertium-kir: Apertium linguistic data for Kyrgyz - GitHub, 
+
+https://github.com/apertium/apertium-kir 
+
+18. constraint-grammar · GitHub Topics, 
+
+https://github.com/topics/constraint-grammar 
+
+19. UDMURT Noun inflection - GiellaLT, 
+
+https://giellalt.github.io/lang-udm/src-fst-morphology-affixes-nouns.lexc.html 
+
+20. Overview Of Proofing Tools - GiellaLT documentation, 
+
+https://giellalt.uit.no/proofresearch/OverviewOfProofingTools.html 
+
+21. Making an Open Source Multi-lingual Infrastructure and Building, 
+
+https://aclanthology.org/2022.lrec-1.125.pdf 
+
+22. Linguistic analysis with GiellaLT models - GitHub Pages, 
+https://giellalt.github.io/ling/LinguisticAnalysis.html 
+
+23. coltekin/TRmorph: A finite-state morphological analyzer for Turkish, 
+
+https://github.com/coltekin/TRmorph 
+
+24. Uniparser morphology — uniparser-morph 2.4.3 documentation, 
+
+https://uniparser-morph.readthedocs.io/ 
+
+25. timarkh/uniparser-morph: Rule-based, linguist-friendly (and ... - GitHub, 
+
+https://github.com/timarkh/uniparser-morph 
+
+26. Usage guide — uniparser-morph 2.4.3 documentation, 
+
+https://uniparser-morph.readthedocs.io/en/latest/usage.html 
+
+27. timarkh/uniparser-grammar-udm: Morphological analysis for Udmurt., 
+
+https://github.com/timarkh/uniparser-grammar-udm 
+
+28. timarkh/uniparser-grammar-moksha - GitHub, 
+
+https://github.com/timarkh/uniparser-grammar-moksha 
+
+29. 2024 17 (5) - Журнал Сибирского федерального университета, 
+
+https://journal.sfu-kras.ru/sites/journal.sfu-kras.ru/files/fulltexts/J_HUM_2024_05_t
+otal.pdf 
+
+30. Readability assessment of written Adyghe using a baseline approach, 
+
+https://www.researchgate.net/publication/395084409_Readability_assessment_o
+f_written_Adyghe_using_a_baseline_approach 
+
+31. A Focus on Borrowed Words and Invalid Morpheme - ACL Anthology, 
+
+https://aclanthology.org/2024.loresmt-1.9.pdf 
+
+32. Morpheus: A Morphology-Aware Neural Tokenizer and Word ... - arXiv, 
+
+https://arxiv.org/html/2606.18717 
+
+33. Sequence Labelling for Word-Level Morpheme Segmentation, 
+
+https://aclanthology.org/2022.sigmorphon-1.13.pdf 
+
+34. (PDF) Unsupervised and Knowledge-Free Morpheme Segmentation, 
+
+https://www.researchgate.net/publication/225149463_Unsupervised_and_Knowle
+dge-Free_Morpheme_Segmentation_and_Analysis 
+
+35. Turkic-Turkic translator - Apertium, 
+
+https://wiki.apertium.org/wiki/Turkic-Turkic_translator 
+
+36. A free/open-source machine translation system for English to Kazakh, 
+
+https://www.dlsi.ua.es/~mlf/docum/sundetova15p.pdf 
+37. Apertium translation pair for Kazakh and Tatar · GitHub, 
+
+https://github.com/apertium/apertium-kaz-tat 
+
+38. Turkic languages - Apertium, https://wiki.apertium.org/wiki/Turkic_languages 
+39. AUR (en) - apertium-kaz-tat - Arch Linux, 
+
+https://aur.archlinux.org/packages/apertium-kaz-tat 
+40. Apertium translation pair for Turkish and Azeri · GitHub, 
+
+https://github.com/apertium/apertium-tur-aze 
+
+41. CLDF dataset derived from Savelyev and Robbeet's ... - GitHub, 
+
+https://github.com/lexibank/savelyevturkic 
+
+42. Bayesian phylolinguistics infers the internal structure and the time, 
+
+https://www.researchgate.net/publication/339297095_Bayesian_phylolinguistics_i
+nfers_the_internal_structure_and_the_time-depth_of_the_Turkic_language_family 
+
+43. Turkic languages - Wikipedia, https://en.wikipedia.org/wiki/Turkic_languages 
+44. Bayesian phylolinguistics infers the internal structure and the time, 
+
+https://academic.oup.com/jole/article/5/1/39/5736268 
+
+45. Datasets - CLICS⁴ -, https://clics.clld.org/contributions/savelyevturkic 
+46. PanLex Languages, https://vocab.panlex.org/ 
+47. PanLex joins Rosetta at Long Now, 
+
+https://longnow.org/ideas/panlex-joins-rosetta-at-long-now/ 
+
+48. Resources for Turkish natural language processing: A critical survey, 
+
+https://pmc.ncbi.nlm.nih.gov/articles/PMC9417072/ 
+
+49. Automatic Wordnet Construction, https://trwordnet.cs.hacettepe.edu.tr/ 
+50. XSkills/nllb-200-turkmen-english-lora - Hugging Face, 
+
+https://huggingface.co/XSkills/nllb-200-turkmen-english-lora 
+
+51. Trends in AI — July 2022. NLLB-200 the new open source, 
+
+https://pub.towardsai.net/trends-in-ai-july-2022-44a06a37f598 
+52. Library for pruning experts per language pair in NLLB-200 · GitHub, 
+
+https://github.com/naver/nllb-pruning 
+
+53. Helsinki-NLP/opus-mt-ar-tr - 模力方舟（Gitee AI）, 
+
+https://moark.com/hf-models/Helsinki-NLP/opus-mt-ar-tr 
+
+

@@ -1,0 +1,1904 @@
+Türk Dilleri Açık Kaynak NLP ve 
+Hesaplamalı Dilbilim Envanteri 
+
+Hesaplamalı dilbilim ve doğal dil işleme (NLP) teknolojileri, ağırlıklı olarak Hint-Avrupa dilleri 
+ekseninde gelişmiş olup, morfolojik açıdan zengin ve sondan eklemeli yapıya sahip Türk dilleri bu 
+ekosistemde parçalı ve asimetrik bir gelişim göstermiştir. Bu rapor, yaklaşık yirmi Türk dili için 
+mevcut açık kaynaklı ve açık erişimli hesaplamalı dilbilim araçlarını, dil kaynaklarını ve dil 
+modellerini sistematik bir biçimde haritalandırmaktadır. Analiz, KÖKEN platformunun altyapısını 
+oluşturacak motorların belirlenmesi, diller arası eşdeğerlik mekanizmalarının kurulması ve 
+araştırmacılara yönelik bir laboratuvar envanterinin temellendirilmesi amacını taşımaktadır. 
+Çalışma kapsamında morfolojik çözümleyiciler, sözdizimsel ağaç bankaları (Universal 
+Dependencies), tarihsel-etimolojik sözlükler, paralel derlemler ve büyük dil modelleri (LLM) 
+incelenerek, araçların olgunluk seviyeleri, lisans durumları ve entegrasyon kapasiteleri 
+değerlendirilmiştir. 
+Türk Dillerinin Dijital Canlılık ve Kaynak Taksonomisi 
+Doğal dil işleme alanında dillerin kaynak zenginliği ve dijital temsil kapasitesi, Joshi ve ark. (2020) 
+tarafından geliştirilen ve sıfırdan beşe kadar uzanan altı sınıflı bir taksonomi ile ölçülmektedir1. 
+Bu taksonomi, etiketli ve etiketsiz veri miktarına dayanarak dillerin makine öğrenmesi ve kural 
+tabanlı sistemler için uygunluğunu belirler. Türk dili ailesinin bu taksonomideki dağılımı, derin bir 
+dijital uçuruma işaret etmektedir. 
+Yapılan analizler, Türkiye Türkçesinin kapsamlı ağaç bankaları, milyar parametreli yerel büyük dil 
+modelleri ve endüstri standartlarında morfolojik analizörleri ile Yüksek Kaynak (Sınıf 4-5) 
+kategorisinde yer alan tek Türk dili olduğunu göstermektedir4. Buna karşın, Kazakça ve Özbekçe 
+son yıllarda özel enstitülerin (örneğin ISSAI) ve açık kaynak topluluklarının çabalarıyla veri 
+kümelerini genişleterek Orta/Gelişmekte Olan Kaynak (Sınıf 2-3) seviyesine yükselmiştir7. 
+Tatarca ve Uygurca da paralel derlemler ve Vikipedi verileri sayesinde bu grupta 
+konumlanmaktadır5. Kırgızca, Azerbaycanca, Türkmence, Başkurtça, Çuvaşça ve Saha (Yakut) 
+dilleri ise Düşük Kaynak (Sınıf 1) kategorisinde kalmaktadır; bu dillerde kısıtlı UD ağaç bankaları 
+veya temel sözlükler bulunmakla birlikte, derin öğrenme modellerini sıfırdan eğitecek 
+büyüklükte tek dilli (monolingual) veri eksiktir9. Gagavuzca, Karakalpakça, Karaçay-Balkarca, 
+Kumukça, Nogayca, Altayca, Hakasça, Tuvaca, Şorca ve Halaçça gibi diller ise Aşırı Düşük 
+Kaynak (Sınıf 0) kategorisindedir. Bu dillerde dijital metin yok denecek kadar azdır, morfolojik 
+çözümleyiciler sadece prototip aşamasındadır ve modern sinir ağı tabanlı ardışık işlem hatları 
+(pipeline) tamamen eksiktir1. Dolganca, Salar, Fu-yü Kırgızcası gibi tehlike altındaki diller için 
+dijital kaynaklar yalnızca tarihsel veya karşılaştırmalı dilbilim veri setlerindeki (örneğin Lexibank) 
+izole sözcük listeleriyle sınırlıdır14. 
+Aşağıdaki tablo, Türk dillerinin dijital canlılık taksonomisini özetlemektedir: 
+
+Joshi Sınıfı 
+
+Kaynak Seviyesi 
+
+Kapsanan Türk 
+Dilleri 
+
+Temel NLP 
+Karakteristiği 
+
+Sınıf 4-5 
+
+Yüksek Kaynak 
+
+Türkiye Türkçesi 
+
+Sınıf 2-3 
+
+Orta Kaynak 
+
+Kazakça, Özbekçe, 
+Tatarca, Uygurca 
+
+Sınıf 1 
+
+Düşük Kaynak 
+
+Sınıf 0 
+
+Aşırı Düşük Kaynak 
+
+Kırgızca, 
+Azerbaycanca, 
+Türkmence, 
+Başkurtça, Saha 
+(Yakut), Çuvaşça 
+
+Gagavuzca, 
+Karakalpakça, 
+Karaçay-Balkarca, 
+Kumukça, Nogayca, 
+Altayca, Tuvaca, 
+Hakasça, Şorca, 
+Halaçça vb. 
+
+Büyük ölçekli 
+LLM'ler, endüstriyel 
+FST'ler, kapsamlı UD 
+ağaç bankaları. 
+
+Orta ölçekli ağaç 
+bankaları, özel BERT 
+modelleri, temel 
+ASR sistemleri. 
+
+Açık kaynaklı temel 
+kural tabanlı 
+analizörler, küçük 
+boyutlu paralel 
+derlemler, prototip 
+UD verisi. 
+
+Dijital veri eksikliği, 
+salt prototip araçlar, 
+model eğitimi için 
+yetersiz etiketli veri. 
+
+Morfolojik Analiz ve Yüzey Bölümleme Paradigması 
+Türk dillerinin sondan eklemeli yapısı, ünlü uyumu ve karmaşık ünsüz benzeşmesi kuralları, 
+standart İngilizce merkezli alt-kelime (subword) parçalayıcılarının (BPE, WordPiece) anlamsal 
+bütünlüğü bozmasına neden olmaktadır15. Bu morfolojik karmaşıklığı yönetmek için Sonlu 
+Durum Dönüştürücüleri (Finite State Transducers - FST) hesaplamalı dilbilimin temel taşı olarak 
+kalmaya devam etmektedir. KÖKEN platformunun çekirdek mimarisi için Türkiye Türkçesinde 
+yarışan üç ana sistemin (Zemberek, TRmorph, Apertium) mimari farklılıkları, lisans koşulları ve 
+çıktı formatları belirleyici bir rol oynamaktadır. 
+Zemberek, TRmorph ve Apertium Karşılaştırması 
+
+Zemberek, Apache-2.0 lisansına sahip, Java tabanlı endüstri standardı bir doğal dil işleme 
+kütüphanesidir18. Sistemin en büyük avantajı, kelimeleri doğrudan yüzey hece ve morfemlerine 
+(örneğin "göz-lük-çü-ler-den") ayırabilme yeteneği ve yazım denetimindeki rakipsiz 
+performansıdır. Ancak, Zemberek'in mimarisi doğrudan diğer Türk dillerine genellenemez ve 
+
+Java bağımlılığı, modern Python tabanlı derin öğrenme ekosistemlerine entegrasyonunu 
+zorlaştırır; her ne kadar topluluk tarafından geliştirilen Python sarmalayıcıları (örneğin 
+zemberek-python) bulunsa da, bu araçlar genellikle resmi kütüphanenin hız ve güncellik 
+avantajlarını tam olarak yansıtmaz20. Çıktı yapısı morfosintaktik analizde güncel Evrensel 
+Bağımlılık (UD) etiket formatlarıyla yerel olarak uyumsuzdur. 
+Buna karşın, TRmorph Çağrı Çöltekin tarafından geliştirilmiş, SFST/Foma (Xerox) dillerinde 
+yazılmış LGPL/GPL lisanslı bir açık kaynak FST'dir22. Zemberek'in aksine, TRmorph 800 milyon 
+kelimelik bir web derleminden yarı otomatik çıkarılmış devasa bir güncel kök sözlüğüne (lexicon) 
+sahiptir22. Çıktı formatı, kelimenin soyut morfolojik özelliklerini (örneğin ev<n><loc>) yansıtan 
+lemma ve etiket şeklindedir. KÖKEN platformunun morfosintaktik analiz katmanı için 
+Zemberek'e kıyasla bilimsel olarak çok daha hassas bir etiketleme sunar, ancak yüzey morfem 
+sınırlarını doğrudan vermez. 
+Apertium-tur ise açık kaynaklı kural tabanlı makine çevirisi platformu Apertium'un Türkçe 
+modülüdür ve GPL-3.0 lisansıyla dağıtılmaktadır23. LTToolbox ve HFST altyapısını kullanan bu 
+sistemin doğruluk oranı ve kök kapsayıcılığı TRmorph kadar yüksek olmamakla birlikte, stratejik 
+olarak en büyük avantajı diğer Apertium Türk dili modülleriyle (Kazakça, Tatarca, Özbekçe vb.) 
+birebir aynı etiket setini ve lexc mimarisini paylaşmasıdır11. Bu homojenlik, KÖKEN gibi çok dilli 
+matris işlemleri hedefleyen bir platform için çapraz dil uyumluluğunu en üst düzeye çıkarır. 
+Yüzey Morfem Bölümleme (Surface Segmentation) Problemi ve 
+Çözümleri 
+
+Apertium ve TRmorph gibi akademik analizörler lemma ve soyut etiketler üretirken, 
+araştırmacıların ve dil modellerinin sıklıkla ihtiyaç duyduğu yüzey morfem sınırlarını (surface 
+segmentation) geri döndürme konusunda yapısal sınırlamalara sahiptir16. Soyut analizden yüzey 
+hecelerine geçiş için açık kaynak ekosisteminde üç ana yöntem bulunmaktadır. Birinci yöntem, 
+FST kümülatif üretim modifikasyonlarıdır; lexc kurallarına analiz esnasında yüzey sınırlarını 
+koruyan özel işaretçiler (segment markers) eklenir. Bu yaklaşım mutlak kesinlik sağlasa da, her 
+bir Türk dili için FST kurallarının manuel olarak yeniden yazılmasını gerektirir25. 
+İkinci yöntem, Morfessor gibi denetimsiz istatistiksel algoritmaların kullanılmasıdır. Morfessor, 
+büyük metin derlemlerindeki karakter dizilimlerinin istatistiksel olasılıklarına dayanarak kelimeleri 
+morfem benzeri alt birimlere böler16. Kural yazımı gerektirmediğinden Düşük Kaynaklı (Sınıf 1 ve 
+0) diller için hızlıca uygulanabilir; ancak dilbilimsel kök ve ek bilgisini (örneğin ünlü uyumu 
+nedeniyle değişen allomorfları) garanti edemez ve aşırı bölütleme (over-segmentation) 
+sorunlarına yol açabilir. 
+Üçüncü ve en güncel yöntem ise sinirsel (neural) ve melez segmentasyon modelleridir. 
+Araştırmacılar, BPE alt-kelime tokenizasyonunu morfolojik araçlarla eğiten "Morpheus" ve 
+"MorphBPE" gibi modeller önermektedir16. Morpheus, Türkçe için geliştirilmiş olup, 
+diferansiyellenebilir bir Poisson-binomiyal dinamik programlama kullanarak kelimeleri kayıpsız 
+(lossless) ve morfolojiye duyarlı bir şekilde parçalar16. KÖKEN platformu için en sağlam çözüm, 
+FST tabanlı kesinliği (Apertium/TRmorph) ile Morfessor veya Morpheus benzeri nöral 
+segmentasyon algoritmalarını birleştiren ardışık bir işlem hattı (hybrid pipeline) kurmaktır. 
+
+Diğer Türk Dillerinde Kural Temelli Çözümleyicilerin Kapsamı 
+
+Apertium ekosistemi, Türk dillerinde açık ara en geniş kural tabanlı analizör ve üretici (FST) 
+deposunu sunmaktadır11. Bu modüller Python üzerinden hfst kütüphanesi ile yerel sistem 
+kurulumuna gerek kalmadan çalıştırılabilmektedir30. Kazakça (apertium-kaz, 36.500 kök, %94.5 
+kapsama), Tatarca (apertium-tat, 55.700 kök, %91 kapsama), Kırgızca (apertium-kir, 14.400 kök, 
+%90.4 kapsama) ve Tuvaca (apertium-tyv, 11.600 kök, %92.7 kapsama) gibi dillerde FST'ler 
+üretim kalitesi açısından oldukça olgunlaşmıştır11. Başkurtça, Çuvaşça, Karakalpakça, Özbekçe, 
+Uygurca, Kumukça ve Türkmence dillerinde ise modüller aktif geliştirme (Nursery/Incubator) 
+aşamasında olup kapsama oranları %50 ile %86 arasında değişmektedir11. 
+Apertium dışında dikkate değer iki kural tabanlı altyapı daha bulunmaktadır. Azerbaycanca için 
+geliştirilen MorAz, Helsinki FST altyapısını kullanarak kök ve epentetik (kaynaştırma) fonolojisini 
+başarıyla çözümleyen, Python/Django tabanlı bağımsız ve açık kaynaklı bir analizördür19. Diğer 
+yandan, Ural ve Kafkas dillerinde yaygın olarak kullanılan UniParser-morph teknolojisi, Tatarca, 
+Başkurtça ve Çuvaşça gibi diller için XML tabanlı, kural ve ek tabanlı morfolojik ayrıştırma 
+sağlayan alternatif bir açık formattır ve düşük kaynaklı diller için dilbilimciler tarafından kolayca 
+düzenlenebilir bir yapı sunar41. 
+Aşağıdaki tablo, KÖKEN platformuna entegre edilecek temel morfolojik analizörleri 
+göstermektedir: 
+
+Araç Adı 
+
+Kapsam ve 
+Yetenek 
+
+Lisans 
+
+Bakım 
+Durumu 
+
+Apache-2.0 
+
+Aktif (Son 
+sürüm: 
+2024/2025) 
+
+Apache-2.0 
+
+Aktif / Kararlı 
+
+TurkicNLP 
+[cite: 30] 
+
+Zemberek 
+[cite: 18, 19, 20] 
+
+24 Türk dilinde 
+Apertium FST, 
+Stanza nöral ve 
+Glot500 
+entegrasyonu 
+sağlayan 
+birleşik Python 
+API'si. 
+Transliterasyon 
+içerir. 
+
+Türkçe için 
+yüzey morfem 
+bölümleme, 
+kök bulma, 
+kelime üretimi 
+ve yazım 
+
+KÖKEN 
+Entegre 
+Edilebilirlik 
+Notu 
+
+En Yüksek. 
+Çoklu backend 
+desteği ve 
+standartlaştırıl
+mış CoNLL-U 
+çıktısı ile 
+platformun ana 
+omurgası 
+olmaya en 
+uygun araçtır. 
+
+Orta/Yüksek. 
+Yüzey 
+bölümleme için 
+vazgeçilmezdir, 
+ancak Java 
+bağımlılığı 
+
+denetimi. 
+
+Türkçe için 
+SFST/Foma 
+tabanlı yüksek 
+doğruluklu 
+lemma+etiket 
+analizi. 800M 
+derlem destekli 
+geniş sözlük. 
+
+Kazakça, 
+Tatarca, 
+Kırgızca, 
+Tuvaca başta 
+olmak üzere 
+15+ Türk dili için 
+morfolojik 
+analiz ve 
+üretim. 
+
+Azerbaycanca 
+için iki seviyeli 
+FST morfolojik 
+analizör. REST 
+API desteği. 
+
+TRmorph 
+[cite: 22] 
+
+Apertium 
+(Tüm 
+Modüller) 
+[cite: 11, 31, 32] 
+
+MorAz 
+[cite: 19, 39] 
+
+LGPL/GPL 
+
+Aktif / Kararlı 
+
+GPL-3.0 
+
+Aktif (Sürekli 
+Güncelleniyor) 
+
+Açık Kaynak 
+
+Kararlı 
+
+UniParser-mo
+rph 
+[cite: 42, 43, 
+44] 
+
+Rusya'daki Türk 
+dilleri (Tatar, 
+Başkurt vb.) 
+için sözlük ve 
+XML tabanlı 
+
+GPL 
+
+Aktif 
+
+mikroservis 
+tabanlı 
+entegrasyon 
+gerektirir. 
+
+Yüksek. 
+Bilimsel 
+sözdizim analizi 
+ve FST 
+entegrasyonu 
+için 
+Apertium'dan 
+daha üstün bir 
+Türkçe 
+motorudur. 
+
+Çok Yüksek. 
+hfst Python 
+sarmalayıcısı ile 
+doğrudan 
+çalıştırılabilir. 
+Diller arası 
+etiket 
+uyumluluğu 
+mükemmeldir. 
+
+Yüksek. 
+Apertium-aze 
+modülünün 
+yetersiz kaldığı 
+durumlarda 
+Azerbaycanca 
+için birincil 
+motor olarak 
+kullanılabilir. 
+
+Orta. FST 
+temelli 
+olmadığından 
+mimari farklılık 
+yaratır, ancak 
+
+analizör. 
+
+eldeki sözlük 
+verisi 
+Apertium'a 
+dönüştürülebili
+r. 
+
+Sözdizimsel Çözümleme ve UD Ağaç Bankaları 
+(Treebanks) 
+Evrensel Bağımlılıklar (Universal Dependencies - UD) projesi, farklı dillerin sözdizimsel (sentaktik) 
+ve morfolojik yapılarını tutarlı bir şekilde etiketlemeyi amaçlayan küresel bir standarttır. Makine 
+öğrenimi tabanlı ayrıştırıcıların (parser) eğitilmesi için bu ağaç bankalarının varlığı ve boyutu 
+kritik öneme sahiptir10. 
+Türk dillerindeki UD ağaç bankaları kapsama alanı açısından önemli ölçüde genişlemiş olsa da 
+yapısal tutarsızlıklar barındırmaktadır. Türkiye Türkçesi, IMST, BOUN, PUD, Penn, FrameNet, 
+Kenet ve Tourism gibi toplamda 733.000 tokenı aşan çok sayıda büyük ve UD v2 standartlarına 
+tam uyumlu ağaç bankasına sahiptir5. Kazakça (KTB) 10.383 token, Uygurca (UDT) 40.236 token 
+boyutunda olup nispeten olgunlaşmış ve stabil manuel ağaç bankalarıdır5. 
+Daha düşük kaynaklı diller incelendiğinde; Tatarca için geliştirilen NMCTT derlemi, kelime içi 
+(intra-word) Rusça-Tatarca kod değiştirme (code-switching) morfemlerini özel olarak 
+işaretlemesiyle literatürde benzersiz bir konuma sahiptir5. Kırgızca için KTMU (2.480 cümle) ve 
+TueCL (145 cümle) olmak üzere iki farklı ağaç bankası mevcuttur; ancak bu iki derlem arasında 
+modal kelimelerin (örneğin "эмес") ve kopulaların ("эле", "болгон") etiketlenmesinde derin 
+tutarsızlıklar bulunmaktadır51. Bu tür veri uyumsuzlukları, diller arası ortak bir ayrıştırıcı 
+geliştirirken veri harmonizasyonu sorunlarına yol açmaktadır. Özbekçe için ise haber ve kurgu 
+metinlerinden derlenmiş 500 cümlelik (5.850 token) ilk resmi ağaç bankası (Uzbek-UT) literatüre 
+yakın zamanda kazandırılmıştır52. Azerbaycanca ve Türkmence için TueCL veri seti altında 
+genellikle çeviri kökenli (silver-standard) dar kapsamlı paralel veriler bulunurken, Eski Türkçe 
+(Tonqq) ve Yakutça (YKTDT) sırasıyla 221 ve 271 token ile prototip aşamasındadır5. 
+Nöral Ardışık İşlem Hatları (Pipelines) 
+
+UD ağaç bankaları kullanılarak eğitilmiş açık kaynaklı nöral ayrıştırıcılar, KÖKEN platformunun 
+sözdizimsel analiz katmanını oluşturacaktır. Stanford NLP tarafından geliştirilen Stanza, Türkçe, 
+Kazakça, Kırgızca, Uygurca ve Osmanlıca için Evrensel Bağımlılıklar temelinde önceden eğitilmiş 
+oldukça başarılı sinir ağı modelleri sunar54. Stanza'nın dezavantajı, doğrudan morfoloji-öncelikli 
+bir mimariye sahip olmaması ve Türk dillerinin çoğunu desteklememesidir. turkicnlp 
+kütüphanesine entegre edilen Glot500 çok dilli mimarisi ise, aynı ardışık işlem hattı üzerinden 15 
+Türk dilinde POS etiketleme ve bağımlılık ayrıştırma, 23 Türk dilinde ise nöral morfolojik analiz 
+yapabilen son derece kapsamlı bir alternatif sunmaktadır30. Yalnızca Türkçe özelinde en yüksek 
+performansı arayan araştırmalar için ise, transformatör tabanlı TurkishDelightNLP ve VNLP 
+
+kütüphaneleri öne çıkmaktadır; ancak bu araçlar transliterasyon ve çapraz dil desteğinden 
+yoksundur15. 
+Aşağıdaki tablo, UD ağaç bankaları ve nöral modellerin durumunu özetlemektedir: 
+
+Dil 
+
+Türkçe 
+
+Uygurca 
+
+Kazakça 
+
+Kırgızca 
+
+Özbekçe 
+
+Tatarca 
+
+UD Ağaç Bankası Durumu 
+ve Boyutu 
+
+Nöral Etiketleyici / 
+Ayrıştırıcı (Açık Model) 
+
+Çok Kapsamlı (IMST, BOUN, 
+PUD vb. > 700K token)5 
+
+Kapsamlı (UDT, ~40K 
+token)5 
+
+Gelişmiş (KTB, ~10.4K 
+token)5 
+
+Gelişmekte (KTMU ~2.5K 
+cümle, TueCL ~145 cümle) 
+İhtilaflı etiketleme.51 
+
+Temel (Uzbek-UT, ~5.8K 
+token, 500 cümle)52 
+
+Temel (NMCTT, Kod 
+değiştirme işaretli)5 
+
+Stanza, UDPipe, 
+TurkishDelightNLP, VNLP, 
+Glot50015 
+
+Stanza, Glot50030 
+
+Stanza, Glot50030 
+
+Stanza, Glot50030 
+
+Glot50030 
+
+Glot50030 
+
+Azerbaycanca 
+
+Sınırlı (TueCL, Silver-data)10 
+
+Glot50030 
+
+Yakutça / Eski Türkçe 
+
+Prototip (<300 token)5 
+
+Mevcut Değil 
+
+Diğer Diller 
+
+Yok / Geliştirilmedi 
+
+Mevcut Değil 
+
+Sözlükler, Tarihsel Leksikonlar ve Kognat Veritabanları 
+KÖKEN platformunun dil bilimsel araştırmacılara ilham veren bir laboratuvar olması, salt 
+eşzamanlı sözdizimi değil, aynı zamanda artzamanlı (tarihsel/etimolojik) veri kaynaklarının da bir 
+araya getirilmesine bağlıdır. 
+Açık kaynak ekosisteminde Apertium'un iki dilli XML sözlükleri (.dix), makine çevirisinin ötesinde 
+muazzam bir leksikografik kaynaktır. Kazakça-Tatarca, Özbekçe-Karakalpakça, Kırım 
+Tatarcası-Türkçe ve Türkmence-Türkçe gibi doğrudan Türk dilleri arasında on binlerce kök içeren 
+ve düzenli olarak güncellenen eşleme sözlükleri mevcuttur33. 
+
+ 
+Karşılaştırmalı dilbilim ve etimoloji alanında devrim niteliğinde olan Lexibank (CLLD), dünya 
+dillerinin kelime listelerini Cross-Linguistic Data Format (CLDF) standardında birleştiren büyük 
+bir açık platformdur59. Lexibank içindeki SavelyevTurkic veri seti, KÖKEN için en değerli tarihsel 
+referans setidir. Bu veri seti, 32 Türk dili varyantı üzerinden 254 temel kavramı ve 8.360 kelimeyi 
+ses değişim kuralları ve uzmanlar tarafından onaylanmış "kognat (kökteş) eşlemeleri" ile sunar ve 
+CC-BY-4.0 lisansıyla bilgisayar destekli analizlere tam uygundur14. 
+Tarihsel ve etimolojik sözlükler dijital erişilebilirlik açısından karmaşık bir tablo çizmektedir. Sir 
+Gerard Clauson'un An Etymological Dictionary of Pre-Thirteenth-Century Turkish (1972) adlı 
+eseri, Eski Türkçe sözvarlığının en büyük anıtlarından biridir62. Bu eser, Monumenta Altaica'da 
+taranabilir PDF olarak ve Turkish Electronic Living Lexicon (TELL) veritabanında kısmen 
+yapılandırılmış haliyle açık erişime sunulmuştur64. Sergei Starostin'in Etymological Dictionary of 
+the Altaic Languages (EDAL) çalışması ise Tower of Babel / STARLING veritabanında dijital ve 
+çok dilli arama yapılabilir bir formattadır66. Nikolay Aşmarin'in 17 ciltlik Çuvaşça Sözlüğü (Slovar' 
+Çuvaşskogo Yazıka), Türk lehçeleri araştırmalarının en büyük tarihi kaynaklarından biri olmasına 
+rağmen69, yalnızca taranmış PDF kopyaları olarak dijital uzayda yer almaktadır. Makine-okunabilir 
+JSON/XML formatında bir yapılandırmaya henüz sahip değildir ve optik karakter tanıma (OCR) 
+tabanlı bir metin madenciliği projesine acilen ihtiyaç duymaktadır. 
+Aşağıdaki tablo, sözlük ve etimolojik kaynakların durumunu özetlemektedir: 
+
+Kaynak Adı 
+
+Veri Türü / 
+Kapsam 
+
+Lisans / 
+Açıklık 
+
+Dijital Format 
+
+GPL-3.0 
+
+XML 
+
+CC-BY-4.0 
+
+CLDF / CSV 
+
+Apertium .dix 
+Çiftleri 
+[cite: 33, 34, 37, 
+57] 
+
+Lexibank: 
+SavelyevTurki
+c 
+[cite: 14, 61] 
+
+İki dilli çeviri ve 
+eşleme 
+sözlükleri (Örn. 
+Kaz-Tat, 
+Uzb-Kaa, 
+Tur-Crh). On 
+binlerce 
+lemma. 
+
+32 Dialekt, 254 
+temel kavram, 
+8.360 kelime 
+için fonolojik 
+hizalama ve 
+uzman kognat 
+seti. 
+
+KÖKEN 
+Entegre 
+Edilebilirlik 
+Notu 
+
+Çok Yüksek. 
+Çapraz dil 
+eşleşmelerini 
+kognat olmasa 
+dahi anlamsal 
+olarak tespit 
+etmek için 
+idealdir. 
+
+En Yüksek. 
+Etimolojik 
+araştırma 
+arayüzünün 
+doğrudan 
+kalbini 
+oluşturacak 
+yapısal veri 
+
+Clauson 
+(Pre-13th 
+Century) 
+[cite: 62, 63, 64, 
+65] 
+
+Eski Türkçe kök 
+etimolojisi ve 
+anlam dizini. 
+
+Telif kısıtlı / 
+Açık erişim 
+kopyalar 
+mevcut 
+
+Taranabilir PDF 
+/ TELL 
+Veritabanı 
+
+Starostin 
+EDAL / Tower 
+of Babel 
+[cite: 66, 67, 68] 
+
+Proto-Altay ve 
+Proto-Türk 
+rekonstrüksiyo
+nları. Bilgisayar 
+destekli 
+Starling 
+sistemi. 
+
+Aşmarin 
+Çuvaşça 
+Sözlüğü 
+[cite: 69, 71, 72, 
+73] 
+
+17 Ciltlik 
+devasa 
+Çuvaşça-Rusç
+a tarihsel ve 
+folklorik sözlük. 
+
+Açık Erişim 
+
+STARLING 
+DBMS / Web 
+
+Kamu Malı 
+
+Sadece PDF 
+
+setidir. 
+
+Orta. TELL 
+veritabanından 
+çekilecek 
+JSON 
+verileriyle 
+platforma 
+entegre 
+edilebilir. 
+
+Yüksek. Kurallı 
+ses denklikleri 
+(sound 
+correspondenc
+e) modülü için 
+referans 
+alınabilir. 
+
+Düşük. Acil 
+olarak OCR ve 
+JSON 
+yapılandırması
+na ihtiyaç 
+duymaktadır. 
+Boşluk 
+haritasının en 
+somut öğesidir. 
+
+Tek Dilli ve Paralel Derlemler (Korpuslar) 
+Modern hesaplamalı dilbilimde istatistiksel modellerin ve dil modellerinin eğitilmesi, geniş ölçekli 
+derlem altyapılarına dayanır. Tek dilli derlemler açısından, Türkiye Türkçesi OSCAR, mC4 ve TS 
+Corpus gibi yüz milyonlarca kelimelik açık veri setleriyle domine edici bir konumdadır21. Kazakça 
+(KSC, KSC2) ve Tatarca için Ulusal Derlem niteliği taşıyan yüz milyonlarca kelimelik açık metin 
+veritabanları ile Leipzig Corpora Collection gibi inisiyatiflerin sunduğu veri setleri Düşük Kaynaklı 
+dillerin Sınıf 2 ve 3'e yükselmesinde öncü rol oynamıştır5. 
+Makine çevirisi araştırmalarının kalbi olan paralel derlemler incelendiğinde, OPUS projesinin 
+Türkçe-İngilizce ve diğer yüksek kaynaklı dil çiftleri için yüzlerce gigabaytlık hizalanmış metin 
+(örneğin OpenSubtitles, MultiUN) sunduğu görülmektedir21. Ancak Türk dilleri arasındaki en 
+
+önemli sıçrama noktası, Turkic Interlingua (TIL) topluluğu tarafından oluşturulan TIL Corpus'tur. 
+TIL Corpus, 22 Türk dili için kamuya açık veri setlerinin harmanlandığı, 400'e yakın dil çifti 
+yönünde (sadece X-Türkçe değil, doğrudan Kazakça-Özbekçe, Tatarca-Kırgızca gibi) test ve 
+geliştirme verisi sunan devasa bir açık kaynaktır76. KÖKEN platformunda diller arası makine 
+çevirisi performanslarının test edilmesi ve eşdeğerlik zincirlerinin kurulması için TIL Corpus 
+birincil besleyici olacaktır. 
+Tarihsel ve yazıt derlemleri ise paleolinguistik çalışmalar için kritik öneme sahiptir. TITUS 
+(Thesaurus Indogermanischer Text- und Sprachmaterialien) projesi Hint-Avrupa odaklı olsa da 
+Eski Türkçe belgelere ev sahipliği yapmaktadır80. Turfanforschung (BBAW) bünyesindeki Digital 
+Turfan Archive (DTA), Eski Uygurca, Maniheist ve Brahmi alfabeli binlerce yüksek çözünürlüklü 
+metin, transliterasyon ve sözlük parçasını dijital ortamda araştırmacılara sunarak tarihsel derlem 
+eksikliğini büyük ölçüde gidermektedir82. 
+Aşağıdaki tablo, KÖKEN'in faydalanabileceği temel derlemleri listelemektedir: 
+
+Derlem Adı 
+
+Tür ve Kapsam 
+
+Boyut ve Dil 
+Kapsamı 
+
+KÖKEN Entegre 
+Edilebilirlik Notu 
+
+TIL Corpus 
+[cite: 76, 77, 78, 79] 
+
+Paralel Çeviri 
+Derlemi 
+
+22 Türk Dili, ~400 
+Çeviri Yönü 
+
+Çok Yüksek. 
+Makine çevirisi (MT) 
+ve kelime hizalama 
+algoritmalarının 
+çekirdek verisidir. 
+
+OPUS 
+[cite: 21, 75] 
+
+Çok dilli Paralel 
+Derlem 
+
+Onlarca dil çifti, 
+GB'larca veri. 
+Genelde TR-EN 
+ağırlıklı. 
+
+Orta. Yüksek 
+kaynaklı diller arası 
+köprü kurmak için 
+veri kaynağıdır. 
+
+Leipzig Corpora / 
+TS Corpus 
+[cite: 21, 74] 
+
+Tek Dilli 
+(Monolingual) 
+Derlem 
+
+TR, KAZ, TAT vb. için 
+devasa ağdan 
+çekilmiş veriler. 
+
+DTA 
+(Turfanforschung) 
+[cite: 82, 83] 
+
+Tarihsel/Yazıt 
+Derlemi 
+
+Eski Uygurca ve 
+Maniheist 
+metinlerin yüksek 
+çözünürlüklü arşivi. 
+
+Yüksek. N-gram ve 
+kelime sıklığı 
+(frequency) 
+hesaplamaları için 
+temel alınmalıdır. 
+
+Orta. API ile 
+çekilebilen metin 
+indeksleri tarihsel 
+metin 
+görüntülemeye 
+eklenebilir. 
+
+Gömme (Embedding), Dil Modelleri (LLM) ve Konuşma 
+(ASR) 
+Derin öğrenme çağında, büyük dil modelleri (LLM) ve kelime gömme (word embedding) 
+vektörleri bağlamsal analiz ve metin üretimi için vazgeçilmezdir. Ancak, Türk dillerinin bu 
+modellere adaptasyonu ciddi mimari engeller barındırmaktadır. mBERT, XLM-R, mT5 ve BLOOM 
+gibi çok dilli modeller birçok Türk dilini (özellikle Türkçe, Kazakça, Özbekçe) kısmen kapsasa da, 
+agglutinative (sondan eklemeli) dillere özgü tokenizasyon doğurganlığı (tokenizer fertility) 
+sorunu yaşamaktadırlar9. Standart BPE veya WordPiece parçalayıcıları, anlam taşıyan uzun bir 
+Türkçe kelimeyi anlamsız küçük harf parçalarına bölerek, modelin bağlamı yakalama kapasitesini 
+zayıflatmakta ve işlem maliyetini artırmaktadır15. 
+Bu morfolojik sorunu aşmak için yerel verilerle ve dillerin fonolojik yapısına uygun özel 
+tokenizer'lar ile eğitilmiş spesifik modeller literatürde ağırlık kazanmaktadır. Türkiye Türkçesi için 
+DBMDZ tarafından eğitilen BERTurk standart bir referans noktasıyken15; üretken yapay zeka 
+döneminde 1.1 milyar parametreli kodlayıcı-kod çözücü modeli TURNA, yerel tokenizer ile 
+sıfırdan eğitilmiş Kumru-2B ve milyarlarca kelimeyle beslenmiş Trendyol-LLM (7B-70B) ile 
+Kanarya-2B modelleri ekosisteme liderlik etmektedir6. Diğer Türk dilleri için Kazakça özelindeki 
+KAZ-LLM (LLaMA 3.1 tabanlı) ve Sherkala-Chat; Özbekçe için UzBERT, TahrirchiBERT ve 
+BERTbek; Azerbaycanca için aLLMA ve Kırgızca için KyrgyzBERT dikkate değer açık ağırlıklı 
+modellerdir9. mGPT gibi çok dilli üretken modeller ise Başkurtça, Çuvaşça ve Saha (Yakut) dilleri 
+de dahil olmak üzere dokuz Türk dilini kapsayarak nadir bir kapsayıcılık sunar9. 
+Konuşma tanıma (ASR) ve metinden sese (TTS) teknolojilerinde Mozilla Common Voice projesi 
+Türkçe, Tatarca, Başkurtça, Kazakça ve Kırgızca dillerinde gönüllü açık veri toplayarak altyapı 
+sağlamaktadır86. Ancak bu alandaki en prestijli açık model, Nazarbayev Üniversitesi (ISSAI) 
+tarafından geliştirilen Söyle projesidir8. Söyle, OpenAI'nin Whisper altyapısını kullanarak 11 Türk 
+diline ve Tatar Speech Corpus (TatSC) gibi devasa açık veri setlerine ince ayar (fine-tuning) 
+yapmış; gürültüye dayanıklı ve uzun form transkripsiyon yapabilen, CC-BY-4.0 lisanslı muazzam 
+bir çok dilli ASR motoru ortaya çıkarmıştır8. 
+
+Araç / Model 
+
+Dil Kapsamı 
+
+Yaklaşım ve 
+Yetenek 
+
+Lisans / Durum 
+
+TURNA / 
+Trendyol-LLM 
+[cite: 6, 15] 
+
+Türkiye Türkçesi 
+
+Açık Ağırlıklı (Open 
+Weights) 
+
+Sıfırdan eğitim ve 
+ince ayarlı milyar 
+parametreli yerel 
+LLM'ler. Tokenizer 
+optimizasyonu. 
+
+KAZ-LLM / UzBERT 
+vb. 
+
+Kazakça, Özbekçe, 
+Kırgızca, 
+
+Bölgesel diller için 
+özel olarak 
+
+Açık Kaynak / Açık 
+
+[cite: 9, 15, 85] 
+
+Azerbaycanca 
+
+ayarlanmış BERT ve 
+LLaMA mimarileri. 
+
+Ağırlıklı 
+
+mGPT 
+[cite: 9, 15] 
+
+9 Türk Dili 
+
+Söyle (ISSAI) 
+[cite: 8, 55, 87] 
+
+11 Türk Dili 
+
+Morpheus 
+[cite: 16] 
+
+Türkçe / Türk Dilleri 
+
+Açık 
+
+Çok dilli üretim. 
+Çuvaşça ve Yakutça 
+gibi düşük kaynaklı 
+dilleri içermesiyle 
+benzersizdir. 
+
+CC-BY-4.0 
+
+Araştırma 
+Düzeyinde 
+
+Whisper mimarisi 
+üzerine kurulu 
+gürültüye dirençli 
+ASR (Konuşma 
+Tanıma). TatSC 
+verisini barındırır. 
+
+Kayıpsız (lossless) 
+ve morfolojiye 
+duyarlı 
+tokenizasyon 
+sağlayan, BPE'nin 
+aşırı bölütleme 
+hatasını çözen 
+yenilikçi yaklaşım. 
+
+Makine Çevirisi (MT) ve Diller Arası Eşdeğerlik Bulma 
+Stratejisi 
+KÖKEN platformunun araştırmacılara sunmayı hedeflediği en vizyoner özelliklerden biri, girilen 
+herhangi bir kelimeyi (örneğin Türkçe "göz" kelimesini) yirmi farklı Türk dilinde anlık olarak (live 
+cross-lingual comparison) eşleştirebilmesidir. Bu eşdeğerliği bulmak için makine çevirisi, sözlük 
+hizalama ve etimolojik haritalandırma tekniklerinin melez bir şekilde kullanılması gerekmektedir. 
+Makine çevirisi alanında, Meta'nın NLLB-200 (No Language Left Behind) modeli 14 farklı Türk dili 
+varyantını destekleyerek sinirsel makine çevirisinde devrim yaratmıştır15. NLLB'nin 600M 
+parametrelik hafif sürümleri dahi, özellikle İngilizce-Azerbaycanca veya Türkçe-Kazakça 
+çiftlerinde yüksek doğruluk üretmektedir15. Çevirinin yanı sıra, NLLB'nin alt-kelime vektörleri 
+(embeddings) bağlamsal metin benzerliği analizlerinde kullanılabilir30. Ancak salt sinirsel 
+modellerin izole edilmiş (bağlamsız) tekil kelime çevirilerinde "halüsinasyon" üretme (örneğin 
+kelimenin eşanlamlısını veya kognat olmayan bir türevini getirme) riski yüksektir. 
+
+Bu nedenle "Canlı Karşılaştırma" (Live Comparison) modülü için üç aşamalı ve doğrulanabilir bir 
+zincir stratejisi tasarlanmalıdır: 
+
+1.  Lexibank (SavelyevTurkic) Kognat Eşlemesi: İşlemin en üst ve en güvenilir katmanı 
+olmalıdır. KÖKEN, öncelikle aranan kelimenin temel 254 kavram içerisinde (Swadesh 
+listesi) yer alıp almadığını kontrol etmeli ve uzmanlarca doğrulanmış fonolojik ses 
+denkliklerini (örneğin qan -> kan -> han) deterministik olarak eşleştirmelidir61. 
+2.  Apertium İki Dilli Zincirleme (Bilingual Dictionary Chaining): Kognat listesinde 
+olmayan kelimeler için kural tabanlı sistemler devreye girmelidir. Apertium'un .dix 
+sözlükleri doğrudan Türk dilleri arasında (X↔Türkçe zorunluluğu olmadan) yüksek 
+doğruluklu geçişler sağlar11. Örneğin, bir kelime apertium-tur-kaz.dix üzerinden 
+Kazakçaya, oradan apertium-kaz-tat.dix üzerinden Tatarcaya zincirleme yöntemle 
+taşınabilir. Bu sistem derin öğrenmeye kıyasla çok daha az hesaplama gücü gerektirir ve 
+kesinlik oranı yüksektir. 
+
+3.  NLLB Kelime-Hizalama (Word Alignment) ve Vektörel Mesafe: Her iki veri tabanında 
+da bulunamayan veya yeni türetilmiş kelimeler için son çare olarak NLLB tabanlı çeviri 
+motoru devreye sokulmalıdır. Ayrıca, PanLex ve Wiktionary gibi açık ancak gürültülü 
+(noisy) sözlük verilerinin sistematik olarak çekilmesi, sistemin kapsama alanını 
+genişletecektir. KÖKEN için en pratik ve lisans açısından uyumlu temel, Lexibank + 
+Apertium matrisidir. 
+Araştırma Ekosistemi 
+Türk dillerine yönelik hesaplamalı dilbilim çalışmaları, artan bir ivmeyle kurumsallaşmaktadır. 
+Boğaziçi Üniversitesi TABILAB, Koç Üniversitesi KUIS AI, Nazarbayev Üniversitesi ISSAI gibi 
+laboratuvarlar derin öğrenme devrimini bölgeye taşıyan öncülerdir. Akademik paylaşımlar 
+SIGTURK (TurkLang atölyeleri) ve UBMK gibi konferanslarla koordine edilirken77; açık kaynak 
+topluluklarının bilgi akışı GitHub üzerindeki awesome-turkish-nlp (Yusuf Usta) ve 
+turkish-nlp-resources (agmmnn) gibi güncel depolar vasıtasıyla dinamik olarak 
+yürütülmektedir6. Bu repolardaki çalışmalar, KÖKEN platformuna dışarıdan araştırmacı çekmek 
+için güvenilir referans noktaları olacaktır. 
+KÖKEN MVP: Hızlı Kazanımlar (Quick Wins) 
+KÖKEN platformunun "Minimum Uygulanabilir Ürün" (MVP) sürümüne anında entegre 
+edilebilecek, teknik olarak olgunlaşmış ve uygun lisanslı beş temel açık kaynak araç aşağıda 
+listelenmiştir: 
+
+Kaynak Adı 
+
+Fonksiyon ve 
+Kapsam 
+
+Lisans 
+
+Entegre 
+Edilebilirlik Notu 
+
+TurkicNLP 
+[cite: 30] 
+
+24 dili destekleyen 
+birleşik çok dilli NLP 
+ardışık işlem hattı. 
+
+Apache-2.0 
+
+Çok Yüksek. Pip 
+üzerinden kurularak 
+Apertium, Stanza ve 
+Glot500 
+analizörlerini tek 
+
+SavelyevTurkic 
+(Lexibank) 
+[cite: 14, 61] 
+
+32 Türk diyalekti için 
+8.360 kelimelik 
+uzman kognat 
+(kökteş) seti. 
+
+CC-BY-4.0 
+
+Apertium .dix 
+Sözlükleri 
+[cite: 33, 37, 58, 90] 
+
+GPL-3.0 
+
+Diller arası leksikal 
+eşleme 
+(Kazakça-Tatarca, 
+Özbekçe-Karakalpa
+kça vb.) 
+
+Söyle (ISSAI) 
+[cite: 8, 87] 
+
+CC-BY-4.0 
+
+11 Türk dilinde 
+gürültüye dayanıklı, 
+Whisper temelli ASR 
+motoru ve TatSC 
+verisi. 
+
+merkezden yönetir. 
+Komut satırından 
+Kiril-Latin 
+transliterasyonu 
+sağlayarak 
+platformun 
+veritabanını 
+standartlaştırır. 
+
+En Yüksek. CLDF 
+ve CSV formatında 
+olduğu için 
+doğrudan KÖKEN 
+veritabanına 
+aktarılarak "Tarihsel 
+Eşdeğerlik Arama" 
+arayüzünün motoru 
+olarak kullanılabilir. 
+
+Çok Yüksek. XML 
+yapısında olan bu 
+sözlükler, NLLB veya 
+nöral modellere 
+kıyasla sunucu 
+maliyeti olmadan 
+(CPU seviyesinde) 
+diller arası kesin 
+çeviri zincirleri 
+kurar. 
+
+Yüksek. Platforma 
+yüklenecek ses 
+kayıtlarını (Common 
+Voice dahil) 
+transkribe etmek ve 
+işitsel derlem 
+sorguları 
+oluşturmak için 
+ideal bir yapay zeka 
+modelidir. 
+
+TRmorph 
+[cite: 22] 
+
+LGPL/GPL 
+
+Türkiye Türkçesi için 
+SFST/Foma tabanlı, 
+genişletilmiş sözlük 
+içeren hassas 
+morfolojik analiz. 
+
+Yüksek. 
+Zemberek'e kıyasla 
+bilimsel akademik 
+kök/ek etiketleme 
+formatlarına daha 
+sadıktır; C/Python 
+entegrasyonuyla 
+hızlıca sisteme 
+bağlanabilir. 
+
+Araştırmacı Boşluk Haritası (Gap Map) ve Kritik 
+Eksikler 
+KÖKEN platformu, mevcut araçları sergilemenin yanı sıra araştırmacılara literatürdeki eksiklikleri 
+göstererek "yeni araştırma soruları" (research questions) üretmelerini teşvik edecektir. Bu analiz 
+doğrultusunda saptanan en kritik yapısal eksiklikler şunlardır: 
+
+1.  Sibirya ve Oğur Gruplarında Sentaktik Veri Yokluğu: Tuvaca, Altayca, Şorca, Çuvaşça 
+ve Saha (Yakut) dilleri için Jonathan Washington ve Francis Tyers öncülüğünde Apertium 
+FST analizör prototipleri geliştirilmiş olsa da11; bu dillerdeki sözcük dizilimlerini bağlamsal 
+olarak eğitecek UD ağaç bankaları ya hiç yoktur ya da 300 kelimenin altında (YKTDT) 
+yetersiz seviyededir5. 
+
+2.  Yüzey Bölümleme İçin Altın Standart (Gold Standard) Veri Seti Eksikliği: Açık kaynak 
+ekosistemi, UD sözdizimi ile FST lemma tabanlarını birleştirmiş olsa da; BPE ve WordPiece 
+kaynaklı tokenizasyon problemlerini çözmek amacıyla "Morpheus" gibi melez modellerin16 
+eğitilebileceği, Türkçe, Kazakça ve Uygurca dillerinde yüzey sınırlarını (hece ve ek 
+ayrımlarını) belirten geniş çaplı altın standart veri setleri son derece kısıtlıdır. 
+
+3.  Tarihsel Sözlüklerin Yapılandırılmış Veri Eksikliği (Aşmarin Örneği): Nikolay Aşmarin'in 
+17 ciltlik devasa Çuvaşça-Rusça sözlüğü, Türk lehçeleri araştırmalarının en büyük tarihi 
+anıtlarından biridir69. Ancak bu eserin günümüzde yalnızca taranmış PDF kopyaları 
+bulunmaktadır. Araştırmacıların kelime köklerini analiz edebilmesi için acilen Optik 
+Karakter Tanıma (OCR) ve metin madenciliği teknikleriyle JSON/XML veritabanlarına 
+dönüştürülmesi gerekmektedir. 
+
+4.  Derlemlerde Kod Değiştirme (Code-Switching) Etiketlerinin Yokluğu: Özellikle 
+Tatarca, Başkurtça, Kazakça ve Kırgızca metinlerde Rusça kelime köklerine Türkçe 
+morfem eklenmesi (örneğin "турбаза-ла") günlük kullanımda yaygındır5. Tatarca NMCTT 
+derlemi haricinde, kelime içi (intra-word) kod değişimlerini belirten ve FST analizörlerinin 
+Rusça köklerle başa çıkabilmesini sağlayan etiketli paralel veya tek dilli derlemler 
+bulunmamaktadır5. KÖKEN platformunun bu melez sözcük yapılarını tespit ve analiz 
+etmesi literatüre özgün bir boyut katacaktır. 
+
+5.  Ağaç Bankası Yönergelerinde Uyumsuzluklar: Kırgızca için oluşturulmuş KTMU ve 
+
+TueCL ağaç bankaları, modal kelimeler ("эмес") ve soneklerin etiketlenmesinde derin 
+farklılıklar sergilemektedir51. Benzer şekilde UD Türk dilleri grubunda kopulaların (copula) 
+yardımcı fiil mi yoksa morfolojik bir ek mi olduğu konusunda standart bir metodoloji 
+sağlanamamıştır. 
+
+Türk Dilleri × Yetenek Matrisi (Capability Matrix) 
+Aşağıdaki tablo, incelenen yirmiye yakın Türk dili için hesaplamalı dilbilim kapasitesinin genel 
+durumunu özetlemektedir (Veriler: Var / Kısmi / Yok; referans araçlar ve lisansları ile): 
+
+Dil 
+
+Türkiye 
+Türkçesi 
+
+Kazakça 
+
+Tatarca 
+
+Kırgızca 
+
+Morfoloji
+k 
+Analizör 
+(FST / 
+Kural) 
+
+Var. 
+Zembere
+k 
+(Apache-
+2.0), 
+TRmorph 
+(GPL), 
+Apertium 
+
+Var. 
+Apertium
+-kaz 
+(GPL-3.0, 
+36K kök) 
+
+Var. 
+Apertium
+-tat 
+(GPL-3.0, 
+55K kök) 
+
+Var. 
+Apertium
+-kir 
+(GPL-3.0, 
+14K kök) 
+
+UD Ağaç 
+Bankası 
+(Sözdizi
+mi) 
+
+Çeviri 
+(MT / 
+NLLB) 
+
+LLM / 
+Embeddi
+ng 
+
+Konuşm
+a (ASR / 
+TTS) 
+
+Sözlük / 
+Kognat 
+Kaynağı 
+
+Var. IMST, 
+BOUN, 
+PUD vb. 
+(>700K 
+token) 
+
+Var. 
+NLLB, 
+OPUS, 
+Apertium 
+
+Var. 
+BERTurk, 
+TURNA, 
+Trendyol-
+LLM (Açık 
+Ağırlık) 
+
+Var. 
+Söyle, 
+Common 
+Voice 
+(CC-BY) 
+
+Var. 
+Wiktionar
+y, 
+Apertium 
+.dix 
+
+Var. KTB 
+(~10K 
+token) 
+
+Var. 
+NLLB, 
+Apertium 
+
+Var. 
+KAZ-LLM, 
+mGPT, 
+Sherkala 
+
+Var. 
+NLLB, 
+Apertium 
+
+Var. 
+mGPT 
+
+Var. 
+NLLB, 
+Apertium 
+
+Var. 
+KyrgyzBE
+RT, mGPT 
+
+Var. 
+NMCTT 
+(Kod 
+değiştirm
+e uyumlu) 
+
+Var. 
+KTMU, 
+TueCL 
+(Uyumsu
+zluk 
+içerir) 
+
+Var. 
+Söyle, 
+KSC2, 
+Common 
+Voice 
+
+Var. 
+Söyle, 
+TatSC, 
+Common 
+Voice 
+
+Var. 
+Söyle, 
+Common 
+Voice 
+
+Var. 
+Apertium 
+.dix 
+
+Var. 
+Apertium 
+.dix 
+
+Var. 
+Apertium 
+.dix 
+
+Özbekçe 
+
+Uygurca 
+
+Azerbay
+canca 
+
+Türkmen
+ce 
+
+Başkurtç
+a 
+
+Kırım 
+Tatarcası 
+
+Karakalp
+akça 
+
+Var. 
+NLLB, 
+Apertium 
+
+Var. 
+UzBERT, 
+TahrirchiB
+ERT 
+
+Var. 
+Söyle 
+
+Var. 
+Apertium 
+.dix 
+
+Var. 
+Uzbek-U
+T (~5.8K 
+token, 
+500 
+cümle) 
+
+Var. UDT 
+(~40K 
+token) 
+
+Var. 
+NLLB, 
+Apertium 
+
+Kısmi. 
+Çok dilli 
+modeller. 
+
+Var. 
+Söyle 
+
+Var. 
+Apertium 
+.dix 
+
+Kısmi. 
+TueCL 
+(Silver-da
+ta) 
+
+Var. 
+NLLB, 
+Apertium 
+
+Var. 
+aLLMA, 
+mGPT 
+
+Var. 
+Söyle 
+
+Var. 
+Apertium 
+.dix 
+
+Kısmi. 
+Apertium
+-uzb 
+(GPL-3.0) 
+
+Var. 
+Apertium
+-uig 
+(GPL-3.0) 
+
+Var. 
+MorAz 
+(Açık 
+Kaynak), 
+Apertium
+-aze 
+
+Kısmi. 
+Apertium
+-tuk 
+(GPL-3.0) 
+
+Kısmi. 
+TueCL 
+(Silver-da
+ta) 
+
+Var. 
+NLLB, 
+Apertium 
+
+Kısmi. 
+Çok dilli 
+modeller. 
+
+Var. 
+Söyle 
+
+Var. 
+Apertium 
+.dix 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Var. 
+Apertium
+-bak 
+(GPL-3.0) 
+
+Var. 
+Apertium
+-crh 
+(GPL-3.0) 
+
+Var. 
+Apertium
+-kaa 
+(GPL-3.0) 
+
+Var. 
+Söyle, 
+Common 
+Voice 
+
+Yok. 
+
+Var. 
+NLLB, 
+Apertium 
+
+Var. 
+mGPT 
+
+Var. 
+NLLB, 
+Apertium 
+
+Kısmi. 
+NLLB 
+Embeddi
+ngs 
+
+Yok. 
+
+Yok. 
+
+Kısmi. 
+Apertium
+-uzb-kaa 
+
+Var. 
+Apertium 
+.dix 
+
+Var. 
+Apertium 
+.dix 
+
+Var. 
+Apertium 
+.dix 
+
+Tuvaca 
+
+Var. 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Kısmi. 
+
+Apertium
+-tyv 
+(GPL-3.0) 
+
+Kısmi. 
+Apertium
+-kum, 
+Apertium
+-nog 
+(GPL) 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Var. 
+Apertium
+-sah 
+(GPL-3.0) 
+
+Kısmi. 
+YKTDT 
+(<300 
+token) 
+
+Yok. 
+
+Kısmi. 
+mGPT 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Kısmi. 
+mGPT 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Kısmi. 
+Apertium
+-chv 
+(GPL-3.0) 
+
+Kısmi. 
+(TurkicNL
+P 
+entegreli) 
+
+Kısmi. 
+Apertium
+-alt 
+(GPL-3.0) 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Yok. 
+
+Kumukç
+a / 
+Nogayca 
+
+Saha 
+(Yakut) 
+
+Çuvaşça 
+
+Gagavuz
+ca 
+
+Altayca / 
+Hakasça 
+
+Halaçça / 
+Şorca 
+
+(Savelyev
+Turkic) 
+
+Kısmi. 
+(Savelyev
+Turkic) 
+
+Kısmi. 
+(Savelyev
+Turkic) 
+
+Var. 
+Aşmarin 
+(PDF), 
+Savelyev 
+
+Kısmi. 
+(Savelyev
+Turkic) 
+
+Kısmi. 
+(Savelyev
+Turkic) 
+
+Kısmi. 
+(Savelyev
+Turkic) 
+
+Alıntılanan çalışmalar 
+
+1.  Cross-Lingual Transfer and Parameter-Efficient Adaptation in the Turkic Language 
+
+Family - arXiv, https://arxiv.org/html/2604.06202v1 
+
+2.  Extractive Summarization in Low-Resource Languages: A Systematic Review, 
+https://eduvest.greenvest.co.id/index.php/edv/article/download/52390/4998 
+
+3.  A Taxonomy of Programming Languages for Code Generation - arXiv, 
+
+https://arxiv.org/html/2604.00239v1 
+
+4.  Recent Advancements and Challenges of Turkic Central Asian Language 
+
+Processing - arXiv, https://arxiv.org/html/2407.05006v3 
+
+5.  Universal Dependencies Treebank for Tatar: Incorporating Intra-Word 
+
+Code-Switching Information - ACL Anthology, 
+https://aclanthology.org/2022.eurali-1.17.pdf 
+
+6.  agmmnn/turkish-nlp-resources: List of Tools, Libraries, Models, Datasets and 
+
+other ... - GitHub, https://github.com/agmmnn/turkish-nlp-resources 
+7.  Recent Advancements and Challenges of Turkic Central Asian Language 
+
+Processing - ACL Anthology, https://aclanthology.org/2025.loreslm-1.25.pdf 
+8.  Söyle: Noise-Robust Multilingual Speech Recognition with Long Transcription 
+Featuring the Tatar Speech Corpus - ISSAI - Institute of Smart Systems and 
+Artificial Intelligence, https://issai.nu.edu.kz/soyle-project/ 
+
+9.  TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/html/2602.19174v2 
+
+10. Universal Dependencies, https://universaldependencies.org/ 
+11. User:Firespeaker - Apertium, https://wiki.apertium.org/wiki/User:Firespeaker 
+12. Languages - Apertium, https://wiki.apertium.org/wiki/Languages 
+13. The State and Fate of Linguistic Diversity and Inclusion in the NLP World - ACL 
+
+Anthology, 
+https://aclanthology.org/anthology-files/anthology-files/pdf/acl/2020.acl-main.56
+0.pdf 
+
+14. CLDF dataset derived from Savelyev and Robbeet's "Internal Structure of the 
+
+Turkic Language Family" from 2020 - lexibank -, 
+https://lexibank.clld.org/contributions/savelyevturkic 
+15. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/html/2602.19174v3 
+
+16. Morpheus: A Morphology-Aware Neural Tokenizer and Word Embedder for 
+
+Turkish - arXiv, https://arxiv.org/html/2606.18717 
+
+17. MorphBPE: A Morpho-Aware Tokenizer Bridging Linguistic Complexity for 
+
+Efficient LLM Training Across Morphologies - arXiv, 
+https://arxiv.org/html/2502.00894v1 
+
+18. EMNLP 2018 The Conference on Empirical Methods in Natural Language 
+
+Processing Proceedings of System Demonstrations October 31 - ACL Anthology, 
+https://aclanthology.org/D18-2.pdf 
+
+19. MorAz: an Open-source Morphological Analyzer for Azerbaijani Turkish - 
+
+ResearchGate, 
+https://www.researchgate.net/publication/331168185_MorAz_an_Open-source_M
+orphological_Analyzer_for_Azerbaijani_Turkish 
+
+20. yusufusta/awesome-turkish-nlp - GitHub, 
+
+https://github.com/yusufusta/awesome-turkish-nlp 
+
+21. A curated list of awesome Turkish NLP frameworks, libraries, datasets and 
+
+resources. - GitHub, https://github.com/ozturkoktay/Turkish-NLP 
+22. A set of open-source tools for Turkish natural language processing, 
+
+https://coltekin.net/cagri/papers/trmorph-tools.pdf 
+
+23. Turkish ( apertium-tur ) - GitHub, https://github.com/apertium/apertium-tur 
+24. Apertium-tat, https://wiki.apertium.org/wiki/Apertium-tat 
+25. 3rd Workshop on the Use of Computational Methods in the Study of Endangered 
+
+Languages - ACL Anthology, https://aclanthology.org/W19-60.pdf 
+
+26. Proceedings of COLING 2018 - ACL Anthology, 
+
+https://aclanthology.org/W18-48.pdf 
+
+27. arXiv:2003.03131v1 [cs.CL] 6 Mar 2020, https://arxiv.org/pdf/2003.03131 
+28. arXiv:2305.05480v3 [cs.CL] 26 Oct 2023, https://arxiv.org/pdf/2305.05480 
+29. From Smør-re-brød to Subwords: Training LLMs on Danish, One Morpheme at a 
+
+Time - arXiv, https://arxiv.org/html/2504.01540v1 
+
+30. turkic-nlp/turkicnlp: NLP Toolkit for Turkic Languages - GitHub, 
+
+https://github.com/turkic-nlp/turkicnlp 
+
+31. Apertium-kaz, https://wiki.apertium.org/wiki/Apertium-kaz 
+32. Sakha: apertium-sah - GitHub, https://github.com/apertium/apertium-sah 
+33. apertium/apertium-tuk-tur: Apertium translation pair for Turkmen and Turkish - 
+
+GitHub, https://github.com/apertium/apertium-tuk-tur 
+
+34. apertium/apertium-tat-bak: Apertium translation pair for Tatar and Bashkir - 
+
+GitHub, https://github.com/apertium/apertium-tat-bak 
+
+35. List of language pairs - Apertium, 
+
+https://wiki.apertium.org/wiki/List_of_language_pairs 
+
+36. Uzbek ( apertium-uzb ) - GitHub, https://github.com/apertium/apertium-uzb 
+37. apertium/apertium-uzb-kaa: Apertium translation pair for Uzbek and Karakalpak - 
+
+GitHub, https://github.com/apertium/apertium-uzb-kaa 
+
+38. Uyghur ( apertium-uig ) - GitHub, https://github.com/apertium/apertium-uig 
+39. MorAz: an Open-source Morphological Analyzer for Azerbaijani Turkish - ACL 
+
+Anthology, https://aclanthology.org/D18-2005v2.pdf 
+
+40. MorAz An open-source morphological analyzer for Azerbaijani Turkish - Helda - 
+
+University of Helsinki, 
+https://helda.helsinki.fi/bitstreams/98378107-3b4b-4a89-abab-bd8209aafe27/do
+wnload 
+
+41. The Creation of Large-Scale Annotated Corpora of Minority Languages using 
+
+UniParser and the EANC platform - ACL Anthology, 
+https://aclanthology.org/C12-2009.pdf 
+
+42. Standard Dargwa Corpus, https://hum.hse.ru/mirror/pubs/share/802556384.pdf 
+43. Building an Open Corpus and a Morphological Parser for Corpus Annotation for 
+
+Standard Dargwa, https://core.ac.uk/download/pdf/611888196.pdf 
+44. Readability assessment of written Adyghe using a baseline approach - 
+
+Computational Linguistics and Intellectual Technologies, 
+https://dialogue-conf.org/wp-content/uploads/2025/06/PetruninaUZdorovaN.031.
+pdf 
+
+45. UniMorph 3.0: Universal Morphology - ETH Zurich Research, 
+
+https://www.research-collection.ethz.ch/bitstreams/af663128-325d-4aa2-a749-4
+4affc8f9d17/download 
+
+46. Turkish UD, https://universaldependencies.org/tr/ 
+
+47. Universal Dependencies, release 2.16 - Corpora - ELRA lists, 
+
+https://list.elra.info/mailman3/hyperkitty/list/corpora@list.elra.info/thread/53SZTXJ
+5TYER3PHLXI3JO2TUY6T7ZNX4/ 
+
+48. turkic-nlp/generated-ud-data - GitHub, 
+
+https://github.com/turkic-nlp/generated-ud-data 
+
+49. UD_Turkish-PUD - Universal Dependencies, 
+
+https://universaldependencies.org/treebanks/tr_pud/index.html 
+
+50. (PDF) An Assessment of Universal Dependency Annotation Guidelines for Turkic 
+
+Languages - ResearchGate, 
+https://www.researchgate.net/publication/322224442_An_Assessment_of_Univers
+al_Dependency_Annotation_Guidelines_for_Turkic_Languages 
+
+51. Syntactic Transfer to Kyrgyz Using the Treebank Translation Method - arXiv, 
+
+https://arxiv.org/html/2412.13146v1 
+
+52. Universal Dependencies Treebank for Uzbek - ACL Anthology, 
+
+https://aclanthology.org/2025.resourceful-1.1.pdf 
+
+53. Universal Dependencies Treebank for Uzbek - ACL Anthology, 
+
+https://aclanthology.org/2025.resourceful-1.1/ 
+
+54. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/pdf/2602.19174v1?utm_source=daily-mt-picks&utm_medium=em
+ail&utm_campaign=machine-translation-digest-for-feb-22-2026 
+
+55. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/pdf/2602.19174 
+
+56. turkish-nlp · GitHub Topics, https://github.com/topics/turkish-nlp 
+57. GitHub - apertium/apertium-crh-tur: Apertium translation pair for Crimean Tatar 
+
+and Turkish, https://github.com/apertium/apertium-crh-tur 
+
+58. List of dictionaries - Apertium, https://wiki.apertium.org/wiki/List_of_dictionaries 
+59. Lexibank 2: pre-computed features for large-scale lexical data. - Open Research 
+
+Europe, https://open-research-europe.ec.europa.eu/articles/5-126 
+
+60. Lexibank - Wikipedia, https://en.wikipedia.org/wiki/Lexibank 
+61. GitHub - lexibank/savelyevturkic: CLDF dataset derived from Savelyev and 
+Robbeet's "Internal Structure of the Turkic Language Family" from 2020, 
+https://github.com/lexibank/savelyevturkic 
+
+62. Mongolica Pragensia '16 9/1 - Sites, 
+
+https://sites.ff.cuni.cz/ujca/wp-content/uploads/sites/63/2019/05/MongolicaPragen
+sia16-1.pdf 
+
+63. An etymological dictionary of pre-thirteenth-century Turkish by Gerard Clauson, 
+https://openlibrary.org/books/OL5338096M/An_etymological_dictionary_of_pre-t
+hirteenth-century_Turkish 
+
+64. Data Regarding Yenisey Inscriptions In S. Gerard Clauson's Etymological 
+
+Dictionary, 
+https://www.researchgate.net/publication/242721525_Data_Regarding_Yenisey_In
+scriptions_In_S_Gerard_Clausons_Etymological_Dictionary 
+
+65. turkic dictionaries - Monumenta Altaica, https://altaica.ru/e_v-turks.php 
+66. Sarı Uygurca Üzerine Etimolojik Denemeler: U-Ü Maddeleri - DergiPark, 
+
+https://dergipark.org.tr/tr/download/article-file/746108 
+
+67. Sergei Starostin - Grokipedia, https://grokipedia.com/page/Sergei_Starostin 
+68. Sergei Starostin, Anna Dybo, and Oleg Mudrak (eds.): Etymological Dictionary of 
+
+the Altaic Languages (2003) - Academia.edu, 
+https://www.academia.edu/3232547/Sergei_Starostin_Anna_Dybo_and_Oleg_Mud
+rak_eds_Etymological_Dictionary_of_the_Altaic_Languages_2003_ 
+
+69. Modern Çuvaş Edebiyatının Doğuş Sürecinde Bir Otosansür Örneği V. İ. Lebedev 
+
+ve Şiiri, https://dergipark.org.tr/en/pub/tdd/article/733559 
+
+70. Modern Türklük Araştırmaları Dergisi/Journal of Modern Turkish Studies 15/4 
+
+(Aralık/December 2018), 
+https://mtad.humanity.ankara.edu.tr/236-1542018-928.php 
+
+71. UDC 81 THE ROLE OF N.I.ASHMARIN IN THE “AZERBAIJAN SOCIETY FOR 
+RESEARCH AND DEVELOPMENT” N.M.Hajieva (Presented by Academic, 
+https://dergipark.anas.az/index.php/ranas/article/download/2244/2169/2407 
+72. ÇUVAŞ TÜRKÇESİNİN AĞIZ ATLASI ÜZERİNE* Oğuzhan DURMUŞ** Ağız Atlasları 
+
+Dillerin kullanıldıkları coğrafyadaki ( - TDK Ağız Araştırmaları, 
+https://agiz.tdk.gov.tr/tdk_arsiv_pdf/TDKAAcbff9506-5b8e-408a-ac6c-f37d0cdbf
+9d0.pdf 
+
+73. ÇUVAŞ TÜRKÇESİNİN SÖZLÜKLERİ - Türk Dünyası Dil ve Edebiyat Dergisi, 
+
+https://tdkturkdunyasi.gov.tr/tam-metin-pdf/806/tur 
+
+74. A List of Turkish NLP Resources, https://turkishnlp.github.io/list/ 
+75. dbmdz/bert-base-turkish-cased - Hugging Face, 
+
+https://huggingface.co/dbmdz/bert-base-turkish-cased 
+
+76. turkic-interlingua/til-mt: Machine Translation for Turkic Languages - GitHub, 
+
+https://github.com/turkic-interlingua/til-mt 
+
+77. Projects - SIGTURK, https://sigturk.github.io/projects/ 
+78. Turkic Interlingua (TIL) - GitHub, https://github.com/turkic-interlingua 
+79. slone/nllb-600M-azj-eng-v1 - Hugging Face, 
+
+https://huggingface.co/slone/nllb-600M-azj-eng-v1 
+
+80. Thesaurus Indogermanischer Text- und Sprachmaterialien TITUS TEXTUS - TITUS: 
+
+INDEX, https://titus.fkidg1.uni-frankfurt.de/texte/texte2.htm 
+
+81. TITUS: Thesaurus Indogermanischer Text- und Sprachmaterialien, 
+
+http://ancientworldonline.blogspot.com/2012/06/thesaurus-indogermanischer-te
+xt-und.html 
+
+82. DTA I - Turfanforschung - Berlin-Brandenburgische Akademie der 
+
+Wissenschaften, https://turfan.bbaw.de/dta-i-en.html 
+
+83. Turfan Studies - Turfanforschung, https://turfan.bbaw.de/projekt-en.html 
+84. Linguistic Bibliography | Brill, 
+
+https://bibliographies.brill.com/LBO/items/?ISSN=0133-4239 
+
+85. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/html/2602.19174v4 
+
+86. (PDF) Multilingual end-to-end ASR for low-resource Turkic languages with 
+
+common alphabets - ResearchGate, 
+https://www.researchgate.net/publication/381460505_Multilingual_end-to-end_A
+SR_for_low-resource_Turkic_languages_with_common_alphabets 
+
+87. Noise-Robust Multilingual Speech Recognition and the Tatar Speech Corpus - 
+
+Authorea, https://www.authorea.com/doi/pdf/10.22541/au.170750106.64166861 
+
+88. No Language Left Behind: Scaling Human-Centered Machine Translation - 
+
+MIXED.de, https://mixed.de/wp-content/uploads/2022/07/nllb_200_final.pdf 
+89. Proceedings of the Second Workshop Natural Language Processing for Turkic 
+
+Languages (SIGTURK 2026) - ACL Anthology, 
+https://aclanthology.org/2026.sigturk-1.pdf 
+
+90. apertium/apertium-tur-aze: Apertium translation pair for Turkish and Azeri - 
+
+GitHub, https://github.com/apertium/apertium-tur-aze 
+
+

@@ -51,7 +51,9 @@ analiz · üretim · paradigma · kognat ağı · ses denkliği · çok-boyutlu 
 - **★ SIRADAKİ = `plan/YOL-HARITASI.md` (FAZLI + DEEPSEARCH İHTİYAÇ HARİTASI):**
   - **ŞİMDİ yapılabilir (deepsearch BEKLEMEZ):** Faz **1.1** füzyonel ek ince-ayrışması (NW kanonik-allomorf; 5c yöntemi+örnekleri verdi: chv -не=+i+n+e bölünebilir, chv sırası Kök+İyelik+Çoğul+Hâl) · Faz **1.3** harita/soy-ağacı UX (Türkiye konumu + tıkla-inline) · Faz **1.4** Hakkında/iletişim.
   - **Deepsearch BEKLER:** Faz 2.1 TTS (`6`), 2.2 LLM/HF ekosistem (`7`), 2.5 kollar açıklayıcı (`8`), 2.6 derin dil profilleri (`9` kol-batch), 2.7 KAYNAKLAR büyük güncelleme (TÜM deepsearch'ler sonrası) · Faz 3 Çuvaşça "Dilin Kalbi" (✅ ayrı sayfa onaylı).
-  - **Deepsearch promptları HAZIR:** `arastirma/5,5b,5c,6,7,8,9*.prompt.md`. Çıktılar geldikçe locale çek (pdfminer: `_*.txt`), çapraz-kontrol, işle. Gelmiş çıktılar: `_nlp_araclari.txt`, `_nlp_envanteri.txt`, `_morfoloji_plani.txt`.
+  - **Deepsearch promptları HAZIR:** `arastirma/5,5b,5c,6,7,8,9*.prompt.md`. Çıktılar geldikçe locale çek (pdfminer; PDF'ler gitignore, `_*.txt` commit'li), çapraz-kontrol, işle.
+  - **GELMİŞ + İŞLENMİŞ deepsearch çıktıları:** `_nlp_araclari.txt`+`_nlp_envanteri.txt` (5/5b) ✅, `_morfoloji_plani.txt` (5c) ✅ uygulandı.
+  - **★ YENİ GELEN, HENÜZ İŞLENMEMİŞ:** `_tts_asr.txt` (deepsearch 6 → **Faz 2.1 TTS**) + `_llm_hf_ekosistem.txt` (deepsearch 7 → **Faz 2.2 LLM/HF ekosistem bölümü**). Compact sonrası bunları oku, çapraz-kontrol, ilgili fazları uygula. (8, 9 hâlâ bekleniyor.)
   - **Açık sorular:** YOL-HARITASI karar günlüğü (kollar açıklayıcı yeri; harita projeksiyon tipi).
 
 ### ✅ A→F PLANI + GÜNCELLEME NOTLARI — TAMAMLANDI (24 Haz, Claude_Preview'da doğrulandı)

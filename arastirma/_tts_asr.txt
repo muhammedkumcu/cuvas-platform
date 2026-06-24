@@ -1,0 +1,931 @@
+Türk Dilleri İçin Açık Kaynaklı 
+Seslendirme (TTS) ve Konuşma Tanıma 
+(ASR) Ekosistemi: KÖKEN Platformu 
+İçin Stratejik Araştırma Raporu 
+
+Web tarayıcılarında standart olarak sunulan Web Speech API, işletim sisteminin ve tarayıcının 
+yerel sentezleyicilerine dayandığı için, İngilizce veya İspanyolca gibi yüksek kaynaklı dillerde 
+tatmin edici sonuçlar verirken, morfolojik olarak sondan eklemeli (agglutinative) yapıya sahip 
+olan ve geniş bir coğrafyada farklı alfabe sistemleriyle (Latin, Kiril, Arap) yazılan Türk dillerinde 
+yetersiz kalmaktadır. Web Speech API, desteklemediği dillerde metinleri İngilizce veya Rusça 
+fonetik kurallarına göre okumaya çalışarak ciddi telaffuz hatalarına yol açmakta, KÖKEN gibi 
+pedagojik doğruluk gerektiren dil öğrenim platformlarında kullanıcı deneyimini zedelemektedir. 
+Bu araştırma raporu, KÖKEN platformunun "Minimum Uygulanabilir Ürün" (MVP) aşamasında 
+belirlediği çekirdek Türk dilleri (Türkiye Türkçesi, Azerbaycan Türkçesi, Kazakça, Kırgızca, 
+Özbekçe, Uygurca, Tatarca, Başkurtça, Çuvaşça ve Sahaca) ile diğer az temsil edilen Türk 
+dilleri için açık erişimli, ticari/lisans açısından sürdürülebilir ve teknik olarak entegre edilebilir 
+Metinden Konuşmaya (TTS) ve Otomatik Konuşma Tanıma (ASR) modellerinin kapsamlı bir 
+analizini sunmaktadır. 
+Soru 1: Dil Başına Açık TTS (Metin → Konuşma) 
+Ekosisteminin Analizi 
+Türk dilleri için açık kaynaklı TTS ekosistemi incelendiğinde, yüksek kaliteli ses sentezi sağlayan 
+derin öğrenme tabanlı akustik modeller ile kural tabanlı eski nesil fonemik sentezleyiciler 
+arasında belirgin bir ayrım göze çarpmaktadır. KÖKEN platformuna entegre edilebilecek aday 
+model aileleri, mimari yapıları, eğitim veri setleri ve lisans kısıtlamaları bağlamında farklı avantaj 
+ve dezavantajlara sahiptir. 
+Temel Aday Model Aileleri ve Teknik Kapasiteleri 
+
+Derin öğrenme tabanlı modellerin başında Meta AI tarafından geliştirilen MMS-TTS (Massively 
+Multilingual Speech) gelmektedir. MMS projesi, VITS (Variational Inference with adversarial 
+learning for end-to-end Text-to-Speech) mimarisini kullanarak 1.107 dilde TTS desteği 
+sunmaktadır1. VITS mimarisi, arka uçta bir dönüştürücü (Transformer) tabanlı metin kodlayıcı, 
+normalleştirici akışlar (normalizing flows) ve bir HiFi-GAN ses kod çözücüsü (vocoder) 
+barındırır3. Bu mimarinin en önemli özelliği, aynı metnin farklı ritimlerde okunabilmesine olanak 
+tanıyan stokastik bir süre tahminleyicisi (stochastic duration predictor) içermesidir5. MMS-TTS, 
+Türk dilleri ailesinde çok geniş bir kapsama alanına sahiptir; Türkiye Türkçesi (tur), Kuzey 
+Azerbaycan Türkçesi (azj-script_latin), Güney Azerbaycan Türkçesi (azb), Kazakça (kaz), 
+Kırgızca (kir), Özbekçe (uzb-script_cyrillic), Uygurca (uig-script_arabic), Tatarca (tat), Başkurtça 
+
+(bak), Sahaca/Yakutça (sah), Türkmence (tuk-script_latin), Kırım Tatarca (crh) ve Nogayca (nog) 
+için özel kontrol noktaları (checkpoints) sunar4. Modellerin sentezlediği ses kalitesi genel olarak 
+anlaşılabilir düzeyde olsa da, eğitim verilerinin büyük bir kısmının "Faith Comes By Hearing" 
+projesinden alınan İncil ve dini metin okumalarına dayanması nedeniyle, sentezlenen seste 
+tekdüze, robotik ve belirli bir dini anlatım ritmini andıran prosodik bir yapı gözlemlenmektedir1. 
+Lisans açısından MMS modelleri CC-BY-NC 4.0 (Creative Commons Atıf-Gayriticari) lisansına 
+tabidir12. Bu durum, modelin ticari bir platformda kullanımını hukuki risklere açık hale getirir ve 
+üretim ortamında kullanılmadan önce ticari kullanım muafiyetleri veya alternatif modellerin 
+değerlendirilmesini zorunlu kılar. Modeller yaklaşık 145 MB boyutundadır ve Hugging Face 
+transformers kütüphanesi üzerinden Python ortamına kolayca entegre edilebilir veya sunucu 
+maliyetlerini düşürmek amacıyla doğrudan Hugging Face Inference API üzerinden çağrılabilir2. 
+İkinci önemli model ailesi, özellikle gömülü sistemler (embedded systems) ve düşük kaynaklı 
+sunucular için tasarlanmış Piper TTS'tir21. Piper, tamamen yerel ve çevrimdışı (offline) 
+çalışabilen, ONNX formatında derlenmiş bir C++ motorudur22. Resmi depolarında 35'ten fazla 
+dili destekleyen Piper, Türkiye Türkçesi (tr_TR), Kazakça (kk_KZ) ve Özbekçe için yüksek 
+kaliteli modellere sahiptir23. Piper'ın en belirgin avantajı, ses kalitesinin (özellikle high ve medium 
+kalite varyantlarında) oldukça doğal olması ve modellerin MIT lisansı altında dağıtılmasıdır; bu 
+sayede ticari kullanıma tamamen uygundur21. Boyut olarak 50-80 MB aralığında olan bu 
+modeller, ONNX Runtime sayesinde saniyenin küçük bir kesrinde, PyTorch gibi ağır bağımlılıklar 
+olmadan çalıştırılabilir21. Hatta C++ mimarisi, WebAssembly (WASM) üzerinden derlenerek 
+kullanıcıların doğrudan web tarayıcılarında çalışacak şekilde yapılandırılabilir, bu da sunucu 
+tarafı sentezleme maliyetlerini ortadan kaldırır26. 
+Derin öğrenme modellerinin kapsamadığı veya donanım maliyetlerinin karşılanamadığı 
+senaryolarda espeak-ng, kural tabanlı ve fonemik bir sentezleyici olarak kritik bir alternatif 
+sunmaktadır28. Bir makine öğrenmesi modeli olmayan eSpeak NG, dillerin fonetik kurallarının 
+manuel olarak tanımlandığı, formant sentezi yöntemini kullanan eski nesil bir yazılımdır28. 
+Doğallık açısından günümüz standartlarının çok gerisinde kalarak oldukça mekanik ve robotik 
+bir ses üretmesine rağmen, fonetik doğruluğu ve anlaşılabilirliği (intelligibility) oldukça 
+yüksektir28. Kapsadığı dillerin genişliği, eSpeak NG'yi eşsiz kılmaktadır; Türkiye Türkçesi (tr), 
+Azerbaycan Türkçesi (az), Başkurtça (ba), Kazakça (kk), Kırgızca (ky), Nogayca (nog), Tatarca 
+(tt), Türkmence (tk), Uygurca (ug), Özbekçe (uz) ve en önemlisi, modern sinir ağı modellerinin 
+neredeyse hiçbirinde bulunmayan Çuvaşça (cv veya cu) eSpeak NG tarafından yerel olarak 
+desteklenmektedir30. GPLv3 lisansına tabi olan bu kütüphane, espeakng.js adlı bir derleme 
+sayesinde WebAssembly formatında doğrudan tarayıcı içinde asenkron web işçileri (web 
+workers) kullanılarak çalıştırılabilmektedir27. 
+Bu evrensel modellerin yanı sıra, bölgesel enstitüler tarafından geliştirilen dile özgü modeller de 
+mevcuttur. Nazarbayev Üniversitesi bünyesindeki Akıllı Sistemler ve Yapay Zeka Enstitüsü 
+(ISSAI), Kazakça ve Tatarca için olağanüstü kalitede akademik veri setleri ve modeller 
+üretmektedir. ISSAI'nin Kazakça için sunduğu Spark-TTS-Kazakh ve KazEmoTTS modelleri, 
+hem Kiril hem de Töt (Arap) alfabelerini destekleyen, duygusal bağlamı anlayan yüksek kaliteli 
+yerel çözümlerdir35. Ayrıca, Coqui tarafından geliştirilen XTTS ve OmniVoice gibi modeller, sıfır 
+
+atışlı ses klonlama (zero-shot voice cloning) yetenekleri sunarak, 3-10 saniyelik bir referans ses 
+üzerinden çok dilli (600+ dil) sentezleme yapabilen yenilikçi mimarilerdir40. 
+MVP Dilleri İçin Detaylı Boşluk ve Kapasite Analizi 
+
+KÖKEN platformunun MVP aşamasında hedeflenen 10 çekirdek dil için mevcut modellerin 
+durumu, alfabesel zorluklar ve entegrasyon pratikleri şu şekilde özetlenebilir: 
+Türkiye Türkçesinde herhangi bir kaynak eksikliği bulunmamaktadır. Piper, XTTS, ve MMS-TTS 
+gibi sayısız açık kaynaklı model yüksek kalite sunar4. Ticari sürdürülebilirlik açısından Piper'ın 
+tr_TR ONNX modelleri en mantıklı tercihtir23. Benzer şekilde Kazakça da ISSAI'nin çalışmaları 
+sayesinde oldukça zengin bir açık kaynak ekosistemine sahiptir42. Nur-dev tarafından Hugging 
+Face üzerinde paylaşılan ait-piper-multilingual modeli, Kazakça ve Rusça için optimize edilmiş, 
+13 farklı hoparlör sesine sahip, CC-BY-NC lisanslı olmayan nadir ve güçlü bir çözümdür25. 
+Azerbaycan Türkçesi için durum bir miktar daha kısıtlıdır. MMS-TTS modeli, Kuzey 
+(azj-script_latin) ve Güney (azb) olmak üzere iki ayrı lehçeyi destekler10. Lisans sorunları engel 
+teşkil etmiyorsa MMS HF API üzerinden çağrılabilir; alternatif olarak Türkiye Türkçesi için 
+eğitilmiş XTTS modelleri üzerinden, fonetik yakınlık kullanılarak sıfır atışlı ses klonlaması 
+yapılabilir. Kırgızca için Hugging Face üzerinde bulunan kyrgyz-ai/TTS_small modeli, MMS 
+tabanından ince ayar yapılarak geliştirilmiştir43. Bu modelin entegrasyonunda dikkat edilmesi 
+gereken husus, modelin noktalama işaretlerini ve Latin alfabesindeki kelimeleri göz ardı 
+etmesidir43. Bu nedenle, backend tarafında sunucuya gelen metnin ön işlemden (preprocessing) 
+geçirilerek temizlenmesi gerekmektedir. 
+Özbekçe ve Uygurca entegrasyonları, alfabe ve tokenizasyon sorunları nedeniyle teknik 
+mühendislik gerektiren dillerdir. Meta MMS-TTS'in Özbekçe modeli (uzb-script_cyrillic) yalnızca 
+Kiril alfabesi ile eğitilmiştir3. KÖKEN platformunun arayüzü ve kullanıcı girdileri Latin alfabesiyle 
+yapılıyorsa, sunucu katmanında metnin modele gönderilmeden önce kural tabanlı bir Python 
+kütüphanesi (örneğin TurkicNLP44) ile Latin'den Kiril'e çevrilmesi zorunludur. Uygurca tarafında 
+ise MMS-TTS'in Arap harfli modeli (uig-script_arabic) çalışmasına rağmen, modelin 
+tokenizasyon sürecinde noktalama işaretleri ve sayılarla karşılaştığında boyut uyumsuzluğu 
+(tensor size mismatch) ve 'NoneType' hataları verdiği Hugging Face topluluk tartışmalarında 
+rapor edilmiştir45. Bu hatanın aşılması için, Uygurca girdi metnindeki sayısal ifadelerin (örn. "5") 
+açık metne (örn. "شﮫﺑ") dönüştürülmesi ve gereksiz noktalama işaretlerinin temizlenmesi 
+gerekmektedir46. Alternatif olarak, piyazon/qutadgu_bilik gibi topluluk tarafından bu hataları 
+gidermek üzere ince ayar yapılmış (fine-tuned) modeller tercih edilebilir47. 
+Tatarca ve Başkurtça dillerinde MMS-TTS desteği mevcuttur5. Tatarca için ISSAI'nin geliştirdiği 
+TatarTTS modeli, 70 saatlik profesyonel stüdyo kayıtlarıyla eğitilmiş olup, MMS'in tekdüze 
+sesine kıyasla çok daha doğal bir tonlama sunar36. Sahaca (Yakutça) için MMS-TTS'in sah 
+kontrol noktası dışında sinir ağı tabanlı bir alternatif bulunmamaktadır6. Çuvaşça, modern TTS 
+ekosistemindeki en büyük boşluklardan birini temsil eder. Meta'nın 1.107 dil kapsayan devasa 
+MMS projesinde dahi Çuvaşça TTS modeli resmi olarak yayınlanmamıştır2. Çuvaşça için 
+mevcut olan yegane çözüm, eSpeak NG'nin fonemik motorudur31. 
+
+Dürüst Boşluk Haritası: Temsil Edilmeyen Diller ve Çözüm Stratejileri 
+
+KÖKEN platformu, MVP ötesine geçerek tüm Türk dillerini kapsamayı hedeflediğinde, Şorca 
+(cjs), Halaçça (klj), Dolganca, Karayca veya Çulımca gibi dillerde hiçbir dijital seslendirme 
+kaynağının olmadığı bir "boşluk haritası" ile karşılaşacaktır. Bu noktada iki mühendislik 
+yaklaşımı öne çıkmaktadır: 
+
+1.  Yakın-Dil İkamesi ve Ses Klonlama (Cross-lingual Transfer): OmniVoice veya XTTS 
+
+gibi Çok Dilli Difüzyon/Dil Modelleri, bir dildeki akustik özellikleri başka bir dile aktarma 
+yeteneğine sahiptir40. Örneğin, Şorca bir metin, fonetik yapısı itibarıyla Altayca veya 
+Hakasçaya yakın olduğundan, bu modellerin diller arası transfer yeteneği kullanılarak, 10 
+saniyelik bir Şorca referans ses dosyası ile (Zero-shot cloning) oldukça kabul edilebilir bir 
+doğallıkta sentezlenebilir41. 
+
+2.  Espeak-ng Fonem Kuralı Enjeksiyonu: Makine öğrenmesi modelleri için veri 
+
+toplamanın imkansız olduğu dillerde, açık kaynaklı eSpeak NG projesi üzerine yeni bir dil 
+modülü inşa etmek en maliyet etkin yoldur. Kırgızca veya Tatarca fonem setleri temel 
+alınarak, hedef dilin (örneğin Şorca) sadece ayırt edici özel karakterleri için birkaç satırlık 
+C++ fonem kuralı yazılabilir. Bu sayede, ses mekanik olsa da dilin tüm alfabesini doğru 
+telaffuz eden bir MVP altyapısı haftalar içinde oluşturulabilir28. 
+
+Entegrasyon Önerisi ve Mimari Yönlendirme 
+
+KÖKEN platformunun FastAPI tabanlı backend ve web tabanlı frontend yapısı göz önüne 
+alındığında, tüm dilleri aynı model yapısıyla çözmeye çalışmak yerine Dinamik Hibrit 
+Yönlendirme (Dynamic Hybrid Routing) mimarisi kurulması en rasyonel stratejidir. 
+Frontend tarafında, modern web teknolojileri olan WebAssembly kullanılarak espeakng.js (veya 
+tts.rocks türevi Piper WASM derlemeleri) doğrudan kullanıcının tarayıcısına yüklenmelidir27. Bu 
+yapı, sunucu maliyetlerini sıfıra indirir. Çuvaşça, Başkurtça gibi diller seçildiğinde, FastAPI 
+sunucusu sadece bir yönlendirme sinyali gönderir ve ses, kullanıcının cihazında 
+(Edge/Client-side) yerel olarak sentezlenir. 
+Backend (FastAPI) tarafında, yüksek kaliteli sentezleme için C++ ve ONNX tabanlı olan Piper, 
+yerel bir mikroservis olarak çalıştırılır. Piper'ın CPU üzerindeki çıkarım (inference) hızı gerçek 
+zamanlıdan 40 kat daha hızlı olduğu için GPU maliyeti gerektirmez22. Türkiye Türkçesi ve 
+Kazakça gibi diller doğrudan bu yerel API üzerinden çözülür. Öte yandan, MMS-TTS gibi 
+devasa PyTorch modellerini sunucuda barındırmak yerine, Hugging Face Inference API 
+üzerinden asenkron HTTP istekleri (REST API) ile çağrılmalıdır. Özbekçe, Uygurca veya 
+Sahaca bir metin geldiğinde, FastAPI sunucusu gerekli metin ön-işlemlerini (Latin-Kiril 
+dönüşümü, noktalama temizliği) yapar ve bu metni Hugging Face sunucularına iletir, dönen sesi 
+kullanıcıya aktarır. 
+
+Hedef Dil 
+
+Gerekli NLP 
+Ön-İşlemi 
+
+Yönlendirilecek 
+TTS Motoru 
+
+Çalışma Konumu 
+(Deployment) 
+
+Türkiye Türkçesi 
+(tur) 
+
+Normalizasyon 
+
+Piper (tr_TR) / 
+XTTS 
+
+Sunucu İçi (Yerel 
+ONNX) 
+
+Kazakça (kaz) 
+
+Kiril / Töt / Latin harf 
+kontrolü 
+
+Piper / Spark-TTS 
+
+Sunucu İçi (Yerel 
+ONNX) 
+
+Özbekçe (uzb) 
+
+Latin alfabesini 
+Kiril'e dönüştürme 
+
+Meta MMS-TTS 
+(uzb) 
+
+Uzak API (Hugging 
+Face) 
+
+Uygurca (uig) 
+
+Sayıların 
+harflendirilmesi 
+(num2words) 
+
+QutadguBilik / 
+MMS-TTS 
+
+Uzak API (Hugging 
+Face) 
+
+Tatarca (tat) 
+
+Normalizasyon 
+
+ISSAI TatarTTS 
+
+Çuvaşça (chv) 
+
+Yok 
+
+espeak-ng (cv) 
+
+Sunucu İçi (Yerel 
+PyTorch) 
+
+İstemci (Tarayıcı 
+WASM) 
+
+Sahaca (sah) 
+
+Normalizasyon 
+
+Meta MMS-TTS 
+(sah) 
+
+Uzak API (Hugging 
+Face) 
+
+Temsil Edilmeyen 
+(cjs) 
+
+En yakın lehçeye 
+fonetik haritalama 
+
+espeak-ng 
+(Fallback) 
+
+İstemci (Tarayıcı 
+WASM) 
+
+Soru 2: Açık Otomatik Konuşma Tanıma (ASR) 
+Sistemleri ve Telaffuz Analizi 
+Otomatik Konuşma Tanıma (ASR) sistemleri, KÖKEN platformunda araştırmacılar için 
+transkripsiyon hizmeti sunmanın yanı sıra, bir dil öğrenme modülü olarak öğrencinin telaffuzunu 
+değerlendirme ("Telaffuzunu Söyle, Kontrol Et") amacıyla da kullanılacaktır. Bu kullanım 
+durumu, ASR modellerinin yalnızca sesi tanımasını değil, kelime bazlı hata oranlarının (Word 
+Error Rate - WER) ve karakter hata oranlarının (Character Error Rate - CER) sıfıra yakın 
+olmasını gerektirir50. Aksi takdirde, model kaynaklı bir hata, öğrenciye telaffuzunun yanlış olduğu 
+şeklinde yanlış pozitif (false positive) geri bildirim verebilir. 
+Whisper, Meta MMS ve Bölgesel Modellerin Karşılaştırılması 
+
+ASR alanında şu anda fiili endüstri standardı OpenAI tarafından yayınlanan Whisper ailesidir50. 
+
+Whisper Large-v3 ve onun daha hızlı versiyonu olan Large-v3 Turbo, 99 dilde eğitim verisine 
+sahiptir ve Türkiye Türkçesinde mükemmele yakın (%7.75 WER) bir başarı gösterir53. Ancak 
+Whisper'ın performansı, eğitim verisinin büyüklüğüne bağlı olarak dramatik bir şekilde düşer. 
+Kazakça ve Türkiye Türkçesi gibi dillerde iyi sonuçlar verse de, Tatarca, Özbekçe ve Uygurca 
+gibi dillerde modelin "halüsinasyon" (gerçekte söylenmeyen cümleleri bağlamdan uydurma) 
+döngülerine girdiği görülmektedir50. 
+Nadir dillerdeki bu zayıflığı kapatmak için Meta'nın MMS-ASR modelleri veya Hugging Face 
+Wav2Vec2 modelleri öne çıkmaktadır. MMS-ASR, 1.162 dili destekleyerek Whisper'ın 
+kapsamadığı veya başarısız olduğu dillerde FLEURS benchmark testlerinde Whisper'ın hata 
+oranını (WER) yarı yarıya azalttığını kanıtlamıştır56. Özbekçe için özellikle 
+Gearnode/qwen3-asr-uzbek modeli, Whisper'ın halüsinasyon sorunlarını çözerek yüksek 
+doğruluk sağlar55. Kazakça ASR için ise ISSAI'nin geliştirdiği whisper-turbo-kaz-rus-v1 modeli 
+tartışmasız liderdir; 1.200 saatlik Kazakça konuşma verisi (KSC2) ve Golos veri setleri üzerinde 
+ince ayar yapılmış olan bu model, sıradan Whisper modellerinin Kazakçadaki zayıflıklarını 
+tamamen gidermiştir42. 
+Düşük kaynaklı Türk dillerinin ASR performansı büyük ölçüde kitle kaynaklı veri toplama 
+projelerine, özellikle Mozilla Common Voice'a bağlıdır58. Common Voice veri seti, Başkurtça için 
+268 saatlik büyük bir korpusa sahipken59, Tatarca için 29 saat, Kırgızca için 20 saat, Sahaca için 
+6 saat ve Çuvaşça için sadece 2 saatlik veri barındırmaktadır58. Bu veri eksikliği, doğrudan hata 
+oranlarına (WER) yansımaktadır. Örneğin, Çuvaşça için eğitilmiş 
+wav2vec2-large-xls-r-300m-chuvash modeli %60-61 gibi çok yüksek bir kelime hata oranına 
+sahiptir61. Benzer şekilde Sahaca (Yakutça) için wav2vec2-xlsr-sakha modeli %36 WER ile 
+çalışmaktadır62. Bu yüksek hata oranları, bu dillerdeki ASR sistemlerinin öğrencilerin 
+telaffuzlarını kontrol etmek gibi hassas bir işlem için henüz uygun olmadığını, yalnızca 
+araştırmacıların kaba transkripsiyon süreçlerinde kullanılabileceğini göstermektedir. 
+Telaffuz Pratiği Alıştırması İçin Teknolojik Uygulanabilirlik 
+
+Öğrencinin telaffuzunu kontrol etme süreci klasik bir ASR probleminden ziyade "Zorunlu 
+Hizalama" (Forced Alignment) problemi olarak ele alınmalıdır63. Öğrenci bilinen bir metni 
+okurken, sistemin yapması gereken şey sesi açık uçlu olarak tanımak değil, okunan ses 
+dalgaları ile hedeflenen harfler/fonemler arasındaki zaman damgalarını (timestamps) 
+eşleştirmektir64. Meta'nın MMS-FA (Forced Aligner) modeli, 1000'den fazla dil için karakter 
+düzeyinde emisyon olasılıkları (emission probabilities) sağlayarak, öğrencinin metindeki hangi 
+kelimede takıldığını veya hangi sesi yanlış çıkardığını tespit edebilecek en pratik mimaridir63. 
+Türkiye Türkçesi ve Kazakça gibi dillerde Whisper'ın zaman damgaları (word-level timestamps) 
+işlevi kullanılarak telaffuz analizi yapılabilirken, diğer dillerde MMS-FA veya UnsupSeg (kendi 
+kendine denetimli CNN kodlayıcı) gibi sınır tespit edici modeller kullanılması hukuki (lisans) ve 
+teknik olarak daha uygulanabilirdir63. 
+Soru 3: Karar Tabloları ve MVP Stratejik Önerisi 
+Araştırma bulguları ışığında, KÖKEN platformunun MVP aşaması için dil-bazlı TTS ve ASR 
+model atamaları aşağıdaki tablolarda özetlenmiştir. 
+
+TTS (Seslendirme) Karar Tablosu 
+
+Dil 
+
+En İyi Açık 
+Model 
+
+Kalite 
+Tahmini 
+
+Lisans 
+Durumu 
+
+Türkiye 
+(tur) 
+
+Piper 
+(tr_TR) 
+
+Mükemmel 
+(Doğal) 
+
+MIT 
+
+Kazakça 
+(kaz) 
+
+ISSAI 
+Spark-TTS 
+
+Mükemmel 
+(Doğal) 
+
+CC-BY-NC-
+SA 
+
+Azerbayca
+n (aze) 
+
+Meta 
+MMS-TTS 
+(azj) 
+
+Orta 
+(Dini/Roboti
+k) 
+
+CC-BY-NC 
+4.0 
+
+Kırgızca 
+(kir) 
+
+Meta 
+MMS-TTS 
+(kir) 
+
+Orta 
+(Dini/Roboti
+k) 
+
+CC-BY-NC 
+4.0 
+
+Özbekçe 
+(uzb) 
+
+Uygurca 
+(uig) 
+
+Meta 
+MMS-TTS 
+(uzb) 
+
+Orta 
+(Dini/Roboti
+k) 
+
+CC-BY-NC 
+4.0 
+
+QutadguBili
+k 
+(Fine-tune) 
+
+Orta 
+(Geliştirilmiş
+) 
+
+MIT / CC 
+
+Tatarca 
+(tat) 
+
+ISSAI 
+TatarTTS 
+
+İyi (Doğal) 
+
+Akademik 
+
+Başkurtça 
+(bak) 
+
+eSpeak NG 
+(ba) 
+
+Düşük 
+(Mekanik) 
+
+GPLv3 
+
+Önerilen 
+Çalıştırma 
+Şekli 
+
+Entegrasyo
+n Zorluğu 
+(Python) 
+
+Yerel 
+Sunucu 
+(ONNX) 
+
+Çok Düşük 
+(Hazır 
+Kütüphane) 
+
+Yerel 
+Sunucu 
+(PyTorch) 
+
+Düşük 
+(Hazır API 
+mevcut) 
+
+Bulut (HF 
+Inference 
+API) 
+
+Bulut (HF 
+Inference 
+API) 
+
+Bulut (HF 
+Inference 
+API) 
+
+Bulut (HF 
+Inference 
+API) 
+
+Orta (API 
+İsteği) 
+
+Orta 
+(Noktalama 
+temizliği 
+şart) 
+
+Orta (Latin 
+→ Kiril 
+dönüşümü) 
+
+Yüksek 
+(Num2Word
+s 
+dönüşümü) 
+
+Yerel 
+Sunucu 
+(PyTorch) 
+
+Yüksek 
+(Kaynak 
+Tüketimi) 
+
+İstemci 
+(Tarayıcı 
+WASM) 
+
+Çok Düşük 
+(espeakng.j
+s) 
+
+Çuvaşça 
+(chv) 
+
+eSpeak NG 
+(cv) 
+
+Düşük 
+(Mekanik) 
+
+GPLv3 
+
+Sahaca 
+(sah) 
+
+Meta 
+MMS-TTS 
+(sah) 
+
+Orta 
+(Dini/Roboti
+k) 
+
+CC-BY-NC 
+4.0 
+
+İstemci 
+(Tarayıcı 
+WASM) 
+
+Bulut (HF 
+Inference 
+API) 
+
+Çok Düşük 
+(espeakng.j
+s) 
+
+Orta (API 
+İsteği) 
+
+ASR (Konuşma Tanıma) Karar Tablosu 
+
+Dil 
+
+En İyi ASR 
+Modeli 
+
+Kapsam / 
+Eğitim Verisi 
+
+Lisans 
+Durumu 
+
+Türkiye (tur) 
+
+Whisper 
+Large-v3 Turbo 
+
+Kazakça (kaz) 
+
+ISSAI 
+Whisper-Turbo 
+
+Çok Yüksek 
+(218 Saat 
+TSC) 
+
+Mükemmel 
+(1200 Saat 
+KSC2) 
+
+MIT 
+
+MIT 
+
+Özbekçe (uzb)  Gearnode/qwe
+
+n3-asr 
+
+Yüksek (104K 
+Örnek) 
+
+Apache 2.0 
+
+Tatarca (tat) 
+
+wav2vec2-larg
+e-mms-1b 
+
+Orta (29 Saat 
+CV) 
+
+CC-BY-NC 
+
+Telaffuz 
+Pratiği 
+Uygulanabilirli
+ği 
+
+Çok Yüksek 
+(Sorunsuz 
+çalışır) 
+
+Çok Yüksek 
+(Endüstriyel 
+seviye) 
+
+Yüksek 
+(Whisper 
+hatalarını 
+çözer) 
+
+Orta (Yalnızca 
+net seslerde 
+çalışır) 
+
+Başkurtça 
+(bak) 
+
+wav2vec2-xls-r
+-300m 
+
+İyi (268 Saat 
+CV) 
+
+Apache 2.0 
+
+İyi (Geniş veri 
+seti avantajı) 
+
+Sahaca (sah) 
+
+wav2vec2-xlsr-
+sakha 
+
+Düşük (6 Saat 
+CV) 
+
+Apache 2.0 
+
+Düşük 
+(Araştırmacı 
+için uygun) 
+
+Çuvaşça (chv) 
+
+wav2vec2-xls-r
+-300m 
+
+Çok Düşük (2 
+Saat CV) 
+
+Apache 2.0 
+
+Çok Düşük 
+(Telaffuz testi 
+yapılamaz) 
+
+KÖKEN MVP'si İçin Merkezi Bütünleşik TTS Hattı Önerisi 
+
+Geliştirme sürelerini kısaltmak ve kaynakları doğru tahsis etmek için süreci "Hemen Yapılabilir" 
+(Ready to Deploy) ve "Araştırma Gerektirir" (R&D Pipeline) olarak ikiye ayırmak elzemdir. Piper 
+motoru ve eSpeak-ng WASM yapıları hiçbir akademik veya kurumsal lisans sorunu 
+barındırmadan "hemen" devreye alınabilir. Ancak MMS-TTS'in CC-BY-NC 4.0 lisans yapısı ticari 
+bir kullanım varsa hukuki riskler taşır. 
+KÖKEN'in MVP aşamasında tüm dilleri kapsayan, modüler ve tek bir merkezi TTS hattı 
+(pipeline) olarak şu mimari önerilmektedir: 
+Sunucu tarafında Python tabanlı bir FastAPI mikroservisi oluşturulur. Bu mikroservis bir Akıllı 
+Yönlendirici (Smart Router) görevi görür. İstemciden bir JSON isteği (dil kodu ve metin) 
+geldiğinde, router dili değerlendirir: 
+
+1.  Hedef dil Türkiye Türkçesi veya Kazakça ise, sistem metni hızlıca sunucuda yüklü olan 
+Piper veya Spark-TTS ONNX modellerine paslar, donanım kaynaklarını sömürmeden 
+milisaniyeler içinde yüksek kaliteli sesi üretip geri döndürür. 
+
+2.  Hedef dil Özbekçe, Kırgızca, Uygurca veya Sahaca ise, router önce dile özgü ön işlemeyi 
+
+(Örn: Özbekçe için metni Kiril'e çevirir, Uygurca için sayıları okunuşlarıyla değiştirir) 
+uygular. Daha sonra bu metni Hugging Face Inference API üzerinden asenkron bir HTTP 
+isteğiyle MMS-TTS modeline göndererek üretilen sesi kullanıcıya yansıtır. 
+
+3.  Hedef dil Çuvaşça veya Başkurtça ise (veya MMS-TTS sunucuları yanıt vermiyorsa), 
+
+router API'den bir "istemci tarafına geç" (client-side fallback) bayrağı döndürür. KÖKEN'in 
+web arayüzü bu bayrağı yakalayarak, halihazırda tarayıcı belleğine yüklenmiş olan 
+espeakng.js (WebAssembly) motorunu tetikler ve sesi hiçbir sunucu etkileşimi olmadan 
+kullanıcının kendi cihazında sentezler. 
+
+Bu bütünleşik hat, sistemin hata töleransını maksimuma çıkarırken, altyapı maliyetlerini 
+dengeler ve talep edilen tüm dillerde açık kaynak kodlu, telaffuzu kontrol edilebilir bir konuşma 
+sentez altyapısı sunar. ASR entegrasyonu ise, öğrencilerin telaffuz alıştırmalarında sıfır hata 
+toleransı gerektirdiğinden, yalnızca Türkiye Türkçesi ve Kazakça ile başlatılmalı; Çuvaşça veya 
+Sahaca gibi yüksek WER değerlerine sahip diller için veri seti zenginleştirme (Data 
+Augmentation) çalışmaları tamamlanana dek askıya alınmalıdır. 
+
+Alıntılanan çalışmalar 
+
+1.  Meta's Open-Source Massively Multilingual Speech AI Handles over 1100 
+Languages, https://www.infoq.com/news/2023/06/meta-mms-speech-ai/ 
+2.  facebook/mms-tts - Hugging Face, https://huggingface.co/facebook/mms-tts 
+3.  README.md · facebook/mms-tts-uzb-script_cyrillic at main - Hugging Face, 
+
+https://huggingface.co/facebook/mms-tts-uzb-script_cyrillic/blame/main/README.
+
+md 
+
+4.  facebook/mms-tts-tur - Hugging Face, 
+
+https://huggingface.co/facebook/mms-tts-tur 
+
+5.  facebook/mms-tts-tat · Hugging Face, https://huggingface.co/facebook/mms-tts-tat 
+6.  facebook/mms-tts-sah - Hugging Face, 
+
+https://huggingface.co/facebook/mms-tts-sah 
+
+7.  facebook/mms-tts-kaz - Hugging Face, 
+
+https://huggingface.co/facebook/mms-tts-kaz 
+8.  facebook/mms-tts-kir at main - Hugging Face, 
+
+https://huggingface.co/facebook/mms-tts-kir/tree/main 
+
+9.  facebook/mms-tts-uig-script_arabic - Hugging Face, 
+
+https://huggingface.co/facebook/mms-tts-uig-script_arabic 
+
+10. facebook/mms-tts-azb - Hugging Face, 
+
+https://huggingface.co/facebook/mms-tts-azb 
+
+11. facebook/mms-tts-uzb-script_cyrillic - Hugging Face, 
+
+https://huggingface.co/facebook/mms-tts-uzb-script_cyrillic 
+
+12. facebook/mms-tts-azj-script_latin - Hugging Face, 
+
+https://huggingface.co/facebook/mms-tts-azj-script_latin 
+
+13. README.md · facebook/mms-tts-bak at main - Hugging Face, 
+
+https://huggingface.co/facebook/mms-tts-bak/blob/main/README.md 
+
+14. robinhad/wav2vec2-xls-r-300m-crh - Hugging Face, 
+
+https://huggingface.co/robinhad/wav2vec2-xls-r-300m-crh 
+
+15. facebook/mms-tts-tuk-script_latin - Hugging Face, 
+
+https://huggingface.co/facebook/mms-tts-tuk-script_latin 
+
+16. PashtoTTS-Bench: automated screening for low-resource non-Latin-script 
+
+text-to-speech, https://arxiv.org/html/2605.26978v1 
+
+17. Meta MMS (Massively Multilingual Speech) — AI Directory - Optimly, 
+https://optimly.ai/brand/meta-mms-massively-multilingual-speech 
+
+18. Possible support for Meta MMS? · Issue #950 · ggml-org/whisper.cpp - GitHub, 
+
+https://github.com/ggml-org/whisper.cpp/issues/950 
+
+19. MMS and NLLB protect linguistic diversity | by Kleber Noel - Medium, 
+
+https://medium.com/@klebnoel/leverage-metas-models-to-protect-the-world-s-lan
+guages-90c0c5daf88b 
+
+20. facebook/mms-tts-uig-script_arabic at main - Hugging Face, 
+
+https://huggingface.co/facebook/mms-tts-uig-script_arabic/tree/main 
+
+21. Piper (text-to-speech system) - Grokipedia, 
+
+https://grokipedia.com/page/Piper_text-to-speech_system 
+
+22. Best Piper TTS Alternative for Voice Cloning (2026) | Voice Creator Pro, 
+
+https://voicecreator.pro/blog/voice-creator-pro-vs-piper-tts 
+
+23. Piper TTS - Visual Studio Marketplace, 
+
+https://marketplace.visualstudio.com/items?itemName=SethMiller.piper-tts 
+
+24. GitHub - agisota/piper-TTS: A fast, local neural text to speech system, 
+
+https://github.com/id-2/piper-TTS 
+
+25. nur-dev/ait-piper-multilingual - Hugging Face, 
+
+https://huggingface.co/nur-dev/ait-piper-multilingual 
+
+26. How to Add speech input & output to your app with the free browser APIs - Reddit, 
+https://www.reddit.com/r/javascript/comments/1i16a4e/how_to_add_speech_input
+_output_to_your_app_with/ 
+
+27. steveseguin/tts.rocks: Cutting-edge Text-to-Speech in the browser - for free - 
+
+GitHub, https://github.com/steveseguin/tts.rocks 
+
+28. audio/espeak-ng: Software speech synthesizer - FreshPorts, 
+
+https://www.freshports.org/audio/espeak-ng/ 
+
+29. phonemizer - PyPI, https://pypi.org/project/phonemizer/2.1/ 
+30. eSpeak - Wikipedia, https://en.wikipedia.org/wiki/ESpeak 
+31. espeak-ng/docs/languages.md at master - GitHub, 
+
+https://github.com/espeak-ng/espeak-ng/blob/master/docs/languages.md 
+
+32. yeeeeeeeeee/espeak-ng, 
+
+https://gitee.com/yejinlei/espeak-ng/blob/master/ChangeLog.md 
+
+33. Make Your Web Page Talk With espeakng.js - Alberto Pettarin, 
+
+https://www.albertopettarin.it/blog/2016/11/13/make-your-web-page-talk-with-espe
+akng-js.html 
+
+34. text2wav - NPM, https://www.npmjs.com/package/text2wav 
+35. stukenov/issai-tts - Hugging Face, https://huggingface.co/stukenov/issai-tts 
+36. issai/TatarTTS · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/issai/TatarTTS 
+
+37. README.md · issai/KazakhTTS at 
+
+db9c6576e5e9ecc6f102fbe63a6affc9b0335635 - Hugging Face, 
+https://huggingface.co/datasets/issai/KazakhTTS/blob/db9c6576e5e9ecc6f102fbe
+63a6affc9b0335635/README.md 
+
+38. ErnarBahat/Spark-TTS-Kazakh - Hugging Face, 
+
+https://huggingface.co/ErnarBahat/Spark-TTS-Kazakh 
+
+39. issai/KazEmoTTS · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/issai/KazEmoTTS 
+
+40. ebook2audiobook: The Audiobook Creator Developers Love - AI Prompts, 
+
+https://prompts.brightcoding.dev/blog/ebook2audiobook-the-revolutionary-audiobo
+ok-creator-developers-love 
+
+41. hik63382/TTS-Multi_language_High_Quality - Hugging Face, 
+
+https://huggingface.co/hik63382/TTS-Multi_language_High_Quality 
+
+42. issai/Kazakh_Speech_Corpus_2 · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/issai/Kazakh_Speech_Corpus_2 
+
+43. kyrgyz-ai/TTS_small - Hugging Face, https://huggingface.co/kyrgyz-ai/TTS_small 
+44. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/html/2602.19174v5 
+
+45. facebook/mms-tts-uig-script_arabic · You should probably TRAIN this model on a 
+down-stream task to be able to use it for predictions and inference. - Hugging 
+Face, https://huggingface.co/facebook/mms-tts-uig-script_arabic/discussions/1 
+46. Text to speech for 1000+ languages · dpc/mmstts at c9574d9 - Hugging Face, 
+
+https://huggingface.co/spaces/dpc/mmstts/commit/c9574d9f3860389f10ed0e39fd
+0172b73e41fc72 
+
+47. piyazon/qutadgu_bilik - Hugging Face, 
+
+https://huggingface.co/piyazon/qutadgu_bilik 
+
+48. README.md · facebook/mms-tts at 
+
+84d5af00b2c2d01e59e6d1168fd33a4a5d303883, 
+https://huggingface.co/facebook/mms-tts/blob/84d5af00b2c2d01e59e6d1168fd33a
+4a5d303883/README.md 
+
+49. Proceedings of Speech Language Models in Low-Resource Settings: 
+
+Performance, Evaluation, and Bias Analysis (SPEAKABLE) @ LREC 20, 
+http://lrec-conf.org/proceedings/lrec2026/workshops/speakable/2026.speakable-1.
+0.pdf 
+
+50. How Accurate Is Whisper in 2026? (WER Data by Language) | VexaScribe - 
+
+NovaScribe, https://novascribe.ai/how-accurate-is-whisper 
+51. shyngys879/kazakh-whisper-large-v3-turbo - Hugging Face, 
+
+https://huggingface.co/shyngys879/kazakh-whisper-large-v3-turbo 
+
+52. Supported Models & Providers — OpenAI Whisper, NVIDIA Parakeet & More | 
+
+OpenWhispr, https://openwhispr.com/models 
+53. emredeveloper/whisper-small-tr - Hugging Face, 
+
+https://huggingface.co/emredeveloper/whisper-small-tr 
+
+54. Supported Languages | Whisper API Docs, 
+https://whisper-api.com/docs/languages/ 
+55. Gearnode/qwen3-asr-uzbek - Hugging Face, 
+
+https://huggingface.co/Gearnode/qwen3-asr-uzbek 
+
+56. MMS - Hugging Face, https://huggingface.co/docs/transformers/model_doc/mms 
+57. abilmansplus/whisper-turbo-kaz-rus-v1 - Hugging Face, 
+
+https://huggingface.co/abilmansplus/whisper-turbo-kaz-rus-v1 
+
+58. Multilingual end-to-end ASR for low-resource Turkic languages with common 
+
+alphabets - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC11180099/ 
+59. Common Voice Scripted Speech 25.0 - Bashkir - Mozilla Data Collective, 
+https://mozilladatacollective.com/datasets/cmn29exhf014po107d6mpl5ec 
+
+60. [1912.06670] Common Voice: A Massively-Multilingual Speech Corpus - ar5iv - 
+
+arXiv, https://ar5iv.labs.arxiv.org/html/1912.06670 
+
+61. infinitejoy/wav2vec2-large-xls-r-300m-chuvash - Hugging Face, 
+
+https://huggingface.co/infinitejoy/wav2vec2-large-xls-r-300m-chuvash 
+
+62. sammy786/wav2vec2-xlsr-sakha - Hugging Face, 
+
+https://huggingface.co/sammy786/wav2vec2-xlsr-sakha 
+
+63. MLSpeech/Multilingual-Word-Aligner: MWA - GitHub, 
+
+https://github.com/MLSpeech/Multilingual-Word-Aligner 
+
+64. The Whisper model from OpenAI - Foundry Tools | Microsoft Learn, 
+
+https://learn.microsoft.com/en-us/azure/ai-services/speech-service/whisper-overvi
+ew 
+
+

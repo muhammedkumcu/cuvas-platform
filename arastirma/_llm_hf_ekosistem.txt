@@ -1,0 +1,2282 @@
+KÖKEN Araştırma Raporu: Türk Dilleri 
+Doğal Dil İşleme ve Büyük Dil Modeli 
+Ekosistemi Envanteri 
+
+Türk dilleri ailesi, Avrasya coğrafyasına yayılan ve 200 milyondan fazla insan tarafından 
+konuşulan, morfolojik olarak sondan eklemeli (agglutinative), ünlü uyumuna sahip ve 
+Özne-Nesne-Yüklem (SOV) dizilimi ile öne çıkan oldukça zengin bir dil grubudur1. Küresel 
+yapay zeka ve Doğal Dil İşleme (NLP) teknolojilerindeki eşi görülmemiş ilerlemelere rağmen, bu 
+dil ailesi Türkçe ve kısmen Kazakça dışındaki üyeleri için büyük ölçüde "düşük kaynaklı" 
+(low-resource) olarak sınıflandırılmaya devam etmektedir1. Bu durumun temelinde yatan en 
+büyük teknik engel, Batı dilleri için optimize edilmiş standart alt-sözcük (subword) tokenizasyon 
+algoritmalarının, Türk dillerinin zengin morfolojisi karşısında yüksek "token doğurganlığına" 
+(token fertility) yol açmasıdır4. Bir diğer önemli zorluk ise, Kazakistan ve Özbekistan gibi 
+ülkelerdeki güncel Kiril-Latin geçişleri, Uygurcanın Arap alfabesi kullanması ve tarihi 
+metinlerdeki Eski Türk (Orhun) veya Eski Uygur alfabelerinin yarattığı ortografik 
+parçalanmışlıktır6. 
+Ancak 2024–2026 yılları arasında açık kaynak topluluklarının, bölgesel yapay zeka 
+inisiyatiflerinin ve akademik laboratuvarların (ISSAI, KUIS-AI, aLLMA Lab, TurkicNLP, Tahrirchi 
+vb.) katkılarıyla Türk dilleri NLP ekosistemi ciddi bir ivme kazanmış, yerel modeller İngilizce 
+merkezli devleri kendi dillerinde geride bırakmaya başlamıştır5. Bu kapsamlı rapor, KÖKEN 
+platformunun araştırmacılar için geliştireceği "Türk Dilleri NLP/LLM Ekosistemi" modülünü veri 
+ile beslemek amacıyla literatürdeki ve Hugging Face platformundaki güncel dil modellerini, 
+üretken büyük dil modellerini (LLM), veri setlerini, konuşma işleme (ASR/TTS) teknolojilerini ve 
+değerlendirme metriklerini (benchmark) derinlemesine incelemektedir. 
+1. Dil Modelleri (Encoder / LLM) ve Temsil Sistemleri 
+Doğal dil işlemenin temel yapı taşları olan encoder tabanlı modeller ve temel temsil sistemleri, 
+dillerin anlamsal özelliklerinin haritalandırılmasında hayati bir rol oynamaktadır. Çok dilli jenerik 
+modeller bağlamında mBERT, XLM-R, mT5 ve BLOOM gibi mimariler Türk dillerini geniş çaplı 
+bir şekilde kapsasa da, sözcük köklerini ve ekleri parçalama stratejilerindeki yetersizlikleri 
+nedeniyle performansta dil özelindeki modellere göre geride kalmaktadır5. NLLB (No Language 
+Left Behind) ve Cohere'in Aya modeli, makine çevirisi ve komut algılama konularında çok dilli bir 
+tavan oluşturarak Türk dillerinin küresel modellere entegrasyonunu sağlamıştır12. Bununla 
+birlikte, dilin kendi iç dinamiklerini öğrenen "özel" (dedicated) modellerin geliştirilmesi bir 
+zorunluluk haline gelmiştir. 
+Türkçe özelinde, Stefan Schweter tarafından geliştirilen ve endüstri standardı haline gelen 
+BERTurk modeli, 128K kelime dağarcığına sahip cased/uncased varyasyonları ve ELECTRA, 
+ConvBERTurk türevleri ile metin sınıflandırma ve özellik çıkarımı görevlerinde yıllardır temel 
+referans noktasıdır14. Yakın zamanda Boğaziçi Üniversitesi tarafından tanıtılan 1.1 milyar 
+parametreli TURNA, encoder-decoder mimarisiyle Türkçe için hem anlama hem de üretme 
+
+görevlerini tek çatıda toplamayı başarmıştır5. 
+Diğer Türk dilleri de bu "yerelleşme" akımından faydalanmıştır. aLLMA laboratuvarı tarafından 
+Azerbaycan dili için eğitilen BERT-Aze, bugüne kadarki en kapsamlı Azerice dil modelini temsil 
+etmektedir11. Özbekçe için UzBERT, BERTbek ve özellikle TahrirchiBERT, Özbek morfolojisine 
+duyarlı tokenizasyon stratejileriyle gramer düzeltme görevlerinde öne çıkmaktadır5. Kırgızca 
+metin sınıflandırma için özel tokenizer'ı ile KyrgyzBert, Tatarca NLP için çeşitli tokenizasyon 
+mimarilerini barındıran TatarTokenizers ve Uygurca için kısıtlı veri ile dahi özellik çıkarımı 
+yapabilen MicroBERT-Uyghur, düşük kaynaklı dillerdeki açığı hızla kapatmaktadır18. 
+
+Model 
+Adı 
+
+BERTurk 
+Serisi 
+
+Organiza
+syon / 
+Yazar 
+
+dbmdz 
+(S. 
+Schweter
+) 
+
+HF Repo 
+/ URL 
+
+dbmdz/be
+rt-base-tu
+rkish-cas
+ed 
+
+Lisans 
+
+Tarih 
+
+Dil 
+Kapsamı 
+
+MIT 
+
+2020-202
+1 
+
+Türkçe 
+
+TURNA 
+
+boun-tabi
+-LMG 
+
+boun-tabi
+-LMG/TU
+RNA 
+
+Apache-2
+.0 
+
+2024 
+
+Türkçe 
+
+Kısa 
+Değerlen
+dirme 
+
+Türkçe 
+için 
+endüstri 
+standardı 
+haline 
+gelmiş, 
+128K 
+vocab, 
+ELECTR
+A ve 
+ConvBER
+T 
+varyasyo
+nları 
+içeren 
+ana akım 
+encoder14
+. 
+
+1.1B 
+parametr
+eli 
+encoder-
+decoder 
+modeli. 
+Hem 
+metin 
+anlama 
+
+ 
+aLLMA 
+(BERT-A
+ze) 
+
+aLLMA 
+Lab 
+
+allmalab/
+bert-large
+-aze 
+
+Apache-2
+.0 
+
+Tem 2024 
+
+Azerice 
+
+Tahrirchi
+BERT 
+
+Tahrirchi 
+
+tahrirchi/t
+ahrirchi-b
+ert-base 
+
+Apache-2
+.0 
+
+Kas 2023 
+
+Özbekçe 
+
+TatarTok
+enizers 
+
+TatarNLP
+World 
+
+TatarNLP
+World/rub
+
+MIT/Apac
+he 
+
+Mar 2024 
+
+Tatarca 
+
+hem 
+özetleme/
+üretme 
+görevlerin
+de 
+oldukça 
+yetkin5. 
+
+Azerbayc
+an diline 
+özel 
+eğitilmiş 
+en geniş 
+kapsamlı 
+model. 
+Maskeli 
+dil 
+modellem
+esi ve 
+sınıflandır
+mada 
+referans 
+noktası11. 
+
+Özbekçe 
+metinlerd
+e gramer 
+hatası 
+tespiti 
+(GEC) ve 
+doldurma 
+(fill-mask) 
+görevlerin
+de 
+kullanılan 
+0.1B 
+parametr
+eli 
+model17. 
+
+Tatarca 
+için BPE, 
+
+& BERT 
+
+ert-tatar-
+morph 
+
+KyrgyzB
+ert 
+
+Metinov 
+Adilet 
+
+metinova
+dilet/Kyrg
+yzBert 
+
+Apache-2
+.0 
+
+2025 
+
+Kırgızca 
+
+MicroBE
+RT-Uygh
+ur 
+
+Luke 
+Gessler 
+
+lgessler/
+microbert
+-uyghur-
+m 
+
+MIT 
+
+2023 
+
+Uygurca 
+
+WordPiec
+e, 
+Unigram 
+varyasyo
+nları ve 
+RuBERT 
+tabanlı 
+ince 
+ayarlı 
+morfolojik 
+analiz 
+modelleri1
+8. 
+
+Kırgızca 
+metin 
+tahminle
+me ve 
+NLP 
+görevleri 
+için 
+eğitilmiş, 
+özel 
+Kırgız 
+tokenizer'
+ı kullanan 
+small-sca
+le 
+BERT19. 
+
+Çok 
+sınırlı veri 
+ile (40K 
+token) 
+eğitilmiş 
+Uygurca 
+özellik 
+çıkarımı 
+(feature 
+extraction
+) odaklı 
+model20. 
+
+bamaxi 
+
+ruBert-b
+ase-sakh
+a 
+
+bamaxi/ru
+Bert-base
+-sakha 
+
+Apache-2
+.0 
+
+2023 
+
+Saha 
+(Yakutça) 
+
+Çeşitli 
+
+Hamza / 
+SambaLi
+ngo 
+
+Kaynak 
+bulunama
+dı 
+
+Bilinmiyor 
+
+Bilinmiyor 
+
+Türkçe 
+
+Kanarya 
+
+asafaya 
+
+asafaya/k
+anarya-2
+b 
+
+Bilinmiyor 
+
+Bilinmiyor 
+
+Türkçe 
+
+Saha-Ru
+sça 
+çapraz 
+dilli eğitim 
+seti ile 
+RuBERT 
+üzerinden 
+Saha 
+diline 
+adapte 
+edilmiş 
+metin 
+modellem
+e aracı23. 
+
+Literatürd
+e Türkçe 
+özel 
+modeller 
+arasında 
+anılsa da 
+Hugging 
+Face 
+üzerinde 
+güncel, 
+izlenebilir 
+ve 
+yapısal 
+bir kaydı 
+bulunma
+maktadır. 
+
+Awesome
+-turkish-nl
+p 
+listelerind
+e anılan 
+hafif 
+siklet 
+encoder/
+decoder; 
+ancak 
+
+detaylı 
+mimari 
+kartı 
+kısıtlıdır24
+. 
+
+2. Üretken Büyük Dil Modelleri (LLM) & 
+Instruction-Tuned Sistemler 
+2024 ve sonrası, üretken yapay zekanın salt İngilizce yeteneklerinden sıyrılarak çok dilli, kültürel 
+bağlamı içselleştirmiş ve talimatlara yerel dillerde yanıt verebilen (instruction-tuned) LLM'lere 
+doğru evrildiği bir dönem olmuştur. Llama 3, Qwen2 ve Gemma 2 mimarilerinin üzerine 
+uygulanan Supervised Fine-Tuning (SFT) ve Direct Preference Optimization (DPO) teknikleriyle, 
+Türk dillerindeki üretken modellerin kalitesi çarpıcı biçimde artmıştır. 
+Çok dilli jeneratif modeller arasında Sberbank AI tarafından geliştirilen mGPT modeli, özellikle 
+1.3B parametreli varyasyonlarıyla Türk dilleri için tarihi bir eşik olmuştur. Kırgızca, Türkmence, 
+Başkurtça, Çuvaşça ve Tatarca gibi modeller için doğrudan C4 ve Wikipedia verileri kullanılarak 
+eğitilmiş mGPT varyantları, bu dillerdeki az sayıda jeneratif kaynaktan biridir25. Küresel çapta ise 
+Cohere For AI tarafından sunulan Aya Expanse (8B ve 32B), Türkçe ve Özbekçe dahil 23 dilde 
+kültürel uyumlandırma ve tercih eğitiminden (preference training) geçirilerek açık ağırlıklı 
+LLM'lerde çok dilli yetkinlik zirvesini belirlemiştir30. 
+Yerel LLM'ler bağlamında Trendyol, kendi e-ticaret birikimini Qwen2 ve Llama altyapılarıyla 
+birleştirerek geliştirdiği Trendyol-LLM serisi ile Türkçe komut izleme, özetleme ve metin 
+üretiminde başı çekmektedir32. Akademi tarafında Yıldız Teknik Üniversitesi Cosmos araştırma 
+grubu, Turkish-Gemma ve Turkish-Llama serileriyle DPO aşamalarını açık kaynak olarak 
+topluluğa sunmuş, özellikle T1 serisiyle matematiksel ve mantıksal yürütme (reasoning) 
+yeteneği yüksek Türkçe modeller inşa etmiştir34. VNGRS-AI'nin geliştirdiği Kumru-2B ise diğer 
+modellerden farklı olarak ince ayar değil, doğrudan 500GB Türkçe veri ile sıfırdan ön eğitim 
+(pre-train) yapılmış, 50K kelimelik özel Türkçe tokenizer'ı sayesinde çıkarım hızı ve maliyette 
+devrim yaratmıştır4. 
+Kazakça için ISSAI (Nazarbayev Üniversitesi) tarafından geliştirilen KAZ-LLM (8B ve 70B), 150 
+milyar token ile ön eğitim sürecinden geçerek Kazakistan'ın kültürel, tarihi ve dilsel dokusunu 
+Llama 3.1 mimarisi üzerinde kusursuz bir şekilde simüle etmektedir9. Özbekçe tarafında 
+Tahrirchi ekibinin sunduğu Alloma serisi, modele Özbekçe alt-sözcükler ekleyerek (vocabulary 
+adaptation) %50 daha hızlı çıkarım kapasitesi kazandırmış ve donanım kısıtı olan sistemler için 
+çığır açmıştır40. Karakalpakça gibi daha düşük kaynaklı bir dilde dahi gpt2_karakalpak modeli, 
+paralel diyalog verileriyle eğitilerek yerel alfabe karakterlerini destekleyecek şekilde 
+uyarlanmıştır42. 
+
+Model 
+
+Organiza
+syon / 
+
+HF Repo 
+
+Lisans 
+
+Tarih 
+
+Dil 
+
+Kısa 
+Değerlen
+
+ 
+Adı 
+
+Yazar 
+
+/ URL 
+
+Kapsamı 
+
+dirme 
+
+Aya 
+Expanse 
+8B/32B 
+
+Cohere 
+For AI 
+
+CohereLa
+bs/aya-ex
+panse-32
+b 
+
+CC-BY-N
+C 
+
+Eki 2024 
+
+Çok dilli 
+(Türkçe 
+dahil 23 
+dil) 
+
+Trendyol 
+
+Trendyol
+-LLM 
+Serisi 
+
+Trendyol/
+Trendyol-
+LLM-7B-c
+hat-v4.1.
+0 
+
+Özel 
+(Qwen/Ll
+ama) 
+
+Nis 2025 
+
+Türkçe, 
+İngilizce 
+
+Cosmos 
+(Gemma/
+Llama) 
+
+YTU CE 
+Cosmos 
+
+ytu-ce-co
+smos/Tur
+kish-Gem
+ma-9b-T1 
+
+Gemma / 
+Llama 
+
+May 2024 
+
+Türkçe 
+
+Küresel 
+komut 
+izleme 
+kapasites
+i yüksek, 
+RAG 
+görevlerin
+de ve 
+kültürel 
+bağlamda 
+üstün, 
+harmanla
+nmış 
+LLM30. 
+
+Türkçe 
+e-ticaret, 
+RAG, 
+yapısal 
+veri 
+çıkarma 
+görevlerin
+de 
+yüksek 
+başarı 
+gösteren 
+kurumsal 
+LLM ince 
+ayarı33. 
+
+Gemma 2 
+ve Llama 
+3 
+üzerinde 
+DPO/SFT 
+ile Türkçe 
+için 
+eğitilmiş, 
+reasoning 
+(düşünm
+
+Kumru-2
+B & 
+VBART 
+
+VNGRS-
+AI 
+
+vngrs-ai/
+Kumru-2
+B 
+
+Apache-2
+.0 
+
+Eyl 2025 
+
+Türkçe 
+
+ISSAI 
+
+ISSAI 
+KAZ-LL
+M 
+8B/70B 
+
+issai/LLa
+ma-3.1-K
+azLLM-1.
+0-70B 
+
+CC-BY-N
+C 
+
+Ara 2024 
+
+Kazakça, 
+Rus, İng, 
+Tr 
+
+Alloma 
+(1B, 3B, 
+8B) 
+
+UzLM 
+Lab 
+
+uzlm/allo
+ma-8B-In
+struct 
+
+Apache-2
+.0 
+
+Eyl 2025 
+
+Özbekçe 
+
+e) 
+yeteneği 
+yüksek 
+seri35. 
+
+Mistral 
+mimarisin
+e sahip, 
+sıfırdan 
+ön eğitim 
+(pre-train) 
+yapılmış, 
+son 
+derece 
+verimli 
+Türkçe 
+tokenizer'
+lı model4. 
+
+Llama 3.1 
+üzerine 
+150 
+milyar 
+token ile 
+eğitilmiş, 
+Kazak 
+kültürünü 
+ve dilini 
+en iyi 
+anlayan 
+açık-ağırlı
+klı LLM9. 
+
+Özbekçe 
+tokenizer 
+optimizas
+yonu 
+sayesind
+e bağlam 
+penceresi
+ni verimli 
+kullanan, 
+
+gpt2_kar
+akalpak 
+
+nickoo00
+4 
+
+nickoo00
+4/gpt2_ka
+rakalpak 
+
+MIT 
+
+2024 
+
+Karakalp
+akça 
+
+mGPT-1.
+3B 
+Varyantl
+arı 
+
+AI-Foreve
+r 
+
+ai-forever
+/mGPT-1.
+3B-chuva
+sh 
+
+MIT 
+
+2023-202
+4 
+
+Çuvaşça, 
+Tatarca, 
+Kırgızca, 
+Türkmen
+ce vb. 
+
+tm-huku
+k 
+
+maximilia
+nshwarz..
+. 
+
+maximilia
+nshwarz
+mullers/t
+m-hukuk 
+
+MIT 
+
+May 2025 
+
+Türkmen
+ce 
+
+yerel 
+komut 
+izleme 
+modeli40. 
+
+Karakalp
+akçanın 
+özel 
+harflerini 
+(Á, Ń vb.) 
+tanıyan, 
+300K 
+paralel 
+veriyle 
+GPT-2 
+mimarisi 
+üzerinde 
+ince 
+ayarlanmı
+ş 
+model42. 
+
+mGPT-XL 
+modelinin 
+düşük 
+kaynaklı 
+dillere 
+Wikipedia
+/C4 
+verileriyle 
+fine-tune 
+edilmiş 
+jeneratif 
+türevleri25
+. 
+
+Llama 3.1 
+8B 
+Instruct 
+modelinin 
+Türkmen
+ce hukuki 
+
+metinler 
+üzerinde 
+Unsloth 
+kullanılar
+ak 
+eğitilmiş 
+uzman 
+versiyonu
+44. 
+
+3. Veri Setleri: Korpuslar, Paralel Çeviriler ve Tarihsel 
+Metinler 
+Büyük dil modellerinin anlamsal kalitesi ve akıl yürütme becerisi, doğrudan ön eğitim verisinin 
+(pre-training corpora) boyutu, çeşitliliği ve temizliğine bağlıdır. Özellikle OSCAR, CC-100 ve 
+mC4 gibi çok dilli veri tabanları Türk dillerine ait gigabaytlarca web kazıma metni sağlasa da, 
+kalite filtrelerinin yetersizliği Karakalpakça veya Çuvaşça gibi dillerde parazitli (noisy) verilere yol 
+açabilmektedir45. Bu boşluğu doldurmak için manuel derlenmiş, yüksek kaliteli yerel veri setleri 
+büyük bir önem taşımaktadır. Çeviri modellerini kıyaslamak için tasarlanan FLORES+ (OLDI) 
+benchmark'ı, Karakalpakça dâhil 200'den fazla dilde paralel cümle çevirileri sunarak çok dilli 
+NLP'de standart bir ölçüt olmuştur46. 
+Türkçe özelinde, VNGRS tarafından 50 milyon üzerinde temizlenmiş satırla sunulan 
+vngrs-web-corpus (yaklaşık 85 GB), ön eğitim verisi için kritik bir kaynak olarak öne 
+çıkmaktadır47. Buna ek olarak Turkish-LLM-v10-Training veri seti, bilim, teknoloji, tarih ve 
+matematik gibi geniş bir konu yelpazesinde yüksek kaliteli talimat verileri sunarak modellerin 
+yönlendirme (instruction) başarılarını artırmaktadır48. Azerbaycan LLM ekosistemi için aLLMA 
+laboratuvarı tarafından derlenen aze-books (3,602 kitap, 180 milyon kelime), azwiki 
+(temizlenmiş Wikipedia) ve eqanun (hukuki metinler) veri setleri, Azerice için en büyük açık 
+kaynaklı korpus bütününü oluşturur49. 
+Düşük kaynaklı diller alanında A. Antonov'un katkıları, Çuvaşça gibi çekirdek dilleri NLP 
+dünyasına kazandırmıştır. Çuvaşça için manuel hizalanmış 1.4 milyon cümlelik Rusça-Çuvaşça 
+paralel korpus (chuvash_russian_parallel) ve 3.9 milyon cümlelik tek dilli korpus araştırmacılara 
+açılmıştır52. Saha dili (Yakutça) için Yapay Zeka Laboratuvarı (ailabykt) tarafından sunulan 
+sakha-russian-parallel ve sakha-corpus-mono verileri, Lingtrain Aligner ile optik karakter tarama 
+hataları giderilerek sunulmaktadır54. Karakalpakça için Tahrirchi organizasyonu, OLDI projesi 
+kapsamında Karakalpakça, Özbekçe, İngilizce ve Rusça dillerinde 100 binlik paralel çeviri 
+sağlayan Dilmash korpusunu oluşturmuştur56. Kırım Tatarcası tarafında ise 
+CRH-Parallel-Corpora, hem Kiril hem Latin alfabeleri kullanılarak İngilizce, Rusça ve Ukraynaca 
+metinlerle eşleştirilmiş geniş bir kaynak sunar58. 
+Tarihsel metinler bağlamında, Eski Uygurca (Old Uyghur) ve Eski Türk (Orhun) yazıtlarının NLP 
+süreçlerine dâhil edilmesi ciddi ortografik zorluklar barındırmaktadır. Yapılan son optik karakter 
+tanıma (OCR) testlerinde DeepSeek-OCR2 gibi modellerin çapraz alfabe halüsinasyonları 
+
+(cross-script hallucination) yaşadığı, Eski Uygurca metinlerin görsel benzerlikten ötürü Arapça 
+olarak sınıflandırıldığı tespit edilmiştir; bu analizi kolaylaştırmak için uv-scripts/ocr veri setleri 
+yapılandırılmıştır7. Eş zamanlı olarak, TurkicNLP kütüphanesi Eski Türk Runik alfabesi 
+(Orkhon-Yenisei) için transliterasyon ve işleme desteği sunarak antik Türk metinlerinin dijital 
+analizi için eşsiz bir zemin sağlamıştır6. 
+
+Veri Seti 
+Adı 
+
+Organiza
+syon / 
+Yazar 
+
+HF Repo 
+/ URL 
+
+Lisans 
+
+Tarih 
+
+Dil 
+Kapsamı 
+
+Kısa 
+Değerlen
+dirme 
+
+vngrs-we
+b-corpus 
+
+VNGRS-
+AI 
+
+vngrs-ai/v
+ngrs-web
+-corpus 
+
+CC-BY-N
+C-SA 
+
+2024 
+
+Türkçe 
+
+Dilmash 
+
+Tahrirchi 
+
+tahrirchi/d
+ilmash 
+
+MIT 
+
+Eyl 2024 
+
+Karakalp
+akça, 
+Özbekçe, 
+İng, Rus 
+
+50 
+milyonda
+n fazla 
+temizlen
+miş 
+satırla, 
+85GB'lık 
+yüksek 
+kaliteli 
+LLM ön 
+eğitim 
+veri 
+setidir47. 
+
+Karakalp
+akça için 
+100K 
+paralel 
+çift 
+içeren, 
+OLDI 
+paylaşıml
+ı görevi 
+kapsamın
+da 
+oluşturul
+muş çok 
+dilli çeviri 
+korpusu56
+. 
+
+ 
+Bashqort
+-Alpaca 
+
+metuKKh
+ud 
+
+metuKKh
+ud/bashq
+ort-alpac
+a 
+
+MIT 
+
+2024 
+
+Başkurtç
+a 
+
+CRH-Par
+allel-Cor
+pora 
+
+QIRIM 
+(QIRI'M 
+Young) 
+
+QIRIM/cr
+h-parallel
+-corpora 
+
+CC-BY-4.
+0 
+
+2023-202
+4 
+
+Kırım 
+Tatarcası 
+
+KazCultu
+re 
+
+ISSAI 
+
+issai/Kaz
+Culture 
+
+Özel 
+
+2024 
+
+Kazakça 
+
+LLM'leri 
+Başkurtç
+a komut 
+izlemeye 
+adapte 
+etmek 
+için 
+Alpaca 
+formatınd
+a 
+hazırlanm
+ış ince 
+ayar 
+(instructio
+n-tuning) 
+veri 
+seti62. 
+
+Kırım 
+Tatarcası 
+ile 
+İngilizce, 
+Rusça, 
+Ukraynac
+a paralel 
+çevirileri. 
+Hem Kiril 
+hem Latin 
+alfabeleri
+ni 
+kapsar58. 
+
+16,137 
+pasaj-sor
+u-cevap 
+(PQA) 
+üçlüsünd
+en 
+oluşan, 
+Kazak 
+kültürüne 
+ve 
+
+Aze-Boo
+ks & 
+AzWiki 
+
+aLLMA 
+Lab 
+
+allmalab/
+aze-book
+s 
+
+Apache-2
+.0 
+
+2024 
+
+Azerice 
+
+Chuvash 
+Parallel 
+
+Alex 
+Antonov 
+
+alexanton
+ov/chuva
+sh_parall
+el 
+
+CC-BY-S
+A-4.0 
+
+2024 
+
+Çuvaşça, 
+Rusça, 
+İngilizce 
+
+tarihine 
+odaklı 
+kültürel 
+değerlen
+dirme 
+seti63. 
+
+Azerbayc
+an dili 
+LLM 
+eğitimi 
+için 180 
+milyon 
+kelimelik 
+kitap 
+arşivi ve 
+temizlen
+miş 
+Wikipedia 
+veri 
+kümesi49. 
+
+Çuvaşça 
+için 1.4 
+milyon 
+cümlelik 
+Rusça ve 
+200 bin 
+cümlelik 
+İngilizce 
+paralel 
+çeviri 
+korpusu52
+. 
+
+4. Konuşma Tanıma (ASR / STT) ve Sentezleme (TTS) 
+Yazılı Doğal Dil İşleme'nin ötesinde, konuşma tanıma (STT) ve sentezleme (TTS) teknolojileri 
+Türk dilleri için kritik bir dijital kapsayıcılık eşiğidir. OpenAI'ın Whisper modelleri ve Meta'nın 
+MMS (Massively Multilingual Speech) projeleri, çok dilli konuşma işleme teknolojilerinde taban 
+oluşturmaktadır. Meta MMS, Kırım Tatarcası gibi spesifik dillerde önceden eğitilmiş konuşma 
+sentezi yetenekleri sunarak büyük bir bariyeri aşmıştır64. Buna ek olarak speech-uk araştırma 
+grubu, Kırım Tatarcası için özel "Sevil", "Arslan" ve "Abibullah" isimli yerel TTS modellerini 
+
+eğitmiş; ancak açık kaynak veri tabanlarındaki hatalı ses sıkıştırma algoritmalarından (FFmpeg 
+sorunları) ötürü modelin ince ayarlarında veri kapsamının %26'lara kadar düştüğünü 
+raporlayarak düşük kaynaklı ASR projelerindeki veri doğrulaması sorunlarına dikkat çekmiştir65. 
+Orta Asya merkezli dillerde ISSAI'nin çalışmaları başı çekmektedir. KazakhTTS ve profesyonel 
+konuşmacılardan derlenen 70 saatlik TatarTTS veri setleri, bu dillerdeki konuşma sentezini 
+endüstriyel kaliteye taşımıştır67. Karakalpakça için Niyetbay Uteuliev ve ekibi tarafından 2026'da 
+yayımlanan "Karakalpak Speech Corpus", 50 saatlik kontrollü ses kaydı ve transkripsiyon 
+içererek Wav2Vec 2.0 modellerinin eğitimi için bir temel taşı olmuştur; modelin Kiril/Latin 
+karmaşasına ve "á, ó, ń" gibi spesifik Karakalpakça harflere sorunsuz uyum sağladığı 
+kanıtlanmıştır69. Özbekçe için UzLM Lab tarafından Qwen3-TTS mimarisiyle eğitilmiş 1.7B 
+parametreli Sayro-tts, lehçe farklılıklarını bile algılayabilen son derece doğal bir sentezleme 
+aracıdır71. 
+Türkçe ekosisteminde ise jenerik konuşma tanıma modellerinden ziyade, alan bazlı spesifik 
+uzmanlaşmalar başlamıştır. TurkmedSTT projesi, Whisper-large-v3 modelini medikal terimler, 
+hastalık isimleri ve doktor-hasta diyalogları üzerinde özel olarak eğiterek, tıbbi dokümantasyon 
+süreçlerini otomatize etmeyi hedefleyen yüksek doğruluklu bir Tıbbi Türkçe ASR çözümü 
+sağlamaktadır72. Daha niş dillerde ise Mozilla Common Voice veri setleri kullanılarak eğitilen 
+wav2vec2-large-xlsr-53-sakha (Saha dili), whisper-small-turkmen (Türkmence) ve 
+whisper-medium-chv-pre (Çuvaşça) modelleri, konuşmadan metne dönüşüm projelerinde ilk 
+kıvılcımları ateşlemiştir73. Uygurca için THUGY20 veri seti üzerinden fine-tune edilen 
+whisper-small-uyghur-thugy20 modeli, karakter hata oranını (CER) ciddi oranda düşürerek 
+literatürdeki eksikliği gidermiştir76. 
+5. Benchmark, Leaderboard ve Değerlendirme 
+Metrikleri 
+Dil modellerinin yetkinliklerinin nesnel biçimde kıyaslanabilmesi için bölgesel ve kültürel 
+bağlamlara uyumlu değerlendirme metrikleri (benchmarks) oluşturulması, ekosistemin en hayati 
+adımlarından biridir. İngilizce merkezli metriklerin (örneğin MMLU, TruthfulQA) doğrudan makine 
+çevirisiyle diğer dillere aktarılması, çoğu zaman kültürel nüansların kaybolmasına ve "Batı 
+kültürel önyargılarının" testlere yansımasına sebep olmaktadır10. Bu nedenle Türk dilleri için 
+"native" (yerel) metrik geliştirme çabaları hız kazanmıştır. 
+Türkçe özelinde, KUIS-AI (Koç Üniversitesi) tarafından EACL 2026 için sunulan Cetvel 
+benchmark'ı, gramer düzeltme, çeviri, doğal dil çıkarımı ve özellikle Türk tarihi, coğrafyası ile 
+İslami kültüre dayalı sorular barındıran 23 farklı görevle Türkçe LLM'ler için en gelişmiş test 
+paketidir10. Boğaziçi Üniversitesi'nin Mukayese projesi, Türkçe NLP'deki taban (baseline) model 
+ve veri eksikliğini doldurmak amacıyla kurgulanan ilk yapısal test setlerindendir79. Aynı şekilde 
+TurkBench, 8,151 veri örneği ile Türk kültürünü, tarihini, gramerini ve komut izleme yeteneklerini 
+sınayarak kapsamlı bir liderlik tablosu sunar81. 
+Çok dilli değerlendirmelerde çığır açan TUMLU (Turkic Unified Multilingual Language 
+Understanding) benchmark'ı, doğrudan İngilizceden çeviri yapmak yerine 9 Türk dilinde 
+(Azerice, Kırım Tatarcası, Karakalpakça, Kazakça, Kırgızca, Tatarca, Türkçe, Uygurca, 
+
+Özbekçe) uzman eğitimciler tarafından hazırlanmış ortaokul/lise seviyesinde sorular 
+sunmaktadır82. Tatarca morfolojik analiz modellerini sınamak için kurulan Tatar Morphology 
+Benchmark, mBERT, XLM-R, DistilBERT gibi modellerin doğruluk oranlarını karşılaştırmalı bir 
+matrisle sunmaktadır85. Kırgızca için Kırgız müfredat uzmanları tarafından tasarlanan 7,977 
+soruluk kyrgyzMMLU, matematik ve tarih dahil dokuz farklı dersi içererek modellerin Kırgızca 
+bağlamını derinden test eder86. 
+
+Benchmark / 
+Leaderboard 
+
+Organizasyon 
+/ Yazar 
+
+URL / HF 
+Repo 
+
+Odak Diller 
+
+Cetvel 
+
+KUIS-AI (Koç 
+Üni.) 
+
+KUIS-AI/Cetvel 
+
+Türkçe 
+
+Mukayese 
+
+boun-tabilab 
+
+mukayese/ 
+
+Türkçe 
+
+Özellik ve 
+Kısa 
+Değerlendirm
+e 
+
+Türkçe LLM'ler 
+için 23 farklı 
+görevi (gramer 
+düzeltme, 
+kültürel QA vb.) 
+kapsayan en 
+detaylı 
+değerlendirme 
+paketidir. Çeviri 
+kokan İngilizce 
+veri setlerine 
+karşı kültürel 
+bir filtredir10. 
+
+Türkçe NLP 
+araştırmalarınd
+aki baseline 
+model 
+eksikliğini 
+doldurmak için 
+tasarlanmış; 
+okuma anlama, 
+NLI, özetleme 
+görevlerini 
+içeren ilk 
+yapısal 
+benchmark 
+setlerinden 
+biridir79. 
+
+ 
+TUMLU 
+
+Jafar Isbarov 
+vd. 
+
+jafarisbarov/TU
+MLU-mini 
+
+9 Türk Dili 
+
+TurkBench 
+
+Toraman vd. 
+
+TurkBench/Tur
+kBench 
+
+Türkçe 
+
+Tatar 
+Morphology 
+
+TatarNLPWorld 
+
+TatarNLPWorld
+/tatar-morpholo
+gy-benchmark 
+
+Tatarca 
+
+İngilizceden 
+çeviri yerine 
+yerel 
+uzmanlarca 
+hazırlanan; 
+Kırım 
+Tatarcasından 
+Uygurcaya 
+kadar geniş 
+yelpazede 
+akademik ve 
+mantıksal 
+kavrama 
+soruları 
+barındıran 
+devasa settir82. 
+
+8,151 veri 
+örneği ve 21 alt 
+görev ile Türk 
+kültürünü, 
+tarihini, 
+gramerini ve 
+komut izleme 
+yeteneklerini 
+sınayan liderlik 
+tablosu 
+platformudur81. 
+
+Tatarca 
+metinlerde 
+mBERT, 
+XLM-R, 
+DistilBERT gibi 
+modellerin 
+morfolojik 
+analiz ve POS 
+etiketleme 
+başarılarını 
+kıyaslar, %98'e 
+varan 
+doğrulukları 
+
+kyrgyzMMLU 
+
+TTimur 
+
+TTimur/kyrgyz
+MMLU 
+
+Kırgızca 
+
+raporlar85. 
+
+Kırgız eğitim 
+müfredatına 
+uygun olarak 
+Kırgız dili, 
+coğrafyası, 
+edebiyatı 
+üzerine yerel 
+uzmanlarca 
+hazırlanan, 
+kyrgyzLLM_be
+nch projesinin 
+temel 
+ayağıdır86. 
+
+6. Anahtar Organizasyonlar ve Topluluklar 
+Açık kaynak NLP vizyonunu Türk dilleri lehine geliştiren ve ekosistemi Hugging Face üzerinde 
+sırtlayan anahtar araştırma laboratuvarları, organizasyonlar ve ağlar şunlardır: 
+
+1.  TurkicNLP (Sherzod Hakimov vd.): 24 Türk dilini Latin, Kiril, Arap ve Eski Türk Runik 
+
+alfabeleri üzerinden birleştiren muazzam bir Python mimarisidir. Stanza sinir ağları ve 
+Apertium FST (Sonlu Durum Çeviricileri) entegrasyonuyla morfolojik analiz ve 
+transliterasyonu tek çatı altında (API) toplamasıyla devrimseldir. GPL (copyleft) lisans 
+buluşmasını engellemek için zekice bir izolasyon mimarisi kullanarak ticari araştırmalara 
+kapı aralar5. 
+
+2.  YTU CE Cosmos (Yıldız Teknik Üniversitesi): Türkiye'de açık kaynak LLM'lerde 
+
+(Cosmos Llama/Gemma serisi) tartışmasız öncüdür. Yalnızca model ağırlıklarını değil, 
+DPO, SFT aşamalarını ve Türkçe matematiksel/mantıksal akıl yürütme (reasoning) 
+yeteneklerini geliştiren T1 serilerini tüm kodlarıyla paylaşır35. 
+
+3.  ISSAI (Institute of Smart Systems and AI - Nazarbayev Uni): Kazakistan'ın yapay zeka 
+
+alanındaki lokomotifidir. Yalnızca KazLLM (8B/70B) değil, KazQAD, KazakhTTS, 
+TatarTTS gibi kaynaklarla Orta Asya'daki veri fakirliğini akademik disiplinle çözmektedir9. 
+4.  VNGRS-AI: Türkçe özel tokenizer mimarileri ile eğitilen "Kumru" ve "VBART" modellerinin 
+mimarıdır. İngilizce tokenizasyonun getirdiği "yüksek maliyet/düşük hız" sorununu sıfırdan 
+pre-training yaparak çözmüştür4. 
+
+5.  aLLMA Lab: Azerbaycan dilinde açık kaynaklı dil modellerinin (BERT-Aze, GPT2-Aze) ve 
+
+eqanun (hukuki korpus) gibi devasa veri setlerinin oluşturulmasına liderlik eder11. 
+
+6.  Tahrirchi / UzLM Lab: Özbekçe GEC (Gramer Düzeltme) araçlarından başlayıp "Alloma" 
+
+LLM serisi ve çok dilli çeviri (Dilmash) korpuslarına ulaşan geniş bir yelpazede 
+Özbek/Karakalpak NLP ürünleri verir17. 
+
+7.  Akademik Gruplar & Topluluk İndeksleri: Boğaziçi Üniversitesi laboratuvarları 
+
+(boun-tabilab) Mukayese benchmark'ı ve TURNA ile akademik liderliğini sürdürürken, 
+
+topluluk temelli awesome-turkish-language-models (kesimeg) reposu, güncel LLM'lerin ve 
+liderlik tablolarının tek merkezden takip edildiği vazgeçilmez bir "sarı sayfalar" indeksidir5. 
+TurkLang / UBMK gibi geleneksel konferans toplulukları ise bu dijital bulguların akademik 
+yayılımına hizmet eder. 
+
+7. Güncel Çalışmalar ve Sektörel Yönelimler (Son 1–2 
+Yıl) 
+
+●  Açık Kaynaklı Çok Dilli ve Eğitilmiş Tokenizer'lar (2025-2026): Büyük dil modellerinin 
+
+İngilizce verilerle beslenip makine çevirisi altyapılarıyla çalıştırılması devri kapanmaktadır. 
+Kumru-2B ve Alloma-8B gibi vizyoner projeler, Türkçe ve Özbekçe için dilin morfolojisine 
+uygun yepyeni BPE tokenizer'lar ile eğitilmiş, bu sayede işlemci gecikme süresini (latency) 
+dramatik şekilde düşürerek bağlam penceresini daha verimli hale getirmiştir4. 
+
+●  Bölgesel Ana Akım LLM Üretimi (2024-2025): ISSAI, Kazakistan ve bölge dilleri için 150 
+
+milyar yerel token ile ön eğitim yaparak KAZ-LLM'i Llama 3.1 mimarisi üzerinden 
+piyasaya sürmüş ve Orta Asya'da kendi egemen AI ekosistemini kurmuştur9. Benzer bir 
+akademik endüstri atılımı Azerbaycan için aLLMA projesiyle başarılı şekilde entegre 
+edilmiştir11. 
+
+●  Optik Karakter Tanıma (OCR) ve LoRA Adaptasyonları (2026): Düşük kaynaklı dillerde 
+basılı eserlerin dijitalleştirilmesi amacıyla DeepSeek-OCR2 gibi dev modellere LoRA 
+(Low-Rank Adaptation) uygulanmaktadır. Karakalpakça için Nickoo004'ün geliştirdiği özel 
+Karakalpak LoRA modeli, standart OCR modellerinin Kiril/Latin hatalarını gidererek 
+Karakalpakça'daki karakter hata oranını (CER) %0.42'den %0.05'e düşürmüş (bağıl %86 
+iyileşme) ve eşsiz bir başarı yakalamıştır93. 
+
+●  Kültürel Derinlik ve "Native" Benchmark Standartları: Çevrilmiş benchmark'ların (ör. 
+MMLU) dil modellerine Batı kültürünü dayattığı eleştirisi, Cetvel (Türkçe) ve TUMLU (9 
+Türk dili) gibi projelerle aşılmıştır. Testlere Türkiye ve Orta Asya coğrafyasının tarihi, 
+deyimleri, İslami geçmişi ve hukuki dokusu entegre edilerek yapay zekanın "kültürel 
+hizalanması" (cultural alignment) zorunlu hale getirilmiştir10. 
+
+8. Platforma Yansıtma (KÖKEN Ürün Tasarım Önerisi) 
+KÖKEN platformu, araştırmacılara devasa veriler arasında kaybolmadan "bu dilde ne var, ne 
+yok" sorusunu tek bakışta cevaplayabilecek bir arayüz sunmalıdır. Dinamik bir Dil × Yetenek 
+Matrisi (Ecosystem Matrix), projenin vitrini olmalıdır. 
+8.1. Türk Dilleri NLP/LLM Ekosistemi Boşluk ve Kapasite Matrisi (Gap 
+Map) 
+
+Aşağıdaki matris, analiz edilen 24 Türk dili için ekosistemdeki mevcut en yüksek kapasiteli açık 
+kaynak/Hugging Face araçlarını haritalandırmaktadır. (Tablodaki boşluklar [Kaynak 
+bulunamadı], o dilin düşük kaynaklı dezavantajını, veri çölünü ve akademik araştırma 
+yatırımlarının yönlendirilmesi gereken birincil alanları işaret etmektedir.) 
+
+Dil 
+
+Türkçe 
+
+Kazakça 
+
+LLM 
+(Generativ
+e) 
+
+Var 
+(Cosmos, 
+Kumru, 
+Trendyol) 
+
+Var (ISSAI 
+KazLLM) 
+
+Özbekçe 
+
+Var (Alloma, 
+Lutfiy) 
+
+Var 
+(GPT2-Aze, 
+mGPT) 
+
+Azerice 
+
+Tatarca 
+
+Encoder 
+(BERT vb.) 
+
+Veri Seti 
+(Korpus) 
+
+ASR / TTS 
+(Konuşma) 
+
+Değerlendi
+rme 
+(Benchmar
+k) 
+
+Var 
+(BERTurk, 
+TURNA) 
+
+Var 
+(vngrs-web, 
+OSCAR) 
+
+Var 
+(TurkmedS
+TT, TTS) 
+
+Var (Cetvel, 
+Mukayese, 
+MMLU) 
+
+Var 
+(mBERT, 
+XLM-R) 
+
+Var 
+(KazCulture
+) 
+
+Var (ISSAI 
+KazakhTTS
+) 
+
+Var 
+(TUMLU) 
+
+Var 
+(TahrirchiBE
+RT, 
+UzBERT) 
+
+Var (aLLMA 
+BERT-Aze) 
+
+Var 
+(Dilmash, 
+OSCAR) 
+
+Var 
+(Sayro-tts) 
+
+Var 
+(TUMLU) 
+
+Var 
+(Aze-books, 
+Azwiki) 
+
+Var 
+(NLLB/MMS 
+altyapısı) 
+
+Var 
+(TUMLU) 
+
+Var (mGPT, 
+Tweety-Tata
+r) 
+
+Var 
+(TatarNLP 
+BERTleri) 
+
+Var 
+(OSCAR, 
+FLORES+) 
+
+Var (ISSAI 
+TatarTTS) 
+
+Kırgızca 
+
+Var 
+(mGPT-Kirg
+iz) 
+
+Var 
+(KyrgyzBert
+) 
+
+Var 
+(kyrgyzRC, 
+FLORES+) 
+
+Yok (Genel 
+MMS 
+desteği) 
+
+Başkurtça 
+
+Var 
+(mGPT-Bas
+hkir) 
+
+Var 
+(Multilingual 
+Glot500) 
+
+Var 
+(bashqort-al
+paca) 
+
+Yok (Genel 
+MMS 
+desteği) 
+
+Çuvaşça 
+
+Var 
+(mGPT-Chu
+vash 
+
+Kısmen 
+(Labse-chu
+
+Var 
+(chuvash_r
+
+Var 
+(chuvash_v
+oice, 
+
+Kaynak 
+bulunamadı 
+
+Var 
+(TUMLU, 
+Tatar 
+Morph) 
+
+Var 
+(TUMLU, 
+kyrgyzMML
+U) 
+
+Kısmen 
+(GlotLID) 
+
+GGUF) 
+
+vash) 
+
+ussian_par.)  whisper) 
+
+Karakalpak
+ça 
+
+Var 
+(gpt2_karak
+alpak) 
+
+Kaynak 
+bulunamadı 
+
+Var 
+(Dilmash, 
+FLORES+) 
+
+Var 
+(TUMLU) 
+
+Var 
+(Karakalpak 
+Speech 
+Corp) 
+
+Uygurca 
+
+Var (Aya 
+Expanse) 
+
+Var 
+(MicroBERT
+-Uyghur) 
+
+Var 
+(FLORES+) 
+
+Var 
+(Uyghur-VV
+-ASR, TTS) 
+
+Var 
+(TUMLU) 
+
+Kırım 
+Tatarcası 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Var 
+(crh-parallel
+-corpora) 
+
+Türkmence 
+
+Var 
+(tm-hukuk, 
+mGPT) 
+
+Kaynak 
+bulunamadı 
+
+Var 
+(OSCAR, 
+FLORES+) 
+
+Var 
+(TUMLU) 
+
+Kaynak 
+bulunamadı 
+
+Var 
+(speech-uk 
+TTS, 
+mms-tts) 
+
+Var 
+(TurkmenS
+peech, 
+whisper) 
+
+Saha 
+(Yakut) 
+
+Kısmen 
+(mGPT, 
+Translatege
+mma) 
+
+Var 
+(ruBert-bas
+e-sakha) 
+
+Var 
+(sakha-russi
+an-parallel) 
+
+Var 
+(wav2vec2-
+xlsr-sakha) 
+
+Kaynak 
+bulunamadı 
+
+Gagavuzca 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kumukça 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Nogayca 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Karaçay-B
+alkar 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Altayca 
+
+Kaynak 
+
+Kaynak 
+
+Kaynak 
+
+Kaynak 
+
+Kaynak 
+
+bulunamadı 
+
+bulunamadı 
+
+bulunamadı 
+
+bulunamadı 
+
+bulunamadı 
+
+Hakasça 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Tuvaca 
+
+Şorca 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Halaçça 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Salarca 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Dolganca 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+Kaynak 
+bulunamadı 
+
+(Not: Matriste "Kaynak bulunamadı" olarak işaretlenen alt diller, mBERT veya NLLB-200 gibi 
+devasa çok dilli makine çevirisi platformlarında yer bulabilse de, dilin kendi iç mimarisine uygun 
+bağımsız ve yapısal Hugging Face depolarına sahip değildir5.) 
+8.2. KÖKEN'de Uygulama ve "Hemen Eklenebilir" Kısa Liste 
+
+Matristeki veriler doğrudan tıklanabilir bilgi kartları (card/component) halinde sunulmalıdır. Her 
+kart; Model Adı, HF API Entegrasyon Linki, Ticari Kullanım Lisansı (Örn: CC-BY-NC vs 
+Apache-2.0) ve Görev Etiketi içermelidir. 
+Sisteme Anında Entegre Edilebilecek Temel Modüller: 
+
+1.  TurkicNLP Pipeline (Python): 24 dili tek bir arayüzde toplayıp çapraz alfabe çözümleri 
+
+sunan bu kütüphane, ana iskelet olarak yerleştirilmelidir. 
+
+2.  Cetvel & TUMLU Benchmarks: Araştırmacıların geliştirdiği yeni modelleri anında yerel 
+
+metriklerle test edebileceği referans linkler. 
+
+3.  Aya Expanse & NLLB-200: Tek bir dilde yerel model eksikliği yaşandığında sistemi 
+
+destekleyecek "çok dilli yedek (fallback)" çözümler. 
+
+4.  Karakalpak Speech Corpus & DeepSeek Karakalpak OCR: Düşük kaynaklı dillerdeki 
+
+ASR ve OCR inovasyonları için ders niteliğindeki repolar. 
+
+8.3. Otomatik Güncel Tutma Stratejisi (HuggingFace API) 
+
+Yapay zeka ekosisteminin baş döndürücü hızı göz önüne alındığında, manuel veri girişi aylar 
+içinde platformu işlevsiz kılacaktır. KÖKEN platformunun arka yüzünde Hugging Face 
+huggingface_hub Python kütüphanesi kullanılarak, HfApi üzerinden periyodik bir CRON işlemi 
+(cronjob) kurulmalıdır94. 
+Sistem mimarisi, hedef organizasyonları (author="ytu-ce-cosmos", author="issai" vb.) ve dil 
+etiketlerini (tags=["language:tr", "language:az"]) filtreleyerek list_models ve list_datasets 
+sorgularıyla Hub'daki en güncel ağırlıkları, yayınlanma tarihlerini (lastModified) ve indirme 
+sayılarını otomatik çekecek şekilde programlanmalıdır95. Bu yaklaşım, platformun "Haberler / 
+Yeni Çıkanlar" akışını insan müdahalesine gerek kalmadan güncel tutmasını ve araştırmacıların 
+doğrudan en popüler (sort="downloads") modellere yönlendirilmesini sağlayacaktır97. 
+Sonuç 
+Türk dilleri NLP/LLM ekosistemi üzerine yapılan bu kapsamlı analiz göstermektedir ki; Türkçe, 
+Kazakça, Özbekçe ve Azerice önderliğindeki ana grup, "üretken yapay zeka" (Generative AI) 
+olgunluğuna ulaşmış, kendi BPE tokenizer mimarilerini ve kültürel bağlamlı devasa LLM'lerini 
+başarıyla inşa etmiştir. Çuvaşça, Tatarca, Karakalpakça ve Kırgızca gibi dillerde ise ciddi paralel 
+korpus hizalamaları ve 50+ saatlik konuşma veri setleri üretilmiş olup, bu diller LLM eğitim 
+safhasının hızlanma noktasındadır. Ancak Gagavuzca, Tuvaca, Şorca, Halaçça ve Dolganca 
+gibi dillerin yerel ve açık kaynaklı HF veri depolarında hiçbir varlık gösterememesi, halen büyük 
+bir "araştırma boşluğu" bulunduğunu kanıtlamaktadır. KÖKEN platformu, bu asimetrik tabloyu 
+sürekli güncelleyerek araştırmacılar için bir pusula işlevi görecek, geliştiricilerin enerjisini tekrar 
+eden projelere harcamasını engelleyerek "sıfır noktası" dillerine (zero-resource) yönlendirecek 
+kritik bir altyapı sağlayacaktır. 
+
+Alıntılanan çalışmalar 
+
+1.  (PDF) TurkicNLP: An NLP Toolkit for Turkic Languages - ResearchGate, 
+
+https://www.researchgate.net/publication/401133169_TurkicNLP_An_NLP_Toolkit
+_for_Turkic_Languages 
+
+2.  TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/pdf/2602.19174v1?utm_source=daily-mt-picks&utm_medium=ema
+il&utm_campaign=machine-translation-digest-for-feb-22-2026 
+
+3.  Multilinguality and Inclusive Language Technologies for Low-Resource 
+Languages, https://edoc.ub.uni-muenchen.de/36186/1/Ye_Haotian.pdf 
+
+4.  vngrs-ai/Kumru-2B - Hugging Face, https://huggingface.co/vngrs-ai/Kumru-2B 
+5.  TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/html/2602.19174v4 
+
+6.  TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/html/2602.19174v2 
+
+7.  GlotOCR Bench: OCR Models Still Struggle Beyond a Handful of Unicode Scripts 
+
+- arXiv, https://arxiv.org/html/2604.12978v1 
+8.  https://huggingface.co/papers/2602.19174 
+9.  Kazakh Large Language Model ISSAI KAZ-LLM, https://issai.nu.edu.kz/kazllm/ 
+10. Cetvel: A Unified Benchmark for Evaluating Language Understanding, Generation 
+
+and Cultural Capacity of LLMs for Turkish - ResearchGate, 
+https://www.researchgate.net/publication/394920919_Cetvel_A_Unified_Benchma
+rk_for_Evaluating_Language_Understanding_Generation_and_Cultural_Capacity
+_of_LLMs_for_Turkish 
+
+11. allmalab/bert-large-aze - Hugging Face, 
+
+https://huggingface.co/allmalab/bert-large-aze 
+
+12. Aya Expanse - Cohere Documentation, 
+
+https://docs.cohere.com/docs/aya-expanse 
+
+13. Meta AI Research Topic - No Language Left Behind, 
+
+https://ai.meta.com/research/no-language-left-behind/ 
+
+14. From Perceptions to Evidence: Detecting AI-Generated Content in Turkish News 
+
+Media with a Fine-Tuned BERT Classifier - arXiv, 
+https://arxiv.org/html/2602.13504v1 
+
+15. DBMDZ BERT, DistilBERT, ELECTRA, GPT-2 and ConvBERT models · GitHub, 
+
+https://github.com/dbmdz/berts 
+
+16. allmalab/bert-base-aze - Hugging Face, 
+
+https://huggingface.co/allmalab/bert-base-aze 
+
+17. Tahrirchi - Hugging Face, https://huggingface.co/tahrirchi 
+18. arabovs-ai-lab/TatarTokenizers - Hugging Face, 
+
+https://huggingface.co/arabovs-ai-lab/TatarTokenizers 
+
+19. metinovadilet/KyrgyzBert - Hugging Face, 
+
+https://huggingface.co/metinovadilet/KyrgyzBert 
+
+20. lgessler/microbert-uyghur-m - Hugging Face, 
+
+https://huggingface.co/lgessler/microbert-uyghur-m 
+
+21. TatarNLPWorld (Tatar NLP Community / Natural Language Processing for Tatar 
+Language) - Hugging Face, https://huggingface.co/TatarNLPWorld/models 
+
+22. metinovadilet/bert-kyrgyz-tokenizer - Hugging Face, 
+
+https://huggingface.co/metinovadilet/bert-kyrgyz-tokenizer 
+
+23. bamaxi/ruBert-base-sakha - Hugging Face, 
+
+https://huggingface.co/bamaxi/ruBert-base-sakha 
+
+24. Awesome Turkish Language Models - a Hugging Face Space by kesimeg, 
+https://huggingface.co/spaces/kesimeg/awesome-turkish-language-models 
+
+25. ai-forever/mGPT-1.3B-tatar - Hugging Face, 
+
+https://huggingface.co/ai-forever/mGPT-1.3B-tatar 
+
+26. ai-forever/mGPT-1.3B-kirgiz - Hugging Face, 
+
+https://huggingface.co/ai-forever/mGPT-1.3B-kirgiz 
+
+27. ai-forever/mGPT-1.3B-turkmen - Hugging Face, 
+
+https://huggingface.co/ai-forever/mGPT-1.3B-turkmen 
+
+28. ai-forever/mGPT-1.3B-bashkir - Hugging Face, 
+
+https://huggingface.co/ai-forever/mGPT-1.3B-bashkir 
+
+29. NikolayKozloff/mGPT-1.3B-chuvash-Q8_0-GGUF - Hugging Face, 
+https://huggingface.co/NikolayKozloff/mGPT-1.3B-chuvash-GGUF 
+
+30. aya-expanse - Ollama, https://ollama.com/library/aya-expanse 
+31. CohereLabs/aya-expanse-8b - Hugging Face, 
+
+https://huggingface.co/CohereLabs/aya-expanse-8b 
+
+32. A Comprehensive Evaluation of Large Language Models for Turkish Abstractive 
+
+Dialogue Summarization - ResearchGate, 
+https://www.researchgate.net/publication/383768254_A_Comprehensive_Evaluati
+on_of_Large_Language_Models_for_Turkish_Abstractive_Dialogue_Summarizati
+on 
+
+33. Trendyol/Trendyol-LLM-7B-chat-v4.1.0 - Hugging Face, 
+
+https://huggingface.co/Trendyol/Trendyol-LLM-7B-chat-v4.1.0 
+
+34. ytu-ce-cosmos/Turkish-Llama-8b-DPO-v0.1 - Hugging Face, 
+
+https://huggingface.co/ytu-ce-cosmos/Turkish-Llama-8b-DPO-v0.1 
+
+35. ytu-ce-cosmos/Turkish-Gemma-9b-T1 - Hugging Face, 
+
+https://huggingface.co/ytu-ce-cosmos/Turkish-Gemma-9b-T1 
+
+36. README.md · ytu-ce-cosmos/Turkish-Gemma-9b-v0.1 at 
+
+ef4e34bcf5b1bc3d2d37930777dd671d3532968e - Hugging Face, 
+https://huggingface.co/ytu-ce-cosmos/Turkish-Gemma-9b-v0.1/blame/ef4e34bcf5b
+1bc3d2d37930777dd671d3532968e/README.md 
+
+37. vngrs-ai/Kumru-2B-Base - Hugging Face, 
+
+https://huggingface.co/vngrs-ai/Kumru-2B-Base 
+
+38. Nazarbayev University's ISSAI Presents Kazakh Large Language Model 
+
+KAZ-LLM, 
+https://nu.edu.kz/news-en/nazarbayev-university-s-issai-presents-kazakh-large-lan
+guage-model-kaz-llm/ 
+
+39. https://huggingface.co/collections/issai/issai-kazllm-10 
+40. uzlm (Uzbek LLM Lab) - Hugging Face, https://huggingface.co/uzlm 
+41. uzlm/alloma-3B-Instruct - Hugging Face, 
+
+https://huggingface.co/uzlm/alloma-3B-Instruct 
+
+42. nickoo004/gpt2_karakalpak - Hugging Face, 
+
+https://huggingface.co/nickoo004/gpt2_karakalpak 
+
+43. ytu-ce-cosmos/Turkish-Llama-8b-Instruct-v0.1 - Hugging Face, 
+
+https://huggingface.co/ytu-ce-cosmos/Turkish-Llama-8b-Instruct-v0.1 
+
+44. maximilianshwarzmullers/tm-hukuk - Hugging Face, 
+
+https://huggingface.co/maximilianshwarzmullers/tm-hukuk 
+
+45. oscar-corpus/OSCAR-2201 · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/oscar-corpus/OSCAR-2201 
+46. openlanguagedata/flores_plus · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/openlanguagedata/flores_plus 
+
+47. vngrs-ai/vngrs-web-corpus · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/vngrs-ai/vngrs-web-corpus 
+
+48. ogulcanaydogan/Turkish-LLM-v10-Training · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/ogulcanaydogan/Turkish-LLM-v10-Training 
+
+49. allmalab/aze-books · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/allmalab/aze-books 
+
+50. allmalab/azwiki · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/allmalab/azwiki 
+
+51. allmalab/eqanun · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/allmalab/eqanun 
+
+52. alexantonov/chuvash_parallel · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/alexantonov/chuvash_parallel 
+
+53. Open the Data! Chuvash Datasets - arXiv, https://arxiv.org/pdf/2407.11982 
+54. ailabykt/sakha-russian-parallel · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/ailabykt/sakha-russian-parallel 
+
+55. ailabykt/sakha-corpus-mono · Discussions - Hugging Face, 
+
+https://huggingface.co/datasets/ailabykt/sakha-corpus-mono/discussions 
+
+56. Open Language Data Initiative: Advancing Low-Resource Machine Translation for 
+
+Karakalpak - Hugging Face, https://huggingface.co/papers/2409.04269 
+
+57. tahrirchi/dilmash · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/tahrirchi/dilmash 
+58. QIRIM/crh-parallel-corpora at main - Hugging Face, 
+
+https://huggingface.co/datasets/QIRIM/crh-parallel-corpora/tree/main 
+
+59. QIRIM/crh-parallel-corpora · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/QIRIM/crh-parallel-corpora 
+
+60. GlotOCR Bench: OCR Models Still Struggle Beyond a Handful of Unicode Scripts 
+- OpenReview, https://openreview.net/attachment?id=E27ascmsKs&name=pdf 
+
+61. turkic-nlp/turkicnlp: NLP Toolkit for Turkic Languages - GitHub, 
+
+https://github.com/turkic-nlp/turkicnlp 
+
+62. metuKKhud/bashqort-alpaca · Discussions - Hugging Face, 
+
+https://huggingface.co/datasets/metuKKhud/bashqort-alpaca/discussions 
+
+63. issai/KazCulture · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/issai/KazCulture 
+
+64. facebook/mms-tts-crh - Hugging Face, 
+
+https://huggingface.co/facebook/mms-tts-crh 
+
+65. Crimean Tatar Text-to-Speech datasets - a speech-uk Collection - Hugging Face, 
+https://huggingface.co/collections/speech-uk/crimean-tatar-text-to-speech-dataset
+s 
+
+66. My Journey Improving a TTS Model for the Crimean Tatar Language - DEV 
+
+Community, 
+https://dev.to/servin_osmanov/my-journey-improving-a-tts-model-for-the-crimean-t
+atar-language-53f7 
+
+67. issai/KazakhTTS - Hugging Face, https://huggingface.co/issai/KazakhTTS 
+68. issai/TatarTTS · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/issai/TatarTTS 
+69. Karakalpak Speech Corpus - Mendeley Data, 
+https://data.mendeley.com/datasets/2th8jvft8f 
+
+70. KARAKALPAK SPEECH CORPUS: THE FIRST BENCHMARK DATASET FOR 
+
+AUTOMATIC SPEECH RECOGNITION - Zenodo, 
+https://zenodo.org/records/19079670 
+
+71. uzlm/sayro-tts-1.7B - Hugging Face, https://huggingface.co/uzlm/sayro-tts-1.7B 
+72. TurkMedSTT - Hugging Face, https://huggingface.co/turkmedstt 
+73. alexantonov/whisper-medium-chv-pre - Hugging Face, 
+
+https://huggingface.co/alexantonov/whisper-medium-chv-pre 
+
+74. ray0303/whisper-small-turkmen - Hugging Face, 
+
+https://huggingface.co/ray0303/whisper-small-turkmen 
+75. anton-l/wav2vec2-large-xlsr-53-sakha - Hugging Face, 
+
+https://huggingface.co/anton-l/wav2vec2-large-xlsr-53-sakha 
+
+76. ixxan/whisper-small-uyghur-thugy20 - Hugging Face, 
+
+https://huggingface.co/ixxan/whisper-small-uyghur-thugy20 
+
+77. Cetvel: A Unified Benchmark for Evaluating Language Understanding, Generation 
+
+and Cultural Capacity of LLMs for Turkish - arXiv, 
+https://arxiv.org/pdf/2508.16431? 
+
+78. Cetvel: A Unified Benchmark for Evaluating Turkish LLMs - GitHub, 
+
+https://github.com/KUIS-AI/cetvel 
+
+79. Mukayese - Hugging Face, https://huggingface.co/mukayese 
+80. (PDF) Mukayese: Turkish NLP Strikes Back - ResearchGate, 
+
+https://www.researchgate.net/publication/358974742_Mukayese_Turkish_NLP_Str
+ikes_Back 
+
+81. TurkBench: A Benchmark for Evaluating Turkish Large Language Models - arXiv, 
+
+https://arxiv.org/html/2601.07020v1 
+
+82. [2502.11020] TUMLU: A Unified and Native Language Understanding Benchmark 
+
+for Turkic Languages - arXiv, https://arxiv.org/abs/2502.11020 
+
+83. TUMLU: A Unified and Native Language Understanding Benchmark for Turkic 
+Languages - ACL Anthology, https://aclanthology.org/2025.acl-long.1112.pdf 
+84. TUMLU: A Unified and Native Language Understanding Benchmark for Turkic 
+
+Languages, https://huggingface.co/papers/2502.11020 
+
+85. TatarNLPWorld/tatar-morphology-benchmark · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/TatarNLPWorld/tatar-morphology-benchmark 
+
+86. TTimur/kyrgyzMMLU · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/TTimur/kyrgyzMMLU 
+87. kyrgyzLLM_bench - a TTimur Collection - Hugging Face, 
+
+https://huggingface.co/collections/TTimur/kyrgyzllm-bench 
+
+88. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/html/2602.19174v5 
+
+89. ytu-ce-cosmos/Turkish-Gemma-9b-T1-GGUF - Hugging Face, 
+
+https://huggingface.co/ytu-ce-cosmos/Turkish-Gemma-9b-T1-GGUF 
+
+90. vngrs-ai (VNGRS) - Hugging Face, https://huggingface.co/vngrs-ai 
+91. allmalab/gpt2-aze - Hugging Face, https://huggingface.co/allmalab/gpt2-aze 
+92. kesimeg/awesome-turkish-language-models: A curated list of Turkish AI models, 
+
+datasets, papers - GitHub, 
+https://github.com/kesimeg/awesome-turkish-language-models 
+
+93. nickoo004/deepseek-ocr2-karakalpak-lora - Hugging Face, 
+
+https://huggingface.co/nickoo004/deepseek-ocr2-karakalpak-lora 
+
+94. Hugging Face Hub API, 
+
+https://huggingface.co/docs/huggingface_hub/v0.8.0/package_reference/hf_api 
+
+95. How to get all hugging face models list using python? - Codemia, 
+
+https://codemia.io/knowledge-hub/path/how_to_get_all_hugging_face_models_list
+_using_python 
+
+96. Navigating the HuggingFace Model Universe: A Python Tool for Systematic Model 
+
+Discovery, 
+https://2020machinelearning.medium.com/navigating-the-huggingface-model-univ
+erse-a-python-tool-for-systematic-model-discovery-02b61c2680cc 
+97. How to get all hugging face models list using python? - Stack Overflow, 
+
+https://stackoverflow.com/questions/75810246/how-to-get-all-hugging-face-models
+-list-using-python 
+
+

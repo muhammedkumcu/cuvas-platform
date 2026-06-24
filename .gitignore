@@ -16,3 +16,6 @@ _*_text.txt
 # İşletim sistemi
 Thumbs.db
 .DS_Store
+
+# Deepsearch sonuç PDF'leri (büyük ikili; çıkarılan _*.txt commitlenir)
+arastirma/*.pdf

@@ -270,7 +270,7 @@ def main():
     nlive = 0
     live = []
     # 1) state alanları
-    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null, compareApi: null,"))
+    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null, searchLang: 'auto', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null, compareApi: null, compareQ: '',"))
     # küratörlü kök seçilince serbest çekimi temizle
     live.append(("        go:()=>this.setState({paradigmRoot:k}),", "        go:()=>this.setState({paradigmRoot:k, paradigmFree:null}),"))
     # paradigmVals return: serbest çekim (herhangi bir kök, seçili dil) + handler'lar
@@ -371,27 +371,97 @@ def main():
         else:
             print("  ! CANLI bağlama eşleşmedi:", old[:48])
 
-    # --- Analiz DİL SEÇİCİ: bağlam çubuğuna select; Analiz seçili dilde herhangi bir kelimeyi çözer ---
+    # ============================================================
+    #  DİL MODELİ (kullanıcı kararı: Otomatik + manuel; HER EKRANDA giriş YANINDA — üst barda DEĞİL)
+    #  Üst bardaki dil seçici kaldırıldı; "Otomatik" varsayılan (emoji yok). Çok-dillilik otomatik/görünmez.
+    # ============================================================
     sel_langs = [("chv", "Çuvaşça"), ("tur", "Türkçe"), ("aze", "Azerice"), ("kaz", "Kazakça"),
                  ("kir", "Kırgızca"), ("uzb", "Özbekçe"), ("uig", "Uygurca"), ("tat", "Tatarca"),
                  ("bak", "Başkurtça"), ("sah", "Yakutça")]
-    # "⚡ Otomatik" = /analyze_all (kelime hangi dil(ler)de varsa otomatik) — A planı
-    opts = '<option value="auto">⚡ Otomatik · tüm diller</option>' + \
-           "".join(f'<option value="{c}">{n}</option>' for c, n in sel_langs)
-    sel = ('<select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Analiz dili" '
-           'style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:10px 8px;'
-           'font-size:13px;font-family:inherit;color:#211d17;cursor:pointer">' + opts + '</select>')
+    langopts = '<option value="auto">Otomatik (dil algıla)</option>' + \
+               "".join(f'<option value="{c}">{n}</option>' for c, n in sel_langs)
+    SELBOX = ('<select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" '
+              'style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:9px 9px;'
+              'font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:170px;flex-shrink:0">'
+              + langopts + '</select>')
+    INP = ('padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;'
+           'font-size:15px;font-family:inherit;color:#211d17;outline:none')
     nsel = 0
-    if '<div style="margin-left:auto;display:flex;align-items:center;gap:10px">' in html:
-        html = html.replace('<div style="margin-left:auto;display:flex;align-items:center;gap:10px">',
-                            sel + '\n      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">', 1)
-        # dil değişince ANINDA geri bildirim: canlı bir sonuç açıksa o kelimeyi yeni dilde tekrar çöz (G4)
-        html = html.replace("      navGroups, wordChips, screenTag:tag, query:S.query,",
-                            "      navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, "
-                            "onSearchLang:(e)=>{ this.setState({searchLang:e.target.value}); "
-                            "if(this.state.activeWordId==='__api' && (this.state.query||'').trim()) setTimeout(()=>this.runSearch(),0); },", 1)
-        nsel = 1
-    print(f"  Analiz dil seçici: {nsel}")
+
+    # render bağları: searchLang + compare girişi + ekran-duyarlı onSearchLang (dil değişince o ekranı yineler)
+    rb_old = "      navGroups, wordChips, screenTag:tag, query:S.query,"
+    rb_new = ("      navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, compareQ:S.compareQ||'',\n"
+              "      onCompareInput:(e)=>this.setState({compareQ:e.target.value}),\n"
+              "      onCompareKey:(e)=>{ if(e.key!=='Enter') return; const w=(this.state.compareQ||'').trim(); if(w) this.runCompare(w); },\n"
+              "      onSearchLang:(e)=>{ const v=e.target.value; this.setState({searchLang:v}); const s=this.state.screen; setTimeout(()=>{\n"
+              "        if(s==='analiz' && (this.state.query||'').trim()) this.runSearch();\n"
+              "        else if(s==='research' && (this.state.researchQ||'').trim()) this.runResearch(v, this.state.researchQ.trim());\n"
+              "        else if(s==='paradigm' && (this.state.paradigmFreeQ||'').trim()) this.runParadigm(this.state.paradigmFreeQ.trim());\n"
+              "        else if(s==='compare' && (this.state.compareQ||'').trim()) this.runCompare(this.state.compareQ.trim());\n"
+              "      },0); },")
+    if rb_old in html:
+        html = html.replace(rb_old, rb_new, 1); nsel += 1
+    else:
+        print("  ! dil render bağı eşleşmedi")
+
+    # Analiz: kendi giriş kutusu + yanında dil seçici (üst hizada)
+    analiz_old = '        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">'
+    analiz_new = ('        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:22px">\n'
+                  '          <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz" style="flex:1;min-width:260px;max-width:480px;' + INP + '">\n'
+                  '          ' + SELBOX + '\n'
+                  '        </div>\n'
+                  + analiz_old)
+    if analiz_old in html:
+        html = html.replace(analiz_old, analiz_new, 1); nsel += 1
+    else:
+        print("  ! analiz giriş eşleşmedi")
+
+    # Karşılaştır: kendi giriş kutusu + dil seçici
+    cmp_old = "<div style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a\">KARŞILAŞTIR</div>"
+    cmp_new = (cmp_old + '\n'
+               '        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px">\n'
+               '          <input value="{{ compareQ }}" onInput="{{ onCompareInput }}" onKeyDown="{{ onCompareKey }}" placeholder="Kelime yaz + Enter — diller arası canlı çözümle" style="flex:1;min-width:260px;max-width:480px;' + INP + '">\n'
+               '          ' + SELBOX + '\n'
+               '        </div>')
+    if cmp_old in html:
+        html = html.replace(cmp_old, cmp_new, 1); nsel += 1
+    else:
+        print("  ! karşılaştır giriş eşleşmedi")
+
+    # Paradigma: giriş kutusunun yanına dil seçici + placeholder (artık üst barda değil)
+    par_inp = '<input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — sağ üstteki dilde canlı çekim" style="flex:1;min-width:300px;max-width:520px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">'
+    par_new = ('<input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — canlı çekim" style="flex:1;min-width:260px;max-width:440px;' + INP + '">\n          ' + SELBOX)
+    if par_inp in html:
+        html = html.replace(par_inp, par_new, 1); nsel += 1
+    else:
+        print("  ! paradigma giriş eşleşmedi")
+
+    # onParadigmFreeKey → runParadigm (auto destekli)
+    opk_old = "onParadigmFreeKey:(e)=>{ if(e.key!=='Enter') return; const lemma=(this.state.paradigmFreeQ||'').trim(); if(!lemma) return; const lg=this.state.searchLang||'chv'; fetch(this.KOKEN_API+'/paradigm/'+lg+'/'+encodeURIComponent(lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma, langName:(LNp[lg]||lg), rows:(d&&d.rows)||[]}})).catch(()=>{}); }"
+    if opk_old in html:
+        html = html.replace(opk_old, "onParadigmFreeKey:(e)=>{ if(e.key!=='Enter') return; const lemma=(this.state.paradigmFreeQ||'').trim(); if(lemma) this.runParadigm(lemma); }", 1); nsel += 1
+    else:
+        print("  ! onParadigmFreeKey eşleşmedi")
+
+    # methods: runParadigm (auto) + runCompare — runSearch'ten ÖNCE
+    m_anchor = "  runSearch(){\n    const q = (this.state.query||'').trim().toLowerCase();\n    if (!q) return;\n    for (const id in this.WORDS){ const w = this.WORDS[id];"
+    m_new = (
+        "  runParadigm(lemma){\n"
+        "    const fp=(l)=>fetch(this.KOKEN_API+'/paradigm/'+l+'/'+encodeURIComponent(lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma, lang:l, langName:(this.LIVE_LN[l]||l), rows:(d.noun&&d.noun.rows)||d.rows||[], verb:(d.verb&&d.verb.tenses)||[]}})).catch(()=>{});\n"
+        "    const lg=this.state.searchLang;\n"
+        "    if(lg && lg!=='auto'){ fp(lg); }\n"
+        "    else { fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word:lemma})}).then(r=>r.json()).then(d=>{ const c=Object.keys(d.langs||{}); fp(c[0]||'chv'); }).catch(()=>{}); }\n"
+        "  }\n"
+        "  runCompare(word){\n"
+        "    fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{ const langs=d.langs||{}; const codes=Object.keys(langs); const first=codes[0]; this.setState({ apiWord:this.apiWordFrom(first||'chv', word, first?langs[first]:null), activeWordId:'__api', apiAllLangs:langs, apiMatchCodes:codes, apiMatchLang:first||null, compareApi:{word, langs}, screen:'compare', compareTab:'rows', selMorphIdx:0, stripCount:0 }); }).catch(()=>{});\n"
+        "  }\n"
+        + m_anchor)
+    if m_anchor in html:
+        html = html.replace(m_anchor, m_new, 1); nsel += 1
+    else:
+        print("  ! runParadigm/runCompare anchor eşleşmedi")
+
+    print(f"  Dil modeli (per-ekran giriş+seçici): {nsel}/6 yama")
 
     # ============================================================
     #  GÜNCELLEME (24 Haz) — temizlik & yeni davranışlar (kullanıcı notları)
@@ -439,7 +509,7 @@ def main():
     html = html.replace(
         "      goParadigm:()=>this.setState({screen:'paradigm'}),",
         "      goParadigm:()=>this.setState({screen:'paradigm'}),\n"
-        "      paradigmExamples: [{lang:'chv', lemma:'хӗр', gloss:'kız', name:'Çuvaşça'}, {lang:'tur', lemma:'ev', gloss:'ev', name:'Türkçe'}, {lang:'tat', lemma:'кул', gloss:'el', name:'Tatarca'}, {lang:'kaz', lemma:'бала', gloss:'çocuk', name:'Kazakça'}, {lang:'sah', lemma:'ат', gloss:'at', name:'Yakutça'}].map(e=>{ const sel = this.state.paradigmFree && this.state.paradigmFree.lemma===e.lemma && this.state.searchLang===e.lang; return { label:e.lemma, gloss:e.gloss, kind:e.name, go:()=>{ this.setState({searchLang:e.lang, paradigmFreeQ:e.lemma}); fetch(this.KOKEN_API+'/paradigm/'+e.lang+'/'+encodeURIComponent(e.lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma:e.lemma, langName:(this.LIVE_LN[e.lang]||e.lang), rows:(d&&d.rows)||[]}})).catch(()=>{}); }, style:`cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:11px;padding:10px 15px;font-family:inherit`, glossStyle:`font-size:11px;color:${sel?'rgba(244,241,234,.6)':'#9a9082'}` }; }),", 1)
+        "      paradigmExamples: [{lang:'chv', lemma:'хӗр', gloss:'kız', name:'Çuvaşça'}, {lang:'tur', lemma:'ev', gloss:'ev', name:'Türkçe'}, {lang:'tat', lemma:'кул', gloss:'el', name:'Tatarca'}, {lang:'kaz', lemma:'бала', gloss:'çocuk', name:'Kazakça'}, {lang:'sah', lemma:'ат', gloss:'at', name:'Yakutça'}].map(e=>{ const sel = this.state.paradigmFree && this.state.paradigmFree.lemma===e.lemma && this.state.searchLang===e.lang; return { label:e.lemma, gloss:e.gloss, kind:e.name, go:()=>{ this.setState({searchLang:e.lang, paradigmFreeQ:e.lemma}); setTimeout(()=>this.runParadigm(e.lemma),0); }, style:`cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:11px;padding:10px 15px;font-family:inherit`, glossStyle:`font-size:11px;color:${sel?'rgba(244,241,234,.6)':'#9a9082'}` }; }),", 1)
 
     # G1 — Paradigma tablosuna "Tabloyu kopyala" (export tablolarda kopyalama olur)
     html = html.replace(
@@ -481,6 +551,10 @@ def main():
     html = html.replace(
         "  researchVals(){",
         "  runResearch(lang, word){\n"
+        "    if(lang==='auto'){\n"
+        "      fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{ const langs=d.langs||{}; const codes=Object.keys(langs); const l=codes[0]||'chv'; this.setState({ researchApi:{lang:l, word, analyses:(codes.length?langs[l]:[])} }); }).catch(()=>{});\n"
+        "      return;\n"
+        "    }\n"
         "    fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang,word})}).then(r=>r.json()).then(d=>{\n"
         "      this.setState({ researchApi:{lang, word, analyses:d.analyses||[]} });\n"
         "    }).catch(()=>{});\n"
@@ -509,9 +583,9 @@ def main():
         "    const cur = fmts[S.researchFmt]; const ext = {json:'json',conllu:'conllu',csv:'csv'}[S.researchFmt];\n"
         "    const lgR = (S.searchLang&&S.searchLang!=='auto')?S.searchLang:'chv';\n"
         "    return { researchWords:words, researchFmtTabs:fmtTabs, researchCode:cur,\n"
-        "      researchQ: S.researchQ||'', researchLangName: (this.LIVE_LN[lgR]||'Çuvaşça'), researchLive: !!S.researchApi,\n"
+        "      researchQ: S.researchQ||'', researchLangName: (S.searchLang==='auto'?'Otomatik':(this.LIVE_LN[lgR]||'Çuvaşça')), researchLive: !!S.researchApi,\n"
         "      onResearchInput:(e)=>this.setState({researchQ:e.target.value}),\n"
-        "      onResearchKey:(e)=>{ if(e.key!=='Enter') return; const word=(this.state.researchQ||'').trim(); if(!word) return; this.runResearch(lgR, word); },\n"
+        "      onResearchKey:(e)=>{ if(e.key!=='Enter') return; const word=(this.state.researchQ||'').trim(); if(!word) return; this.runResearch((this.state.searchLang||'auto'), word); },\n"
         "      researchApiUrl:`GET /api/v1/analyze?lang=${w.lang||'chv'}&form=${encodeURIComponent(w.surface)}`,\n"
         "      copyResearch:()=>{ try{ navigator.clipboard.writeText(cur); }catch(e){} },\n"
         "      downloadResearch:()=>{ try{ const b=new Blob([cur],{type:'text/plain;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='koken_'+(w.surface||'analiz')+'.'+ext; a.click(); }catch(e){} } };"))
@@ -520,8 +594,9 @@ def main():
         '        <div style="display:flex;gap:8px;flex-wrap:wrap">\n'
         "          <sc-for list=\"{{ researchWords }}\" as=\"w\" hint-placeholder-count=\"4\"><button onClick=\"{{ w.go }}\" style=\"{{ w.style }}\">{{ w.surface }} <span style=\"font-size:11px;opacity:.6;font-family:'IBM Plex Sans'\">{{ w.gloss }}</span></button></sc-for>\n"
         '        </div>',
-        '        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">\n'
-        '          <input value="{{ researchQ }}" onInput="{{ onResearchInput }}" onKeyDown="{{ onResearchKey }}" placeholder="Sözcük yaz + Enter — sağ üstteki dilde canlı çözümle &amp; dışa aktar" style="flex:1;min-width:340px;max-width:560px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">\n'
+        '        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px">\n'
+        '          <input value="{{ researchQ }}" onInput="{{ onResearchInput }}" onKeyDown="{{ onResearchKey }}" placeholder="Sözcük yaz + Enter — canlı çözümle &amp; dışa aktar" style="flex:1;min-width:260px;max-width:460px;' + INP + '">\n'
+        '          ' + SELBOX + '\n'
         '        </div>\n'
         "        <div style=\"font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:8px;font-family:'IBM Plex Mono',monospace\">ÖRNEK (Çuvaşça · hızlı doldur)</div>\n"
         '        <div style="display:flex;gap:8px;flex-wrap:wrap">\n'

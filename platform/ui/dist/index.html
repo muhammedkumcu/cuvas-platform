@@ -59,7 +59,6 @@
           style="width:100%;padding:11px 14px 11px 38px;border:1px solid rgba(33,29,23,.16);border-radius:9px;background:#fff;font-size:14px;font-family:inherit;color:#211d17;outline:none">
         <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#9a9082;font-size:14px">⌕</span>
       </div>
-      <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Analiz dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:10px 8px;font-size:13px;font-family:inherit;color:#211d17;cursor:pointer"><option value="auto">⚡ Otomatik · tüm diller</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option></select>
       <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
         <div style="display:flex;background:#ece7dc;border-radius:9px;padding:3px">
           <sc-for list="{{ scriptToggle }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>
@@ -111,6 +110,10 @@
       <!-- ===================== ANALIZ ===================== -->
       <sc-if value="{{ isAnaliz }}" hint-placeholder-val="{{ true }}">
       <section style="max-width:1100px;margin:0 auto;padding:34px 40px 70px">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:22px">
+          <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz" style="flex:1;min-width:260px;max-width:480px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
+          <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:9px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:170px;flex-shrink:0"><option value="auto">Otomatik (dil algıla)</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option></select>
+        </div>
         <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
           <div>
             <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">ANALİZ · {{ active.langName }}</div>
@@ -247,6 +250,10 @@
       <sc-if value="{{ isCompare }}" hint-placeholder-val="{{ true }}">
       <section style="max-width:1100px;margin:0 auto;padding:34px 40px 70px">
         <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">KARŞILAŞTIR</div>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px">
+          <input value="{{ compareQ }}" onInput="{{ onCompareInput }}" onKeyDown="{{ onCompareKey }}" placeholder="Kelime yaz + Enter — diller arası canlı çözümle" style="flex:1;min-width:260px;max-width:480px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
+          <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:9px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:170px;flex-shrink:0"><option value="auto">Otomatik (dil algıla)</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option></select>
+        </div>
         <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:8px">
           <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:0">“{{ compareHeadline }}” — diller arası</h2>
           <div style="display:flex;gap:8px;background:#ece7dc;padding:5px;border-radius:11px">
@@ -744,7 +751,8 @@
         </div>
         <div style="font-size:14px;color:#5f574b">{{ paradigmSub }}</div>
         <div style="display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap">
-          <input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — sağ üstteki dilde canlı çekim" style="flex:1;min-width:300px;max-width:520px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
+          <input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — canlı çekim" style="flex:1;min-width:260px;max-width:440px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
+          <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:9px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:170px;flex-shrink:0"><option value="auto">Otomatik (dil algıla)</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option></select>
         </div>
         <div style="font-size:11px;letter-spacing:1px;color:#9a9082;margin-top:18px;font-family:monospace">ÖRNEK KÖKLER (farklı dillerden)</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
@@ -873,8 +881,9 @@
         <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">ARAŞTIRMACI MERKEZİ</div>
         <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 6px">Birleşik sorgu · dışa aktarım · API</h2>
         <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:66ch;margin:0 0 16px">Bir sözcük seç; çözümlemeyi makine-okunur biçimlerde al. Her kayıt kaynak + lisans alanlıdır; sonuç alıntılanabilir kalıcı bir bağlantı üretir.</p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
-          <input value="{{ researchQ }}" onInput="{{ onResearchInput }}" onKeyDown="{{ onResearchKey }}" placeholder="Sözcük yaz + Enter — sağ üstteki dilde canlı çözümle &amp; dışa aktar" style="flex:1;min-width:340px;max-width:560px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
+          <input value="{{ researchQ }}" onInput="{{ onResearchInput }}" onKeyDown="{{ onResearchKey }}" placeholder="Sözcük yaz + Enter — canlı çözümle &amp; dışa aktar" style="flex:1;min-width:260px;max-width:460px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
+          <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:9px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:170px;flex-shrink:0"><option value="auto">Otomatik (dil algıla)</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option></select>
         </div>
         <div style="font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:8px;font-family:'IBM Plex Mono',monospace">ÖRNEK (Çuvaşça · hızlı doldur)</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -1006,7 +1015,7 @@ class Component extends DCLogic {
     distBase: 'chv',        // distance explorer base lang
     distTarget: 'tt',       // distance explorer target lang
     paradigmRoot: 'hĕr',
-    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null, compareApi: null,
+    apiParadigm: {}, apiWord: null, searchLang: 'auto', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null, compareApi: null, compareQ: '',
     cognateKey: 'goz',
     profileSel: 'chv',
     researchWord: 'oku',
@@ -1475,6 +1484,15 @@ class Component extends DCLogic {
   speak(text){ try { window.speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang='tr-TR'; u.rate=0.82; window.speechSynthesis.speak(u); } catch(e){} }
   scrollTop(){ setTimeout(()=>{ try { const el = document.getElementById('content-scroll'); if (el) el.scrollTop = 0; } catch(e){} }, 0); }
   go(screen){ return () => { this.setState({ screen }); this.scrollTop(); }; }
+  runParadigm(lemma){
+    const fp=(l)=>fetch(this.KOKEN_API+'/paradigm/'+l+'/'+encodeURIComponent(lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma, lang:l, langName:(this.LIVE_LN[l]||l), rows:(d.noun&&d.noun.rows)||d.rows||[], verb:(d.verb&&d.verb.tenses)||[]}})).catch(()=>{});
+    const lg=this.state.searchLang;
+    if(lg && lg!=='auto'){ fp(lg); }
+    else { fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word:lemma})}).then(r=>r.json()).then(d=>{ const c=Object.keys(d.langs||{}); fp(c[0]||'chv'); }).catch(()=>{}); }
+  }
+  runCompare(word){
+    fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{ const langs=d.langs||{}; const codes=Object.keys(langs); const first=codes[0]; this.setState({ apiWord:this.apiWordFrom(first||'chv', word, first?langs[first]:null), activeWordId:'__api', apiAllLangs:langs, apiMatchCodes:codes, apiMatchLang:first||null, compareApi:{word, langs}, screen:'compare', compareTab:'rows', selMorphIdx:0, stripCount:0 }); }).catch(()=>{});
+  }
   runSearch(){
     const q = (this.state.query||'').trim().toLowerCase();
     if (!q) return;
@@ -1615,7 +1633,15 @@ class Component extends DCLogic {
     const learn = this.learnVals();
 
     return {
-      navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, onSearchLang:(e)=>{ this.setState({searchLang:e.target.value}); if(this.state.activeWordId==='__api' && (this.state.query||'').trim()) setTimeout(()=>this.runSearch(),0); },
+      navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, compareQ:S.compareQ||'',
+      onCompareInput:(e)=>this.setState({compareQ:e.target.value}),
+      onCompareKey:(e)=>{ if(e.key!=='Enter') return; const w=(this.state.compareQ||'').trim(); if(w) this.runCompare(w); },
+      onSearchLang:(e)=>{ const v=e.target.value; this.setState({searchLang:v}); const s=this.state.screen; setTimeout(()=>{
+        if(s==='analiz' && (this.state.query||'').trim()) this.runSearch();
+        else if(s==='research' && (this.state.researchQ||'').trim()) this.runResearch(v, this.state.researchQ.trim());
+        else if(s==='paradigm' && (this.state.paradigmFreeQ||'').trim()) this.runParadigm(this.state.paradigmFreeQ.trim());
+        else if(s==='compare' && (this.state.compareQ||'').trim()) this.runCompare(this.state.compareQ.trim());
+      },0); },
       onQuery:(e)=>this.setState({query:e.target.value}),
       onSearchKey:(e)=>{ if(e.key==='Enter') this.runSearch(); },
       homeModules:this.NAVGROUPS.flatMap(g=>g.items.filter(it=>it.id!=='home').map(it=>({
@@ -1636,7 +1662,7 @@ class Component extends DCLogic {
       goCognate:()=>this.setState({screen:'cognate'}),
       goCompareSound:()=>this.setState({screen:'compare', compareTab:'sound'}),
       goParadigm:()=>this.setState({screen:'paradigm'}),
-      paradigmExamples: [{lang:'chv', lemma:'хӗр', gloss:'kız', name:'Çuvaşça'}, {lang:'tur', lemma:'ev', gloss:'ev', name:'Türkçe'}, {lang:'tat', lemma:'кул', gloss:'el', name:'Tatarca'}, {lang:'kaz', lemma:'бала', gloss:'çocuk', name:'Kazakça'}, {lang:'sah', lemma:'ат', gloss:'at', name:'Yakutça'}].map(e=>{ const sel = this.state.paradigmFree && this.state.paradigmFree.lemma===e.lemma && this.state.searchLang===e.lang; return { label:e.lemma, gloss:e.gloss, kind:e.name, go:()=>{ this.setState({searchLang:e.lang, paradigmFreeQ:e.lemma}); fetch(this.KOKEN_API+'/paradigm/'+e.lang+'/'+encodeURIComponent(e.lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma:e.lemma, langName:(this.LIVE_LN[e.lang]||e.lang), rows:(d&&d.rows)||[]}})).catch(()=>{}); }, style:`cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:11px;padding:10px 15px;font-family:inherit`, glossStyle:`font-size:11px;color:${sel?'rgba(244,241,234,.6)':'#9a9082'}` }; }),
+      paradigmExamples: [{lang:'chv', lemma:'хӗр', gloss:'kız', name:'Çuvaşça'}, {lang:'tur', lemma:'ev', gloss:'ev', name:'Türkçe'}, {lang:'tat', lemma:'кул', gloss:'el', name:'Tatarca'}, {lang:'kaz', lemma:'бала', gloss:'çocuk', name:'Kazakça'}, {lang:'sah', lemma:'ат', gloss:'at', name:'Yakutça'}].map(e=>{ const sel = this.state.paradigmFree && this.state.paradigmFree.lemma===e.lemma && this.state.searchLang===e.lang; return { label:e.lemma, gloss:e.gloss, kind:e.name, go:()=>{ this.setState({searchLang:e.lang, paradigmFreeQ:e.lemma}); setTimeout(()=>this.runParadigm(e.lemma),0); }, style:`cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:11px;padding:10px 15px;font-family:inherit`, glossStyle:`font-size:11px;color:${sel?'rgba(244,241,234,.6)':'#9a9082'}` }; }),
       goResearch:()=>this.setState({screen:'research'}),
       copyParadigm:()=>{ try{ const t=document.getElementById('paradigm-table'); if(t) navigator.clipboard.writeText(t.innerText); }catch(e){} },
       apiMatches: (this.state.apiMatchCodes||[]).map(lc=>{ const sel=lc===this.state.apiMatchLang; return { label:(this.LIVE_LN[lc]||lc), go:()=>this.setState({apiMatchLang:lc, apiWord:this.apiWordFrom(lc, (this.state.apiWord&&this.state.apiWord.surface)||'', (this.state.apiAllLangs||{})[lc]), selMorphIdx:0}), style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.16)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:16px;padding:5px 13px;font-size:12.5px;font-family:inherit` }; }),
@@ -1808,7 +1834,7 @@ class Component extends DCLogic {
       paradigmSub: freeRows ? ('canlı apertium çekimi · '+F.langName) : (isVerb ? (p.label+' · şahıs çekimi') : 'Ad çekimi · hâl × sayı'),
       paradigmLang: (this.state.paradigmFree && Array.isArray(this.state.paradigmFree.rows)) ? this.state.paradigmFree.langName : 'Çuvaşça', paradigmFreeQ: this.state.paradigmFreeQ||'',
       onParadigmFreeInput:(e)=>this.setState({paradigmFreeQ:e.target.value}),
-      onParadigmFreeKey:(e)=>{ if(e.key!=='Enter') return; const lemma=(this.state.paradigmFreeQ||'').trim(); if(!lemma) return; const lg=this.state.searchLang||'chv'; fetch(this.KOKEN_API+'/paradigm/'+lg+'/'+encodeURIComponent(lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma, langName:(LNp[lg]||lg), rows:(d&&d.rows)||[]}})).catch(()=>{}); } };
+      onParadigmFreeKey:(e)=>{ if(e.key!=='Enter') return; const lemma=(this.state.paradigmFreeQ||'').trim(); if(lemma) this.runParadigm(lemma); } };
   }
 
   // ---------- COGNATE NETWORK ----------
@@ -1857,6 +1883,10 @@ class Component extends DCLogic {
 
   // ---------- RESEARCHER HUB ----------
   runResearch(lang, word){
+    if(lang==='auto'){
+      fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{ const langs=d.langs||{}; const codes=Object.keys(langs); const l=codes[0]||'chv'; this.setState({ researchApi:{lang:l, word, analyses:(codes.length?langs[l]:[])} }); }).catch(()=>{});
+      return;
+    }
     fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang,word})}).then(r=>r.json()).then(d=>{
       this.setState({ researchApi:{lang, word, analyses:d.analyses||[]} });
     }).catch(()=>{});
@@ -1890,9 +1920,9 @@ class Component extends DCLogic {
     const cur = fmts[S.researchFmt]; const ext = {json:'json',conllu:'conllu',csv:'csv'}[S.researchFmt];
     const lgR = (S.searchLang&&S.searchLang!=='auto')?S.searchLang:'chv';
     return { researchWords:words, researchFmtTabs:fmtTabs, researchCode:cur,
-      researchQ: S.researchQ||'', researchLangName: (this.LIVE_LN[lgR]||'Çuvaşça'), researchLive: !!S.researchApi,
+      researchQ: S.researchQ||'', researchLangName: (S.searchLang==='auto'?'Otomatik':(this.LIVE_LN[lgR]||'Çuvaşça')), researchLive: !!S.researchApi,
       onResearchInput:(e)=>this.setState({researchQ:e.target.value}),
-      onResearchKey:(e)=>{ if(e.key!=='Enter') return; const word=(this.state.researchQ||'').trim(); if(!word) return; this.runResearch(lgR, word); },
+      onResearchKey:(e)=>{ if(e.key!=='Enter') return; const word=(this.state.researchQ||'').trim(); if(!word) return; this.runResearch((this.state.searchLang||'auto'), word); },
       researchApiUrl:`GET /api/v1/analyze?lang=${w.lang||'chv'}&form=${encodeURIComponent(w.surface)}`,
       copyResearch:()=>{ try{ navigator.clipboard.writeText(cur); }catch(e){} },
       downloadResearch:()=>{ try{ const b=new Blob([cur],{type:'text/plain;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='koken_'+(w.surface||'analiz')+'.'+ext; a.click(); }catch(e){} } };

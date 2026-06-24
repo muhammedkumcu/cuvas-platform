@@ -873,6 +873,10 @@
         <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">ARAŞTIRMACI MERKEZİ</div>
         <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 6px">Birleşik sorgu · dışa aktarım · API</h2>
         <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:66ch;margin:0 0 16px">Bir sözcük seç; çözümlemeyi makine-okunur biçimlerde al. Her kayıt kaynak + lisans alanlıdır; sonuç alıntılanabilir kalıcı bir bağlantı üretir.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+          <input value="{{ researchQ }}" onInput="{{ onResearchInput }}" onKeyDown="{{ onResearchKey }}" placeholder="Sözcük yaz + Enter — sağ üstteki dilde canlı çözümle &amp; dışa aktar" style="flex:1;min-width:340px;max-width:560px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
+        </div>
+        <div style="font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:8px;font-family:'IBM Plex Mono',monospace">ÖRNEK (Çuvaşça · hızlı doldur)</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <sc-for list="{{ researchWords }}" as="w" hint-placeholder-count="4"><button onClick="{{ w.go }}" style="{{ w.style }}">{{ w.surface }} <span style="font-size:11px;opacity:.6;font-family:'IBM Plex Sans'">{{ w.gloss }}</span></button></sc-for>
         </div>
@@ -880,7 +884,8 @@
           <div style="background:#15120e;border-radius:16px;overflow:hidden">
             <div style="display:flex;align-items:center;gap:6px;padding:10px 14px;background:#0e0c09;border-bottom:1px solid rgba(244,241,234,.08)">
               <div style="display:flex;gap:2px;background:rgba(244,241,234,.06);border-radius:8px;padding:3px"><sc-for list="{{ researchFmtTabs }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.label }}</button></sc-for></div>
-              <button onClick="{{ copyResearch }}" style="margin-left:auto;cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:7px;padding:7px 13px;font-size:12px;font-family:inherit">⧉ Kopyala</button>
+              <button onClick="{{ downloadResearch }}" style="margin-left:auto;cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:7px;padding:7px 13px;font-size:12px;font-family:inherit">⬇ İndir</button>
+              <button onClick="{{ copyResearch }}" style="cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:7px;padding:7px 13px;font-size:12px;font-family:inherit">⧉ Kopyala</button>
             </div>
             <pre style="margin:0;padding:20px 22px;font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.6;color:#cfe3d6;overflow:auto;white-space:pre-wrap;word-break:break-word">{{ researchCode }}</pre>
           </div>
@@ -1001,7 +1006,7 @@ class Component extends DCLogic {
     distBase: 'chv',        // distance explorer base lang
     distTarget: 'tt',       // distance explorer target lang
     paradigmRoot: 'hĕr',
-    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null,
+    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null,
     cognateKey: 'goz',
     profileSel: 'chv',
     researchWord: 'oku',
@@ -1843,29 +1848,46 @@ class Component extends DCLogic {
   }
 
   // ---------- RESEARCHER HUB ----------
+  runResearch(lang, word){
+    fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang,word})}).then(r=>r.json()).then(d=>{
+      this.setState({ researchApi:{lang, word, analyses:d.analyses||[]} });
+    }).catch(()=>{});
+  }
+
   researchVals(){
-    const S = this.state, w = this.WORDS[S.researchWord];
+    const S = this.state;
+    let w = this.WORDS[S.researchWord];
+    if (S.researchApi){ const R=S.researchApi; const a=(R.analyses&&R.analyses[0])||null;
+      const ms = a ? [{text:a.lemma, gItem:a.lemma, gloss:'lemma', type:'kök'}].concat((a.tags||[]).map(t=>({text:'', gItem:'', gloss:t, type:(/^(pres|past|fut|aor)$/.test(t)?'zaman':/^p[123]/.test(t)?'kişi':'etiket')}))) : [{text:R.word, gItem:R.word, gloss:'?', type:'kök'}];
+      w = { lang:R.lang, langName:(this.LIVE_LN[R.lang]||R.lang), surface:R.word, translit:'', gloss:(a?('apertium: '+a.raw):'çözümlenemedi'), morphemes:ms };
+    }
     if (!w) return {};
     const words = Object.entries(this.WORDS).map(([k,v])=>{
-      const sel = k===S.researchWord;
-      return { key:k, surface:v.surface, gloss:v.gloss, sel, go:()=>this.setState({researchWord:k}),
+      const sel = !S.researchApi && k===S.researchWord;
+      return { key:k, surface:v.surface, gloss:v.gloss, sel, go:()=>this.setState({researchWord:k, researchApi:null}),
         style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:18px;padding:7px 15px;font-size:14px;font-family:'Spectral',serif;font-weight:600` };
     });
     const lemma = (w.morphemes[0].gItem||'').replace(/-/g,'');
     const feats = w.morphemes.slice(1).map(m=>m.gloss);
     const pos = w.morphemes.some(m=>m.type==='zaman'||m.type==='kişi') ? 'VERB' : 'NOUN';
-    const json = JSON.stringify({ form:w.surface, translit:w.translit, lang:'chv', lemma, gloss:w.gloss,
+    const json = JSON.stringify({ form:w.surface, translit:w.translit, lang:(w.lang||'chv'), lemma, gloss:w.gloss,
       morphemes:w.morphemes.map(m=>({form:m.text, gloss:m.gloss, type:m.type})),
       source:'Apertium FST', license:'GPL-3.0' }, null, 2);
-    const conllu = `# lang = chv\n# text = ${w.surface}\n# translit = ${w.translit}\n# gloss = ${w.gloss}\n1\t${w.surface}\t${lemma}\t${pos}\t_\t${feats.join('|')||'_'}\t0\troot\t_\t_`;
+    const conllu = `# lang = ${w.lang||'chv'}\n# text = ${w.surface}\n# translit = ${w.translit}\n# gloss = ${w.gloss}\n1\t${w.surface}\t${lemma}\t${pos}\t_\t${feats.join('|')||'_'}\t0\troot\t_\t_`;
     const csv = `form,translit,lemma,pos,gloss,features\n${w.surface},${w.translit},${lemma},${pos},${w.gloss},${feats.join('+')||'_'}`;
     const fmts = { json, conllu, csv };
     const fmtTabs = [['json','JSON'],['conllu','CoNLL-U'],['csv','CSV']].map(([id,label])=>({
       label, go:()=>this.setState({researchFmt:id}),
       style:`cursor:pointer;border:none;border-radius:7px;padding:7px 15px;font-size:12.5px;font-weight:600;font-family:'IBM Plex Mono',monospace;background:${S.researchFmt===id?'#2f6fb0':'transparent'};color:${S.researchFmt===id?'#fff':'#5f574b'}` }));
-    return { researchWords:words, researchFmtTabs:fmtTabs, researchCode:fmts[S.researchFmt],
-      researchApiUrl:`GET /api/v1/analyze?lang=chv&form=${encodeURIComponent(w.surface)}`,
-      copyResearch:()=>{ try{ navigator.clipboard.writeText(fmts[S.researchFmt]); }catch(e){} } };
+    const cur = fmts[S.researchFmt]; const ext = {json:'json',conllu:'conllu',csv:'csv'}[S.researchFmt];
+    const lgR = (S.searchLang&&S.searchLang!=='auto')?S.searchLang:'chv';
+    return { researchWords:words, researchFmtTabs:fmtTabs, researchCode:cur,
+      researchQ: S.researchQ||'', researchLangName: (this.LIVE_LN[lgR]||'Çuvaşça'), researchLive: !!S.researchApi,
+      onResearchInput:(e)=>this.setState({researchQ:e.target.value}),
+      onResearchKey:(e)=>{ if(e.key!=='Enter') return; const word=(this.state.researchQ||'').trim(); if(!word) return; this.runResearch(lgR, word); },
+      researchApiUrl:`GET /api/v1/analyze?lang=${w.lang||'chv'}&form=${encodeURIComponent(w.surface)}`,
+      copyResearch:()=>{ try{ navigator.clipboard.writeText(cur); }catch(e){} },
+      downloadResearch:()=>{ try{ const b=new Blob([cur],{type:'text/plain;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='koken_'+(w.surface||'analiz')+'.'+ext; a.click(); }catch(e){} } };
   }
 
   // ---------- LEARN render ----------

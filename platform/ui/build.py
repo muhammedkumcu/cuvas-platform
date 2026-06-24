@@ -260,7 +260,7 @@ def main():
     nlive = 0
     live = []
     # 1) state alanları
-    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null,"))
+    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null,"))
     # küratörlü kök seçilince serbest çekimi temizle
     live.append(("        go:()=>this.setState({paradigmRoot:k}),", "        go:()=>this.setState({paradigmRoot:k, paradigmFree:null}),"))
     # paradigmVals return: serbest çekim (herhangi bir kök, seçili dil) + handler'lar
@@ -457,6 +457,71 @@ def main():
         "    demo:   {label:'Örnek veri (illüstratif)', detail:'gerçek backend bağlanınca değişecek', lic:'—', kind:'geçici', url:'—'},\n", "")
 
     print(f"  Güncelleme temizliği (XP/export barları): {ngfix}/3")
+
+    # ============================================================
+    #  B — ARAŞTIRMACI MERKEZİ CANLI (serbest sözcük + sağ-üst dil → /analyze → gerçek JSON/CoNLL-U/CSV + indir)
+    # ============================================================
+    # runResearch metodu (canlı analiz → researchApi); küratörlü kelime yerine sentetik WORD-şekilli nesne
+    html = html.replace(
+        "  researchVals(){",
+        "  runResearch(lang, word){\n"
+        "    fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang,word})}).then(r=>r.json()).then(d=>{\n"
+        "      this.setState({ researchApi:{lang, word, analyses:d.analyses||[]} });\n"
+        "    }).catch(()=>{});\n"
+        "  }\n\n"
+        "  researchVals(){", 1)
+
+    bfix = []
+    bfix.append(("research veri kaynağı",
+        "    const S = this.state, w = this.WORDS[S.researchWord];\n    if (!w) return {};",
+        "    const S = this.state;\n"
+        "    let w = this.WORDS[S.researchWord];\n"
+        "    if (S.researchApi){ const R=S.researchApi; const a=(R.analyses&&R.analyses[0])||null;\n"
+        "      const ms = a ? [{text:a.lemma, gItem:a.lemma, gloss:'lemma', type:'kök'}].concat((a.tags||[]).map(t=>({text:'', gItem:'', gloss:t, type:(/^(pres|past|fut|aor)$/.test(t)?'zaman':/^p[123]/.test(t)?'kişi':'etiket')}))) : [{text:R.word, gItem:R.word, gloss:'?', type:'kök'}];\n"
+        "      w = { lang:R.lang, langName:(this.LIVE_LN[R.lang]||R.lang), surface:R.word, translit:'', gloss:(a?('apertium: '+a.raw):'çözümlenemedi'), morphemes:ms };\n"
+        "    }\n"
+        "    if (!w) return {};"))
+    bfix.append(("research çip sel",
+        "      const sel = k===S.researchWord;\n      return { key:k, surface:v.surface, gloss:v.gloss, sel, go:()=>this.setState({researchWord:k}),",
+        "      const sel = !S.researchApi && k===S.researchWord;\n      return { key:k, surface:v.surface, gloss:v.gloss, sel, go:()=>this.setState({researchWord:k, researchApi:null}),"))
+    bfix.append(("research json lang", "lang:'chv', lemma, gloss:w.gloss,", "lang:(w.lang||'chv'), lemma, gloss:w.gloss,"))
+    bfix.append(("research conllu lang", "# lang = chv", "# lang = ${w.lang||'chv'}"))
+    bfix.append(("research return",
+        "    return { researchWords:words, researchFmtTabs:fmtTabs, researchCode:fmts[S.researchFmt],\n"
+        "      researchApiUrl:`GET /api/v1/analyze?lang=chv&form=${encodeURIComponent(w.surface)}`,\n"
+        "      copyResearch:()=>{ try{ navigator.clipboard.writeText(fmts[S.researchFmt]); }catch(e){} } };",
+        "    const cur = fmts[S.researchFmt]; const ext = {json:'json',conllu:'conllu',csv:'csv'}[S.researchFmt];\n"
+        "    const lgR = (S.searchLang&&S.searchLang!=='auto')?S.searchLang:'chv';\n"
+        "    return { researchWords:words, researchFmtTabs:fmtTabs, researchCode:cur,\n"
+        "      researchQ: S.researchQ||'', researchLangName: (this.LIVE_LN[lgR]||'Çuvaşça'), researchLive: !!S.researchApi,\n"
+        "      onResearchInput:(e)=>this.setState({researchQ:e.target.value}),\n"
+        "      onResearchKey:(e)=>{ if(e.key!=='Enter') return; const word=(this.state.researchQ||'').trim(); if(!word) return; this.runResearch(lgR, word); },\n"
+        "      researchApiUrl:`GET /api/v1/analyze?lang=${w.lang||'chv'}&form=${encodeURIComponent(w.surface)}`,\n"
+        "      copyResearch:()=>{ try{ navigator.clipboard.writeText(cur); }catch(e){} },\n"
+        "      downloadResearch:()=>{ try{ const b=new Blob([cur],{type:'text/plain;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='koken_'+(w.surface||'analiz')+'.'+ext; a.click(); }catch(e){} } };"))
+    # markup: serbest giriş kutusu (örnek çiplerin üstünde) + indir butonu
+    bfix.append(("research input markup",
+        '        <div style="display:flex;gap:8px;flex-wrap:wrap">\n'
+        "          <sc-for list=\"{{ researchWords }}\" as=\"w\" hint-placeholder-count=\"4\"><button onClick=\"{{ w.go }}\" style=\"{{ w.style }}\">{{ w.surface }} <span style=\"font-size:11px;opacity:.6;font-family:'IBM Plex Sans'\">{{ w.gloss }}</span></button></sc-for>\n"
+        '        </div>',
+        '        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">\n'
+        '          <input value="{{ researchQ }}" onInput="{{ onResearchInput }}" onKeyDown="{{ onResearchKey }}" placeholder="Sözcük yaz + Enter — sağ üstteki dilde canlı çözümle &amp; dışa aktar" style="flex:1;min-width:340px;max-width:560px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">\n'
+        '        </div>\n'
+        "        <div style=\"font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:8px;font-family:'IBM Plex Mono',monospace\">ÖRNEK (Çuvaşça · hızlı doldur)</div>\n"
+        '        <div style="display:flex;gap:8px;flex-wrap:wrap">\n'
+        "          <sc-for list=\"{{ researchWords }}\" as=\"w\" hint-placeholder-count=\"4\"><button onClick=\"{{ w.go }}\" style=\"{{ w.style }}\">{{ w.surface }} <span style=\"font-size:11px;opacity:.6;font-family:'IBM Plex Sans'\">{{ w.gloss }}</span></button></sc-for>\n"
+        '        </div>'))
+    bfix.append(("research download btn",
+        '              <button onClick="{{ copyResearch }}" style="margin-left:auto;cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:7px;padding:7px 13px;font-size:12px;font-family:inherit">⧉ Kopyala</button>',
+        '              <button onClick="{{ downloadResearch }}" style="margin-left:auto;cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:7px;padding:7px 13px;font-size:12px;font-family:inherit">⬇ İndir</button>\n'
+        '              <button onClick="{{ copyResearch }}" style="cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:7px;padding:7px 13px;font-size:12px;font-family:inherit">⧉ Kopyala</button>'))
+    nb = 0
+    for label, old, new in bfix:
+        if old in html:
+            html = html.replace(old, new, 1); nb += 1
+        else:
+            print("  ! B eşleşmedi:", label)
+    print(f"  Araştırmacı Merkezi canlı (B): {nb}/{len(bfix)}")
 
     # --- DENETİM DÜZELTMELERİ (görünür taraftaki sabit/eskimiş/tutarsız öğeler) ---
     audit = [

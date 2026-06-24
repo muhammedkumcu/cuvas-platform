@@ -151,6 +151,12 @@
             <span style="margin-left:auto;display:inline-flex;align-items:center;gap:7px;font-size:11px;color:#5f574b;font-family:'IBM Plex Mono',monospace"><span style="width:8px;height:8px;border-radius:2px;background:#9abf8f"></span>{{ fstSource }} · {{ fstLicense }}</span>
           </div>
           </sc-if>
+          <sc-if value="{{ hasSoundChanges }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:16px;padding-top:14px;border-top:1px dashed rgba(33,29,23,.12);display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9a9082;letter-spacing:.5px">SES OLAYI</span>
+            <sc-for list="{{ soundChanges }}" as="c" hint-placeholder-count="2"><span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;background:#f3efe6;border:1px solid rgba(217,139,74,.3);border-radius:14px;padding:4px 12px;color:#3f3a32"><span style="font-family:'Spectral',serif;font-weight:600">{{ c.disp }}</span><span style="color:#9a9082">{{ c.type }}</span></span></sc-for>
+          </div>
+          </sc-if>
         </div>
 
         <sc-if value="{{ hasApiMatches }}" hint-placeholder-val="{{ false }}">
@@ -1512,7 +1518,7 @@ class Component extends DCLogic {
     fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{
       if(!d || !d.morphemes || !d.morphemes.length) return;
       const ms = d.morphemes.map((m,i)=>({ text:m.surface, tag:m.tag, type:m.type||'kök', label:(i===0?'kök':'ek')+' · '+m.feat, gloss:m.feat, gItem:m.surface, note:(i===0?'Apertium çözümlemesinin köküdür.':('Apertium üretiminden çıkarılan yüzey eki — işlevi: '+m.feat+'.')) }));
-      this.setState(s=>{ if(!s.apiWord || s.apiWord.surface!==word) return {}; return { apiWord: Object.assign({}, s.apiWord, {morphemes: ms}) }; });
+      this.setState(s=>{ if(!s.apiWord || s.apiWord.surface!==word) return {}; return { apiWord: Object.assign({}, s.apiWord, {morphemes: ms, soundChanges: d.sound_changes||[]}) }; });
     }).catch(()=>{});
   }
   runParadigm(lemma){
@@ -1715,6 +1721,7 @@ class Component extends DCLogic {
       homeCards,
       // analiz
       active:{surface:w.surface, translit:w.translit, gloss:w.gloss, langName:w.langName, headword:this.disp(w.surface,w.translit), morphemes},
+      soundChanges:((w&&w.soundChanges)||[]).map(c=>({disp:c.from+' → '+c.to, type:c.type})), hasSoundChanges:!!(w&&w.soundChanges&&w.soundChanges.length),
       fstAnalysis: (w.morphemes[0].gItem||'').replace(/-/g,'') + w.morphemes.slice(1).map(m=>'+'+m.gloss).join(''),
       fstSource:this.SOURCES.fst.label, fstLicense:this.SOURCES.fst.lic,
       speakActive:()=>this.speak(w.translit),

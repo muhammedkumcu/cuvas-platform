@@ -487,7 +487,7 @@ def main():
         "    fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{\n"
         "      if(!d || !d.morphemes || !d.morphemes.length) return;\n"
         "      const ms = d.morphemes.map((m,i)=>({ text:m.surface, tag:m.tag, type:m.type||'kök', label:(i===0?'kök':'ek')+' · '+m.feat, gloss:m.feat, gItem:m.surface, note:(i===0?'Apertium çözümlemesinin köküdür.':('Apertium üretiminden çıkarılan yüzey eki — işlevi: '+m.feat+'.')) }));\n"
-        "      this.setState(s=>{ if(!s.apiWord || s.apiWord.surface!==word) return {}; return { apiWord: Object.assign({}, s.apiWord, {morphemes: ms}) }; });\n"
+        "      this.setState(s=>{ if(!s.apiWord || s.apiWord.surface!==word) return {}; return { apiWord: Object.assign({}, s.apiWord, {morphemes: ms, soundChanges: d.sound_changes||[]}) }; });\n"
         "    }).catch(()=>{});\n"
         "  }\n"
         "  runParadigm(lemma){"))
@@ -510,6 +510,29 @@ def main():
         else:
             print("  ! SEG eşleşmedi:", label)
     print(f"  Analiz segment (gerçek yüzey ekleri): {nseg}/{len(seg)}")
+
+    # ses olayı (sound_changes) rozeti — analiz: "p → b · ünsüz yumuşaması" (öğrenci + araştırmacı)
+    scfix = []
+    scfix.append(("ses olayı render",
+        "      active:{surface:w.surface, translit:w.translit, gloss:w.gloss, langName:w.langName, headword:this.disp(w.surface,w.translit), morphemes},",
+        "      active:{surface:w.surface, translit:w.translit, gloss:w.gloss, langName:w.langName, headword:this.disp(w.surface,w.translit), morphemes},\n"
+        "      soundChanges:((w&&w.soundChanges)||[]).map(c=>({disp:c.from+' → '+c.to, type:c.type})), hasSoundChanges:!!(w&&w.soundChanges&&w.soundChanges.length),"))
+    scfix.append(("ses olayı markup",
+        "{{ fstSource }} · {{ fstLicense }}</span>\n          </div>\n          </sc-if>",
+        "{{ fstSource }} · {{ fstLicense }}</span>\n          </div>\n          </sc-if>\n"
+        "          <sc-if value=\"{{ hasSoundChanges }}\" hint-placeholder-val=\"{{ false }}\">\n"
+        "          <div style=\"margin-top:16px;padding-top:14px;border-top:1px dashed rgba(33,29,23,.12);display:flex;align-items:center;gap:8px;flex-wrap:wrap\">\n"
+        "            <span style=\"font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9a9082;letter-spacing:.5px\">SES OLAYI</span>\n"
+        "            <sc-for list=\"{{ soundChanges }}\" as=\"c\" hint-placeholder-count=\"2\"><span style=\"display:inline-flex;align-items:center;gap:7px;font-size:12.5px;background:#f3efe6;border:1px solid rgba(217,139,74,.3);border-radius:14px;padding:4px 12px;color:#3f3a32\"><span style=\"font-family:'Spectral',serif;font-weight:600\">{{ c.disp }}</span><span style=\"color:#9a9082\">{{ c.type }}</span></span></sc-for>\n"
+        "          </div>\n"
+        "          </sc-if>"))
+    nsc2 = 0
+    for label, old, new in scfix:
+        if old in html:
+            html = html.replace(old, new, 1); nsc2 += 1
+        else:
+            print("  ! ses olayı eşleşmedi:", label)
+    print(f"  Ses olayı rozeti: {nsc2}/{len(scfix)}")
 
     # ============================================================
     #  GÜNCELLEME (24 Haz) — temizlik & yeni davranışlar (kullanıcı notları)

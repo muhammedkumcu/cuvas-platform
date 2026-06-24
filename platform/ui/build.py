@@ -364,6 +364,68 @@ def main():
         nsel = 1
     print(f"  Analiz dil seçici: {nsel}")
 
+    # ============================================================
+    #  GÜNCELLEME (24 Haz) — temizlik & yeni davranışlar (kullanıcı notları)
+    #  • "HAM ÇIKTI / ⬇ Dışa aktar" kara barları yersiz → kaldır; export tablolarda kopyalama olur.
+    #  • Sol-alt "XP · x/y ünite" sayacı saçma → kaldır (eğitim portalı GELECEK işi).
+    #  • Kullanılmayan 'demo' kaynağını kütükten çıkar (F).  • Font/renk paleti korunur.
+    # ============================================================
+    gfix = []  # (etiket, eski, yeni)
+
+    # G7 — sol-alt XP sayacı kaldır
+    gfix.append(("sidebar XP",
+        '      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">\n'
+        "        <span style=\"font-family:'Spectral',serif;font-size:18px;font-weight:700;color:#d98b4a\">{{ hubXp }}</span>\n"
+        '        <span style="font-size:11px;color:rgba(244,241,234,.5)">XP · {{ hubDoneCount }}/{{ hubTotal }} ünite tamam</span>\n'
+        '      </div>\n', ''))
+
+    # G1 — Paradigma ekranındaki kara "HAM ÇIKTI / Dışa aktar" barı kaldır
+    gfix.append(("paradigma export barı",
+        '        <sc-if value="{{ isExpert }}" hint-placeholder-val="{{ false }}">\n'
+        '        <div style="margin-top:14px;display:flex;align-items:center;gap:12px;background:#15120e;color:#f4f1ea;border-radius:11px;padding:11px 16px;flex-wrap:wrap">\n'
+        "          <span style=\"font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#9abf8f\">UZMAN MODU</span>\n"
+        '          <span style="font-size:12.5px;color:rgba(244,241,234,.8)">Ham morfolojik etiketler ve kaynak künyeleri görünür.</span>\n'
+        '          <button onClick="{{ goResearch }}" style="margin-left:auto;cursor:pointer;background:#2f6fb0;color:#fff;border:none;border-radius:8px;padding:7px 13px;font-size:12px;font-family:inherit">⬇ Dışa aktar</button>\n'
+        '        </div>\n'
+        '        </sc-if>\n', ''))
+
+    # G1 — Kognat ekranındaki aynı kara barı kaldır
+    gfix.append(("kognat export barı",
+        '        <sc-if value="{{ isExpert }}" hint-placeholder-val="{{ false }}">\n'
+        '        <div style="margin-bottom:14px;display:flex;align-items:center;gap:12px;background:#15120e;color:#f4f1ea;border-radius:11px;padding:11px 16px;flex-wrap:wrap">\n'
+        "          <span style=\"font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#9abf8f\">UZMAN MODU</span>\n"
+        '          <span style="font-size:12.5px;color:rgba(244,241,234,.8)">Kognat seti makine-okunur biçimde alınabilir.</span>\n'
+        '          <button onClick="{{ goResearch }}" style="margin-left:auto;cursor:pointer;background:#2f6fb0;color:#fff;border:none;border-radius:8px;padding:7px 13px;font-size:12px;font-family:inherit">⬇ Dışa aktar</button>\n'
+        '        </div>\n'
+        '        </sc-if>\n', ''))
+
+    ngfix = 0
+    for label, old, new in gfix:
+        if old in html:
+            html = html.replace(old, new); ngfix += 1
+        else:
+            print("  ! güncelleme eşleşmedi:", label)
+
+    # G1 — Paradigma tablosuna "Tabloyu kopyala" (export tablolarda kopyalama olur)
+    html = html.replace(
+        '        <div style="margin-top:22px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">',
+        '        <div style="margin-top:22px;display:flex;align-items:center;gap:10px">\n'
+        "          <span style=\"font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px\">ÇEKİM TABLOSU</span>\n"
+        '          <button onClick="{{ copyParadigm }}" style="margin-left:auto;cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:8px;padding:6px 12px;font-size:12px;font-family:inherit;color:#211d17">⧉ Tabloyu kopyala</button>\n'
+        '        </div>\n'
+        '        <div id="paradigm-table" style="margin-top:10px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">', 1)
+    # copyParadigm handler (DOM → pano; tablodan bağımsız, güvenli)
+    html = html.replace(
+        "      goResearch:()=>this.setState({screen:'research'}),",
+        "      goResearch:()=>this.setState({screen:'research'}),\n"
+        "      copyParadigm:()=>{ try{ const t=document.getElementById('paradigm-table'); if(t) navigator.clipboard.writeText(t.innerText); }catch(e){} },", 1)
+
+    # F — kullanılmayan 'demo' kaynağını kütükten çıkar (tüm modüller artık kaynaklı)
+    html = html.replace(
+        "    demo:   {label:'Örnek veri (illüstratif)', detail:'gerçek backend bağlanınca değişecek', lic:'—', kind:'geçici', url:'—'},\n", "")
+
+    print(f"  Güncelleme temizliği (XP/export barları): {ngfix}/3")
+
     # --- DENETİM DÜZELTMELERİ (görünür taraftaki sabit/eskimiş/tutarsız öğeler) ---
     audit = [
         # paradigma başlığı artık dinamik (herhangi dilde çekim)
@@ -375,8 +437,6 @@ def main():
         ('        <div style="display:flex;background:#ece7dc;border-radius:9px;padding:3px">\n'
          '          <sc-for list="{{ modeToggle }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>\n'
          '        </div>\n', ''),
-        # 'UZMAN MODU' etiketi mod kalkınca anlamsız → nötr
-        ("UZMAN MODU", "HAM ÇIKTI"),
         # stale konuşur sayısı (timeline) → güncel
         ("Ogur kolunun yaşayan tek temsilcisi; ~1 milyon konuşur, tehlike altında.",
          "Ogur kolunun yaşayan tek temsilcisi; ~740 bin konuşur, tehlike altında."),

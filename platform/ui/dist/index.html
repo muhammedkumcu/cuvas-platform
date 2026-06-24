@@ -45,10 +45,6 @@
       </sc-for>
     </nav>
     <div style="padding:14px 20px 16px;border-top:1px solid rgba(244,241,234,.12)">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-        <span style="font-family:'Spectral',serif;font-size:18px;font-weight:700;color:#d98b4a">{{ hubXp }}</span>
-        <span style="font-size:11px;color:rgba(244,241,234,.5)">XP · {{ hubDoneCount }}/{{ hubTotal }} ünite tamam</span>
-      </div>
       <div style="font-size:10.5px;color:rgba(244,241,234,.34);line-height:1.6;font-family:'IBM Plex Mono',monospace">5 KOL · 14 DİL · ÇUVAŞ ÇEKİRDEK · v0.4</div>
     </div>
   </aside>
@@ -741,13 +737,6 @@
           <span style="font-size:18px;color:#5f574b">{{ paradigmGloss }}</span>
         </div>
         <div style="font-size:14px;color:#5f574b">{{ paradigmSub }}</div>
-        <sc-if value="{{ isExpert }}" hint-placeholder-val="{{ false }}">
-        <div style="margin-top:14px;display:flex;align-items:center;gap:12px;background:#15120e;color:#f4f1ea;border-radius:11px;padding:11px 16px;flex-wrap:wrap">
-          <span style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#9abf8f">HAM ÇIKTI</span>
-          <span style="font-size:12.5px;color:rgba(244,241,234,.8)">Ham morfolojik etiketler ve kaynak künyeleri görünür.</span>
-          <button onClick="{{ goResearch }}" style="margin-left:auto;cursor:pointer;background:#2f6fb0;color:#fff;border:none;border-radius:8px;padding:7px 13px;font-size:12px;font-family:inherit">⬇ Dışa aktar</button>
-        </div>
-        </sc-if>
         <div style="display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap">
           <input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — sağ üstteki dilde canlı çekim" style="flex:1;min-width:300px;max-width:520px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
         </div>
@@ -757,7 +746,11 @@
             <button onClick="{{ r.go }}" style="{{ r.style }}"><span style="font-family:'Spectral',serif;font-size:17px;font-weight:700">{{ r.label }}</span><span style="{{ r.glossStyle }}">{{ r.gloss }} · {{ r.kind }}</span></button>
           </sc-for>
         </div>
-        <div style="margin-top:22px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">
+        <div style="margin-top:22px;display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px">ÇEKİM TABLOSU</span>
+          <button onClick="{{ copyParadigm }}" style="margin-left:auto;cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:8px;padding:6px 12px;font-size:12px;font-family:inherit;color:#211d17">⧉ Tabloyu kopyala</button>
+        </div>
+        <div id="paradigm-table" style="margin-top:10px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">
           <sc-if value="{{ paradigmIsNoun }}" hint-placeholder-val="{{ true }}">
           <div style="display:grid;grid-template-columns:150px 1fr 1fr;background:#211d17;color:#f4f1ea;font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px">
             <div style="padding:11px 22px">HÂL</div><div style="padding:11px 16px">TEKİL</div><div style="padding:11px 16px">ÇOĞUL</div>
@@ -801,13 +794,6 @@
         <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">KOGNAT AĞI</div>
         <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 6px">“{{ cognateGloss }}” kökteşleri</h2>
         <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:64ch;margin:0 0 12px">Ortak bir atadan gelen biçimler. Turuncu kesik çizgi, o dilde düzenli bir <strong>ses değişimi</strong> olduğunu gösterir — kök aynı, görünüş farklı.</p>
-        <sc-if value="{{ isExpert }}" hint-placeholder-val="{{ false }}">
-        <div style="margin-bottom:14px;display:flex;align-items:center;gap:12px;background:#15120e;color:#f4f1ea;border-radius:11px;padding:11px 16px;flex-wrap:wrap">
-          <span style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#9abf8f">HAM ÇIKTI</span>
-          <span style="font-size:12.5px;color:rgba(244,241,234,.8)">Kognat seti makine-okunur biçimde alınabilir.</span>
-          <button onClick="{{ goResearch }}" style="margin-left:auto;cursor:pointer;background:#2f6fb0;color:#fff;border:none;border-radius:8px;padding:7px 13px;font-size:12px;font-family:inherit">⬇ Dışa aktar</button>
-        </div>
-        </sc-if>
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <sc-for list="{{ cognateKeys }}" as="k" hint-placeholder-count="3"><button onClick="{{ k.go }}" style="{{ k.style }}">{{ k.label }}</button></sc-for>
         </div>
@@ -1284,7 +1270,6 @@ class Component extends DCLogic {
     joshi:  {label:'Joshi ve ark. 2020', detail:'dijital kaynak sınıfları (0–5)', lic:'akademik', kind:'literatür', url:'aclanthology.org'},
     yunusbayev:{label:'Yunusbayev ve ark. 2015', detail:'dil ≠ gen; popülasyon genetiği', lic:'akademik', kind:'literatür', url:'doi.org/10.1371/journal.pgen.1005068'},
     kasgari:{label:'Dîvânu Lugâti’t-Türk (~1075)', detail:'Kâşgarlı Mahmud · tarihsel atıf', lic:'kamu malı', kind:'literatür', url:'—'},
-    demo:   {label:'Örnek veri (illüstratif)', detail:'gerçek backend bağlanınca değişecek', lic:'—', kind:'geçici', url:'—'},
   };
   // hangi modül hangi kaynaktan yararlanıyor
   USAGE = [
@@ -1623,6 +1608,7 @@ class Component extends DCLogic {
       goCompareSound:()=>this.setState({screen:'compare', compareTab:'sound'}),
       goParadigm:()=>this.setState({screen:'paradigm'}),
       goResearch:()=>this.setState({screen:'research'}),
+      copyParadigm:()=>{ try{ const t=document.getElementById('paradigm-table'); if(t) navigator.clipboard.writeText(t.innerText); }catch(e){} },
       ...this.sourceVals(),
       homeCards,
       // analiz

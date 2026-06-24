@@ -25,20 +25,30 @@ analiz · üretim · paradigma · kognat ağı · ses denkliği · çok-boyutlu 
 - ✅ **Dil Profilleri + Canlılık** — Glottolog AES + 14/14 dil Wikipedia zengin metin (çapraz-kontrollü, atıflı). Harita düğümü → profil.
 - ✅ **Harita** — 14 dil Glottolog koordinat (şematik projeksiyon).
 - ✅ **Uzaklık Gezgini** — **5/5 eksen kaynaklı**: leksikal+filogenetik (Savelyev), tipolojik (WALS), coğrafi (koordinat), anlaşılabilirlik (Lindsay).
-- ✅ **Kognat Ağı** — 14 kavram, gerçek kognat setleri+boşluklar (Savelyev). NOT: formlar **karşılaştırmalı transkripsiyon** (kuś, χaraχ); yerel ortografi = **C planı**.
-- ✅ **Analiz + Paradigma → CANLI API, herhangi kelime/dil** — bağlam çubuğunda **10-dil seçici** (`searchLang`); Analiz seçili dilde herhangi kelimeyi `/analyze`; Paradigma'da **serbest kök girişi** (örneklerin üstünde) → `/paradigm/<dil>/<kök>`. Graceful fallback (VM kapalıysa illüstratif).
-- ✅ **öğrenen/uzman KALDIRILDI** (her şey hep görünür, `isExpert=true`); **script toggle (Кир/Lat) KALDI**. Paradigma başlığı **dinamik** (sabit "Çuvaşça" bug'ı düzeldi).
+- ✅ **Kognat Ağı** — 14 kavram, gerçek kognat setleri+boşluklar (Savelyev); formlar artık **okunur karşılaştırmalı yazım** (C ✅, `readable()`); proto-kök akademik.
+- ✅ **Analiz CANLI + MULTI-DİL OTOMATİK** — seçicide "⚡ Otomatik" → `/analyze_all` (kelime hangi dil(ler)de varsa) + "BU KELİME ŞU DİLLERDE" çipleri; ya da tek dilde `/analyze`. Dil değişince anında yeniden çözer.
+- ✅ **Paradigma CANLI** — serbest kök girişi → `/paradigm/<dil>/<kök>`; örnek kökler **dil dengeli** (G3); tabloya "⧉ Tabloyu kopyala".
+- ✅ **Araştırmacı Merkezi CANLI** (B) — serbest sözcük + dil → `/analyze` → gerçek JSON/CoNLL-U/CSV + İndir.
+- ✅ **Karşılaştır "dizilim" CANLI** (D) — aranan kelime `/analyze_all` ile diller-arası.
+- ✅ **öğrenen/uzman + export barları KALDIRILDI**; sol-alt XP sayacı kaldırıldı (G7). **Кир/Lat** toggle çalışıyor. Paradigma/Karşılaştır başlıkları **dinamik**.
 
-### ★★ SIRADAKİ İŞ — A→F PLANI (compact sonrası TEK PATCHTE; her adımda commit+push+kontrol)
-**Kullanıcı bu planı ve sırayı ONAYLADI.** "tek patchte bitir, aralarda commit atıp kontrolleri yap."
-- **A) Multi-dil OTOMATİK analiz** — backend `/analyze_all` ✅ YAZILDI+COMMIT (`c0efe60`) **ama ⚠ VM uvicorn ESKİ kodu servis ediyordu → ÖNCE temiz restart + `/analyze_all` doğrula (§4.6).** UI YAPILACAK: dil seçicide **"⚡ Otomatik (tüm diller)"** seçeneği → `runSearch` otomatik dalı → `/analyze_all` → ilk eşleşen dil aktif + Analiz görünümünde **"bu kelime şu dillerde:"** çip satırı (tıkla → o dile geç). State: `apiMatches`. (FST kök+etiket verir, yüzey-segmentasyon değil — kabul.)
-- **B) Araştırmacı Merkezi'ni CANLIYA bağla** — şu an küratörlü WORDS. Serbest kelime girişi + seçili dil → canlı `/analyze` → **gerçek CSV/JSON/CoNLL-U dışa aktarım**.
-- **C) Kognat yerel ortografi** — Savelyev formları Latin transkripsiyon (kuś, χaraχ). Doğru yerel-script türetmek zor (kaynak vermiyor) → **okunur transkripsiyon temizliği** (χ→h, ɕ→ś, ŋ→ñ, ʃ→ş, ɣ→ğ, ɯ→ı …) + "karşılaştırmalı biçim" etiketi (dürüst).
-- **D) Karşılaştır "dizilim" sekmesi canlı** — aranan kelimeyi diller-arası analiz (`analyze_all`). Sınırlı (FST kök+etiket).
-- **E) Tarih & Köken kaynaklı genişletme** — `#4`/Glottolog'dan kaynaklı zaman çizelgesi olayları/profil notları.
-- **F) Kaynaklar 'demo' temizliği** — kullanılmayan 'demo' SOURCES kaydını çıkar.
+### ✅ A→F PLANI + GÜNCELLEME NOTLARI — TAMAMLANDI (24 Haz, Claude_Preview'da doğrulandı)
+Tümü `build.py` enjeksiyonu, her adım ayrı commit+push. **Backend canlı doğrulandı** (uvicorn temiz restart, §4.6).
+- **A) Multi-dil OTOMATİK analiz** ✅ — `/analyze_all` canlı; dil seçicide **"⚡ Otomatik · tüm diller"**; `runSearch` auto dalı → ilk eşleşen dil + Analiz'de **"BU KELİME ŞU DİLLERDE"** çip satırı (tıkla → o dile geç, state `apiMatchCodes/apiMatchLang/apiAllLangs`). **Dil seçici değişince anında yeniden çözer** (kullanıcının "çalışmıyor" algısı çözüldü). Paylaşılan `apiWordFrom(lg,word,analyses)` + `LIVE_LN`.
+- **B) Araştırmacı Merkezi CANLI** ✅ — serbest sözcük girişi + sağ-üstteki dil → canlı `/analyze` → **gerçek JSON/CoNLL-U/CSV** + **İndir** (Blob) + Kopyala; API URL aranan kelimeye göre güncel. `runResearch(lang,word)` + sentetik WORD-şekilli nesne (metodun gerisi aynı kalır).
+- **C) Kognat okunur yazım** ✅ — `readable()` (ḳ→q, χ→h, ɣ→ğ, ə→ä, ŋ→ñ, ɘ→ĕ …) düğüm sözcüklerine; proto-kök akademik korundu; "Biçimler okunur karşılaştırmalı yazımdadır" etiketi.
+- **D) Karşılaştır "dizilim" canlı** ✅ — `goCompareActive` canlı kelimede `/analyze_all` → `compareApi` → diller-arası satır; başlık ham gloss yerine yüzey biçimi (`compareHeadline`). Küratörlü kelimeler eski zengin görünümü korur.
+- **E) Tarih & Köken** ✅ — Çuvaş-merkezli 2 kaynaklı olay: İdil Bulgar mezar yazıtları (Erdal), Aşmarin 17 ciltlik sözlük.
+- **F) 'demo' temizliği** ✅ — `SOURCES.demo` çıkarıldı; hiçbir modülde "⚠ örnek/illüstratif" kalmadı.
 
-> Her adım döngüsü: `build.py`'ye yama → `python platform/ui/build.py` → Claude_Preview'da doğrula → commit+push. **Preview: reload/click sonrası eval ASYNC — bir tık sonra tekrar oku.**
+### ✅ KULLANICI GÜNCELLEME NOTLARI (24 Haz screenshot) — TAMAMLANDI
+- **G1)** "HAM ÇIKTI / ⬇ Dışa aktar" kara barları (paradigma+kognat) KALDIRILDI → yerine **tablolarda kopyalama** (paradigma "⧉ Tabloyu kopyala"; araştırmacıda Kopyala+İndir).
+- **G3)** Paradigma örnek kökleri **dil dengeli** (хӗр·Çuvaşça, ev·Türkçe, кул·Tatarca, бала·Kazakça, ат·Yakutça; tıkla → o dilde canlı çekim). Çuvaşça en önemli/varsayılan.
+- **G4)** Sağ-üst **dil seçimi** (A'da anında geri bildirim) ve **Кир/Lat** toggle: ikisi de ÇALIŞIYOR (Çuvaşça вуларӑмӑр→vularămăr doğrulandı; Latin-script dillerde çevrilecek bir şey olmadığı için değişmez — beklenen).
+- **G7)** Sol-alt **"XP · x/y ünite"** sayacı KALDIRILDI (eğitim portalı = gelecek işi, `plan/GELECEK-PLANLAR.md`; girişi sol menüdeki "Öğren").
+- Font/renk paleti korundu; tüm 11 ekran render, `logicError:null`.
+
+> İLERİDE benzer iş döngüsü: `build.py`'ye yama → `python platform/ui/build.py` → Claude_Preview'da doğrula → commit+push. **Preview: reload/click sonrası eval ASYNC — bir tık sonra tekrar oku.**
 
 ### OKUNMASI GEREKEN MD'LER (sırayla)
 1. **Bu DEVAM.md** — özellikle §0, §2 (VM), §3 (apertium), §4.5 (felsefe), §4.6 (hatalar), §7.

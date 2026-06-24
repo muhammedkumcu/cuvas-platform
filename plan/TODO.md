@@ -48,14 +48,15 @@
   - [x] **anlaşılabilirlik eksen** ← Lindsay (deneysel/yaklaşık, `intelligibility.json`, atıflı). → **Uzaklık 5/5 eksen kaynaklı**, "örnek" rozeti + eski illüstratif caption kalktı. Doğrulandı: chv→tt anla 0.92 (Çuvaş izolasyonu).
 - [x] **Denetim #1** (görünür taraf): Paradigma başlığı dinamik (sabit "Çuvaşça" bug'ı); öğrenen/uzman + mod-gizleme KALDIRILDI (her şey görünür); "UZMAN MODU"→"HAM ÇIKTI"; paradigma serbest girişi yukarı + örnekler etiketli; stale ~1milyon chv→740bin.
 
-## 1.7) ★ SIRADAKİ — A→F PLANI (compact sonrası, TEK PATCH, aralarda commit+kontrol — kullanıcı ONAYLI)
-> Detay + tuzaklar: `DEVAM.md` §0. **ÖN ŞART: VM uvicorn temiz restart + `/analyze_all` doğrula (§4.6 uvicorn tuzağı).**
-- [~] **A) Multi-dil OTOMATİK analiz** — backend `/analyze_all` ✅ (commit c0efe60). UI: dil seçicide "⚡ Otomatik (tüm diller)" → runSearch otomatik dalı → /analyze_all → ilk eşleşen dil aktif + "bu kelime şu dillerde:" çip satırı (tıkla→geç). State apiMatches.
-- [ ] **B) Araştırmacı Merkezi CANLI** — serbest kelime+dil → /analyze → gerçek CSV/JSON/CoNLL-U export.
-- [ ] **C) Kognat yerel ortografi** — transkripsiyon temizliği (χ→h, ɕ→ś, ŋ→ñ, ʃ→ş…) + "karşılaştırmalı biçim" etiketi.
-- [ ] **D) Karşılaştır "dizilim" canlı** — aranan kelime diller-arası (/analyze_all). Sınırlı.
-- [ ] **E) Tarih & Köken kaynaklı genişletme** — #4/Glottolog'dan olaylar.
-- [ ] **F) Kaynaklar 'demo' temizliği** — kullanılmayan 'demo' SOURCES kaydını çıkar.
+## 1.7) ✅ A→F PLANI + GÜNCELLEME NOTLARI — TAMAMLANDI (24 Haz, Claude_Preview doğrulandı; her adım ayrı commit)
+> Detay: `DEVAM.md` §0. VM uvicorn temiz restart + `/analyze_all` doğrulandı (host'tan da). Tümü `build.py` enjeksiyonu.
+- [x] **A) Multi-dil OTOMATİK analiz** — "⚡ Otomatik · tüm diller" → /analyze_all + "BU KELİME ŞU DİLLERDE" çipleri; dil değişince anında yeniden çözer (G4). `apiWordFrom`+`LIVE_LN`.
+- [x] **B) Araştırmacı Merkezi CANLI** — serbest sözcük+dil → /analyze → gerçek JSON/CoNLL-U/CSV + İndir; API URL canlı. `runResearch`.
+- [x] **C) Kognat okunur yazım** — `readable()` (ḳ→q, χ→h, ɣ→ğ, ə→ä, ŋ→ñ…); proto-kök akademik; dürüst "karşılaştırmalı biçim" etiketi.
+- [x] **D) Karşılaştır "dizilim" canlı** — `goCompareActive` → /analyze_all → `compareApi`; başlık `compareHeadline` (yüzey).
+- [x] **E) Tarih & Köken** — İdil Bulgar mezar yazıtları (Erdal) + Aşmarin 17 ciltlik Çuvaş sözlüğü.
+- [x] **F) 'demo' temizliği** — `SOURCES.demo` çıkarıldı.
+- [x] **G1)** "HAM ÇIKTI/Dışa aktar" barları kaldırıldı → tablolarda kopyalama. **G3)** paradigma örnekleri dil dengeli. **G7)** sol-alt XP sayacı kaldırıldı. Font/renk paleti korundu.
 
 ## 2) #4 GELİNCE — Mimari tasarımı (BİRLİKTE kesinleştirilecek)
 - [ ] #4 PDF metnini çıkar + #3 ile birlikte **birleşik veri modeli** tasarla (dil profili, ses‑denkliği kuralı, kognat seti, paradigma, çok‑boyutlu uzaklık matrisi, zaman çizelgesi olayı, kaynak/lisans).

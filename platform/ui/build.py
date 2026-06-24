@@ -460,7 +460,13 @@ def main():
         "    else { fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word:lemma})}).then(r=>r.json()).then(d=>{ const c=Object.keys(d.langs||{}); fp(c[0]||'chv'); }).catch(()=>{}); }\n"
         "  }\n"
         "  runCompare(word){\n"
-        "    fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{ const langs=d.langs||{}; const codes=Object.keys(langs); const first=codes[0]; this.setState({ apiWord:this.apiWordFrom(first||'chv', word, first?langs[first]:null), activeWordId:'__api', apiAllLangs:langs, apiMatchCodes:codes, apiMatchLang:first||null, compareApi:{word, langs}, screen:'compare', compareTab:'rows', selMorphIdx:0, stripCount:0 }); }).catch(()=>{});\n"
+        "    fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{\n"
+        "      const langs=d.langs||{}; const codes=Object.keys(langs); const first=codes[0];\n"
+        "      Promise.all(codes.map(lc=>fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lc,word})}).then(r=>r.json()).then(s=>[lc,(s&&s.morphemes)||null]).catch(()=>[lc,null]))).then(pairs=>{\n"
+        "        const segs={}; pairs.forEach(p=>{segs[p[0]]=p[1];});\n"
+        "        this.setState({ apiWord:this.apiWordFrom(first||'chv', word, first?langs[first]:null), activeWordId:'__api', apiAllLangs:langs, apiMatchCodes:codes, apiMatchLang:first||null, compareApi:{word, langs, segs}, screen:'compare', compareTab:'rows', selMorphIdx:0, stripCount:0 });\n"
+        "      });\n"
+        "    }).catch(()=>{});\n"
         "  }\n"
         + m_anchor)
     if m_anchor in html:
@@ -790,15 +796,17 @@ def main():
     # canlı kelimede Karşılaştır'a geçerken kelimeyi tüm dillerde çöz
     dfix.append(("compare fetch",
         "      goCompareActive:()=>this.setState({screen:'compare', compareTab:'rows'}),",
-        "      goCompareActive:()=>{ this.setState({screen:'compare', compareTab:'rows'}); if(this.state.activeWordId==='__api' && this.state.apiWord){ const word=this.state.apiWord.surface; fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>this.setState({compareApi:{word, langs:d.langs||{}}})).catch(()=>{}); } },"))
-    # allLangs: canlı sonuç varsa dillerden satır üret
+        "      goCompareActive:()=>{ if(this.state.activeWordId==='__api' && this.state.apiWord){ this.runCompare(this.state.apiWord.surface); } else { this.setState({screen:'compare', compareTab:'rows'}); } },"))
+    # allLangs: canlı sonuç varsa dillerden GERÇEK ek dizilimi (segment); yoksa POS etiketlerini eleyerek tag
     dfix.append(("compare allLangs",
         "    const allLangs = [{lang:w.lang,langName:w.langName,branch:'Ogur',translit:w.translit,morphemes:w.morphemes.map(m=>[m.text,m.tag,m.type]),self:true}, ...w.cognates];",
-        "    const cmpApi = (S.activeWordId==='__api' && S.compareApi && S.compareApi.word===w.surface) ? S.compareApi.langs : null;\n"
+        "    const cmpA = (S.activeWordId==='__api' && S.compareApi && S.compareApi.word===w.surface) ? S.compareApi : null;\n"
+        "    const cmpLangs = cmpA ? cmpA.langs : null; const cmpSegs = cmpA ? (cmpA.segs||{}) : {};\n"
         "    const CBR = {tur:'Oğuz',aze:'Oğuz',tuk:'Oğuz',kaz:'Kıpçak',kir:'Kıpçak',tat:'Kıpçak',bak:'Kıpçak',uzb:'Karluk',uig:'Karluk',chv:'Ogur',sah:'Sibirya'};\n"
-        "    const CTT = {n:'kök',v:'kök',pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',fut:'zaman',aor:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};\n"
-        "    const allLangs = cmpApi\n"
-        "      ? Object.entries(cmpApi).map(([lc,arr])=>{ const a=(arr&&arr[0])||{lemma:w.surface,tags:[]}; const ms=[[a.lemma,'KÖK','kök']].concat((a.tags||[]).map(t=>[t,String(t).toUpperCase(),(CTT[t]||'kök')])); return {lang:lc, langName:(this.LIVE_LN[lc]||lc), branch:(CBR[lc]||'—'), translit:w.surface, morphemes:ms, self:lc===S.apiMatchLang}; })\n"
+        "    const CTT = {pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',ifi:'zaman',fut:'zaman',aor:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};\n"
+        "    const SKIP = {v:1,tv:1,iv:1,n:1,attr:1};\n"
+        "    const allLangs = cmpLangs\n"
+        "      ? Object.entries(cmpLangs).map(([lc,arr])=>{ const seg=cmpSegs[lc]; let ms; if(seg && seg.length){ ms = seg.map(m=>[m.surface, (m.tag||'').toString(), (m.type||'kök')]); } else { const a=(arr&&arr[0])||{lemma:w.surface,tags:[]}; ms=[[a.lemma,'KÖK','kök']].concat((a.tags||[]).filter(t=>!SKIP[t]).map(t=>[t,String(t).toUpperCase(),(CTT[t]||'hâl')])); } return {lang:lc, langName:(this.LIVE_LN[lc]||lc), branch:(CBR[lc]||'—'), translit:w.surface, morphemes:ms, self:lc===S.apiMatchLang}; })\n"
         "      : [{lang:w.lang,langName:w.langName,branch:'Ogur',translit:w.translit,morphemes:w.morphemes.map(m=>[m.text,m.tag,m.type]),self:true}, ...w.cognates];"))
     # başlık: canlı kelimede ham gloss yerine yüzey biçimi göster
     dfix.append(("compare başlık binding",

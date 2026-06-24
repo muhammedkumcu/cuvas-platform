@@ -158,6 +158,166 @@ def _segment_verb(gen, lemma, tags, word):
     return morphs
 
 
+# --- Needleman-Wunsch hizalama ile yüzey bölümleme (deepsearch önerisi) ---
+# Apertium lemma+etiket verir; kümülatif üretim + fonolojik-cezalı hizalama ile GERÇEK yüzey ekleri
+# ve ses olayları (yumuşama/ünlü düşmesi) otomatik çıkar. El-allomorf tablosu GEREKMEZ; sadece
+# fonolojik denklik (sesli~sesli, yumuşama çiftleri) puanlaması — Türk dilleri geneli.
+TURKIC_VOWELS = set("aâeıiîoöuûüAÂEIİÎOÖUÛÜ"
+                    "аәеёиоөуүұыэюяіАӘЕЁИОӨУҮҰЫЭЮЯІӑӗӳӐӖӲ")
+_VOICE_PAIRS = [("p", "b"), ("ç", "c"), ("t", "d"), ("k", "g"), ("k", "ğ"), ("g", "ğ"), ("q", "ğ"),
+                ("п", "б"), ("т", "д"), ("к", "г"), ("қ", "ғ"), ("ш", "ж"), ("с", "з"), ("х", "г")]
+_VOICE = set()
+for _a, _b in _VOICE_PAIRS:
+    _VOICE.add((_a, _b)); _VOICE.add((_b, _a))
+
+
+def _is_vowel(c):
+    return c.lower() in TURKIC_VOWELS
+
+
+def _nw_cols(a, b):
+    """Needleman-Wunsch hizalama; fonolojik puanlama. Sütunlar: (a_harf|'', b_harf|'')."""
+    GAP = -2
+
+    def sc(x, y):
+        if x == y:
+            return 3
+        if (x.lower(), y.lower()) in _VOICE:
+            return 2
+        if _is_vowel(x) and _is_vowel(y):
+            return 1
+        return -2
+    n, m = len(a), len(b)
+    D = [[0] * (m + 1) for _ in range(n + 1)]
+    for i in range(1, n + 1):
+        D[i][0] = i * GAP
+    for j in range(1, m + 1):
+        D[0][j] = j * GAP
+    for i in range(1, n + 1):
+        for j in range(1, m + 1):
+            D[i][j] = max(D[i - 1][j - 1] + sc(a[i - 1], b[j - 1]), D[i - 1][j] + GAP, D[i][j - 1] + GAP)
+    i, j, cols = n, m, []
+    while i > 0 or j > 0:
+        if i > 0 and j > 0 and D[i][j] == D[i - 1][j - 1] + sc(a[i - 1], b[j - 1]):
+            cols.append((a[i - 1], b[j - 1])); i -= 1; j -= 1
+        elif i > 0 and D[i][j] == D[i - 1][j] + GAP:
+            cols.append((a[i - 1], "")); i -= 1
+        else:
+            cols.append(("", b[j - 1])); j -= 1
+    cols.reverse()
+    return cols
+
+
+def _nw_score(a, b):
+    """Sadece NW hizalama skoru (geri-iz yok); O(n) bellek."""
+    GAP = -2
+
+    def sc(x, y):
+        if x == y:
+            return 3
+        if (x.lower(), y.lower()) in _VOICE:
+            return 2
+        if _is_vowel(x) and _is_vowel(y):
+            return 1
+        return -2
+    m = len(b)
+    prevrow = [j * GAP for j in range(m + 1)]
+    for i in range(1, len(a) + 1):
+        ai = a[i - 1]
+        cur = [i * GAP] + [0] * m
+        for j in range(1, m + 1):
+            cur[j] = max(prevrow[j - 1] + sc(ai, b[j - 1]), prevrow[j] + GAP, cur[j - 1] + GAP)
+        prevrow = cur
+    return prevrow[m]
+
+
+def _trailing_affix(prev, cur):
+    """cur = (ses-değişmiş prev gövdesi) + ek. Gövde ÖNDE olduğundan, prev'e en iyi oturan ön-ek
+    sınırı k≈len(prev) civarında aranır → ek = cur[k:]. Tekrar-altdizi (балалар) ve ünlü düşmesine
+    (burun→burnu) dayanıklıdır; saf sondan-soymanın kaydığı yerleri düzeltir."""
+    if not prev:
+        return cur
+    lo = max(1, len(prev) - 3)
+    hi = min(len(cur), len(prev) + 4)
+    best_k = min(len(prev), len(cur))
+    best = None
+    for k in range(lo, hi + 1):
+        s = _nw_score(prev, cur[:k])
+        if best is None or s > best:
+            best, best_k = s, k
+    return cur[best_k:]
+
+
+def _classify_change(frm, to):
+    if to in ("", "∅"):
+        return "ünlü düşmesi" if _is_vowel(frm) else "ünsüz düşmesi"
+    if (frm.lower(), to.lower()) in _VOICE:
+        return "ünsüz yumuşaması"
+    if _is_vowel(frm) and _is_vowel(to):
+        return "ünlü değişimi"
+    return "ses değişimi"
+
+
+def _sound_changes(lemma, root):
+    """Sözlük kökü (lemma) vs yüzeydeki gövde (root) farkı → ses olayları listesi."""
+    if lemma == root:
+        return []
+    out = []
+    for ca, cb in _nw_cols(lemma, root):
+        if ca and cb and ca != cb:
+            out.append({"type": _classify_change(ca, cb), "from": ca, "to": cb})
+        elif ca and not cb:
+            out.append({"type": _classify_change(ca, "∅"), "from": ca, "to": "∅"})
+        elif cb and not ca:
+            out.append({"type": "ses türemesi", "from": "∅", "to": cb})
+    return out
+
+
+def _segment_align(gen, lemma, tags, word):
+    """İSİM: kümülatif üretim (nom-sonlu ara biçimler) + NW hizalama → gerçek yüzey ekleri + ses olayları.
+    Üretim eksik/yeniden üretmiyorsa None → çağıran fallback'e düşer."""
+    if not tags or tags[0] != "n":
+        return None
+    has_pl = "pl" in tags
+    px = next((t for t in tags if t.startswith("px")), None)
+    case = next((t for t in tags if t in CASE_SET), "nom")
+    pre = "<pl>" if has_pl else ""
+    levels = [("kök", f"{lemma}<n><nom>")]
+    if has_pl:
+        levels.append(("pl", f"{lemma}<n><pl><nom>"))
+    if px:
+        levels.append((px, f"{lemma}<n>{pre}<{px}><nom>"))
+    if case != "nom":
+        levels.append((case, f"{lemma}<n>{pre}" + (f"<{px}>" if px else "") + f"<{case}>"))
+    surfaces = []
+    for _lab, q in levels:
+        s = _gen1(gen, q)
+        if s is None:
+            return None
+        surfaces.append(s)
+    if surfaces[-1] != word:
+        return None
+    affixes = []
+    for i in range(1, len(levels)):
+        affixes.append((levels[i][0], _trailing_affix(surfaces[i - 1], surfaces[i])))
+    total = sum(len(a) for _, a in affixes)
+    root_surface = word[:len(word) - total] if 0 < total <= len(word) else surfaces[0]
+    morphs = [{"surface": root_surface, "tag": "KÖK", "feat": "kök", "type": "kök"}]
+    for tag, aff in affixes:
+        if not aff:
+            continue
+        if tag == "pl":
+            typ, feat = "çokluk", "çokluk"
+        elif tag.startswith("px"):
+            typ, feat = "iyelik", TAG_TR.get(tag, tag)
+        elif tag in CASE_SET:
+            typ, feat = "hâl", CASE_TR.get(tag, tag) + " hâli"
+        else:
+            typ, feat = "hâl", TAG_TR.get(tag, tag)
+        morphs.append({"surface": aff, "tag": tag.upper(), "feat": feat, "type": typ})
+    return morphs, _sound_changes(lemma, root_surface)
+
+
 def _build_verb(gen, lemma):
     """Fiil çekim blokları: yalnız ÜRETİLEN zaman/kişi hücreleri (dile göre dinamik)."""
     blocks = []
@@ -260,18 +420,31 @@ def segment(req: AnalyzeReq):
     lemma, tags = p["lemma"], p["tags"]
     pos = tags[0] if tags else ""
     gen = _fst(req.lang, "autogen")
+    sound_changes = []
+    method = "fallback"
     if pos == "n":
-        morphs = _segment_noun(gen, lemma, tags)
-        if not _reconstructs(morphs, word):
-            morphs = _fallback_split(gen, lemma, tags, word, "n")
+        aligned = _segment_align(gen, lemma, tags, word)
+        if aligned:
+            morphs, sound_changes = aligned
+            method = "nw-align"
+        else:
+            morphs = _segment_noun(gen, lemma, tags)
+            if not _reconstructs(morphs, word):
+                morphs = _fallback_split(gen, lemma, tags, word, "n")
+            else:
+                method = "cumulative"
+            sound_changes = _sound_changes(lemma, morphs[0]["surface"]) if morphs else []
     elif pos == "v":
         morphs = _segment_verb(gen, lemma, tags, word)
         if not _reconstructs(morphs, word):
             morphs = _fallback_split(gen, lemma, tags, word, "v")
+        else:
+            method = "verb"
     else:
         morphs = [{"surface": word, "tag": pos.upper() or "?", "feat": pos or "", "type": "kök"}]
     return {"lang": req.lang, "word": word, "raw": raw, "lemma": lemma, "tags": tags,
-            "pos": pos, "ok": pos in ("n", "v"), "morphemes": morphs, "_source": SOURCE}
+            "pos": pos, "ok": pos in ("n", "v"), "morphemes": morphs,
+            "sound_changes": sound_changes, "method": method, "_source": SOURCE}
 
 
 @app.get("/paradigm/{lang}/{lemma}")

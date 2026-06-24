@@ -13,11 +13,11 @@
 - **Nasıl:** deepsearch'ün önerdiği yöntem — "lemma + KANONİK allomorf dizisi" vs yüzey TEK Needleman-Wunsch hizalaması; dile-özgü maliyet matrisi (uig ä→i = 0 ceza; chv epentetik н = 0 gap). Kanonik allomorf dizileri apertium `.twol` dosyalarından + dilbilgisinden. **chv morfotaktik sırası farklı: Kök+İyelik+Çoğul+Hâl** (ortak Türkçe Kök+Çoğul+İyelik+Hâl değil) — kümülatif seviyelerimizi chv için bu sıraya göre düzelt.
 - **❓Soru:** bunu (a) deepsearch'teki örneklerle elle-kanonik-tablo kurarak mı, yoksa (b) önce ayrı bir "kanonik allomorf çıkarımı" deepsearch'i ile mi yapalım? (100% doğruluk kritik.)
 
-### 1.2 ⏳ Ses denklikleri DİNAMİK + kanıtlı (kullanıcının (b) isteği) — ★
+### 1.2 ✅ Ses denklikleri KANIT-DESTEKLİ + kognata bağlı (kullanıcının (b) isteği) — YAPILDI
 - **Ne:** Karşılaştır'daki "ses denklikleri" şu an statik 4 Çuvaş kuralı (rotasizm r↔z…) + elle örnekler; seçilen kognatla bağlı değil.
 - **Yapar mıyız:** EVET, ama **akademik kesinlikle.** Kurallar (rotasizm/lambdasizm) Türkoloji ders-kitabı OLGULARI (100% doğru) — bunları algoritma "icat etmemeli". Doğru yaklaşım: kuralları **kendi Savelyev kognat verimizden KANITLA** (her kurala N kognat çifti göster) + seçilen kognatı ilgili kurala BAĞLA + istatistik.
-- **Nasıl:** Savelyev kognat setlerinde Çuvaşça biçim ↔ ortak-Türkçe biçim hizala; her bilinen kurala uyan çiftleri say/göster ("rotasizm: 40 kognat çiftinde doğrulandı"). LingPy / correspondence-pattern literatürü (deepsearch 5c ref [23]).
-- **❓Soru (KRİTİK):** yaklaşım — **(A) kanıt-destekli yerleşik kurallar** (öneri, akademik-güvenli) / **(B) saf veri-çıkarımı** (daha "yeni" ama spürios risk) / **(C) melez** (yerleşik + dikkatli yeni kol-çifti çıkarımı)? Ve bunun için ayrı deepsearch ister misin?
+- **✅ Yapıldı:** Karşılaştır > Ses denklikleri'ndeki 4 kural artık **SavelyevTurkic kognat verisinden kanıtlı** (proto-fonem temelli: rotasizm 36 *ŕ, lambdasizm 29 *ĺ, baş y->ś 14 çift). Kognat ağında bir kelime seçip "ses denkliklerinde incele" → o kelimenin örneklediği kural OTOMATİK vurgulanır (güvenli tespit: proto-fonem + Çuvaşça yüzey çıktısı). `build.py: sound_evidence()` + `build_cognates ruleIdx`.
+- **Açık (sonra):** vurgulanan kural için seçili kognatın verideki destek çiftlerini de listelemek; diğer kol-çifti denklikleri (Kıpçak↔Oğuz) — yatay.
 
 ### 1.3 ⏳ Soy ağacı + Harita UX iyileştirmesi (kullanıcı notu)
 - **Ne:** Haritada **Türkiye boşlukta** duruyor gibi; dile tıklayınca **direkt sayfa değiştirmek yerine** o sayfada (yan panel/popover) bilgi açılması daha kaliteli.
@@ -68,8 +68,8 @@
 
 ---
 
-## Karar günlüğü (kullanıcı onayladıkça doldur)
-- Faz 1.1 füzyonel ayrışma yöntemi: ❓
-- Faz 1.2 ses denklikleri yaklaşımı (A/B/C): ❓
-- Faz 2.2 ekosistem bölümü kapsam/yer: ❓
-- Faz 3.1 Çuvaşça sayfası: ❓
+## Karar günlüğü (kullanıcı kararları)
+- **Faz 1.2 ses denklikleri:** ✅ **(A) Kanıt-destekli yerleşik kurallar** — kurallar ground truth, Savelyev verisinden KANITLA + kognatı kurala bağla. (Saf çıkarım reddedildi: spürios riski.)
+- **Faz 1.1 + 1.2 ayrı deepsearch:** ✅ HAYIR — eldeki 5c + Savelyev ile dikkatlice ilerle.
+- **Faz 2.2 ekosistem yeri:** ⏳ deepsearch 7 sonucu gelince karar.
+- **Faz 3.1 Çuvaşça "Dilin Kalbi":** ✅ AYRI anlatı sayfası (onaylı; Saha/Şor için de şablon).

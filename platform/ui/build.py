@@ -237,6 +237,7 @@ def main():
         "14 dil · soldan kenar rengi = canlılık": "Türk dilleri ve canlılık durumları",
         "Kaynak: SavelyevTurkic CLDF · NorthEuraLex — örnek/illüstratif değerler":
             "Kaynak: Savelyev (leksikal+filogenetik) · WALS (tipolojik) · koordinat (coğrafi) · Lindsay (anlaşılabilirlik)",
+        "örn. okuduk, ormanda, kızlar": "seçili dilde canlı FST analizi",
     }
     nfix = 0
     for old, new in copy_fix.items():
@@ -247,7 +248,7 @@ def main():
     nlive = 0
     live = []
     # 1) state alanları
-    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null,"))
+    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null, searchLang: 'chv',"))
     # 2) componentDidUpdate → ekrana girince paradigma çek
     live.append((
         "  componentDidUpdate(prevProps, prevState){\n"
@@ -300,13 +301,14 @@ def main():
         "      if ([w.gloss, w.surface, w.translit].some(s=>String(s).toLowerCase().includes(q))){\n"
         "        this.setState({ screen:'analiz', activeWordId:id, selMorphIdx:0, stripCount:0 }); return; } }\n"
         "    const word = (this.state.query||'').trim();\n"
+        "    const LN = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça'}; const lg = this.state.searchLang||'chv';\n"
         "    const TT = {n:'kök',v:'kök',pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',fut:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};\n"
-        "    fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:'chv',word})}).then(r=>r.json()).then(d=>{\n"
+        "    fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{\n"
         "      const a = (d.analyses&&d.analyses[0])||null;\n"
         "      const ms = a ? [{text:a.lemma, tag:'KÖK', type:'kök', label:'kök (apertium FST)', gloss:a.lemma, gItem:a.lemma, note:'Apertium morfolojik çözümlemesi.'}]\n"
         "        .concat((a.tags||[]).map(t=>({text:t, tag:String(t).toUpperCase(), type:(TT[t]||'kök'), label:'etiket: '+t, gloss:t, gItem:t, note:'Apertium etiketi.'})))\n"
         "        : [{text:word, tag:'?', type:'kök', label:'çözümlenemedi', gloss:'?', gItem:word, note:'Apertium bu biçimi tanımadı.'}];\n"
-        "      const apiWord = {lang:'cv', langName:'Çuvaşça · canlı FST', surface:word, translit:'', gloss:(a?('apertium: '+a.raw):'çözümlenemedi'), morphemes:ms, cognates:[]};\n"
+        "      const apiWord = {lang:'cv', langName:(LN[lg]||lg)+' · canlı FST', surface:word, translit:'', gloss:(a?('apertium: '+a.raw):'çözümlenemedi'), morphemes:ms, cognates:[]};\n"
         "      this.setState({ apiWord, activeWordId:'__api', screen:'analiz', selMorphIdx:0, stripCount:0 });\n"
         "    }).catch(()=>{});\n"
         "  }"))
@@ -318,6 +320,23 @@ def main():
             html = html.replace(old, new, 1); nlive += 1
         else:
             print("  ! CANLI bağlama eşleşmedi:", old[:48])
+
+    # --- Analiz DİL SEÇİCİ: bağlam çubuğuna select; Analiz seçili dilde herhangi bir kelimeyi çözer ---
+    sel_langs = [("chv", "Çuvaşça"), ("tur", "Türkçe"), ("aze", "Azerice"), ("kaz", "Kazakça"),
+                 ("kir", "Kırgızca"), ("uzb", "Özbekçe"), ("uig", "Uygurca"), ("tat", "Tatarca"),
+                 ("bak", "Başkurtça"), ("sah", "Yakutça")]
+    opts = "".join(f'<option value="{c}">{n}</option>' for c, n in sel_langs)
+    sel = ('<select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Analiz dili" '
+           'style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:10px 8px;'
+           'font-size:13px;font-family:inherit;color:#211d17;cursor:pointer">' + opts + '</select>')
+    nsel = 0
+    if '<div style="margin-left:auto;display:flex;align-items:center;gap:10px">' in html:
+        html = html.replace('<div style="margin-left:auto;display:flex;align-items:center;gap:10px">',
+                            sel + '\n      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">', 1)
+        html = html.replace("      navGroups, wordChips, screenTag:tag, query:S.query,",
+                            "      navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, onSearchLang:(e)=>this.setState({searchLang:e.target.value}),", 1)
+        nsel = 1
+    print(f"  Analiz dil seçici: {nsel}")
 
     (DIST / "index.html").write_text(html, encoding="utf-8")
     shutil.copy(UI / "support.js", DIST / "support.js")

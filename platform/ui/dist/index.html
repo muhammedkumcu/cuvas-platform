@@ -59,10 +59,11 @@
     <!-- context bar -->
     <div style="display:flex;align-items:center;gap:14px;padding:14px 34px;border-bottom:1px solid rgba(33,29,23,.1);background:#faf8f2;position:sticky;top:0;z-index:5">
       <div style="position:relative;flex:1;max-width:520px">
-        <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Kelime ara, Enter’a bas — örn. okuduk, ormanda, kızlar…"
+        <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Kelime ara, Enter’a bas — seçili dilde canlı FST analizi…"
           style="width:100%;padding:11px 14px 11px 38px;border:1px solid rgba(33,29,23,.16);border-radius:9px;background:#fff;font-size:14px;font-family:inherit;color:#211d17;outline:none">
         <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#9a9082;font-size:14px">⌕</span>
       </div>
+      <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Analiz dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:10px 8px;font-size:13px;font-family:inherit;color:#211d17;cursor:pointer"><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option></select>
       <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
         <div style="display:flex;background:#ece7dc;border-radius:9px;padding:3px">
           <sc-for list="{{ modeToggle }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>
@@ -998,7 +999,7 @@ class Component extends DCLogic {
     distBase: 'chv',        // distance explorer base lang
     distTarget: 'tt',       // distance explorer target lang
     paradigmRoot: 'hĕr',
-    apiParadigm: {}, apiWord: null,
+    apiParadigm: {}, apiWord: null, searchLang: 'chv',
     cognateKey: 'goz',
     profileSel: 'chv',
     researchWord: 'oku',
@@ -1473,13 +1474,14 @@ class Component extends DCLogic {
       if ([w.gloss, w.surface, w.translit].some(s=>String(s).toLowerCase().includes(q))){
         this.setState({ screen:'analiz', activeWordId:id, selMorphIdx:0, stripCount:0 }); return; } }
     const word = (this.state.query||'').trim();
+    const LN = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça'}; const lg = this.state.searchLang||'chv';
     const TT = {n:'kök',v:'kök',pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',fut:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};
-    fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:'chv',word})}).then(r=>r.json()).then(d=>{
+    fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{
       const a = (d.analyses&&d.analyses[0])||null;
       const ms = a ? [{text:a.lemma, tag:'KÖK', type:'kök', label:'kök (apertium FST)', gloss:a.lemma, gItem:a.lemma, note:'Apertium morfolojik çözümlemesi.'}]
         .concat((a.tags||[]).map(t=>({text:t, tag:String(t).toUpperCase(), type:(TT[t]||'kök'), label:'etiket: '+t, gloss:t, gItem:t, note:'Apertium etiketi.'})))
         : [{text:word, tag:'?', type:'kök', label:'çözümlenemedi', gloss:'?', gItem:word, note:'Apertium bu biçimi tanımadı.'}];
-      const apiWord = {lang:'cv', langName:'Çuvaşça · canlı FST', surface:word, translit:'', gloss:(a?('apertium: '+a.raw):'çözümlenemedi'), morphemes:ms, cognates:[]};
+      const apiWord = {lang:'cv', langName:(LN[lg]||lg)+' · canlı FST', surface:word, translit:'', gloss:(a?('apertium: '+a.raw):'çözümlenemedi'), morphemes:ms, cognates:[]};
       this.setState({ apiWord, activeWordId:'__api', screen:'analiz', selMorphIdx:0, stripCount:0 });
     }).catch(()=>{});
   }
@@ -1598,7 +1600,7 @@ class Component extends DCLogic {
     const learn = this.learnVals();
 
     return {
-      navGroups, wordChips, screenTag:tag, query:S.query,
+      navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, onSearchLang:(e)=>this.setState({searchLang:e.target.value}),
       onQuery:(e)=>this.setState({query:e.target.value}),
       onSearchKey:(e)=>{ if(e.key==='Enter') this.runSearch(); },
       homeModules:this.NAVGROUPS.flatMap(g=>g.items.filter(it=>it.id!=='home').map(it=>({

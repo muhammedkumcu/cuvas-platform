@@ -1,0 +1,89 @@
+# KÖKEN — Geliştirme Günlüğü (paper için kalıcı kayıt)
+
+> Kronolojik mühendislik günlüğü: **ne yaptık, hangi kararı NEDEN aldık, neyi nasıl test ettik, metrikler nasıl değişti, nelere dikkat ettik.** Amaç: paper yazımında her şey elde olsun. Tamamlayıcı belgeler: `MORFOLOJI-DEGERLENDIRME.md` (yöntem+test detayı), `KAYNAKLAR.md` (veri provenance), `plan/YOLCULUK-VE-VAZGECILENLER.md` (terk edilenler), `DEVAM.md` (anlık durum). Bu günlüğe **her oturumda yeni giriş eklenir.**
+
+---
+
+## FAZ 0 — Kendi morfoloji motoru (TERK; detay: YOLCULUK-VE-VAZGECILENLER.md)
+- Türkmence (TurkmenFST) kural-tabanlı motorunu Çuvaşça için tekrarladık: 63.5K girişlik 4-kaynaklı sözlük, Python fonoloji/morfotaktik motoru, %75 token kapsamı, **karışık-yazı kirliliği bulgusu %45.85**.
+- **Karar / gerekçe:** apertium-chv zaten olgun (~%85, analiz+üretim). "Windows'ta apertium çalışmaz" gerekçesi YANLIŞ çıktı (Linux VM'de hfst+turkicnlp sorunsuz). → kendi motoru terk; **olgun aracı yeniden icat etme, üstüne değer kat.**
+- **Ders:** "X kullanılamaz" deme, KANITLA (ortam-engelini genel imkânsızlık sanma).
+
+## FAZ 1 — Pivot: çok-dilli Apertium platformu (KÖKEN)
+- Tek-dilli kendi-motor → **~20 Türk dili için Apertium-temelli morfoloji + karşılaştırma + araştırma platformu.** Çift kitle: öğrenen + araştırmacı (kritik). Düşük-kaynaklı/tehlikedeki dillere (Çuvaş çekirdek) özel önem.
+- **3-katman mimari:** (1) Backend = FastAPI, apertium FST sarıcı (Linux VM; `automorf`=analiz, `autogen`=üretim). (2) Veri = locale çekilmiş kaynaklı JSON. (3) UI = DesignCanvas tasarımı, **`build.py` ile enjeksiyon** (.dc.html elle düzenlenmez).
+- MVP 10 dil: tur, aze, kaz, kir, uzb, uig, tat, bak, chv, sah.
+
+## FAZ 2 — Veri katmanı (gerçek, kaynaklı, çapraz-kontrollü)
+- **İlke:** PDF doğrudan veri değil; işaret ettiği seti locale çek, çapraz-kontrol et, atıf+lisans ver, **uydurma yok** (kaynak yoksa null). Detay: `KAYNAKLAR.md`.
+- Çekilen+çıkarılan: SavelyevTurkic CLDF (kognat, 905 set/254 kavram, CC-BY-4.0), Glottolog (sınıflandırma+AES canlılık), WALS (tipoloji), Lindsay (anlaşılabilirlik), Wikipedia (profil metni, çapraz-kontrollü). 5/5 uzaklık ekseni kaynaklı.
+
+## FAZ 3 — UI entegrasyonu + canlı API
+- `build.py` string-enjeksiyon: tasarım export'una gerçek veri + canlı API çağrıları enjekte → `dist/index.html`. (Apostrof/encoding tuzakları: `json.dumps`; cp1254 konsol → UTF-8 dosya + Read ile doğrula.)
+- Modüller canlıya bağlandı: Analiz, Paradigma (+fiil), Kognat, Karşılaştır, Uzaklık, Profiller, Harita, Araştırmacı Merkezi (CSV/JSON/CoNLL-U export).
+- **Kullanıcı geri bildirimiyle düzeltmeler:** üst-bar dil seçici kaldırıldı (her ekranda kendi girişi + kompakt "Otomatik" seçici); export barları kaldırıldı (tablolarda kopyala); sidebar XP kaldırıldı; örnek kökler dil-dengeli; "nasıl çalışır?" ipuçları; Açık API dürüst etiketlendi.
+
+## FAZ 4 — Morfoloji kalitesi: YÜZEY BÖLÜMLEME (bu projenin NLP nüvesi)
+
+### 4.1 Problem
+Apertium **lemma + morfolojik etiket** verir ve ses olayında bile DOĞRUDUR: `kitabımızda → kitap<n><px1pl><loc>` (lemma=kitap, kitab değil). Ama **yüzeydeki hece sınırını** (kitab|ımız|da) vermez. Öğrenen+araştırmacı için gerçek ekleri (ler, de) göstermek istiyoruz.
+
+### 4.2 İlk yaklaşım — kümülatif üretim + string farkı (yetersiz)
+`gen(lemma<n><nom>)`, `gen(<pl><nom>)`… üretip ardışık farkını al. **Sorun:** ses olayında (kitap→kitab) gövde-ek sınırı kayıyor; ortak-önek farkı yanlış sonuç veriyor (kitap+bımızda). Ayrıca yüzey gövdesini (kitab) izole edemiyor.
+
+### 4.3 Deepsearch (iki prompt: `arastirma/5*.prompt.md`; çıktı: `_nlp_araclari.txt`, `_nlp_envanteri.txt`)
+- **Türkçe:** Zemberek doğrudan yüzey morfem verir (Apache-2.0, JPype; zemberek-python overflow bug'lı) — opsiyonel üst-kalite.
+- **Tüm diller (FST'ye dokunmadan):** **Needleman-Wunsch karakter hizalaması + fonolojik ceza matrisi** (p~b, k~ğ, I~ı/i/u/ü = sıfır ceza). Evrensel, saf Python. Morfessor/BPE = uygunsuz (gramer sınırına saygısız).
+- **Diller-arası:** apertium `.dix` iki-dilli sözlükler (deterministik); NLLB red (CC-BY-NC + morfoloji kaybı).
+
+### 4.4 Uygulama — NW-hizalama (deepsearch + kullanıcının allomorf fikrinin birleşimi)
+`backend/app.py`: kümülatif üretim (nom-sonlu ara biçimler) → ardışık biçimleri NW ile hizala (skor: aynı+3, yumuşama+2, sesli~sesli+1, boşluk−2) → ek = **önden-çapalı** (k≈len(prev)) en iyi bölme (tekrar-altdizi + ünlü düşmesine dayanıklı). **El-allomorf tablosu GEREKMEZ** (tek dil-özel şey fonolojik denklik; Latin+Kiril+Arap geneli).
+- **Ses olayı çıktısı:** lemma vs yüzey-gövde NW farkı → `sound_changes` (p→b "ünsüz yumuşaması" vb.) — hem öğrenci hem araştırmacı için ayırt edici özellik.
+
+### 4.5 ★ Kritik bulgu — ANALİZ SEÇİMİ
+İlk test: align %73 (kaz), %88 (tat/bak). **Kök neden:** `/segment` `analyses[0]`'ı kullanıyordu; FST birden çok analiz döner ve **ilki çoğu zaman yanlış POS (isim yerine fiil)**: `kanat→kana+t(fiil)`, `жолдың/оҕо` fiil okunuyor → align tutmuyor.
+- **Düzeltme:** tüm analizleri dene, **align EDEN İSİM** analizini seç.
+- **Etki:** kaz %73→**100**, tat/bak %88→**100**, tüm dillerde %100 align. (Tek satırlık fikir, en büyük kazanım — paper'da vurgulanmalı.)
+
+### 4.6 Test metodolojisi — round-trip (gold = üretim)
+`backend/segment_eval.py`: bilinen etiketlerden form ÜRET (gold yapı) → `/segment` ile çöz → beklenen ek sayısı + yeniden-üretim tutuyor mu. Dil başına aday isim kökleri (geçersiz olanlar `gen(lemma<n><nom>)` boşsa otomatik elenir), hâl×çokluk×iyelik kombinasyonları. **10 MVP dili, 1700+ form.**
+
+### 4.7 Sonuçlar (analiz-seçimi düzeltmesi sonrası)
+| dil | form | align% | ek-sayı% | yeniden% |
+|----|----:|----:|----:|----:|
+| aze, kaz, kir, uzb, tat, bak | 105–210 | 100 | **100** | ~95 |
+| uig | 189 | 100 | 98.9 | 85.7 |
+| sah | 108 | 100 | 99.1 | 75.9 |
+| tur | 252 | 100 | 98.8 | 94.8 |
+| chv | 162 | 100 | 92.6 | 72.2 |
+
+### 4.8 Hangi dilde NİYE zorlandık (paper için hata analizi)
+- **uig:** apertium-uig **Arap yazısı** bekler; ilk testte Latin seed → "0 form". Arapça seed ile sorunsuz (`كىتاب+لار+دا`). → test artefaktıydı, gerçek boşluk değil.
+- **chv (en zayıf, %92.6):** Çuvaşça **iyelik (px3sp)** ve bazı hâl ekleri farklı morfotaktik; nom-sonlu kümülatif ara biçimler her zaman temiz hizalanmıyor (`кӗнеки`, `ҫуртне`). Çekirdek dilimiz → öncelikli ince ayar.
+- **tur (~%1):** **ünlü düşmesi + iyelik** etkileşimi (burun→burn, `burnunda` 2 yerine 1 ek).
+- **sah (~%1):** birkaç kök kenar durumu (`оҕо`).
+
+### 4.9 Görüntüleme kararları (linguistik doğruluk + tutarlılık)
+- **Kök kutusu = SÖZLÜK biçimi (lemma: kitap)**, yüzeydeki ses-değişmiş gövde (kitab) DEĞİL; ses olayı ayrı **SES OLAYI rozetinde**. Gerekçe: kanonik kök linguistik olarak doğru; öğrenci sözlükte "kitap" arar.
+- **Katman ağacı = GERÇEK kümülatif yüzey** (`/segment` `forms`: kitap→kitabımız→kitabımızda, ses olayı dahil) — morfem-metni birleştirmek "kitapımız" üretiyordu (yanlış); düzeltildi.
+
+### 4.10 Kapsam sınırları (dürüst — paper'da belirtilecek)
+- **İsim:** tam (NW-align, %92–100). **Fiil:** kısmi (kök + kaynaşık ek; fiil morfolojisi daha karmaşık, tam hece bölümleme yok). **Sıfat/zarf:** sınırlı (isim okuması varsa isim gibi; türemiş sıfat/zarf ekleri henüz bölünmüyor). Genişletme = gelecek iş (POS başına kümülatif şablon).
+- `/segment` bağlı yerler: **Analiz** (applySegment) + **Karşılaştır** (runCompare). Araştırmacı Merkezi ham etiket (FST çıktısı) gösterir — araştırmacı için uygun.
+
+## FAZ 5 — Diller-arası eşdeğer (★ SIRADAKİ, planlanan)
+- Hedef: aranan kelimeyi TÜM Türk dillerinde canlı göster (statik "okuduk" gibi). Yöntem (deepsearch kararı): **apertium `.dix` boru hattı** — kaynak dilde analiz → `.dix` ile kök eşle → hedefte AYNI etiketlerle üret. Doğrudan çift yoksa `networkx` pivot (tur→tat→bak). Savelyev CLDF (254 kavram) = fallback.
+
+---
+
+## SES OLAYI doğrulaması (diller arası, bu oturum)
+Voicing çiftleri Latin+Kiril kapsıyor; rozetler her dilde çalışıyor: tur p→b/ç→c/k→g, kaz/tat п→б, aze p→b — DOĞRU. Bazı dillerde "yok" çünkü FST'nin sözlük biçimi zaten sesli (uzb *kitob*, bak *китаб*) → doğru davranış.
+
+---
+
+## Sıradaki / açık işler
+1. **★ Diller-arası `.dix` karşılaştırma motoru** (en yüksek değer).
+2. **Joshi kaynak sınıfı (0–5)** dil profillerine rozet (envanter PDF'inden; misyon: eksik/gelişmişlik).
+3. **Cila:** chv iyelik morfotaktiği (%92→); tur ünlü-düşmesi+iyelik; dil-başına fonolojik ince ayar JSON'u.
+4. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.
+5. Fiil/sıfat yüzey bölümleme (POS başına kümülatif şablon).

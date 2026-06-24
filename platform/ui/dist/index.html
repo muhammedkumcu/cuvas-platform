@@ -756,6 +756,9 @@
             <button onClick="{{ r.go }}" style="{{ r.style }}"><span style="font-family:'Spectral',serif;font-size:17px;font-weight:700">{{ r.label }}</span><span style="{{ r.glossStyle }}">{{ r.gloss }} · {{ r.kind }}</span></button>
           </sc-for>
         </div>
+        <div style="margin-top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          <input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="…veya kök yaz + Enter — seçili dilde canlı çekim (sağ üstteki dil)" style="flex:1;min-width:260px;max-width:440px;padding:10px 13px;border:1px solid rgba(33,29,23,.16);border-radius:9px;background:#fff;font-size:14px;font-family:inherit;color:#211d17;outline:none">
+        </div>
         <div style="margin-top:22px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">
           <sc-if value="{{ paradigmIsNoun }}" hint-placeholder-val="{{ true }}">
           <div style="display:grid;grid-template-columns:150px 1fr 1fr;background:#211d17;color:#f4f1ea;font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px">
@@ -999,7 +1002,7 @@ class Component extends DCLogic {
     distBase: 'chv',        // distance explorer base lang
     distTarget: 'tt',       // distance explorer target lang
     paradigmRoot: 'hĕr',
-    apiParadigm: {}, apiWord: null, searchLang: 'chv',
+    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '',
     cognateKey: 'goz',
     profileSel: 'chv',
     researchWord: 'oku',
@@ -1767,7 +1770,7 @@ class Component extends DCLogic {
     const roots = Object.entries(this.PARADIGM).map(([k,v])=>{
       const sel = k===S.paradigmRoot;
       return { key:k, label:v.root, gloss:v.gloss, kind:v.kind, sel,
-        go:()=>this.setState({paradigmRoot:k}),
+        go:()=>this.setState({paradigmRoot:k, paradigmFree:null}),
         style:`cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:11px;padding:10px 15px;font-family:inherit`,
         glossStyle:`font-size:11px;color:${sel?'rgba(244,241,234,.6)':'#9a9082'}` };
     });
@@ -1779,9 +1782,17 @@ class Component extends DCLogic {
       ? apiR.map(r=>({ caseLabel:r.case_tr, tag:(r.case||'').toUpperCase(), sg:cellOne(r.sg), pl:cellOne(r.pl), trSg:'', trPl:'', fst:r.sg||'' }))
       : p.rows.map(r=>({ caseLabel:r.case, tag:r.tag, sg:cell(r.sg), pl:r.pl?cell(r.pl):null, trSg:r.trSg, trPl:r.trPl,
         fst: r.sg.map(([t,ty],i)=> i===0 ? this.cyr2lat(t) : '+'+r.tag).join('') }));
-    return { paradigmRoots:roots, paradigmIsVerb:isVerb, paradigmIsNoun:!isVerb, paradigmRows:rows,
-      paradigmTitle:this.disp(p.root, p.rootLat), paradigmGloss:`“${p.gloss}”`,
-      paradigmSub: isVerb ? (p.label+' · şahıs çekimi') : 'Ad çekimi · hâl × sayı' };
+    const F = this.state.paradigmFree;
+    const cF = (s)=> s ? [{ text:this.disp(s), hue:this.hue('kök'), bg:this.hueBg('kök'), border:this.hueBorder('kök') }] : null;
+    const freeRows = (F && Array.isArray(F.rows)) ? F.rows.map(r=>({ caseLabel:r.case_tr, tag:(r.case||'').toUpperCase(), sg:cF(r.sg), pl:cF(r.pl), trSg:'', trPl:'' })) : null;
+    const LNp = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça'};
+    return { paradigmRoots:roots, paradigmIsVerb:isVerb && !freeRows, paradigmIsNoun:(!isVerb)||!!freeRows, paradigmRows: freeRows||rows,
+      paradigmTitle: freeRows ? this.disp(F.lemma) : this.disp(p.root, p.rootLat),
+      paradigmGloss: freeRows ? ('· '+F.langName) : `“${p.gloss}”`,
+      paradigmSub: freeRows ? ('canlı apertium çekimi · '+F.langName) : (isVerb ? (p.label+' · şahıs çekimi') : 'Ad çekimi · hâl × sayı'),
+      paradigmFreeQ: this.state.paradigmFreeQ||'',
+      onParadigmFreeInput:(e)=>this.setState({paradigmFreeQ:e.target.value}),
+      onParadigmFreeKey:(e)=>{ if(e.key!=='Enter') return; const lemma=(this.state.paradigmFreeQ||'').trim(); if(!lemma) return; const lg=this.state.searchLang||'chv'; fetch(this.KOKEN_API+'/paradigm/'+lg+'/'+encodeURIComponent(lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma, langName:(LNp[lg]||lg), rows:(d&&d.rows)||[]}})).catch(()=>{}); } };
   }
 
   // ---------- COGNATE NETWORK ----------

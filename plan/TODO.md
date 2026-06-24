@@ -37,7 +37,10 @@
   - [x] **Harita** ← Glottolog koordinatları (14 dil, gerçek projeksiyon); doğrulandı.
   - [x] **Uzaklık Gezgini** ← gerçek matrisler: 3/5 eksen (leksikal Savelyev + tipolojik WALS + coğrafi koordinat); filo/anla illüstratif kaldı (#4 J matrisleri gelince). Doğrulandı: chv→tt coğrafi 0.02 / leksikal 0.37 / tipolojik 0.26.
   - [x] **Dil Profilleri zenginleştirme** ← `lang_extra.json` (Wikipedia, Glottolog/Savelyev ile çapraz-kontrollü, atıflı): **14/14 dil** — güncel speakers/script/zengin not (kaynakta olmayan kültür notu boş bırakıldı). Layout değişmedi (mevcut slotlar).
-  - [x] **Analiz + Paradigma → CANLI API** (host:8000, graceful fallback): Paradigma ekranı `/paradigm/chv/<kök>` çeker (gerçek apertium çekim); arama kutusuna küratörsüz kelime → `/analyze` (canlı FST kök+etiket). Önizlemede doğrulandı (хӗр paradigması + кӗнекесем→кӗнеке canlı).
+  - [x] **Analiz + Paradigma → CANLI API, HERHANGİ KELİME/DİL** (host:8000, graceful fallback):
+    - **Dil seçici** (bağlam çubuğu, 10 dil): Analiz seçili dilde herhangi bir kelimeyi çözer. Doğrulandı: Türkçe + 'evlerimizden' → ev+etiketler.
+    - **Paradigma serbest kök girişi** + seçili dil: herhangi bir adın canlı çekimi. Doğrulandı: tur + 'ev' → evin/eve/evde/evden/evler (`/paradigm/tur/ev`).
+    - Küratörlü Çuvaşça örnekler + Paradigma kökleri quick-pick olarak kalır.
   - [x] **Harita düğümü → profil bağı**: haritada bir dile tıklayınca o dilin profiline gider. Doğrulandı (Çuvaşça düğümü → profil).
   - [x] **Kopya taraması** (3 net düzeltme, konservatif): profil başlığı · kognat notu kaynak tekrarı · Uzaklık illüstratif caption.
   - [x] **Kognat Ağı** ← `cognates.json` (14 kavram, gerçek kognat setleri + boşluklar; Savelyev karşılaştırmalı transkripsiyon — yerel ortografi sonra apertium/translit ile güzelleştirilebilir). Doğrulandı: göz *görs vs Yakut χaraχ boşluğu.

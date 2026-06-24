@@ -248,7 +248,32 @@ def main():
     nlive = 0
     live = []
     # 1) state alanları
-    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null, searchLang: 'chv',"))
+    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '',"))
+    # küratörlü kök seçilince serbest çekimi temizle
+    live.append(("        go:()=>this.setState({paradigmRoot:k}),", "        go:()=>this.setState({paradigmRoot:k, paradigmFree:null}),"))
+    # paradigmVals return: serbest çekim (herhangi bir kök, seçili dil) + handler'lar
+    live.append((
+        "    return { paradigmRoots:roots, paradigmIsVerb:isVerb, paradigmIsNoun:!isVerb, paradigmRows:rows,\n"
+        "      paradigmTitle:this.disp(p.root, p.rootLat), paradigmGloss:`“${p.gloss}”`,\n"
+        "      paradigmSub: isVerb ? (p.label+' · şahıs çekimi') : 'Ad çekimi · hâl × sayı' };",
+        "    const F = this.state.paradigmFree;\n"
+        "    const cF = (s)=> s ? [{ text:this.disp(s), hue:this.hue('kök'), bg:this.hueBg('kök'), border:this.hueBorder('kök') }] : null;\n"
+        "    const freeRows = (F && Array.isArray(F.rows)) ? F.rows.map(r=>({ caseLabel:r.case_tr, tag:(r.case||'').toUpperCase(), sg:cF(r.sg), pl:cF(r.pl), trSg:'', trPl:'' })) : null;\n"
+        "    const LNp = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça'};\n"
+        "    return { paradigmRoots:roots, paradigmIsVerb:isVerb && !freeRows, paradigmIsNoun:(!isVerb)||!!freeRows, paradigmRows: freeRows||rows,\n"
+        "      paradigmTitle: freeRows ? this.disp(F.lemma) : this.disp(p.root, p.rootLat),\n"
+        "      paradigmGloss: freeRows ? ('· '+F.langName) : `“${p.gloss}”`,\n"
+        "      paradigmSub: freeRows ? ('canlı apertium çekimi · '+F.langName) : (isVerb ? (p.label+' · şahıs çekimi') : 'Ad çekimi · hâl × sayı'),\n"
+        "      paradigmFreeQ: this.state.paradigmFreeQ||'',\n"
+        "      onParadigmFreeInput:(e)=>this.setState({paradigmFreeQ:e.target.value}),\n"
+        "      onParadigmFreeKey:(e)=>{ if(e.key!=='Enter') return; const lemma=(this.state.paradigmFreeQ||'').trim(); if(!lemma) return; const lg=this.state.searchLang||'chv'; fetch(this.KOKEN_API+'/paradigm/'+lg+'/'+encodeURIComponent(lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma, langName:(LNp[lg]||lg), rows:(d&&d.rows)||[]}})).catch(()=>{}); } };"))
+    # paradigma ekranına serbest kök girişi (template)
+    live.append((
+        '        <div style="margin-top:22px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">\n          <sc-if value="{{ paradigmIsNoun }}"',
+        '        <div style="margin-top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">\n'
+        '          <input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="…veya kök yaz + Enter — seçili dilde canlı çekim (sağ üstteki dil)" style="flex:1;min-width:260px;max-width:440px;padding:10px 13px;border:1px solid rgba(33,29,23,.16);border-radius:9px;background:#fff;font-size:14px;font-family:inherit;color:#211d17;outline:none">\n'
+        '        </div>\n'
+        '        <div style="margin-top:22px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">\n          <sc-if value="{{ paradigmIsNoun }}"'))
     # 2) componentDidUpdate → ekrana girince paradigma çek
     live.append((
         "  componentDidUpdate(prevProps, prevState){\n"

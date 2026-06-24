@@ -78,6 +78,66 @@ def _gen1(gen, query: str):
     return res[0][0] if res else None
 
 
+# --- DİLLER-ARASI: apertium iki-dilli sözlükler (.dix) → çapraz-dil kök grafiği (deepsearch kararı) ---
+# Boru hattı: kaynak dilde analiz (lemma+etiket) → .dix ile kök eşle → hedefte AYNI etiketlerle ÜRET.
+# Doğrudan çift yoksa diller-grafiğinde pivot (tur→tat→bak). chv/sah/uig pair yok → o hedefler atlanır.
+DIX_DIR = os.path.expanduser("~/koken_api/dix")
+DIX = {}        # (srcL, tgtL) -> {src_lemma: tgt_lemma}
+DIX_ADJ = {}    # langL -> {komşu diller}
+
+
+def _load_dix():
+    if DIX:
+        return
+    for path in glob.glob(DIX_DIR + "/*.dix"):
+        base = os.path.basename(path)[:-4]
+        if "-" not in base:
+            continue
+        a, b = base.split("-", 1)
+        try:
+            text = open(path, encoding="utf-8").read()
+        except Exception:
+            continue
+        fwd, bwd = {}, {}
+        for m in re.finditer(r"<e\b[^>]*>(.*?)</e>", text, re.S):
+            e = m.group(1)
+            lm = re.search(r"<l\b[^>]*>(.*?)</l>", e, re.S)
+            rm = re.search(r"<r\b[^>]*>(.*?)</r>", e, re.S)
+            if not lm or not rm:
+                continue
+            ls = re.sub(r"<[^>]+>", "", lm.group(1)).strip()
+            rs = re.sub(r"<[^>]+>", "", rm.group(1)).strip()
+            if not ls or not rs or " " in ls or " " in rs:
+                continue
+            fwd.setdefault(ls, rs)
+            bwd.setdefault(rs, ls)
+        DIX[(a, b)] = fwd
+        DIX[(b, a)] = bwd
+        DIX_ADJ.setdefault(a, set()).add(b)
+        DIX_ADJ.setdefault(b, set()).add(a)
+
+
+def _map_lemma(src, tgt, lemma):
+    """src dilindeki lemma'yı tgt diline .dix grafiğinde (BFS pivot) eşle; yoksa None."""
+    if src == tgt:
+        return lemma
+    from collections import deque
+    seen = {src}
+    q = deque([(src, lemma)])
+    while q:
+        L, lem = q.popleft()
+        for nb in DIX_ADJ.get(L, ()):
+            tl = DIX.get((L, nb), {}).get(lem)
+            if tl is None:
+                continue
+            if nb == tgt:
+                return tl
+            if nb not in seen:
+                seen.add(nb)
+                q.append((nb, tl))
+    return None
+
+
 def _suffix(a: str, b: str) -> str:
     """b'nin a ile ortak ön ekinden sonrası (yüzey eki yaklaşık)."""
     i = 0
@@ -407,6 +467,41 @@ def generate(req: GenerateReq):
     res = fst.lookup(req.query.strip())
     return {"lang": req.lang, "query": req.query,
             "forms": [{"surface": r[0], "weight": r[1]} for r in res], "_source": SOURCE}
+
+
+@app.post("/crosslang")
+def crosslang(req: AnalyzeReq):
+    """Aranan kelimeyi diğer Türk dillerinde CANLI üretir (statik 'okuduk' gibi): kaynakta analiz →
+    .dix ile kök eşle → hedefte AYNI etiketlerle üret. İsimlerde güçlü; etiketi tutmayan hedef atlanır.
+    chv/sah/uig için .dix yok → o hedefler dönmez (dürüst kapsam)."""
+    if req.lang not in LANGS:
+        raise HTTPException(400, f"desteklenmeyen dil: {req.lang}")
+    _load_dix()
+    word = req.word.strip()
+    res = _fst(req.lang, "automorf").lookup(word)
+    if not res:
+        return {"lang": req.lang, "word": word, "results": [], "_source": SOURCE}
+    # eşlenebilir kök tercih et: ilk analizi al, ama .dix'te kökü olan bir analiz varsa onu yeğle
+    chosen = _parse(res[0][0])
+    for r in res:
+        pp = _parse(r[0])
+        if any(pp["lemma"] in DIX.get((req.lang, nb), {}) for nb in DIX_ADJ.get(req.lang, ())):
+            chosen = pp
+            break
+    lemma, tags = chosen["lemma"], chosen["tags"]
+    tagstr = "".join(f"<{t}>" for t in tags)
+    results = [{"lang": req.lang, "lemma": lemma, "surface": word, "self": True}]
+    for tgt in LANGS:
+        if tgt == req.lang:
+            continue
+        tl = _map_lemma(req.lang, tgt, lemma)
+        if not tl:
+            continue
+        surf = _gen1(_fst(tgt, "autogen"), tl + tagstr)
+        if surf:
+            results.append({"lang": tgt, "lemma": tl, "surface": surf})
+    return {"lang": req.lang, "word": word, "lemma": lemma, "tags": tags,
+            "results": results, "count": len(results), "_source": SOURCE}
 
 
 @app.post("/segment")

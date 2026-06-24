@@ -43,10 +43,12 @@
 - **BACKEND CANLI (VM):** `platform/backend/app.py` (FastAPI) → MVP 10 dil için **apertium analiz + üretim + paradigma**. Host'tan `http://127.0.0.1:8000` (VBox port-forward `koken` 8000 + guest firewalld 8000 açık). Test: tur/chv/kaz/sah analiz, chv üretim (`кӗнеке<n><pl><dat>→кӗнекесене`) + paradigma. Her yanıt `_source` (Apertium GPL-3.0). **Başlat/durdur + erişim: `platform/backend/README.md`.**
   - Hızlı başlat (VM kapanıp açılırsa uvicorn'u tekrar başlat): `ssh ... 'cd /root/koken_api && setsid /root/apv/bin/uvicorn app:app --host 0.0.0.0 --port 8000 > uvicorn.log 2>&1 < /dev/null &'`
 - **UI BAĞLAMA — `platform/ui/build.py` → `dist/index.html`** (**kaynak `.dc.html` ELLE DÜZENLENMEZ**; build veriyi enjekte eder; kullanıcı re-export'ta `python platform/ui/build.py` tekrar çalışır). Hepsi Claude_Preview'da doğrulandı:
-  - ✅ **Dil Profilleri + Canlılık** ← Glottolog AES (`profiles.json`); "örnek" rozeti kalktı.
-  - ✅ **Harita** ← Glottolog koordinatları (14 dil projeksiyon).
-  - ✅ **Uzaklık Gezgini** ← gerçek matrisler 3/5 eksen (leksikal Savelyev + tipolojik WALS + coğrafi koordinat); filo/anla illüstratif (örnek rozeti durur).
-  - ✅ **Kognat Ağı** ← `cognates.json` (14 kavram, kognat boşlukları işaretli; Savelyev karşılaştırmalı transkripsiyon).
+  - ✅ **Dil Profilleri + Canlılık** ← Glottolog AES + **14/14 dil zengin metin** (`lang_extra.json`, Wikipedia çapraz-kontrollü+atıflı: güncel konuşur/yazı/not).
+  - ✅ **Harita** ← Glottolog koordinatları (14 dil) + **düğüme tıkla → profil**.
+  - ✅ **Uzaklık Gezgini** ← **5/5 eksen kaynaklı**: leksikal+filogenetik (Savelyev), tipolojik (WALS), coğrafi (koordinat), anlaşılabilirlik (Lindsay `intelligibility.json`). "örnek" rozeti kalktı.
+  - ✅ **Kognat Ağı** ← `cognates.json` (14 kavram, kognat boşlukları; Savelyev transkripsiyon).
+  - ✅ **Analiz + Paradigma → CANLI API** (host:8000): Paradigma `/paradigm/chv/<kök>`; arama küratörsüz kelime → `/analyze` canlı FST. VM kapalıysa graceful fallback.
+- **3 kopya düzeltmesi** (konservatif): profil başlığı · kognat notu kaynak tekrarı · Uzaklık illüstratif caption.
 - **METODOLOJİ (kullanıcı teyidi):** PDF'ler **doğrudan veri değil**; PDF'lerin işaret ettiği veri setlerini internetten `git clone` ile **locale çekip** (`sources/`) inceleyip `etl/` ile çıkarıyoruz. "Uydurma yok" (ör. Uzbek AES yok → null).
 - **SIRADAKİ:** (a) **Analiz/Paradigma/Üretim → canlı API** (host:8000, CORS açık) — NOT: FST kök+etiket verir, yüzey-segmentasyon değil; en doğal yer Araştırmacı Merkezi ham çıktısı / uzman modu `fstAnalysis`. (b) **filo/anla eksenleri**: yayınlanmış Savelyev/Robbeets Bayes ağacı + Lindsay anlaşılabilirlik verisi (temiz dataset değil → kaynak bul ya da literatür-temelli işaretle). (c) Kognat formlarını yerel ortografiye translit. (d) araştırmacı uçları (dışa aktarım/API doc).
 - **YATAY ÖLÇEK (tüm Türk dilleri):** veri zaten 23-32 dili kapsıyor; MVP 10 uçtan uca bitince kalan FST'leri indir + UI dil listesini aç (ucuz). "Önce dikey, sonra yatay."

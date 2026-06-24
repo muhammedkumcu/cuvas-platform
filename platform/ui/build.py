@@ -29,6 +29,34 @@ AES_TR = {"not endangered": "güvende", "threatened": "tehdit altında", "shifti
           "moribund": "ölmekte", "nearly extinct": "kritik", "extinct": "ölü"}
 API = "http://127.0.0.1:8000"
 
+# Harita: Glottolog enlem/boylam -> UI şematik harita yüzdesi (Türkçe & Yakut çapalarıyla doğrusal fit)
+MAP_ISOS = ["tur", "azj", "tuk", "chv", "tat", "bak", "kaz", "kir", "uig", "sah", "tyv", "kjh", "klj", "cjs"]
+TR_NAME = {"tur": "Türkçe", "azj": "Azerbaycanca", "tuk": "Türkmence", "chv": "Çuvaşça", "tat": "Tatarca",
+           "bak": "Başkurtça", "kaz": "Kazakça", "kir": "Kırgızca", "uig": "Uygurca", "sah": "Yakutça",
+           "tyv": "Tuvaca", "kjh": "Hakasça", "klj": "Halaçça", "cjs": "Şorca"}
+
+
+def project(lon, lat):
+    x = max(4, min(95, round(0.7517 * lon - 14.71, 1)))
+    y = max(6, min(91, round(-1.6949 * lat + 118.58, 1)))
+    return x, y
+
+
+def build_map(prof):
+    rows = []
+    for iso in MAP_ISOS:
+        p = prof.get(iso)
+        if not p or p.get("lat") is None or p.get("lon") is None:
+            continue
+        x, y = project(p["lon"], p["lat"])
+        parts = [f"name:'{TR_NAME.get(iso, p['name'])}'", f"branch:'{p['branch']}'", f"x:{x}", f"y:{y}"]
+        if iso == "chv":
+            parts.append("hi:true")
+        if y > 50:
+            parts.append("below:true")
+        rows.append("    {" + ", ".join(parts) + "},")
+    return "MAP = [\n" + "\n".join(rows) + "\n  ];"
+
 
 def main():
     html = SRC.read_text(encoding="utf-8")
@@ -59,12 +87,16 @@ def main():
         html = html.replace("class Component extends DCLogic {",
                             f"class Component extends DCLogic {{\n  KOKEN_API = '{API}';", 1)
 
+    # Harita ← gerçek Glottolog koordinatları (şematik projeksiyon)
+    new_map = build_map(prof)
+    html, nmap = re.subn(r"MAP = \[.*?\n  \];", lambda m: new_map, html, flags=re.DOTALL)
+
     (DIST / "index.html").write_text(html, encoding="utf-8")
     shutil.copy(UI / "support.js", DIST / "support.js")
 
-    print(f"dist/index.html yazıldı. LANGPROFILE canlılık güncellendi ({len(changed)} dil):")
-    for c in changed:
-        print("  " + c)
+    print(f"dist/index.html yazıldı.")
+    print(f"  LANGPROFILE canlılık (Glottolog AES): {len(changed)} dil")
+    print(f"  MAP harita koordinatları (Glottolog): {nmap} blok, {new_map.count('{name')} dil")
 
 
 if __name__ == "__main__":

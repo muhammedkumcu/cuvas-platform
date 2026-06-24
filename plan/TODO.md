@@ -34,8 +34,9 @@
 - [x] **VM BACKEND CANLI:** apertium FST (10 dil) indirildi → `platform/backend/app.py` (FastAPI) host:8000'de analiz/üretim/paradigma servis ediyor. Test edildi. (`platform/backend/README.md`)
 - [~] **UI'ya bağlama** (`platform/ui/build.py` → `dist/`; kaynak .dc.html elle düzenlenmez):
   - [x] **Dil Profilleri + Canlılık** ← `profiles.json` (Glottolog AES); önizlemede doğrulandı (Şorca `EGIDS 8a · ölmekte`), "⚠ örnek" rozeti kalktı.
+  - [x] **Harita** ← Glottolog koordinatları (14 dil, gerçek projeksiyon); önizlemede doğrulandı.
   - [ ] **Analiz / Paradigma / Üretim** → canlı API (host:8000) — sıradaki.
-  - [ ] **Kognat / Harita / Uzaklık** → `cognates.json` / `languages.geo.json` / `distance.*.json`.
+  - [ ] **Kognat / Uzaklık** → `cognates.json` / `distance.*.json` (kognat: Savelyev formları fonemik; orijinal ortografi için apertium/Wiktionary değerlendir).
 - [ ] **MIMARI.md**: UI veri-sözleşmesi → API uçları + JSON şeması.
 
 ## 2) #4 GELİNCE — Mimari tasarımı (BİRLİKTE kesinleştirilecek)

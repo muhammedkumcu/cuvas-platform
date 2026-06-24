@@ -3,7 +3,8 @@
 > Yeni oturumda / compact sonrası **İLK BUNU OKU.** Nerede kaldık, sıradaki iş, nasıl sürdürülür — tek kaynak.
 > Sonra ihtiyaca göre: `plan/YOLCULUK-VE-VAZGECILENLER.md` (ne bıraktık+neden), `arastirma/*.prompt.md` (3 derin araştırma),
 > `platform/NOTLAR.md` (apertium nasıl kullanılır), `plan/PLATFORM-OZELLIKLERI.md`.
-> **Güncelleme: 24 Haziran 2026.** §0=güncel durum+sıradaki · §2=VM/apertium ERİŞİMİ (kritik) · §4.6=hatalar/dersler — KAYBOLMASIN · §9=compact sonrası örnek prompt.
+> **Güncelleme: 24 Haziran 2026 (2. tur).** §0=güncel durum+sıradaki · §2=VM/apertium ERİŞİMİ (kritik) · §4.6=hatalar/dersler — KAYBOLMASIN · §9=compact sonrası örnek prompt.
+> Yol haritası/todolist: [`plan/TODO.md`](plan/TODO.md). Araştırma promptları: `arastirma/1..4-*.prompt.md`.
 
 ---
 
@@ -16,13 +17,19 @@
 - **Klasör YENİDEN DÜZENLENDİ** (24 Haz): `arastirma/` · `plan/` · `platform/` · `arsiv/`. Kök sade.
 - **Repo temiz + push'lu:** github.com/muhammedkumcu/cuvas-platform (main). Commit'lerde **yalnız kullanıcı** görünür (Co-Authored-By Claude YOK — §7).
 
-### ★ SIRADAKİ İŞ (compact sonrası buradan devam)
-1. **Karşılaştırma derlemesi BEKLENİYOR:** Kullanıcı, `arastirma/3-turk-dilleri-karsilastirma.prompt.md`'yi deepsearch'e verip **büyük bir karşılaştırmalı Türk dilleri PDF'i** getirecek (kollar, ses denklikleri, kognatlar, morfoloji farkları). **PDF gelince** → karşılaştırma ağının veri/içeriğini ondan kur.
-2. **Platformu inşa et (apertium-temelli, çok-dilli):** backend (FastAPI/Flask, `turkicnlp`/`hfst` → analiz+üretim+paradigma JSON API) + frontend (paradigma gezgini + **karşılaştırma ağı** + ICALL alıştırma). **Geliştirmeyi VM'de (Linux) yap** — apertium Windows'ta çalışmaz (§2).
-3. **Değerlendirme:** UniMorph (Türk dilleri paradigmaları) + UD treebank'leri + Wiktionary = altın standart (ML değil) → analiz/üretim precision/recall.
-4. **Sona:** karışık-yazı bulgusu + Çuvaşça derin vaka + paper (UBMK 2026, TurkLang track).
+### ★ ÇİFT KİTLE & TAKVİM (24 Haz, 2. tur kararları)
+- **İki hedef kitle:** (1) **Öğrenenler** (çocuk/öğrenci/meraklı) + (2) **Araştırmacılar (KRİTİK):** "literatür karşılarındaymış gibi", **Türk dil dünyasının takip edildiği**, araştırmacının **ilk uğrayacağı**, işini gerçekten kolaylaştıran (birleşik arama, karşılaştırmalı sorgu, toplu üretim/analiz, dışa aktarım, açık API, kaynak/literatür hub'ı) **çözüm‑odaklı merkez.**
+- **Takvim:** Platformun hakkını ver; **30 Haziran UBMK son tarihine SIKIŞMA** (yetişirsek sunarız). Daha ileri/güçlü venue hedefle. "Tarih yokmuşçasına" sağlam çalış.
+- **MVP dilleri:** temsilci alt küme → **tur, kaz, uzb, chv, sah, tyv, kjh** (~7) → sonra 20'ye ölçekle.
 
-> Kullanıcı: "paper yazma kolay, asıl platforma odaklan." Akademik katkı (gap): **Türk dilleri için öğrenen-odaklı pedagojik morfoloji+karşılaştırma platformu YOK** (apertium CLI/MT, turkicnlp dev-kütüphane). Onu açıyoruz + karşılaştırma ağı + (sona) karışık-yazı.
+### ★ SIRADAKİ İŞ (compact sonrası buradan devam) — bkz. [`plan/TODO.md`](plan/TODO.md)
+1. **#3 karşılaştırma PDF'i GELDİ** → `arastirma/3-turk-dilleri-karsilastirma.pdf` (26 sf, 108 kaynak; metin `_research3_text.txt`). Eşzamanlı dilbilim çekirdeği hazır.
+2. **#4 prompt'u YAZILDI** → `arastirma/4-turk-dilleri-tarih-sosyokultur-iliski.prompt.md` (tarih/sosyokültür/ilişki + **araştırmacı‑merkezi**, 40‑50 sf hedef). **Kullanıcı #4 PDF'ini getirecek — BEKLENİYOR.**
+3. **#4 GELİNCE:** mimariyi **BİRLİKTE** baştan, genişleyebilir şekilde planla (birleşik veri modeli #3+#4; modül haritası; tech stack; açık API) → `plan/MIMARI.md`. **Sonra** adım adım geliştir. (Kullanıcı kararı: önce #4'ü bekle, kod ŞİMDİ yazma.)
+4. **Sonra:** backend (VM'de apertium analiz+üretim+paradigma+transliterasyon+araştırmacı uçları) → karşılaştırma/içerik katmanı (ses‑denkliği, kognat ağı, uzaklık gezgini, dil profilleri, harita/zaman çizelgesi) → frontend (paradigma gezgini, ICALL, uzman modu).
+5. **Sona:** UniMorph/UD/Wiktionary değerlendirme + karışık‑yazı bulgusu + Çuvaşça derin vaka + paper.
+
+> Akademik katkı (gap): **Türk dilleri için çift‑kitleli (öğrenen + araştırmacı), çok‑dilli, çok‑boyutlu morfoloji + karşılaştırma + araştırma merkezi YOK** (apertium=CLI/MT, turkicnlp=dev‑kütüphane). Onu açıyoruz + karşılaştırma/uzaklık ağı + araştırmacı hub'ı + (sona) karışık‑yazı.
 
 ---
 
@@ -99,7 +106,8 @@ python3 -c "import turkicnlp; turkicnlp.download('chv')"   # apertium FST indir
 ## 5) ARAŞTIRMA TEMELİ (`arastirma/`)
 - **1-cuvasca-morfoloji** (prompt.md + pdf): Çuvaş morfolojisi/kaynakları (kendi-motor fazını besledi).
 - **2-egitim-platform** (prompt.md + pdf): NLP+eğitim platformu konumlandırma (Joshi dijital uçurum, ICALL, Eryiğit/İTÜRK, MUDT, homoglyph, Hamăr Yal, UniMorph/UD).
-- **3-turk-dilleri-karsilastirma** (prompt.md — **PDF BEKLENİYOR**): karşılaştırmalı Türk dilbilimi (kollar, ses denklikleri rotasizm/lambdasizm, kognatlar, morfoloji farkları, özellik matrisi) → **karşılaştırma ağının temeli.**
+- **3-turk-dilleri-karsilastirma** (prompt.md + **pdf GELDİ**): karşılaştırmalı Türk dilbilimi (kollar, ses denklikleri rotasizm/lambdasizm/*d-t-y-z/*h-/*g-v-w, ünlü uyumu tipolojisi, karşılaştırmalı paradigmalar hal/iyelik/çoğul/fiil+morfotaktik, kognat setleri, alıntı katmanları, yazı sistemleri, anlaşılabilirlik %'leri, açık-veri envanteri, 4-modül veri haritası). 26 sf/108 kaynak → **eşzamanlı dilbilim çekirdeği.**
+- **4-turk-dilleri-tarih-sosyokultur-iliski** (prompt.md — **PDF BEKLENİYOR**): tarih/sosyokültür/disiplinlerarası ilişki (köken/ana yurt, dönemleşme & yazılı gelenek, 20 dil bireysel profili, alfabe reformları, canlılık/EGIDS, Altay/Transavrasya tartışması, areal/temas Sprachbund, kültür/din/destan, genetik-vs-dil, **çok-boyutlu uzaklık matrisleri**, **araştırmacı ekosistemi+boşluklar+çözüm**) → **artzamanlı tarih/ilişki + araştırmacı-merkezi temeli.** 40-50 sf hedef.
 
 ## 6) KLASÖR HARİTASI
 ```

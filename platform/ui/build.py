@@ -880,6 +880,32 @@ def main():
         "    const stripRoot = remaining.map(x=>x.text).join('') || w.morphemes[0].text;",
         "    const stripRoot = (w.forms && w.forms[w.morphemes.length-1-S.stripCount]!=null) ? w.forms[w.morphemes.length-1-S.stripCount] : (remaining.map(x=>x.text).join('') || w.morphemes[0].text);", 1)
 
+    # ============================================================
+    #  JOSHI KAYNAK SINIFI (0–5) — dil profillerine rozet (deepsearch envanter PDF'i; misyon: eksik/gelişmişlik)
+    # ============================================================
+    JOSHI = {"tr": "4–5 · yüksek", "az": "1 · düşük", "tk": "1 · düşük", "kk": "2–3 · orta",
+             "kg": "1 · düşük", "tt": "2–3 · orta", "bak": "1 · düşük", "ug": "2–3 · orta",
+             "chv": "1 · düşük", "sah": "1 · düşük", "tyv": "0 · aşırı düşük", "kjh": "0 · aşırı düşük",
+             "shor": "0 · aşırı düşük", "clw": "0 · aşırı düşük"}
+    njoshi = 0
+    for code, val in JOSHI.items():
+        html, n = re.subn(r"(\{code:'" + re.escape(code) + r"',)", r"\1joshi:'" + val + r"', ", html, count=1)
+        njoshi += n
+    # stat grid 3→2 sütun + NLP KAYNAK SINIFI kutusu
+    html = html.replace(
+        '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px">',
+        '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:24px">', 1)
+    kol_box = ("              <div style=\"background:#fff;border:1px solid rgba(33,29,23,.08);border-radius:11px;padding:14px 16px\">"
+               "<div style=\"font-size:11px;color:#9a9082;letter-spacing:.5px\">KOL</div>"
+               "<div style=\"font-family:'Spectral',serif;font-size:18px;font-weight:600;margin-top:3px\">{{ profileSel.branch }}</div></div>")
+    joshi_box = ("\n              <div style=\"background:#fff;border:1px solid rgba(33,29,23,.08);border-radius:11px;padding:14px 16px\" "
+                 "title=\"Joshi ve ark. 2020 — dijital/NLP kaynak zenginliği sınıfı (0=aşırı düşük … 5=yüksek)\">"
+                 "<div style=\"font-size:11px;color:#9a9082;letter-spacing:.5px\">NLP KAYNAK SINIFI</div>"
+                 "<div style=\"font-family:'Spectral',serif;font-size:18px;font-weight:600;margin-top:3px\">{{ profileSel.joshi }}</div></div>")
+    njbox = 1 if kol_box in html else 0
+    html = html.replace(kol_box, kol_box + joshi_box, 1)
+    print(f"  Joshi kaynak sınıfı: {njoshi} dil, stat kutusu={njbox}")
+
     # --- DENETİM DÜZELTMELERİ (görünür taraftaki sabit/eskimiş/tutarsız öğeler) ---
     audit = [
         # paradigma başlığı artık dinamik (herhangi dilde çekim)

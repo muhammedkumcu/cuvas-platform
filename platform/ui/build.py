@@ -34,6 +34,9 @@ MAP_ISOS = ["tur", "azj", "tuk", "chv", "tat", "bak", "kaz", "kir", "uig", "sah"
 TR_NAME = {"tur": "Türkçe", "azj": "Azerbaycanca", "tuk": "Türkmence", "chv": "Çuvaşça", "tat": "Tatarca",
            "bak": "Başkurtça", "kaz": "Kazakça", "kir": "Kırgızca", "uig": "Uygurca", "sah": "Yakutça",
            "tyv": "Tuvaca", "kjh": "Hakasça", "klj": "Halaçça", "cjs": "Şorca"}
+# iso → UI profil kodu (harita düğümünden profile gitmek için)
+ISO_TO_PROFILE = {"tur": "tr", "azj": "az", "tuk": "tk", "chv": "chv", "tat": "tt", "bak": "bak", "kaz": "kk",
+                  "kir": "kg", "uig": "ug", "sah": "sah", "tyv": "tyv", "kjh": "kjh", "klj": "clw", "cjs": "shor"}
 
 
 # Uzaklık Gezgini: UI dil kodu -> veri anahtarları
@@ -140,7 +143,8 @@ def build_map(prof):
         if not p or p.get("lat") is None or p.get("lon") is None:
             continue
         x, y = project(p["lon"], p["lat"])
-        parts = [f"name:'{TR_NAME.get(iso, p['name'])}'", f"branch:'{p['branch']}'", f"x:{x}", f"y:{y}"]
+        parts = [f"name:'{TR_NAME.get(iso, p['name'])}'", f"code:'{ISO_TO_PROFILE.get(iso, '')}'",
+                 f"branch:'{p['branch']}'", f"x:{x}", f"y:{y}"]
         if iso == "chv":
             parts.append("hi:true")
         if y > 50:
@@ -203,6 +207,11 @@ def main():
     # Harita ← gerçek Glottolog koordinatları (şematik projeksiyon)
     new_map = build_map(prof)
     html, nmap = re.subn(r"MAP = \[.*?\n  \];", lambda m: new_map, html, flags=re.DOTALL)
+    # Harita düğümü → o dilin profiline git (mapNodes'a go + düğümü tıklanabilir yap)
+    html = html.replace("        return { name:m.name, branch:m.branch, col,",
+                        "        return { name:m.name, branch:m.branch, col, go:()=>this.setState({screen:'profile', profileSel:m.code}),", 1)
+    html = html.replace('<div style="{{ n.dotStyle }}">',
+                        '<div onClick="{{ n.go }}" style="cursor:pointer;{{ n.dotStyle }}">', 1)
 
     # Uzaklık Gezgini ← gerçek matrisler: leksikal(Savelyev) + tipolojik(WALS) + coğrafi(koordinat)
     real_dist = build_distance(prof, lex, typ, cog, intel)

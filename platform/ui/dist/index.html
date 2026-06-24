@@ -388,7 +388,7 @@
             <span style="position:absolute;left:72%;top:8%;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;color:#9a8f7a">SİBİRYA</span>
             <!-- language dots -->
             <sc-for list="{{ mapNodes }}" as="n" hint-placeholder-count="6">
-              <div style="{{ n.dotStyle }}">
+              <div onClick="{{ n.go }}" style="cursor:pointer;{{ n.dotStyle }}">
                 <span style="{{ n.ball }}"></span>
                 <span style="{{ n.label }}">{{ n.name }}</span>
               </div>
@@ -1228,20 +1228,20 @@ class Component extends DCLogic {
     'Karluk':'oklch(0.5 0.13 295)', 'Sibirya':'oklch(0.52 0.13 235)',
   };
   MAP = [
-    {name:'Türkçe', branch:'Oğuz', x:10.0, y:51.0, below:true},
-    {name:'Azerbaycanca', branch:'Oğuz', x:20.2, y:49.1},
-    {name:'Türkmence', branch:'Oğuz', x:29.8, y:55.7, below:true},
-    {name:'Çuvaşça', branch:'Ogur', x:20.7, y:24.5, hi:true},
-    {name:'Tatarca', branch:'Kıpçak', x:22.2, y:24.0},
-    {name:'Başkurtça', branch:'Kıpçak', x:27.8, y:27.7},
-    {name:'Kazakça', branch:'Kıpçak', x:39.0, y:31.9},
-    {name:'Kırgızca', branch:'Kıpçak', x:40.9, y:47.4},
-    {name:'Uygurca', branch:'Karluk', x:51.0, y:44.2},
-    {name:'Yakutça', branch:'Sibirya', x:86.0, y:14.0},
-    {name:'Tuvaca', branch:'Sibirya', x:56.2, y:31.0},
-    {name:'Hakasça', branch:'Sibirya', x:52.7, y:29.3},
-    {name:'Halaçça', branch:'Argu', x:23.1, y:60.2, below:true},
-    {name:'Şorca', branch:'Sibirya', x:51.3, y:27.5},
+    {name:'Türkçe', code:'tr', branch:'Oğuz', x:10.0, y:51.0, below:true},
+    {name:'Azerbaycanca', code:'az', branch:'Oğuz', x:20.2, y:49.1},
+    {name:'Türkmence', code:'tk', branch:'Oğuz', x:29.8, y:55.7, below:true},
+    {name:'Çuvaşça', code:'chv', branch:'Ogur', x:20.7, y:24.5, hi:true},
+    {name:'Tatarca', code:'tt', branch:'Kıpçak', x:22.2, y:24.0},
+    {name:'Başkurtça', code:'bak', branch:'Kıpçak', x:27.8, y:27.7},
+    {name:'Kazakça', code:'kk', branch:'Kıpçak', x:39.0, y:31.9},
+    {name:'Kırgızca', code:'kg', branch:'Kıpçak', x:40.9, y:47.4},
+    {name:'Uygurca', code:'ug', branch:'Karluk', x:51.0, y:44.2},
+    {name:'Yakutça', code:'sah', branch:'Sibirya', x:86.0, y:14.0},
+    {name:'Tuvaca', code:'tyv', branch:'Sibirya', x:56.2, y:31.0},
+    {name:'Hakasça', code:'kjh', branch:'Sibirya', x:52.7, y:29.3},
+    {name:'Halaçça', code:'clw', branch:'Argu', x:23.1, y:60.2, below:true},
+    {name:'Şorca', code:'shor', branch:'Sibirya', x:51.3, y:27.5},
   ];
 
   // illustrative distance matrix from Çuvaşça (0 = yakın, 1 = uzak) — örnek veri
@@ -1638,7 +1638,7 @@ class Component extends DCLogic {
       compareRows, legend, soundCards, familyRows, timeline,
       mapNodes:this.MAP.map(m=>{
         const col = this.BRANCHCOLOR[m.branch];
-        return { name:m.name, branch:m.branch, col,
+        return { name:m.name, branch:m.branch, col, go:()=>this.setState({screen:'profile', profileSel:m.code}),
           dotStyle:`position:absolute;left:${m.x}%;top:${m.y}%;transform:translate(-50%,-50%);display:flex;flex-direction:${m.below?'column-reverse':'column'};align-items:center;gap:4px;z-index:${m.hi?3:2}`,
           ball:`width:${m.hi?18:13}px;height:${m.hi?18:13}px;border-radius:50%;background:${col};border:2px solid #fbfaf6;box-shadow:0 0 0 ${m.hi?'4px':'1px'} ${m.hi?'rgba(184,96,46,.25)':'rgba(33,29,23,.12)'}`,
           label:`font-size:${m.hi?'13px':'12px'};font-weight:${m.hi?'700':'500'};font-family:'Spectral',serif;color:#211d17;white-space:nowrap;background:rgba(251,250,246,.85);padding:1px 6px;border-radius:5px` };

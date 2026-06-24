@@ -267,13 +267,14 @@ def main():
         "      paradigmFreeQ: this.state.paradigmFreeQ||'',\n"
         "      onParadigmFreeInput:(e)=>this.setState({paradigmFreeQ:e.target.value}),\n"
         "      onParadigmFreeKey:(e)=>{ if(e.key!=='Enter') return; const lemma=(this.state.paradigmFreeQ||'').trim(); if(!lemma) return; const lg=this.state.searchLang||'chv'; fetch(this.KOKEN_API+'/paradigm/'+lg+'/'+encodeURIComponent(lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma, langName:(LNp[lg]||lg), rows:(d&&d.rows)||[]}})).catch(()=>{}); } };"))
-    # paradigma ekranına serbest kök girişi (template)
+    # paradigma: serbest kök girişi ÜSTTE (arama düşük kalmasın) + örnekler ÖRNEK olarak etiketli
     live.append((
-        '        <div style="margin-top:22px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">\n          <sc-if value="{{ paradigmIsNoun }}"',
-        '        <div style="margin-top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">\n'
-        '          <input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="…veya kök yaz + Enter — seçili dilde canlı çekim (sağ üstteki dil)" style="flex:1;min-width:260px;max-width:440px;padding:10px 13px;border:1px solid rgba(33,29,23,.16);border-radius:9px;background:#fff;font-size:14px;font-family:inherit;color:#211d17;outline:none">\n'
+        '        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px">\n          <sc-for list="{{ paradigmRoots }}"',
+        '        <div style="display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap">\n'
+        '          <input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — sağ üstteki dilde canlı çekim" style="flex:1;min-width:300px;max-width:520px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">\n'
         '        </div>\n'
-        '        <div style="margin-top:22px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">\n          <sc-if value="{{ paradigmIsNoun }}"'))
+        '        <div style="font-size:11px;letter-spacing:1px;color:#9a9082;margin-top:18px;font-family:monospace">ÖRNEK KÖKLER (Çuvaşça)</div>\n'
+        '        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">\n          <sc-for list="{{ paradigmRoots }}"'))
     # 2) componentDidUpdate → ekrana girince paradigma çek
     live.append((
         "  componentDidUpdate(prevProps, prevState){\n"
@@ -362,6 +363,32 @@ def main():
                             "      navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, onSearchLang:(e)=>this.setState({searchLang:e.target.value}),", 1)
         nsel = 1
     print(f"  Analiz dil seçici: {nsel}")
+
+    # --- DENETİM DÜZELTMELERİ (görünür taraftaki sabit/eskimiş/tutarsız öğeler) ---
+    audit = [
+        # paradigma başlığı artık dinamik (herhangi dilde çekim)
+        ("PARADİGMA GEZGİNİ · Çuvaşça", "PARADİGMA GEZGİNİ · {{ paradigmLang }}"),
+        ("paradigmFreeQ: this.state.paradigmFreeQ||'',",
+         "paradigmLang: (this.state.paradigmFree && Array.isArray(this.state.paradigmFree.rows)) ? this.state.paradigmFree.langName : 'Çuvaşça', paradigmFreeQ: this.state.paradigmFreeQ||'',"),
+        # öğrenen/uzman KALDIR: her şey görünür (isExpert hep true) + toggle'ı sil
+        ("isExpert:S.mode==='expert'", "isExpert: true"),
+        ('        <div style="display:flex;background:#ece7dc;border-radius:9px;padding:3px">\n'
+         '          <sc-for list="{{ modeToggle }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>\n'
+         '        </div>\n', ''),
+        # 'UZMAN MODU' etiketi mod kalkınca anlamsız → nötr
+        ("UZMAN MODU", "HAM ÇIKTI"),
+        # stale konuşur sayısı (timeline) → güncel
+        ("Ogur kolunun yaşayan tek temsilcisi; ~1 milyon konuşur, tehlike altında.",
+         "Ogur kolunun yaşayan tek temsilcisi; ~740 bin konuşur, tehlike altında."),
+    ]
+    naudit = 0
+    for old, new in audit:
+        c = html.count(old)
+        if c:
+            html = html.replace(old, new); naudit += c
+        else:
+            print("  ! denetim eşleşmedi:", old[:46])
+    print(f"  Denetim düzeltmeleri: {naudit}")
 
     (DIST / "index.html").write_text(html, encoding="utf-8")
     shutil.copy(UI / "support.js", DIST / "support.js")

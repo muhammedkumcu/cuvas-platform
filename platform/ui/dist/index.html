@@ -66,9 +66,6 @@
       <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Analiz dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:10px 8px;font-size:13px;font-family:inherit;color:#211d17;cursor:pointer"><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option></select>
       <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
         <div style="display:flex;background:#ece7dc;border-radius:9px;padding:3px">
-          <sc-for list="{{ modeToggle }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>
-        </div>
-        <div style="display:flex;background:#ece7dc;border-radius:9px;padding:3px">
           <sc-for list="{{ scriptToggle }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>
         </div>
       </div>
@@ -738,7 +735,7 @@
       <!-- ===================== PARADİGMA GEZGİNİ ===================== -->
       <sc-if value="{{ isParadigm }}" hint-placeholder-val="{{ false }}">
       <section style="max-width:1040px;margin:0 auto;padding:34px 40px 70px">
-        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">PARADİGMA GEZGİNİ · Çuvaşça</div>
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">PARADİGMA GEZGİNİ · {{ paradigmLang }}</div>
         <div style="display:flex;align-items:baseline;gap:14px;margin:8px 0 2px;flex-wrap:wrap">
           <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:42px;margin:0">{{ paradigmTitle }}</h2>
           <span style="font-size:18px;color:#5f574b">{{ paradigmGloss }}</span>
@@ -746,18 +743,19 @@
         <div style="font-size:14px;color:#5f574b">{{ paradigmSub }}</div>
         <sc-if value="{{ isExpert }}" hint-placeholder-val="{{ false }}">
         <div style="margin-top:14px;display:flex;align-items:center;gap:12px;background:#15120e;color:#f4f1ea;border-radius:11px;padding:11px 16px;flex-wrap:wrap">
-          <span style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#9abf8f">UZMAN MODU</span>
+          <span style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#9abf8f">HAM ÇIKTI</span>
           <span style="font-size:12.5px;color:rgba(244,241,234,.8)">Ham morfolojik etiketler ve kaynak künyeleri görünür.</span>
           <button onClick="{{ goResearch }}" style="margin-left:auto;cursor:pointer;background:#2f6fb0;color:#fff;border:none;border-radius:8px;padding:7px 13px;font-size:12px;font-family:inherit">⬇ Dışa aktar</button>
         </div>
         </sc-if>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:18px">
+        <div style="display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap">
+          <input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — sağ üstteki dilde canlı çekim" style="flex:1;min-width:300px;max-width:520px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
+        </div>
+        <div style="font-size:11px;letter-spacing:1px;color:#9a9082;margin-top:18px;font-family:monospace">ÖRNEK KÖKLER (Çuvaşça)</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
           <sc-for list="{{ paradigmRoots }}" as="r" hint-placeholder-count="3">
             <button onClick="{{ r.go }}" style="{{ r.style }}"><span style="font-family:'Spectral',serif;font-size:17px;font-weight:700">{{ r.label }}</span><span style="{{ r.glossStyle }}">{{ r.gloss }} · {{ r.kind }}</span></button>
           </sc-for>
-        </div>
-        <div style="margin-top:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-          <input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="…veya kök yaz + Enter — seçili dilde canlı çekim (sağ üstteki dil)" style="flex:1;min-width:260px;max-width:440px;padding:10px 13px;border:1px solid rgba(33,29,23,.16);border-radius:9px;background:#fff;font-size:14px;font-family:inherit;color:#211d17;outline:none">
         </div>
         <div style="margin-top:22px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">
           <sc-if value="{{ paradigmIsNoun }}" hint-placeholder-val="{{ true }}">
@@ -805,7 +803,7 @@
         <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:64ch;margin:0 0 12px">Ortak bir atadan gelen biçimler. Turuncu kesik çizgi, o dilde düzenli bir <strong>ses değişimi</strong> olduğunu gösterir — kök aynı, görünüş farklı.</p>
         <sc-if value="{{ isExpert }}" hint-placeholder-val="{{ false }}">
         <div style="margin-bottom:14px;display:flex;align-items:center;gap:12px;background:#15120e;color:#f4f1ea;border-radius:11px;padding:11px 16px;flex-wrap:wrap">
-          <span style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#9abf8f">UZMAN MODU</span>
+          <span style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#9abf8f">HAM ÇIKTI</span>
           <span style="font-size:12.5px;color:rgba(244,241,234,.8)">Kognat seti makine-okunur biçimde alınabilir.</span>
           <button onClick="{{ goResearch }}" style="margin-left:auto;cursor:pointer;background:#2f6fb0;color:#fff;border:none;border-radius:8px;padding:7px 13px;font-size:12px;font-family:inherit">⬇ Dışa aktar</button>
         </div>
@@ -1224,7 +1222,7 @@ class Component extends DCLogic {
     {when:'~MÖ 1. binyıl', title:'Proto-Türkçe', desc:'Bütün Türk dillerinin ortak atası; henüz tek bir dil.'},
     {when:'~MS 1.–4. yy', title:'Ogur kolunun ayrılışı', desc:'Bulgar/Ogur grubu ana gövdeden erken kopar; rotasizm ve lambdasizm bu kolu ayırır.'},
     {when:'Orta Çağ', title:'İdil Bulgarcası', desc:'Volga (İdil) boyunda yazılı izler bırakan Bulgarca, Çuvaşçanın doğrudan atası.'},
-    {when:'Bugün', title:'Çuvaşça', desc:'Ogur kolunun yaşayan tek temsilcisi; ~1 milyon konuşur, tehlike altında.'},
+    {when:'Bugün', title:'Çuvaşça', desc:'Ogur kolunun yaşayan tek temsilcisi; ~740 bin konuşur, tehlike altında.'},
   ];
 
   BRANCHCOLOR = {
@@ -1675,7 +1673,7 @@ class Component extends DCLogic {
       label, go:()=>this.setState({mode:id}), style:seg(S.mode===id) }));
     const scriptToggle = [['cyrillic','Кир'],['latin','Lat']].map(([id,label])=>({
       label, go:()=>this.setState({script:id}), style:seg(S.script===id) }));
-    return { modeToggle, scriptToggle, isExpert:S.mode==='expert' };
+    return { modeToggle, scriptToggle, isExpert: true };
   }
   // Dile-duyarlı transliterasyon: ortak Kiril tabanı + dile özgü harita.
   // Yeni dil eklemek = TRANSLIT'e bir kayıt (backend'de her dilin kendi haritası olacak).
@@ -1790,7 +1788,7 @@ class Component extends DCLogic {
       paradigmTitle: freeRows ? this.disp(F.lemma) : this.disp(p.root, p.rootLat),
       paradigmGloss: freeRows ? ('· '+F.langName) : `“${p.gloss}”`,
       paradigmSub: freeRows ? ('canlı apertium çekimi · '+F.langName) : (isVerb ? (p.label+' · şahıs çekimi') : 'Ad çekimi · hâl × sayı'),
-      paradigmFreeQ: this.state.paradigmFreeQ||'',
+      paradigmLang: (this.state.paradigmFree && Array.isArray(this.state.paradigmFree.rows)) ? this.state.paradigmFree.langName : 'Çuvaşça', paradigmFreeQ: this.state.paradigmFreeQ||'',
       onParadigmFreeInput:(e)=>this.setState({paradigmFreeQ:e.target.value}),
       onParadigmFreeKey:(e)=>{ if(e.key!=='Enter') return; const lemma=(this.state.paradigmFreeQ||'').trim(); if(!lemma) return; const lg=this.state.searchLang||'chv'; fetch(this.KOKEN_API+'/paradigm/'+lg+'/'+encodeURIComponent(lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma, langName:(LNp[lg]||lg), rows:(d&&d.rows)||[]}})).catch(()=>{}); } };
   }

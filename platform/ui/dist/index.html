@@ -59,7 +59,7 @@
           style="width:100%;padding:11px 14px 11px 38px;border:1px solid rgba(33,29,23,.16);border-radius:9px;background:#fff;font-size:14px;font-family:inherit;color:#211d17;outline:none">
         <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#9a9082;font-size:14px">⌕</span>
       </div>
-      <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Analiz dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:10px 8px;font-size:13px;font-family:inherit;color:#211d17;cursor:pointer"><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option></select>
+      <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Analiz dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:10px 8px;font-size:13px;font-family:inherit;color:#211d17;cursor:pointer"><option value="auto">⚡ Otomatik · tüm diller</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option></select>
       <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
         <div style="display:flex;background:#ece7dc;border-radius:9px;padding:3px">
           <sc-for list="{{ scriptToggle }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>
@@ -160,6 +160,12 @@
           </sc-if>
         </div>
 
+        <sc-if value="{{ hasApiMatches }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:18px;display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+          <span style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px">BU KELİME ŞU DİLLERDE</span>
+          <sc-for list="{{ apiMatches }}" as="m" hint-placeholder-count="3"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>
+        </div>
+        </sc-if>
         <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:20px;margin-top:20px">
           <!-- left: tree OR strip -->
           <sc-if value="{{ isTreeView }}" hint-placeholder-val="{{ true }}">
@@ -972,6 +978,15 @@
 class Component extends DCLogic {
   KOKEN_API = 'http://127.0.0.1:8000';
   REAL_DIST = {"leks": {"chv": {"chv": 0.0, "tt": 0.3696, "bak": 0.3939, "kk": 0.413, "kg": 0.4372, "tr": 0.4405, "az": 0.3911, "tk": 0.3937, "ug": 0.385, "sah": 0.5374}, "tt": {"chv": 0.3696, "tt": 0.0, "bak": 0.0245, "kk": 0.0864, "kg": 0.0902, "tr": 0.2929, "az": 0.2437, "tk": 0.1732, "ug": 0.0958, "sah": 0.4}, "bak": {"chv": 0.3939, "tt": 0.0245, "bak": 0.0, "kk": 0.1033, "kg": 0.1025, "tr": 0.3222, "az": 0.27, "tk": 0.2078, "ug": 0.1208, "sah": 0.3957}, "kk": {"chv": 0.413, "tt": 0.0864, "bak": 0.1033, "kk": 0.0, "kg": 0.0494, "tr": 0.3038, "az": 0.2766, "tk": 0.1897, "ug": 0.1172, "sah": 0.4}, "kg": {"chv": 0.4372, "tt": 0.0902, "bak": 0.1025, "kk": 0.0494, "kg": 0.0, "tr": 0.3167, "az": 0.2743, "tk": 0.188, "ug": 0.0871, "sah": 0.3966}, "tr": {"chv": 0.4405, "tt": 0.2929, "bak": 0.3222, "kk": 0.3038, "kg": 0.3167, "tr": 0.0, "az": 0.1561, "tk": 0.2183, "ug": 0.2681, "sah": 0.4744}, "az": {"chv": 0.3911, "tt": 0.2437, "bak": 0.27, "kk": 0.2766, "kg": 0.2743, "tr": 0.1561, "az": 0.0, "tk": 0.1609, "ug": 0.2275, "sah": 0.4655}, "tk": {"chv": 0.3937, "tt": 0.1732, "bak": 0.2078, "kk": 0.1897, "kg": 0.188, "tr": 0.2183, "az": 0.1609, "tk": 0.0, "ug": 0.1447, "sah": 0.441}, "ug": {"chv": 0.385, "tt": 0.0958, "bak": 0.1208, "kk": 0.1172, "kg": 0.0871, "tr": 0.2681, "az": 0.2275, "tk": 0.1447, "ug": 0.0, "sah": 0.3896}, "sah": {"chv": 0.5374, "tt": 0.4, "bak": 0.3957, "kk": 0.4, "kg": 0.3966, "tr": 0.4744, "az": 0.4655, "tk": 0.441, "ug": 0.3896, "sah": 0.0}}, "tipo": {"chv": {"chv": 0.0, "tt": 0.2571, "bak": 0.2321, "kk": 0.3333, "kg": 0.1875, "tr": 0.2099, "az": 0.1333, "tk": 0.1176, "ug": 0.0345, "sah": 0.0755}, "tt": {"chv": 0.2571, "tt": 0.0, "bak": 0.0303, "kk": 0.2857, "kg": 0.1111, "tr": 0.2727, "az": 0.1, "tk": 0.05, "ug": 0.1053, "sah": 0.0385}, "bak": {"chv": 0.2321, "tt": 0.0303, "bak": 0.0, "kk": 0.1667, "kg": 0.1379, "tr": 0.2586, "az": 0.2432, "tk": 0.0588, "ug": 0.08, "sah": 0.1628}, "kk": {"chv": 0.3333, "tt": 0.2857, "bak": 0.1667, "kk": 0.0, "kg": 0.3333, "tr": 0.4444, "az": 0.5714, "tk": 0.0, "ug": 0.0, "sah": 0.3333}, "kg": {"chv": 0.1875, "tt": 0.1111, "bak": 0.1379, "kk": 0.3333, "kg": 0.0, "tr": 0.125, "az": 0.2143, "tk": 0.2, "ug": 0.0909, "sah": 0.1379}, "tr": {"chv": 0.2099, "tt": 0.2727, "bak": 0.2586, "kk": 0.4444, "kg": 0.125, "tr": 0.0, "az": 0.098, "tk": 0.1905, "ug": 0.1714, "sah": 0.1719}, "az": {"chv": 0.1333, "tt": 0.1, "bak": 0.2432, "kk": 0.5714, "kg": 0.2143, "tr": 0.098, "az": 0.0, "tk": 0.2308, "ug": 0.1429, "sah": 0.125}, "tk": {"chv": 0.1176, "tt": 0.05, "bak": 0.0588, "kk": 0.0, "kg": 0.2, "tr": 0.1905, "az": 0.2308, "tk": 0.0, "ug": 0.0769, "sah": 0.125}, "ug": {"chv": 0.0345, "tt": 0.1053, "bak": 0.08, "kk": 0.0, "kg": 0.0909, "tr": 0.1714, "az": 0.1429, "tk": 0.0769, "ug": 0.0, "sah": 0.0357}, "sah": {"chv": 0.0755, "tt": 0.0385, "bak": 0.1628, "kk": 0.3333, "kg": 0.1379, "tr": 0.1719, "az": 0.125, "tk": 0.125, "ug": 0.0357, "sah": 0.0}}, "geo": {"chv": {"chv": 0.0, "tt": 0.019, "bak": 0.095, "kk": 0.249, "kg": 0.365, "tr": 0.303, "az": 0.24, "tk": 0.333, "ug": 0.464, "sah": 0.699}, "tt": {"chv": 0.019, "tt": 0.0, "bak": 0.08, "kk": 0.232, "kg": 0.351, "tr": 0.318, "az": 0.247, "tk": 0.33, "ug": 0.446, "sah": 0.683}, "bak": {"chv": 0.095, "tt": 0.08, "bak": 0.0, "kk": 0.156, "kg": 0.272, "tr": 0.349, "az": 0.237, "tk": 0.275, "ug": 0.369, "sah": 0.657}, "kk": {"chv": 0.249, "tt": 0.232, "bak": 0.156, "kk": 0.0, "kg": 0.155, "tr": 0.479, "az": 0.331, "tk": 0.274, "ug": 0.214, "sah": 0.573}, "kg": {"chv": 0.365, "tt": 0.351, "bak": 0.272, "kk": 0.155, "kg": 0.0, "tr": 0.511, "az": 0.34, "tk": 0.206, "ug": 0.165, "sah": 0.663}, "tr": {"chv": 0.303, "tt": 0.318, "bak": 0.349, "kk": 0.479, "kg": 0.511, "tr": 0.0, "az": 0.172, "tk": 0.343, "ug": 0.663, "sah": 1.0}, "az": {"chv": 0.24, "tt": 0.247, "bak": 0.237, "kk": 0.331, "kg": 0.34, "tr": 0.172, "az": 0.0, "tk": 0.175, "ug": 0.497, "sah": 0.888}, "tk": {"chv": 0.333, "tt": 0.33, "bak": 0.275, "kk": 0.274, "kg": 0.206, "tr": 0.343, "az": 0.175, "tk": 0.0, "ug": 0.371, "sah": 0.844}, "ug": {"chv": 0.464, "tt": 0.446, "bak": 0.369, "kk": 0.214, "kg": 0.165, "tr": 0.663, "az": 0.497, "tk": 0.371, "ug": 0.0, "sah": 0.535}, "sah": {"chv": 0.699, "tt": 0.683, "bak": 0.657, "kk": 0.573, "kg": 0.663, "tr": 1.0, "az": 0.888, "tk": 0.844, "ug": 0.535, "sah": 0.0}}, "filo": {"chv": {"chv": 0.0, "tt": 0.611, "bak": 0.6269, "kk": 0.6423, "kg": 0.6667, "tr": 0.6641, "az": 0.6296, "tk": 0.63, "ug": 0.6476, "sah": 0.742}, "tt": {"chv": 0.611, "tt": 0.0, "bak": 0.1584, "kk": 0.2928, "kg": 0.2997, "tr": 0.5299, "az": 0.4875, "tk": 0.4147, "ug": 0.3343, "sah": 0.6398}, "bak": {"chv": 0.6269, "tt": 0.1584, "bak": 0.0, "kk": 0.3096, "kg": 0.311, "tr": 0.5627, "az": 0.5137, "tk": 0.4524, "ug": 0.3686, "sah": 0.6345}, "kk": {"chv": 0.6423, "tt": 0.2928, "bak": 0.3096, "kk": 0.0, "kg": 0.2164, "tr": 0.5427, "az": 0.5167, "tk": 0.4174, "ug": 0.3596, "sah": 0.6357}, "kg": {"chv": 0.6667, "tt": 0.2997, "bak": 0.311, "kk": 0.2164, "kg": 0.0, "tr": 0.5486, "az": 0.5232, "tk": 0.4265, "ug": 0.3215, "sah": 0.6361}, "tr": {"chv": 0.6641, "tt": 0.5299, "bak": 0.5627, "kk": 0.5427, "kg": 0.5486, "tr": 0.0, "az": 0.3634, "tk": 0.4615, "ug": 0.5421, "sah": 0.6877}, "az": {"chv": 0.6296, "tt": 0.4875, "bak": 0.5137, "kk": 0.5167, "kg": 0.5232, "tr": 0.3634, "az": 0.0, "tk": 0.3896, "ug": 0.5093, "sah": 0.6883}, "tk": {"chv": 0.63, "tt": 0.4147, "bak": 0.4524, "kk": 0.4174, "kg": 0.4265, "tr": 0.4615, "az": 0.3896, "tk": 0.0, "ug": 0.4274, "sah": 0.6658}, "ug": {"chv": 0.6476, "tt": 0.3343, "bak": 0.3686, "kk": 0.3596, "kg": 0.3215, "tr": 0.5421, "az": 0.5093, "tk": 0.4274, "ug": 0.0, "sah": 0.6545}, "sah": {"chv": 0.742, "tt": 0.6398, "bak": 0.6345, "kk": 0.6357, "kg": 0.6361, "tr": 0.6877, "az": 0.6883, "tk": 0.6658, "ug": 0.6545, "sah": 0.0}}, "anla": {"chv": {"chv": 0.0, "tt": 0.92, "bak": 0.93, "kk": 0.96, "kg": 0.96, "tr": 0.97, "az": 0.97, "tk": 0.97, "ug": 0.96, "sah": 0.98}, "tt": {"chv": 0.92, "tt": 0.0, "bak": 0.15, "kk": 0.32, "kg": 0.4, "tr": 0.82, "az": 0.84, "tk": 0.82, "ug": 0.74, "sah": 0.97}, "bak": {"chv": 0.93, "tt": 0.15, "bak": 0.0, "kk": 0.36, "kg": 0.44, "tr": 0.84, "az": 0.86, "tk": 0.84, "ug": 0.76, "sah": 0.97}, "kk": {"chv": 0.96, "tt": 0.32, "bak": 0.36, "kk": 0.0, "kg": 0.2, "tr": 0.8, "az": 0.82, "tk": 0.78, "ug": 0.7, "sah": 0.97}, "kg": {"chv": 0.96, "tt": 0.4, "bak": 0.44, "kk": 0.2, "kg": 0.0, "tr": 0.82, "az": 0.84, "tk": 0.8, "ug": 0.72, "sah": 0.97}, "tr": {"chv": 0.97, "tt": 0.82, "bak": 0.84, "kk": 0.8, "kg": 0.82, "tr": 0.0, "az": 0.2, "tk": 0.58, "ug": 0.78, "sah": 0.98}, "az": {"chv": 0.97, "tt": 0.84, "bak": 0.86, "kk": 0.82, "kg": 0.84, "tr": 0.2, "az": 0.0, "tk": 0.55, "ug": 0.8, "sah": 0.98}, "tk": {"chv": 0.97, "tt": 0.82, "bak": 0.84, "kk": 0.78, "kg": 0.8, "tr": 0.58, "az": 0.55, "tk": 0.0, "ug": 0.76, "sah": 0.98}, "ug": {"chv": 0.96, "tt": 0.74, "bak": 0.76, "kk": 0.7, "kg": 0.72, "tr": 0.78, "az": 0.8, "tk": 0.76, "ug": 0.0, "sah": 0.97}, "sah": {"chv": 0.98, "tt": 0.97, "bak": 0.97, "kk": 0.97, "kg": 0.97, "tr": 0.98, "az": 0.98, "tk": 0.98, "ug": 0.97, "sah": 0.0}}};
+  LIVE_LN = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça'};
+  apiWordFrom(lg, word, analyses){
+    const TT = {n:'kök',v:'kök',pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',fut:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};
+    const a = (analyses && analyses[0]) || null;
+    const ms = a ? [{text:a.lemma, tag:'KÖK', type:'kök', label:'kök (apertium FST)', gloss:a.lemma, gItem:a.lemma, note:'Apertium morfolojik çözümlemesi.'}]
+        .concat((a.tags||[]).map(t=>({text:t, tag:String(t).toUpperCase(), type:(TT[t]||'kök'), label:'etiket: '+t, gloss:t, gItem:t, note:'Apertium etiketi.'})))
+      : [{text:word, tag:'?', type:'kök', label:'çözümlenemedi', gloss:'?', gItem:word, note:'Apertium bu biçimi tanımadı.'}];
+    return {lang:'cv', langName:(this.LIVE_LN[lg]||lg)+' · canlı FST', surface:word, translit:'', gloss:(a?('apertium: '+a.raw):'çözümlenemedi'), morphemes:ms, cognates:[]};
+  }
   state = {
     screen: 'home',
     activeWordId: 'oku',
@@ -986,7 +1001,7 @@ class Component extends DCLogic {
     distBase: 'chv',        // distance explorer base lang
     distTarget: 'tt',       // distance explorer target lang
     paradigmRoot: 'hĕr',
-    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '',
+    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null,
     cognateKey: 'goz',
     profileSel: 'chv',
     researchWord: 'oku',
@@ -1459,16 +1474,18 @@ class Component extends DCLogic {
     for (const id in this.WORDS){ const w = this.WORDS[id];
       if ([w.gloss, w.surface, w.translit].some(s=>String(s).toLowerCase().includes(q))){
         this.setState({ screen:'analiz', activeWordId:id, selMorphIdx:0, stripCount:0 }); return; } }
-    const word = (this.state.query||'').trim();
-    const LN = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça'}; const lg = this.state.searchLang||'chv';
-    const TT = {n:'kök',v:'kök',pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',fut:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};
+    const word = (this.state.query||'').trim(); const lg = this.state.searchLang||'chv';
+    if (lg==='auto'){
+      fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{
+        const langs=d.langs||{}; const codes=Object.keys(langs);
+        if (!codes.length){ this.setState({ apiWord:this.apiWordFrom('chv', word, null), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0 }); return; }
+        const first=codes[0];
+        this.setState({ apiAllLangs:langs, apiMatchCodes:codes, apiMatchLang:first, apiWord:this.apiWordFrom(first, word, langs[first]), activeWordId:'__api', screen:'analiz', selMorphIdx:0, stripCount:0 });
+      }).catch(()=>{});
+      return;
+    }
     fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{
-      const a = (d.analyses&&d.analyses[0])||null;
-      const ms = a ? [{text:a.lemma, tag:'KÖK', type:'kök', label:'kök (apertium FST)', gloss:a.lemma, gItem:a.lemma, note:'Apertium morfolojik çözümlemesi.'}]
-        .concat((a.tags||[]).map(t=>({text:t, tag:String(t).toUpperCase(), type:(TT[t]||'kök'), label:'etiket: '+t, gloss:t, gItem:t, note:'Apertium etiketi.'})))
-        : [{text:word, tag:'?', type:'kök', label:'çözümlenemedi', gloss:'?', gItem:word, note:'Apertium bu biçimi tanımadı.'}];
-      const apiWord = {lang:'cv', langName:(LN[lg]||lg)+' · canlı FST', surface:word, translit:'', gloss:(a?('apertium: '+a.raw):'çözümlenemedi'), morphemes:ms, cognates:[]};
-      this.setState({ apiWord, activeWordId:'__api', screen:'analiz', selMorphIdx:0, stripCount:0 });
+      this.setState({ apiWord:this.apiWordFrom(lg, word, d.analyses), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0 });
     }).catch(()=>{});
   }
   active(){ return this.state.activeWordId==='__api' && this.state.apiWord ? this.state.apiWord : this.WORDS[this.state.activeWordId]; }
@@ -1586,7 +1603,7 @@ class Component extends DCLogic {
     const learn = this.learnVals();
 
     return {
-      navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, onSearchLang:(e)=>this.setState({searchLang:e.target.value}),
+      navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, onSearchLang:(e)=>{ this.setState({searchLang:e.target.value}); if(this.state.activeWordId==='__api' && (this.state.query||'').trim()) setTimeout(()=>this.runSearch(),0); },
       onQuery:(e)=>this.setState({query:e.target.value}),
       onSearchKey:(e)=>{ if(e.key==='Enter') this.runSearch(); },
       homeModules:this.NAVGROUPS.flatMap(g=>g.items.filter(it=>it.id!=='home').map(it=>({
@@ -1609,6 +1626,8 @@ class Component extends DCLogic {
       goParadigm:()=>this.setState({screen:'paradigm'}),
       goResearch:()=>this.setState({screen:'research'}),
       copyParadigm:()=>{ try{ const t=document.getElementById('paradigm-table'); if(t) navigator.clipboard.writeText(t.innerText); }catch(e){} },
+      apiMatches: (this.state.apiMatchCodes||[]).map(lc=>{ const sel=lc===this.state.apiMatchLang; return { label:(this.LIVE_LN[lc]||lc), go:()=>this.setState({apiMatchLang:lc, apiWord:this.apiWordFrom(lc, (this.state.apiWord&&this.state.apiWord.surface)||'', (this.state.apiAllLangs||{})[lc]), selMorphIdx:0}), style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.16)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:16px;padding:5px 13px;font-size:12.5px;font-family:inherit` }; }),
+      hasApiMatches: (this.state.apiMatchCodes||[]).length>1,
       ...this.sourceVals(),
       homeCards,
       // analiz

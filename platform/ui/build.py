@@ -199,10 +199,22 @@ def main():
     html = html.replace("{mod:'Uzaklık Gezgini', srcs:['cldf','wals','glottolog','demo']}",
                         "{mod:'Uzaklık Gezgini', srcs:['cldf','wals','glottolog','lindsay']}")
 
-    # canlı API tabanı (sonraki adımda Analiz/Paradigma bağlanacak)
+    # canlı API tabanı + paylaşılan canlı-analiz yardımcıları (tek dil + tüm diller ortak)
     if "KOKEN_API" not in html:
-        html = html.replace("class Component extends DCLogic {",
-                            f"class Component extends DCLogic {{\n  KOKEN_API = '{API}';", 1)
+        helper = (
+            "class Component extends DCLogic {\n"
+            "  KOKEN_API = '%s';\n"
+            "  LIVE_LN = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça'};\n"
+            "  apiWordFrom(lg, word, analyses){\n"
+            "    const TT = {n:'kök',v:'kök',pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',fut:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};\n"
+            "    const a = (analyses && analyses[0]) || null;\n"
+            "    const ms = a ? [{text:a.lemma, tag:'KÖK', type:'kök', label:'kök (apertium FST)', gloss:a.lemma, gItem:a.lemma, note:'Apertium morfolojik çözümlemesi.'}]\n"
+            "        .concat((a.tags||[]).map(t=>({text:t, tag:String(t).toUpperCase(), type:(TT[t]||'kök'), label:'etiket: '+t, gloss:t, gItem:t, note:'Apertium etiketi.'})))\n"
+            "      : [{text:word, tag:'?', type:'kök', label:'çözümlenemedi', gloss:'?', gItem:word, note:'Apertium bu biçimi tanımadı.'}];\n"
+            "    return {lang:'cv', langName:(this.LIVE_LN[lg]||lg)+' · canlı FST', surface:word, translit:'', gloss:(a?('apertium: '+a.raw):'çözümlenemedi'), morphemes:ms, cognates:[]};\n"
+            "  }"
+        ) % API
+        html = html.replace("class Component extends DCLogic {", helper, 1)
 
     # Harita ← gerçek Glottolog koordinatları (şematik projeksiyon)
     new_map = build_map(prof)
@@ -248,7 +260,7 @@ def main():
     nlive = 0
     live = []
     # 1) state alanları
-    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '',"))
+    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null,"))
     # küratörlü kök seçilince serbest çekimi temizle
     live.append(("        go:()=>this.setState({paradigmRoot:k}),", "        go:()=>this.setState({paradigmRoot:k, paradigmFree:null}),"))
     # paradigmVals return: serbest çekim (herhangi bir kök, seçili dil) + handler'lar
@@ -311,7 +323,7 @@ def main():
     live.append((
         "  active(){ return this.WORDS[this.state.activeWordId]; }",
         "  active(){ return this.state.activeWordId==='__api' && this.state.apiWord ? this.state.apiWord : this.WORDS[this.state.activeWordId]; }"))
-    # 5) runSearch(): eşleşme yoksa canlı /analyze
+    # 5) runSearch(): eşleşme yoksa canlı /analyze; "auto" ise /analyze_all (multi-dil) — apiWordFrom ortak
     live.append((
         "  runSearch(){\n"
         "    const q = (this.state.query||'').trim().toLowerCase();\n"
@@ -326,16 +338,18 @@ def main():
         "    for (const id in this.WORDS){ const w = this.WORDS[id];\n"
         "      if ([w.gloss, w.surface, w.translit].some(s=>String(s).toLowerCase().includes(q))){\n"
         "        this.setState({ screen:'analiz', activeWordId:id, selMorphIdx:0, stripCount:0 }); return; } }\n"
-        "    const word = (this.state.query||'').trim();\n"
-        "    const LN = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça'}; const lg = this.state.searchLang||'chv';\n"
-        "    const TT = {n:'kök',v:'kök',pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',fut:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};\n"
+        "    const word = (this.state.query||'').trim(); const lg = this.state.searchLang||'chv';\n"
+        "    if (lg==='auto'){\n"
+        "      fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{\n"
+        "        const langs=d.langs||{}; const codes=Object.keys(langs);\n"
+        "        if (!codes.length){ this.setState({ apiWord:this.apiWordFrom('chv', word, null), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0 }); return; }\n"
+        "        const first=codes[0];\n"
+        "        this.setState({ apiAllLangs:langs, apiMatchCodes:codes, apiMatchLang:first, apiWord:this.apiWordFrom(first, word, langs[first]), activeWordId:'__api', screen:'analiz', selMorphIdx:0, stripCount:0 });\n"
+        "      }).catch(()=>{});\n"
+        "      return;\n"
+        "    }\n"
         "    fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{\n"
-        "      const a = (d.analyses&&d.analyses[0])||null;\n"
-        "      const ms = a ? [{text:a.lemma, tag:'KÖK', type:'kök', label:'kök (apertium FST)', gloss:a.lemma, gItem:a.lemma, note:'Apertium morfolojik çözümlemesi.'}]\n"
-        "        .concat((a.tags||[]).map(t=>({text:t, tag:String(t).toUpperCase(), type:(TT[t]||'kök'), label:'etiket: '+t, gloss:t, gItem:t, note:'Apertium etiketi.'})))\n"
-        "        : [{text:word, tag:'?', type:'kök', label:'çözümlenemedi', gloss:'?', gItem:word, note:'Apertium bu biçimi tanımadı.'}];\n"
-        "      const apiWord = {lang:'cv', langName:(LN[lg]||lg)+' · canlı FST', surface:word, translit:'', gloss:(a?('apertium: '+a.raw):'çözümlenemedi'), morphemes:ms, cognates:[]};\n"
-        "      this.setState({ apiWord, activeWordId:'__api', screen:'analiz', selMorphIdx:0, stripCount:0 });\n"
+        "      this.setState({ apiWord:this.apiWordFrom(lg, word, d.analyses), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0 });\n"
         "    }).catch(()=>{});\n"
         "  }"))
     # 6) USAGE: paradigma demo'dan çıktı (canlı FST)
@@ -351,7 +365,9 @@ def main():
     sel_langs = [("chv", "Çuvaşça"), ("tur", "Türkçe"), ("aze", "Azerice"), ("kaz", "Kazakça"),
                  ("kir", "Kırgızca"), ("uzb", "Özbekçe"), ("uig", "Uygurca"), ("tat", "Tatarca"),
                  ("bak", "Başkurtça"), ("sah", "Yakutça")]
-    opts = "".join(f'<option value="{c}">{n}</option>' for c, n in sel_langs)
+    # "⚡ Otomatik" = /analyze_all (kelime hangi dil(ler)de varsa otomatik) — A planı
+    opts = '<option value="auto">⚡ Otomatik · tüm diller</option>' + \
+           "".join(f'<option value="{c}">{n}</option>' for c, n in sel_langs)
     sel = ('<select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Analiz dili" '
            'style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:10px 8px;'
            'font-size:13px;font-family:inherit;color:#211d17;cursor:pointer">' + opts + '</select>')
@@ -359,8 +375,11 @@ def main():
     if '<div style="margin-left:auto;display:flex;align-items:center;gap:10px">' in html:
         html = html.replace('<div style="margin-left:auto;display:flex;align-items:center;gap:10px">',
                             sel + '\n      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">', 1)
+        # dil değişince ANINDA geri bildirim: canlı bir sonuç açıksa o kelimeyi yeni dilde tekrar çöz (G4)
         html = html.replace("      navGroups, wordChips, screenTag:tag, query:S.query,",
-                            "      navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, onSearchLang:(e)=>this.setState({searchLang:e.target.value}),", 1)
+                            "      navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, "
+                            "onSearchLang:(e)=>{ this.setState({searchLang:e.target.value}); "
+                            "if(this.state.activeWordId==='__api' && (this.state.query||'').trim()) setTimeout(()=>this.runSearch(),0); },", 1)
         nsel = 1
     print(f"  Analiz dil seçici: {nsel}")
 
@@ -418,7 +437,20 @@ def main():
     html = html.replace(
         "      goResearch:()=>this.setState({screen:'research'}),",
         "      goResearch:()=>this.setState({screen:'research'}),\n"
-        "      copyParadigm:()=>{ try{ const t=document.getElementById('paradigm-table'); if(t) navigator.clipboard.writeText(t.innerText); }catch(e){} },", 1)
+        "      copyParadigm:()=>{ try{ const t=document.getElementById('paradigm-table'); if(t) navigator.clipboard.writeText(t.innerText); }catch(e){} },\n"
+        "      apiMatches: (this.state.apiMatchCodes||[]).map(lc=>{ const sel=lc===this.state.apiMatchLang; return { label:(this.LIVE_LN[lc]||lc), go:()=>this.setState({apiMatchLang:lc, apiWord:this.apiWordFrom(lc, (this.state.apiWord&&this.state.apiWord.surface)||'', (this.state.apiAllLangs||{})[lc]), selMorphIdx:0}), style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.16)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:16px;padding:5px 13px;font-size:12.5px;font-family:inherit` }; }),\n"
+        "      hasApiMatches: (this.state.apiMatchCodes||[]).length>1,", 1)
+
+    # A — Analiz ekranına "bu kelime şu dillerde" çip satırı (otomatik/multi-dil sonucu)
+    html = html.replace(
+        '        <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:20px;margin-top:20px">',
+        '        <sc-if value="{{ hasApiMatches }}" hint-placeholder-val="{{ false }}">\n'
+        '        <div style="margin-top:18px;display:flex;align-items:center;gap:9px;flex-wrap:wrap">\n'
+        "          <span style=\"font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px\">BU KELİME ŞU DİLLERDE</span>\n"
+        '          <sc-for list="{{ apiMatches }}" as="m" hint-placeholder-count="3"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>\n'
+        '        </div>\n'
+        '        </sc-if>\n'
+        '        <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:20px;margin-top:20px">', 1)
 
     # F — kullanılmayan 'demo' kaynağını kütükten çıkar (tüm modüller artık kaynaklı)
     html = html.replace(

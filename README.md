@@ -20,6 +20,7 @@ Açık kaynak, **çift kitleli** bir **Türk dilleri morfoloji + karşılaştır
 │   └── 4-turk-dilleri-tarih-sosyokultur-iliski.prompt.md   (tarih/ilişki + araştırmacı — PDF bekleniyor)
 ├── plan/
 │   ├── TODO.md                       (YOL HARİTASI / canlı todolist)
+│   ├── PLATFORM-VIZYON.md            (vizyon/misyon/modüller/ekran haritası — UI için)
 │   ├── PLAN.md                       (sprint/plan — kısmen eski, DEVAM güncel)
 │   ├── PLATFORM-OZELLIKLERI.md       (özellik listesi)
 │   └── YOLCULUK-VE-VAZGECILENLER.md  (ne yaptık, neyden vazgeçtik, NEDEN)

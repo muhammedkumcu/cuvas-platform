@@ -23,9 +23,13 @@
 - **MVP dilleri:** temsilci alt küme → **tur, kaz, uzb, chv, sah, tyv, kjh** (~7) → sonra 20'ye ölçekle.
 
 ### ★ SIRADAKİ İŞ (compact sonrası buradan devam) — bkz. [`plan/TODO.md`](plan/TODO.md)
-1. **#3 karşılaştırma PDF'i GELDİ** → `arastirma/3-turk-dilleri-karsilastirma.pdf` (26 sf, 108 kaynak; metin `_research3_text.txt`). Eşzamanlı dilbilim çekirdeği hazır.
-2. **#4 prompt'u YAZILDI** → `arastirma/4-turk-dilleri-tarih-sosyokultur-iliski.prompt.md` (tarih/sosyokültür/ilişki + **araştırmacı‑merkezi**, 40‑50 sf hedef). **Kullanıcı #4 PDF'ini getirecek — BEKLENİYOR.**
-3. **#4 GELİNCE:** mimariyi **BİRLİKTE** baştan, genişleyebilir şekilde planla (birleşik veri modeli #3+#4; modül haritası; tech stack; açık API) → `plan/MIMARI.md`. **Sonra** adım adım geliştir. (Kullanıcı kararı: önce #4'ü bekle, kod ŞİMDİ yazma.)
+**ARAŞTIRMA FAZI TAMAM — sırada MİMARİ tasarımı (BİRLİKTE).**
+1. **Elde 3 geçerli derleme** (`arastirma/`):
+   - `3-turk-dilleri-karsilastirma.pdf` (#3, eşzamanlı dilbilim, 26 sf/108 kaynak: ses denklikleri, paradigmalar, kognatlar, veri envanteri).
+   - `3b-karsilastirma-agi-temeli.pdf` (#3'ün 2. motoru — **ÜRÜN/MÜHENDİSLİK odaklı**: 3-katman veri mimarisi, **Apertium FST olgunluk seviyeleri** [prod: tat/sah/kaz/tur/kir/crh/tyv · working: chv/uzb/bak/kaa/uig/krc/gag/kum · proto: aze/tuk/nog/kjh/alt], SavelyevTurkic CLDF + NorthEuraLex veri setleri+lisans, core/extended hal DB tasarımı, önerilen MVP seti).
+   - `4-turk-dilleri-tarih-sosyokultur-iliski.pdf` (#4, 24 sf/68 kaynak: tarih, 20-dil profili, alfabe reformu, canlılık/EGIDS+Joshi, Altay tartışması, areal, kültür/destan, genetik-vs-dil, **çok-boyutlu uzaklık matrisleri J.1-3**, araştırmacı ekosistemi, 20-dil profil matrisi).
+2. **NOT (misfire):** `4-KONUDISI-derin-arastirma-metodolojisi.pdf` = bir motor promptu YANLIŞ anlayıp "derin araştırma nedir" metodoloji denemesi yazmış (PRISMA/Cochrane/KVKK). İçerik için KULLANILMAZ; kayıt için duruyor.
+3. **ŞİMDİ: MİMARİYİ BİRLİKTE TASARLA** → `plan/MIMARI.md` (birleşik veri modeli #3+#3b+#4; modül haritası; tech stack; **MVP dilleri FST olgunluğuna göre**; açık API). Kullanıcıyla kararlar netleştiriliyor (MVP dilleri, ilk dikey dilim, tech yığını). **Sonra** adım adım geliştir (kod VM'de).
 4. **Sonra:** backend (VM'de apertium analiz+üretim+paradigma+transliterasyon+araştırmacı uçları) → karşılaştırma/içerik katmanı (ses‑denkliği, kognat ağı, uzaklık gezgini, dil profilleri, harita/zaman çizelgesi) → frontend (paradigma gezgini, ICALL, uzman modu).
 5. **Sona:** UniMorph/UD/Wiktionary değerlendirme + karışık‑yazı bulgusu + Çuvaşça derin vaka + paper.
 

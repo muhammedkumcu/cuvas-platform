@@ -7,17 +7,24 @@
 - **Hedef:** Platformun hakkını ver; **30 Haziran UBMK son tarihine sıkışma** (yetişirsek sunarız). Daha ileri/güçlü bir venue hedefle. "Tarih yokmuşçasına" sağlam çalış.
 - **Çift kitle:** (1) **Öğrenenler** (çocuk/öğrenci/meraklı) + (2) **Araştırmacılar** (KRİTİK) — "literatür karşılarındaymış gibi", Türk dil dünyasının takip edildiği, ilk başvurulacak çözüm‑odaklı merkez.
 - **Motor:** Apertium FST (analiz **ve** üretim), `turkicnlp`/`hfst`, **Linux/VM'de**. ~20 dil.
-- **MVP dil kümesi:** temsilci alt küme → **tur, kaz, uzb, chv, sah, tyv, kjh** (~7; her koldan + tehlikedeki odak). Sonra 20'ye ölçekle.
-- **Sıralama:** Önce **#4 PDF'ini bekle** → mimariyi **birlikte** baştan (genişleyebilir) planla → adım adım geliştir.
+- **MVP dil kümesi (KESİN):** **5-kol 10 dil → tur, aze, kaz, kir, uzb, uig, tat, bak, chv, sah** (FST olgunluğuna göre, 3b önerisi). Sonra 20+'ya ölçekle.
+- **İlk dikey dilim (KESİN):** **Morfoloji çekirdeği** (analiz + üretim + paradigma) — backend, VM'de.
+- **Tech yığını (KESİN):** Backend **FastAPI** (VM/Linux, apertium sarıcı) · veri **SQLite→Postgres** · **açık REST API** · **UI'yı KULLANICI veriyor** (geliştiriyor; gösterecek).
+- **Sıralama:** araştırma TAMAM → vizyon dokümanı (bu tur) → kullanıcı UI'yı gösterir → mimari (`MIMARI.md`) + morfoloji backend → modüller.
 - **Commit'lerde yalnız kullanıcı görünür** (Co‑Authored‑By Claude YOK).
 
 ---
 
-## 1) ŞU AN — Araştırma fazı (BEKLEME + HAZIRLIK)
-- [x] #3 karşılaştırma PDF'i alındı, metin çıkarıldı, isimlendirme düzene sokuldu (`arastirma/3-...pdf`).
-- [x] #4 prompt'u yazıldı (`arastirma/4-turk-dilleri-tarih-sosyokultur-iliski.prompt.md`) — tarih/sosyokültür/ilişki + araştırmacı‑merkezi.
-- [ ] **Kullanıcı:** #4 prompt'unu deepsearch'e ver → **büyük (40‑50 sayfa) tarih/ilişki PDF'ini** getir.
-- [ ] (Opsiyonel, paralel) #3'ten yapısal veriyi (ses denklikleri, kognat setleri, paradigma şablonları, uzaklık yüzdeleri) **taslak JSON şemasına** dönüştürme notları çıkar — kodlamadan, sadece tasarım.
+## 1) ARAŞTIRMA FAZI — TAMAM ✅
+- [x] #3 (`3-turk-dilleri-karsilastirma.pdf`) + #3b (`3b-karsilastirma-agi-temeli.pdf`, mühendislik odaklı) + #4 (`4-turk-dilleri-tarih-sosyokultur-iliski.pdf`, 24 sf/68 kaynak) alındı, metne çevrildi, isimler düzenlendi.
+- [x] Misfire (`4-KONUDISI-...pdf`) işaretlendi — içerik için kullanılmaz.
+- [x] Üç derleme triyaj edildi; mimari için anahtar bulgular çıkarıldı (3-katman veri, FST olgunluk seviyeleri, veri setleri+lisans, uzaklık matrisleri).
+
+## 1.5) ŞU AN — Vizyon & UI fazı (BENİM YAPILACAKLARIM)
+- [x] **Platform vizyon/kavram dokümanı** → `plan/PLATFORM-VIZYON.md` (amaç/vizyon/misyon/kitleler/modüller/ekran haritası — UI geliştirmeyi beslemek için).
+- [ ] **Kullanıcı:** geliştirdiği **UI dosyalarını** gösterecek → birlikte inceleyip ona göre çalışmaya başla.
+- [ ] UI geldiğinde: UI'yı vizyon/modül haritasıyla eşle; eksik/uyumsuz noktaları çıkar; UI ↔ backend API sözleşmesini taslakla.
+- [ ] **Mimari dokümanı** → `plan/MIMARI.md` (birleşik veri modeli #3+#3b+#4; modül haritası; API uçları; veri şeması core/extended + script katmanı; FST olgunluk → MVP).
 
 ## 2) #4 GELİNCE — Mimari tasarımı (BİRLİKTE kesinleştirilecek)
 - [ ] #4 PDF metnini çıkar + #3 ile birlikte **birleşik veri modeli** tasarla (dil profili, ses‑denkliği kuralı, kognat seti, paradigma, çok‑boyutlu uzaklık matrisi, zaman çizelgesi olayı, kaynak/lisans).

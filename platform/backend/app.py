@@ -302,7 +302,9 @@ def _segment_align(gen, lemma, tags, word):
         affixes.append((levels[i][0], _trailing_affix(surfaces[i - 1], surfaces[i])))
     total = sum(len(a) for _, a in affixes)
     root_surface = word[:len(word) - total] if 0 < total <= len(word) else surfaces[0]
-    morphs = [{"surface": root_surface, "tag": "KÖK", "feat": "kök", "type": "kök"}]
+    # Büyük kutuda SÖZLÜK kökü (lemma) gösterilir; yüzeydeki ses-değişmiş gövde (root_surface) yalnız
+    # ses-olayı rozetinde işaretlenir (kitap → kitab). Linguistik olarak doğrusu kanonik köktür.
+    morphs = [{"surface": lemma, "tag": "KÖK", "feat": "kök", "type": "kök"}]
     for tag, aff in affixes:
         if not aff:
             continue

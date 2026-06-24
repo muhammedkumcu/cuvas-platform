@@ -68,8 +68,13 @@ Apertium **lemma + morfolojik etiket** verir ve ses olayında bile DOĞRUDUR: `k
 - **Katman ağacı = GERÇEK kümülatif yüzey** (`/segment` `forms`: kitap→kitabımız→kitabımızda, ses olayı dahil) — morfem-metni birleştirmek "kitapımız" üretiyordu (yanlış); düzeltildi.
 
 ### 4.10 Kapsam sınırları (dürüst — paper'da belirtilecek)
-- **İsim:** tam (NW-align, %92–100). **Fiil:** kısmi (kök + kaynaşık ek; fiil morfolojisi daha karmaşık, tam hece bölümleme yok). **Sıfat/zarf:** sınırlı (isim okuması varsa isim gibi; türemiş sıfat/zarf ekleri henüz bölünmüyor). Genişletme = gelecek iş (POS başına kümülatif şablon).
-- `/segment` bağlı yerler: **Analiz** (applySegment) + **Karşılaştır** (runCompare). Araştırmacı Merkezi ham etiket (FST çıktısı) gösterir — araştırmacı için uygun.
+- **İsim:** tam (NW-align; yeniden-üretim %92–95). **Fiil:** ✅ NW-align (`_segment_verb_align`) — kök + kaynaşık zaman·kişi eki + ses olayı (zaman+kişi portmanteau olduğu için 2-katman). **Sıfat/zarf:** sınırlı (isim okuması varsa isim gibi; türemiş sıfat/zarf ekleri henüz bölünmüyor). Genişletme = gelecek (sıfat/zarf için kümülatif şablon).
+- `/segment` bağlı yerler: **Analiz** (applySegment) + **Karşılaştır** (runCompare/crosslang). Araştırmacı Merkezi ham etiket (FST çıktısı) gösterir — araştırmacı için uygun.
+
+### 4.11 Cila (bu oturum)
+- **Kaynaşık çöküş (chain-check):** ek dizisi kelimenin gerçek son-eki değilse (Çuvaşça iyelik+hâl не, Uygurca çoğul+iyelik allomorfisi) → kök + TEK kaynaşık ek. **Yeniden-üretim doğruluğu yükseldi** (chv 72→93, sah 76→93, uig 86→94); ek-sayısı proxy'si düştü (füzyonun dürüst yansıması). Basit çoğul/hâl tam ayrışır.
+- **Fiil bölümleme** eklendi (yukarıda).
+- **Joshi kaynak sınıfı (0–5)** dil profillerine rozet (envanter PDF'i).
 
 ## FAZ 5 — Diller-arası eşdeğer (✅ YAPILDI, isimlerde güçlü)
 - Hedef: aranan kelimeyi TÜM Türk dillerinde canlı göster (statik "okuduk" gibi). Yöntem (deepsearch kararı): **apertium `.dix` boru hattı** — kaynak dilde analiz → `.dix` ile kök eşle → hedefte AYNI etiketlerle üret.

@@ -14,17 +14,19 @@
 **Önemli:** el-yazımı allomorf tablosu GEREKMEZ; tek dil-özel şey fonolojik denklik puanlaması (Türk dilleri geneli, Latin+Kiril+Arap).
 
 ## Test — round-trip (`platform/backend/segment_eval.py`, VM'de çalışır)
-Bilinen etiketlerden form ÜRET (gold) → `/segment` ile çöz → beklenen ek sayısı + yeniden-üretim tutuyor mu. **10 MVP dili, 1700+ form.**
+Bilinen etiketlerden form ÜRET (gold) → `/segment` ile çöz → **yeniden-üretim** (morfemler kelimeyi oluşturuyor mu = GERÇEK doğruluk) + ek-sayısı (etiket sayısına eşit mi = proxy). **10 MVP dili, 1700+ form.**
 
-| dil | form | align% | ek-sayı doğruluğu% | not |
-|----|----:|----:|----:|----|
-| aze, kaz, kir, uzb, tat, bak | 105–210 | 100 | **100** | mükemmel |
-| uig | 189 | 100 | 98.9 | Arap yazısı (seed Arapça olmalı) |
-| sah | 108 | 100 | 99.1 | iyi |
-| tur | 252 | 100 | 98.8 | çok iyi |
-| chv | 162 | 100 | 92.6 | en zayıf (Çuvaş iyelik morfotaktiği) |
+| dil | form | align% | **yeniden-üretim%** (asıl) | ek-sayı% (proxy) | not |
+|----|----:|----:|----:|----:|----|
+| aze, kaz, kir, uzb, tat, bak | 105–210 | 100 | ~95 | **100** | tam ayrışım |
+| tur | 252 | 100 | 94.8 | 98.8 | çok iyi |
+| uig | 189 | 100 | 94.2 | 90.5 | çoğul+iyelik allomorfisinde füzyon |
+| sah | 108 | 100 | 92.6 | 82.4 | bazı biçimlerde füzyon |
+| chv | 162 | 100 | 93.2 | 75.3 | iyelik+hâl KAYNAŞIK (не) |
 
-> `align%` = hizalama yöntemi tam çalıştı (gen kelimeyi yeniden üretti). Düzeltmeden önce kaz %73, tat/bak %88'di; **analiz-seçimi düzeltmesi** hepsini %100'e çıkardı.
+> **İki metrik, neden farklı:** `ek-sayı` her çekim etiketi için bir ek bekler (tam ayrışım varsayar). Ama Çuvaşça iyelik+hâl (ҫурт**не**) ve Uygurca çoğul+iyelik (köz**lىrى**m) **gerçekten kaynaşık/allomorfik** → doğru cevap TEK ek. Bu yüzden **yeniden-üretim asıl doğruluk ölçütüdür** ve %92–95'tir. `align%`: analiz-seçimi düzeltmesinden önce kaz %73/tat-bak %88 idi → hepsi %100.
+> **chv cila (kaynaşık çöküş):** önce ҫуртне→ҫурт+**чӗ** (sayı tutar ama YANLIŞ, yeniden-üretmez); chain-check eklendikten sonra ҫурт+**не** (DOĞRU, yeniden-üretir). Yani chv yeniden-üretim %72→**93**; ek-sayısı düştü çünkü kaynaşık biçim 2 değil 1 ek (dürüst). Basit çoğul/hâl hâlâ tam ayrışır (хӗр+сем).
+> **Fiil bölümleme** (`_segment_verb_align`): kök + kaynaşık zaman·kişi eki + ses olayı (git→gid t→d). Türk dillerinde zaman+kişi portmanteau olduğundan 2-katman dürüst seçim. ("Sadece isimde çalışıyor" sorunu giderildi.)
 
 ## Hangi dilde NİYE zorlandık (uzun kuyruk, ~%1–8)
 - **uig:** apertium-uig **Arap yazısı** bekler; Latin seed → "0". Arapça girdiyle sorunsuz (`كىتاب+لار+دا`). Test artefaktıydı; gerçek boşluk değil.

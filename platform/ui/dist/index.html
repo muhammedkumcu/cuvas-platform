@@ -746,9 +746,9 @@
         <div style="display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap">
           <input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — sağ üstteki dilde canlı çekim" style="flex:1;min-width:300px;max-width:520px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
         </div>
-        <div style="font-size:11px;letter-spacing:1px;color:#9a9082;margin-top:18px;font-family:monospace">ÖRNEK KÖKLER (Çuvaşça)</div>
+        <div style="font-size:11px;letter-spacing:1px;color:#9a9082;margin-top:18px;font-family:monospace">ÖRNEK KÖKLER (farklı dillerden)</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-          <sc-for list="{{ paradigmRoots }}" as="r" hint-placeholder-count="3">
+          <sc-for list="{{ paradigmExamples }}" as="r" hint-placeholder-count="3">
             <button onClick="{{ r.go }}" style="{{ r.style }}"><span style="font-family:'Spectral',serif;font-size:17px;font-weight:700">{{ r.label }}</span><span style="{{ r.glossStyle }}">{{ r.gloss }} · {{ r.kind }}</span></button>
           </sc-for>
         </div>
@@ -1629,6 +1629,7 @@ class Component extends DCLogic {
       goCognate:()=>this.setState({screen:'cognate'}),
       goCompareSound:()=>this.setState({screen:'compare', compareTab:'sound'}),
       goParadigm:()=>this.setState({screen:'paradigm'}),
+      paradigmExamples: [{lang:'chv', lemma:'хӗр', gloss:'kız', name:'Çuvaşça'}, {lang:'tur', lemma:'ev', gloss:'ev', name:'Türkçe'}, {lang:'tat', lemma:'кул', gloss:'el', name:'Tatarca'}, {lang:'kaz', lemma:'бала', gloss:'çocuk', name:'Kazakça'}, {lang:'sah', lemma:'ат', gloss:'at', name:'Yakutça'}].map(e=>{ const sel = this.state.paradigmFree && this.state.paradigmFree.lemma===e.lemma && this.state.searchLang===e.lang; return { label:e.lemma, gloss:e.gloss, kind:e.name, go:()=>{ this.setState({searchLang:e.lang, paradigmFreeQ:e.lemma}); fetch(this.KOKEN_API+'/paradigm/'+e.lang+'/'+encodeURIComponent(e.lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma:e.lemma, langName:(this.LIVE_LN[e.lang]||e.lang), rows:(d&&d.rows)||[]}})).catch(()=>{}); }, style:`cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:11px;padding:10px 15px;font-family:inherit`, glossStyle:`font-size:11px;color:${sel?'rgba(244,241,234,.6)':'#9a9082'}` }; }),
       goResearch:()=>this.setState({screen:'research'}),
       copyParadigm:()=>{ try{ const t=document.getElementById('paradigm-table'); if(t) navigator.clipboard.writeText(t.innerText); }catch(e){} },
       apiMatches: (this.state.apiMatchCodes||[]).map(lc=>{ const sel=lc===this.state.apiMatchLang; return { label:(this.LIVE_LN[lc]||lc), go:()=>this.setState({apiMatchLang:lc, apiWord:this.apiWordFrom(lc, (this.state.apiWord&&this.state.apiWord.surface)||'', (this.state.apiAllLangs||{})[lc]), selMorphIdx:0}), style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.16)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:16px;padding:5px 13px;font-size:12.5px;font-family:inherit` }; }),

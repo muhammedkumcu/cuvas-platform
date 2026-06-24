@@ -285,8 +285,8 @@ def main():
         '        <div style="display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap">\n'
         '          <input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — sağ üstteki dilde canlı çekim" style="flex:1;min-width:300px;max-width:520px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">\n'
         '        </div>\n'
-        '        <div style="font-size:11px;letter-spacing:1px;color:#9a9082;margin-top:18px;font-family:monospace">ÖRNEK KÖKLER (Çuvaşça)</div>\n'
-        '        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">\n          <sc-for list="{{ paradigmRoots }}"'))
+        '        <div style="font-size:11px;letter-spacing:1px;color:#9a9082;margin-top:18px;font-family:monospace">ÖRNEK KÖKLER (farklı dillerden)</div>\n'
+        '        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">\n          <sc-for list="{{ paradigmExamples }}"'))
     # 2) componentDidUpdate → ekrana girince paradigma çek
     live.append((
         "  componentDidUpdate(prevProps, prevState){\n"
@@ -424,6 +424,12 @@ def main():
             html = html.replace(old, new); ngfix += 1
         else:
             print("  ! güncelleme eşleşmedi:", label)
+
+    # G3 — Paradigma örnek kökleri DİL DENGELİ (her dilden birer örnek; Çuvaşça en önemli/ilk)
+    html = html.replace(
+        "      goParadigm:()=>this.setState({screen:'paradigm'}),",
+        "      goParadigm:()=>this.setState({screen:'paradigm'}),\n"
+        "      paradigmExamples: [{lang:'chv', lemma:'хӗр', gloss:'kız', name:'Çuvaşça'}, {lang:'tur', lemma:'ev', gloss:'ev', name:'Türkçe'}, {lang:'tat', lemma:'кул', gloss:'el', name:'Tatarca'}, {lang:'kaz', lemma:'бала', gloss:'çocuk', name:'Kazakça'}, {lang:'sah', lemma:'ат', gloss:'at', name:'Yakutça'}].map(e=>{ const sel = this.state.paradigmFree && this.state.paradigmFree.lemma===e.lemma && this.state.searchLang===e.lang; return { label:e.lemma, gloss:e.gloss, kind:e.name, go:()=>{ this.setState({searchLang:e.lang, paradigmFreeQ:e.lemma}); fetch(this.KOKEN_API+'/paradigm/'+e.lang+'/'+encodeURIComponent(e.lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma:e.lemma, langName:(this.LIVE_LN[e.lang]||e.lang), rows:(d&&d.rows)||[]}})).catch(()=>{}); }, style:`cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:11px;padding:10px 15px;font-family:inherit`, glossStyle:`font-size:11px;color:${sel?'rgba(244,241,234,.6)':'#9a9082'}` }; }),", 1)
 
     # G1 — Paradigma tablosuna "Tabloyu kopyala" (export tablolarda kopyalama olur)
     html = html.replace(

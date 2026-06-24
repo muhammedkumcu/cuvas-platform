@@ -399,12 +399,12 @@ def main():
     rb_old = "      navGroups, wordChips, screenTag:tag, query:S.query,"
     rb_new = ("      navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, compareQ:S.compareQ||'',\n"
               "      onCompareInput:(e)=>this.setState({compareQ:e.target.value}),\n"
-              "      onCompareKey:(e)=>{ if(e.key!=='Enter') return; const w=(this.state.compareQ||'').trim(); if(w) this.runCompare(w); },\n"
+              "      onCompareKey:(e)=>{ if(e.key!=='Enter') return; const w=(this.state.compareQ||'').trim(); if(w) this.runCompare(w, this.state.searchLang); },\n"
               "      onSearchLang:(e)=>{ const v=e.target.value; this.setState({searchLang:v}); const s=this.state.screen; setTimeout(()=>{\n"
               "        if(s==='analiz' && (this.state.query||'').trim()) this.runSearch();\n"
               "        else if(s==='research' && (this.state.researchQ||'').trim()) this.runResearch(v, this.state.researchQ.trim());\n"
               "        else if(s==='paradigm' && (this.state.paradigmFreeQ||'').trim()) this.runParadigm(this.state.paradigmFreeQ.trim());\n"
-              "        else if(s==='compare' && (this.state.compareQ||'').trim()) this.runCompare(this.state.compareQ.trim());\n"
+              "        else if(s==='compare' && (this.state.compareQ||'').trim()) this.runCompare(this.state.compareQ.trim(), this.state.searchLang);\n"
               "      },0); },")
     if rb_old in html:
         html = html.replace(rb_old, rb_new, 1); nsel += 1
@@ -459,14 +459,19 @@ def main():
         "    if(lg && lg!=='auto'){ fp(lg); }\n"
         "    else { fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word:lemma})}).then(r=>r.json()).then(d=>{ const c=Object.keys(d.langs||{}); fp(c[0]||'chv'); }).catch(()=>{}); }\n"
         "  }\n"
-        "  runCompare(word){\n"
-        "    fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{\n"
-        "      const langs=d.langs||{}; const codes=Object.keys(langs); const first=codes[0];\n"
-        "      Promise.all(codes.map(lc=>fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lc,word})}).then(r=>r.json()).then(s=>[lc,(s&&s.morphemes)||null]).catch(()=>[lc,null]))).then(pairs=>{\n"
-        "        const segs={}; pairs.forEach(p=>{segs[p[0]]=p[1];});\n"
-        "        this.setState({ apiWord:this.apiWordFrom(first||'chv', word, first?langs[first]:null), activeWordId:'__api', apiAllLangs:langs, apiMatchCodes:codes, apiMatchLang:first||null, compareApi:{word, langs, segs}, screen:'compare', compareTab:'rows', selMorphIdx:0, stripCount:0 });\n"
-        "      });\n"
-        "    }).catch(()=>{});\n"
+        "  runCompare(word, srcLang){\n"
+        "    const run=(src)=>{\n"
+        "      fetch(this.KOKEN_API+'/crosslang',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:src,word})}).then(r=>r.json()).then(d=>{\n"
+        "        const results=(d.results&&d.results.length)?d.results:[{lang:src,surface:word,self:true}];\n"
+        "        Promise.all(results.map(rr=>fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:rr.lang,word:rr.surface})}).then(r=>r.json()).then(s=>[rr.lang,{surface:rr.surface,lemma:rr.lemma,self:!!rr.self,morphemes:(s&&s.morphemes)||null}]).catch(()=>[rr.lang,{surface:rr.surface,lemma:rr.lemma,self:!!rr.self,morphemes:null}]))).then(pairs=>{\n"
+        "          const rows={}; pairs.forEach(p=>{rows[p[0]]=p[1];}); const sr=(rows[src]&&rows[src].morphemes)||[];\n"
+        "          const selfM = sr.length ? sr.map((m,i)=>({text:m.surface, tag:m.tag, type:m.type||'kök', label:(i===0?'kök':'ek')+' · '+m.feat, gloss:m.feat, gItem:m.surface, note:''})) : [{text:word, tag:'KÖK', type:'kök', label:'kök', gloss:'', gItem:word, note:''}];\n"
+        "          this.setState({ apiWord:{lang:'cv', langName:(this.LIVE_LN[src]||src)+' · canlı', surface:word, translit:'', gloss:'', morphemes:selfM, cognates:[]}, activeWordId:'__api', apiMatchLang:src, compareApi:{word, src, rows}, screen:'compare', compareTab:'rows', selMorphIdx:0, stripCount:0 });\n"
+        "        });\n"
+        "      }).catch(()=>{});\n"
+        "    };\n"
+        "    if(srcLang && srcLang!=='auto'){ run(srcLang); return; }\n"
+        "    fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{ const c=Object.keys(d.langs||{}); run(c[0]||'tur'); }).catch(()=>{});\n"
         "  }\n"
         + m_anchor)
     if m_anchor in html:
@@ -819,17 +824,15 @@ def main():
     # canlı kelimede Karşılaştır'a geçerken kelimeyi tüm dillerde çöz
     dfix.append(("compare fetch",
         "      goCompareActive:()=>this.setState({screen:'compare', compareTab:'rows'}),",
-        "      goCompareActive:()=>{ if(this.state.activeWordId==='__api' && this.state.apiWord){ this.runCompare(this.state.apiWord.surface); } else { this.setState({screen:'compare', compareTab:'rows'}); } },"))
+        "      goCompareActive:()=>{ if(this.state.activeWordId==='__api' && this.state.apiWord){ this.runCompare(this.state.apiWord.surface, this.state.apiMatchLang || this.state.searchLang); } else { this.setState({screen:'compare', compareTab:'rows'}); } },"))
     # allLangs: canlı sonuç varsa dillerden GERÇEK ek dizilimi (segment); yoksa POS etiketlerini eleyerek tag
     dfix.append(("compare allLangs",
         "    const allLangs = [{lang:w.lang,langName:w.langName,branch:'Ogur',translit:w.translit,morphemes:w.morphemes.map(m=>[m.text,m.tag,m.type]),self:true}, ...w.cognates];",
         "    const cmpA = (S.activeWordId==='__api' && S.compareApi && S.compareApi.word===w.surface) ? S.compareApi : null;\n"
-        "    const cmpLangs = cmpA ? cmpA.langs : null; const cmpSegs = cmpA ? (cmpA.segs||{}) : {};\n"
+        "    const cmpRows = cmpA ? cmpA.rows : null;\n"
         "    const CBR = {tur:'Oğuz',aze:'Oğuz',tuk:'Oğuz',kaz:'Kıpçak',kir:'Kıpçak',tat:'Kıpçak',bak:'Kıpçak',uzb:'Karluk',uig:'Karluk',chv:'Ogur',sah:'Sibirya'};\n"
-        "    const CTT = {pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',ifi:'zaman',fut:'zaman',aor:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};\n"
-        "    const SKIP = {v:1,tv:1,iv:1,n:1,attr:1};\n"
-        "    const allLangs = cmpLangs\n"
-        "      ? Object.entries(cmpLangs).map(([lc,arr])=>{ const seg=cmpSegs[lc]; let ms; if(seg && seg.length){ ms = seg.map(m=>[m.surface, (m.tag||'').toString(), (m.type||'kök')]); } else { const a=(arr&&arr[0])||{lemma:w.surface,tags:[]}; ms=[[a.lemma,'KÖK','kök']].concat((a.tags||[]).filter(t=>!SKIP[t]).map(t=>[t,String(t).toUpperCase(),(CTT[t]||'hâl')])); } return {lang:lc, langName:(this.LIVE_LN[lc]||lc), branch:(CBR[lc]||'—'), translit:w.surface, morphemes:ms, self:lc===S.apiMatchLang}; })\n"
+        "    const allLangs = cmpRows\n"
+        "      ? Object.entries(cmpRows).map(([lc,info])=>{ const seg=info.morphemes; const ms = (seg && seg.length) ? seg.map(m=>[m.surface, (m.tag||'').toString(), (m.type||'kök')]) : [[info.surface,'KÖK','kök']]; return {lang:lc, langName:(this.LIVE_LN[lc]||lc), branch:(CBR[lc]||'—'), translit:info.surface, morphemes:ms, self:!!info.self}; })\n"
         "      : [{lang:w.lang,langName:w.langName,branch:'Ogur',translit:w.translit,morphemes:w.morphemes.map(m=>[m.text,m.tag,m.type]),self:true}, ...w.cognates];"))
     # başlık: canlı kelimede ham gloss yerine yüzey biçimi göster
     dfix.append(("compare başlık binding",

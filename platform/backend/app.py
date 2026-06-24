@@ -527,25 +527,26 @@ def crosslang(req: AnalyzeReq):
     if not res:
         return {"lang": req.lang, "word": word, "results": [], "_source": SOURCE}
     # eşlenebilir kök tercih et: ilk analizi al, ama .dix'te kökü olan bir analiz varsa onu yeğle
-    chosen = _parse(res[0][0])
-    for r in res:
-        pp = _parse(r[0])
-        if any(pp["lemma"] in DIX.get((req.lang, nb), {}) for nb in DIX_ADJ.get(req.lang, ())):
-            chosen = pp
-            break
-    lemma, tags = chosen["lemma"], chosen["tags"]
-    tagstr = "".join(f"<{t}>" for t in tags)
-    results = [{"lang": req.lang, "lemma": lemma, "surface": word, "self": True}]
+    # tüm analiz adayları (lemma, etiketler) — her hedef için EN İYİ üreteni dene (fiil/dayanıklılık)
+    cands = [(p["lemma"], p["tags"]) for p in (_parse(r[0]) for r in res)]
+    disp = next((c for c in cands
+                 if any(c[0] in DIX.get((req.lang, nb), {}) for nb in DIX_ADJ.get(req.lang, ()))), cands[0])
+    results = [{"lang": req.lang, "lemma": disp[0], "surface": word, "self": True}]
     for tgt in LANGS:
         if tgt == req.lang:
             continue
-        tl = _map_lemma(req.lang, tgt, lemma)
-        if not tl:
-            continue
-        surf = _gen1(_fst(tgt, "autogen"), tl + tagstr)
+        surf = used = None
+        for lemma, tags in cands:
+            tl = _map_lemma(req.lang, tgt, lemma)
+            if not tl:
+                continue
+            g = _gen1(_fst(tgt, "autogen"), tl + "".join(f"<{t}>" for t in tags))
+            if g:
+                surf, used = g, tl
+                break
         if surf:
-            results.append({"lang": tgt, "lemma": tl, "surface": surf})
-    return {"lang": req.lang, "word": word, "lemma": lemma, "tags": tags,
+            results.append({"lang": tgt, "lemma": used, "surface": surf})
+    return {"lang": req.lang, "word": word, "lemma": disp[0], "tags": disp[1],
             "results": results, "count": len(results), "_source": SOURCE}
 
 

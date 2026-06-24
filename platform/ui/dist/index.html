@@ -45,26 +45,16 @@
       </sc-for>
     </nav>
     <div style="padding:14px 20px 16px;border-top:1px solid rgba(244,241,234,.12)">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px">
+        <span style="font-size:10px;font-family:'IBM Plex Mono',monospace;color:rgba(244,241,234,.4);letter-spacing:.5px">YAZI</span>
+        <div style="display:flex;background:rgba(244,241,234,.08);border-radius:8px;padding:3px"><sc-for list="{{ scriptToggle }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for></div>
+      </div>
       <div style="font-size:10.5px;color:rgba(244,241,234,.34);line-height:1.6;font-family:'IBM Plex Mono',monospace">5 KOL · 14 DİL · ÇUVAŞ ÇEKİRDEK · v0.4</div>
     </div>
   </aside>
 
   <!-- ============ MAIN ============ -->
   <main style="flex:1;min-width:0;display:flex;flex-direction:column">
-
-    <!-- context bar -->
-    <div style="display:flex;align-items:center;gap:14px;padding:14px 34px;border-bottom:1px solid rgba(33,29,23,.1);background:#faf8f2;position:sticky;top:0;z-index:5">
-      <div style="position:relative;flex:1;max-width:520px">
-        <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Kelime ara, Enter’a bas — seçili dilde canlı FST analizi…"
-          style="width:100%;padding:11px 14px 11px 38px;border:1px solid rgba(33,29,23,.16);border-radius:9px;background:#fff;font-size:14px;font-family:inherit;color:#211d17;outline:none">
-        <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);color:#9a9082;font-size:14px">⌕</span>
-      </div>
-      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
-        <div style="display:flex;background:#ece7dc;border-radius:9px;padding:3px">
-          <sc-for list="{{ scriptToggle }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>
-        </div>
-      </div>
-    </div>
 
     <div id="content-scroll" style="flex:1;overflow:auto">
 
@@ -110,10 +100,6 @@
       <!-- ===================== ANALIZ ===================== -->
       <sc-if value="{{ isAnaliz }}" hint-placeholder-val="{{ true }}">
       <section style="max-width:1100px;margin:0 auto;padding:34px 40px 70px">
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:22px">
-          <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz" style="flex:1;min-width:260px;max-width:480px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
-          <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:9px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:170px;flex-shrink:0"><option value="auto">Otomatik (dil algıla)</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option></select>
-        </div>
         <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
           <div>
             <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">ANALİZ · {{ active.langName }}</div>
@@ -130,6 +116,10 @@
           </div>
         </div>
 
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:24px 0 0">
+          <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz" style="flex:1;min-width:260px;max-width:480px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
+          <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:9px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:170px;flex-shrink:0"><option value="auto">Otomatik (dil algıla)</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option></select>
+        </div>
         <!-- morpheme blocks -->
         <div style="margin-top:30px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:34px 30px">
           <div style="display:flex;align-items:stretch;gap:10px;flex-wrap:wrap">
@@ -1761,8 +1751,9 @@ class Component extends DCLogic {
     const seg = (active)=>`cursor:pointer;border:none;padding:6px 13px;font-size:12px;font-weight:600;font-family:inherit;border-radius:7px;background:${active?'#211d17':'transparent'};color:${active?'#f4f1ea':'#5f574b'}`;
     const modeToggle = [['learner','Öğrenen'],['expert','Uzman']].map(([id,label])=>({
       label, go:()=>this.setState({mode:id}), style:seg(S.mode===id) }));
+    const segD = (active)=>`cursor:pointer;border:none;padding:5px 12px;font-size:12px;font-weight:600;font-family:inherit;border-radius:7px;background:${active?'#f4f1ea':'transparent'};color:${active?'#211d17':'rgba(244,241,234,.55)'}`;
     const scriptToggle = [['cyrillic','Кир'],['latin','Lat']].map(([id,label])=>({
-      label, go:()=>this.setState({script:id}), style:seg(S.script===id) }));
+      label, go:()=>this.setState({script:id}), style:segD(S.script===id) }));
     return { modeToggle, scriptToggle, isExpert: true };
   }
   // Dile-duyarlı transliterasyon: ortak Kiril tabanı + dile özgü harita.

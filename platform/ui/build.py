@@ -411,13 +411,13 @@ def main():
     else:
         print("  ! dil render bağı eşleşmedi")
 
-    # Analiz: kendi giriş kutusu + yanında dil seçici (üst hizada)
-    analiz_old = '        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">'
-    analiz_new = ('        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:22px">\n'
+    # Analiz: kendi giriş kutusu + yanında dil seçici — BAŞLIĞIN ALTINDA (paradigma gibi), morfem kartının üstünde
+    analiz_old = ('        <!-- morpheme blocks -->\n'
+                  '        <div style="margin-top:30px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:34px 30px">')
+    analiz_new = ('        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:24px 0 0">\n'
                   '          <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz" style="flex:1;min-width:260px;max-width:480px;' + INP + '">\n'
                   '          ' + SELBOX + '\n'
-                  '        </div>\n'
-                  + analiz_old)
+                  '        </div>\n' + analiz_old)
     if analiz_old in html:
         html = html.replace(analiz_old, analiz_new, 1); nsel += 1
     else:
@@ -756,6 +756,32 @@ def main():
         print("  ! hue() eşleşmedi")
 
     # ============================================================
+    #  ÜST BAR KALDIRILDI (kullanıcı isteği) — her ekranda kendi girişi var; Кир/Lat sidebar'a taşındı
+    # ============================================================
+    html2, ntop = re.subn(r'<!-- context bar -->.*?<div id="content-scroll"', '<div id="content-scroll"', html, flags=re.DOTALL)
+    if ntop:
+        html = html2
+    print(f"  Üst bar kaldırıldı: {ntop}")
+    # scriptToggle (Кир/Lat) koyu sidebar'a uygun stil
+    sc_old = ("    const scriptToggle = [['cyrillic','Кир'],['latin','Lat']].map(([id,label])=>({\n"
+              "      label, go:()=>this.setState({script:id}), style:seg(S.script===id) }));")
+    sc_new = ("    const segD = (active)=>`cursor:pointer;border:none;padding:5px 12px;font-size:12px;font-weight:600;font-family:inherit;border-radius:7px;background:${active?'#f4f1ea':'transparent'};color:${active?'#211d17':'rgba(244,241,234,.55)'}`;\n"
+              "    const scriptToggle = [['cyrillic','Кир'],['latin','Lat']].map(([id,label])=>({\n"
+              "      label, go:()=>this.setState({script:id}), style:segD(S.script===id) }));")
+    nsc = 1 if sc_old in html else 0
+    html = html.replace(sc_old, sc_new, 1)
+    # Кир/Lat'ı sidebar alt kısmına ekle (versiyon satırının üstüne)
+    side_old = '    <div style="padding:14px 20px 16px;border-top:1px solid rgba(244,241,234,.12)">\n'
+    side_new = ('    <div style="padding:14px 20px 16px;border-top:1px solid rgba(244,241,234,.12)">\n'
+                '      <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px">\n'
+                "        <span style=\"font-size:10px;font-family:'IBM Plex Mono',monospace;color:rgba(244,241,234,.4);letter-spacing:.5px\">YAZI</span>\n"
+                '        <div style="display:flex;background:rgba(244,241,234,.08);border-radius:8px;padding:3px"><sc-for list="{{ scriptToggle }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for></div>\n'
+                '      </div>\n')
+    nside = 1 if side_old in html else 0
+    html = html.replace(side_old, side_new, 1)
+    print(f"  script toggle sidebar'a: style={nsc} sidebar={nside}")
+
+    # ============================================================
     #  D — KARŞILAŞTIR "dizilim" CANLI: aranan kelime tüm dillerde (/analyze_all) → satırlar
     #  (FST kök+etiket verir; yüzey-segmentasyon değil — küratörlü kognatlardaki renkli hizalama kadar
     #   ince değil ama gerçek/canlı. Küratörlü kelimeler eski zengin görünümünü korur.)
@@ -819,9 +845,6 @@ def main():
          "paradigmLang: (this.state.paradigmFree && Array.isArray(this.state.paradigmFree.rows)) ? this.state.paradigmFree.langName : 'Çuvaşça', paradigmFreeQ: this.state.paradigmFreeQ||'',"),
         # öğrenen/uzman KALDIR: her şey görünür (isExpert hep true) + toggle'ı sil
         ("isExpert:S.mode==='expert'", "isExpert: true"),
-        ('        <div style="display:flex;background:#ece7dc;border-radius:9px;padding:3px">\n'
-         '          <sc-for list="{{ modeToggle }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>\n'
-         '        </div>\n', ''),
         # stale konuşur sayısı (timeline) → güncel
         ("Ogur kolunun yaşayan tek temsilcisi; ~1 milyon konuşur, tehlike altında.",
          "Ogur kolunun yaşayan tek temsilcisi; ~740 bin konuşur, tehlike altında."),

@@ -738,6 +738,24 @@ def main():
     print(f"  Açık API etiket + nasıl çalışır ipuçları: {nd2}/{len(dfix2)}")
 
     # ============================================================
+    #  DAYANIKLILIK — hue() bilinmeyen morfem tipinde ÇÖKMESİN (segment fallback 'ek' vb. → kök rengine düş)
+    #  (Kırmızı ekran "renderVals: reading 'hue'" bug'ının kök çözümü)
+    # ============================================================
+    hue_old = ("  hue(t){ return `oklch(0.52 0.13 ${this.TYPES[t].hue})`; }\n"
+               "  hueLight(t){ return `oklch(0.74 0.13 ${this.TYPES[t].hue})`; }\n"
+               "  hueBg(t){ return `oklch(0.94 0.045 ${this.TYPES[t].hue})`; }\n"
+               "  hueBorder(t){ return `oklch(0.84 0.07 ${this.TYPES[t].hue})`; }")
+    hue_new = ("  _hue(t){ return (this.TYPES[t]||this.TYPES['kök']).hue; }\n"
+               "  hue(t){ return `oklch(0.52 0.13 ${this._hue(t)})`; }\n"
+               "  hueLight(t){ return `oklch(0.74 0.13 ${this._hue(t)})`; }\n"
+               "  hueBg(t){ return `oklch(0.94 0.045 ${this._hue(t)})`; }\n"
+               "  hueBorder(t){ return `oklch(0.84 0.07 ${this._hue(t)})`; }")
+    if hue_old in html:
+        html = html.replace(hue_old, hue_new, 1); print("  hue() dayanıklı: 1")
+    else:
+        print("  ! hue() eşleşmedi")
+
+    # ============================================================
     #  D — KARŞILAŞTIR "dizilim" CANLI: aranan kelime tüm dillerde (/analyze_all) → satırlar
     #  (FST kök+etiket verir; yüzey-segmentasyon değil — küratörlü kognatlardaki renkli hizalama kadar
     #   ince değil ama gerçek/canlı. Küratörlü kelimeler eski zengin görünümünü korur.)

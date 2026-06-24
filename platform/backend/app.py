@@ -136,7 +136,8 @@ def _fallback_split(gen, lemma, tags, word, pos):
     if rem:
         feats = [t for t in tags if t not in skip]
         morphs.append({"surface": rem, "tag": "+".join(t.upper() for t in feats) or "EK",
-                       "feat": " · ".join(TAG_TR.get(t, t) for t in feats) or "ek", "type": "ek"})
+                       "feat": " · ".join(TAG_TR.get(t, t) for t in feats) or "ek",
+                       "type": "zaman" if pos == "v" else "hâl"})
     return morphs
 
 

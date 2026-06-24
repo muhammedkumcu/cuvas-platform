@@ -1174,10 +1174,11 @@ class Component extends DCLogic {
     'hâl':    { hue: 90,  label: 'Hâl eki' },
     'iyelik': { hue: 200, label: 'İyelik eki' },
   };
-  hue(t){ return `oklch(0.52 0.13 ${this.TYPES[t].hue})`; }
-  hueLight(t){ return `oklch(0.74 0.13 ${this.TYPES[t].hue})`; }
-  hueBg(t){ return `oklch(0.94 0.045 ${this.TYPES[t].hue})`; }
-  hueBorder(t){ return `oklch(0.84 0.07 ${this.TYPES[t].hue})`; }
+  _hue(t){ return (this.TYPES[t]||this.TYPES['kök']).hue; }
+  hue(t){ return `oklch(0.52 0.13 ${this._hue(t)})`; }
+  hueLight(t){ return `oklch(0.74 0.13 ${this._hue(t)})`; }
+  hueBg(t){ return `oklch(0.94 0.045 ${this._hue(t)})`; }
+  hueBorder(t){ return `oklch(0.84 0.07 ${this._hue(t)})`; }
 
   WORDS = {
     oku: {

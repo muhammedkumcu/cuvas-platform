@@ -366,7 +366,7 @@ def _noun_tag_feat(tglist):
     return typ, " · ".join(parts)
 
 
-def _segment_align(gen, lemma, tags, word):
+def _segment_align(gen, lemma, tags, word, lang=""):
     """İSİM: kümülatif üretim (nom-sonlu ara biçimler) + NW hizalama → gerçek yüzey ekleri + ses olayları.
     Üretim eksik/yeniden üretmiyorsa None → çağıran fallback'e düşer."""
     if not tags or tags[0] != "n":
@@ -374,14 +374,19 @@ def _segment_align(gen, lemma, tags, word):
     has_pl = "pl" in tags
     px = next((t for t in tags if t.startswith("px")), None)
     case = next((t for t in tags if t in CASE_SET), "nom")
-    pre = "<pl>" if has_pl else ""
+    # MORFOTAKTİK SIRA (deepsearch 5c): Çuvaşça Kök+İYELİK+ÇOĞUL (px<pl); diğerleri Kök+ÇOĞUL+İYELİK (pl<px).
+    # apertium-chv yalnız <px><pl> üretir; <pl><px> = boş → eski sıra chv'de hizalamayı bozuyordu.
+    if lang == "chv":
+        slots = ([(px, f"<{px}>")] if px else []) + ([("pl", "<pl>")] if has_pl else [])
+    else:
+        slots = ([("pl", "<pl>")] if has_pl else []) + ([(px, f"<{px}>")] if px else [])
     levels = [("kök", f"{lemma}<n><nom>")]
-    if has_pl:
-        levels.append(("pl", f"{lemma}<n><pl><nom>"))
-    if px:
-        levels.append((px, f"{lemma}<n>{pre}<{px}><nom>"))
+    acc = ""
+    for label, tg in slots:
+        acc += tg
+        levels.append((label, f"{lemma}<n>{acc}<nom>"))
     if case != "nom":
-        levels.append((case, f"{lemma}<n>{pre}" + (f"<{px}>" if px else "") + f"<{case}>"))
+        levels.append((case, f"{lemma}<n>{acc}<{case}>"))
     surfaces = []
     for _lab, q in levels:
         s = _gen1(gen, q)
@@ -588,7 +593,7 @@ def segment(req: AnalyzeReq):
     for r in res:
         rp = _parse(r[0])
         if rp["tags"] and rp["tags"][0] == "n":
-            aligned = _segment_align(gen, rp["lemma"], rp["tags"], word)
+            aligned = _segment_align(gen, rp["lemma"], rp["tags"], word, req.lang)
             if aligned:
                 morphs, sc, forms = aligned
                 chosen = (r[0], rp["lemma"], rp["tags"], morphs, sc, "nw-align", forms)

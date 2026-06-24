@@ -573,6 +573,28 @@ def main():
             print("  ! D eşleşmedi:", label)
     print(f"  Karşılaştır dizilim canlı (D): {nd}/{len(dfix)}")
 
+    # ============================================================
+    #  E — TARİH & KÖKEN: Çuvaş-merkezli, kaynaklı 2 olay (tehlikedeki dile derinlik)
+    # ============================================================
+    efix = []
+    # İdil (Volga) Bulgar mezar yazıtları — Çuvaşçanın doğrudan tarihsel tanığı (Erdal, wolgabolgarische Inschriften)
+    efix.append(("tarih: İdil Bulgar",
+        "    {era:'13–16.yy', title:'Altın Orda · Çağatayca', desc:'Kıpçak ve Karluk yazı dilleri olgunlaşır; İdil Bulgarcası Çuvaşçaya evrilir.', kind:'dil'},",
+        "    {era:'13–14.yy', title:'İdil Bulgar mezar yazıtları', desc:'Volga Bulgarcasının r/l-Türkçesi (Ogur) izlerini taşıyan Arap harfli taş yazıtlar — Çuvaşçanın doğrudan tarihsel tanığı (Erdal, wolgabolgarische Inschriften).', kind:'yazı'},\n"
+        "    {era:'13–16.yy', title:'Altın Orda · Çağatayca', desc:'Kıpçak ve Karluk yazı dilleri olgunlaşır; İdil Bulgarcası Çuvaşçaya evrilir.', kind:'dil'},"))
+    # Aşmarin'in 17 ciltlik Çuvaş sözlüğü — düşük-kaynaklı dil için olağanüstü betimleyici temel
+    efix.append(("tarih: Aşmarin",
+        "    {era:'1920–30’lar', title:'Sovyet alfabe reformları',",
+        "    {era:'1898–1950', title:'Aşmarin · Çuvaş Sözlüğü (17 cilt)', desc:'N. İ. Aşmarin’in “Çăvaš sămahĕsen kĕneki” adlı 17 ciltlik sözlüğü — düşük-kaynaklı bir dil için olağanüstü betimleyici temel.', kind:'eser'},\n"
+        "    {era:'1920–30’lar', title:'Sovyet alfabe reformları',"))
+    ne = 0
+    for label, old, new in efix:
+        if old in html:
+            html = html.replace(old, new, 1); ne += 1
+        else:
+            print("  ! E eşleşmedi:", label)
+    print(f"  Tarih & Köken kaynaklı genişletme (E): {ne}/{len(efix)}")
+
     # --- DENETİM DÜZELTMELERİ (görünür taraftaki sabit/eskimiş/tutarsız öğeler) ---
     audit = [
         # paradigma başlığı artık dinamik (herhangi dilde çekim)

@@ -333,6 +333,23 @@ def _sound_changes(lemma, root):
     return out
 
 
+def _noun_tag_feat(tglist):
+    """Bir (gerekirse KAYNAŞIK) ek için tip + okunur işlev etiketi."""
+    parts = []
+    has_case = has_px = has_pl = False
+    for t in tglist:
+        if t == "pl":
+            parts.append("çokluk"); has_pl = True
+        elif t.startswith("px"):
+            parts.append(TAG_TR.get(t, t)); has_px = True
+        elif t in CASE_SET:
+            parts.append(CASE_TR.get(t, t) + " hâli"); has_case = True
+        else:
+            parts.append(TAG_TR.get(t, t))
+    typ = "hâl" if has_case else ("iyelik" if has_px else ("çokluk" if has_pl else "hâl"))
+    return typ, " · ".join(parts)
+
+
 def _segment_align(gen, lemma, tags, word):
     """İSİM: kümülatif üretim (nom-sonlu ara biçimler) + NW hizalama → gerçek yüzey ekleri + ses olayları.
     Üretim eksik/yeniden üretmiyorsa None → çağıran fallback'e düşer."""
@@ -357,27 +374,26 @@ def _segment_align(gen, lemma, tags, word):
         surfaces.append(s)
     if surfaces[-1] != word:
         return None
-    # her seviye için: (etiket, o seviyedeki KÜMÜLATİF gerçek yüzey, eklenen yüzey eki)
-    steps = [(levels[i][0], surfaces[i], _trailing_affix(surfaces[i - 1], surfaces[i]))
+    # her seviye için: (etiket listesi, kümülatif gerçek yüzey, eklenen yüzey eki) — ardışık NW hizalama
+    steps = [([levels[i][0]], surfaces[i], _trailing_affix(surfaces[i - 1], surfaces[i]))
              for i in range(1, len(levels))]
+    # ek zinciri kelimenin GERÇEK bir son-eki mi? Çuvaşça gibi KAYNAŞIK iyelik+hâl'de nom-ara-biçim
+    # sahte olur (ҫурчӗ ≠ ҫуртне ön-eki) → zincir tutmaz. O zaman: kök + TEK kaynaşık ek (etiketler birleşik).
+    joined = "".join(a for _, _, a in steps)
+    if not (joined and word.endswith(joined)):
+        all_tags = [lv[0] for lv in levels[1:]]
+        aff = _trailing_affix(surfaces[0], word)
+        steps = [(all_tags, word, aff)] if aff else []
     total = sum(len(a) for _, _, a in steps)
     root_surface = word[:len(word) - total] if 0 < total <= len(word) else surfaces[0]
-    # Büyük kutuda SÖZLÜK kökü (lemma) gösterilir; yüzeydeki ses-değişmiş gövde (root_surface) yalnız
-    # ses-olayı rozetinde işaretlenir (kitap → kitab). Linguistik olarak doğrusu kanonik köktür.
+    # Büyük kutuda SÖZLÜK kökü (lemma); yüzeydeki ses-değişmiş gövde yalnız SES OLAYI rozetinde.
     morphs = [{"surface": lemma, "tag": "KÖK", "feat": "kök", "type": "kök"}]
-    forms = [surfaces[0]]  # katman ağacı için kümülatif GERÇEK yüzey (kitap → kitabımız → kitabımızda)
-    for tag, surf, aff in steps:
+    forms = [surfaces[0]]  # katman ağacı için kümülatif GERÇEK yüzey
+    for tglist, surf, aff in steps:
         if not aff:
             continue
-        if tag == "pl":
-            typ, feat = "çokluk", "çokluk"
-        elif tag.startswith("px"):
-            typ, feat = "iyelik", TAG_TR.get(tag, tag)
-        elif tag in CASE_SET:
-            typ, feat = "hâl", CASE_TR.get(tag, tag) + " hâli"
-        else:
-            typ, feat = "hâl", TAG_TR.get(tag, tag)
-        morphs.append({"surface": aff, "tag": tag.upper(), "feat": feat, "type": typ})
+        typ, feat = _noun_tag_feat(tglist)
+        morphs.append({"surface": aff, "tag": "+".join(t.upper() for t in tglist), "feat": feat, "type": typ})
         forms.append(surf)
     return morphs, _sound_changes(lemma, root_surface), forms
 

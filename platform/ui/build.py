@@ -132,12 +132,47 @@ def build_cognates(cog):
         nodes = [{"lang": name, "word": readable(langset[sid][2]), "branch": branch, "shift": langset[sid][0] != dom}
                  for sid, name, branch in COG_DISP if sid in langset]
         gaps = [n["lang"] for n in nodes if n["shift"]]
+        # (b) bu kognat hangi ses-denkliği kuralını örnekler? Proto-fonem + Çuvaşça çıktı doğrulaması (güvenli).
+        # SOUND sırası: 0=rotasizm 1=lambdasizm 2=baş y->ś 3=ünlü indirgeme.
+        chvw = next((n["word"] for n in nodes if n["lang"] == "Çuvaşça"), "")
+        turw = next((n["word"] for n in nodes if n["lang"] == "Türkçe"), "")
+        rule_idx = None
+        if "ŕ" in (dom_root or "") and "r" in chvw:
+            rule_idx = 0
+        elif "ĺ" in (dom_root or "") and "l" in chvw:
+            rule_idx = 1
+        elif chvw and chvw[0] in "śşsҫ" and turw and turw[0] in "yj":
+            rule_idx = 2
         note = f"Proto-Türkçe kök {dom_root}. Aynı renk = aynı kognat seti; farklı düğüm = kognat boşluğu" + \
                (f" ({', '.join(gaps)})." if gaps else ".") + " Biçimler okunur karşılaştırmalı yazımdadır."
-        out[key] = {"gloss": tr, "proto": dom_root, "note": note, "nodes": nodes}
+        out[key] = {"gloss": tr, "proto": dom_root, "note": note, "nodes": nodes, "ruleIdx": rule_idx}
         if first is None:
             first = key
     return out, first
+
+
+# (b) Ses denklikleri KANIT-DESTEKLİ: yerleşik kurallar (Türkoloji olgusu) + Savelyev kognat verisinden
+# PROTO-FONEM tabanlı kanıt sayısı. Proto *ŕ = rotasizm, *ĺ = lambdasizm (akademik-tanımlayıcı işaret).
+def sound_evidence(cog):
+    res = {"rot": [0, []], "lam": [0, []], "y": [0, []]}
+    for c in cog["concepts"]:
+        for s in c["sets"]:
+            root = s.get("root") or ""
+            forms = {m["lang"]: m["value"] for m in s["members"]}
+            cv, tr = forms.get("Chuvash"), forms.get("Turkish")
+            pair = (readable(cv), readable(tr)) if (cv and tr) else None
+            if "ŕ" in root:
+                res["rot"][0] += 1
+                if pair and "r" in pair[0]:
+                    res["rot"][1].append(pair)
+            if "ĺ" in root:
+                res["lam"][0] += 1
+                if pair:
+                    res["lam"][1].append(pair)
+            if cv and tr and cv[0] in "śšsʂ" and tr[0] in "yj":
+                res["y"][0] += 1
+                res["y"][1].append((readable(cv), readable(tr)))
+    return res
 
 
 def project(lon, lat):
@@ -905,6 +940,34 @@ def main():
     njbox = 1 if kol_box in html else 0
     html = html.replace(kol_box, kol_box + joshi_box, 1)
     print(f"  Joshi kaynak sınıfı: {njoshi} dil, stat kutusu={njbox}")
+
+    # ============================================================
+    #  (b) SES DENKLİKLERİ KANIT-DESTEKLİ — yerleşik kurallar + Savelyev kognat verisinden kanıt sayısı
+    # ============================================================
+    ev = sound_evidence(cog)
+    EVID = {
+        "ROTASİZM": "SavelyevTurkic: %d kognat seti bu kuralı doğrular (proto *ŕ → Çuv. r / Ortak Türkçe z)" % ev["rot"][0],
+        "LAMBDASİZM": "SavelyevTurkic: %d kognat seti (proto *ĺ → Çuv. l / Ortak Türkçe ş)" % ev["lam"][0],
+        "BAŞ Y- > Ś": "SavelyevTurkic: %d Çuvaşça–Türkçe çiftinde (söz başı j-/y- → ś-)" % ev["y"][0],
+        "ÜNLÜ İNDİRGEME": "Düzenli ses olayı: vurgusuz ünlüler Çuvaşçada ă / ĕ sesine iner",
+    }
+    nev = 0
+    for name, txt in EVID.items():
+        old = "name:'%s'," % name
+        if old in html:
+            html = html.replace(old, "name:'%s', evidence:'%s'," % (name, txt), 1); nev += 1
+    # kanıt satırı markup'ı (kart içinde, isim/cv-ct satırının altında)
+    html = html.replace(
+        '                  <span style="margin-left:auto;font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#9a9082;letter-spacing:.5px;text-align:right">{{ s.name }}</span>\n'
+        '                </div>',
+        '                  <span style="margin-left:auto;font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#9a9082;letter-spacing:.5px;text-align:right">{{ s.name }}</span>\n'
+        '                </div>\n'
+        '                <div style="margin-top:9px;font-size:10.5px;font-family:\'IBM Plex Mono\',monospace;color:#8a8073;line-height:1.5;text-align:left">{{ s.evidence }}</div>', 1)
+    print(f"  Ses denklikleri kanıt (Savelyev): rot={ev['rot'][0]} lam={ev['lam'][0]} y={ev['y'][0]}, enjekte={nev}/4")
+    # (b) kognat→kural bağı: "ses denkliklerinde incele" seçili kognatın örneklediği kuralı VURGULAR
+    html = html.replace(
+        "      goCompareSound:()=>this.setState({screen:'compare', compareTab:'sound'}),",
+        "      goCompareSound:()=>{ const cg=this.COGNATES[this.state.cognateKey]; this.setState({screen:'compare', compareTab:'sound', soundSel:(cg && cg.ruleIdx!=null)?cg.ruleIdx:this.state.soundSel}); },", 1)
 
     # --- DENETİM DÜZELTMELERİ (görünür taraftaki sabit/eskimiş/tutarsız öğeler) ---
     audit = [

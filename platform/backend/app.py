@@ -117,6 +117,22 @@ def _load_dix():
         DIX_ADJ.setdefault(b, set()).add(a)
 
 
+# FİİL TAM etiket normalizasyonu (deepsearch 5c: apertium FST'leri arası TAM envanteri farklı).
+# Hedef dile göre riskli zaman/kip etiketlerini o dilde sentetik üretimi GARANTİ ikameye düşürür.
+# (chv/sah geçmiş=<past>; chv geniş=<pres>; kaz/kir şimdiki analitik → <aor> fallback; ulaç→part.)
+TAG_NORM = {
+    "chv": {"ifi": "past", "aor": "pres", "ger_past": "part_past", "ger_pres": "part_pres", "gpr_past": "part_past"},
+    "sah": {"ifi": "past", "ger_past": "part_past", "ger_pres": "part_pres", "gpr_past": "part_past"},
+    "kaz": {"pres": "aor"},
+    "kir": {"pres": "aor"},
+}
+
+
+def _norm_tags(tags, tgt):
+    m = TAG_NORM.get(tgt)
+    return tags if not m else [m.get(t, t) for t in tags]
+
+
 def _map_lemma(src, tgt, lemma):
     """src dilindeki lemma'yı tgt diline .dix grafiğinde (BFS pivot) eşle; yoksa None."""
     if src == tgt:
@@ -540,7 +556,12 @@ def crosslang(req: AnalyzeReq):
             tl = _map_lemma(req.lang, tgt, lemma)
             if not tl:
                 continue
+            # önce ham etiket, tutmazsa TAM-normalize edilmiş etiketle dene (fiil taşınabilirliği)
             g = _gen1(_fst(tgt, "autogen"), tl + "".join(f"<{t}>" for t in tags))
+            if not g:
+                nt = _norm_tags(tags, tgt)
+                if nt != tags:
+                    g = _gen1(_fst(tgt, "autogen"), tl + "".join(f"<{t}>" for t in nt))
             if g:
                 surf, used = g, tl
                 break

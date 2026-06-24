@@ -46,7 +46,8 @@ analiz · üretim · paradigma · kognat ağı · ses denkliği · çok-boyutlu 
 - **Analiz-seçimi düzeltmesi (kritik):** `/segment` tüm analizleri deneyip **align eden İSİM**'i seçer (analyses[0] çoğu yanlış fiil veriyordu). → 10-dil round-trip testi (`platform/backend/segment_eval.py`, 1700+ form): **tüm dillerde %100 align, ~%98 ek-sayı**; chv %92.6 (en zayıf, Çuvaş iyelik). uig Arap yazısı bekler.
 - **Deepsearch PDF'leri** `arastirma/Türk Dilleri NLP *.pdf` (+ `_nlp_araclari.txt`/`_nlp_envanteri.txt` çıkarımları). **Tam değerlendirme + kararlar + sıradaki işler: `platform/MORFOLOJI-DEGERLENDIRME.md` ← OKU.**
 - **Kararlar:** Türkçe Zemberek opsiyonel üst-kalite (NW zaten %98.8); **diller-arası = apertium `.dix` boru hattı** (★ sıradaki, en yüksek değer); Joshi kaynak sınıfı (0-5) profillere; NLLB red.
-- **SIRADAKİ:** (1) ★ diller-arası `.dix` karşılaştırma motoru; (2) Joshi sınıfı profillere; (3) cila (chv iyelik, tur ünlü-düşmesi).
+- **★ DİLLER-ARASI MOTOR YAPILDI:** `/crosslang` (apertium `.dix` grafiği + BFS pivot) — aranan kelime tüm Türk dillerinde CANLI üretilir (statik "okuduk" gibi); Karşılaştır "dizilim"e bağlı (her dil üretilip segmentlenir, renkli kutular). İsimlerde güçlü (evlerde→7 dil); .dix VM'de `/root/koken_api/dix/` (chv/sah/uig pair yok→atlanır). Detay: GELISTIRME-GUNLUGU.md FAZ 5.
+- **SIRADAKİ:** (1) Joshi kaynak-sınıfı profillere (envanter PDF'inden); (2) diller-arası genişletme (daha çok .dix / Savelyev fallback / fiil etiket-haritalama); (3) cila (chv iyelik %92→, tur ünlü-düşmesi).
 
 ### ✅ A→F PLANI + GÜNCELLEME NOTLARI — TAMAMLANDI (24 Haz, Claude_Preview'da doğrulandı)
 Tümü `build.py` enjeksiyonu, her adım ayrı commit+push. **Backend canlı doğrulandı** (uvicorn temiz restart, §4.6).

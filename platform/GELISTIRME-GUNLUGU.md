@@ -71,8 +71,19 @@ Apertium **lemma + morfolojik etiket** verir ve ses olayında bile DOĞRUDUR: `k
 - **İsim:** tam (NW-align, %92–100). **Fiil:** kısmi (kök + kaynaşık ek; fiil morfolojisi daha karmaşık, tam hece bölümleme yok). **Sıfat/zarf:** sınırlı (isim okuması varsa isim gibi; türemiş sıfat/zarf ekleri henüz bölünmüyor). Genişletme = gelecek iş (POS başına kümülatif şablon).
 - `/segment` bağlı yerler: **Analiz** (applySegment) + **Karşılaştır** (runCompare). Araştırmacı Merkezi ham etiket (FST çıktısı) gösterir — araştırmacı için uygun.
 
-## FAZ 5 — Diller-arası eşdeğer (★ SIRADAKİ, planlanan)
-- Hedef: aranan kelimeyi TÜM Türk dillerinde canlı göster (statik "okuduk" gibi). Yöntem (deepsearch kararı): **apertium `.dix` boru hattı** — kaynak dilde analiz → `.dix` ile kök eşle → hedefte AYNI etiketlerle üret. Doğrudan çift yoksa `networkx` pivot (tur→tat→bak). Savelyev CLDF (254 kavram) = fallback.
+## FAZ 5 — Diller-arası eşdeğer (✅ YAPILDI, isimlerde güçlü)
+- Hedef: aranan kelimeyi TÜM Türk dillerinde canlı göster (statik "okuduk" gibi). Yöntem (deepsearch kararı): **apertium `.dix` boru hattı** — kaynak dilde analiz → `.dix` ile kök eşle → hedefte AYNI etiketlerle üret.
+- **Uygulama:** `.dix` dosyaları GitHub'dan VM'e indirildi (`/root/koken_api/dix/`: tur-aze, tur-kir, tur-tat, tur-uzb, kaz-tat, kaz-kir, tat-bak; GPL-3.0). Backend `_load_dix()` regex ile lemma→lemma grafiği kurar; `_map_lemma()` BFS pivot (doğrudan çift yoksa tur→tat→bak). `/crosslang {lang,word}` ucu: en eşlenebilir analizi seç → her hedefe kök eşle → hedef autogen ile AYNI etiketlerle üret → üretebilen hedefler döner.
+- **Sonuç (test):** `evlerde` → 7 dil (aze:evlerde, kaz:үйлерде, kir:үйлөрдө, uzb:uylarda, tat:өйләрдә, bak:өйҙәрҙә); `kitabımızda` → 6 dil (iyelik dahil: kaz:кітабымызда…); `kaz баласы` → tur:çocuğu + 5 dil. **Deterministik, morfolojik sadık.**
+- **UI:** Karşılaştır "dizilim" `/crosslang` + her dilin `/segment`'i → renkli morfem kutuları (statik okuduk deneyimi, CANLI). Kaynak dil: ekran seçicisi ya da otomatik algıla.
+- **Kapsam sınırı (dürüst):** `.dix` grafiği tur/aze/kaz/kir/uzb/tat/bak'ı kapsar. **chv/sah/uig için iki-dilli pair YOK** → o hedefler dönmez. Fiil `<ger_past>` gibi dile-özgü etiketler hedefte üretmeyebilir (atlanır). Sözlükte olmayan kök eşlenmez. Genişletme: daha çok `.dix` + Savelyev CLDF (254 kavram) fallback.
+
+## OTURUM GİRİŞİ (bu oturum) — özet
+1. **Kök kutusu = lemma** (kitap), ses olayı ayrı rozet; **katman ağacı = gerçek yüzey** (`forms`: kitap→kitabımız→kitabımızda) — morfem-metni birleştirme bug'ı (kitapımız) giderildi.
+2. **NW-hizalama yüzey bölümleme** + **analiz-seçimi düzeltmesi** (align eden isim) → 10 dil round-trip testi (`segment_eval.py`, 1700+ form): %100 align, ~%98 ek-sayı (chv %92.6).
+3. **Ses olayı rozetleri** her dilde doğrulandı (Latin+Kiril voicing).
+4. **★ Diller-arası `/crosslang` motoru** (apertium `.dix`) — aranan kelime tüm Türk dillerinde canlı; Karşılaştır'a bağlandı.
+5. Kalıcı **GELISTIRME-GUNLUGU.md** oluşturuldu (paper için).
 
 ---
 
@@ -82,8 +93,9 @@ Voicing çiftleri Latin+Kiril kapsıyor; rozetler her dilde çalışıyor: tur p
 ---
 
 ## Sıradaki / açık işler
-1. **★ Diller-arası `.dix` karşılaştırma motoru** (en yüksek değer).
-2. **Joshi kaynak sınıfı (0–5)** dil profillerine rozet (envanter PDF'inden; misyon: eksik/gelişmişlik).
+1. **Joshi kaynak sınıfı (0–5)** dil profillerine rozet (envanter PDF'inden; misyon: eksik/gelişmişlik). Türkçe 4-5; kaz/uzb/tat/uig 2-3; chv/aze/tuk/bak/sah 1; çoğu 0.
+2. **Diller-arası genişletme:** daha çok `.dix` (chv/sah/uig için pair yok → Savelyev CLDF 254-kavram fallback); fiil etiket-haritalama (ger_past gibi dile-özgü farklar).
 3. **Cila:** chv iyelik morfotaktiği (%92→); tur ünlü-düşmesi+iyelik; dil-başına fonolojik ince ayar JSON'u.
 4. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.
 5. Fiil/sıfat yüzey bölümleme (POS başına kümülatif şablon).
+6. **.dix kalıcılığı:** VM'de `/root/koken_api/dix/` (gitignored, GPL). VM sıfırlanırsa GitHub'dan yeniden indir (apertium-`X-Y`.`X-Y`.dix).

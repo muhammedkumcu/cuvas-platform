@@ -1,0 +1,332 @@
+{
+  "_meta": {
+    "source": "SavelyevTurkic CLDF",
+    "license": "CC BY 4.0",
+    "url": "https://github.com/lexibank/savelyevturkic",
+    "reference": "Savelyev & Robbeets (2020), J. of Language Evolution 5(1):39-53",
+    "accessed": "2026-06-24",
+    "module": "Harita / dil kimliği"
+  },
+  "languages": [
+    {
+      "id": "Azeri",
+      "name": "Azeri",
+      "glottocode": "nort2697",
+      "iso": "azj",
+      "branch": "Oğuz",
+      "lat": 40.9777,
+      "lon": 46.4737,
+      "mvp": true
+    },
+    {
+      "id": "Baraba",
+      "name": "Baraba Tatar",
+      "glottocode": "bara1273",
+      "iso": null,
+      "branch": "Kıpçak",
+      "lat": null,
+      "lon": null,
+      "mvp": false
+    },
+    {
+      "id": "Bashkir",
+      "name": "Bashkir",
+      "glottocode": "bash1264",
+      "iso": "bak",
+      "branch": "Kıpçak",
+      "lat": 53.5967,
+      "lon": 56.5594,
+      "mvp": true
+    },
+    {
+      "id": "Chuvash",
+      "name": "Chuvash",
+      "glottocode": "chuv1255",
+      "iso": "chv",
+      "branch": "Ogur",
+      "lat": 55.487,
+      "lon": 47.163,
+      "mvp": true
+    },
+    {
+      "id": "CodexCumanicus",
+      "name": "Cuman",
+      "glottocode": null,
+      "iso": null,
+      "branch": "Kıpçak",
+      "lat": null,
+      "lon": null,
+      "mvp": false
+    },
+    {
+      "id": "CrimeanTatar",
+      "name": "Crimean Tatar",
+      "glottocode": "crim1257",
+      "iso": "crh",
+      "branch": "Kıpçak",
+      "lat": 45.0,
+      "lon": 34.08,
+      "mvp": false
+    },
+    {
+      "id": "Dolgan",
+      "name": "Dolgan",
+      "glottocode": "dolg1241",
+      "iso": "dlg",
+      "branch": "Sibirya",
+      "lat": 71.1083,
+      "lon": 94.2936,
+      "mvp": false
+    },
+    {
+      "id": "Gagauz",
+      "name": "Gagauz",
+      "glottocode": "gaga1249",
+      "iso": "gag",
+      "branch": "Oğuz",
+      "lat": 44.5988,
+      "lon": 28.0277,
+      "mvp": false
+    },
+    {
+      "id": "KarachayBalkar",
+      "name": "Karachay Balkar",
+      "glottocode": "kara1465",
+      "iso": "krc",
+      "branch": "Kıpçak",
+      "lat": 43.565,
+      "lon": 42.2606,
+      "mvp": false
+    },
+    {
+      "id": "Karaim",
+      "name": "Karaim",
+      "glottocode": "kara1464",
+      "iso": "kdr",
+      "branch": "Kıpçak",
+      "lat": 54.5534,
+      "lon": 25.1054,
+      "mvp": false
+    },
+    {
+      "id": "KaraKalpak",
+      "name": "Karakalpak",
+      "glottocode": "kara1467",
+      "iso": "kaa",
+      "branch": "Kıpçak",
+      "lat": 39.98,
+      "lon": 63.3223,
+      "mvp": false
+    },
+    {
+      "id": "Kazakh",
+      "name": "Kazakh",
+      "glottocode": "kaza1248",
+      "iso": "kaz",
+      "branch": "Kıpçak",
+      "lat": 41.8729,
+      "lon": 65.7709,
+      "mvp": true
+    },
+    {
+      "id": "Khakas",
+      "name": "Khakas",
+      "glottocode": "khak1248",
+      "iso": "kjh",
+      "branch": "Sibirya",
+      "lat": 50.7393,
+      "lon": 107.169,
+      "mvp": false
+    },
+    {
+      "id": "Khalaj",
+      "name": "Khalaj",
+      "glottocode": "turk1303",
+      "iso": "klj",
+      "branch": "Argu",
+      "lat": 34.4224,
+      "lon": 50.3222,
+      "mvp": false
+    },
+    {
+      "id": "Kirghiz",
+      "name": "Kirghiz",
+      "glottocode": "kirg1245",
+      "iso": "kir",
+      "branch": "Kıpçak",
+      "lat": 42.0,
+      "lon": 74.0,
+      "mvp": true
+    },
+    {
+      "id": "Kumyk",
+      "name": "Kumyk",
+      "glottocode": "kumy1244",
+      "iso": "kum",
+      "branch": "Kıpçak",
+      "lat": 43.0,
+      "lon": 47.0,
+      "mvp": false
+    },
+    {
+      "id": "MiddleChulym",
+      "name": "Middle Chulym",
+      "glottocode": "midd1324",
+      "iso": null,
+      "branch": "Sibirya",
+      "lat": null,
+      "lon": null,
+      "mvp": false
+    },
+    {
+      "id": "Nogai",
+      "name": "Nogai",
+      "glottocode": "noga1249",
+      "iso": "nog",
+      "branch": "Kıpçak",
+      "lat": 43.5917,
+      "lon": 46.6618,
+      "mvp": false
+    },
+    {
+      "id": "NorthAltai",
+      "name": "North Altay",
+      "glottocode": "nort2686",
+      "iso": "atv",
+      "branch": "Sibirya",
+      "lat": 50.8998,
+      "lon": 88.0672,
+      "mvp": false
+    },
+    {
+      "id": "OldUyghur",
+      "name": "Old Turkic",
+      "glottocode": "oldu1238",
+      "iso": "oui",
+      "branch": "Eski Türkçe",
+      "lat": null,
+      "lon": null,
+      "mvp": false
+    },
+    {
+      "id": "Salar",
+      "name": "Salar",
+      "glottocode": "sala1264",
+      "iso": "slr",
+      "branch": "Oğuz",
+      "lat": 35.5457,
+      "lon": 102.819,
+      "mvp": false
+    },
+    {
+      "id": "SarygYugur",
+      "name": "Saryg Yugur",
+      "glottocode": "west2402",
+      "iso": "ybe",
+      "branch": "Sibirya",
+      "lat": 39.0548,
+      "lon": 99.3112,
+      "mvp": false
+    },
+    {
+      "id": "Shor",
+      "name": "Shor",
+      "glottocode": "shor1247",
+      "iso": "cjs",
+      "branch": "Sibirya",
+      "lat": 52.3261,
+      "lon": 88.4344,
+      "mvp": false
+    },
+    {
+      "id": "SouthAltai",
+      "name": "South Altay",
+      "glottocode": "sout2694",
+      "iso": "alt",
+      "branch": "Sibirya",
+      "lat": 50.1347,
+      "lon": 86.8705,
+      "mvp": false
+    },
+    {
+      "id": "Tatar",
+      "name": "Kazan Tatar",
+      "glottocode": "midd1325",
+      "iso": "tat",
+      "branch": "Kıpçak",
+      "lat": null,
+      "lon": null,
+      "mvp": true
+    },
+    {
+      "id": "Tofa",
+      "name": "Tofa",
+      "glottocode": "tofa1248",
+      "iso": null,
+      "branch": "Sibirya",
+      "lat": null,
+      "lon": null,
+      "mvp": false
+    },
+    {
+      "id": "Turkish",
+      "name": "Turkish",
+      "glottocode": "anat1259",
+      "iso": "tur",
+      "branch": "Oğuz",
+      "lat": null,
+      "lon": null,
+      "mvp": true
+    },
+    {
+      "id": "Turkmen",
+      "name": "Turkmen",
+      "glottocode": "turk1304",
+      "iso": "tuk",
+      "branch": "Oğuz",
+      "lat": 37.0872,
+      "lon": 59.1757,
+      "mvp": false
+    },
+    {
+      "id": "Tuvan",
+      "name": "Tuvan",
+      "glottocode": "tuvi1240",
+      "iso": "tyv",
+      "branch": "Sibirya",
+      "lat": 51.7,
+      "lon": 94.36667,
+      "mvp": false
+    },
+    {
+      "id": "Uighur",
+      "name": "Uyghur",
+      "glottocode": "uigh1240",
+      "iso": "uig",
+      "branch": "Karluk",
+      "lat": 43.67,
+      "lon": 79.75,
+      "mvp": true
+    },
+    {
+      "id": "Uzbek",
+      "name": "Uzbek",
+      "glottocode": "uzbe1247",
+      "iso": "uzb",
+      "branch": "Karluk",
+      "lat": null,
+      "lon": null,
+      "mvp": true
+    },
+    {
+      "id": "Yakut",
+      "name": "Yakut",
+      "glottocode": "yaku1245",
+      "iso": "sah",
+      "branch": "Sibirya",
+      "lat": 61.6974,
+      "lon": 133.98,
+      "mvp": true
+    }
+  ]
+}

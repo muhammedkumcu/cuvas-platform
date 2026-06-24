@@ -11,7 +11,7 @@
 
 | id (UI) | Ad | Tür | Lisans | Yerel yol / çekme | Durum | Beslediği modül / veri |
 |---|---|---|---|---|---|---|
-| `cldf` | **SavelyevTurkic CLDF** | veri | **CC BY 4.0** | `sources/savelyevturkic` (`git clone github.com/lexibank/savelyevturkic`) | **✅ çekildi** | Kognat Ağı, Karşılaştır, Uzaklık(leksikal), Harita (lat/long). 32 dil · 254 kavram · 8360 form · 8360 kognat yargısı (hizalama+kök). |
+| `cldf` | **SavelyevTurkic CLDF** | veri | **CC BY 4.0** | `sources/savelyevturkic` (`git clone github.com/lexibank/savelyevturkic`) | **✅ çekildi + çıkarıldı** | Kognat Ağı, Karşılaştır, Uzaklık(leksikal), Harita (lat/long). 32 dil · 254 kavram · 8360 form · 905 kognat seti (uzman yargısı). → `platform/data/*` (aşağıda). |
 | `fst` | **Apertium** morfolojik FST | araç | GPL-3.0 | VM `/root/apv` + `sources/apertium-chv` (diğer diller: `git clone github.com/apertium/apertium-{tur,tat,kaz,kir,uzb,uig,azj,bak,sah}`) | **🖥️ VM** (chv ✅; diğerleri ⏳) | Morfolojik Analiz, Paradigma, Araştırmacı (canlı analiz+üretim). |
 | `nel` | **NorthEuraLex** | veri | CC BY 4.0 | `git clone github.com/lexibank/northeuralex` | ⏳ bekliyor | Kognat Ağı (ikincil), yüzey benzerliği. |
 | `ud` | **Universal Dependencies** | veri | CC BY-SA 4.0 (ağaçbank bazlı değişir!) | `git clone github.com/UniversalDependencies/UD_Turkish-*` vb. | ⏳ bekliyor | Analiz bağlamı, POS, örnek cümle. **Lisans ağaçbank bazında kaydedilecek.** |
@@ -31,4 +31,15 @@
 4. **Lisans uyumu.** CC BY → atıfla kullanılır; CC BY-SA → türev aynı lisansla; GPL araç (apertium) çıktısı veri olarak kullanılır, dağıtımda lisans belirtilir; tescilli (Ethnologue) → açık alternatif.
 5. **Erişim tarihi** her çekmede kaydedilir (bugün: 2026-06-24).
 
-> **Not:** `sources/` `.gitignore`'da (büyük 3. parti veri repoya girmez). Bu defter (`platform/KAYNAKLAR.md`) **repoda tutulur** ve provenance'ın tek kaydıdır.
+## Çıkarılan veri ürünleri (`platform/data/`, repoda tutulur)
+> Çıkarım betikleri: `platform/etl/`. Her JSON `_meta` ile kaynak+lisans+yöntem taşır.
+
+| Dosya | İçerik | Kaynak | Besler |
+|---|---|---|---|
+| `languages.geo.json` | 32 dil: glottocode/iso/lat-lon/kol (10 MVP işaretli) | SavelyevTurkic | Harita, dil kimliği |
+| `cognates.json` | 254 kavram → 905 kognat seti (üye diller+biçim+segment+kök) | SavelyevTurkic | Kognat Ağı (kognat boşlukları görünür: ör. "göz" *gȫrs vs Sibirya *Karak) |
+| `distance.lexical.json` | 32×32 leksikostatistik mesafe (derin kognat paylaşımı) | SavelyevTurkic | Uzaklık Gezgini (leksikal eksen) |
+
+> *Not (yöntem):* `distance.lexical.json` **derin kognat paylaşımı** ölçer (uzman kognat yargıları, 254 kavram) — #4'teki yüzey-Swadesh/anlaşılabilirlik yüzdelerinden farklı, tamamlayıcı bir sinyaldir; UI'da ayrı eksen olarak sunulabilir.
+
+> **Not:** `sources/` `.gitignore`'da (büyük 3. parti veri repoya girmez). Bu defter (`platform/KAYNAKLAR.md`) + `platform/data/` + `platform/etl/` **repoda tutulur** ve provenance'ın kaydıdır.

@@ -254,6 +254,10 @@
           <input value="{{ compareQ }}" onInput="{{ onCompareInput }}" onKeyDown="{{ onCompareKey }}" placeholder="Kelime yaz + Enter — diller arası canlı çözümle" style="flex:1;min-width:260px;max-width:480px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
           <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:9px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:170px;flex-shrink:0"><option value="auto">Otomatik (dil algıla)</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option></select>
         </div>
+                <button onClick="{{ toggleHelp_compare }}" style="cursor:pointer;background:none;border:1px solid rgba(33,29,23,.16);border-radius:8px;padding:6px 12px;font-size:12px;font-family:inherit;color:#5f574b;margin:0 0 14px">✷ nasıl çalışır?</button>
+        <sc-if value="{{ help_compare }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#f3efe6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:15px 18px;margin:0 0 18px;font-size:13.5px;line-height:1.7;color:#3f3a32;max-width:74ch">Yazdığınız kelime, tüm MVP dillerinde Apertium ile <strong>anlık çözümlenir</strong> (/analyze_all) ve kök+ek dizilimi diller arası yan yana getirilir. “Ses denklikleri” sekmesi ise Çuvaşça↔Ortak Türkçe <strong>düzenli ses değişimlerini</strong> (küratörlü) gösterir.</div>
+        </sc-if>
         <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:8px">
           <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:0">“{{ compareHeadline }}” — diller arası</h2>
           <div style="display:flex;gap:8px;background:#ece7dc;padding:5px;border-radius:11px">
@@ -826,6 +830,11 @@
         <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">KOGNAT AĞI</div>
         <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 6px">“{{ cognateGloss }}” kökteşleri</h2>
         <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:64ch;margin:0 0 12px">Ortak bir atadan gelen biçimler. Turuncu kesik çizgi, o dilde düzenli bir <strong>ses değişimi</strong> olduğunu gösterir — kök aynı, görünüş farklı.</p>
+        <button onClick="{{ toggleHelp_cognate }}" style="cursor:pointer;background:none;border:1px solid rgba(33,29,23,.16);border-radius:8px;padding:6px 12px;font-size:12px;font-family:inherit;color:#5f574b;margin:0 0 14px">✷ nasıl çalışır?</button>
+        <sc-if value="{{ help_cognate }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#f3efe6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:15px 18px;margin:0 0 18px;font-size:13.5px;line-height:1.7;color:#3f3a32;max-width:74ch">Buradaki köktaşlar <strong>canlı analiz değildir</strong>; <strong>SavelyevTurkic CLDF</strong> veri setinden (905 kognat seti, 254 kavram) seçilmiş hazır karşılaştırmalı veridir. Yazdığınız herhangi bir kelimenin kognatı otomatik üretilmez — kognat tespiti ayrı bir iştir. Şu an 14 kavram gösteriliyor; daha fazlası <strong>yatay ölçek</strong> aşamasında eklenecek.</div>
+        </sc-if>
+
         <div style="display:flex;gap:8px;flex-wrap:wrap">
           <sc-for list="{{ cognateKeys }}" as="k" hint-placeholder-count="3"><button onClick="{{ k.go }}" style="{{ k.style }}">{{ k.label }}</button></sc-for>
         </div>
@@ -899,6 +908,11 @@
         <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">ARAŞTIRMACI MERKEZİ</div>
         <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 6px">Birleşik sorgu · dışa aktarım · API</h2>
         <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:66ch;margin:0 0 16px">Bir sözcük seç; çözümlemeyi makine-okunur biçimlerde al. Her kayıt kaynak + lisans alanlıdır; sonuç alıntılanabilir kalıcı bir bağlantı üretir.</p>
+        <button onClick="{{ toggleHelp_research }}" style="cursor:pointer;background:none;border:1px solid rgba(33,29,23,.16);border-radius:8px;padding:6px 12px;font-size:12px;font-family:inherit;color:#5f574b;margin:0 0 14px">✷ nasıl çalışır?</button>
+        <sc-if value="{{ help_research }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#f3efe6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:15px 18px;margin:0 0 18px;font-size:13.5px;line-height:1.7;color:#3f3a32;max-width:74ch">Bir sözcük yazıp Enter’a basınca kelime, sunucuda çalışan <strong>Apertium FST motorumuza</strong> (bizim API) gönderilir; kök ve dilbilgisi etiketleri çıkarılıp <strong>JSON / CoNLL-U / CSV</strong> biçimlerinde, kaynak ve lisansıyla sunulur — “İndir”le dosya alınır. Sağdaki “AÇIK API” kutusu, ileride <strong>yayımlanacak genel REST ucunun taslağıdır</strong> (şu an yerel/geliştirme ortamında çalışıyor).</div>
+        </sc-if>
+
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px">
           <input value="{{ researchQ }}" onInput="{{ onResearchInput }}" onKeyDown="{{ onResearchKey }}" placeholder="Sözcük yaz + Enter — canlı çözümle &amp; dışa aktar" style="flex:1;min-width:260px;max-width:460px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
           <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:9px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:170px;flex-shrink:0"><option value="auto">Otomatik (dil algıla)</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option></select>
@@ -918,9 +932,9 @@
           </div>
           <div style="display:flex;flex-direction:column;gap:16px">
             <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:14px;padding:20px">
-              <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px">AÇIK API</div>
+              <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px">AÇIK API · planlanan</div>
               <code style="display:block;margin-top:10px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#2f6fb0;background:#eaf1f8;padding:10px 12px;border-radius:8px;word-break:break-all">{{ researchApiUrl }}</code>
-              <div style="font-size:12.5px;color:#5f574b;margin-top:10px;line-height:1.5">REST uç noktası; programatik erişim baştan tasarıma dahil.</div>
+              <div style="font-size:12.5px;color:#5f574b;margin-top:10px;line-height:1.5">Genel REST ucu — programatik erişim baştan tasarıma dahil. <strong>Şu an yerel/geliştirme</strong>; yayımlanınca bu biçimde erişilecek.</div>
             </div>
             <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:14px;padding:20px;font-size:13px;color:#3f3a32;line-height:1.7">
               <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px;margin-bottom:8px">ÖZELLİKLER</div>
@@ -1033,7 +1047,7 @@ class Component extends DCLogic {
     distBase: 'chv',        // distance explorer base lang
     distTarget: 'tt',       // distance explorer target lang
     paradigmRoot: 'hĕr',
-    apiParadigm: {}, apiWord: null, searchLang: 'auto', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null, compareApi: null, compareQ: '', paradigmPos: 'noun',
+    apiParadigm: {}, apiWord: null, searchLang: 'auto', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null, compareApi: null, compareQ: '', paradigmPos: 'noun', helpOpen: '',
     cognateKey: 'goz',
     profileSel: 'chv',
     researchWord: 'oku',
@@ -1692,6 +1706,9 @@ class Component extends DCLogic {
       goParadigm:()=>this.setState({screen:'paradigm'}),
       paradigmExamples: [{lang:'chv', lemma:'хӗр', gloss:'kız', name:'Çuvaşça'}, {lang:'tur', lemma:'ev', gloss:'ev', name:'Türkçe'}, {lang:'tat', lemma:'кул', gloss:'el', name:'Tatarca'}, {lang:'kaz', lemma:'бала', gloss:'çocuk', name:'Kazakça'}, {lang:'sah', lemma:'ат', gloss:'at', name:'Yakutça'}].map(e=>{ const sel = this.state.paradigmFree && this.state.paradigmFree.lemma===e.lemma && this.state.searchLang===e.lang; return { label:e.lemma, gloss:e.gloss, kind:e.name, go:()=>{ this.setState({searchLang:e.lang, paradigmFreeQ:e.lemma}); setTimeout(()=>this.runParadigm(e.lemma),0); }, style:`cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:11px;padding:10px 15px;font-family:inherit`, glossStyle:`font-size:11px;color:${sel?'rgba(244,241,234,.6)':'#9a9082'}` }; }),
       goResearch:()=>this.setState({screen:'research'}),
+      help_research:this.state.helpOpen==='research', toggleHelp_research:()=>this.setState(s=>({helpOpen:s.helpOpen==='research'?'':'research'})),
+      help_cognate:this.state.helpOpen==='cognate', toggleHelp_cognate:()=>this.setState(s=>({helpOpen:s.helpOpen==='cognate'?'':'cognate'})),
+      help_compare:this.state.helpOpen==='compare', toggleHelp_compare:()=>this.setState(s=>({helpOpen:s.helpOpen==='compare'?'':'compare'})),
       copyParadigm:()=>{ try{ const t=document.getElementById('paradigm-table'); if(t) navigator.clipboard.writeText(t.innerText); }catch(e){} },
       apiMatches: (this.state.apiMatchCodes||[]).map(lc=>{ const sel=lc===this.state.apiMatchLang; return { label:(this.LIVE_LN[lc]||lc), go:()=>{ const wd=(this.state.apiWord&&this.state.apiWord.surface)||''; this.setState({apiMatchLang:lc, apiWord:this.apiWordFrom(lc, wd, (this.state.apiAllLangs||{})[lc]), selMorphIdx:0}); this.applySegment(lc, wd); }, style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.16)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:16px;padding:5px 13px;font-size:12.5px;font-family:inherit` }; }),
       hasApiMatches: (this.state.apiMatchCodes||[]).length>1,

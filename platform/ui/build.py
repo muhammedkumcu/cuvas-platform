@@ -270,7 +270,7 @@ def main():
     nlive = 0
     live = []
     # 1) state alanları
-    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null, searchLang: 'auto', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null, compareApi: null, compareQ: '', paradigmPos: 'noun',"))
+    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null, searchLang: 'auto', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null, compareApi: null, compareQ: '', paradigmPos: 'noun', helpOpen: '',"))
     # küratörlü kök seçilince serbest çekimi temizle
     live.append(("        go:()=>this.setState({paradigmRoot:k}),", "        go:()=>this.setState({paradigmRoot:k, paradigmFree:null}),"))
     # paradigmVals return: serbest çekim (herhangi bir kök, seçili dil) + handler'lar
@@ -695,6 +695,47 @@ def main():
         else:
             print("  ! C(paradigma) eşleşmedi:", label)
     print(f"  Paradigma isim/fiil sekmeleri + fiil tablosu: {ncfix}/{len(cfix)}")
+
+    # ============================================================
+    #  AÇIK API dürüst etiket (planlanan genel API) + "nasıl çalışır?" aç-kapa ipuçları (çift kitle)
+    # ============================================================
+    def helpblk(scr, text):
+        return ('        <button onClick="{{ toggleHelp_%s }}" style="cursor:pointer;background:none;border:1px solid rgba(33,29,23,.16);border-radius:8px;padding:6px 12px;font-size:12px;font-family:inherit;color:#5f574b;margin:0 0 14px">✷ nasıl çalışır?</button>\n'
+                '        <sc-if value="{{ help_%s }}" hint-placeholder-val="{{ false }}">\n'
+                '        <div style="background:#f3efe6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:15px 18px;margin:0 0 18px;font-size:13.5px;line-height:1.7;color:#3f3a32;max-width:74ch">%s</div>\n'
+                '        </sc-if>\n') % (scr, scr, text)
+    dfix2 = []
+    dfix2.append(("help render bağları",
+        "      goResearch:()=>this.setState({screen:'research'}),",
+        "      goResearch:()=>this.setState({screen:'research'}),\n"
+        "      help_research:this.state.helpOpen==='research', toggleHelp_research:()=>this.setState(s=>({helpOpen:s.helpOpen==='research'?'':'research'})),\n"
+        "      help_cognate:this.state.helpOpen==='cognate', toggleHelp_cognate:()=>this.setState(s=>({helpOpen:s.helpOpen==='cognate'?'':'cognate'})),\n"
+        "      help_compare:this.state.helpOpen==='compare', toggleHelp_compare:()=>this.setState(s=>({helpOpen:s.helpOpen==='compare'?'':'compare'})),"))
+    dfix2.append(("help research",
+        '<p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:66ch;margin:0 0 16px">Bir sözcük seç; çözümlemeyi makine-okunur biçimlerde al. Her kayıt kaynak + lisans alanlıdır; sonuç alıntılanabilir kalıcı bir bağlantı üretir.</p>',
+        '<p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:66ch;margin:0 0 16px">Bir sözcük seç; çözümlemeyi makine-okunur biçimlerde al. Her kayıt kaynak + lisans alanlıdır; sonuç alıntılanabilir kalıcı bir bağlantı üretir.</p>\n'
+        + helpblk('research', 'Bir sözcük yazıp Enter’a basınca kelime, sunucuda çalışan <strong>Apertium FST motorumuza</strong> (bizim API) gönderilir; kök ve dilbilgisi etiketleri çıkarılıp <strong>JSON / CoNLL-U / CSV</strong> biçimlerinde, kaynak ve lisansıyla sunulur — “İndir”le dosya alınır. Sağdaki “AÇIK API” kutusu, ileride <strong>yayımlanacak genel REST ucunun taslağıdır</strong> (şu an yerel/geliştirme ortamında çalışıyor).')))
+    dfix2.append(("help cognate",
+        '<p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:64ch;margin:0 0 12px">Ortak bir atadan gelen biçimler. Turuncu kesik çizgi, o dilde düzenli bir <strong>ses değişimi</strong> olduğunu gösterir — kök aynı, görünüş farklı.</p>',
+        '<p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:64ch;margin:0 0 12px">Ortak bir atadan gelen biçimler. Turuncu kesik çizgi, o dilde düzenli bir <strong>ses değişimi</strong> olduğunu gösterir — kök aynı, görünüş farklı.</p>\n'
+        + helpblk('cognate', 'Buradaki köktaşlar <strong>canlı analiz değildir</strong>; <strong>SavelyevTurkic CLDF</strong> veri setinden (905 kognat seti, 254 kavram) seçilmiş hazır karşılaştırmalı veridir. Yazdığınız herhangi bir kelimenin kognatı otomatik üretilmez — kognat tespiti ayrı bir iştir. Şu an 14 kavram gösteriliyor; daha fazlası <strong>yatay ölçek</strong> aşamasında eklenecek.')))
+    dfix2.append(("help compare",
+        '<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:8px">',
+        helpblk('compare', 'Yazdığınız kelime, tüm MVP dillerinde Apertium ile <strong>anlık çözümlenir</strong> (/analyze_all) ve kök+ek dizilimi diller arası yan yana getirilir. “Ses denklikleri” sekmesi ise Çuvaşça↔Ortak Türkçe <strong>düzenli ses değişimlerini</strong> (küratörlü) gösterir.')
+        + '        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:8px">'))
+    dfix2.append(("açık api label",
+        "<div style=\"font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px\">AÇIK API</div>",
+        "<div style=\"font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px\">AÇIK API · planlanan</div>"))
+    dfix2.append(("açık api desc",
+        '<div style="font-size:12.5px;color:#5f574b;margin-top:10px;line-height:1.5">REST uç noktası; programatik erişim baştan tasarıma dahil.</div>',
+        '<div style="font-size:12.5px;color:#5f574b;margin-top:10px;line-height:1.5">Genel REST ucu — programatik erişim baştan tasarıma dahil. <strong>Şu an yerel/geliştirme</strong>; yayımlanınca bu biçimde erişilecek.</div>'))
+    nd2 = 0
+    for label, old, new in dfix2:
+        if old in html:
+            html = html.replace(old, new, 1); nd2 += 1
+        else:
+            print("  ! D2 eşleşmedi:", label)
+    print(f"  Açık API etiket + nasıl çalışır ipuçları: {nd2}/{len(dfix2)}")
 
     # ============================================================
     #  D — KARŞILAŞTIR "dizilim" CANLI: aranan kelime tüm dillerde (/analyze_all) → satırlar

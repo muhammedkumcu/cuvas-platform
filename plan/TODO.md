@@ -20,11 +20,16 @@
 - [x] Misfire (`4-KONUDISI-...pdf`) işaretlendi — içerik için kullanılmaz.
 - [x] Üç derleme triyaj edildi; mimari için anahtar bulgular çıkarıldı (3-katman veri, FST olgunluk seviyeleri, veri setleri+lisans, uzaklık matrisleri).
 
-## 1.5) ŞU AN — Vizyon & UI fazı (BENİM YAPILACAKLARIM)
-- [x] **Platform vizyon/kavram dokümanı** → `plan/PLATFORM-VIZYON.md` (amaç/vizyon/misyon/kitleler/modüller/ekran haritası — UI geliştirmeyi beslemek için).
-- [ ] **Kullanıcı:** geliştirdiği **UI dosyalarını** gösterecek → birlikte inceleyip ona göre çalışmaya başla.
-- [ ] UI geldiğinde: UI'yı vizyon/modül haritasıyla eşle; eksik/uyumsuz noktaları çıkar; UI ↔ backend API sözleşmesini taslakla.
-- [ ] **Mimari dokümanı** → `plan/MIMARI.md` (birleşik veri modeli #3+#3b+#4; modül haritası; API uçları; veri şeması core/extended + script katmanı; FST olgunluk → MVP).
+## 1.5) Vizyon & UI fazı — TAMAM ✅
+- [x] **Platform vizyon dokümanı** → `plan/PLATFORM-VIZYON.md`.
+- [x] **UI geldi & entegre** → `platform/ui/` (KÖKEN, DesignCanvas prototipi). İncelendi: tam modül seti, 14 dil, öğrenen/uzman modu, yerleşik kaynak-kütüğü. `platform/ui/README.md` (veri sözleşmesi) yazıldı.
+
+## 1.6) ŞU AN — Kaynak çekme & veri çıkarımı (kullanıcı ilkesi: kaynaklı, locale çek, uydurma yok)
+- [x] `platform/KAYNAKLAR.md` provenance defteri kuruldu (UI'daki SOURCES ile senkron).
+- [x] **SavelyevTurkic CLDF çekildi** → `sources/savelyevturkic` (CC BY 4.0; 32 dil, 254 kavram, 8360 form/kognat, lat-long).
+- [ ] Kalan kaynakları çek: **Glottolog-CLDF**, **NorthEuraLex**, **UD_Turkish-***, **UniMorph**, **WALS-CLDF**; apertium FST'leri (tur,tat,kaz,kir,uzb,uig,azj,bak,sah) **VM'de**; Joshi 2020 + Yunusbayev 2015 makaleleri. → `KAYNAKLAR.md` durumlarını güncelle.
+- [ ] **Çıkarım betikleri** (`platform/data/` veya `scripts/`): her kaynaktan UI sabitine (WORDS/PARADIGM/COGNATES/MAP/LANGVEC/LANGPROFILE/FAMILY/TIMELINE) uygun **kaynaklı JSON** üret.
+- [ ] **MIMARI.md**: UI veri-sözleşmesi → API uçları + JSON şeması (her kayıt source+license) eşlemesi.
 
 ## 2) #4 GELİNCE — Mimari tasarımı (BİRLİKTE kesinleştirilecek)
 - [ ] #4 PDF metnini çıkar + #3 ile birlikte **birleşik veri modeli** tasarla (dil profili, ses‑denkliği kuralı, kognat seti, paradigma, çok‑boyutlu uzaklık matrisi, zaman çizelgesi olayı, kaynak/lisans).

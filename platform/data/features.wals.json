@@ -1,0 +1,3878 @@
+{
+  "_meta": {
+    "source": "WALS Online CLDF",
+    "license": "CC BY 4.0",
+    "url": "https://github.com/cldf-datasets/wals",
+    "accessed": "2026-06-24",
+    "module": "Özellik Matrisi"
+  },
+  "parameters": {
+    "1A": "Consonant Inventories",
+    "2A": "Vowel Quality Inventories",
+    "3A": "Consonant-Vowel Ratio",
+    "4A": "Voicing in Plosives and Fricatives",
+    "5A": "Voicing and Gaps in Plosive Systems",
+    "6A": "Uvular Consonants",
+    "7A": "Glottalized Consonants",
+    "8A": "Lateral Consonants",
+    "9A": "The Velar Nasal",
+    "10A": "Vowel Nasalization",
+    "10B": "Nasal Vowels in West Africa",
+    "11A": "Front Rounded Vowels",
+    "12A": "Syllable Structure",
+    "13A": "Tone",
+    "14A": "Fixed Stress Locations",
+    "15A": "Weight-Sensitive Stress",
+    "16A": "Weight Factors in Weight-Sensitive Stress Systems",
+    "17A": "Rhythm Types",
+    "18A": "Absence of Common Consonants",
+    "19A": "Presence of Uncommon Consonants",
+    "20A": "Fusion of Selected Inflectional Formatives",
+    "21A": "Exponence of Selected Inflectional Formatives",
+    "21B": "Exponence of Tense-Aspect-Mood Inflection",
+    "22A": "Inflectional Synthesis of the Verb",
+    "23A": "Locus of Marking in the Clause",
+    "24A": "Locus of Marking in Possessive Noun Phrases",
+    "25A": "Locus of Marking: Whole-language Typology",
+    "25B": "Zero Marking of A and P Arguments",
+    "26A": "Prefixing vs. Suffixing in Inflectional Morphology",
+    "27A": "Reduplication",
+    "28A": "Case Syncretism",
+    "29A": "Syncretism in Verbal Person/Number Marking",
+    "30A": "Number of Genders",
+    "31A": "Sex-based and Non-sex-based Gender Systems",
+    "32A": "Systems of Gender Assignment",
+    "33A": "Coding of Nominal Plurality",
+    "34A": "Occurrence of Nominal Plurality",
+    "35A": "Plurality in Independent Personal Pronouns",
+    "36A": "The Associative Plural",
+    "37A": "Definite Articles",
+    "38A": "Indefinite Articles",
+    "39A": "Inclusive/Exclusive Distinction in Independent Pronouns",
+    "39B": "Inclusive/Exclusive Forms in Pama-Nyungan",
+    "40A": "Inclusive/Exclusive Distinction in Verbal Inflection",
+    "41A": "Distance Contrasts in Demonstratives",
+    "42A": "Pronominal and Adnominal Demonstratives",
+    "43A": "Third Person Pronouns and Demonstratives",
+    "44A": "Gender Distinctions in Independent Personal Pronouns",
+    "45A": "Politeness Distinctions in Pronouns",
+    "46A": "Indefinite Pronouns",
+    "47A": "Intensifiers and Reflexive Pronouns",
+    "48A": "Person Marking on Adpositions",
+    "49A": "Number of Cases",
+    "50A": "Asymmetrical Case-Marking",
+    "51A": "Position of Case Affixes",
+    "52A": "Comitatives and Instrumentals",
+    "53A": "Ordinal Numerals",
+    "54A": "Distributive Numerals",
+    "55A": "Numeral Classifiers",
+    "56A": "Conjunctions and Universal Quantifiers",
+    "57A": "Position of Pronominal Possessive Affixes",
+    "58A": "Obligatory Possessive Inflection",
+    "58B": "Number of Possessive Nouns",
+    "59A": "Possessive Classification",
+    "60A": "Genitives, Adjectives and Relative Clauses",
+    "61A": "Adjectives without Nouns",
+    "62A": "Action Nominal Constructions",
+    "63A": "Noun Phrase Conjunction",
+    "64A": "Nominal and Verbal Conjunction",
+    "65A": "Perfective/Imperfective Aspect",
+    "66A": "The Past Tense",
+    "67A": "The Future Tense",
+    "68A": "The Perfect",
+    "69A": "Position of Tense-Aspect Affixes",
+    "70A": "The Morphological Imperative",
+    "71A": "The Prohibitive",
+    "72A": "Imperative-Hortative Systems",
+    "73A": "The Optative",
+    "74A": "Situational Possibility",
+    "75A": "Epistemic Possibility",
+    "76A": "Overlap between Situational and Epistemic Modal Marking",
+    "77A": "Semantic Distinctions of Evidentiality",
+    "78A": "Coding of Evidentiality",
+    "79A": "Suppletion According to Tense and Aspect",
+    "79B": "Suppletion in Imperatives and Hortatives",
+    "80A": "Verbal Number and Suppletion",
+    "81A": "Order of Subject, Object and Verb",
+    "81B": "Languages with two Dominant Orders of Subject, Object, and Verb",
+    "82A": "Order of Subject and Verb",
+    "83A": "Order of Object and Verb",
+    "84A": "Order of Object, Oblique, and Verb",
+    "85A": "Order of Adposition and Noun Phrase",
+    "86A": "Order of Genitive and Noun",
+    "87A": "Order of Adjective and Noun",
+    "88A": "Order of Demonstrative and Noun",
+    "89A": "Order of Numeral and Noun",
+    "90A": "Order of Relative Clause and Noun",
+    "90B": "Prenominal relative clauses",
+    "90C": "Postnominal relative clauses",
+    "90D": "Internally-headed relative clauses",
+    "90E": "Correlative relative clauses",
+    "90F": "Adjoined relative clauses",
+    "90G": "Double-headed relative clauses",
+    "91A": "Order of Degree Word and Adjective",
+    "92A": "Position of Polar Question Particles",
+    "93A": "Position of Interrogative Phrases in Content Questions",
+    "94A": "Order of Adverbial Subordinator and Clause",
+    "95A": "Relationship between the Order of Object and Verb and the Order of Adposition and Noun Phrase",
+    "96A": "Relationship between the Order of Object and Verb and the Order of Relative Clause and Noun",
+    "97A": "Relationship between the Order of Object and Verb and the Order of Adjective and Noun",
+    "98A": "Alignment of Case Marking of Full Noun Phrases",
+    "99A": "Alignment of Case Marking of Pronouns",
+    "100A": "Alignment of Verbal Person Marking",
+    "101A": "Expression of Pronominal Subjects",
+    "102A": "Verbal Person Marking",
+    "103A": "Third Person Zero of Verbal Person Marking",
+    "104A": "Order of Person Markers on the Verb",
+    "105A": "Ditransitive Constructions: The Verb 'Give'",
+    "106A": "Reciprocal Constructions",
+    "107A": "Passive Constructions",
+    "108A": "Antipassive Constructions",
+    "108B": "Productivity of the Antipassive Construction",
+    "109A": "Applicative Constructions",
+    "109B": "Other Roles of Applied Objects",
+    "110A": "Periphrastic Causative Constructions",
+    "111A": "Nonperiphrastic Causative Constructions",
+    "112A": "Negative Morphemes",
+    "113A": "Symmetric and Asymmetric Standard Negation",
+    "114A": "Subtypes of Asymmetric Standard Negation",
+    "115A": "Negative Indefinite Pronouns and Predicate Negation",
+    "116A": "Polar Questions",
+    "117A": "Predicative Possession",
+    "118A": "Predicative Adjectives",
+    "119A": "Nominal and Locational Predication",
+    "120A": "Zero Copula for Predicate Nominals",
+    "121A": "Comparative Constructions",
+    "122A": "Relativization on Subjects",
+    "123A": "Relativization on Obliques",
+    "124A": "'Want' Complement Subjects",
+    "125A": "Purpose Clauses",
+    "126A": "'When' Clauses",
+    "127A": "Reason Clauses",
+    "128A": "Utterance Complement Clauses",
+    "129A": "Hand and Arm",
+    "130A": "Finger and Hand",
+    "130B": "Cultural Categories of Languages with Identity of 'Finger' and 'Hand'",
+    "131A": "Numeral Bases",
+    "132A": "Number of Non-Derived Basic Colour Categories",
+    "133A": "Number of Basic Colour Categories",
+    "134A": "Green and Blue",
+    "135A": "Red and Yellow",
+    "136A": "M-T Pronouns",
+    "136B": "M in First Person Singular",
+    "137A": "N-M Pronouns",
+    "137B": "M in Second Person Singular",
+    "138A": "Tea",
+    "139A": "Irregular Negatives in Sign Languages",
+    "140A": "Question Particles in Sign Languages",
+    "141A": "Writing Systems",
+    "142A": "Para-Linguistic Usages of Clicks",
+    "143A": "Order of Negative Morpheme and Verb",
+    "143B": "Obligatory Double Negation",
+    "143C": "Optional Double Negation",
+    "143D": "Optional Triple Negation",
+    "143E": "Preverbal Negative Morphemes",
+    "143F": "Postverbal Negative Morphemes",
+    "143G": "Minor morphological means of signaling negation",
+    "144A": "Position of Negative Word With Respect to Subject, Object, and Verb",
+    "144B": "Position of negative words relative to beginning and end of clause and with respect to adjacency to verb",
+    "144C": "Languages with different word order in negative clauses",
+    "144D": "The Position of Negative Morphemes in SVO Languages",
+    "144E": "Multiple Negative Constructions in SVO Languages",
+    "144F": "Obligatory Double Negation in SVO languages",
+    "144G": "Optional Double Negation in SVO languages",
+    "144H": "NegSVO Order",
+    "144I": "SNegVO Order",
+    "144J": "SVNegO Order",
+    "144K": "SVONeg Order",
+    "144L": "The Position of Negative Morphemes in SOV Languages",
+    "144M": "Multiple Negative Constructions in SOV Languages",
+    "144N": "Obligatory Double Negation in SOV languages",
+    "144O": "Optional Double Negation in SOV languages",
+    "144P": "NegSOV Order",
+    "144Q": "SNegOV Order",
+    "144R": "SONegV Order",
+    "144S": "SOVNeg Order",
+    "144T": "The Position of Negative Morphemes in Verb-Initial Languages",
+    "144U": "Double negation in verb-initial languages",
+    "144V": "Verb-Initial with Preverbal Negative",
+    "144W": "Verb-Initial with Negative that is Immediately Postverbal or between Subject and Object",
+    "144X": "Verb-Initial with Clause-Final Negative",
+    "144Y": "The Position of Negative Morphemes in Object-Initial Languages"
+  },
+  "languages": {
+    "tur": {
+      "name": "tur",
+      "branch": "Oğuz",
+      "mvp": true,
+      "values": {
+        "1A": {
+          "code": "1A-3",
+          "label": "Average"
+        },
+        "2A": {
+          "code": "2A-3",
+          "label": "Large (7-14)"
+        },
+        "3A": {
+          "code": "3A-3",
+          "label": "Average"
+        },
+        "4A": {
+          "code": "4A-4",
+          "label": "In both plosives and fricatives"
+        },
+        "5A": {
+          "code": "5A-2",
+          "label": "None missing in /p t k b d g/"
+        },
+        "6A": {
+          "code": "6A-1",
+          "label": "None"
+        },
+        "7A": {
+          "code": "7A-1",
+          "label": "No glottalized consonants"
+        },
+        "8A": {
+          "code": "8A-2",
+          "label": "/l/, no obstruent laterals"
+        },
+        "9A": {
+          "code": "9A-3",
+          "label": "No velar nasal"
+        },
+        "10A": {
+          "code": "10A-2",
+          "label": "Contrast absent"
+        },
+        "11A": {
+          "code": "11A-2",
+          "label": "High and mid"
+        },
+        "12A": {
+          "code": "12A-2",
+          "label": "Moderately complex"
+        },
+        "13A": {
+          "code": "13A-1",
+          "label": "No tones"
+        },
+        "14A": {
+          "code": "14A-1",
+          "label": "No fixed stress"
+        },
+        "15A": {
+          "code": "15A-5",
+          "label": "Unbounded: Stress can be anywhere"
+        },
+        "16A": {
+          "code": "16A-6",
+          "label": "Lexical stress"
+        },
+        "17A": {
+          "code": "17A-5",
+          "label": "No rhythmic stress"
+        },
+        "18A": {
+          "code": "18A-1",
+          "label": "All present"
+        },
+        "19A": {
+          "code": "19A-1",
+          "label": "None"
+        },
+        "20A": {
+          "code": "20A-1",
+          "label": "Exclusively concatenative"
+        },
+        "21A": {
+          "code": "21A-1",
+          "label": "Monoexponential case"
+        },
+        "21B": {
+          "code": "21B-1",
+          "label": "monoexponential TAM"
+        },
+        "22A": {
+          "code": "22A-4",
+          "label": "6-7 categories per word"
+        },
+        "23A": {
+          "code": "23A-2",
+          "label": "Dependent marking"
+        },
+        "24A": {
+          "code": "24A-3",
+          "label": "Double marking"
+        },
+        "25A": {
+          "code": "25A-5",
+          "label": "Inconsistent or other"
+        },
+        "25B": {
+          "code": "25B-2",
+          "label": "Non-zero marking"
+        },
+        "26A": {
+          "code": "26A-2",
+          "label": "Strongly suffixing"
+        },
+        "27A": {
+          "code": "27A-1",
+          "label": "Productive full and partial reduplication"
+        },
+        "28A": {
+          "code": "28A-4",
+          "label": "No syncretism"
+        },
+        "29A": {
+          "code": "29A-3",
+          "label": "Not syncretic"
+        },
+        "30A": {
+          "code": "30A-1",
+          "label": "None"
+        },
+        "31A": {
+          "code": "31A-1",
+          "label": "No gender"
+        },
+        "32A": {
+          "code": "32A-1",
+          "label": "No gender"
+        },
+        "33A": {
+          "code": "33A-2",
+          "label": "Plural suffix"
+        },
+        "34A": {
+          "code": "34A-6",
+          "label": "All nouns, always obligatory"
+        },
+        "35A": {
+          "code": "35A-8",
+          "label": "Person stem + nominal plural affix"
+        },
+        "36A": {
+          "code": "36A-1",
+          "label": "Associative same as additive plural"
+        },
+        "37A": {
+          "code": "37A-4",
+          "label": "No definite, but indefinite article"
+        },
+        "38A": {
+          "code": "38A-2",
+          "label": "Indefinite word same as 'one'"
+        },
+        "39A": {
+          "code": "39A-3",
+          "label": "No inclusive/exclusive"
+        },
+        "40A": {
+          "code": "40A-3",
+          "label": "No inclusive/exclusive"
+        },
+        "41A": {
+          "code": "41A-2",
+          "label": "Two-way contrast"
+        },
+        "42A": {
+          "code": "42A-3",
+          "label": "Different inflection"
+        },
+        "43A": {
+          "code": "43A-3",
+          "label": "Related to remote demonstratives"
+        },
+        "44A": {
+          "code": "44A-6",
+          "label": "No gender distinctions"
+        },
+        "45A": {
+          "code": "45A-2",
+          "label": "Binary politeness distinction"
+        },
+        "46A": {
+          "code": "46A-2",
+          "label": "Generic-noun-based"
+        },
+        "47A": {
+          "code": "47A-1",
+          "label": "Identical"
+        },
+        "48A": {
+          "code": "48A-2",
+          "label": "No person marking"
+        },
+        "49A": {
+          "code": "49A-6",
+          "label": "6-7 cases"
+        },
+        "50A": {
+          "code": "50A-2",
+          "label": "Symmetrical"
+        },
+        "51A": {
+          "code": "51A-1",
+          "label": "Case suffixes"
+        },
+        "52A": {
+          "code": "52A-1",
+          "label": "Identity"
+        },
+        "53A": {
+          "code": "53A-5",
+          "label": "First/one-th, two-th, three-th"
+        },
+        "54A": {
+          "code": "54A-4",
+          "label": "Marked by suffix"
+        },
+        "55A": {
+          "code": "55A-2",
+          "label": "Optional"
+        },
+        "56A": {
+          "code": "56A-1",
+          "label": "Formally different"
+        },
+        "57A": {
+          "code": "57A-2",
+          "label": "Possessive suffixes"
+        },
+        "58A": {
+          "code": "58A-2",
+          "label": "Absent"
+        },
+        "58B": {
+          "code": "58B-1",
+          "label": "None reported"
+        },
+        "59A": {
+          "code": "59A-1",
+          "label": "No possessive classification"
+        },
+        "60A": {
+          "code": "60A-6",
+          "label": "Highly differentiated"
+        },
+        "61A": {
+          "code": "61A-2",
+          "label": "Without marking"
+        },
+        "62A": {
+          "code": "62A-2",
+          "label": "Possessive-Accusative"
+        },
+        "63A": {
+          "code": "63A-1",
+          "label": "'And' different from 'with'"
+        },
+        "64A": {
+          "code": "64A-1",
+          "label": "Identity"
+        },
+        "65A": {
+          "code": "65A-1",
+          "label": "Grammatical marking"
+        },
+        "66A": {
+          "code": "66A-1",
+          "label": "Present, no remoteness distinctions"
+        },
+        "67A": {
+          "code": "67A-1",
+          "label": "Inflectional future exists"
+        },
+        "68A": {
+          "code": "68A-4",
+          "label": "No perfect"
+        },
+        "69A": {
+          "code": "69A-2",
+          "label": "Tense-aspect suffixes"
+        },
+        "70A": {
+          "code": "70A-1",
+          "label": "Second singular and second plural"
+        },
+        "71A": {
+          "code": "71A-1",
+          "label": "Normal imperative + normal negative"
+        },
+        "72A": {
+          "code": "72A-1",
+          "label": "Maximal system"
+        },
+        "73A": {
+          "code": "73A-2",
+          "label": "Inflectional optative absent"
+        },
+        "74A": {
+          "code": "74A-1",
+          "label": "Affixes on verbs"
+        },
+        "75A": {
+          "code": "75A-2",
+          "label": "Affixes on verbs"
+        },
+        "76A": {
+          "code": "76A-1",
+          "label": "Overlap for both possibility and necessity"
+        },
+        "77A": {
+          "code": "77A-3",
+          "label": "Direct and indirect"
+        },
+        "78A": {
+          "code": "78A-3",
+          "label": "Part of the tense system"
+        },
+        "79A": {
+          "code": "79A-1",
+          "label": "Tense"
+        },
+        "79B": {
+          "code": "79B-5",
+          "label": "None (= no suppletive imperatives reported in the reference material)"
+        },
+        "80A": {
+          "code": "80A-1",
+          "label": "None"
+        },
+        "81A": {
+          "code": "81A-1",
+          "label": "SOV"
+        },
+        "82A": {
+          "code": "82A-1",
+          "label": "SV"
+        },
+        "83A": {
+          "code": "83A-1",
+          "label": "OV"
+        },
+        "84A": {
+          "code": "84A-3",
+          "label": "XOV"
+        },
+        "85A": {
+          "code": "85A-1",
+          "label": "Postpositions"
+        },
+        "86A": {
+          "code": "86A-1",
+          "label": "Genitive-Noun"
+        },
+        "87A": {
+          "code": "87A-1",
+          "label": "Adjective-Noun"
+        },
+        "88A": {
+          "code": "88A-1",
+          "label": "Demonstrative-Noun"
+        },
+        "89A": {
+          "code": "89A-1",
+          "label": "Numeral-Noun"
+        },
+        "90A": {
+          "code": "90A-2",
+          "label": "Relative clause-Noun"
+        },
+        "90B": {
+          "code": "90B-1",
+          "label": "Relative clause-Noun (RelN) dominant"
+        },
+        "91A": {
+          "code": "91A-1",
+          "label": "Degree word-Adjective"
+        },
+        "92A": {
+          "code": "92A-2",
+          "label": "Final"
+        },
+        "93A": {
+          "code": "93A-2",
+          "label": "Not initial interrogative phrase"
+        },
+        "94A": {
+          "code": "94A-5",
+          "label": "Mixed"
+        },
+        "95A": {
+          "code": "95A-1",
+          "label": "OV and Postpositions"
+        },
+        "96A": {
+          "code": "96A-1",
+          "label": "OV and RelN"
+        },
+        "97A": {
+          "code": "97A-1",
+          "label": "OV and AdjN"
+        },
+        "98A": {
+          "code": "98A-2",
+          "label": "Nominative - accusative (standard)"
+        },
+        "99A": {
+          "code": "99A-2",
+          "label": "Nominative - accusative (standard)"
+        },
+        "100A": {
+          "code": "100A-2",
+          "label": "Accusative"
+        },
+        "101A": {
+          "code": "101A-2",
+          "label": "Subject affixes on verb"
+        },
+        "102A": {
+          "code": "102A-2",
+          "label": "Only the A argument"
+        },
+        "103A": {
+          "code": "103A-4",
+          "label": "Zero in all 3sg forms"
+        },
+        "104A": {
+          "code": "104A-1",
+          "label": "A and P do not or do not both occur on the verb"
+        },
+        "105A": {
+          "code": "105A-1",
+          "label": "Indirect-object construction"
+        },
+        "106A": {
+          "code": "106A-2",
+          "label": "Distinct from reflexive"
+        },
+        "107A": {
+          "code": "107A-1",
+          "label": "Present"
+        },
+        "108A": {
+          "code": "108A-3",
+          "label": "No antipassive"
+        },
+        "108B": {
+          "code": "108B-4",
+          "label": "no antipassive"
+        },
+        "109A": {
+          "code": "109A-8",
+          "label": "No applicative construction"
+        },
+        "109B": {
+          "code": "109B-5",
+          "label": "No applicative construction"
+        },
+        "110A": {
+          "code": "110A-2",
+          "label": "Purposive but no sequential"
+        },
+        "111A": {
+          "code": "111A-2",
+          "label": "Morphological but no compound"
+        },
+        "112A": {
+          "code": "112A-1",
+          "label": "Negative affix"
+        },
+        "113A": {
+          "code": "113A-3",
+          "label": "Both"
+        },
+        "114A": {
+          "code": "114A-3",
+          "label": "A/Cat"
+        },
+        "115A": {
+          "code": "115A-1",
+          "label": "Predicate negation also present"
+        },
+        "116A": {
+          "code": "116A-1",
+          "label": "Question particle"
+        },
+        "117A": {
+          "code": "117A-2",
+          "label": "Genitive"
+        },
+        "118A": {
+          "code": "118A-2",
+          "label": "Nonverbal encoding"
+        },
+        "119A": {
+          "code": "119A-2",
+          "label": "Identical"
+        },
+        "120A": {
+          "code": "120A-1",
+          "label": "Impossible"
+        },
+        "121A": {
+          "code": "121A-1",
+          "label": "Locational"
+        },
+        "122A": {
+          "code": "122A-4",
+          "label": "Gap"
+        },
+        "123A": {
+          "code": "123A-4",
+          "label": "Gap"
+        },
+        "124A": {
+          "code": "124A-1",
+          "label": "Subject is left implicit"
+        },
+        "125A": {
+          "code": "125A-3",
+          "label": "Deranked"
+        },
+        "126A": {
+          "code": "126A-3",
+          "label": "Deranked"
+        },
+        "127A": {
+          "code": "127A-2",
+          "label": "Balanced/deranked"
+        },
+        "128A": {
+          "code": "128A-2",
+          "label": "Balanced/deranked"
+        },
+        "129A": {
+          "code": "129A-2",
+          "label": "Different"
+        },
+        "130A": {
+          "code": "130A-2",
+          "label": "Different"
+        },
+        "131A": {
+          "code": "131A-1",
+          "label": "Decimal"
+        },
+        "136A": {
+          "code": "136A-2",
+          "label": "M-T pronouns, paradigmatic"
+        },
+        "136B": {
+          "code": "136B-2",
+          "label": "m in first person singular"
+        },
+        "137A": {
+          "code": "137A-1",
+          "label": "No N-M pronouns"
+        },
+        "137B": {
+          "code": "137B-1",
+          "label": "No m in second person singular"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        },
+        "142A": {
+          "code": "142A-1",
+          "label": "Logical meanings"
+        },
+        "143A": {
+          "code": "143A-4",
+          "label": "[V-Neg]"
+        },
+        "143E": {
+          "code": "143E-4",
+          "label": "None"
+        },
+        "143F": {
+          "code": "143F-2",
+          "label": "[V-Neg]"
+        },
+        "143G": {
+          "code": "143G-4",
+          "label": "None"
+        },
+        "144A": {
+          "code": "144A-20",
+          "label": "MorphNeg"
+        },
+        "144L": {
+          "code": "144L-6",
+          "label": "SO[V-Neg]"
+        },
+        "144P": {
+          "code": "144P-4",
+          "label": "No NegSOV"
+        },
+        "144Q": {
+          "code": "144Q-4",
+          "label": "No SNegOV"
+        },
+        "144R": {
+          "code": "144R-8",
+          "label": "No SONegV"
+        },
+        "144S": {
+          "code": "144S-2",
+          "label": "Suffix&NoDoubleNeg"
+        }
+      }
+    },
+    "azj": {
+      "name": "azj",
+      "branch": "Oğuz",
+      "mvp": true,
+      "values": {
+        "1A": {
+          "code": "1A-3",
+          "label": "Average"
+        },
+        "2A": {
+          "code": "2A-3",
+          "label": "Large (7-14)"
+        },
+        "3A": {
+          "code": "3A-2",
+          "label": "Moderately low"
+        },
+        "4A": {
+          "code": "4A-4",
+          "label": "In both plosives and fricatives"
+        },
+        "5A": {
+          "code": "5A-2",
+          "label": "None missing in /p t k b d g/"
+        },
+        "6A": {
+          "code": "6A-1",
+          "label": "None"
+        },
+        "7A": {
+          "code": "7A-1",
+          "label": "No glottalized consonants"
+        },
+        "8A": {
+          "code": "8A-2",
+          "label": "/l/, no obstruent laterals"
+        },
+        "9A": {
+          "code": "9A-3",
+          "label": "No velar nasal"
+        },
+        "11A": {
+          "code": "11A-2",
+          "label": "High and mid"
+        },
+        "12A": {
+          "code": "12A-2",
+          "label": "Moderately complex"
+        },
+        "13A": {
+          "code": "13A-1",
+          "label": "No tones"
+        },
+        "18A": {
+          "code": "18A-1",
+          "label": "All present"
+        },
+        "19A": {
+          "code": "19A-1",
+          "label": "None"
+        },
+        "26A": {
+          "code": "26A-2",
+          "label": "Strongly suffixing"
+        },
+        "33A": {
+          "code": "33A-2",
+          "label": "Plural suffix"
+        },
+        "46A": {
+          "code": "46A-1",
+          "label": "Interrogative-based"
+        },
+        "51A": {
+          "code": "51A-1",
+          "label": "Case suffixes"
+        },
+        "53A": {
+          "code": "53A-5",
+          "label": "First/one-th, two-th, three-th"
+        },
+        "55A": {
+          "code": "55A-2",
+          "label": "Optional"
+        },
+        "57A": {
+          "code": "57A-2",
+          "label": "Possessive suffixes"
+        },
+        "65A": {
+          "code": "65A-1",
+          "label": "Grammatical marking"
+        },
+        "66A": {
+          "code": "66A-1",
+          "label": "Present, no remoteness distinctions"
+        },
+        "67A": {
+          "code": "67A-1",
+          "label": "Inflectional future exists"
+        },
+        "68A": {
+          "code": "68A-3",
+          "label": "Other perfect"
+        },
+        "69A": {
+          "code": "69A-2",
+          "label": "Tense-aspect suffixes"
+        },
+        "73A": {
+          "code": "73A-1",
+          "label": "Inflectional optative present"
+        },
+        "81A": {
+          "code": "81A-1",
+          "label": "SOV"
+        },
+        "82A": {
+          "code": "82A-1",
+          "label": "SV"
+        },
+        "83A": {
+          "code": "83A-1",
+          "label": "OV"
+        },
+        "86A": {
+          "code": "86A-1",
+          "label": "Genitive-Noun"
+        },
+        "87A": {
+          "code": "87A-1",
+          "label": "Adjective-Noun"
+        },
+        "89A": {
+          "code": "89A-1",
+          "label": "Numeral-Noun"
+        },
+        "92A": {
+          "code": "92A-2",
+          "label": "Final"
+        },
+        "93A": {
+          "code": "93A-2",
+          "label": "Not initial interrogative phrase"
+        },
+        "97A": {
+          "code": "97A-1",
+          "label": "OV and AdjN"
+        },
+        "112A": {
+          "code": "112A-1",
+          "label": "Negative affix"
+        },
+        "116A": {
+          "code": "116A-1",
+          "label": "Question particle"
+        },
+        "129A": {
+          "code": "129A-1",
+          "label": "Identical"
+        },
+        "130A": {
+          "code": "130A-2",
+          "label": "Different"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        },
+        "143A": {
+          "code": "143A-4",
+          "label": "[V-Neg]"
+        },
+        "143E": {
+          "code": "143E-4",
+          "label": "None"
+        },
+        "143F": {
+          "code": "143F-2",
+          "label": "[V-Neg]"
+        },
+        "143G": {
+          "code": "143G-4",
+          "label": "None"
+        },
+        "144A": {
+          "code": "144A-20",
+          "label": "MorphNeg"
+        },
+        "144L": {
+          "code": "144L-6",
+          "label": "SO[V-Neg]"
+        },
+        "144P": {
+          "code": "144P-4",
+          "label": "No NegSOV"
+        },
+        "144Q": {
+          "code": "144Q-4",
+          "label": "No SNegOV"
+        },
+        "144R": {
+          "code": "144R-8",
+          "label": "No SONegV"
+        },
+        "144S": {
+          "code": "144S-2",
+          "label": "Suffix&NoDoubleNeg"
+        }
+      }
+    },
+    "tuk": {
+      "name": "tuk",
+      "branch": "Oğuz",
+      "mvp": false,
+      "values": {
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "27A": {
+          "code": "27A-1",
+          "label": "Productive full and partial reduplication"
+        },
+        "46A": {
+          "code": "46A-4",
+          "label": "Mixed"
+        },
+        "53A": {
+          "code": "53A-4",
+          "label": "One-th, two-th, three-th"
+        },
+        "81A": {
+          "code": "81A-1",
+          "label": "SOV"
+        },
+        "82A": {
+          "code": "82A-1",
+          "label": "SV"
+        },
+        "83A": {
+          "code": "83A-1",
+          "label": "OV"
+        },
+        "85A": {
+          "code": "85A-1",
+          "label": "Postpositions"
+        },
+        "86A": {
+          "code": "86A-1",
+          "label": "Genitive-Noun"
+        },
+        "87A": {
+          "code": "87A-1",
+          "label": "Adjective-Noun"
+        },
+        "88A": {
+          "code": "88A-1",
+          "label": "Demonstrative-Noun"
+        },
+        "89A": {
+          "code": "89A-1",
+          "label": "Numeral-Noun"
+        },
+        "90A": {
+          "code": "90A-2",
+          "label": "Relative clause-Noun"
+        },
+        "90B": {
+          "code": "90B-1",
+          "label": "Relative clause-Noun (RelN) dominant"
+        },
+        "95A": {
+          "code": "95A-1",
+          "label": "OV and Postpositions"
+        },
+        "96A": {
+          "code": "96A-1",
+          "label": "OV and RelN"
+        },
+        "97A": {
+          "code": "97A-1",
+          "label": "OV and AdjN"
+        },
+        "101A": {
+          "code": "101A-2",
+          "label": "Subject affixes on verb"
+        },
+        "129A": {
+          "code": "129A-1",
+          "label": "Identical"
+        },
+        "130A": {
+          "code": "130A-2",
+          "label": "Different"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        }
+      }
+    },
+    "kaz": {
+      "name": "kaz",
+      "branch": "Kıpçak",
+      "mvp": true,
+      "values": {
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "36A": {
+          "code": "36A-1",
+          "label": "Associative same as additive plural"
+        },
+        "46A": {
+          "code": "46A-4",
+          "label": "Mixed"
+        },
+        "53A": {
+          "code": "53A-4",
+          "label": "One-th, two-th, three-th"
+        },
+        "73A": {
+          "code": "73A-2",
+          "label": "Inflectional optative absent"
+        },
+        "115A": {
+          "code": "115A-1",
+          "label": "Predicate negation also present"
+        },
+        "129A": {
+          "code": "129A-1",
+          "label": "Identical"
+        },
+        "130A": {
+          "code": "130A-2",
+          "label": "Different"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        }
+      }
+    },
+    "kir": {
+      "name": "kir",
+      "branch": "Kıpçak",
+      "mvp": true,
+      "values": {
+        "1A": {
+          "code": "1A-3",
+          "label": "Average"
+        },
+        "2A": {
+          "code": "2A-3",
+          "label": "Large (7-14)"
+        },
+        "3A": {
+          "code": "3A-3",
+          "label": "Average"
+        },
+        "4A": {
+          "code": "4A-4",
+          "label": "In both plosives and fricatives"
+        },
+        "5A": {
+          "code": "5A-2",
+          "label": "None missing in /p t k b d g/"
+        },
+        "6A": {
+          "code": "6A-2",
+          "label": "Uvular stops only"
+        },
+        "7A": {
+          "code": "7A-1",
+          "label": "No glottalized consonants"
+        },
+        "8A": {
+          "code": "8A-2",
+          "label": "/l/, no obstruent laterals"
+        },
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "11A": {
+          "code": "11A-2",
+          "label": "High and mid"
+        },
+        "12A": {
+          "code": "12A-3",
+          "label": "Complex"
+        },
+        "13A": {
+          "code": "13A-1",
+          "label": "No tones"
+        },
+        "18A": {
+          "code": "18A-1",
+          "label": "All present"
+        },
+        "19A": {
+          "code": "19A-1",
+          "label": "None"
+        },
+        "26A": {
+          "code": "26A-2",
+          "label": "Strongly suffixing"
+        },
+        "30A": {
+          "code": "30A-1",
+          "label": "None"
+        },
+        "31A": {
+          "code": "31A-1",
+          "label": "No gender"
+        },
+        "32A": {
+          "code": "32A-1",
+          "label": "No gender"
+        },
+        "33A": {
+          "code": "33A-2",
+          "label": "Plural suffix"
+        },
+        "38A": {
+          "code": "38A-2",
+          "label": "Indefinite word same as 'one'"
+        },
+        "46A": {
+          "code": "46A-1",
+          "label": "Interrogative-based"
+        },
+        "51A": {
+          "code": "51A-1",
+          "label": "Case suffixes"
+        },
+        "53A": {
+          "code": "53A-4",
+          "label": "One-th, two-th, three-th"
+        },
+        "54A": {
+          "code": "54A-4",
+          "label": "Marked by suffix"
+        },
+        "57A": {
+          "code": "57A-2",
+          "label": "Possessive suffixes"
+        },
+        "69A": {
+          "code": "69A-2",
+          "label": "Tense-aspect suffixes"
+        },
+        "85A": {
+          "code": "85A-1",
+          "label": "Postpositions"
+        },
+        "87A": {
+          "code": "87A-1",
+          "label": "Adjective-Noun"
+        },
+        "89A": {
+          "code": "89A-1",
+          "label": "Numeral-Noun"
+        },
+        "92A": {
+          "code": "92A-2",
+          "label": "Final"
+        },
+        "101A": {
+          "code": "101A-2",
+          "label": "Subject affixes on verb"
+        },
+        "106A": {
+          "code": "106A-2",
+          "label": "Distinct from reflexive"
+        },
+        "108A": {
+          "code": "108A-3",
+          "label": "No antipassive"
+        },
+        "108B": {
+          "code": "108B-4",
+          "label": "no antipassive"
+        },
+        "109A": {
+          "code": "109A-8",
+          "label": "No applicative construction"
+        },
+        "109B": {
+          "code": "109B-5",
+          "label": "No applicative construction"
+        },
+        "116A": {
+          "code": "116A-1",
+          "label": "Question particle"
+        },
+        "129A": {
+          "code": "129A-2",
+          "label": "Different"
+        },
+        "130A": {
+          "code": "130A-2",
+          "label": "Different"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        }
+      }
+    },
+    "tat": {
+      "name": "tat",
+      "branch": "Kıpçak",
+      "mvp": true,
+      "values": {
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "26A": {
+          "code": "26A-2",
+          "label": "Strongly suffixing"
+        },
+        "33A": {
+          "code": "33A-2",
+          "label": "Plural suffix"
+        },
+        "36A": {
+          "code": "36A-2",
+          "label": "Unique affixal associative plural"
+        },
+        "37A": {
+          "code": "37A-5",
+          "label": "No definite or indefinite article"
+        },
+        "38A": {
+          "code": "38A-5",
+          "label": "No definite or indefinite article"
+        },
+        "46A": {
+          "code": "46A-1",
+          "label": "Interrogative-based"
+        },
+        "51A": {
+          "code": "51A-1",
+          "label": "Case suffixes"
+        },
+        "53A": {
+          "code": "53A-4",
+          "label": "One-th, two-th, three-th"
+        },
+        "54A": {
+          "code": "54A-4",
+          "label": "Marked by suffix"
+        },
+        "55A": {
+          "code": "55A-2",
+          "label": "Optional"
+        },
+        "56A": {
+          "code": "56A-2",
+          "label": "Formally similar, without interrogative"
+        },
+        "57A": {
+          "code": "57A-2",
+          "label": "Possessive suffixes"
+        },
+        "60A": {
+          "code": "60A-4",
+          "label": "Adjectives and relative clauses collapsed"
+        },
+        "61A": {
+          "code": "61A-2",
+          "label": "Without marking"
+        },
+        "69A": {
+          "code": "69A-2",
+          "label": "Tense-aspect suffixes"
+        },
+        "70A": {
+          "code": "70A-1",
+          "label": "Second singular and second plural"
+        },
+        "71A": {
+          "code": "71A-1",
+          "label": "Normal imperative + normal negative"
+        },
+        "72A": {
+          "code": "72A-1",
+          "label": "Maximal system"
+        },
+        "74A": {
+          "code": "74A-2",
+          "label": "Verbal constructions"
+        },
+        "75A": {
+          "code": "75A-3",
+          "label": "Other"
+        },
+        "81A": {
+          "code": "81A-1",
+          "label": "SOV"
+        },
+        "82A": {
+          "code": "82A-1",
+          "label": "SV"
+        },
+        "83A": {
+          "code": "83A-1",
+          "label": "OV"
+        },
+        "85A": {
+          "code": "85A-1",
+          "label": "Postpositions"
+        },
+        "86A": {
+          "code": "86A-1",
+          "label": "Genitive-Noun"
+        },
+        "87A": {
+          "code": "87A-1",
+          "label": "Adjective-Noun"
+        },
+        "88A": {
+          "code": "88A-1",
+          "label": "Demonstrative-Noun"
+        },
+        "89A": {
+          "code": "89A-1",
+          "label": "Numeral-Noun"
+        },
+        "90A": {
+          "code": "90A-2",
+          "label": "Relative clause-Noun"
+        },
+        "90B": {
+          "code": "90B-1",
+          "label": "Relative clause-Noun (RelN) dominant"
+        },
+        "91A": {
+          "code": "91A-1",
+          "label": "Degree word-Adjective"
+        },
+        "94A": {
+          "code": "94A-1",
+          "label": "Initial subordinator word"
+        },
+        "95A": {
+          "code": "95A-1",
+          "label": "OV and Postpositions"
+        },
+        "96A": {
+          "code": "96A-1",
+          "label": "OV and RelN"
+        },
+        "97A": {
+          "code": "97A-1",
+          "label": "OV and AdjN"
+        },
+        "101A": {
+          "code": "101A-2",
+          "label": "Subject affixes on verb"
+        },
+        "116A": {
+          "code": "116A-1",
+          "label": "Question particle"
+        },
+        "118A": {
+          "code": "118A-2",
+          "label": "Nonverbal encoding"
+        },
+        "119A": {
+          "code": "119A-2",
+          "label": "Identical"
+        },
+        "120A": {
+          "code": "120A-1",
+          "label": "Impossible"
+        },
+        "129A": {
+          "code": "129A-1",
+          "label": "Identical"
+        },
+        "130A": {
+          "code": "130A-2",
+          "label": "Different"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        }
+      }
+    },
+    "bak": {
+      "name": "bak",
+      "branch": "Kıpçak",
+      "mvp": true,
+      "values": {
+        "1A": {
+          "code": "1A-4",
+          "label": "Moderately large"
+        },
+        "2A": {
+          "code": "2A-3",
+          "label": "Large (7-14)"
+        },
+        "3A": {
+          "code": "3A-3",
+          "label": "Average"
+        },
+        "4A": {
+          "code": "4A-4",
+          "label": "In both plosives and fricatives"
+        },
+        "5A": {
+          "code": "5A-2",
+          "label": "None missing in /p t k b d g/"
+        },
+        "6A": {
+          "code": "6A-4",
+          "label": "Uvular stops and continuants"
+        },
+        "7A": {
+          "code": "7A-1",
+          "label": "No glottalized consonants"
+        },
+        "8A": {
+          "code": "8A-2",
+          "label": "/l/, no obstruent laterals"
+        },
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "11A": {
+          "code": "11A-2",
+          "label": "High and mid"
+        },
+        "12A": {
+          "code": "12A-3",
+          "label": "Complex"
+        },
+        "13A": {
+          "code": "13A-1",
+          "label": "No tones"
+        },
+        "14A": {
+          "code": "14A-7",
+          "label": "Ultimate"
+        },
+        "15A": {
+          "code": "15A-8",
+          "label": "Fixed stress (no weight-sensitivity)"
+        },
+        "16A": {
+          "code": "16A-1",
+          "label": "No weight"
+        },
+        "17A": {
+          "code": "17A-5",
+          "label": "No rhythmic stress"
+        },
+        "18A": {
+          "code": "18A-1",
+          "label": "All present"
+        },
+        "19A": {
+          "code": "19A-5",
+          "label": "'Th' sounds"
+        },
+        "26A": {
+          "code": "26A-2",
+          "label": "Strongly suffixing"
+        },
+        "33A": {
+          "code": "33A-2",
+          "label": "Plural suffix"
+        },
+        "36A": {
+          "code": "36A-1",
+          "label": "Associative same as additive plural"
+        },
+        "37A": {
+          "code": "37A-5",
+          "label": "No definite or indefinite article"
+        },
+        "38A": {
+          "code": "38A-5",
+          "label": "No definite or indefinite article"
+        },
+        "46A": {
+          "code": "46A-1",
+          "label": "Interrogative-based"
+        },
+        "51A": {
+          "code": "51A-1",
+          "label": "Case suffixes"
+        },
+        "53A": {
+          "code": "53A-4",
+          "label": "One-th, two-th, three-th"
+        },
+        "54A": {
+          "code": "54A-4",
+          "label": "Marked by suffix"
+        },
+        "56A": {
+          "code": "56A-2",
+          "label": "Formally similar, without interrogative"
+        },
+        "57A": {
+          "code": "57A-2",
+          "label": "Possessive suffixes"
+        },
+        "69A": {
+          "code": "69A-2",
+          "label": "Tense-aspect suffixes"
+        },
+        "70A": {
+          "code": "70A-1",
+          "label": "Second singular and second plural"
+        },
+        "71A": {
+          "code": "71A-1",
+          "label": "Normal imperative + normal negative"
+        },
+        "72A": {
+          "code": "72A-1",
+          "label": "Maximal system"
+        },
+        "73A": {
+          "code": "73A-2",
+          "label": "Inflectional optative absent"
+        },
+        "82A": {
+          "code": "82A-1",
+          "label": "SV"
+        },
+        "83A": {
+          "code": "83A-1",
+          "label": "OV"
+        },
+        "85A": {
+          "code": "85A-1",
+          "label": "Postpositions"
+        },
+        "86A": {
+          "code": "86A-1",
+          "label": "Genitive-Noun"
+        },
+        "87A": {
+          "code": "87A-1",
+          "label": "Adjective-Noun"
+        },
+        "88A": {
+          "code": "88A-1",
+          "label": "Demonstrative-Noun"
+        },
+        "89A": {
+          "code": "89A-1",
+          "label": "Numeral-Noun"
+        },
+        "90A": {
+          "code": "90A-2",
+          "label": "Relative clause-Noun"
+        },
+        "90B": {
+          "code": "90B-1",
+          "label": "Relative clause-Noun (RelN) dominant"
+        },
+        "91A": {
+          "code": "91A-1",
+          "label": "Degree word-Adjective"
+        },
+        "94A": {
+          "code": "94A-1",
+          "label": "Initial subordinator word"
+        },
+        "95A": {
+          "code": "95A-1",
+          "label": "OV and Postpositions"
+        },
+        "96A": {
+          "code": "96A-1",
+          "label": "OV and RelN"
+        },
+        "97A": {
+          "code": "97A-1",
+          "label": "OV and AdjN"
+        },
+        "101A": {
+          "code": "101A-2",
+          "label": "Subject affixes on verb"
+        },
+        "112A": {
+          "code": "112A-1",
+          "label": "Negative affix"
+        },
+        "116A": {
+          "code": "116A-1",
+          "label": "Question particle"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        },
+        "143A": {
+          "code": "143A-4",
+          "label": "[V-Neg]"
+        },
+        "143E": {
+          "code": "143E-4",
+          "label": "None"
+        },
+        "143F": {
+          "code": "143F-2",
+          "label": "[V-Neg]"
+        },
+        "143G": {
+          "code": "143G-4",
+          "label": "None"
+        },
+        "144A": {
+          "code": "144A-20",
+          "label": "MorphNeg"
+        },
+        "144L": {
+          "code": "144L-21",
+          "label": "SV&OV&[V-Neg]"
+        }
+      }
+    },
+    "uig": {
+      "name": "uig",
+      "branch": "Karluk",
+      "mvp": true,
+      "values": {
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "26A": {
+          "code": "26A-2",
+          "label": "Strongly suffixing"
+        },
+        "27A": {
+          "code": "27A-1",
+          "label": "Productive full and partial reduplication"
+        },
+        "33A": {
+          "code": "33A-2",
+          "label": "Plural suffix"
+        },
+        "36A": {
+          "code": "36A-1",
+          "label": "Associative same as additive plural"
+        },
+        "51A": {
+          "code": "51A-1",
+          "label": "Case suffixes"
+        },
+        "53A": {
+          "code": "53A-4",
+          "label": "One-th, two-th, three-th"
+        },
+        "54A": {
+          "code": "54A-4",
+          "label": "Marked by suffix"
+        },
+        "57A": {
+          "code": "57A-2",
+          "label": "Possessive suffixes"
+        },
+        "65A": {
+          "code": "65A-1",
+          "label": "Grammatical marking"
+        },
+        "66A": {
+          "code": "66A-2",
+          "label": "Present, 2-3 remoteness distinctions"
+        },
+        "67A": {
+          "code": "67A-2",
+          "label": "No inflectional future"
+        },
+        "68A": {
+          "code": "68A-3",
+          "label": "Other perfect"
+        },
+        "69A": {
+          "code": "69A-2",
+          "label": "Tense-aspect suffixes"
+        },
+        "81A": {
+          "code": "81A-1",
+          "label": "SOV"
+        },
+        "82A": {
+          "code": "82A-1",
+          "label": "SV"
+        },
+        "83A": {
+          "code": "83A-1",
+          "label": "OV"
+        },
+        "87A": {
+          "code": "87A-1",
+          "label": "Adjective-Noun"
+        },
+        "90A": {
+          "code": "90A-2",
+          "label": "Relative clause-Noun"
+        },
+        "90B": {
+          "code": "90B-1",
+          "label": "Relative clause-Noun (RelN) dominant"
+        },
+        "96A": {
+          "code": "96A-1",
+          "label": "OV and RelN"
+        },
+        "97A": {
+          "code": "97A-1",
+          "label": "OV and AdjN"
+        },
+        "101A": {
+          "code": "101A-1",
+          "label": "Obligatory pronouns in subject position"
+        },
+        "112A": {
+          "code": "112A-1",
+          "label": "Negative affix"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        },
+        "143A": {
+          "code": "143A-4",
+          "label": "[V-Neg]"
+        },
+        "143E": {
+          "code": "143E-4",
+          "label": "None"
+        },
+        "143F": {
+          "code": "143F-2",
+          "label": "[V-Neg]"
+        },
+        "143G": {
+          "code": "143G-4",
+          "label": "None"
+        },
+        "144A": {
+          "code": "144A-20",
+          "label": "MorphNeg"
+        },
+        "144L": {
+          "code": "144L-6",
+          "label": "SO[V-Neg]"
+        },
+        "144P": {
+          "code": "144P-4",
+          "label": "No NegSOV"
+        },
+        "144Q": {
+          "code": "144Q-4",
+          "label": "No SNegOV"
+        },
+        "144R": {
+          "code": "144R-8",
+          "label": "No SONegV"
+        },
+        "144S": {
+          "code": "144S-2",
+          "label": "Suffix&NoDoubleNeg"
+        }
+      }
+    },
+    "uzb": {
+      "name": "uzb",
+      "branch": "Karluk",
+      "mvp": true,
+      "values": {
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "26A": {
+          "code": "26A-2",
+          "label": "Strongly suffixing"
+        },
+        "30A": {
+          "code": "30A-1",
+          "label": "None"
+        },
+        "31A": {
+          "code": "31A-1",
+          "label": "No gender"
+        },
+        "32A": {
+          "code": "32A-1",
+          "label": "No gender"
+        },
+        "33A": {
+          "code": "33A-2",
+          "label": "Plural suffix"
+        },
+        "35A": {
+          "code": "35A-6",
+          "label": "Person-number stem + nominal plural affix"
+        },
+        "36A": {
+          "code": "36A-1",
+          "label": "Associative same as additive plural"
+        },
+        "46A": {
+          "code": "46A-1",
+          "label": "Interrogative-based"
+        },
+        "51A": {
+          "code": "51A-1",
+          "label": "Case suffixes"
+        },
+        "52A": {
+          "code": "52A-3",
+          "label": "Mixed"
+        },
+        "53A": {
+          "code": "53A-4",
+          "label": "One-th, two-th, three-th"
+        },
+        "56A": {
+          "code": "56A-2",
+          "label": "Formally similar, without interrogative"
+        },
+        "57A": {
+          "code": "57A-2",
+          "label": "Possessive suffixes"
+        },
+        "63A": {
+          "code": "63A-1",
+          "label": "'And' different from 'with'"
+        },
+        "69A": {
+          "code": "69A-2",
+          "label": "Tense-aspect suffixes"
+        },
+        "70A": {
+          "code": "70A-1",
+          "label": "Second singular and second plural"
+        },
+        "71A": {
+          "code": "71A-1",
+          "label": "Normal imperative + normal negative"
+        },
+        "72A": {
+          "code": "72A-1",
+          "label": "Maximal system"
+        },
+        "74A": {
+          "code": "74A-1",
+          "label": "Affixes on verbs"
+        },
+        "75A": {
+          "code": "75A-3",
+          "label": "Other"
+        },
+        "76A": {
+          "code": "76A-3",
+          "label": "No overlap"
+        },
+        "81A": {
+          "code": "81A-1",
+          "label": "SOV"
+        },
+        "82A": {
+          "code": "82A-1",
+          "label": "SV"
+        },
+        "83A": {
+          "code": "83A-1",
+          "label": "OV"
+        },
+        "86A": {
+          "code": "86A-1",
+          "label": "Genitive-Noun"
+        },
+        "87A": {
+          "code": "87A-1",
+          "label": "Adjective-Noun"
+        },
+        "88A": {
+          "code": "88A-1",
+          "label": "Demonstrative-Noun"
+        },
+        "89A": {
+          "code": "89A-1",
+          "label": "Numeral-Noun"
+        },
+        "90A": {
+          "code": "90A-2",
+          "label": "Relative clause-Noun"
+        },
+        "90B": {
+          "code": "90B-1",
+          "label": "Relative clause-Noun (RelN) dominant"
+        },
+        "91A": {
+          "code": "91A-1",
+          "label": "Degree word-Adjective"
+        },
+        "92A": {
+          "code": "92A-6",
+          "label": "No question particle"
+        },
+        "93A": {
+          "code": "93A-2",
+          "label": "Not initial interrogative phrase"
+        },
+        "94A": {
+          "code": "94A-1",
+          "label": "Initial subordinator word"
+        },
+        "96A": {
+          "code": "96A-1",
+          "label": "OV and RelN"
+        },
+        "97A": {
+          "code": "97A-1",
+          "label": "OV and AdjN"
+        },
+        "101A": {
+          "code": "101A-2",
+          "label": "Subject affixes on verb"
+        },
+        "108A": {
+          "code": "108A-3",
+          "label": "No antipassive"
+        },
+        "108B": {
+          "code": "108B-4",
+          "label": "no antipassive"
+        },
+        "109A": {
+          "code": "109A-8",
+          "label": "No applicative construction"
+        },
+        "109B": {
+          "code": "109B-5",
+          "label": "No applicative construction"
+        },
+        "111A": {
+          "code": "111A-2",
+          "label": "Morphological but no compound"
+        },
+        "112A": {
+          "code": "112A-1",
+          "label": "Negative affix"
+        },
+        "113A": {
+          "code": "113A-3",
+          "label": "Both"
+        },
+        "114A": {
+          "code": "114A-3",
+          "label": "A/Cat"
+        },
+        "116A": {
+          "code": "116A-2",
+          "label": "Interrogative verb morphology"
+        },
+        "117A": {
+          "code": "117A-1",
+          "label": "Locational"
+        },
+        "118A": {
+          "code": "118A-2",
+          "label": "Nonverbal encoding"
+        },
+        "119A": {
+          "code": "119A-2",
+          "label": "Identical"
+        },
+        "120A": {
+          "code": "120A-2",
+          "label": "Possible"
+        },
+        "121A": {
+          "code": "121A-1",
+          "label": "Locational"
+        },
+        "129A": {
+          "code": "129A-1",
+          "label": "Identical"
+        },
+        "130A": {
+          "code": "130A-2",
+          "label": "Different"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        },
+        "143A": {
+          "code": "143A-4",
+          "label": "[V-Neg]"
+        },
+        "143E": {
+          "code": "143E-4",
+          "label": "None"
+        },
+        "143F": {
+          "code": "143F-2",
+          "label": "[V-Neg]"
+        },
+        "143G": {
+          "code": "143G-4",
+          "label": "None"
+        },
+        "144A": {
+          "code": "144A-20",
+          "label": "MorphNeg"
+        },
+        "144L": {
+          "code": "144L-6",
+          "label": "SO[V-Neg]"
+        },
+        "144P": {
+          "code": "144P-4",
+          "label": "No NegSOV"
+        },
+        "144Q": {
+          "code": "144Q-4",
+          "label": "No SNegOV"
+        },
+        "144R": {
+          "code": "144R-8",
+          "label": "No SONegV"
+        },
+        "144S": {
+          "code": "144S-2",
+          "label": "Suffix&NoDoubleNeg"
+        }
+      }
+    },
+    "chv": {
+      "name": "chv",
+      "branch": "Ogur",
+      "mvp": true,
+      "values": {
+        "1A": {
+          "code": "1A-3",
+          "label": "Average"
+        },
+        "2A": {
+          "code": "2A-3",
+          "label": "Large (7-14)"
+        },
+        "3A": {
+          "code": "3A-2",
+          "label": "Moderately low"
+        },
+        "4A": {
+          "code": "4A-4",
+          "label": "In both plosives and fricatives"
+        },
+        "5A": {
+          "code": "5A-2",
+          "label": "None missing in /p t k b d g/"
+        },
+        "6A": {
+          "code": "6A-1",
+          "label": "None"
+        },
+        "7A": {
+          "code": "7A-1",
+          "label": "No glottalized consonants"
+        },
+        "8A": {
+          "code": "8A-2",
+          "label": "/l/, no obstruent laterals"
+        },
+        "9A": {
+          "code": "9A-3",
+          "label": "No velar nasal"
+        },
+        "11A": {
+          "code": "11A-2",
+          "label": "High and mid"
+        },
+        "12A": {
+          "code": "12A-3",
+          "label": "Complex"
+        },
+        "13A": {
+          "code": "13A-1",
+          "label": "No tones"
+        },
+        "14A": {
+          "code": "14A-1",
+          "label": "No fixed stress"
+        },
+        "15A": {
+          "code": "15A-5",
+          "label": "Unbounded: Stress can be anywhere"
+        },
+        "16A": {
+          "code": "16A-5",
+          "label": "Prominence"
+        },
+        "17A": {
+          "code": "17A-5",
+          "label": "No rhythmic stress"
+        },
+        "18A": {
+          "code": "18A-1",
+          "label": "All present"
+        },
+        "19A": {
+          "code": "19A-1",
+          "label": "None"
+        },
+        "26A": {
+          "code": "26A-2",
+          "label": "Strongly suffixing"
+        },
+        "30A": {
+          "code": "30A-1",
+          "label": "None"
+        },
+        "31A": {
+          "code": "31A-1",
+          "label": "No gender"
+        },
+        "32A": {
+          "code": "32A-1",
+          "label": "No gender"
+        },
+        "33A": {
+          "code": "33A-2",
+          "label": "Plural suffix"
+        },
+        "34A": {
+          "code": "34A-5",
+          "label": "All nouns, optional in inanimates"
+        },
+        "35A": {
+          "code": "35A-7",
+          "label": "Person stem + pronominal plural affix"
+        },
+        "36A": {
+          "code": "36A-1",
+          "label": "Associative same as additive plural"
+        },
+        "37A": {
+          "code": "37A-5",
+          "label": "No definite or indefinite article"
+        },
+        "38A": {
+          "code": "38A-5",
+          "label": "No definite or indefinite article"
+        },
+        "43A": {
+          "code": "43A-4",
+          "label": "Related to non-remote demonstratives"
+        },
+        "46A": {
+          "code": "46A-1",
+          "label": "Interrogative-based"
+        },
+        "49A": {
+          "code": "49A-6",
+          "label": "6-7 cases"
+        },
+        "50A": {
+          "code": "50A-2",
+          "label": "Symmetrical"
+        },
+        "51A": {
+          "code": "51A-1",
+          "label": "Case suffixes"
+        },
+        "53A": {
+          "code": "53A-4",
+          "label": "One-th, two-th, three-th"
+        },
+        "54A": {
+          "code": "54A-4",
+          "label": "Marked by suffix"
+        },
+        "55A": {
+          "code": "55A-1",
+          "label": "Absent"
+        },
+        "57A": {
+          "code": "57A-2",
+          "label": "Possessive suffixes"
+        },
+        "69A": {
+          "code": "69A-2",
+          "label": "Tense-aspect suffixes"
+        },
+        "70A": {
+          "code": "70A-1",
+          "label": "Second singular and second plural"
+        },
+        "71A": {
+          "code": "71A-2",
+          "label": "Normal imperative + special negative"
+        },
+        "72A": {
+          "code": "72A-4",
+          "label": "Neither type of system"
+        },
+        "73A": {
+          "code": "73A-2",
+          "label": "Inflectional optative absent"
+        },
+        "74A": {
+          "code": "74A-1",
+          "label": "Affixes on verbs"
+        },
+        "75A": {
+          "code": "75A-2",
+          "label": "Affixes on verbs"
+        },
+        "81A": {
+          "code": "81A-1",
+          "label": "SOV"
+        },
+        "82A": {
+          "code": "82A-1",
+          "label": "SV"
+        },
+        "83A": {
+          "code": "83A-1",
+          "label": "OV"
+        },
+        "84A": {
+          "code": "84A-4",
+          "label": "OXV"
+        },
+        "85A": {
+          "code": "85A-1",
+          "label": "Postpositions"
+        },
+        "86A": {
+          "code": "86A-1",
+          "label": "Genitive-Noun"
+        },
+        "87A": {
+          "code": "87A-1",
+          "label": "Adjective-Noun"
+        },
+        "88A": {
+          "code": "88A-1",
+          "label": "Demonstrative-Noun"
+        },
+        "89A": {
+          "code": "89A-1",
+          "label": "Numeral-Noun"
+        },
+        "90A": {
+          "code": "90A-2",
+          "label": "Relative clause-Noun"
+        },
+        "90B": {
+          "code": "90B-1",
+          "label": "Relative clause-Noun (RelN) dominant"
+        },
+        "91A": {
+          "code": "91A-1",
+          "label": "Degree word-Adjective"
+        },
+        "92A": {
+          "code": "92A-6",
+          "label": "No question particle"
+        },
+        "93A": {
+          "code": "93A-2",
+          "label": "Not initial interrogative phrase"
+        },
+        "94A": {
+          "code": "94A-2",
+          "label": "Final subordinator word"
+        },
+        "95A": {
+          "code": "95A-1",
+          "label": "OV and Postpositions"
+        },
+        "96A": {
+          "code": "96A-1",
+          "label": "OV and RelN"
+        },
+        "97A": {
+          "code": "97A-1",
+          "label": "OV and AdjN"
+        },
+        "111A": {
+          "code": "111A-2",
+          "label": "Morphological but no compound"
+        },
+        "112A": {
+          "code": "112A-1",
+          "label": "Negative affix"
+        },
+        "116A": {
+          "code": "116A-2",
+          "label": "Interrogative verb morphology"
+        },
+        "131A": {
+          "code": "131A-1",
+          "label": "Decimal"
+        },
+        "136A": {
+          "code": "136A-2",
+          "label": "M-T pronouns, paradigmatic"
+        },
+        "136B": {
+          "code": "136B-2",
+          "label": "m in first person singular"
+        },
+        "137A": {
+          "code": "137A-1",
+          "label": "No N-M pronouns"
+        },
+        "137B": {
+          "code": "137B-1",
+          "label": "No m in second person singular"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        },
+        "143A": {
+          "code": "143A-4",
+          "label": "[V-Neg]"
+        },
+        "143E": {
+          "code": "143E-4",
+          "label": "None"
+        },
+        "143F": {
+          "code": "143F-2",
+          "label": "[V-Neg]"
+        },
+        "143G": {
+          "code": "143G-4",
+          "label": "None"
+        },
+        "144A": {
+          "code": "144A-20",
+          "label": "MorphNeg"
+        },
+        "144L": {
+          "code": "144L-6",
+          "label": "SO[V-Neg]"
+        },
+        "144P": {
+          "code": "144P-4",
+          "label": "No NegSOV"
+        },
+        "144Q": {
+          "code": "144Q-4",
+          "label": "No SNegOV"
+        },
+        "144R": {
+          "code": "144R-8",
+          "label": "No SONegV"
+        },
+        "144S": {
+          "code": "144S-2",
+          "label": "Suffix&NoDoubleNeg"
+        }
+      }
+    },
+    "sah": {
+      "name": "sah",
+      "branch": "Sibirya",
+      "mvp": true,
+      "values": {
+        "1A": {
+          "code": "1A-3",
+          "label": "Average"
+        },
+        "2A": {
+          "code": "2A-3",
+          "label": "Large (7-14)"
+        },
+        "3A": {
+          "code": "3A-2",
+          "label": "Moderately low"
+        },
+        "4A": {
+          "code": "4A-4",
+          "label": "In both plosives and fricatives"
+        },
+        "5A": {
+          "code": "5A-2",
+          "label": "None missing in /p t k b d g/"
+        },
+        "6A": {
+          "code": "6A-1",
+          "label": "None"
+        },
+        "7A": {
+          "code": "7A-1",
+          "label": "No glottalized consonants"
+        },
+        "8A": {
+          "code": "8A-3",
+          "label": "Laterals, but no /l/, no obstruent laterals"
+        },
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "11A": {
+          "code": "11A-2",
+          "label": "High and mid"
+        },
+        "12A": {
+          "code": "12A-3",
+          "label": "Complex"
+        },
+        "13A": {
+          "code": "13A-1",
+          "label": "No tones"
+        },
+        "18A": {
+          "code": "18A-1",
+          "label": "All present"
+        },
+        "19A": {
+          "code": "19A-1",
+          "label": "None"
+        },
+        "26A": {
+          "code": "26A-2",
+          "label": "Strongly suffixing"
+        },
+        "30A": {
+          "code": "30A-1",
+          "label": "None"
+        },
+        "31A": {
+          "code": "31A-1",
+          "label": "No gender"
+        },
+        "32A": {
+          "code": "32A-1",
+          "label": "No gender"
+        },
+        "33A": {
+          "code": "33A-2",
+          "label": "Plural suffix"
+        },
+        "35A": {
+          "code": "35A-5",
+          "label": "Person-number stem + pronominal plural affix"
+        },
+        "46A": {
+          "code": "46A-1",
+          "label": "Interrogative-based"
+        },
+        "51A": {
+          "code": "51A-1",
+          "label": "Case suffixes"
+        },
+        "52A": {
+          "code": "52A-2",
+          "label": "Differentiation"
+        },
+        "53A": {
+          "code": "53A-6",
+          "label": "First, two-th, three-th"
+        },
+        "54A": {
+          "code": "54A-4",
+          "label": "Marked by suffix"
+        },
+        "56A": {
+          "code": "56A-2",
+          "label": "Formally similar, without interrogative"
+        },
+        "57A": {
+          "code": "57A-2",
+          "label": "Possessive suffixes"
+        },
+        "63A": {
+          "code": "63A-2",
+          "label": "'And' identical to 'with'"
+        },
+        "69A": {
+          "code": "69A-2",
+          "label": "Tense-aspect suffixes"
+        },
+        "73A": {
+          "code": "73A-2",
+          "label": "Inflectional optative absent"
+        },
+        "77A": {
+          "code": "77A-3",
+          "label": "Direct and indirect"
+        },
+        "78A": {
+          "code": "78A-3",
+          "label": "Part of the tense system"
+        },
+        "81A": {
+          "code": "81A-1",
+          "label": "SOV"
+        },
+        "82A": {
+          "code": "82A-1",
+          "label": "SV"
+        },
+        "83A": {
+          "code": "83A-1",
+          "label": "OV"
+        },
+        "85A": {
+          "code": "85A-1",
+          "label": "Postpositions"
+        },
+        "86A": {
+          "code": "86A-1",
+          "label": "Genitive-Noun"
+        },
+        "87A": {
+          "code": "87A-1",
+          "label": "Adjective-Noun"
+        },
+        "88A": {
+          "code": "88A-1",
+          "label": "Demonstrative-Noun"
+        },
+        "90A": {
+          "code": "90A-2",
+          "label": "Relative clause-Noun"
+        },
+        "90B": {
+          "code": "90B-1",
+          "label": "Relative clause-Noun (RelN) dominant"
+        },
+        "95A": {
+          "code": "95A-1",
+          "label": "OV and Postpositions"
+        },
+        "96A": {
+          "code": "96A-1",
+          "label": "OV and RelN"
+        },
+        "97A": {
+          "code": "97A-1",
+          "label": "OV and AdjN"
+        },
+        "106A": {
+          "code": "106A-2",
+          "label": "Distinct from reflexive"
+        },
+        "111A": {
+          "code": "111A-2",
+          "label": "Morphological but no compound"
+        },
+        "112A": {
+          "code": "112A-1",
+          "label": "Negative affix"
+        },
+        "115A": {
+          "code": "115A-1",
+          "label": "Predicate negation also present"
+        },
+        "117A": {
+          "code": "117A-1",
+          "label": "Locational"
+        },
+        "118A": {
+          "code": "118A-2",
+          "label": "Nonverbal encoding"
+        },
+        "119A": {
+          "code": "119A-2",
+          "label": "Identical"
+        },
+        "120A": {
+          "code": "120A-1",
+          "label": "Impossible"
+        },
+        "131A": {
+          "code": "131A-1",
+          "label": "Decimal"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        },
+        "143A": {
+          "code": "143A-4",
+          "label": "[V-Neg]"
+        },
+        "143E": {
+          "code": "143E-4",
+          "label": "None"
+        },
+        "143F": {
+          "code": "143F-2",
+          "label": "[V-Neg]"
+        },
+        "143G": {
+          "code": "143G-4",
+          "label": "None"
+        },
+        "144A": {
+          "code": "144A-20",
+          "label": "MorphNeg"
+        },
+        "144L": {
+          "code": "144L-6",
+          "label": "SO[V-Neg]"
+        },
+        "144P": {
+          "code": "144P-4",
+          "label": "No NegSOV"
+        },
+        "144Q": {
+          "code": "144Q-4",
+          "label": "No SNegOV"
+        },
+        "144R": {
+          "code": "144R-8",
+          "label": "No SONegV"
+        },
+        "144S": {
+          "code": "144S-2",
+          "label": "Suffix&NoDoubleNeg"
+        }
+      }
+    },
+    "tyv": {
+      "name": "tyv",
+      "branch": "Sibirya",
+      "mvp": false,
+      "values": {
+        "1A": {
+          "code": "1A-3",
+          "label": "Average"
+        },
+        "2A": {
+          "code": "2A-3",
+          "label": "Large (7-14)"
+        },
+        "3A": {
+          "code": "3A-2",
+          "label": "Moderately low"
+        },
+        "4A": {
+          "code": "4A-2",
+          "label": "In plosives alone"
+        },
+        "5A": {
+          "code": "5A-2",
+          "label": "None missing in /p t k b d g/"
+        },
+        "6A": {
+          "code": "6A-1",
+          "label": "None"
+        },
+        "7A": {
+          "code": "7A-1",
+          "label": "No glottalized consonants"
+        },
+        "8A": {
+          "code": "8A-2",
+          "label": "/l/, no obstruent laterals"
+        },
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "11A": {
+          "code": "11A-2",
+          "label": "High and mid"
+        },
+        "12A": {
+          "code": "12A-3",
+          "label": "Complex"
+        },
+        "13A": {
+          "code": "13A-1",
+          "label": "No tones"
+        },
+        "18A": {
+          "code": "18A-1",
+          "label": "All present"
+        },
+        "19A": {
+          "code": "19A-1",
+          "label": "None"
+        },
+        "26A": {
+          "code": "26A-2",
+          "label": "Strongly suffixing"
+        },
+        "27A": {
+          "code": "27A-1",
+          "label": "Productive full and partial reduplication"
+        },
+        "33A": {
+          "code": "33A-2",
+          "label": "Plural suffix"
+        },
+        "37A": {
+          "code": "37A-5",
+          "label": "No definite or indefinite article"
+        },
+        "38A": {
+          "code": "38A-5",
+          "label": "No definite or indefinite article"
+        },
+        "46A": {
+          "code": "46A-1",
+          "label": "Interrogative-based"
+        },
+        "51A": {
+          "code": "51A-1",
+          "label": "Case suffixes"
+        },
+        "53A": {
+          "code": "53A-4",
+          "label": "One-th, two-th, three-th"
+        },
+        "54A": {
+          "code": "54A-2",
+          "label": "Marked by reduplication"
+        },
+        "55A": {
+          "code": "55A-1",
+          "label": "Absent"
+        },
+        "57A": {
+          "code": "57A-2",
+          "label": "Possessive suffixes"
+        },
+        "58A": {
+          "code": "58A-2",
+          "label": "Absent"
+        },
+        "58B": {
+          "code": "58B-1",
+          "label": "None reported"
+        },
+        "59A": {
+          "code": "59A-1",
+          "label": "No possessive classification"
+        },
+        "62A": {
+          "code": "62A-2",
+          "label": "Possessive-Accusative"
+        },
+        "69A": {
+          "code": "69A-2",
+          "label": "Tense-aspect suffixes"
+        },
+        "70A": {
+          "code": "70A-1",
+          "label": "Second singular and second plural"
+        },
+        "71A": {
+          "code": "71A-2",
+          "label": "Normal imperative + special negative"
+        },
+        "73A": {
+          "code": "73A-2",
+          "label": "Inflectional optative absent"
+        },
+        "74A": {
+          "code": "74A-2",
+          "label": "Verbal constructions"
+        },
+        "75A": {
+          "code": "75A-1",
+          "label": "Verbal constructions"
+        },
+        "76A": {
+          "code": "76A-1",
+          "label": "Overlap for both possibility and necessity"
+        },
+        "81A": {
+          "code": "81A-1",
+          "label": "SOV"
+        },
+        "82A": {
+          "code": "82A-1",
+          "label": "SV"
+        },
+        "83A": {
+          "code": "83A-1",
+          "label": "OV"
+        },
+        "85A": {
+          "code": "85A-1",
+          "label": "Postpositions"
+        },
+        "86A": {
+          "code": "86A-1",
+          "label": "Genitive-Noun"
+        },
+        "87A": {
+          "code": "87A-1",
+          "label": "Adjective-Noun"
+        },
+        "88A": {
+          "code": "88A-1",
+          "label": "Demonstrative-Noun"
+        },
+        "92A": {
+          "code": "92A-2",
+          "label": "Final"
+        },
+        "95A": {
+          "code": "95A-1",
+          "label": "OV and Postpositions"
+        },
+        "97A": {
+          "code": "97A-1",
+          "label": "OV and AdjN"
+        },
+        "101A": {
+          "code": "101A-2",
+          "label": "Subject affixes on verb"
+        },
+        "106A": {
+          "code": "106A-2",
+          "label": "Distinct from reflexive"
+        },
+        "112A": {
+          "code": "112A-1",
+          "label": "Negative affix"
+        },
+        "115A": {
+          "code": "115A-1",
+          "label": "Predicate negation also present"
+        },
+        "116A": {
+          "code": "116A-1",
+          "label": "Question particle"
+        },
+        "121A": {
+          "code": "121A-1",
+          "label": "Locational"
+        },
+        "136A": {
+          "code": "136A-2",
+          "label": "M-T pronouns, paradigmatic"
+        },
+        "136B": {
+          "code": "136B-2",
+          "label": "m in first person singular"
+        },
+        "137A": {
+          "code": "137A-1",
+          "label": "No N-M pronouns"
+        },
+        "137B": {
+          "code": "137B-1",
+          "label": "No m in second person singular"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        },
+        "143A": {
+          "code": "143A-4",
+          "label": "[V-Neg]"
+        },
+        "143E": {
+          "code": "143E-4",
+          "label": "None"
+        },
+        "143F": {
+          "code": "143F-2",
+          "label": "[V-Neg]"
+        },
+        "143G": {
+          "code": "143G-4",
+          "label": "None"
+        },
+        "144A": {
+          "code": "144A-20",
+          "label": "MorphNeg"
+        },
+        "144L": {
+          "code": "144L-6",
+          "label": "SO[V-Neg]"
+        },
+        "144P": {
+          "code": "144P-4",
+          "label": "No NegSOV"
+        },
+        "144Q": {
+          "code": "144Q-4",
+          "label": "No SNegOV"
+        },
+        "144R": {
+          "code": "144R-8",
+          "label": "No SONegV"
+        },
+        "144S": {
+          "code": "144S-2",
+          "label": "Suffix&NoDoubleNeg"
+        }
+      }
+    },
+    "kjh": {
+      "name": "kjh",
+      "branch": "Sibirya",
+      "mvp": false,
+      "values": {
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "30A": {
+          "code": "30A-1",
+          "label": "None"
+        },
+        "31A": {
+          "code": "31A-1",
+          "label": "No gender"
+        },
+        "32A": {
+          "code": "32A-1",
+          "label": "No gender"
+        },
+        "36A": {
+          "code": "36A-1",
+          "label": "Associative same as additive plural"
+        },
+        "46A": {
+          "code": "46A-1",
+          "label": "Interrogative-based"
+        },
+        "54A": {
+          "code": "54A-4",
+          "label": "Marked by suffix"
+        },
+        "70A": {
+          "code": "70A-1",
+          "label": "Second singular and second plural"
+        },
+        "71A": {
+          "code": "71A-2",
+          "label": "Normal imperative + special negative"
+        },
+        "73A": {
+          "code": "73A-2",
+          "label": "Inflectional optative absent"
+        },
+        "108A": {
+          "code": "108A-3",
+          "label": "No antipassive"
+        },
+        "108B": {
+          "code": "108B-4",
+          "label": "no antipassive"
+        },
+        "109A": {
+          "code": "109A-8",
+          "label": "No applicative construction"
+        },
+        "109B": {
+          "code": "109B-5",
+          "label": "No applicative construction"
+        },
+        "121A": {
+          "code": "121A-1",
+          "label": "Locational"
+        },
+        "129A": {
+          "code": "129A-1",
+          "label": "Identical"
+        },
+        "130A": {
+          "code": "130A-2",
+          "label": "Different"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        }
+      }
+    },
+    "cjs": {
+      "name": "cjs",
+      "branch": "Sibirya",
+      "mvp": false,
+      "values": {
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "46A": {
+          "code": "46A-1",
+          "label": "Interrogative-based"
+        },
+        "73A": {
+          "code": "73A-2",
+          "label": "Inflectional optative absent"
+        }
+      }
+    },
+    "klj": {
+      "name": "klj",
+      "branch": "Argu",
+      "mvp": false,
+      "values": {
+        "26A": {
+          "code": "26A-2",
+          "label": "Strongly suffixing"
+        },
+        "30A": {
+          "code": "30A-1",
+          "label": "None"
+        },
+        "31A": {
+          "code": "31A-1",
+          "label": "No gender"
+        },
+        "32A": {
+          "code": "32A-1",
+          "label": "No gender"
+        },
+        "33A": {
+          "code": "33A-2",
+          "label": "Plural suffix"
+        },
+        "37A": {
+          "code": "37A-4",
+          "label": "No definite, but indefinite article"
+        },
+        "38A": {
+          "code": "38A-2",
+          "label": "Indefinite word same as 'one'"
+        },
+        "51A": {
+          "code": "51A-1",
+          "label": "Case suffixes"
+        },
+        "52A": {
+          "code": "52A-1",
+          "label": "Identity"
+        },
+        "57A": {
+          "code": "57A-2",
+          "label": "Possessive suffixes"
+        },
+        "69A": {
+          "code": "69A-2",
+          "label": "Tense-aspect suffixes"
+        },
+        "77A": {
+          "code": "77A-1",
+          "label": "No grammatical evidentials"
+        },
+        "78A": {
+          "code": "78A-1",
+          "label": "No grammatical evidentials"
+        },
+        "81A": {
+          "code": "81A-1",
+          "label": "SOV"
+        },
+        "82A": {
+          "code": "82A-1",
+          "label": "SV"
+        },
+        "83A": {
+          "code": "83A-1",
+          "label": "OV"
+        },
+        "85A": {
+          "code": "85A-1",
+          "label": "Postpositions"
+        },
+        "86A": {
+          "code": "86A-1",
+          "label": "Genitive-Noun"
+        },
+        "87A": {
+          "code": "87A-1",
+          "label": "Adjective-Noun"
+        },
+        "88A": {
+          "code": "88A-1",
+          "label": "Demonstrative-Noun"
+        },
+        "89A": {
+          "code": "89A-1",
+          "label": "Numeral-Noun"
+        },
+        "90A": {
+          "code": "90A-1",
+          "label": "Noun-Relative clause"
+        },
+        "90C": {
+          "code": "90C-1",
+          "label": "Noun-Relative clause (NRel) dominant"
+        },
+        "94A": {
+          "code": "94A-1",
+          "label": "Initial subordinator word"
+        },
+        "95A": {
+          "code": "95A-1",
+          "label": "OV and Postpositions"
+        },
+        "96A": {
+          "code": "96A-2",
+          "label": "OV and NRel"
+        },
+        "97A": {
+          "code": "97A-1",
+          "label": "OV and AdjN"
+        },
+        "112A": {
+          "code": "112A-1",
+          "label": "Negative affix"
+        },
+        "131A": {
+          "code": "131A-1",
+          "label": "Decimal"
+        },
+        "143A": {
+          "code": "143A-4",
+          "label": "[V-Neg]"
+        },
+        "143E": {
+          "code": "143E-4",
+          "label": "None"
+        },
+        "143F": {
+          "code": "143F-2",
+          "label": "[V-Neg]"
+        },
+        "143G": {
+          "code": "143G-4",
+          "label": "None"
+        },
+        "144A": {
+          "code": "144A-20",
+          "label": "MorphNeg"
+        },
+        "144L": {
+          "code": "144L-6",
+          "label": "SO[V-Neg]"
+        },
+        "144P": {
+          "code": "144P-4",
+          "label": "No NegSOV"
+        },
+        "144Q": {
+          "code": "144Q-4",
+          "label": "No SNegOV"
+        },
+        "144R": {
+          "code": "144R-8",
+          "label": "No SONegV"
+        },
+        "144S": {
+          "code": "144S-2",
+          "label": "Suffix&NoDoubleNeg"
+        }
+      }
+    },
+    "gag": {
+      "name": "gag",
+      "branch": "Oğuz",
+      "mvp": false,
+      "values": {
+        "9A": {
+          "code": "9A-3",
+          "label": "No velar nasal"
+        },
+        "36A": {
+          "code": "36A-1",
+          "label": "Associative same as additive plural"
+        },
+        "46A": {
+          "code": "46A-1",
+          "label": "Interrogative-based"
+        },
+        "54A": {
+          "code": "54A-4",
+          "label": "Marked by suffix"
+        },
+        "62A": {
+          "code": "62A-8",
+          "label": "No action nominals"
+        },
+        "77A": {
+          "code": "77A-3",
+          "label": "Direct and indirect"
+        },
+        "78A": {
+          "code": "78A-3",
+          "label": "Part of the tense system"
+        }
+      }
+    },
+    "crh": {
+      "name": "crh",
+      "branch": "Kıpçak",
+      "mvp": false,
+      "values": {
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "36A": {
+          "code": "36A-1",
+          "label": "Associative same as additive plural"
+        },
+        "44A": {
+          "code": "44A-6",
+          "label": "No gender distinctions"
+        },
+        "46A": {
+          "code": "46A-4",
+          "label": "Mixed"
+        },
+        "48A": {
+          "code": "48A-2",
+          "label": "No person marking"
+        },
+        "100A": {
+          "code": "100A-2",
+          "label": "Accusative"
+        },
+        "102A": {
+          "code": "102A-2",
+          "label": "Only the A argument"
+        },
+        "103A": {
+          "code": "103A-4",
+          "label": "Zero in all 3sg forms"
+        },
+        "104A": {
+          "code": "104A-1",
+          "label": "A and P do not or do not both occur on the verb"
+        },
+        "107A": {
+          "code": "107A-1",
+          "label": "Present"
+        }
+      }
+    },
+    "kaa": {
+      "name": "kaa",
+      "branch": "Kıpçak",
+      "mvp": false,
+      "values": {
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "26A": {
+          "code": "26A-2",
+          "label": "Strongly suffixing"
+        },
+        "33A": {
+          "code": "33A-2",
+          "label": "Plural suffix"
+        },
+        "38A": {
+          "code": "38A-2",
+          "label": "Indefinite word same as 'one'"
+        },
+        "46A": {
+          "code": "46A-3",
+          "label": "Special"
+        },
+        "51A": {
+          "code": "51A-1",
+          "label": "Case suffixes"
+        },
+        "57A": {
+          "code": "57A-2",
+          "label": "Possessive suffixes"
+        },
+        "69A": {
+          "code": "69A-2",
+          "label": "Tense-aspect suffixes"
+        },
+        "81A": {
+          "code": "81A-1",
+          "label": "SOV"
+        },
+        "82A": {
+          "code": "82A-1",
+          "label": "SV"
+        },
+        "83A": {
+          "code": "83A-1",
+          "label": "OV"
+        },
+        "85A": {
+          "code": "85A-1",
+          "label": "Postpositions"
+        },
+        "86A": {
+          "code": "86A-1",
+          "label": "Genitive-Noun"
+        },
+        "87A": {
+          "code": "87A-1",
+          "label": "Adjective-Noun"
+        },
+        "88A": {
+          "code": "88A-1",
+          "label": "Demonstrative-Noun"
+        },
+        "89A": {
+          "code": "89A-1",
+          "label": "Numeral-Noun"
+        },
+        "90A": {
+          "code": "90A-2",
+          "label": "Relative clause-Noun"
+        },
+        "90B": {
+          "code": "90B-1",
+          "label": "Relative clause-Noun (RelN) dominant"
+        },
+        "91A": {
+          "code": "91A-1",
+          "label": "Degree word-Adjective"
+        },
+        "92A": {
+          "code": "92A-6",
+          "label": "No question particle"
+        },
+        "93A": {
+          "code": "93A-2",
+          "label": "Not initial interrogative phrase"
+        },
+        "95A": {
+          "code": "95A-1",
+          "label": "OV and Postpositions"
+        },
+        "96A": {
+          "code": "96A-1",
+          "label": "OV and RelN"
+        },
+        "97A": {
+          "code": "97A-1",
+          "label": "OV and AdjN"
+        },
+        "112A": {
+          "code": "112A-1",
+          "label": "Negative affix"
+        },
+        "115A": {
+          "code": "115A-1",
+          "label": "Predicate negation also present"
+        },
+        "116A": {
+          "code": "116A-2",
+          "label": "Interrogative verb morphology"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        },
+        "143A": {
+          "code": "143A-4",
+          "label": "[V-Neg]"
+        },
+        "143E": {
+          "code": "143E-4",
+          "label": "None"
+        },
+        "143F": {
+          "code": "143F-2",
+          "label": "[V-Neg]"
+        },
+        "143G": {
+          "code": "143G-4",
+          "label": "None"
+        },
+        "144A": {
+          "code": "144A-20",
+          "label": "MorphNeg"
+        },
+        "144L": {
+          "code": "144L-6",
+          "label": "SO[V-Neg]"
+        },
+        "144P": {
+          "code": "144P-4",
+          "label": "No NegSOV"
+        },
+        "144Q": {
+          "code": "144Q-4",
+          "label": "No SNegOV"
+        },
+        "144R": {
+          "code": "144R-8",
+          "label": "No SONegV"
+        },
+        "144S": {
+          "code": "144S-2",
+          "label": "Suffix&NoDoubleNeg"
+        }
+      }
+    },
+    "kum": {
+      "name": "kum",
+      "branch": "Kıpçak",
+      "mvp": false,
+      "values": {
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "36A": {
+          "code": "36A-1",
+          "label": "Associative same as additive plural"
+        },
+        "73A": {
+          "code": "73A-1",
+          "label": "Inflectional optative present"
+        },
+        "129A": {
+          "code": "129A-1",
+          "label": "Identical"
+        },
+        "130A": {
+          "code": "130A-2",
+          "label": "Different"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        }
+      }
+    },
+    "krc": {
+      "name": "krc",
+      "branch": "Kıpçak",
+      "mvp": false,
+      "values": {
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "26A": {
+          "code": "26A-2",
+          "label": "Strongly suffixing"
+        },
+        "33A": {
+          "code": "33A-2",
+          "label": "Plural suffix"
+        },
+        "36A": {
+          "code": "36A-2",
+          "label": "Unique affixal associative plural"
+        },
+        "37A": {
+          "code": "37A-4",
+          "label": "No definite, but indefinite article"
+        },
+        "38A": {
+          "code": "38A-2",
+          "label": "Indefinite word same as 'one'"
+        },
+        "46A": {
+          "code": "46A-1",
+          "label": "Interrogative-based"
+        },
+        "51A": {
+          "code": "51A-1",
+          "label": "Case suffixes"
+        },
+        "57A": {
+          "code": "57A-2",
+          "label": "Possessive suffixes"
+        },
+        "69A": {
+          "code": "69A-2",
+          "label": "Tense-aspect suffixes"
+        },
+        "70A": {
+          "code": "70A-1",
+          "label": "Second singular and second plural"
+        },
+        "71A": {
+          "code": "71A-1",
+          "label": "Normal imperative + normal negative"
+        },
+        "81A": {
+          "code": "81A-1",
+          "label": "SOV"
+        },
+        "82A": {
+          "code": "82A-1",
+          "label": "SV"
+        },
+        "83A": {
+          "code": "83A-1",
+          "label": "OV"
+        },
+        "85A": {
+          "code": "85A-1",
+          "label": "Postpositions"
+        },
+        "86A": {
+          "code": "86A-1",
+          "label": "Genitive-Noun"
+        },
+        "87A": {
+          "code": "87A-1",
+          "label": "Adjective-Noun"
+        },
+        "88A": {
+          "code": "88A-1",
+          "label": "Demonstrative-Noun"
+        },
+        "89A": {
+          "code": "89A-1",
+          "label": "Numeral-Noun"
+        },
+        "90A": {
+          "code": "90A-2",
+          "label": "Relative clause-Noun"
+        },
+        "90B": {
+          "code": "90B-1",
+          "label": "Relative clause-Noun (RelN) dominant"
+        },
+        "92A": {
+          "code": "92A-6",
+          "label": "No question particle"
+        },
+        "93A": {
+          "code": "93A-2",
+          "label": "Not initial interrogative phrase"
+        },
+        "95A": {
+          "code": "95A-1",
+          "label": "OV and Postpositions"
+        },
+        "96A": {
+          "code": "96A-1",
+          "label": "OV and RelN"
+        },
+        "97A": {
+          "code": "97A-1",
+          "label": "OV and AdjN"
+        },
+        "101A": {
+          "code": "101A-2",
+          "label": "Subject affixes on verb"
+        },
+        "106A": {
+          "code": "106A-2",
+          "label": "Distinct from reflexive"
+        },
+        "112A": {
+          "code": "112A-5",
+          "label": "Variation between negative word and affix"
+        },
+        "116A": {
+          "code": "116A-2",
+          "label": "Interrogative verb morphology"
+        },
+        "122A": {
+          "code": "122A-4",
+          "label": "Gap"
+        },
+        "123A": {
+          "code": "123A-4",
+          "label": "Gap"
+        },
+        "129A": {
+          "code": "129A-2",
+          "label": "Different"
+        },
+        "130A": {
+          "code": "130A-2",
+          "label": "Different"
+        },
+        "143A": {
+          "code": "143A-10",
+          "label": "Type 2 / Type 4"
+        },
+        "143E": {
+          "code": "143E-4",
+          "label": "None"
+        },
+        "143F": {
+          "code": "143F-3",
+          "label": "VNeg&[V-Neg]"
+        },
+        "143G": {
+          "code": "143G-4",
+          "label": "None"
+        },
+        "144A": {
+          "code": "144A-16",
+          "label": "More than one position"
+        },
+        "144B": {
+          "code": "144B-4",
+          "label": "Immed postverbal"
+        },
+        "144L": {
+          "code": "144L-15",
+          "label": "More than one construction"
+        },
+        "144M": {
+          "code": "144M-5",
+          "label": "SOVNeg/SO[V-Neg]"
+        },
+        "144P": {
+          "code": "144P-4",
+          "label": "No NegSOV"
+        },
+        "144Q": {
+          "code": "144Q-4",
+          "label": "No SNegOV"
+        },
+        "144R": {
+          "code": "144R-8",
+          "label": "No SONegV"
+        },
+        "144S": {
+          "code": "144S-7",
+          "label": "Type 1 / Type 2"
+        }
+      }
+    },
+    "nog": {
+      "name": "nog",
+      "branch": "Kıpçak",
+      "mvp": false,
+      "values": {
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "26A": {
+          "code": "26A-2",
+          "label": "Strongly suffixing"
+        },
+        "33A": {
+          "code": "33A-2",
+          "label": "Plural suffix"
+        },
+        "46A": {
+          "code": "46A-4",
+          "label": "Mixed"
+        },
+        "51A": {
+          "code": "51A-1",
+          "label": "Case suffixes"
+        },
+        "53A": {
+          "code": "53A-5",
+          "label": "First/one-th, two-th, three-th"
+        },
+        "57A": {
+          "code": "57A-2",
+          "label": "Possessive suffixes"
+        },
+        "69A": {
+          "code": "69A-2",
+          "label": "Tense-aspect suffixes"
+        },
+        "73A": {
+          "code": "73A-1",
+          "label": "Inflectional optative present"
+        },
+        "81A": {
+          "code": "81A-1",
+          "label": "SOV"
+        },
+        "82A": {
+          "code": "82A-1",
+          "label": "SV"
+        },
+        "83A": {
+          "code": "83A-1",
+          "label": "OV"
+        },
+        "87A": {
+          "code": "87A-1",
+          "label": "Adjective-Noun"
+        },
+        "97A": {
+          "code": "97A-1",
+          "label": "OV and AdjN"
+        },
+        "129A": {
+          "code": "129A-1",
+          "label": "Identical"
+        },
+        "130A": {
+          "code": "130A-2",
+          "label": "Different"
+        },
+        "138A": {
+          "code": "138A-1",
+          "label": "Words derived from Sinitic cha"
+        }
+      }
+    },
+    "dlg": {
+      "name": "dlg",
+      "branch": "Sibirya",
+      "mvp": false,
+      "values": {
+        "9A": {
+          "code": "9A-1",
+          "label": "Initial velar nasal"
+        }
+      }
+    },
+    "alt": {
+      "name": "alt",
+      "branch": "Sibirya",
+      "mvp": false,
+      "values": {
+        "9A": {
+          "code": "9A-2",
+          "label": "No initial velar nasal"
+        },
+        "46A": {
+          "code": "46A-1",
+          "label": "Interrogative-based"
+        },
+        "73A": {
+          "code": "73A-2",
+          "label": "Inflectional optative absent"
+        }
+      }
+    }
+  }
+}

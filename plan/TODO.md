@@ -29,7 +29,8 @@
 - [x] **Kaynak hasadı:** SavelyevTurkic, **Glottolog-CLDF**, NorthEuraLex, WALS, UniMorph (×9 dil), UD (IMST/BOUN/Kazakh-KTB/Uyghur-UDT) çekildi. (unimorph/chv yok → apertium-chv'den.)
 - [x] **Çıkarım — SavelyevTurkic** → `cognates.json` (905 set), `languages.geo.json`, `distance.lexical.json`. Betik: `etl/savelyev_extract.py`.
 - [x] **Çıkarım — Glottolog** → `profiles.json` (23 dil + AES canlılık). Betik: `etl/glottolog_extract.py`.
-- [ ] **Çıkarım — kalan:** WALS → tipolojik mesafe/özellik matrisi · UniMorph → paradigma · NorthEuraLex → kognat(ikincil) · UD → analiz bağlamı. Joshi/Yunusbayev makaleleri.
+- [x] **Çıkarım — WALS** → tipolojik mesafe + özellik matrisi (`distance.typological.json`, `features.wals.json`).
+- [ ] **Çıkarım — kalan:** UniMorph → paradigma · NorthEuraLex → kognat(ikincil) · UD → analiz bağlamı. Joshi/Yunusbayev makaleleri.
 - [ ] **UI'ya bağlama:** `platform/data/*.json` → KÖKEN sabitleri (COGNATES/MAP/LANGVEC/LANGPROFILE…); "⚠ örnek" rozetlerini gerçek-veri olanlarda kaldır.
 - [ ] **MIMARI.md**: UI veri-sözleşmesi → API uçları + JSON şeması.
 - [ ] **VM**: apertium FST (10 dil) → FastAPI canlı analiz/üretim/paradigma (kullanıcı VM'yi açınca).

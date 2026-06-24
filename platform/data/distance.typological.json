@@ -1,0 +1,2703 @@
+{
+  "_meta": {
+    "source": "WALS Online CLDF",
+    "license": "CC BY 4.0",
+    "url": "https://github.com/cldf-datasets/wals",
+    "accessed": "2026-06-24",
+    "module": "Uzaklık Gezgini (tipolojik eksen)",
+    "method": "ortak attested WALS özniteliğinde farklı değer oranı (normalize Hamming)"
+  },
+  "matrix": {
+    "tur": {
+      "tur": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "azj": {
+        "distance": 0.098,
+        "shared": 51,
+        "diff": 5
+      },
+      "tuk": {
+        "distance": 0.1905,
+        "shared": 21,
+        "diff": 4
+      },
+      "kaz": {
+        "distance": 0.4444,
+        "shared": 9,
+        "diff": 4
+      },
+      "kir": {
+        "distance": 0.125,
+        "shared": 40,
+        "diff": 5
+      },
+      "tat": {
+        "distance": 0.2727,
+        "shared": 44,
+        "diff": 12
+      },
+      "bak": {
+        "distance": 0.2586,
+        "shared": 58,
+        "diff": 15
+      },
+      "uig": {
+        "distance": 0.1714,
+        "shared": 35,
+        "diff": 6
+      },
+      "uzb": {
+        "distance": 0.2154,
+        "shared": 65,
+        "diff": 14
+      },
+      "chv": {
+        "distance": 0.2099,
+        "shared": 81,
+        "diff": 17
+      },
+      "sah": {
+        "distance": 0.1719,
+        "shared": 64,
+        "diff": 11
+      },
+      "tyv": {
+        "distance": 0.194,
+        "shared": 67,
+        "diff": 13
+      },
+      "kjh": {
+        "distance": 0.2222,
+        "shared": 18,
+        "diff": 4
+      },
+      "cjs": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "klj": {
+        "distance": 0.1316,
+        "shared": 38,
+        "diff": 5
+      },
+      "gag": {
+        "distance": 0.2857,
+        "shared": 7,
+        "diff": 2
+      },
+      "crh": {
+        "distance": 0.2,
+        "shared": 10,
+        "diff": 2
+      },
+      "kaa": {
+        "distance": 0.1053,
+        "shared": 38,
+        "diff": 4
+      },
+      "kum": {
+        "distance": 0.5,
+        "shared": 6,
+        "diff": 3
+      },
+      "krc": {
+        "distance": 0.2444,
+        "shared": 45,
+        "diff": 11
+      },
+      "nog": {
+        "distance": 0.2353,
+        "shared": 17,
+        "diff": 4
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      }
+    },
+    "azj": {
+      "tur": {
+        "distance": 0.098,
+        "shared": 51,
+        "diff": 5
+      },
+      "azj": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "tuk": {
+        "distance": 0.2308,
+        "shared": 13,
+        "diff": 3
+      },
+      "kaz": {
+        "distance": 0.5714,
+        "shared": 7,
+        "diff": 4
+      },
+      "kir": {
+        "distance": 0.2143,
+        "shared": 28,
+        "diff": 6
+      },
+      "tat": {
+        "distance": 0.1,
+        "shared": 20,
+        "diff": 2
+      },
+      "bak": {
+        "distance": 0.2432,
+        "shared": 37,
+        "diff": 9
+      },
+      "uig": {
+        "distance": 0.1429,
+        "shared": 28,
+        "diff": 4
+      },
+      "uzb": {
+        "distance": 0.125,
+        "shared": 32,
+        "diff": 4
+      },
+      "chv": {
+        "distance": 0.1333,
+        "shared": 45,
+        "diff": 6
+      },
+      "sah": {
+        "distance": 0.125,
+        "shared": 40,
+        "diff": 5
+      },
+      "tyv": {
+        "distance": 0.1395,
+        "shared": 43,
+        "diff": 6
+      },
+      "kjh": {
+        "distance": 0.3333,
+        "shared": 6,
+        "diff": 2
+      },
+      "cjs": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "klj": {
+        "distance": 0.0,
+        "shared": 23,
+        "diff": 0
+      },
+      "gag": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "crh": {
+        "distance": 1.0,
+        "shared": 2,
+        "diff": 2
+      },
+      "kaa": {
+        "distance": 0.1379,
+        "shared": 29,
+        "diff": 4
+      },
+      "kum": {
+        "distance": 0.2,
+        "shared": 5,
+        "diff": 1
+      },
+      "krc": {
+        "distance": 0.3333,
+        "shared": 30,
+        "diff": 10
+      },
+      "nog": {
+        "distance": 0.1176,
+        "shared": 17,
+        "diff": 2
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      }
+    },
+    "tuk": {
+      "tur": {
+        "distance": 0.1905,
+        "shared": 21,
+        "diff": 4
+      },
+      "azj": {
+        "distance": 0.2308,
+        "shared": 13,
+        "diff": 3
+      },
+      "tuk": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "kaz": {
+        "distance": 0.0,
+        "shared": 6,
+        "diff": 0
+      },
+      "kir": {
+        "distance": 0.2,
+        "shared": 10,
+        "diff": 2
+      },
+      "tat": {
+        "distance": 0.05,
+        "shared": 20,
+        "diff": 1
+      },
+      "bak": {
+        "distance": 0.0588,
+        "shared": 17,
+        "diff": 1
+      },
+      "uig": {
+        "distance": 0.0769,
+        "shared": 13,
+        "diff": 1
+      },
+      "uzb": {
+        "distance": 0.0556,
+        "shared": 18,
+        "diff": 1
+      },
+      "chv": {
+        "distance": 0.1176,
+        "shared": 17,
+        "diff": 2
+      },
+      "sah": {
+        "distance": 0.125,
+        "shared": 16,
+        "diff": 2
+      },
+      "tyv": {
+        "distance": 0.0667,
+        "shared": 15,
+        "diff": 1
+      },
+      "kjh": {
+        "distance": 0.2,
+        "shared": 5,
+        "diff": 1
+      },
+      "cjs": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "klj": {
+        "distance": 0.1667,
+        "shared": 12,
+        "diff": 2
+      },
+      "gag": {
+        "distance": 1.0,
+        "shared": 2,
+        "diff": 2
+      },
+      "crh": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "kaa": {
+        "distance": 0.0625,
+        "shared": 16,
+        "diff": 1
+      },
+      "kum": {
+        "distance": 0.0,
+        "shared": 4,
+        "diff": 0
+      },
+      "krc": {
+        "distance": 0.1111,
+        "shared": 18,
+        "diff": 2
+      },
+      "nog": {
+        "distance": 0.0909,
+        "shared": 11,
+        "diff": 1
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      }
+    },
+    "kaz": {
+      "tur": {
+        "distance": 0.4444,
+        "shared": 9,
+        "diff": 4
+      },
+      "azj": {
+        "distance": 0.5714,
+        "shared": 7,
+        "diff": 4
+      },
+      "tuk": {
+        "distance": 0.0,
+        "shared": 6,
+        "diff": 0
+      },
+      "kaz": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "kir": {
+        "distance": 0.3333,
+        "shared": 6,
+        "diff": 2
+      },
+      "tat": {
+        "distance": 0.2857,
+        "shared": 7,
+        "diff": 2
+      },
+      "bak": {
+        "distance": 0.1667,
+        "shared": 6,
+        "diff": 1
+      },
+      "uig": {
+        "distance": 0.0,
+        "shared": 4,
+        "diff": 0
+      },
+      "uzb": {
+        "distance": 0.1429,
+        "shared": 7,
+        "diff": 1
+      },
+      "chv": {
+        "distance": 0.3333,
+        "shared": 6,
+        "diff": 2
+      },
+      "sah": {
+        "distance": 0.3333,
+        "shared": 6,
+        "diff": 2
+      },
+      "tyv": {
+        "distance": 0.1667,
+        "shared": 6,
+        "diff": 1
+      },
+      "kjh": {
+        "distance": 0.1429,
+        "shared": 7,
+        "diff": 1
+      },
+      "cjs": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "klj": {
+        "distance": null,
+        "shared": 0,
+        "diff": 0
+      },
+      "gag": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "crh": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "kaa": {
+        "distance": 0.25,
+        "shared": 4,
+        "diff": 1
+      },
+      "kum": {
+        "distance": 0.1667,
+        "shared": 6,
+        "diff": 1
+      },
+      "krc": {
+        "distance": 0.6,
+        "shared": 5,
+        "diff": 3
+      },
+      "nog": {
+        "distance": 0.2857,
+        "shared": 7,
+        "diff": 2
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      }
+    },
+    "kir": {
+      "tur": {
+        "distance": 0.125,
+        "shared": 40,
+        "diff": 5
+      },
+      "azj": {
+        "distance": 0.2143,
+        "shared": 28,
+        "diff": 6
+      },
+      "tuk": {
+        "distance": 0.2,
+        "shared": 10,
+        "diff": 2
+      },
+      "kaz": {
+        "distance": 0.3333,
+        "shared": 6,
+        "diff": 2
+      },
+      "kir": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "tat": {
+        "distance": 0.1111,
+        "shared": 18,
+        "diff": 2
+      },
+      "bak": {
+        "distance": 0.1379,
+        "shared": 29,
+        "diff": 4
+      },
+      "uig": {
+        "distance": 0.0909,
+        "shared": 11,
+        "diff": 1
+      },
+      "uzb": {
+        "distance": 0.1304,
+        "shared": 23,
+        "diff": 3
+      },
+      "chv": {
+        "distance": 0.1875,
+        "shared": 32,
+        "diff": 6
+      },
+      "sah": {
+        "distance": 0.1379,
+        "shared": 29,
+        "diff": 4
+      },
+      "tyv": {
+        "distance": 0.1667,
+        "shared": 30,
+        "diff": 5
+      },
+      "kjh": {
+        "distance": 0.0769,
+        "shared": 13,
+        "diff": 1
+      },
+      "cjs": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "klj": {
+        "distance": 0.0,
+        "shared": 12,
+        "diff": 0
+      },
+      "gag": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "crh": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "kaa": {
+        "distance": 0.2143,
+        "shared": 14,
+        "diff": 3
+      },
+      "kum": {
+        "distance": 0.25,
+        "shared": 4,
+        "diff": 1
+      },
+      "krc": {
+        "distance": 0.1176,
+        "shared": 17,
+        "diff": 2
+      },
+      "nog": {
+        "distance": 0.25,
+        "shared": 12,
+        "diff": 3
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      }
+    },
+    "tat": {
+      "tur": {
+        "distance": 0.2727,
+        "shared": 44,
+        "diff": 12
+      },
+      "azj": {
+        "distance": 0.1,
+        "shared": 20,
+        "diff": 2
+      },
+      "tuk": {
+        "distance": 0.05,
+        "shared": 20,
+        "diff": 1
+      },
+      "kaz": {
+        "distance": 0.2857,
+        "shared": 7,
+        "diff": 2
+      },
+      "kir": {
+        "distance": 0.1111,
+        "shared": 18,
+        "diff": 2
+      },
+      "tat": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "bak": {
+        "distance": 0.0303,
+        "shared": 33,
+        "diff": 1
+      },
+      "uig": {
+        "distance": 0.1053,
+        "shared": 19,
+        "diff": 2
+      },
+      "uzb": {
+        "distance": 0.1111,
+        "shared": 36,
+        "diff": 4
+      },
+      "chv": {
+        "distance": 0.2571,
+        "shared": 35,
+        "diff": 9
+      },
+      "sah": {
+        "distance": 0.0385,
+        "shared": 26,
+        "diff": 1
+      },
+      "tyv": {
+        "distance": 0.1429,
+        "shared": 28,
+        "diff": 4
+      },
+      "kjh": {
+        "distance": 0.2222,
+        "shared": 9,
+        "diff": 2
+      },
+      "cjs": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "klj": {
+        "distance": 0.2,
+        "shared": 20,
+        "diff": 4
+      },
+      "gag": {
+        "distance": 0.5,
+        "shared": 4,
+        "diff": 2
+      },
+      "crh": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "kaa": {
+        "distance": 0.125,
+        "shared": 24,
+        "diff": 3
+      },
+      "kum": {
+        "distance": 0.2,
+        "shared": 5,
+        "diff": 1
+      },
+      "krc": {
+        "distance": 0.1379,
+        "shared": 29,
+        "diff": 4
+      },
+      "nog": {
+        "distance": 0.125,
+        "shared": 16,
+        "diff": 2
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      }
+    },
+    "bak": {
+      "tur": {
+        "distance": 0.2586,
+        "shared": 58,
+        "diff": 15
+      },
+      "azj": {
+        "distance": 0.2432,
+        "shared": 37,
+        "diff": 9
+      },
+      "tuk": {
+        "distance": 0.0588,
+        "shared": 17,
+        "diff": 1
+      },
+      "kaz": {
+        "distance": 0.1667,
+        "shared": 6,
+        "diff": 1
+      },
+      "kir": {
+        "distance": 0.1379,
+        "shared": 29,
+        "diff": 4
+      },
+      "tat": {
+        "distance": 0.0303,
+        "shared": 33,
+        "diff": 1
+      },
+      "bak": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "uig": {
+        "distance": 0.08,
+        "shared": 25,
+        "diff": 2
+      },
+      "uzb": {
+        "distance": 0.0571,
+        "shared": 35,
+        "diff": 2
+      },
+      "chv": {
+        "distance": 0.2321,
+        "shared": 56,
+        "diff": 13
+      },
+      "sah": {
+        "distance": 0.1628,
+        "shared": 43,
+        "diff": 7
+      },
+      "tyv": {
+        "distance": 0.1778,
+        "shared": 45,
+        "diff": 8
+      },
+      "kjh": {
+        "distance": 0.125,
+        "shared": 8,
+        "diff": 1
+      },
+      "cjs": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "klj": {
+        "distance": 0.1923,
+        "shared": 26,
+        "diff": 5
+      },
+      "gag": {
+        "distance": 0.25,
+        "shared": 4,
+        "diff": 1
+      },
+      "crh": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "kaa": {
+        "distance": 0.1333,
+        "shared": 30,
+        "diff": 4
+      },
+      "kum": {
+        "distance": 0.25,
+        "shared": 4,
+        "diff": 1
+      },
+      "krc": {
+        "distance": 0.2727,
+        "shared": 33,
+        "diff": 9
+      },
+      "nog": {
+        "distance": 0.2143,
+        "shared": 14,
+        "diff": 3
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      }
+    },
+    "uig": {
+      "tur": {
+        "distance": 0.1714,
+        "shared": 35,
+        "diff": 6
+      },
+      "azj": {
+        "distance": 0.1429,
+        "shared": 28,
+        "diff": 4
+      },
+      "tuk": {
+        "distance": 0.0769,
+        "shared": 13,
+        "diff": 1
+      },
+      "kaz": {
+        "distance": 0.0,
+        "shared": 4,
+        "diff": 0
+      },
+      "kir": {
+        "distance": 0.0909,
+        "shared": 11,
+        "diff": 1
+      },
+      "tat": {
+        "distance": 0.1053,
+        "shared": 19,
+        "diff": 2
+      },
+      "bak": {
+        "distance": 0.08,
+        "shared": 25,
+        "diff": 2
+      },
+      "uig": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "uzb": {
+        "distance": 0.0345,
+        "shared": 29,
+        "diff": 1
+      },
+      "chv": {
+        "distance": 0.0345,
+        "shared": 29,
+        "diff": 1
+      },
+      "sah": {
+        "distance": 0.0357,
+        "shared": 28,
+        "diff": 1
+      },
+      "tyv": {
+        "distance": 0.0741,
+        "shared": 27,
+        "diff": 2
+      },
+      "kjh": {
+        "distance": 0.0,
+        "shared": 4,
+        "diff": 0
+      },
+      "cjs": {
+        "distance": 0.0,
+        "shared": 1,
+        "diff": 0
+      },
+      "klj": {
+        "distance": 0.087,
+        "shared": 23,
+        "diff": 2
+      },
+      "gag": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "crh": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "kaa": {
+        "distance": 0.0,
+        "shared": 26,
+        "diff": 0
+      },
+      "kum": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "krc": {
+        "distance": 0.2963,
+        "shared": 27,
+        "diff": 8
+      },
+      "nog": {
+        "distance": 0.0769,
+        "shared": 13,
+        "diff": 1
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.0,
+        "shared": 1,
+        "diff": 0
+      }
+    },
+    "uzb": {
+      "tur": {
+        "distance": 0.2154,
+        "shared": 65,
+        "diff": 14
+      },
+      "azj": {
+        "distance": 0.125,
+        "shared": 32,
+        "diff": 4
+      },
+      "tuk": {
+        "distance": 0.0556,
+        "shared": 18,
+        "diff": 1
+      },
+      "kaz": {
+        "distance": 0.1429,
+        "shared": 7,
+        "diff": 1
+      },
+      "kir": {
+        "distance": 0.1304,
+        "shared": 23,
+        "diff": 3
+      },
+      "tat": {
+        "distance": 0.1111,
+        "shared": 36,
+        "diff": 4
+      },
+      "bak": {
+        "distance": 0.0571,
+        "shared": 35,
+        "diff": 2
+      },
+      "uig": {
+        "distance": 0.0345,
+        "shared": 29,
+        "diff": 1
+      },
+      "uzb": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "chv": {
+        "distance": 0.1277,
+        "shared": 47,
+        "diff": 6
+      },
+      "sah": {
+        "distance": 0.119,
+        "shared": 42,
+        "diff": 5
+      },
+      "tyv": {
+        "distance": 0.1667,
+        "shared": 36,
+        "diff": 6
+      },
+      "kjh": {
+        "distance": 0.0625,
+        "shared": 16,
+        "diff": 1
+      },
+      "cjs": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "klj": {
+        "distance": 0.0968,
+        "shared": 31,
+        "diff": 3
+      },
+      "gag": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "crh": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "kaa": {
+        "distance": 0.0294,
+        "shared": 34,
+        "diff": 1
+      },
+      "kum": {
+        "distance": 0.0,
+        "shared": 5,
+        "diff": 0
+      },
+      "krc": {
+        "distance": 0.2105,
+        "shared": 38,
+        "diff": 8
+      },
+      "nog": {
+        "distance": 0.125,
+        "shared": 16,
+        "diff": 2
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      }
+    },
+    "chv": {
+      "tur": {
+        "distance": 0.2099,
+        "shared": 81,
+        "diff": 17
+      },
+      "azj": {
+        "distance": 0.1333,
+        "shared": 45,
+        "diff": 6
+      },
+      "tuk": {
+        "distance": 0.1176,
+        "shared": 17,
+        "diff": 2
+      },
+      "kaz": {
+        "distance": 0.3333,
+        "shared": 6,
+        "diff": 2
+      },
+      "kir": {
+        "distance": 0.1875,
+        "shared": 32,
+        "diff": 6
+      },
+      "tat": {
+        "distance": 0.2571,
+        "shared": 35,
+        "diff": 9
+      },
+      "bak": {
+        "distance": 0.2321,
+        "shared": 56,
+        "diff": 13
+      },
+      "uig": {
+        "distance": 0.0345,
+        "shared": 29,
+        "diff": 1
+      },
+      "uzb": {
+        "distance": 0.1277,
+        "shared": 47,
+        "diff": 6
+      },
+      "chv": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "sah": {
+        "distance": 0.0755,
+        "shared": 53,
+        "diff": 4
+      },
+      "tyv": {
+        "distance": 0.1228,
+        "shared": 57,
+        "diff": 7
+      },
+      "kjh": {
+        "distance": 0.0909,
+        "shared": 11,
+        "diff": 1
+      },
+      "cjs": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "klj": {
+        "distance": 0.1429,
+        "shared": 35,
+        "diff": 5
+      },
+      "gag": {
+        "distance": 0.0,
+        "shared": 4,
+        "diff": 0
+      },
+      "crh": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "kaa": {
+        "distance": 0.0811,
+        "shared": 37,
+        "diff": 3
+      },
+      "kum": {
+        "distance": 0.5,
+        "shared": 4,
+        "diff": 2
+      },
+      "krc": {
+        "distance": 0.2821,
+        "shared": 39,
+        "diff": 11
+      },
+      "nog": {
+        "distance": 0.2667,
+        "shared": 15,
+        "diff": 4
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      }
+    },
+    "sah": {
+      "tur": {
+        "distance": 0.1719,
+        "shared": 64,
+        "diff": 11
+      },
+      "azj": {
+        "distance": 0.125,
+        "shared": 40,
+        "diff": 5
+      },
+      "tuk": {
+        "distance": 0.125,
+        "shared": 16,
+        "diff": 2
+      },
+      "kaz": {
+        "distance": 0.3333,
+        "shared": 6,
+        "diff": 2
+      },
+      "kir": {
+        "distance": 0.1379,
+        "shared": 29,
+        "diff": 4
+      },
+      "tat": {
+        "distance": 0.0385,
+        "shared": 26,
+        "diff": 1
+      },
+      "bak": {
+        "distance": 0.1628,
+        "shared": 43,
+        "diff": 7
+      },
+      "uig": {
+        "distance": 0.0357,
+        "shared": 28,
+        "diff": 1
+      },
+      "uzb": {
+        "distance": 0.119,
+        "shared": 42,
+        "diff": 5
+      },
+      "chv": {
+        "distance": 0.0755,
+        "shared": 53,
+        "diff": 4
+      },
+      "sah": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "tyv": {
+        "distance": 0.087,
+        "shared": 46,
+        "diff": 4
+      },
+      "kjh": {
+        "distance": 0.0,
+        "shared": 8,
+        "diff": 0
+      },
+      "cjs": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "klj": {
+        "distance": 0.1471,
+        "shared": 34,
+        "diff": 5
+      },
+      "gag": {
+        "distance": 0.2,
+        "shared": 5,
+        "diff": 1
+      },
+      "crh": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "kaa": {
+        "distance": 0.0312,
+        "shared": 32,
+        "diff": 1
+      },
+      "kum": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "krc": {
+        "distance": 0.1935,
+        "shared": 31,
+        "diff": 6
+      },
+      "nog": {
+        "distance": 0.2,
+        "shared": 15,
+        "diff": 3
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      }
+    },
+    "tyv": {
+      "tur": {
+        "distance": 0.194,
+        "shared": 67,
+        "diff": 13
+      },
+      "azj": {
+        "distance": 0.1395,
+        "shared": 43,
+        "diff": 6
+      },
+      "tuk": {
+        "distance": 0.0667,
+        "shared": 15,
+        "diff": 1
+      },
+      "kaz": {
+        "distance": 0.1667,
+        "shared": 6,
+        "diff": 1
+      },
+      "kir": {
+        "distance": 0.1667,
+        "shared": 30,
+        "diff": 5
+      },
+      "tat": {
+        "distance": 0.1429,
+        "shared": 28,
+        "diff": 4
+      },
+      "bak": {
+        "distance": 0.1778,
+        "shared": 45,
+        "diff": 8
+      },
+      "uig": {
+        "distance": 0.0741,
+        "shared": 27,
+        "diff": 2
+      },
+      "uzb": {
+        "distance": 0.1667,
+        "shared": 36,
+        "diff": 6
+      },
+      "chv": {
+        "distance": 0.1228,
+        "shared": 57,
+        "diff": 7
+      },
+      "sah": {
+        "distance": 0.087,
+        "shared": 46,
+        "diff": 4
+      },
+      "tyv": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "kjh": {
+        "distance": 0.125,
+        "shared": 8,
+        "diff": 1
+      },
+      "cjs": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "klj": {
+        "distance": 0.0741,
+        "shared": 27,
+        "diff": 2
+      },
+      "gag": {
+        "distance": 0.75,
+        "shared": 4,
+        "diff": 3
+      },
+      "crh": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "kaa": {
+        "distance": 0.125,
+        "shared": 32,
+        "diff": 4
+      },
+      "kum": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "krc": {
+        "distance": 0.3143,
+        "shared": 35,
+        "diff": 11
+      },
+      "nog": {
+        "distance": 0.2,
+        "shared": 15,
+        "diff": 3
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      }
+    },
+    "kjh": {
+      "tur": {
+        "distance": 0.2222,
+        "shared": 18,
+        "diff": 4
+      },
+      "azj": {
+        "distance": 0.3333,
+        "shared": 6,
+        "diff": 2
+      },
+      "tuk": {
+        "distance": 0.2,
+        "shared": 5,
+        "diff": 1
+      },
+      "kaz": {
+        "distance": 0.1429,
+        "shared": 7,
+        "diff": 1
+      },
+      "kir": {
+        "distance": 0.0769,
+        "shared": 13,
+        "diff": 1
+      },
+      "tat": {
+        "distance": 0.2222,
+        "shared": 9,
+        "diff": 2
+      },
+      "bak": {
+        "distance": 0.125,
+        "shared": 8,
+        "diff": 1
+      },
+      "uig": {
+        "distance": 0.0,
+        "shared": 4,
+        "diff": 0
+      },
+      "uzb": {
+        "distance": 0.0625,
+        "shared": 16,
+        "diff": 1
+      },
+      "chv": {
+        "distance": 0.0909,
+        "shared": 11,
+        "diff": 1
+      },
+      "sah": {
+        "distance": 0.0,
+        "shared": 8,
+        "diff": 0
+      },
+      "tyv": {
+        "distance": 0.125,
+        "shared": 8,
+        "diff": 1
+      },
+      "kjh": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "cjs": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "klj": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "gag": {
+        "distance": 0.25,
+        "shared": 4,
+        "diff": 1
+      },
+      "crh": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "kaa": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "kum": {
+        "distance": 0.1667,
+        "shared": 6,
+        "diff": 1
+      },
+      "krc": {
+        "distance": 0.4286,
+        "shared": 7,
+        "diff": 3
+      },
+      "nog": {
+        "distance": 0.3333,
+        "shared": 6,
+        "diff": 2
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      }
+    },
+    "cjs": {
+      "tur": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "azj": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "tuk": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "kaz": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "kir": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "tat": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "bak": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "uig": {
+        "distance": 0.0,
+        "shared": 1,
+        "diff": 0
+      },
+      "uzb": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "chv": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "sah": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "tyv": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "kjh": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "cjs": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "klj": {
+        "distance": null,
+        "shared": 0,
+        "diff": 0
+      },
+      "gag": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "crh": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "kaa": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "kum": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "krc": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "nog": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      }
+    },
+    "klj": {
+      "tur": {
+        "distance": 0.1316,
+        "shared": 38,
+        "diff": 5
+      },
+      "azj": {
+        "distance": 0.0,
+        "shared": 23,
+        "diff": 0
+      },
+      "tuk": {
+        "distance": 0.1667,
+        "shared": 12,
+        "diff": 2
+      },
+      "kaz": {
+        "distance": null,
+        "shared": 0,
+        "diff": 0
+      },
+      "kir": {
+        "distance": 0.0,
+        "shared": 12,
+        "diff": 0
+      },
+      "tat": {
+        "distance": 0.2,
+        "shared": 20,
+        "diff": 4
+      },
+      "bak": {
+        "distance": 0.1923,
+        "shared": 26,
+        "diff": 5
+      },
+      "uig": {
+        "distance": 0.087,
+        "shared": 23,
+        "diff": 2
+      },
+      "uzb": {
+        "distance": 0.0968,
+        "shared": 31,
+        "diff": 3
+      },
+      "chv": {
+        "distance": 0.1429,
+        "shared": 35,
+        "diff": 5
+      },
+      "sah": {
+        "distance": 0.1471,
+        "shared": 34,
+        "diff": 5
+      },
+      "tyv": {
+        "distance": 0.0741,
+        "shared": 27,
+        "diff": 2
+      },
+      "kjh": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "cjs": {
+        "distance": null,
+        "shared": 0,
+        "diff": 0
+      },
+      "klj": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "gag": {
+        "distance": 1.0,
+        "shared": 2,
+        "diff": 2
+      },
+      "crh": {
+        "distance": null,
+        "shared": 0,
+        "diff": 0
+      },
+      "kaa": {
+        "distance": 0.069,
+        "shared": 29,
+        "diff": 2
+      },
+      "kum": {
+        "distance": null,
+        "shared": 0,
+        "diff": 0
+      },
+      "krc": {
+        "distance": 0.2667,
+        "shared": 30,
+        "diff": 8
+      },
+      "nog": {
+        "distance": 0.0,
+        "shared": 10,
+        "diff": 0
+      },
+      "dlg": {
+        "distance": null,
+        "shared": 0,
+        "diff": 0
+      },
+      "alt": {
+        "distance": null,
+        "shared": 0,
+        "diff": 0
+      }
+    },
+    "gag": {
+      "tur": {
+        "distance": 0.2857,
+        "shared": 7,
+        "diff": 2
+      },
+      "azj": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "tuk": {
+        "distance": 1.0,
+        "shared": 2,
+        "diff": 2
+      },
+      "kaz": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "kir": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "tat": {
+        "distance": 0.5,
+        "shared": 4,
+        "diff": 2
+      },
+      "bak": {
+        "distance": 0.25,
+        "shared": 4,
+        "diff": 1
+      },
+      "uig": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "uzb": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "chv": {
+        "distance": 0.0,
+        "shared": 4,
+        "diff": 0
+      },
+      "sah": {
+        "distance": 0.2,
+        "shared": 5,
+        "diff": 1
+      },
+      "tyv": {
+        "distance": 0.75,
+        "shared": 4,
+        "diff": 3
+      },
+      "kjh": {
+        "distance": 0.25,
+        "shared": 4,
+        "diff": 1
+      },
+      "cjs": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "klj": {
+        "distance": 1.0,
+        "shared": 2,
+        "diff": 2
+      },
+      "gag": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "crh": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "kaa": {
+        "distance": 1.0,
+        "shared": 2,
+        "diff": 2
+      },
+      "kum": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "krc": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "nog": {
+        "distance": 1.0,
+        "shared": 2,
+        "diff": 2
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      }
+    },
+    "crh": {
+      "tur": {
+        "distance": 0.2,
+        "shared": 10,
+        "diff": 2
+      },
+      "azj": {
+        "distance": 1.0,
+        "shared": 2,
+        "diff": 2
+      },
+      "tuk": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "kaz": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "kir": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "tat": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "bak": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "uig": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "uzb": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "chv": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "sah": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "tyv": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "kjh": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "cjs": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "klj": {
+        "distance": null,
+        "shared": 0,
+        "diff": 0
+      },
+      "gag": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "crh": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "kaa": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "kum": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "krc": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "nog": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      }
+    },
+    "kaa": {
+      "tur": {
+        "distance": 0.1053,
+        "shared": 38,
+        "diff": 4
+      },
+      "azj": {
+        "distance": 0.1379,
+        "shared": 29,
+        "diff": 4
+      },
+      "tuk": {
+        "distance": 0.0625,
+        "shared": 16,
+        "diff": 1
+      },
+      "kaz": {
+        "distance": 0.25,
+        "shared": 4,
+        "diff": 1
+      },
+      "kir": {
+        "distance": 0.2143,
+        "shared": 14,
+        "diff": 3
+      },
+      "tat": {
+        "distance": 0.125,
+        "shared": 24,
+        "diff": 3
+      },
+      "bak": {
+        "distance": 0.1333,
+        "shared": 30,
+        "diff": 4
+      },
+      "uig": {
+        "distance": 0.0,
+        "shared": 26,
+        "diff": 0
+      },
+      "uzb": {
+        "distance": 0.0294,
+        "shared": 34,
+        "diff": 1
+      },
+      "chv": {
+        "distance": 0.0811,
+        "shared": 37,
+        "diff": 3
+      },
+      "sah": {
+        "distance": 0.0312,
+        "shared": 32,
+        "diff": 1
+      },
+      "tyv": {
+        "distance": 0.125,
+        "shared": 32,
+        "diff": 4
+      },
+      "kjh": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "cjs": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "klj": {
+        "distance": 0.069,
+        "shared": 29,
+        "diff": 2
+      },
+      "gag": {
+        "distance": 1.0,
+        "shared": 2,
+        "diff": 2
+      },
+      "crh": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "kaa": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "kum": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "krc": {
+        "distance": 0.2,
+        "shared": 35,
+        "diff": 7
+      },
+      "nog": {
+        "distance": 0.0769,
+        "shared": 13,
+        "diff": 1
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      }
+    },
+    "kum": {
+      "tur": {
+        "distance": 0.5,
+        "shared": 6,
+        "diff": 3
+      },
+      "azj": {
+        "distance": 0.2,
+        "shared": 5,
+        "diff": 1
+      },
+      "tuk": {
+        "distance": 0.0,
+        "shared": 4,
+        "diff": 0
+      },
+      "kaz": {
+        "distance": 0.1667,
+        "shared": 6,
+        "diff": 1
+      },
+      "kir": {
+        "distance": 0.25,
+        "shared": 4,
+        "diff": 1
+      },
+      "tat": {
+        "distance": 0.2,
+        "shared": 5,
+        "diff": 1
+      },
+      "bak": {
+        "distance": 0.25,
+        "shared": 4,
+        "diff": 1
+      },
+      "uig": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "uzb": {
+        "distance": 0.0,
+        "shared": 5,
+        "diff": 0
+      },
+      "chv": {
+        "distance": 0.5,
+        "shared": 4,
+        "diff": 2
+      },
+      "sah": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "tyv": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "kjh": {
+        "distance": 0.1667,
+        "shared": 6,
+        "diff": 1
+      },
+      "cjs": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "klj": {
+        "distance": null,
+        "shared": 0,
+        "diff": 0
+      },
+      "gag": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "crh": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "kaa": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "kum": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "krc": {
+        "distance": 0.5,
+        "shared": 4,
+        "diff": 2
+      },
+      "nog": {
+        "distance": 0.0,
+        "shared": 5,
+        "diff": 0
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      }
+    },
+    "krc": {
+      "tur": {
+        "distance": 0.2444,
+        "shared": 45,
+        "diff": 11
+      },
+      "azj": {
+        "distance": 0.3333,
+        "shared": 30,
+        "diff": 10
+      },
+      "tuk": {
+        "distance": 0.1111,
+        "shared": 18,
+        "diff": 2
+      },
+      "kaz": {
+        "distance": 0.6,
+        "shared": 5,
+        "diff": 3
+      },
+      "kir": {
+        "distance": 0.1176,
+        "shared": 17,
+        "diff": 2
+      },
+      "tat": {
+        "distance": 0.1379,
+        "shared": 29,
+        "diff": 4
+      },
+      "bak": {
+        "distance": 0.2727,
+        "shared": 33,
+        "diff": 9
+      },
+      "uig": {
+        "distance": 0.2963,
+        "shared": 27,
+        "diff": 8
+      },
+      "uzb": {
+        "distance": 0.2105,
+        "shared": 38,
+        "diff": 8
+      },
+      "chv": {
+        "distance": 0.2821,
+        "shared": 39,
+        "diff": 11
+      },
+      "sah": {
+        "distance": 0.1935,
+        "shared": 31,
+        "diff": 6
+      },
+      "tyv": {
+        "distance": 0.3143,
+        "shared": 35,
+        "diff": 11
+      },
+      "kjh": {
+        "distance": 0.4286,
+        "shared": 7,
+        "diff": 3
+      },
+      "cjs": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "klj": {
+        "distance": 0.2667,
+        "shared": 30,
+        "diff": 8
+      },
+      "gag": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "crh": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "kaa": {
+        "distance": 0.2,
+        "shared": 35,
+        "diff": 7
+      },
+      "kum": {
+        "distance": 0.5,
+        "shared": 4,
+        "diff": 2
+      },
+      "krc": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "nog": {
+        "distance": 0.1429,
+        "shared": 14,
+        "diff": 2
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      }
+    },
+    "nog": {
+      "tur": {
+        "distance": 0.2353,
+        "shared": 17,
+        "diff": 4
+      },
+      "azj": {
+        "distance": 0.1176,
+        "shared": 17,
+        "diff": 2
+      },
+      "tuk": {
+        "distance": 0.0909,
+        "shared": 11,
+        "diff": 1
+      },
+      "kaz": {
+        "distance": 0.2857,
+        "shared": 7,
+        "diff": 2
+      },
+      "kir": {
+        "distance": 0.25,
+        "shared": 12,
+        "diff": 3
+      },
+      "tat": {
+        "distance": 0.125,
+        "shared": 16,
+        "diff": 2
+      },
+      "bak": {
+        "distance": 0.2143,
+        "shared": 14,
+        "diff": 3
+      },
+      "uig": {
+        "distance": 0.0769,
+        "shared": 13,
+        "diff": 1
+      },
+      "uzb": {
+        "distance": 0.125,
+        "shared": 16,
+        "diff": 2
+      },
+      "chv": {
+        "distance": 0.2667,
+        "shared": 15,
+        "diff": 4
+      },
+      "sah": {
+        "distance": 0.2,
+        "shared": 15,
+        "diff": 3
+      },
+      "tyv": {
+        "distance": 0.2,
+        "shared": 15,
+        "diff": 3
+      },
+      "kjh": {
+        "distance": 0.3333,
+        "shared": 6,
+        "diff": 2
+      },
+      "cjs": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "klj": {
+        "distance": 0.0,
+        "shared": 10,
+        "diff": 0
+      },
+      "gag": {
+        "distance": 1.0,
+        "shared": 2,
+        "diff": 2
+      },
+      "crh": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "kaa": {
+        "distance": 0.0769,
+        "shared": 13,
+        "diff": 1
+      },
+      "kum": {
+        "distance": 0.0,
+        "shared": 5,
+        "diff": 0
+      },
+      "krc": {
+        "distance": 0.1429,
+        "shared": 14,
+        "diff": 2
+      },
+      "nog": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      }
+    },
+    "dlg": {
+      "tur": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "azj": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "tuk": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "kaz": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "kir": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "tat": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "bak": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "uig": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "uzb": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "chv": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "sah": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "tyv": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "kjh": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "cjs": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "klj": {
+        "distance": null,
+        "shared": 0,
+        "diff": 0
+      },
+      "gag": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "crh": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "kaa": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "kum": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "krc": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "nog": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "dlg": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      },
+      "alt": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      }
+    },
+    "alt": {
+      "tur": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "azj": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "tuk": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "kaz": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "kir": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "tat": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "bak": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "uig": {
+        "distance": 0.0,
+        "shared": 1,
+        "diff": 0
+      },
+      "uzb": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "chv": {
+        "distance": 0.3333,
+        "shared": 3,
+        "diff": 1
+      },
+      "sah": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "tyv": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "kjh": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "cjs": {
+        "distance": 0.0,
+        "shared": 3,
+        "diff": 0
+      },
+      "klj": {
+        "distance": null,
+        "shared": 0,
+        "diff": 0
+      },
+      "gag": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "crh": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "kaa": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "kum": {
+        "distance": 0.5,
+        "shared": 2,
+        "diff": 1
+      },
+      "krc": {
+        "distance": 0.0,
+        "shared": 2,
+        "diff": 0
+      },
+      "nog": {
+        "distance": 0.6667,
+        "shared": 3,
+        "diff": 2
+      },
+      "dlg": {
+        "distance": 1.0,
+        "shared": 1,
+        "diff": 1
+      },
+      "alt": {
+        "distance": 0.0,
+        "shared": null,
+        "diff": null
+      }
+    }
+  }
+}

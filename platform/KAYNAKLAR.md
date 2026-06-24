@@ -16,7 +16,7 @@
 | `nel` | **NorthEuraLex** | veri | CC BY 4.0 | `sources/northeuralex` | **✅ çekildi** (çıkarım ⏳) | Kognat Ağı (ikincil), yüzey benzerliği. |
 | `ud` | **Universal Dependencies** | veri | CC BY-SA 4.0 (ağaçbank bazlı değişir!) | `sources/UD_Turkish-IMST,-BOUN,UD_Kazakh-KTB,UD_Uyghur-UDT` | **✅ çekildi** (çıkarım ⏳) | Analiz bağlamı, POS, örnek cümle. **Lisans ağaçbank bazında kaydedilecek.** |
 | `unimorph` | **UniMorph** | veri | CC BY 4.0 | `sources/{tur,tat,kaz,kir,uzb,uig,bak,sah,aze}` (chv yok) | **✅ çekildi** (çıkarım ⏳) | Paradigma Gezgini (`lemma⇥form⇥öznitelik`). |
-| `wals` | **WALS** | veri | CC BY 4.0 | `sources/wals` (192 tipolojik özellik) | **✅ çekildi** (çıkarım ⏳) | Uzaklık(tipolojik), özellik matrisi. |
+| `wals` | **WALS** | veri | CC BY 4.0 | `sources/wals` (192 tipolojik özellik) | **✅ çekildi + çıkarıldı** | Uzaklık(tipolojik), özellik matrisi. → `distance.typological.json`, `features.wals.json`. |
 | `glottolog` | **Glottolog 5.x** | veri | CC BY 4.0 | `sources/glottolog-cldf` | **✅ çekildi + çıkarıldı** | Soy ağacı, sınıflandırma, dil kimliği, **AES canlılık** (açık; EGIDS/UNESCO eşlemeli). → `profiles.json`. |
 | `ethnologue` | Ethnologue / EGIDS | veri | **🔒 tescilli** | — (açık alternatif: **Glottolog AES** + **ElCat** + UNESCO Atlas) | ⏳ alternatif | Canlılık/konuşur. *Tescilli → açık AES verisi kullanılacak, EGIDS referans olarak anılacak.* |
 | `joshi` | Joshi vd. 2020 | 📄 makale | akademik | `sources/_papers/joshi2020.pdf` (aclanthology.org/2020.acl-main.560) | ⏳ bekliyor | Dijital kaynak sınıfı (0–5), canlılık katmanı. |
@@ -40,6 +40,8 @@
 | `cognates.json` | 254 kavram → 905 kognat seti (üye diller+biçim+segment+kök) | SavelyevTurkic | Kognat Ağı (kognat boşlukları görünür: ör. "göz" *gȫrs vs Sibirya *Karak) |
 | `distance.lexical.json` | 32×32 leksikostatistik mesafe (derin kognat paylaşımı) | SavelyevTurkic | Uzaklık Gezgini (leksikal eksen) |
 | `profiles.json` | 23 dil profili: kimlik/koordinat/ülke/kol + **AES canlılık** (EGIDS/UNESCO eşlemeli) | Glottolog | Dil Profilleri, Canlılık ısı-haritası |
+| `distance.typological.json` | 23×23 tipolojik mesafe (WALS özniteliklerinde farklılık; her hücre `shared` sayısı taşır) | WALS | Uzaklık Gezgini (tipolojik eksen) |
+| `features.wals.json` | dil → 192 WALS özniteliği (değer etiketleriyle) | WALS | Özellik Matrisi |
 
 > *Not (yöntem):* `distance.lexical.json` **derin kognat paylaşımı** ölçer (uzman kognat yargıları, 254 kavram) — #4'teki yüzey-Swadesh/anlaşılabilirlik yüzdelerinden farklı, tamamlayıcı bir sinyaldir; UI'da ayrı eksen olarak sunulabilir.
 

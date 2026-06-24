@@ -100,8 +100,13 @@ Voicing çiftleri Latin+Kiril kapsıyor; rozetler her dilde çalışıyor: tur p
 ## YAPILANLAR (bu ek-oturum) ✅
 - **A) Joshi kaynak sınıfı (0–5)** dil profillerine rozet (envanter PDF'i). • **B) Fiil yüzey bölümleme** (NW-align). • **C) chv kaynaşık-çöküş cilası** (yeniden-üretim ↑). • **D) Diller-arası genişletme:** chv-tat + kaz-uig `.dix` → Çuvaşça+Uygurca grafiğe bağlandı; `/crosslang` çoklu-analiz → fiil cross-lang (attım→7 dil). `fetch_dix.sh` (reproducibility).
 
-## Sıradaki / açık işler
-1. **Deepsearch (yeni prompt `arastirma/5c-...`):** fiil TAM etiket-haritalama (gidiyorum/ger_past taşınmıyor); **Saha izole** (pair yok) + Çuvaşça için daha çok çapraz-dil kaynak; füzyonel iyelik+hâl ince ayrışması.
+## EK-OTURUM (deepsearch 5c uygulandı + (b) + planlama)
+- **Deepsearch 5c sonucu (`_morfoloji_plani.txt`) uygulandı:** chv-tur (31K) + kaz-sah `.dix` → 10/10 dil cross-lang'a bağlandı (хӗр→kız, göz→харах); **fiil TAM normalizasyonu** (TAG_NORM) → fiil cross-lang (attım→8 dil). Deepsearch ayrıca **füzyonel ayrışmanın bölünebilir** olduğunu kanıtladı (chv -не=+i+n+e; chv sırası Kök+İyelik+Çoğul+Hâl) → Faz 1.1.
+- **✅ (b) ses denklikleri kanıt-destekli + kognata bağlı** (kullanıcı kararı): 4 kural Savelyev verisinden kanıtlı (rotasizm 36, lambdasizm 29, y->ś 14, proto-fonem temelli); kognat→kural vurgusu. `build.py: sound_evidence + build_cognates ruleIdx`.
+- **Planlama:** `plan/YOL-HARITASI.md` fazlı + DEEPSEARCH İHTİYAÇ HARİTASI; yeni notlar yerleşti (kollar açıklayıcı, derin profiller, kaynaklar güncelleme, Hakkında). Deepsearch promptları hazır: `6` TTS, `7` LLM/HF, `8` sınıflandırma çerçevesi, `9` kol-bazlı derin profiller.
+
+## Sıradaki / açık işler — bkz `plan/YOL-HARITASI.md` (özet)
+1. **ŞİMDİ (deepsearch beklemez):** Faz 1.1 füzyonel ayrışma (NW kanonik-allomorf) · 1.3 harita/UX · 1.4 Hakkında.
 2. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.
 3. Sıfat/zarf yüzey bölümleme (POS başına kümülatif şablon).
 4. **.dix kalıcılığı:** VM'de `/root/koken_api/dix/` (gitignored, GPL). VM sıfırlanırsa `bash platform/backend/fetch_dix.sh` (VM'de) ile yeniden indir.

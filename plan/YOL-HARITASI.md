@@ -2,6 +2,20 @@
 
 > Her madde: **ne / yapar mıyız (gerekçe) / nasıl / bağımlılık / ❓açık soru**. "Yatay ölçek + eğitim portalı" en sonda (`GELECEK-PLANLAR.md`). Bu dosya, fikirler netleştikçe güncellenir; karar verilenler ✅, beklemedekiler ⏳.
 
+## ★ DEEPSEARCH İHTİYAÇ HARİTASI (hangi iş hangi deepsearch'i bekler)
+Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
+| İş | Deepsearch | Durum |
+|---|---|---|
+| **Faz 1.1 füzyonel ayrışma** | **GEREKMEZ** — `5c` (_morfoloji_plani) zaten yöntemi+örnekleri verdi | hazır, yapılabilir |
+| Faz 1.3 harita/soy-ağacı UX | gerekmez (saf UI) | hazır |
+| Faz 1.4 Hakkında/iletişim | gerekmez | hazır |
+| Faz 2.1 TTS | `6` (TTS/ASR) | prompt hazır, sonuç bekleniyor |
+| Faz 2.2 LLM/HF ekosistem | `7` (LLM/NLP/HF) | prompt hazır, sonuç bekleniyor |
+| Faz 2.5 Kollar açıklayıcı | `8` (sınıflandırma çerçevesi) | prompt hazır |
+| Faz 2.6 Derin dil profilleri | `9` (kol-bazlı batch A-E) | prompt hazır |
+| **Kaynaklar büyük güncelleme** | TÜM deepsearch'ler (5,5b,5c,6,7,8,9) sonrası | bekliyor |
+> **Özet:** Şimdi deepsearch beklemeden **Faz 1.1 / 1.3 / 1.4** yapılabilir. Faz 2+ ve içerik/kaynak işleri deepsearch sonuçlarını bekler.
+
 ---
 
 ## FAZ 1 — Yakın kalite (mevcut MVP'yi akademik-mükemmel yap) — ÖNCE BU
@@ -25,9 +39,14 @@
 - **Nasıl:** harita projeksiyonunu düzelt (Türkiye konumu/etiketi); düğüme tıkla → inline kart (profil özeti + "tam profile git" linki), navigasyon yerine. Soy ağacı interaktif (dal tıkla → vurgu).
 - **❓Soru:** harita gerçek coğrafi projeksiyon mu kalsın yoksa şematik mi; inline panel mı popover mı?
 
+### 1.4 ⏳ "Hakkında" + iletişim (kullanıcı notu)
+- **Ne:** Platformun amacı/felsefesi/ekibi/kaynak-ilkesi + iletişim (e-posta/GitHub) — sol menüde "Hakkında".
+- **Yapar mıyız:** EVET, küçük, akademik ciddiyet + iletişim için gerekli. Deepsearch gerekmez.
+- **Nasıl:** tek sayfa: misyon (çift kitle, dijital kapsayıcılık), metodoloji (gerçek kaynak/atıf/uydurma-yok), açık kaynak/lisans, ekip + iletişim. İletişim bu sayfanın içinde.
+
 ---
 
-## FAZ 2 — Yeni modüller (araştırmacı değeri; deepsearch SONRASI)
+## FAZ 2 — Yeni modüller (araştırmacı + içerik değeri; deepsearch SONRASI)
 
 ### 2.1 ⏳ Doğru seslendirme (TTS) — her dil için (kullanıcı notu)
 - **Ne:** "▷ Seslendir" şu an tarayıcı Web Speech'e düşüyor → çoğu Türk dilini desteklemiyor/yanlış. Dil-başına doğru TTS lazım.
@@ -52,6 +71,23 @@
 - **Yapar mıyız:** araştırma kalemi — kısmen `5`/`5b`/`7` deepsearch'leriyle örtüşür.
 - **Nasıl:** mevcut envanter deepsearch'lerine ekle; çıkanları ekosistem bölümüne (2.2) yerleştir.
 
+### 2.5 ⏳ "Türk dilleri kolları NEDİR" açıklayıcı kategorisi (kullanıcı notu) — ★
+- **Ne:** Oğuz/Kıpçak/Karluk/Sibirya/Oğur/Argu kollarını **herkesin anlayacağı dilde + diyagram/şablonla** anlatan, sol menüde ayrı bir açıklayıcı bölüm. ("Bunları anlatmak bu platformun görevidir.")
+- **Yapar mıyız:** EVET — vizyonun pedagoji + "ilk uğrak" ayağıyla birebir; çocuk eğitim portalının da temeli.
+- **Nasıl:** her kol için sade tanım + tanımlayıcı izogloss (örn. Ogur=rotasizm) + örnek kelime + interaktif soy ağacı diyagramı. **Deepsearch `8` (sınıflandırma çerçevesi)** verisiyle.
+- **❓Soru:** ayrı sol-menü kategorisi mi, yoksa mevcut "Tarih & Köken" / "Dil Profilleri" içine mi? (Mevcut Tarih & Köken + Karşılaştır>Soy ağacı kısmen var.)
+
+### 2.6 ⏳ Derin dil profillerini doldurma (kullanıcı notu — çok detaylı deepsearch)
+- **Ne:** Her dilin tarihi, yapısı, ilişkileri, dijital gücü, apertium/NLP varlığı/ürün/avantaj/dezavantaj — kapsamlı, atıflı profiller; hem modülleri DOLDURUR hem verimizi TEST eder (doğruluk/eksik/tutarlılık).
+- **Yapar mıyız:** EVET — akademik ciddiyet + kaynağa bağlılık için omurga.
+- **Nasıl:** **Deepsearch `9` (kol-bazlı batch A-E; her batch ayrı çalıştır)** → çıktıları locale çek, çapraz-kontrol, profiller/tarih/ekosistem modüllerine işle. + **Deepsearch `8`** çerçevesi.
+
+### 2.7 ⏳ KAYNAKLAR büyük güncelleme (kullanıcı notu) — ★ tüm deepsearch'ler sonrası
+- **Ne:** Platformda her yerde geçen kaynak künyelerini + "Kaynaklar & Lisanslar" bölümünü **baştan, eksiksiz** güncelle (tüm deepsearch'lerin kaynakçaları + locale çekilen yeni veriler).
+- **Yapar mıyız:** EVET — "hiçbir veri kaynaksız değildir" ilkesi; akademik dürüstlüğün vitrini.
+- **Nasıl:** 5,5b,5c,6,7,8,9 sonuçları geldikçe her birinin kaynakçasını `KAYNAKLAR.md` + UI Kaynaklar bölümüne işle; her modülün kullandığı kaynağı doğrula/güncelle.
+- **Bağımlılık:** TÜM deepsearch'ler.
+
 ---
 
 ## FAZ 3 — Çuvaşça derinlik ("dilin kalbi") — brainstorm
@@ -72,4 +108,6 @@
 - **Faz 1.2 ses denklikleri:** ✅ **(A) Kanıt-destekli yerleşik kurallar** — kurallar ground truth, Savelyev verisinden KANITLA + kognatı kurala bağla. (Saf çıkarım reddedildi: spürios riski.)
 - **Faz 1.1 + 1.2 ayrı deepsearch:** ✅ HAYIR — eldeki 5c + Savelyev ile dikkatlice ilerle.
 - **Faz 2.2 ekosistem yeri:** ⏳ deepsearch 7 sonucu gelince karar.
+- **Faz 2.5 kollar açıklayıcı yeri:** ❓ ayrı sol-menü kategorisi mi / Tarih & Köken içine mi?
+- **Faz 1.3 harita:** ❓ gerçek coğrafi mi / şematik mi; inline panel mı popover mı?
 - **Faz 3.1 Çuvaşça "Dilin Kalbi":** ✅ AYRI anlatı sayfası (onaylı; Saha/Şor için de şablon).

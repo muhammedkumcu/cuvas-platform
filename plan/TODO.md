@@ -41,7 +41,7 @@
   - [ ] (öneri) Harita düğümüne tıklayınca → o dilin profiline git (küçük bağ).
   - [x] **Kognat Ağı** ← `cognates.json` (14 kavram, gerçek kognat setleri + boşluklar; Savelyev karşılaştırmalı transkripsiyon — yerel ortografi sonra apertium/translit ile güzelleştirilebilir). Doğrulandı: göz *görs vs Yakut χaraχ boşluğu.
   - [x] **filogenetik eksen** ← Savelyev kognat-karakteri Jaccard mesafesi (Bayes ağacının girdisi; yenilikleri yakalar). Doğrulandı: chv→tt 0.61 (>leksikal 0.37). → Uzaklık 4/5 gerçek.
-  - [ ] **anlaşılabilirlik eksen**: temiz açık dataset yok (Lindsay deneysel/asimetrik; Çuvaş≈0). Lindsay'i kaynak göstererek illüstratif kalır VEYA yayınlanmış %tablosu (ResearchGate tbl 321875105) çekilip eklenir.
+  - [x] **anlaşılabilirlik eksen** ← Lindsay (deneysel/yaklaşık, `intelligibility.json`, atıflı). → **Uzaklık 5/5 eksen kaynaklı**, "örnek" rozeti + eski illüstratif caption kalktı. Doğrulandı: chv→tt anla 0.92 (Çuvaş izolasyonu).
 - [ ] **MIMARI.md**: UI veri-sözleşmesi → API uçları + JSON şeması.
 
 ## 2) #4 GELİNCE — Mimari tasarımı (BİRLİKTE kesinleştirilecek)

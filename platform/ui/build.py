@@ -50,7 +50,7 @@ def haversine(a, b):
     return 2 * 6371 * asin(sqrt(h))
 
 
-def build_distance(prof, lex, typ, cog):
+def build_distance(prof, lex, typ, cog, intel):
     codes = list(DIST_LEX)
     coords = {c: (prof[DIST_ISO[c]]["lat"], prof[DIST_ISO[c]]["lon"]) for c in codes
               if prof.get(DIST_ISO[c]) and prof[DIST_ISO[c]].get("lat") is not None}
@@ -66,9 +66,9 @@ def build_distance(prof, lex, typ, cog):
         for s in c["sets"]:
             for m in s["members"]:
                 lang_sets.setdefault(m["lang"], set()).add(s["cognateset_id"])
-    leks, tipo, geo, filo = {}, {}, {}, {}
+    leks, tipo, geo, filo, anla = {}, {}, {}, {}, {}
     for a in codes:
-        leks[a], tipo[a], geo[a], filo[a] = {}, {}, {}, {}
+        leks[a], tipo[a], geo[a], filo[a], anla[a] = {}, {}, {}, {}, {}
         sa = lang_sets.get(DIST_LEX[a], set())
         for b in codes:
             lv = lex.get(DIST_LEX[a], {}).get(DIST_LEX[b], {})
@@ -79,7 +79,13 @@ def build_distance(prof, lex, typ, cog):
             sb = lang_sets.get(DIST_LEX[b], set())
             if sa and sb:
                 filo[a][b] = round(1 - len(sa & sb) / len(sa | sb), 4)
-    return {"leks": leks, "tipo": tipo, "geo": geo, "filo": filo}
+            if a == b:
+                anla[a][b] = 0.0
+            else:
+                pct = intel.get(a, {}).get(b)
+                if pct is None: pct = intel.get(b, {}).get(a)
+                if pct is not None: anla[a][b] = round(1 - pct / 100, 3)
+    return {"leks": leks, "tipo": tipo, "geo": geo, "filo": filo, "anla": anla}
 
 
 # Kognat Ağı: gösterilecek diller (Savelyev ID, UI adı, kol) + kavramlar (Concepticon → Türkçe, anahtar)
@@ -150,6 +156,7 @@ def main():
     typ = json.load(open(DATA / "distance.typological.json", encoding="utf-8"))["matrix"]
     cog = json.load(open(DATA / "cognates.json", encoding="utf-8"))
     extra = json.load(open(DATA / "lang_extra.json", encoding="utf-8"))["languages"]
+    intel = json.load(open(DATA / "intelligibility.json", encoding="utf-8"))["intel"]
 
     changed = []
     for code, iso in CODE2ISO.items():
@@ -181,6 +188,12 @@ def main():
         "glottolog:{label:'Glottolog', detail:'soy ağacı / sınıflandırma / AES canlılık', lic:'CC BY 4.0', kind:'veri', url:'glottolog.org'},\n    wiki:{label:'Wikipedia', detail:'dil profili serbest-metni (çapraz-kontrollü)', lic:'CC BY-SA 4.0', kind:'veri', url:'wikipedia.org'},")
     html = html.replace("{mod:'Dil Profilleri', srcs:['ethnologue','joshi','glottolog','demo']}",
                         "{mod:'Dil Profilleri', srcs:['glottolog','wiki','joshi']}")
+    # Uzaklık 5/5 eksen artık kaynaklı: Lindsay'i kütüğe ekle, demo'yu çıkar
+    html = html.replace(
+        "wals:   {label:'WALS', detail:'tipolojik özellikler (uzaklık ekseni)', lic:'CC BY 4.0', kind:'veri', url:'wals.info'},",
+        "wals:   {label:'WALS', detail:'tipolojik özellikler (uzaklık ekseni)', lic:'CC BY 4.0', kind:'veri', url:'wals.info'},\n    lindsay:{label:'Lindsay — anlaşılabilirlik', detail:'deneysel/yaklaşık karşılıklı anlaşılabilirlik', lic:'akademik', kind:'literatür', url:'tehlikedekidiller.com'},")
+    html = html.replace("{mod:'Uzaklık Gezgini', srcs:['cldf','wals','glottolog','demo']}",
+                        "{mod:'Uzaklık Gezgini', srcs:['cldf','wals','glottolog','lindsay']}")
 
     # canlı API tabanı (sonraki adımda Analiz/Paradigma bağlanacak)
     if "KOKEN_API" not in html:
@@ -192,14 +205,14 @@ def main():
     html, nmap = re.subn(r"MAP = \[.*?\n  \];", lambda m: new_map, html, flags=re.DOTALL)
 
     # Uzaklık Gezgini ← gerçek matrisler: leksikal(Savelyev) + tipolojik(WALS) + coğrafi(koordinat)
-    real_dist = build_distance(prof, lex, typ, cog)
+    real_dist = build_distance(prof, lex, typ, cog, intel)
     if "REAL_DIST" not in html:
         html = html.replace("  KOKEN_API = '" + API + "';",
                             "  KOKEN_API = '" + API + "';\n  REAL_DIST = " + json.dumps(real_dist) + ";", 1)
     old_val = "    const val = (key)=> Math.abs(base[key]-t[key]);"
     new_val = ("    const RD = this.REAL_DIST || {};\n"
                "    const realv = (m)=>{ const r=(RD[m]||{})[S.distBase]; return (r && r[S.distTarget]!=null) ? r[S.distTarget] : null; };\n"
-               "    const val = (key)=>{ const m = {leks:'leks', tipo:'tipo', cogr:'geo', filo:'filo'}[key]; const rv = m ? realv(m) : null; return rv!=null ? rv : Math.abs(base[key]-t[key]); };")
+               "    const val = (key)=>{ const m = {leks:'leks', tipo:'tipo', cogr:'geo', filo:'filo', anla:'anla'}[key]; const rv = m ? realv(m) : null; return rv!=null ? rv : Math.abs(base[key]-t[key]); };")
     ndist = 1 if old_val in html else 0
     html = html.replace(old_val, new_val, 1)
 
@@ -213,6 +226,8 @@ def main():
     # kopya/metin düzeltmeleri — yalnız NET redundant/teknik ifadeler (tasarımı bozmadan, minimal)
     copy_fix = {
         "14 dil · soldan kenar rengi = canlılık": "Türk dilleri ve canlılık durumları",
+        "Kaynak: SavelyevTurkic CLDF · NorthEuraLex — örnek/illüstratif değerler":
+            "Kaynak: Savelyev (leksikal+filogenetik) · WALS (tipolojik) · koordinat (coğrafi) · Lindsay (anlaşılabilirlik)",
     }
     nfix = 0
     for old, new in copy_fix.items():

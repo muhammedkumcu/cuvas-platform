@@ -1,0 +1,22 @@
+{
+  "_meta": {
+    "source": "Robert Lindsay, 'Mutual Intelligibility Among the Turkic Languages' (derleme) + literatür",
+    "url": "tehlikedekidiller.com/.../MA_Robert_Lindsay_Mutual-Intelligibility-Among-the-Turkic-Languages.pdf",
+    "license": "akademik (atıfla)",
+    "accessed": "2026-06-24",
+    "note": "Karşılıklı anlaşılabilirlik DENEYSEL/YAKLAŞIK bir ölçüdür; asimetriktir, burada sadeleştirilip simetrik kullanıldı. Temiz açık bir dataset yoktur — bu değerler literatür temellidir (Lindsay), kesin değildir. Çuvaşça/Yakutça'nın ~0 olması izolasyon gerçeğini yansıtır.",
+    "format": "intel[a][b] = yaklaşık karşılıklı anlaşılabilirlik %; mesafe = 1 - %/100"
+  },
+  "codes": ["tr", "az", "tk", "kk", "kg", "tt", "bak", "ug", "chv", "sah"],
+  "intel": {
+    "tr":  {"az": 80, "tk": 42, "kk": 20, "kg": 18, "tt": 18, "bak": 16, "ug": 22, "chv": 3, "sah": 2},
+    "az":  {"tk": 45, "kk": 18, "kg": 16, "tt": 16, "bak": 14, "ug": 20, "chv": 3, "sah": 2},
+    "tk":  {"kk": 22, "kg": 20, "tt": 18, "bak": 16, "ug": 24, "chv": 3, "sah": 2},
+    "kk":  {"kg": 80, "tt": 68, "bak": 64, "ug": 30, "chv": 4, "sah": 3},
+    "kg":  {"tt": 60, "bak": 56, "ug": 28, "chv": 4, "sah": 3},
+    "tt":  {"bak": 85, "ug": 26, "chv": 8, "sah": 3},
+    "bak": {"ug": 24, "chv": 7, "sah": 3},
+    "ug":  {"chv": 4, "sah": 3},
+    "chv": {"sah": 2}
+  }
+}

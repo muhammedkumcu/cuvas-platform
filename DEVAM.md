@@ -15,7 +15,7 @@ analiz · üretim · paradigma · kognat ağı · ses denkliği · çok-boyutlu 
 - **Felsefe/ilkeler: §4.5 — MUTLAKA OKU.** Akademik hedef: çift-kitleli çok-dilli çok-boyutlu böyle bir platform YOK (apertium=CLI/MT, turkicnlp=dev-kütüphane). Venue: UBMK/TurkLang ya da daha güçlüsü (tarihe sıkışma).
 
 ### MİMARİ — 3 katman
-1. **Backend (VM/Linux)** — `platform/backend/app.py` (FastAPI), apertium FST sarıcı. Uçlar: `/health /languages /analyze {lang,word} /analyze_all {word} /generate {lang,query} /paradigm/{lang}/{lemma}`. 10 MVP dil FST'si indirilmiş. Host'tan `http://127.0.0.1:8000` (VBox port-forward `koken`:8000 + guest firewalld 8000). **Başlat/durdur + ⚠ uvicorn restart tuzağı: §4.6 + `platform/backend/README.md`.**
+1. **Backend (VM/Linux)** — `platform/backend/app.py` (FastAPI), apertium FST sarıcı. Uçlar: `/health /languages /analyze {lang,word} /analyze_all {word} /generate {lang,query} /segment {lang,word} /paradigm/{lang}/{lemma}`. **`/segment`** = canlı kelimeyi GERÇEK yüzey eklerine böler (kümülatif üretim+fark; tutmazsa kök+kalan'a düşer). **`/paradigm`** artık isim (hâl×sayı) + **fiil** (zaman×kişi, üretilen hücreler dinamik) döner (`noun`/`verb`/`has_noun`/`has_verb`). 10 MVP dil FST'si. Host'tan `http://127.0.0.1:8000` (VBox port-forward `koken`:8000 + guest firewalld 8000). **Başlat: VM'de `bash /root/koken_api/start.sh` (pkill+setsid+detach); ⚠ uvicorn tuzağı: §4.6 + `platform/backend/README.md`.**
 2. **Veri (gerçek, locale çekilmiş, kaynaklı)** — `platform/data/*.json` (her dosya `_meta`+lisans):
    `cognates.json` · `languages.geo.json` · `distance.lexical.json` · `distance.typological.json` · `features.wals.json` · `profiles.json` (+AES canlılık) · `intelligibility.json` (Lindsay) · `lang_extra.json` (Wikipedia, 14 dil).
    Çıkarım betikleri: `platform/etl/` (savelyev/glottolog/wals). Ham kaynaklar: `sources/` (gitignored: savelyevturkic, glottolog-cldf, wals, northeuralex, unimorph×9, UD×4). **Provenance defteri: `platform/KAYNAKLAR.md`.**
@@ -31,6 +31,15 @@ analiz · üretim · paradigma · kognat ağı · ses denkliği · çok-boyutlu 
 - ✅ **Araştırmacı Merkezi CANLI** (B) — serbest sözcük + dil → `/analyze` → gerçek JSON/CoNLL-U/CSV + İndir.
 - ✅ **Karşılaştır "dizilim" CANLI** (D) — aranan kelime `/analyze_all` ile diller-arası.
 - ✅ **öğrenen/uzman + export barları KALDIRILDI**; sol-alt XP sayacı kaldırıldı (G7). **Кир/Lat** toggle çalışıyor. Paradigma/Karşılaştır başlıkları **dinamik**.
+
+### ★ 2. TUR GÜNCELLEMELERİ (kullanıcı testi sonrası — TAMAMLANDI, Claude_Preview doğrulandı)
+- **DİL MODELİ değişti:** üst bardaki dil seçici KALDIRILDI; **her ekranda (Analiz/Paradigma/Araştırmacı/Karşılaştır) kendi giriş kutusu + yanında kompakt dil seçici** ("Otomatik (dil algıla)" varsayılan, emoji yok). `searchLang` default `'auto'`. Dil değişince ekran-duyarlı yeniden çözümleme. Üst-bar global arama kutusu KALDI (auto). (Çok-dillilik artık görünmez/otomatik; manuel seçim de var.)
+- **Analiz GERÇEK yüzey ekleri:** canlı sonuç artık `/segment` ile **ev·ler·de** gösterir (apertium etiketi pl/loc DEĞİL). `applySegment` metodu; dil çipiyle yeniden bölünür.
+- **Paradigma FİİL:** "at" gibi köklerde **İsim/Fiil sekmeleri**; fiil tablosu zaman×kişi (attım/attın… , atsam…). Örnekler `runParadigm` (auto destekli).
+- **Karşılaştır CANLI giriş:** "okuduk" sabitliği kaldırıldı; yazılan kelime `/analyze_all` ile diller arası (`runCompare`).
+- **Araştırmacı:** "Otomatik" bug'ı düzeldi (auto→/analyze_all); **"AÇIK API · planlanan"** dürüst etiket (gerçek uç = VM `/analyze`); **"✷ nasıl çalışır?"** aç-kapa ipuçları (Araştırmacı/Kognat/Karşılaştır).
+- **Kognat = küratörlü** (Savelyev statik, 14/254 kavram) — canlı değil; yatay-ölçek notu `plan/GELECEK-PLANLAR.md`'de.
+- DETAY/commit'ler: git log (Backend /segment+fiil → UI dil modeli → segment → fiil paradigma → help/API).
 
 ### ✅ A→F PLANI + GÜNCELLEME NOTLARI — TAMAMLANDI (24 Haz, Claude_Preview'da doğrulandı)
 Tümü `build.py` enjeksiyonu, her adım ayrı commit+push. **Backend canlı doğrulandı** (uvicorn temiz restart, §4.6).

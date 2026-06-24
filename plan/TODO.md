@@ -58,6 +58,15 @@
 - [x] **F) 'demo' temizliği** — `SOURCES.demo` çıkarıldı.
 - [x] **G1)** "HAM ÇIKTI/Dışa aktar" barları kaldırıldı → tablolarda kopyalama. **G3)** paradigma örnekleri dil dengeli. **G7)** sol-alt XP sayacı kaldırıldı. Font/renk paleti korundu.
 
+## 1.8) ✅ 2. TUR — KULLANICI TESTİ GERİ BİLDİRİMLERİ (24 Haz, TAMAMLANDI, Claude_Preview doğrulandı)
+> Kullanıcı kararları: dil modeli = Otomatik + manuel seçim, HER ekranda giriş yanında (üst barda değil); açıklama = aç-kapa ipucu; Açık API = planlanan etiketi.
+- [x] **Dil modeli** — üst-bar dil seçici kaldırıldı; her ekrana kendi giriş + kompakt seçici ("Otomatik" varsayılan, emoji yok); `searchLang='auto'`; ekran-duyarlı yeniden çözümleme.
+- [x] **Analiz gerçek ekler** — backend `/segment` (kümülatif üretim+fark) → kutular **ev·ler·de** (etiket değil). `applySegment`.
+- [x] **Paradigma fiil** — İsim/Fiil sekmeleri; `/paradigm` noun+verb (zaman×kişi dinamik); "at"→attım/atsam. `runParadigm` (auto).
+- [x] **Karşılaştır canlı giriş** — yazılan kelime `/analyze_all` ile diller arası (`runCompare`); "okuduk" sabitliği gitti.
+- [x] **Araştırmacı** — "Otomatik" bug düzeldi; "AÇIK API · planlanan" dürüst etiket; "✷ nasıl çalışır?" aç-kapa (Araştırmacı/Kognat/Karşılaştır).
+- [x] **Yatay-ölçek notları** — kognat 14/254 vb. `plan/GELECEK-PLANLAR.md`'ye eklendi.
+
 ## 2) #4 GELİNCE — Mimari tasarımı (BİRLİKTE kesinleştirilecek)
 - [ ] #4 PDF metnini çıkar + #3 ile birlikte **birleşik veri modeli** tasarla (dil profili, ses‑denkliği kuralı, kognat seti, paradigma, çok‑boyutlu uzaklık matrisi, zaman çizelgesi olayı, kaynak/lisans).
 - [ ] **Modül haritası** netleştir (aşağıdaki §4) + **MVP kapsamı** (hangi modüller v1'de).

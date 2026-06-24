@@ -417,33 +417,41 @@ def segment(req: AnalyzeReq):
     res = _fst(req.lang, "automorf").lookup(word)
     if not res:
         return {"lang": req.lang, "word": word, "ok": False, "morphemes": [], "_source": SOURCE}
-    raw = res[0][0]
-    p = _parse(raw)
-    lemma, tags = p["lemma"], p["tags"]
-    pos = tags[0] if tags else ""
     gen = _fst(req.lang, "autogen")
-    sound_changes = []
-    method = "fallback"
-    if pos == "n":
-        aligned = _segment_align(gen, lemma, tags, word)
-        if aligned:
-            morphs, sound_changes = aligned
-            method = "nw-align"
-        else:
+    # TÜM analizleri dene; ALIGN EDEN İSİM analizini tercih et — analyses[0] çoğu zaman yanlış POS
+    # (isim yerine fiil) verir; bu seçim kanat/жолдың/оҕо gibi yanlış fiil okumalarını eler.
+    chosen = None
+    for r in res:
+        rp = _parse(r[0])
+        if rp["tags"] and rp["tags"][0] == "n":
+            aligned = _segment_align(gen, rp["lemma"], rp["tags"], word)
+            if aligned:
+                chosen = (r[0], rp["lemma"], rp["tags"], aligned[0], aligned[1], "nw-align")
+                break
+    if chosen is None:
+        # align eden isim yok → ilk analiz + mevcut mantık (cumulative / fiil / fallback)
+        p = _parse(res[0][0])
+        lemma, tags = p["lemma"], p["tags"]
+        pos = tags[0] if tags else ""
+        sc, method = [], "fallback"
+        if pos == "n":
             morphs = _segment_noun(gen, lemma, tags)
             if not _reconstructs(morphs, word):
                 morphs = _fallback_split(gen, lemma, tags, word, "n")
             else:
                 method = "cumulative"
-            sound_changes = _sound_changes(lemma, morphs[0]["surface"]) if morphs else []
-    elif pos == "v":
-        morphs = _segment_verb(gen, lemma, tags, word)
-        if not _reconstructs(morphs, word):
-            morphs = _fallback_split(gen, lemma, tags, word, "v")
+            sc = _sound_changes(lemma, morphs[0]["surface"]) if morphs else []
+        elif pos == "v":
+            morphs = _segment_verb(gen, lemma, tags, word)
+            if not _reconstructs(morphs, word):
+                morphs = _fallback_split(gen, lemma, tags, word, "v")
+            else:
+                method = "verb"
         else:
-            method = "verb"
-    else:
-        morphs = [{"surface": word, "tag": pos.upper() or "?", "feat": pos or "", "type": "kök"}]
+            morphs = [{"surface": word, "tag": pos.upper() or "?", "feat": pos or "", "type": "kök"}]
+        chosen = (res[0][0], lemma, tags, morphs, sc, method)
+    raw, lemma, tags, morphs, sound_changes, method = chosen
+    pos = tags[0] if tags else ""
     return {"lang": req.lang, "word": word, "raw": raw, "lemma": lemma, "tags": tags,
             "pos": pos, "ok": pos in ("n", "v"), "morphemes": morphs,
             "sound_changes": sound_changes, "method": method, "_source": SOURCE}

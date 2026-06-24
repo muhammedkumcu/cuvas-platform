@@ -38,7 +38,8 @@
   - [x] **Uzaklık Gezgini** ← gerçek matrisler: 3/5 eksen (leksikal Savelyev + tipolojik WALS + coğrafi koordinat); filo/anla illüstratif kaldı (#4 J matrisleri gelince). Doğrulandı: chv→tt coğrafi 0.02 / leksikal 0.37 / tipolojik 0.26.
   - [ ] **Analiz / Paradigma / Üretim** → canlı API (host:8000) — sıradaki (FST kök+etiket verir; en iyi araştırmacı-merkezi/ham çıktı ile).
   - [x] **Kognat Ağı** ← `cognates.json` (14 kavram, gerçek kognat setleri + boşluklar; Savelyev karşılaştırmalı transkripsiyon — yerel ortografi sonra apertium/translit ile güzelleştirilebilir). Doğrulandı: göz *görs vs Yakut χaraχ boşluğu.
-  - [ ] **filo/anla mesafe eksenleri** ← #4 Bölüm J matrislerini çıkar.
+  - [x] **filogenetik eksen** ← Savelyev kognat-karakteri Jaccard mesafesi (Bayes ağacının girdisi; yenilikleri yakalar). Doğrulandı: chv→tt 0.61 (>leksikal 0.37). → Uzaklık 4/5 gerçek.
+  - [ ] **anlaşılabilirlik eksen**: temiz açık dataset yok (Lindsay deneysel/asimetrik; Çuvaş≈0). Lindsay'i kaynak göstererek illüstratif kalır VEYA yayınlanmış %tablosu (ResearchGate tbl 321875105) çekilip eklenir.
 - [ ] **MIMARI.md**: UI veri-sözleşmesi → API uçları + JSON şeması.
 
 ## 2) #4 GELİNCE — Mimari tasarımı (BİRLİKTE kesinleştirilecek)

@@ -50,7 +50,7 @@ def haversine(a, b):
     return 2 * 6371 * asin(sqrt(h))
 
 
-def build_distance(prof, lex, typ):
+def build_distance(prof, lex, typ, cog):
     codes = list(DIST_LEX)
     coords = {c: (prof[DIST_ISO[c]]["lat"], prof[DIST_ISO[c]]["lon"]) for c in codes
               if prof.get(DIST_ISO[c]) and prof[DIST_ISO[c]].get("lat") is not None}
@@ -60,16 +60,26 @@ def build_distance(prof, lex, typ):
     for a in coords:
         for b in coords:
             d = haversine(coords[a], coords[b]); geo_km[a][b] = d; mx = max(mx, d)
-    leks, tipo, geo = {}, {}, {}
+    # filogenetik: Savelyev kognat-seti karakterleri üzerinden Jaccard (Bayes ağacının GİRDİSİ; yenilikleri cezalandırır)
+    lang_sets = {}
+    for c in cog["concepts"]:
+        for s in c["sets"]:
+            for m in s["members"]:
+                lang_sets.setdefault(m["lang"], set()).add(s["cognateset_id"])
+    leks, tipo, geo, filo = {}, {}, {}, {}
     for a in codes:
-        leks[a], tipo[a], geo[a] = {}, {}, {}
+        leks[a], tipo[a], geo[a], filo[a] = {}, {}, {}, {}
+        sa = lang_sets.get(DIST_LEX[a], set())
         for b in codes:
             lv = lex.get(DIST_LEX[a], {}).get(DIST_LEX[b], {})
             tv = typ.get(DIST_ISO[a], {}).get(DIST_ISO[b], {})
             if lv.get("distance") is not None: leks[a][b] = lv["distance"]
             if tv.get("distance") is not None: tipo[a][b] = tv["distance"]
             if a in geo_km and b in geo_km[a]: geo[a][b] = round(geo_km[a][b] / mx, 3)
-    return {"leks": leks, "tipo": tipo, "geo": geo}
+            sb = lang_sets.get(DIST_LEX[b], set())
+            if sa and sb:
+                filo[a][b] = round(1 - len(sa & sb) / len(sa | sb), 4)
+    return {"leks": leks, "tipo": tipo, "geo": geo, "filo": filo}
 
 
 # Kognat Ağı: gösterilecek diller (Savelyev ID, UI adı, kol) + kavramlar (Concepticon → Türkçe, anahtar)
@@ -170,14 +180,14 @@ def main():
     html, nmap = re.subn(r"MAP = \[.*?\n  \];", lambda m: new_map, html, flags=re.DOTALL)
 
     # Uzaklık Gezgini ← gerçek matrisler: leksikal(Savelyev) + tipolojik(WALS) + coğrafi(koordinat)
-    real_dist = build_distance(prof, lex, typ)
+    real_dist = build_distance(prof, lex, typ, cog)
     if "REAL_DIST" not in html:
         html = html.replace("  KOKEN_API = '" + API + "';",
                             "  KOKEN_API = '" + API + "';\n  REAL_DIST = " + json.dumps(real_dist) + ";", 1)
     old_val = "    const val = (key)=> Math.abs(base[key]-t[key]);"
     new_val = ("    const RD = this.REAL_DIST || {};\n"
                "    const realv = (m)=>{ const r=(RD[m]||{})[S.distBase]; return (r && r[S.distTarget]!=null) ? r[S.distTarget] : null; };\n"
-               "    const val = (key)=>{ const m = {leks:'leks', tipo:'tipo', cogr:'geo'}[key]; const rv = m ? realv(m) : null; return rv!=null ? rv : Math.abs(base[key]-t[key]); };")
+               "    const val = (key)=>{ const m = {leks:'leks', tipo:'tipo', cogr:'geo', filo:'filo'}[key]; const rv = m ? realv(m) : null; return rv!=null ? rv : Math.abs(base[key]-t[key]); };")
     ndist = 1 if old_val in html else 0
     html = html.replace(old_val, new_val, 1)
 

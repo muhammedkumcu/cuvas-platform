@@ -97,10 +97,11 @@ Voicing çiftleri Latin+Kiril kapsıyor; rozetler her dilde çalışıyor: tur p
 
 ---
 
+## YAPILANLAR (bu ek-oturum) ✅
+- **A) Joshi kaynak sınıfı (0–5)** dil profillerine rozet (envanter PDF'i). • **B) Fiil yüzey bölümleme** (NW-align). • **C) chv kaynaşık-çöküş cilası** (yeniden-üretim ↑). • **D) Diller-arası genişletme:** chv-tat + kaz-uig `.dix` → Çuvaşça+Uygurca grafiğe bağlandı; `/crosslang` çoklu-analiz → fiil cross-lang (attım→7 dil). `fetch_dix.sh` (reproducibility).
+
 ## Sıradaki / açık işler
-1. **Joshi kaynak sınıfı (0–5)** dil profillerine rozet (envanter PDF'inden; misyon: eksik/gelişmişlik). Türkçe 4-5; kaz/uzb/tat/uig 2-3; chv/aze/tuk/bak/sah 1; çoğu 0.
-2. **Diller-arası genişletme:** daha çok `.dix` (chv/sah/uig için pair yok → Savelyev CLDF 254-kavram fallback); fiil etiket-haritalama (ger_past gibi dile-özgü farklar).
-3. **Cila:** chv iyelik morfotaktiği (%92→); tur ünlü-düşmesi+iyelik; dil-başına fonolojik ince ayar JSON'u.
-4. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.
-5. Fiil/sıfat yüzey bölümleme (POS başına kümülatif şablon).
-6. **.dix kalıcılığı:** VM'de `/root/koken_api/dix/` (gitignored, GPL). VM sıfırlanırsa GitHub'dan yeniden indir (apertium-`X-Y`.`X-Y`.dix).
+1. **Deepsearch (yeni prompt `arastirma/5c-...`):** fiil TAM etiket-haritalama (gidiyorum/ger_past taşınmıyor); **Saha izole** (pair yok) + Çuvaşça için daha çok çapraz-dil kaynak; füzyonel iyelik+hâl ince ayrışması.
+2. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.
+3. Sıfat/zarf yüzey bölümleme (POS başına kümülatif şablon).
+4. **.dix kalıcılığı:** VM'de `/root/koken_api/dix/` (gitignored, GPL). VM sıfırlanırsa `bash platform/backend/fetch_dix.sh` (VM'de) ile yeniden indir.

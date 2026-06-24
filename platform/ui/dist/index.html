@@ -248,7 +248,7 @@
       <section style="max-width:1100px;margin:0 auto;padding:34px 40px 70px">
         <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">KARŞILAŞTIR</div>
         <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:8px">
-          <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:0">“{{ active.gloss }}” — diller arası</h2>
+          <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:0">“{{ compareHeadline }}” — diller arası</h2>
           <div style="display:flex;gap:8px;background:#ece7dc;padding:5px;border-radius:11px">
             <sc-for list="{{ compareTabs }}" as="t" hint-placeholder-count="3">
               <button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.label }}</button>
@@ -1006,7 +1006,7 @@ class Component extends DCLogic {
     distBase: 'chv',        // distance explorer base lang
     distTarget: 'tt',       // distance explorer target lang
     paradigmRoot: 'hĕr',
-    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null,
+    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null, compareApi: null,
     cognateKey: 'goz',
     profileSel: 'chv',
     researchWord: 'oku',
@@ -1581,7 +1581,12 @@ class Component extends DCLogic {
       style:`cursor:pointer;border:none;border-radius:8px;padding:8px 15px;font-size:13px;font-weight:600;font-family:inherit;background:${S.compareTab===id?'#211d17':'transparent'};color:${S.compareTab===id?'#f4f1ea':'#5f574b'}`,
     }));
     const cmpBlock = (type)=>`display:flex;flex-direction:column;align-items:center;padding:9px 14px;border-radius:9px;background:${this.hueBg(type)};border:1px solid ${this.hueBorder(type)};color:${this.hue(type)}`;
-    const allLangs = [{lang:w.lang,langName:w.langName,branch:'Ogur',translit:w.translit,morphemes:w.morphemes.map(m=>[m.text,m.tag,m.type]),self:true}, ...w.cognates];
+    const cmpApi = (S.activeWordId==='__api' && S.compareApi && S.compareApi.word===w.surface) ? S.compareApi.langs : null;
+    const CBR = {tur:'Oğuz',aze:'Oğuz',tuk:'Oğuz',kaz:'Kıpçak',kir:'Kıpçak',tat:'Kıpçak',bak:'Kıpçak',uzb:'Karluk',uig:'Karluk',chv:'Ogur',sah:'Sibirya'};
+    const CTT = {n:'kök',v:'kök',pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',fut:'zaman',aor:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};
+    const allLangs = cmpApi
+      ? Object.entries(cmpApi).map(([lc,arr])=>{ const a=(arr&&arr[0])||{lemma:w.surface,tags:[]}; const ms=[[a.lemma,'KÖK','kök']].concat((a.tags||[]).map(t=>[t,String(t).toUpperCase(),(CTT[t]||'kök')])); return {lang:lc, langName:(this.LIVE_LN[lc]||lc), branch:(CBR[lc]||'—'), translit:w.surface, morphemes:ms, self:lc===S.apiMatchLang}; })
+      : [{lang:w.lang,langName:w.langName,branch:'Ogur',translit:w.translit,morphemes:w.morphemes.map(m=>[m.text,m.tag,m.type]),self:true}, ...w.cognates];
     const compareRows = allLangs.map(r=>({
       langName:r.langName, branch:r.branch, translit:r.translit,
       speak:()=>this.speak(r.translit),
@@ -1646,10 +1651,10 @@ class Component extends DCLogic {
       treeRows, stripRows, stripRoot, stripRootBg:this.hueBg('kök'),
       stripOne:()=>this.setState(st=>({stripCount:Math.min(st.stripCount+1, w.morphemes.length-1)})),
       stripReset:()=>this.setState({stripCount:0}),
-      goCompareActive:()=>this.setState({screen:'compare', compareTab:'rows'}),
+      goCompareActive:()=>{ this.setState({screen:'compare', compareTab:'rows'}); if(this.state.activeWordId==='__api' && this.state.apiWord){ const word=this.state.apiWord.surface; fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>this.setState({compareApi:{word, langs:d.langs||{}}})).catch(()=>{}); } },
       // compare
       compareTabs, isCmpRows:S.compareTab==='rows', isCmpSound:S.compareTab==='sound', isCmpTree:S.compareTab==='tree', isCmpMap:S.compareTab==='map',
-      compareRows, legend, soundCards, familyRows, timeline,
+      compareRows, compareHeadline:(S.activeWordId==='__api' && w && w.surface) ? w.surface : (w?w.gloss:''), legend, soundCards, familyRows, timeline,
       mapNodes:this.MAP.map(m=>{
         const col = this.BRANCHCOLOR[m.branch];
         return { name:m.name, branch:m.branch, col, go:()=>this.setState({screen:'profile', profileSel:m.code}),

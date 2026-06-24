@@ -270,7 +270,7 @@ def main():
     nlive = 0
     live = []
     # 1) state alanları
-    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null,"))
+    live.append(("    paradigmRoot: 'hĕr',", "    paradigmRoot: 'hĕr',\n    apiParadigm: {}, apiWord: null, searchLang: 'chv', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null, compareApi: null,"))
     # küratörlü kök seçilince serbest çekimi temizle
     live.append(("        go:()=>this.setState({paradigmRoot:k}),", "        go:()=>this.setState({paradigmRoot:k, paradigmFree:null}),"))
     # paradigmVals return: serbest çekim (herhangi bir kök, seçili dil) + handler'lar
@@ -538,6 +538,40 @@ def main():
         else:
             print("  ! B eşleşmedi:", label)
     print(f"  Araştırmacı Merkezi canlı (B): {nb}/{len(bfix)}")
+
+    # ============================================================
+    #  D — KARŞILAŞTIR "dizilim" CANLI: aranan kelime tüm dillerde (/analyze_all) → satırlar
+    #  (FST kök+etiket verir; yüzey-segmentasyon değil — küratörlü kognatlardaki renkli hizalama kadar
+    #   ince değil ama gerçek/canlı. Küratörlü kelimeler eski zengin görünümünü korur.)
+    # ============================================================
+    dfix = []
+    # canlı kelimede Karşılaştır'a geçerken kelimeyi tüm dillerde çöz
+    dfix.append(("compare fetch",
+        "      goCompareActive:()=>this.setState({screen:'compare', compareTab:'rows'}),",
+        "      goCompareActive:()=>{ this.setState({screen:'compare', compareTab:'rows'}); if(this.state.activeWordId==='__api' && this.state.apiWord){ const word=this.state.apiWord.surface; fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>this.setState({compareApi:{word, langs:d.langs||{}}})).catch(()=>{}); } },"))
+    # allLangs: canlı sonuç varsa dillerden satır üret
+    dfix.append(("compare allLangs",
+        "    const allLangs = [{lang:w.lang,langName:w.langName,branch:'Ogur',translit:w.translit,morphemes:w.morphemes.map(m=>[m.text,m.tag,m.type]),self:true}, ...w.cognates];",
+        "    const cmpApi = (S.activeWordId==='__api' && S.compareApi && S.compareApi.word===w.surface) ? S.compareApi.langs : null;\n"
+        "    const CBR = {tur:'Oğuz',aze:'Oğuz',tuk:'Oğuz',kaz:'Kıpçak',kir:'Kıpçak',tat:'Kıpçak',bak:'Kıpçak',uzb:'Karluk',uig:'Karluk',chv:'Ogur',sah:'Sibirya'};\n"
+        "    const CTT = {n:'kök',v:'kök',pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',fut:'zaman',aor:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};\n"
+        "    const allLangs = cmpApi\n"
+        "      ? Object.entries(cmpApi).map(([lc,arr])=>{ const a=(arr&&arr[0])||{lemma:w.surface,tags:[]}; const ms=[[a.lemma,'KÖK','kök']].concat((a.tags||[]).map(t=>[t,String(t).toUpperCase(),(CTT[t]||'kök')])); return {lang:lc, langName:(this.LIVE_LN[lc]||lc), branch:(CBR[lc]||'—'), translit:w.surface, morphemes:ms, self:lc===S.apiMatchLang}; })\n"
+        "      : [{lang:w.lang,langName:w.langName,branch:'Ogur',translit:w.translit,morphemes:w.morphemes.map(m=>[m.text,m.tag,m.type]),self:true}, ...w.cognates];"))
+    # başlık: canlı kelimede ham gloss yerine yüzey biçimi göster
+    dfix.append(("compare başlık binding",
+        "      compareRows, legend, soundCards, familyRows, timeline,",
+        "      compareRows, compareHeadline:(S.activeWordId==='__api' && w && w.surface) ? w.surface : (w?w.gloss:''), legend, soundCards, familyRows, timeline,"))
+    dfix.append(("compare başlık markup",
+        '<h2 style="font-family:\'Spectral\',serif;font-weight:600;font-size:38px;margin:0">“{{ active.gloss }}” — diller arası</h2>',
+        '<h2 style="font-family:\'Spectral\',serif;font-weight:600;font-size:38px;margin:0">“{{ compareHeadline }}” — diller arası</h2>'))
+    nd = 0
+    for label, old, new in dfix:
+        if old in html:
+            html = html.replace(old, new, 1); nd += 1
+        else:
+            print("  ! D eşleşmedi:", label)
+    print(f"  Karşılaştır dizilim canlı (D): {nd}/{len(dfix)}")
 
     # --- DENETİM DÜZELTMELERİ (görünür taraftaki sabit/eskimiş/tutarsız öğeler) ---
     audit = [

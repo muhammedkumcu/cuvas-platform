@@ -1,0 +1,63 @@
+TÜRK DİLLERİ TAM ENVANTERİ (deepsearch 11) — 47 dil/lehçe/tarihsel form
+
+
+=== Oğuz kolu (10) ===
+  tur  nucl1301      39.00,  35.00  [Oğuz - Batı]  Türki ye Türk çesi  · Stand art Dil
+  gag  gaga1249      46.25,  28.65  [Oğuz - Batı]  Gaga vuzc a  · Stand art Dil
+  bgx  balk1254      41.33,  24.50  [Oğuz - Batı]  Balka n Gaga vuzc ası  · Lehç e / Tehlik ede
+  azj  nort2697      40.50,  47.50  [Oğuz - Doğu]  Kuze y Azer bayc anca  · Stand art Dil
+  azb  sout2697      38.00,  46.00  [Oğuz - Doğu]  Güne y Azer bayc anca  · Bölge sel Stand art
+  tuk  turk1304      39.00,  59.00  [Oğuz - Doğu]  Türk men ce  · Stand art Dil
+  kmz  khor1269      37.50,  58.50  [Oğuz - Doğu]  Hora san Türk çesi  · Lehç e / Tehlik ede
+  qxq  qash1         29.50,      ?  [Oğuz -]  Kaşk ayca  · Lehç e /
+  slr  sala1264      35.80, 102.50  [Oğuz - Doğu (Geçi şken)]  Salar ca  · Stand art / İzole
+  crh  crim1257      45.00,  34.00  [Kıpça k / Oğuz (Para filetik )]  Kırım Tatar cası  · Stand art Dil
+
+=== Kıpçak kolu (15) ===
+  uum  urum1249      47.00,  37.00  [Kıpça k - Kuma]  Uru mca  · Tehlik ede
+  kaz  kaza1248      48.00,  68.00  [Kıpça k - Noga y (Gün ey)]  Kaza kça  · Stand art Dil
+  kir  kirg1245      41.00,  75.00  [Kıpça k - Kırgız (Doğ u)]  Kırgı zca  · Stand art Dil
+  tat  tata1255      55.80,  49.10  [Kıpça k - Kuze y (Volg a)]  Tatar ca  · Stand art Dil
+  bak  bash1264      53.60,  56.56  [Kıpça k - Kuze y (Volg a)]  Başk urtça  · Stand art Dil
+  kaa  kara1467      43.00,  59.00  [Kıpça k - Noga y (Gün ey)]  Kara kalpa kça  · Stand art Dil
+  krc  kara1465      43.50,  43.00  [Kıpça k - Kuma n (Kafk as)]  Kara çay- Balka rca  · Stand art Dil
+  kum  kumu1243      42.50,   47.0  [Kıpça k - Kuma]  Kum ukça  · Stand art Dil
+  nog  noga1249      44.00,  46.00  [Kıpça k - Noga y (Gün ey)]  Noga yca  · Stand art Dil
+  kdr  kara1464      54.67,  24.92  [Kıpça k - Kuma n (Batı)]  Kara yca (Kara im)  · Tehlik ede / Dini
+  jct  krym1236      45.00,  34.25  [Kıpça k - Kuma n (Kırım )]  Kırım çak  · Tehlik ede / Dini
+  sty  sibe1250      56.00,  70.00  [Kıpça k - Kuze y (Sibir ya)]  Sibir ya Tatar cası  · Lehç e / Toplu luk
+  alt  sout2694      50.00,  86.00  [Sibiry a - Altay (Kıpç ak etkili)]  Güne y Altay ca  · Stand art Dil
+  xzm  khwa1238      42.00,  59.00  [Kıpça k/Karl uk (Tarih i)]  Hare zmce  · Tarihi -Ölü
+  qwm  cuma1243      46.00,  30.00  [Kıpça k (Tarih i)]  Kıpç akça (C. Cum anicu s)  · Tarihi -Ölü
+
+=== Karluk kolu (8) ===
+  uzn  nort2691      41.00,  66.00  [Karlu k]  Kuze y Özbe kçe  · Stand art Dil
+  uzs  sout2699      36.00,  66.00  [Karlu k]  Güne y Özbe kçe  · Bölge sel Stand art
+  uig  uigh1240      41.00,  82.00  [Karlu k]  Uygu rca  · Stand art Dil
+  aib  aynu1240      38.00,  80.00  [Karlu k]  Eynu (Ainu )  · Kript olekt / Tehlik ede
+  ili  ilit1241      43.50,  82.50  [Karlu k]  İli Türki  · Tehlik ede
+  oui  oldt1246      42.00,  89.00  [Sibiry a/Karl uk Köke ni]  Eski Uygu rca  · Tarihi -Ölü
+  xqa  qara1243      39.00,  76.00  [Karlu k (Tarih i)]  Kara hanlı ca  · Tarihi -Ölü
+  chg  chag1247      41.00,  69.00  [Karlu k (Tarih i)]  Çağa tayc a  · Tarihi -Ölü
+
+=== Sibirya kolu (9) ===
+  sah  yaku1245      62.00, 129.00  [Sibiry a - Kuze y]  Saha (Yak ut)  · Stand art Dil
+  dlg  dolg1241      71.00,  95.00  [Sibiry a - Kuze y]  Dolg anca  · Tehlik ede
+  tyv  tuvi1240      51.50,  94.00  [Sibiry a - Saya n]  Tuva ca  · Stand art Dil
+  kim  tofa1246      54.00,  98.00  [Sibiry a - Saya n]  Tofa ca  · İzole / Tehlik ede
+  kjh  khak1248      53.50,  90.00  [Sibiry a - Yenis ey]  Haka sça  · Stand art Dil
+  cjs  shor1247      53.00,   88.0  [Sibiry a - Yenis]  Şorc a  · Tehlik ede
+  atv  nort2688      52.00,  87.00  [Sibiry a - Altay]  Kuze y Altay ca  · Lehç e / Tehlik ede
+  clw  chul1246      57.00,  86.00  [Sibiry a - Altay/ Yenis ey geçiş]  Çulı mca  · Tehlik ede
+  ybe  west2402      38.80,  99.60  [Sibiry a (Geçi]  Sarı Uygu rca  · Tehlik ede
+
+=== Oğur kolu (3) ===
+  chv  chuv1255      56.00,  47.00  [Oğur (Bulg ar)]  Çuva şça  · Stand art Dil
+  xbo  bulg1248      54.00,  49.00  [Oğur (Tarih i)]  İdil Bulg arcas ı  · Tarihi -Ölü
+  zkz  khaz1243      45.00,  48.00  [Oğur (Tartı şmalı)]  Haza rca  · Tarihi -Ölü
+
+=== Argu kolu (1) ===
+  klj  khal1275      34.50,  50.50  [Argu]  Hala çça  · İzole Dil
+
+=== Ortak kolu (1) ===
+  otk  oldt1246      47.00, 102.00  [Ortak Türkç e (Kök)]  Eski Türk çe (Orh un)  · Tarihi -Ölü

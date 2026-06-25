@@ -1,0 +1,3051 @@
+DEEP RESEARCH — Türk Dilleri ve 
+Lehçeleri Tam Envanteri: Genetik 
+Sınıflandırma ve KÖKEN Projesi 
+Ölçeklendirmesi 
+
+Tarihsel dilbilim, leksikoistatistik ve evrimsel filogenetik modeller ışığında, Türk dil ailesinin iç 
+yapısı ve zaman derinliği uzun yıllardır tartışmalı bir akademik araştırma alanı olmuştur. 
+Geleneksel yaklaşımlar büyük oranda ses denklikleri ve morfolojik isogloslara dayanırken, 
+güncel hesaplamalı dilbilim çalışmaları evrimsel biyolojiden uyarlanan Bayesci (Bayesian) 
+filogenetik algoritmalar ile bu tartışmalara nicel boyutlar kazandırmaktadır1. Bu kapsamlı rapor, 
+KÖKEN platformunun MVP-14 (Minimum Viable Product - 14 Dil) aşamasından tüm Türk dilleri 
+ve başlıca lehçelerini kapsayacak tam yatay ölçeğe (horizontal scaling) geçişi için gereken veri 
+altyapısını, genetik sınıflandırma tartışmalarını ve algoritmik kalibrasyon stratejilerini 
+detaylandırmaktadır. 
+Mevcut leksik verilerin ve tarihsel-karşılaştırmalı analizlerin senteziyle oluşturulan bu envanter, 
+L. Johanson'un klasik yapısal tasnif kriterleri ile A. Savelyev ve M. Robbeets'in (2020) Bayesci 
+filodilbilim modellemelerini bir araya getirmektedir2. KÖKEN platformunun kökteş (cognate) 
+eşleştirme, fonolojik uzaklık (distance) ölçümü ve soy ağacı (phylogenetic tree) görselleştirme 
+modüllerinin doğrudan besleneceği temel veri seti olarak tasarlanan bu rapor, tartışmalı 
+geçişken formları ve tarihsel dillerin filogenetik bağlamlarını da sisteme entegre etmektedir. 
+1. Filogenetik Çerçeve, Zaman Derinliği ve Bayesci 
+Metodoloji 
+
+Türk dilleri ailesi, Ural, Dravid, Çin-Tibet veya Avustronezya gibi kabul görmüş diğer büyük dil 
+aileleriyle eşdeğer bir yapısal bütünlük sergilemektedir5. Geleneksel tarihsel-karşılaştırmalı 
+dilbilim, Türk dillerini seslik özelliklere göre tasnif etmektedir. Bu kriterlerin en belirgini, "dokuz" 
+kelimesinin sonundaki -r veya -z sesinin gelişimidir (rhotacism/zetacism); bu özellik günümüzde 
+yalnızca Çuvaşça ile temsil edilen Oğur kolunu (r-dili), diğer tüm Türk dillerini kapsayan Genel 
+Türkçe (Common Turkic, z-dilleri) gövdesinden ayırmaktadır4. İkinci temel kriter, "ayak" 
+kelimesinin içsesindeki *d sürtünmelisinin (interdental fricative) değişimidir; bu ses Sibirya 
+dillerinde ve Halaççada diş/alveolar patlamalı (Tuva adaq, Yakut atax, Halaç hadaq), Oğuz, 
+Kıpçak ve Karluk kollarında ise yarı ünlü y (Azerbaycan ayağ, Özbek oyoq) biçiminde temsil 
+edilmektedir5. Üçüncü ve dördüncü kriterler ise sırasıyla fiilden isim yapım eki olan {-GAn} ekinin 
+başındaki artdamak ünsüzünün durumu ve çok heceli kelimelerin sonundaki artdamak 
+ünsüzlerinin (örn. tağlıg) korunup korunmamasıdır5. 
+
+Klasik yaklaşımlar bu ses denkliklerine dayanarak ağaç modelleri kursa da, mutlak ayrılma 
+tarihlerini (absolute divergence dates) belirlemede yetersiz kalmaktadır. Sabit değişim oranları 
+varsayan geleneksel glottokronolojinin aksine, Savelyev ve Robbeets (2020) tarafından 
+uygulanan hesaplamalı Bayesci filogenetik yöntemler, dillerin leksikal inovasyonlarını ve 
+kayıplarını bir "evrimsel saat" (relaxed clock) çerçevesinde niceliksel olarak modeller2. Bu 
+çalışmalar, Leipzig-Jakarta 200 temel kelime listesi ile Jena 200 listesinin birleştirilmesiyle 
+oluşturulan 254 kavramlık veri seti ve 32 Türk dili varyantı üzerinde Markov Zinciri Monte Carlo 
+(MCMC) simülasyonları kullanarak dillerin ayrılma tarihlerini istatistiksel bir güven aralığında 
+sunmuştur1. 
+Bayesci analizlerin ortaya koyduğu sonuçlara göre, Türk dillerinin zaman derinliği günümüzden 
+yaklaşık 2100 yıl öncesine (M.Ö. 1. yüzyıl sonları) dayanmaktadır2. En derin genetik kırılma, Ana 
+Türkçe (Proto-Turkic) ile günümüzde yalnızca Çuvaşça ile temsil edilen Oğur (Bulgar) kolu 
+arasında yaşanmış olup, model bu ayrılmanın ortalama M.Ö. 66 (Güvenilirlik Aralığı: M.S. 483 - 
+M.Ö. 755) tarihinde gerçekleştiğini öngörmektedir2. Kuzey Sibirya grubunun (Saha ve Dolgan) 
+Genel Türkçe gövdesinden ayrılışı ise M.S. 474 (Güvenilirlik Aralığı: M.S. 809 - M.Ö. 7) civarında 
+konumlandırılmaktadır2. Tarihsel metinler üzerinden yapılan kalibrasyonlarda, Eski Türkçe 
+(Orhun/Uygur varyantları) düğümünün M.S. 650 dolaylarını temsil ettiği doğrulanmıştır2. Bu 
+veriler, klasik leksikoistatistiğin sunduğu sığ tahminlere kıyasla daha sağlam bir matematiksel 
+zemin oluşturmakta ve KÖKEN platformunda tarihsel uzaklık fonksiyonları oluşturulurken dil aile 
+ağaçlarına (phylogenetic tree) ağırlık (node weights) atanması için doğrudan bir referans 
+çerçevesi sağlamaktadır. 
+2. Coğrafi Dağılım, Tarım-Pastoralizm Ekseninde 
+Genişleme ve Areyal Etkileşimler 
+
+Türk dillerinin içsel çeşitliliği ve geniş coğrafi dağılımı, zaman derinliğinin nispeten sığ (yaklaşık 
+2100 yıl) olmasıyla tezat oluşturmaktadır. Bu durum, erken dönem Türkçe konuşan toplulukların 
+benimsediği göçebe pastoralizm kültürü ve buna bağlı hızlı demografik genişlemelerle 
+açıklanmaktadır2. Transeurasian hipotezi bağlamında, makro-ailenin kökeni Batı Liao Nehri 
+havzasındaki Xinglongwa kültürüne (M.Ö. 6200-4500) ve darı tarımına dayandırılırken, Türk ve 
+Moğol dillerinin atalarının bozkırlara yönelerek tarımdan pastoralizme geçiş yaptığı ve bu yaşam 
+tarzının dilsel yayılımı tetiklediği öne sürülmektedir7. Arkeobotanik ve dilbilimsel kanıtlar, Proto-
+Türkçe döneminde tarım terminolojisinin korunduğunu, ancak atlı göçebe kültürün gelişmesiyle 
+birlikte pastoral kelime dağarcığının ön plana çıktığını ve dillerin Avrasya stepleri boyunca hızla 
+yayıldığını göstermektedir10. 
+Bu hızlı genişleme ve sürekli göçler, sabit sınırları olan Avrupa dillerinin aksine, Türk dilleri 
+arasında yoğun bir areyal etkileşim (Sprachbund) ve yapısal yakınsama (convergence) ağı 
+yaratmıştır5. Tarihsel süreçte, heterojen konfederasyonlar, boy birlikleri ve değişken cephe 
+hatları, farklı Türk lehçelerini karma konuşma toplulukları içinde bir araya getirmiştir. Örneğin, 
+İran'ın Fars bölgesindeki Kaşkay konfederasyonu içinde yer alan farklı Türk varyantlarının 
+
+karşılıklı asimilasyonu bu yakınsamanın modern bir örneğidir5. Ayrıca, Eski Türkçe veya 
+Çağatayca gibi belirli tarihi diller, bölgeler arası birer lingua franca olarak işlev görmüş, kelime 
+alıntılamaları (take-over copying) ve substrat etkileri (carry-over copying) yaratarak diller arası 
+sınırları daha da geçirgen hale getirmiştir5. KÖKEN uzaklık modülü tasarlanırken, soy ağacı 
+algoritmalarının bu yoğun yatay veri transferlerini (horizontal transfer) göz ardı etmemesi ve 
+areyal özellikleri filtreleyebilecek eş-kökenli (cognate) değerlendirme sistemleriyle donatılması 
+şarttır12. 
+3. Türk Dilleri ve Başlıca Lehçeleri Kapsamlı Envanter 
+Tablosu 
+
+Aşağıdaki tablo, KÖKEN platformunun MVP-14 sonrası genişleme ölçeğini temsil eden eksiksiz 
+temel (master) veri setidir. Glottolog, Ethnologue, UNESCO Tehlike Altındaki Diller Atlası ve 
+çağdaş filogenetik literatür taranarak oluşturulan bu envanter, hesaplamalı modüllerin üzerine 
+inşa edileceği yapı taşıdır. 
+
+ISO 
+639-
+3 
+
+Glott
+ocod
+e 
+
+Kol + 
+Alt-
+grup 
+
+Tür 
+
+Koor
+dinat 
+(Enle
+m, 
+Boyl
+am) 
+
+Konu
+şur 
+Sayıs
+ı 
+(Kay
+nak+
+Tarih
+) 
+
+Yazı 
+Siste
+m(ler
+)i 
+(Gün
+cel+T
+arihs
+el) 
+
+Canlı
+lık 
+(Glot
+tolog 
+AES / 
+EGID
+S / 
+UNES
+CO) 
+
+tur 
+
+nucl1
+301 
+
+Oğuz 
+- Batı 
+
+39.00
+, 
+35.00 
+
+Stand
+art Dil 
+
+Safe / 
+1 / 
+Safe 
+
+Latin 
+(Tarih
+i: 
+Arap) 
+
+~80.0
+00.0
+00 
+(Eber
+hard 
+vd. 
+2023) 
+
+Ad 
+(Türk
+çe / 
+Yerli 
+/ 
+İngili
+zce) 
+
+Türki
+ye 
+Türk
+çesi / 
+Türkç
+e / 
+Turki
+sh 
+
+Baye
+s 
+Ayrıl
+ma 
+Notu 
+(Sav
+elyev 
+& 
+Robb
+eets 
+2020
+) 
+
+S&R 
+2020'
+de 
+temel
+; 
+Gene
+l 
+Türkç
+e 
+gövd
+
+gag 
+
+gaga
+1249 
+
+Oğuz 
+- Batı 
+
+46.25
+, 
+28.65 
+
+Latin, 
+Kiril 
+
+Stand
+art Dil 
+
+Safe / 
+3 / 
+Defini
+tely 
+Endg. 
+
+~150.
+000 
+(2014 
+Mold
+ova 
+S.) 
+
+bgx 
+
+balk1
+254 
+
+Oğuz 
+- Batı 
+
+41.33, 
+24.50 
+
+Çoğu
+nlukla 
+Sözlü 
+
+Lehç
+e / 
+Tehlik
+ede 
+
+~331.
+000 
+(Ethn
+ologu
+e 
+2023) 
+
+Threa
+tene
+d / 6b 
+/ 
+Vulne
+rable 
+
+azj 
+
+nort2
+697 
+
+Oğuz 
+- 
+Doğu 
+
+40.5
+0, 
+47.50 
+
+Stand
+art Dil 
+
+Safe / 
+1 / 
+Safe 
+
+Latin 
+(Tarih
+i: 
+Arap, 
+Kiril) 
+
+~10.0
+00.0
+00 
+(Ethn
+ologu
+e 
+2022) 
+
+esi. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+Veri 
+setin
+de 
+yok 
+(Gag
+avuz 
+geçiş
+keni). 
+
+S&R 
+2020 
+veri 
+setin
+de 
+(Azeri
+). 
+
+Gaga
+vuzc
+a / 
+Gaga
+uzça 
+/ 
+Gaga
+uz 
+
+Balka
+n 
+Gaga
+vuzc
+ası / 
+Balka
+n 
+Gaga
+uz 
+Turki
+sh 
+
+Kuze
+y 
+Azer
+bayc
+anca 
+/ 
+Azər
+bayc
+anca 
+/ 
+North 
+Azer
+baija
+ni 
+
+Güne
+y 
+Azer
+bayc
+anca 
+/ 
+هجکروت 
+/ 
+Sout
+h 
+Azer
+baija
+ni 
+
+Türk
+men
+ce / 
+Türk
+menç
+e / 
+Turk
+men 
+
+Hora
+san 
+Türk
+çesi / 
+Xoras
+an 
+Türkç
+esi / 
+Khor
+asani 
+Turki
+c 
+
+Kaşk
+ayca 
+
+azb 
+
+sout2
+697 
+
+Oğuz 
+- 
+Doğu 
+
+38.00
+, 
+46.0
+0 
+
+tuk 
+
+turk1
+304 
+
+Oğuz 
+- 
+Doğu 
+
+39.00
+, 
+59.0
+0 
+
+kmz 
+
+khor1
+269 
+
+Oğuz 
+- 
+Doğu 
+
+37.50
+, 
+58.50 
+
+~15.0
+00.0
+00 
+(Ethn
+ologu
+e 
+2022) 
+
+~7.00
+0.00
+0 
+(Eber
+hard 
+vd. 
+2023) 
+
+~1.00
+0.00
+0 
+(2014 
+Tahm
+ini) 
+
+Pers-
+Arap 
+
+Safe / 
+3 / 
+Safe 
+
+Bölge
+sel 
+Stand
+art 
+
+Stand
+art Dil 
+
+Safe / 
+1 / 
+Safe 
+
+Latin 
+(Tarih
+i: Kiril, 
+Arap) 
+
+Veri 
+setin
+de 
+yok 
+(azj 
+ile 
+birleş
+ik 
+mod
+el). 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+Pers-
+Arap 
+
+Lehç
+e / 
+Tehlik
+ede 
+
+Veri 
+setin
+de 
+yok. 
+
+Threa
+tene
+d / 6b 
+/ 
+Vulne
+rable 
+
+qxq 
+
+qash1
+
+Oğuz 
+- 
+
+29.50
+, 
+
+~1.00
+0.00
+
+Shifti
+ng / 
+
+Pers-
+
+Lehç
+e / 
+
+Veri 
+setin
+
+/ 
+Qaşq
+aycə 
+/ 
+Qash
+qai 
+
+Afşar
+ca / 
+Əfşar 
+/ 
+Afsha
+ri 
+
+Sung
+ur 
+(Son
+qor) / 
+Sönq
+ör dili 
+/ 
+Sonq
+ori 
+
+Salar
+ca / 
+Salar
+ça / 
+Salar 
+
+240 
+
+52.50 
+
+Güne
+y 
+
+Arap 
+
+Toplu
+luk 
+
+de 
+yok. 
+
+6b / 
+Vulne
+rable 
+
+0 
+(2015 
+Tahm
+ini) 
+
+— 
+
+afsh1
+238 
+
+Oğuz 
+- 
+Güne
+y 
+
+37.00
+, 
+43.0
+0 
+
+— 
+
+sonq
+1234 
+
+34.78
+, 
+47.60 
+
+Oğuz 
+- 
+Güne
+y 
+
+slr 
+
+sala1
+264 
+
+35.80
+, 
+102.5
+0 
+
+Oğuz 
+- 
+Doğu 
+(Geçi
+şken) 
+
+Pers-
+Arap, 
+Latin 
+
+Lehç
+e / 
+Tehlik
+ede 
+
+Sözlü 
+(Arap
+) 
+
+Lehç
+e / 
+İzole 
+
+Threa
+tene
+d / 6b 
+/ 
+Vulne
+rable 
+
+Shifti
+ng / 
+6b / 
+Defini
+tely 
+
+Stand
+art / 
+İzole 
+
+Shifti
+ng / 
+6b / 
+Sever
+ely 
+
+Latin 
+(Sözl
+ü 
+Ağırlı
+klı) 
+
+~850.
+000 
+(Enda
+nger
+ed 
+Lang.
+) 
+
+~40.
+000 
+(Knü
+ppel 
+Tahm
+ini) 
+
+~70.0
+00 
+(Çin 
+Sayı
+mı 
+2000
+) 
+
+uum 
+
+urum
+1249 
+
+Uru
+mca / 
+Urum 
+
+Kıpça
+k - 
+Kuma
+
+47.0
+0, 
+37.00 
+
+~190.
+000 
+etnik 
+
+Shifti
+ng / 7 
+/ 
+
+Kiril, 
+Yuna
+n 
+
+Tehlik
+ede 
+
+Veri 
+setin
+de 
+yok 
+(Azeri 
+ile 
+geçiş
+ken). 
+
+Veri 
+setin
+de 
+yok. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+Veri 
+setin
+de 
+
+/ 
+Urum 
+
+Kırım 
+Tatar
+cası / 
+Qırım
+tatar
+ca / 
+Crim
+ean 
+Tatar 
+
+Kaza
+kça / 
+Qaza
+qsha 
+/ 
+Kaza
+kh 
+
+Kırgı
+zca / 
+Qırğı
+zça / 
+Kyrgy
+z 
+
+Tatar
+ca / 
+Tatar
+ça / 
+Tatar 
+
+crh 
+
+crim1
+257 
+
+kaz 
+
+kaza1
+248 
+
+kir 
+
+kirg1
+245 
+
+tat 
+
+tata1
+255 
+
+n 
+(Oğu
+z 
+Etkili) 
+
+Kıpça
+k / 
+Oğuz 
+(Para
+filetik
+) 
+
+Kıpça
+k - 
+Noga
+y 
+(Gün
+ey) 
+
+Kıpça
+k - 
+Kırgız 
+(Doğ
+u) 
+
+Kıpça
+k - 
+Kuze
+y 
+(Volg
+a) 
+
+Defini
+tely 
+
+(Tarih
+i) 
+
+/ Çok 
+az 
+akıcı 
+
+Latin, 
+Kiril 
+
+Stand
+art Dil 
+
+45.0
+0, 
+34.0
+0 
+
+~600.
+000 
+(2015 
+Tahm
+ini) 
+
+Threa
+tene
+d / 5 / 
+Sever
+ely 
+
+48.0
+0, 
+68.0
+0 
+
+41.00
+, 
+75.00 
+
+55.80
+, 
+49.10 
+
+~13.0
+00.0
+00 
+(Eber
+hard 
+vd. 
+2023) 
+
+~5.00
+0.00
+0 
+(Eber
+hard 
+vd. 
+2023) 
+
+~5.40
+0.00
+0 
+(2010 
+Rusy
+a S.) 
+
+Safe / 
+1 / 
+Safe 
+
+Kiril, 
+Latin, 
+Arap 
+
+Stand
+art Dil 
+
+Stand
+art Dil 
+
+Safe / 
+1 / 
+Safe 
+
+Kiril 
+(Tarih
+i: 
+Arap) 
+
+Stand
+art Dil 
+
+Threa
+tene
+d / 2 / 
+Vulne
+rable 
+
+Kiril, 
+Latin 
+(Tarih
+i: 
+Arap) 
+
+yok. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+
+bak 
+
+bash1
+264 
+
+kaa 
+
+kara1
+467 
+
+krc 
+
+kara1
+465 
+
+Kıpça
+k - 
+Kuze
+y 
+(Volg
+a) 
+
+Kıpça
+k - 
+Noga
+y 
+(Gün
+ey) 
+
+Kıpça
+k - 
+Kuma
+n 
+(Kafk
+as) 
+
+Stand
+art Dil 
+
+53.60
+, 
+56.56 
+
+Kiril 
+(Tarih
+i: 
+Arap) 
+
+Threa
+tene
+d / 2 / 
+Vulne
+rable 
+
+~1.20
+0.00
+0 
+(2010 
+Rusy
+a S.) 
+
+Latin, 
+Kiril 
+
+Stand
+art Dil 
+
+43.0
+0, 
+59.0
+0 
+
+Safe / 
+3 / 
+Defini
+tely 
+
+~748.
+000 
+(2015 
+Tahm
+ini) 
+
+Kiril 
+
+Stand
+art Dil 
+
+43.50
+, 
+43.0
+0 
+
+Safe / 
+4 / 
+Vulne
+rable 
+
+~300.
+000 
+(2010 
+Rusy
+a S.) 
+
+ut. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+kum 
+
+kumu
+1243 
+
+Kıpça
+k - 
+Kuma
+
+42.50
+, 
+47.0
+
+~426.
+000 
+(2010 
+
+Safe / 
+4 / 
+Vulne
+
+Kiril 
+(Tarih
+i: 
+
+Stand
+art Dil 
+
+S&R 
+2020 
+veri 
+
+Başk
+urtça 
+/ 
+Başq
+ortsa 
+/ 
+Bash
+kir 
+
+Kara
+kalpa
+kça / 
+Qara
+qalpa
+qsha 
+/ 
+Karak
+alpak 
+
+Kara
+çay-
+Balka
+rca / 
+Qara
+çay-
+Malq
+ar / 
+Karac
+hay-
+Balka
+r 
+
+Kum
+ukça 
+/ 
+
+Qum
+uqça 
+/ 
+Kumy
+k 
+
+Noga
+yca / 
+Noğa
+yşa / 
+Noga
+i 
+
+Kara
+yca 
+(Kara
+im) / 
+Qara
+y tili / 
+Karai
+m 
+
+Kırım
+çak / 
+Qrım
+çah 
+tılyı / 
+Krym
+chak 
+
+Sibir
+ya 
+Tatar
+cası / 
+Sebe
+rtatar
+
+nog 
+
+noga
+1249 
+
+kdr 
+
+kara1
+464 
+
+jct 
+
+krym
+1236 
+
+sty 
+
+sibe1
+250 
+
+0 
+
+Rusy
+a S.) 
+
+rable 
+
+Arap) 
+
+Kiril 
+
+Stand
+art Dil 
+
+44.0
+0, 
+46.0
+0 
+
+~87.0
+00 
+(2010 
+Rusy
+a S.) 
+
+Threa
+tene
+d / 4 / 
+Defini
+tely 
+
+Latin, 
+İbrani
+, Kiril 
+
+Tehlik
+ede / 
+Dini 
+
+Kiril, 
+Latin, 
+İbrani 
+
+Tehlik
+ede / 
+Dini 
+
+54.67
+, 
+24.92 
+
+45.0
+0, 
+34.25 
+
+< 100 
+(Litva
+nya/U
+krayn
+a, 
+2010) 
+
+~200 
+(200
+7 
+Tahm
+ini) 
+
+Nearl
+y 
+Extin
+ct / 
+8b / 
+Critic
+ally 
+
+Nearl
+y 
+Extin
+ct / 
+8b / 
+Critic
+ally 
+
+setin
+de 
+mevc
+ut. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+Veri 
+setin
+de 
+yok. 
+
+Kiril 
+
+56.0
+0, 
+70.0
+0 
+
+Safe / 
+6a / 
+Defini
+tely 
+
+~100.
+000 
+(2010 
+Rusy
+a S.) 
+
+Lehç
+e / 
+Toplu
+luk 
+
+Veri 
+setin
+de 
+yok. 
+
+n 
+(Kafk
+as) 
+
+Kıpça
+k - 
+Noga
+y 
+(Gün
+ey) 
+
+Kıpça
+k - 
+Kuma
+n 
+(Batı) 
+
+Kıpça
+k - 
+Kuma
+n 
+(Kırım
+) 
+
+Kıpça
+k - 
+Kuze
+y 
+(Sibir
+ya) 
+
+tsa / 
+Siberi
+an 
+Tatar 
+
+Bara
+ba / 
+Bara
+ba / 
+Bara
+ba 
+Tatar 
+
+Kuze
+y 
+Özbe
+kçe / 
+Oʻzb
+ekch
+a / 
+North
+ern 
+Uzbe
+k 
+
+Güne
+y 
+Özbe
+kçe / 
+Ўзбе
+к / 
+Sout
+hern 
+Uzbe
+k 
+
+— 
+
+nucl1
+301 
+
+Kıpça
+k - 
+Kuze
+y 
+(Sibir
+ya 
+Tat. 
+alt) 
+
+uzn 
+
+nort2
+691 
+
+Karlu
+k 
+
+55.0
+0, 
+78.00 
+
+~8.00
+0 
+(Tah
+mini) 
+
+Kiril 
+
+Lehç
+e / 
+Tehlik
+ede 
+
+Shifti
+ng / 7 
+/ 
+Sever
+ely 
+
+Latin, 
+Kiril 
+
+Stand
+art Dil 
+
+Safe / 
+1 / 
+Safe 
+
+41.00
+, 
+66.0
+0 
+
+~30.0
+00.0
+00 
+(Eber
+hard 
+vd. 
+2023) 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+(Özb
+ek). 
+
+uzs 
+
+sout2
+699 
+
+Karlu
+k 
+
+Pers-
+Arap 
+
+Safe / 
+3 / 
+Safe 
+
+Bölge
+sel 
+Stand
+art 
+
+Veri 
+setin
+de 
+yok. 
+
+36.00
+, 
+66.0
+0 
+
+~4.0
+00.0
+00 
+(Afga
+nista
+n S.) 
+
+uig 
+
+uigh1
+240 
+
+Karlu
+k 
+
+41.00
+, 
+82.00 
+
+— 
+
+lopn1
+238 
+
+Karlu
+k 
+
+aib 
+
+aynu1
+240 
+
+Karlu
+k 
+
+ili 
+
+ilit124
+1 
+
+Karlu
+k 
+
+40.0
+0, 
+88.0
+0 
+
+38.00
+, 
+80.0
+0 
+
+43.50
+, 
+82.50 
+
+sah 
+
+yaku1
+245 
+
+Sibiry
+a - 
+Kuze
+y 
+
+62.00
+, 
+129.0
+0 
+
+Uygu
+rca / 
+Uygh
+urche 
+/ 
+Uygh
+ur 
+
+Lopn
+or 
+(Lop) 
+/ 
+Lopn
+or / 
+Lop 
+
+Eynu 
+(Ainu
+) / 
+Äynú 
+/ 
+Äynu 
+
+İli 
+Türki 
+/ İlı 
+turke
+şi / Ili 
+Turki 
+
+Saha 
+(Yak
+ut) / 
+Saxa 
+tılı / 
+Sakh
+
+Threa
+tene
+d / 2 / 
+Vulne
+rable 
+
+Threa
+tene
+d / 6b 
+/ 
+Sever
+ely 
+
+Shifti
+ng / 
+6b / 
+Critic
+ally 
+
+Nearl
+y 
+Extin
+ct / 
+8a / 
+Sever
+ely 
+
+Safe / 
+2 / 
+Vulne
+rable 
+
+~11.0
+00.0
+00 
+(Eber
+hard 
+vd. 
+2023) 
+
+~25.0
+00 
+(Tah
+mini) 
+
+~6.60
+0 
+(200
+0 
+Tahm
+ini) 
+
+~120 
+(1982 
+Çin 
+Sayı
+mı) 
+
+~450.
+000 
+(2010 
+Rusy
+a S.) 
+
+Stand
+art Dil 
+
+Arap, 
+Latin, 
+Kiril 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+Arap 
+
+Lehç
+e / 
+Tehlik
+ede 
+
+Veri 
+setin
+de 
+yok. 
+
+Kript
+olekt 
+/ 
+Tehlik
+ede 
+
+Tehlik
+ede 
+
+Arap 
+
+Sözlü 
+(Uyg
+ur 
+Arap) 
+
+Kiril 
+
+Stand
+art Dil 
+
+Veri 
+setin
+de 
+yok. 
+
+Veri 
+setin
+de 
+yok. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+
+a 
+
+Dolg
+anca 
+/ 
+Dulğa
+n tılı / 
+Dolg
+an 
+
+Tuva
+ca / 
+Tıva 
+dıl / 
+Tuva
+n 
+
+Tofa
+ca / 
+Tofa 
+dıl / 
+Tofa 
+
+Haka
+sça / 
+Xaka
+s tîlî / 
+Khak
+as 
+
+Şorc
+a / 
+Şor 
+
+dlg 
+
+dolg1
+241 
+
+Sibiry
+a - 
+Kuze
+y 
+
+71.00
+, 
+95.0
+0 
+
+~1.00
+0 
+(2010 
+Rusy
+a S.) 
+
+Shifti
+ng / 
+6b / 
+Defini
+tely 
+
+Kiril 
+
+Tehlik
+ede 
+
+tyv 
+
+tuvi12
+40 
+
+Sibiry
+a - 
+Saya
+n 
+
+51.50
+, 
+94.0
+0 
+
+Safe / 
+2 / 
+Vulne
+rable 
+
+~250.
+000 
+(2010 
+Rusy
+a S.) 
+
+Kiril 
+
+Stand
+art Dil 
+
+ut. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+kim 
+
+tofa1
+246 
+
+Sibiry
+a - 
+Saya
+n 
+
+54.0
+0, 
+98.0
+0 
+
+< 100 
+(2010 
+Rusy
+a S.) 
+
+kjh 
+
+khak1
+248 
+
+Sibiry
+a - 
+Yenis
+ey 
+
+53.50
+, 
+90.0
+0 
+
+~43.0
+00 
+(2010 
+Rusy
+a S.) 
+
+Nearl
+y 
+Extin
+ct / 
+8a / 
+Critic
+ally 
+
+Threa
+tene
+d / 2 / 
+Defini
+tely 
+
+Kiril 
+
+İzole 
+/ 
+Tehlik
+ede 
+
+Veri 
+setin
+de 
+yok. 
+
+Kiril 
+
+Stand
+art Dil 
+
+cjs 
+
+shor1
+247 
+
+Sibiry
+a - 
+Yenis
+
+53.00
+, 
+88.0
+
+~3.00
+0 
+(2010 
+
+Shifti
+ng / 
+6b / 
+
+Kiril 
+
+Tehlik
+ede 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+S&R 
+2020 
+veri 
+
+tili / 
+Shor 
+
+Kuze
+y 
+Altay
+ca / 
+Tuba
+-Kiji 
+vb. / 
+North
+ern 
+Altai 
+
+Güne
+y 
+Altay
+ca / 
+Altay 
+tili / 
+Sout
+hern 
+Altai 
+
+Çulı
+mca / 
+Öüs 
+tili / 
+Chuly
+m 
+
+Sarı 
+Uygu
+rca / 
+
+ey 
+
+0 
+
+Rusy
+a S.) 
+
+Sever
+ely 
+
+atv 
+
+nort2
+688 
+
+Sibiry
+a - 
+Altay 
+
+52.00
+, 
+87.00 
+
+~10.0
+00 
+(Tah
+mini) 
+
+Shifti
+ng / 
+6b / 
+Sever
+ely 
+
+Kiril 
+
+Lehç
+e / 
+Tehlik
+ede 
+
+alt 
+
+sout2
+694 
+
+clw 
+
+chul1
+246 
+
+Sibiry
+a - 
+Altay 
+(Kıpç
+ak 
+etkili) 
+
+Sibiry
+a - 
+Altay/
+Yenis
+ey 
+geçiş 
+
+Kiril 
+
+Stand
+art Dil 
+
+50.0
+0, 
+86.0
+0 
+
+~55.0
+00 
+(2010 
+Rusy
+a S.) 
+
+Threa
+tene
+d / 2 / 
+Defini
+tely 
+
+Sözlü 
+(Kiril) 
+
+Tehlik
+ede 
+
+57.00
+, 
+86.0
+0 
+
+< 50 
+(2010 
+Rusy
+a S.) 
+
+Nearl
+y 
+Extin
+ct / 
+8a / 
+Critic
+ally 
+
+setin
+de 
+mevc
+ut. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+Veri 
+setin
+de 
+yok. 
+
+ybe 
+
+west
+2402 
+
+Sibiry
+a 
+(Geçi
+
+38.80
+, 
+99.60 
+
+~1.00
+0 
+akıcı 
+
+Shifti
+ng / 7 
+/ 
+
+Latin 
+(Tarih
+i: Eski 
+
+Tehlik
+ede 
+
+S&R 
+2020 
+veri 
+
+Yoğır 
+śoz / 
+West
+ern 
+Yugu
+r 
+
+Fu-
+yü 
+Kırgı
+zcası 
+/ 
+Fuyü 
+/ 
+Fuyu 
+Kyrgy
+z 
+
+Çuva
+şça / 
+Čăva
+šla / 
+Chuv
+ash 
+
+Hala
+çça / 
+Xalac 
+/ 
+Khala
+j 
+
+şken) 
+
+Sever
+ely 
+
+Uygu
+r) 
+
+(Roos 
+2000
+) 
+
+setin
+de 
+mevc
+ut. 
+
+— 
+
+fuyu1
+242 
+
+Sibiry
+a - 
+Yenis
+ey 
+
+47.50
+, 
+124.5
+0 
+
+< 10 
+(2010 
+Tahm
+ini) 
+
+Extin
+ct / 
+8b / 
+Critic
+ally 
+
+Sözlü 
+
+Veri 
+setin
+de 
+yok. 
+
+İzole 
+/ 
+Ölüy
+e 
+yakın 
+
+chv 
+
+chuv1
+255 
+
+Oğur 
+(Bulg
+ar) 
+
+56.0
+0, 
+47.0
+0 
+
+Kiril 
+
+Stand
+art Dil 
+
+Safe / 
+2 / 
+Vulne
+rable 
+
+~1.00
+0.00
+0 
+(2010 
+Rusy
+a S.) 
+
+klj 
+
+Argu 
+
+khal1
+275 
+
+Pers-
+Arap 
+
+İzole 
+Dil 
+
+34.50
+, 
+50.5
+0 
+
+~42.0
+00 
+(200
+0 
+Tahm
+ini) 
+
+Threa
+tene
+d / 6b 
+/ 
+Vulne
+rable 
+
+S&R 
+2020'
+de 
+temel 
+ayrıl
+ma 
+düğü
+mü 
+(M.Ö. 
+66). 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+otk 
+
+oldt1
+246 
+
+Ortak 
+Türkç
+e 
+(Kök) 
+
+47.0
+0, 
+102.0
+0 
+
+0 (8. 
+yy 
+yazıtl
+arı) 
+
+oui 
+
+oldt1
+246 
+
+0 (9.-
+14. 
+yy) 
+
+42.0
+0, 
+89.0
+0 
+
+Sibiry
+a/Karl
+uk 
+Köke
+ni 
+
+xqa 
+
+qara1
+243 
+
+xzm 
+
+khwa
+1238 
+
+0 (11. 
+yy) 
+
+39.00
+, 
+76.00 
+
+42.0
+0, 
+59.0
+0 
+
+0 
+(13.-
+14. 
+yy) 
+
+Karlu
+k 
+(Tarih
+i) 
+
+Kıpça
+k/Karl
+uk 
+(Tarih
+i) 
+
+Tarihi
+-Ölü 
+
+Orhu
+n 
+(Runi
+k) 
+
+Tarihi
+-Ölü 
+
+Eski 
+Uygu
+r 
+
+Arap 
+
+Tarihi
+-Ölü 
+
+Arap 
+
+Tarihi
+-Ölü 
+
+S&R 
+2020'
+de 
+düğü
+m 
+(M.S. 
+650). 
+
+Veri 
+setin
+de 
+metin
+sel 
+kök 
+olara
+k var. 
+
+S&R 
+2020'
+de 
+varya
+nt (11. 
+yy). 
+
+Veri 
+setin
+de 
+yok. 
+
+Extin
+ct / 
+10 / 
+Extin
+ct 
+
+Extin
+ct / 
+10 / 
+Extin
+ct 
+
+Extin
+ct / 
+10 / 
+Extin
+ct 
+
+Extin
+ct / 
+10 / 
+Extin
+ct 
+
+Eski 
+Türk
+çe 
+(Orh
+un) / 
+Türük 
+/ Old 
+Turki
+c 
+
+Eski 
+Uygu
+rca / 
+Uygu
+r / 
+Old 
+Uygh
+ur 
+
+Kara
+hanlı
+ca / 
+Khaq
+ani / 
+Karak
+hanid 
+
+Hare
+zmce 
+/ 
+Khor
+ezmi
+an / 
+Khor
+ezmi
+an 
+Turki
+
+c 
+
+Kıpç
+akça 
+(C. 
+Cum
+anicu
+s) / 
+Qıpç
+aq / 
+Cum
+an 
+
+İdil 
+Bulg
+arcas
+ı / 
+Bulğa
+r / 
+Volga 
+Bulga
+r 
+
+Haza
+rca / 
+Khaz
+ar / 
+Khaz
+ar 
+
+Çağa
+tayc
+a / 
+Çoğa
+toy / 
+Chag
+atai 
+
+qwm 
+
+cuma
+1243 
+
+Kıpça
+k 
+(Tarih
+i) 
+
+46.0
+0, 
+30.0
+0 
+
+0 
+(11.-
+14. 
+yy) 
+
+xbo 
+
+bulg1
+248 
+
+Oğur 
+(Tarih
+i) 
+
+54.0
+0, 
+49.0
+0 
+
+0 
+(13.-
+14. 
+yy) 
+
+zkz 
+
+khaz1
+243 
+
+Oğur 
+(Tartı
+şmalı) 
+
+45.0
+0, 
+48.0
+0 
+
+0 (6.-
+10. 
+yy) 
+
+chg 
+
+chag
+1247 
+
+Karlu
+k 
+(Tarih
+i) 
+
+41.00
+, 
+69.0
+0 
+
+0 
+(15.-
+20. 
+yy) 
+
+Latin 
+
+Tarihi
+-Ölü 
+
+Arap 
+
+Tarihi
+-Ölü 
+
+Runik 
+
+Tarihi
+-Ölü 
+
+Arap 
+
+Tarihi
+-Ölü 
+
+S&R 
+2020 
+veri 
+setin
+de 
+mevc
+ut. 
+
+Veri 
+setin
+de 
+yok. 
+
+Veri 
+setin
+de 
+yok. 
+
+Veri 
+setin
+de 
+yok. 
+
+Extin
+ct / 
+10 / 
+Extin
+ct 
+
+Extin
+ct / 
+10 / 
+Extin
+ct 
+
+Extin
+ct / 
+10 / 
+Extin
+ct 
+
+Extin
+ct / 
+10 / 
+Extin
+ct 
+
+* Not: Glottolog üzerinde Afşarca ve Sungur ayrı kodlarla tanımlansa da ISO 639-3'te Güney 
+Azerbaycanca (azb) şemsiyesi altında ele alınabilmektedir. Aynı durum Baraba Tatarcası ve 
+Sibirya Tatarcası (sty) için de geçerlidir. 
+4. Tartışmalı Sınıflandırmalar ve Geçişken 
+(Transitional) Sistemler 
+
+Yukarıdaki tabloda listelenen dillerin birçoğu, katı monofiletik (tek atadan üreme) ağaç 
+modellerine uymayan kompleks tarihsel arka planlara sahiptir. KÖKEN platformunda uzaklık 
+algoritmaları yazılırken bu dillerin filogenetik konumlarındaki pürüzlerin matematiksel 
+ağırlıklandırmalarla (weightings) çözülmesi gerekmektedir. 
+İlk olarak, Çin'in batısında konuşulan Salarca, tarihsel ses denklikleri bağlamında belirgin bir 
+şekilde Oğuz koluna aittir ve muhtemelen Semerkant bölgesinden göç eden boyların 
+bakiyesidir13. Ancak yüzyıllar süren coğrafi izolasyon ve yerel dillerle (Amdo Tibetçesi, Çince ve 
+komşu Karluk/Sibirya dilleri) yaşanan yoğun temas, Salarcanın kelime dağarcığında ve 
+morfosentaktik yapısında muazzam bir değişime yol açmıştır14. Savelyev ve Robbeets 
+modelinde Salarca'nın filogenetik pozisyonu, geleneksel verilerle Bayesci olasılıklar arasında 
+ciddi sapmalar göstermekte ve en tartışmalı düğümlerden biri olarak öne çıkmaktadır8. 
+Bir diğer kritik geçişken form olan Sarı Uygurca (Batı Yugur), Kansu (Ganzhou) Uygur 
+Krallığı'nın (M.S. 840 sonrası) mirasıdır. Günümüzde Sibirya (Yenisey) grubuna yakın özellikler 
+sergilemekle birlikte, Eski Türkçe ve Eski Uygurcanın karakteristik bir arkaizmi olan ünlü ön-
+sürtünmesini (preaspiration, örn. oʰtɯs "otuz", iʰt "et") Sayan dilleriyle (Tuvaca, Tofaca) paralel 
+biçimde korumaktadır15. Ayrıca Moğol kökenli Doğu Yugurca ile aynı etnik şemsiyeyi paylaştığı 
+için yoğun Moğolca alıntı kelimelere sahiptir17. 
+Kırım Tatarcası, tek bir filogenetik daldan ziyade parafiletik bir diyalekt sürekliliği (dialect 
+continuum) oluşturması bakımından hesaplamalı modeller için büyük bir zorluk teşkil eder12. 
+Kırım Tatarcasının Yalıboyu (Kıyı) lehçesi tipolojik olarak Türkiye Türkçesi ve Gagavuzcaya çok 
+yakınken (Oğuz), Orta Yol lehçesi Kıpçak-Kuman grubuna, Çöl (Bozkır) lehçesi ise Kıpçak-
+Nogay grubuna aittir12. Urumca da benzer şekilde Kıpçak-Kuman kökenli olmasına rağmen, 
+yüzyıllar içinde yoğun Anadolu Türkçesi etkisine maruz kalarak "Oğuzlaşmış" bir yapı 
+kazanmıştır19. 
+Sibirya coğrafyasındaki Fu-yü (Fuyu) Kırgızcası, 18. yüzyılda Çing Hanedanı tarafından Yenisey 
+havzasından Mançurya'ya (Heilongjiang) sürülen Kırgız boylarının dilidir21. İsmine rağmen 
+modern Kırgızca (Kıpçak) ile değil, Hakasça (Sibirya) ile aynı alt gruba aittir18. Son olarak, Doğu 
+Türkistan bölgesindeki Eynu (Äynu/Ainu) dili, yalnızca yetişkin erkeklerin gizli iletişim için 
+kullandığı bir kriptolekt (cryptolect) olarak benzersiz bir konuma sahiptir. Gramatik yapısı Karluk 
+(Uygur) özelliklerini takip etmesine rağmen, temel kelime dağarcığı ağırlıklı olarak İrani dillerden 
+oluşmaktadır22. Bu dillerin KÖKEN veritabanına eklenmesi, salt leksikal benzerliğe dayanan eş-
+kökenlilik (cognacy) skorlarında yapay sapmalara (homoplasy ve yatay kelime transferi 
+sebebiyle) neden olabileceğinden, ağaç-dışı (reticulate) evrim modellerinin kullanılması 
+
+elzemdir12. 
+5. Tarihsel ve Ölü Dillerin Filogenetik Kalibrasyondaki 
+Rolü 
+
+Evrimsel biyolojide kullanılan moleküler saat modellerinin dilbilime uyarlanmasında en büyük 
+gereksinim, farklı çağlara ait kalibrasyon noktalarıdır3. Bu bağlamda, günümüzde konuşulmayan 
+tarihsel diller salt filolojik meraklar değil, filogenetik hesaplamaların temel demirleme 
+noktalarıdır (anchors). 
+Savelyev ve Robbeets'in BEAST2 kullanarak uyguladıkları modellerde, Orhun ve Yenisey yazıtları 
+ile temsil edilen Eski Türkçe, yaklaşık M.S. 650 (Güvenilirlik Aralığı: M.S. 427-804) tarihlerine 
+oturan kritik bir iç düğümü temsil etmektedir2. Eski Uygurca metinler (M.S. 9.-14. yüzyıl) ile 
+Divanü Lugati't-Türk üzerinden tespit edilen Karahanlıca (M.S. 11. yüzyıl), Karluk dalının 
+kronolojik derinliğini sabitlemede kullanılır2. Benzer şekilde, Karadeniz'in kuzeyindeki Kıpçak 
+varlığını belgeleyen 14. yüzyıl tarihli Codex Cumanicus (Kuman/Kıpçak dili), Kuzeybatı 
+Türkçesinin evrim hızını ölçmek için hayati bir veridir2. 
+KÖKEN projesi özelinde, Orta Asya'da Timur İmparatorluğu döneminde zirveye ulaşan ve 
+Farsça unsurlarla harmanlanan11 Çağataycanın veri setine dahil edilmesi, modern Özbekçe ve 
+Uygurca arasındaki yapısal farklılıkları açıklamak için gereklidir. Çuvaşçanın genetik kökenini 
+oluşturan İdil Bulgarcası ve kısmen onunla ilişkilendirilen Hazarca, Oğur kolunun M.Ö. 66 
+dolaylarındaki ayrılışından2 sonraki evrimsel rotayı çizmek açısından elzemdir. Bu dillerin kognat 
+havuzuna eklenmesi, modern diller arasındaki uzaklık hesaplamalarında tarihsel değişim 
+oranlarının (rate of evolution) aşırı tahmin edilmesini (overestimation) engelleyecektir. 
+6. Tehlike Altındaki Diller (Endangerment) ve Canlılık 
+(Vitality) Metrikleri 
+
+Türk dilleri ailesinin yarısından fazlası günümüzde yok olma tehlikesiyle karşı karşıyadır. Raporda 
+sunulan envanter tablosunda, Glottolog Agglomerated Endangerment Status (AES), 
+Ethnologue EGIDS (Expanded Graded Intergenerational Disruption Scale) ve UNESCO Tehlike 
+Altındaki Diller Atlası metrikleri sentezlenerek her dilin canlılık profili çıkarılmıştır24. 
+En kritik durumdaki (Critically Endangered / 8b) dillerin başında Musevi Türk topluluklarının 
+konuştuğu Karayca (Karaim) ve Kırımçakça gelmektedir. Litvanya, Polonya ve Ukrayna'da 
+dağılmış olan Karayların bugün ancak çok azı dili akıcı bir biçimde konuşabilmektedir; benzer 
+şekilde Holokost felaketi ve Sovyet asimilasyon politikaları sonucunda Kırımçak nüfusu ve dili 
+neredeyse silinmiştir26. Her iki dilde de gözlemlenen yoğun İbranice ve Slav dilleri etkisi, dil 
+ölümünden hemen önceki "kod-kopyalama" (code-copying) süreçlerinin tipik bir yansımasıdır27. 
+Çin'in Sincan Uygur Özerk Bölgesi'nde yalnızca yaşlı nesiller tarafından hatırlanan ve 1982'de 120 
+konuşuru kaydedilen İli Türki, Karluk kolunun kaybolmaya yüz tutmuş bir halkasıdır28. Sibirya'da 
+Sayan taygalarında yaşayan Tofaca ve Çulım nehrinin kıyılarındaki Çulımca da elli kişinin altında 
+
+kalan konuşur sayısıyla "neredeyse ölü" (Nearly Extinct) kategorisindedir30. Asimilasyon, eğitim 
+dilinin yokluğu ve endüstriyelleşme bu dillerin doğal aktarımını kesmiştir. Bu dillerin KÖKEN 
+veritabanında "öncelikli" (high-priority) olarak belgelenmesi, filogenetik haritadaki kör noktaların 
+kalıcı olarak silinmesini önleyecektir. 
+7. KÖKEN Modülü Entegrasyon Notu: MVP-14'ten Tam 
+Ölçeğe Geçiş Stratejileri 
+
+Platformun MVP-14 aşaması (Çuvaşça, Türkiye Türkçesi, Azerbaycanca, Türkmence, Kazakça, 
+Kırgızca, Tatarca, Başkurtça, Uygurca, Yakutça, Tuvaca, Hakasça, Şorca, Halaçça) Türk dillerinin 
+altı temel kolunu (Oğur, Oğuz, Kıpçak, Karluk, Sibirya, Argu) genel hatlarıyla temsil etse de, 
+coğrafi ve leksikal uzaklık (distance) algoritmalarının hassas ayarı için devasa boşluklar 
+barındırmaktadır. 35+ dilli tam ölçeğe geçişte şu stratejik eksiklikler giderilmelidir: 
+1. Karluk Boşluğunun Kapatılması ve Özbekçenin Konumu: MVP-14, Güneydoğu (Karluk) 
+kolunu yalnızca Uygurca ile temsil etmektedir. Oysa yaklaşık 35 milyon konuşuruyla Orta 
+Asya'nın en büyük demografik gücü olan Özbekçe (uzn ve uzs), KÖKEN matrisinde büyük bir 
+boşluk yaratmaktadır. Dahası, Özbekçenin Kıpçak diyalektleriyle yoğun temas geçmişi 
+bulunmaktadır. Bayesci filogenetik modeller, Karluk ve Kıpçak dallarının yaklaşık 2000 yıl önce 
+ortak bir "Makro-Kıpçak" düğümünden türediğine dair sinyaller üretmektedir11. Özbekçe 
+eklenmeden Karluk-Kıpçak arasındaki uzaklık katsayıları gerçeği yansıtamaz. 
+2. Güney/Kafkas Kıpçak Köprüsü: Kıpçak grubu şu an Kazak-Kırgız (Doğu/Güney) ve Tatar-
+Başkurt (Kuzey/İdil) olarak iki uç nokta üzerinden modellenmektedir. Kafkasya Kıpçaklarının 
+(Karaçay-Balkar, Kumuk) ve Karakalpakçanın (kaa) matrise eklenmesi şarttır32. Karakalpakça, 
+Kazakça ve Nogayca arasında bir köprü işlevi görerek Güney Kıpçak sürekliliğini (continuum) 
+tamamlayacaktır32. 
+3. Geçişken ve Parafiletik Yapıların Algoritmik Çözümü: KÖKEN uzaklık modülü monofiletik 
+(tek ağaçlı) bir yapı varsayarsa, Kırım Tatarcası veya Urumca gibi dillerde hata verecektir. Kırım 
+Tatarcasının Yalıboyu lehçesi Oğuz kognatları sunarken, Çöl lehçesi Kıpçak kognatları 
+sunacaktır12. Algoritmanın bu tür dilleri tek bir noktaya sabitlemek yerine, "çok ebeveynli" (multi-
+parent) veya yüzdeli areyal ağırlıklarla (ör. %40 Oğuz, %60 Kıpçak) tanımlaması zorunludur. 
+Benzer bir ağırlıklandırma, morfolojisi Oğuz olup kelime dağarcığı Tibet/Çin ağırlıklı olan Salarca 
+ve kriptolekt olan Eynu (İran alt yapısı) için de geçerlidir14. 
+4. Arkaik Köklerin Ağırlıklandırılması (Calibration Anchors): MVP-14'te yer alan Halaçça 
+(Argu), başlangıçtaki *h- sesini (hadaq) muhafaza ettiği için algoritmalara başarıyla arkaik bir 
+çapa oluşturmaktadır5. Ölçeklendirme aşamasında, Sayan dilleriyle (Tuvaca, Tofaca) aynı şekilde 
+ön-sürtünme (preaspiration) sergileyen Batı Yugurca'nın (Sarı Uygurca)15 ve yalnızca Çuvaşça 
+üzerinden modellenen Oğur kolunun tarihsel köklerini netleştirmek için Eski Türkçe, Eski 
+Uygurca ve İdil Bulgarcasının leksik verilerinin de "sabit düğüm" (fixed node) olarak sisteme 
+beslenmesi gerekmektedir. 
+8. İleriye Dönük Projeksiyonlar ve Çıkarımlar 
+
+Bu rapor, Türk dillerinin iç yapısının tek bir ağaç modelinden ziyade, tarihsel göçler, areyal 
+asimilasyonlar ve karma evrim (reticulate evolution) süreçleriyle şekillenen bir örümcek ağı 
+(network) olduğunu kanıtlamaktadır. KÖKEN platformunun MVP-14 sonrası dönemde dillerin 
+yalnızca yapısal etiketlerine (Oğuz, Kıpçak) değil, Bayesci ayrılma olasılıklarına ve 
+leksikoistatistiksel kalibrasyonlara göre eğitilmesi, projenin küresel akademik geçerliliğini temin 
+edecektir. 
+Sibirya ve Batı Çin coğrafyasında son konuşurlarını kaybetmekte olan izole dillerin (Tofaca, 
+Çulımca, İli Türki, Fu-yü) platforma entegre edilmesi, fonolojik uzaklık algoritmalarının evrim 
+hızını doğru hesaplaması için gerekli nadir varyansları sağlayacaktır. Geleneksel dilbilim 
+sınırlarını aşarak hesaplamalı filogenetiğin sunduğu mutlak zaman derinliklerini ve hata paylarını 
+kabul eden bu envanter yaklaşımı, KÖKEN'i modern Transeurasian ve genel filodilbilim 
+araştırmalarında öncü bir dijital haritalandırma motoruna dönüştürme potansiyeline sahiptir. 
+
+Alıntılanan çalışmalar 
+
+1.  Bayesian phylolinguistics infers the internal structure and the time-depth of the 
+
+Turkic language family - ResearchGate, 
+https://www.researchgate.net/publication/339297095_Bayesian_phylolinguistics_
+infers_the_internal_structure_and_the_time-
+depth_of_the_Turkic_language_family 
+
+2.  Bayesian phylolinguistics infers the internal structure and the time-depth of the 
+
+Turkic language family - Oxford Academic, 
+https://academic.oup.com/jole/article/5/1/39/5736268 
+
+3.  Phylogenetic signal and rate of evolutionary change in language structures, 
+
+https://royalsocietypublishing.org/rsos/article/9/3/211252/96605/Phylogenetic-
+signal-and-rate-of-evolutionary 
+
+4.  Turkic languages - Wikipedia, https://en.wikipedia.org/wiki/Turkic_languages 
+5.  The Turkic Language Family (Chapter 3) - Cambridge University Press & 
+
+Assessment, https://www.cambridge.org/core/books/turkic/turkic-language-
+family/783EA334D9E40F3D10A3280AA17A1479 
+
+6.  Chapter 27 Chuvash and the Bulgharic languages Alexander Savelyev Abstract 
+
+Chuvash is the sole living representative of the Bulg, https://iling-
+ran.ru/savelyev/2020_chuvash_and_the_bulgharic_languages.pdf 
+
+7.  Indo-European loanwords and exchange in Bronze Age Central and East Asia - 
+
+PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC10432883/ 
+8.  North-Asiatic Languages -- A List Annotated by Dick Grune, 
+
+https://dickgrune.com/NatLang/Summaries/North-Asiatic.html 
+
+9.  The homelands of the individual Transeurasian proto-languages - ResearchGate, 
+https://www.researchgate.net/publication/345023810_The_homelands_of_the_in
+dividual_Transeurasian_proto-languages 
+
+10. Language Dispersal Beyond Farming 9789027212559, 9789027264640 - 
+
+DOKUMEN.PUB, https://dokumen.pub/language-dispersal-beyond-farming-
+
+9789027212559-9789027264640.html 
+
+11. Karluk languages - Grokipedia, https://grokipedia.com/page/Karluk_languages 
+12. Basic vocabulary of closely related languages in contact: case study of Turkic 
+
+languages on the Crimean Peninsula, https://jolr.ru/files/(288)jlr2020-18-3-4(170-
+198).pdf 
+
+13. Afshar dialect - Wikipedia, https://en.wikipedia.org/wiki/Afshar_dialect 
+14. phonetic adaptation of arabic loanwords in the dobrujan tatar - University of 
+
+Bucharest Journals, 
+https://journals.unibuc.ro/index.php/roar/en/article/view/1136/1295 
+
+15. Western Yugur language - Wikipedia, 
+
+https://en.wikipedia.org/wiki/Western_Yugur_language 
+16. Western Yugur? - Turkic Database at Elegant Lexicon, 
+
+https://turkic.elegantlexicon.com/lx.php?lx=yug 
+
+17. Eastern Yugur language - Wikipedia, 
+
+https://en.wikipedia.org/wiki/Eastern_Yugur_language 
+
+18. Siberian Tatar language - Wikipedia, 
+
+https://en.wikipedia.org/wiki/Siberian_Tatar_language 
+
+19. Urum language - Wikipedia, https://en.wikipedia.org/wiki/Urum_language 
+20. Kipchak Urum - Glottolog 5.3, 
+
+https://glottolog.org/resource/languoid/id/urum1249 
+
+21. Fuyu Kyrgyz people - Wikipedia, 
+
+https://en.wikipedia.org/wiki/Fuyu_Kyrgyz_people 
+
+22. Äynu language - Wikipedia, https://en.wikipedia.org/wiki/%C3%84ynu_language 
+23. Äynu language - Grokipedia, https://grokipedia.com/page/%C3%84ynu_language 
+24. cataloguing the world's endangered languages - dokumen.pub, 
+
+https://dokumen.pub/download/cataloguing-the-worlds-endangered-
+languages-1138922080-9781138922082.html 
+
+25. Language endangerment in Amdo. The case of the Gansu Bonan - OpenEdition 
+
+Journals, https://journals.openedition.org/emscat/6652?lang=en 
+
+26. Krymchak language - Wikipedia, 
+
+https://en.wikipedia.org/wiki/Krymchak_language 
+
+27. Karaim language - Wikipedia, https://en.wikipedia.org/wiki/Karaim_language 
+28. Ili Turki language and alphabets - Omniglot, 
+
+https://www.omniglot.com/writing/iliturki.htm 
+
+29. Ili Turki language - Wikipedia, https://en.wikipedia.org/wiki/Ili_Turki_language 
+30. Western Tuvin - Glottolog 5.3, 
+
+https://glottolog.org/resource/languoid/id/west2401 
+
+31. Southern Altai - Glottolog 5.3, 
+
+https://glottolog.org/resource/languoid/id/sout2694 
+
+32. Kara-Kalpak - Find a Bible, https://find.bible/languages/kaa/ 
+33. Kazakh - Glottolog 5.3, https://glottolog.org/resource/languoid/id/kaza1248 
+
+

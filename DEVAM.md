@@ -1,11 +1,29 @@
 # DEVAM — Oturum Devir Notu (KÖKEN · Türk Dilleri Morfoloji Platformu)
 
 > **Compact sonrası / yeni oturumda İLK BUNU OKU.** Bu §0 = güncel tek-bakış. Sonra: §2 (VM erişimi), §3 (apertium), §4.5 (FELSEFE), §4.6 (HATALAR+ÇÖZÜMLER), §7 (konvansiyonlar).
-> **Güncelleme: 24 Haziran 2026.** Repo: github.com/muhammedkumcu/cuvas-platform (main, push'lu).
+> **Güncelleme: 25 Haziran 2026.** Repo: github.com/muhammedkumcu/cuvas-platform (main, push'lu, temiz).
 
 ---
 
 ## 0) ŞU AN NEREDE KALDIK — TEK BAKIŞ
+
+### ★★ GÜNCEL DURUM (25 Haz) — ÖNCE BUNU OKU
+**DEEPSEARCH-BAĞIMSIZ DİKEY MVP NEREDEYSE TAM BİTTİ.** Tüm fazlar yapıldı, Claude_Preview'da doğrulandı, commit+push'lu:
+- **Faz 1:** 1.1 füzyon ek-ayrışması ✅ (chv ek-sayı %75.3→%93.2, segment_eval doğrulamalı, regresyonsuz; kalan px+hâl portmanteau bilinçli korunur) · 1.2 ses denklikleri kanıt-destekli ✅ · 1.3 harita inline-kart ✅ · 1.4 Hakkında ✅.
+- **Faz 2:** 2.1 Seslendirme(TTS/ASR) ✅ · 2.2 **Ekosistem sayfası** ✅ (kategori-sekmeli, link+metrik launchpad; ds7+10) · 2.5 kollar açıklayıcı (altı kol + Bayes soy ağacı + geçişken diller notu) ✅ · 2.6 derin profiller (14 dil×5 bölüm) ✅ · 2.7 KAYNAKLAR ✅.
+- **Faz 3.1:** Çuvaşça "Dilin Kalbi" anlatı sayfası ✅.
+- **Deepsearch 5-10 İŞLENDİ.** Kol etiketleri çapraz-kontrol: veri zaten doğru (CrimeanTatar→Kıpçak, Salar→Oğuz, SarygYugur→Sibirya).
+- **SAYFALAR (sol menü):** KEŞFET (Ana Sayfa·Dil Profilleri·Tarih&Köken·**Çuvaşça Kalbi**·**Hakkında**) · ANALİZ (Morfoloji·Paradigma·Kognat·Karşılaştır·Uzaklık) · ÖĞREN (Çuvaşça Atölyesi) · ARAŞTIR (Araştırmacı Merkezi·**Ekosistem**·Kaynaklar).
+
+**★ SIRADAKİ MAKRO-FAZ = YATAY ÖLÇEK** (tüm Türk dilleri + lehçeleri). **Sıralı plan: `plan/GELECEK-PLANLAR.md`** →
+- **A) Yatay ölçek öncesi UI cilası (kullanıcı notları):** A1 kognat kelime-seçici (kategorili/aranabilir, ölçek ön-şartı) · A2 Karşılaştır başlık hardcode'unu mantıksız sekmelerden kaldır · A3 ana sayfa dil-sayısı güncel · A4 harita arka planı (daha doğru, aynı tarz) + düğüm yoğunluğu önlemi · A5 Uzaklık uzun-kutu dengele · A6 Kaynaklar sayfası kategorize.
+- **B) Yatay ölçek:** **deepsearch 11-18 promptları HAZIR** (`arastirma/11..18*.prompt.md` — envanter, 5 kol-profil, ses denklikleri, kognat). **Kullanıcı çalıştırıp atacak** → locale çek, çapraz-kontrol, tüm modülleri tüm dillere aç.
+- **C) Altyapı:** gerçek ses motoru (Piper/MMS/eSpeak WASM+FastAPI) · morfolojik üretim arayüzü · ekosistem HfApi-CRON.
+- **D) EN SON:** çocuk eğitim portalı + Saha/Şor "Dilin Kalbi" şablonu.
+
+**KRİTİK HATIRLATMALAR (her zaman):** ① **UYDURMA YOK** — kaynak + test + doğruluk her şeyin önünde (§4.5 FELSEFE; kanıtla-iddia-etme, test sonucu paylaş). ② **Commit + push SIK** (kolay unutuluyor; her adımda). ③ **HARDCODED kısımlar önemli ve unutulur** (ör. Karşılaştır başlığı, ana sayfa dil sayısı) — değişikliklerde tara. ④ **`.dc.html` ELLE DÜZENLENMEZ → build.py.** ⑤ Backend için VM açık + uvicorn (§4.6 tuzağı). ⑥ Commit'lerde yalnız Muhammed Kumcu (Co-Authored-By YOK).
+
+---
 
 ### NE YAPIYORUZ — amaç
 **KÖKEN** — "Türk dilleri atlası & laboratuvarı." ~20 Türk dili için Apertium FST'leriyle çalışan, **çift kitleli** açık kaynak **morfoloji + karşılaştırma + araştırma platformu**:
@@ -48,7 +66,7 @@ analiz · üretim · paradigma · kognat ağı · ses denkliği · çok-boyutlu 
 - **Kararlar:** Türkçe Zemberek opsiyonel üst-kalite (NW zaten %98.8); **diller-arası = apertium `.dix` boru hattı** (★ sıradaki, en yüksek değer); Joshi kaynak sınıfı (0-5) profillere; NLLB red.
 - **★ DİLLER-ARASI MOTOR YAPILDI + GENİŞLETİLDİ (10/10 dil):** `/crosslang` (apertium `.dix` grafiği + BFS pivot) — aranan kelime tüm Türk dillerinde CANLI üretilir (statik "okuduk" gibi); Karşılaştır "dizilim"e bağlı. Deepsearch 5c uygulandı: **chv-tur (31K) + kaz-sah** ile Çuvaşça+Saha bağlandı (хӗр→kız, göz→харах); **fiil TAM etiket normalizasyonu** (TAG_NORM: chv/sah ifi→past, kaz/kir pres→aor fallback). `.dix` VM'de `/root/koken_api/dix/` (`fetch_dix.sh`). Joshi kaynak-sınıfı (0-5) profillerde. Fiil bölümleme + chv kaynaşık-çöküş cilası yapıldı (yeniden-üretim %92-95).
 - **✅ (b) SES DENKLİKLERİ KANIT-DESTEKLİ + kognata bağlı:** Karşılaştır>Ses denklikleri'ndeki 4 kural artık Savelyev kognat verisinden kanıtlı (rotasizm 36 *ŕ, lambdasizm 29 *ĺ, y->ś 14); kognat seçip "incele" → kuralı vurgular. (Kullanıcı kararı: yerleşik kurallar ground truth, veriden kanıtla.)
-- **★ SIRADAKİ = `plan/YOL-HARITASI.md` (FAZLI + DEEPSEARCH İHTİYAÇ HARİTASI):**
+- **★ AŞAĞISI = KRONOLOJİK GEÇMİŞ (paper için log). GÜNCEL durum yukarıda "★★ GÜNCEL DURUM" + `plan/GELECEK-PLANLAR.md`'de. `plan/YOL-HARITASI.md` (FAZLI + DEEPSEARCH İHTİYAÇ HARİTASI):**
   - **ŞİMDİ yapılabilir (deepsearch BEKLEMEZ):** Faz **1.1** füzyonel ek ince-ayrışması (NW kanonik-allomorf; 5c yöntemi+örnekleri verdi: chv -не=+i+n+e bölünebilir, chv sırası Kök+İyelik+Çoğul+Hâl) · Faz **1.3** harita/soy-ağacı UX (Türkiye konumu + tıkla-inline) · Faz **1.4** Hakkında/iletişim.
   - **Deepsearch BEKLER:** Faz 2.1 TTS (`6`), 2.2 LLM/HF ekosistem (`7`), 2.5 kollar açıklayıcı (`8`), 2.6 derin dil profilleri (`9` kol-batch), 2.7 KAYNAKLAR büyük güncelleme (TÜM deepsearch'ler sonrası) · Faz 3 Çuvaşça "Dilin Kalbi" (✅ ayrı sayfa onaylı).
   - **Deepsearch promptları HAZIR:** `arastirma/5,5b,5c,6,7,8,9*.prompt.md`. Çıktılar geldikçe locale çek (pdfminer; PDF'ler gitignore, `_*.txt` commit'li), çapraz-kontrol, işle.
@@ -59,7 +77,8 @@ analiz · üretim · paradigma · kognat ağı · ses denkliği · çok-boyutlu 
   - **★ TÜM DEEPSEARCH + 2.x İÇERİK İŞLENDİ (2.1/2.2/2.5/2.6/2.7 ✅).** Ekosistem (2.2) **yeniden tasarlandı**: ayrı "Ekosistem" SAYFASI, kategori SEKMELERİ (tıkla→tek kategori), 8 kategori × dil × link launchpad (Zemberek/Apertium dahil).
   - **★ FAZ 1 + 3.1 (deepsearch-bağımsız) YAPILDI:** **1.3 harita inline-kart ✅**, **1.4 Hakkında/iletişim ✅**, **1.1 güvenli füzyon-bölme ✅** (chv pl+hâl temiz sınırı böl; segment_eval: chv ek-sayı %75.3→%92.0, regresyon yok; VM'ye deploy edildi; px+hâl portmanteau korundu), **3.1 Çuvaşça "Dilin Kalbi" anlatı sayfası ✅**.
   - **★ A BLOĞU (deepsearch-bağımsız) TAMAMLANDI:** **1.1b** ✅ (vokal-sonu iyelik kurtarma: кӗнеки→kök+и; chv ek-sayı %92→%93.2, recon %93.2→%94.4, regresyonsuz; toplam 1.1: chv %75.3→%93.2). **Kol-düzeltmeleri** ✅ — veri çapraz-kontrolü: cognates.json kol etiketleri ZATEN doğru (CrimeanTatar→Kıpçak, Salar→Oğuz, SarygYugur→**Sibirya**, Khalaj→Argu); yanlış atama YOK → Tarih & Köken altı-kol kartına **"Geçişken & sınır diller"** nüans notu eklendi (Kırım Tatarcası geçişken, Salarca [areal:Amdo], Sarı Uygurca adı-yanıltıcı Güney Sibirya).
-  - **SIRADAKİ — DEEPSEARCH BEKLEYEN:** ekosistem zenginleştirme (`arastirma/10-*.prompt.md` çıktısı gelince). **KALAN (bilinçli/altyapı):** chv px+hâl portmanteau (doğru olan korumak); deepsearch 9 displayed-dışı diller (yatay); TTS/ekosistem gerçek-motor & HfApi-CRON; Saha/Şor "Dilin Kalbi" şablonu; eğitim portalı.
+  - **Ekosistem zenginleştirme (deepsearch 10) ✅ YAPILDI** (`_ekosistem10.txt` → `ecosystem.json` metriklerle: Asure-12B, KazLLM, VNLP 287★, sayro-tts, mmBERT 340K↓…). → **Bununla DİKEY MVP bitti.**
+  - **★ SIRADAKİ = YATAY ÖLÇEK** (güncel özet ve sıralı plan: §0 üstündeki "★★ GÜNCEL DURUM" + `plan/GELECEK-PLANLAR.md` A/B/C/D). Deepsearch **11-18 promptları yazıldı** (`arastirma/11..18`), kullanıcı çalıştıracak. UI cila notları GELECEK-PLANLAR Bölüm A'da.
   - **Açık sorular:** YOL-HARITASI karar günlüğü (kollar açıklayıcı yeri; harita projeksiyon tipi).
 
 ### ✅ A→F PLANI + GÜNCELLEME NOTLARI — TAMAMLANDI (24 Haz, Claude_Preview'da doğrulandı)
@@ -139,9 +158,11 @@ Açık kaynak, çift-kitleli (öğrenen+araştırmacı) **Türk dilleri morfoloj
 - **Olgun açık kaynağı yeniden icat etme** → üstüne değer kat (erişilebilirlik, pedagoji, karşılaştırma).
 - **Düşük-kaynak/tehlikedeki Türk dilleri için dijital kapsayıcılık.**
 - **Apertium = motor (rakip değil); biz = erişilebilirlik + öğrenme + karşılaştırma + araştırma katmanı.** Hatalar yüzeye çıkınca apertium'a geri katkı.
-- **Gerçek kaynak, locale çek, çapraz-kontrol, atıf+lisans, UYDURMA YOK.** PDF'ler pusula; veri PDF'in işaret ettiği setlerden.
-- **Kanıtla, iddia etme** (empirik test).
-- **Önce dikey (MVP sağlam), sonra yatay (ölçek).** Siteyi bozma; değişiklik abartma.
+- **Gerçek kaynak, locale çek, çapraz-kontrol, atıf+lisans, UYDURMA YOK.** PDF'ler pusula; veri PDF'in işaret ettiği setlerden. (Kullanıcı bunu DEFALARCA vurguladı — kaynaklara/doğruluğa aşırı önem; uydurma link/segmentasyon/iddia = KIRMIZI ÇİZGİ. Emin değilsen koyma, "kaynak bulunamadı" yaz.)
+- **Kanıtla, iddia etme** (empirik test). **Test sonucunu kullanıcıya GÖSTER** (ör. backend morfoloji = `segment_eval` önce/sonra; regresyon kontrolü). Bozma riski varsa değişikliği yapma/geri al.
+- **Commit + push SIK** (her adımda; kullanıcı sık unuttuğumu hatırlattı). Commit'lerde yalnız Muhammed Kumcu (Co-Authored-By YOK).
+- **HARDCODED kısımlar önemli + unutulur** — UI değişikliklerinde sabit metin/sayıları (başlık, dil sayısı vb.) tara.
+- **Önce dikey (MVP sağlam ✅), sonra yatay (ölçek).** Siteyi bozma; değişiklik abartma; tasarımı koru.
 
 ## 4.6) HATALAR & ÇÖZÜMLER (tekrar düşmemek için)
 - **Apertium "kullanılamaz" YANLIŞTI** → Windows'ta hfst yok ≠ apertium yok; **Linux VM**. DERS: ortam-engelini genel imkânsızlık sanma.

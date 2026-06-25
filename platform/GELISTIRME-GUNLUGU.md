@@ -156,8 +156,14 @@ Voicing çiftleri Latin+Kiril kapsıyor; rozetler her dilde çalışıyor: tur p
 - **Kol-düzeltmeleri (deepsearch 8) ✅:** ÖNCE veri çapraz-kontrol — `cognates.json` kol etiketleri ZATEN doğru (CrimeanTatar→Kıpçak, Salar→Oğuz, **SarygYugur→Sibirya** [Karluk değil], Khalaj→Argu). **Yanlış atama yoktu** → uydurma "düzeltme" yapılmadı; bunun yerine Tarih & Köken altı-kol kartına **"Geçişken & sınır diller"** NÜANS notu eklendi (Kırım Tatarcası geçişken / Salarca [areal:Amdo] / Sarı Uygurca adı-yanıltıcı Güney Sibirya). Claude_Preview ✅.
 - **Paper notu:** "verimizi test ettik, kol etiketleri deepsearch 8 ile bire bir tutuyor" — değerli bir doğrulama kaydı.
 
-## Sıradaki / açık işler — bkz `plan/YOL-HARITASI.md` (özet)
-1. **DEEPSEARCH BEKLEYEN:** ekosistem zenginleştirme (`arastirma/10-*.prompt.md` çıktısı).
+## EK-OTURUM (25 Haz, devam-8) — Deepsearch 10 + YATAY ÖLÇEK PLANI (DİKEY MVP BİTTİ)
+- **Deepsearch 10 (ekosistem, linkli+metrik) işlendi:** `_ekosistem10.txt` (25 dil, 128 URL, indirme/yıldız metrikleri) → `ecosystem.json` zenginleştirildi (Trendyol-Asure-12B, Magibu, Turkcell, KazLLM-8B/70B/Qolda, Alloma/behbudiy, Atllama, mmBERT 340K↓, VBART, TY-ecomm-embed, VNLP 287★, Fitrat, sayro-tts, Kazakh_TTS/KSC2, uzbek-stt, whisper-crh/uyghur/tk, CulturaX…). Metrikler not alanında. Claude_Preview ✅. → **Bununla DİKEY MVP (deepsearch-bağımsız) TAMAMLANDI.**
+- **Yatay ölçek deepsearch promptları yazıldı (11-18, AYRI dosyalar):** kullanıcı isteği — batch'leri tek dosyada toplama (deepsearch zorlaşıyor). 11 envanter · 12-16 kol-bazlı derin profiller+lehçeler · 17 çapraz-kol ses denklikleri · 18 genişletilmiş kognat (kategorize). Kullanıcı çalıştıracak.
+- **Plan dosyaları compact için DİKKATLİCE güncellendi:** DEVAM §0'a "★★ GÜNCEL DURUM" tek-bakış bloğu (dikey MVP bitti + yatay ölçek A/B/C/D + kritik hatırlatmalar) + §4.5 felsefe güçlendirildi (uydurma-yok/test-göster/commit-push/hardcoded). `GELECEK-PLANLAR.md` yeniden yapılandırıldı (A yatay-öncesi UI cilası [kullanıcı notları] · B yatay ölçek · C altyapı · D en son eğitim portalı). YOL-HARITASI durum + Faz 4 güncel.
+- **Kullanıcı UI notları (yatay ölçek öncesi, GELECEK-PLANLAR Bölüm A):** kognat kelime-seçici (kategorili), Karşılaştır başlık hardcode'u kaldır, ana sayfa dil-sayısı, harita arka planı+düğüm yoğunluğu, Uzaklık uzun-kutu, Kaynaklar kategorize. + morfolojik üretim & öğren/araştırmacı = gelecek.
+
+## Sıradaki / açık işler — bkz `plan/GELECEK-PLANLAR.md` (sıralı: A UI-öncesi · B yatay ölçek · C altyapı · D eğitim portalı)
+1. **YATAY ÖLÇEK:** kullanıcı deepsearch 11-18 çalıştırıp atınca işle; öncesinde/sırasında UI cilası (Bölüm A).
 2. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.
 3. Sıfat/zarf yüzey bölümleme (POS başına kümülatif şablon).
 4. **.dix kalıcılığı:** VM'de `/root/koken_api/dix/` (gitignored, GPL). VM sıfırlanırsa `bash platform/backend/fetch_dix.sh` (VM'de) ile yeniden indir.

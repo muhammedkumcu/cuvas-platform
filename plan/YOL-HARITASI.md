@@ -1,6 +1,8 @@
 # YOL HARİTASI — Fazlı Plan (kullanıcı notları + deepsearch bulguları)
 
 > Her madde: **ne / yapar mıyız (gerekçe) / nasıl / bağımlılık / ❓açık soru**. "Yatay ölçek + eğitim portalı" en sonda (`GELECEK-PLANLAR.md`). Bu dosya, fikirler netleştikçe güncellenir; karar verilenler ✅, beklemedekiler ⏳.
+>
+> **★ DURUM (25 Haz 2026): DEEPSEARCH-BAĞIMSIZ DİKEY MVP NEREDEYSE TAM BİTTİ.** Faz 1 (1.1✅ 1.2✅ 1.3✅ 1.4✅), Faz 2 (2.1✅ 2.2✅ 2.5✅ 2.6✅ 2.7✅), Faz 3.1✅ — hepsi yapıldı/doğrulandı/commit'li. Deepsearch 5-10 işlendi. **SIRADA = YATAY ÖLÇEK** (tüm Türk dilleri + lehçeleri): UI cilası + deepsearch 11-18 + işleme → bkz **`GELECEK-PLANLAR.md`** (sıralı plan: A UI-öncesi · B yatay ölçek · C altyapı · D en son eğitim portalı).
 
 ## ★ DEEPSEARCH İHTİYAÇ HARİTASI (hangi iş hangi deepsearch'i bekler)
 Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
@@ -13,8 +15,10 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 | Faz 2.2 LLM/HF ekosistem | `7` (LLM/NLP/HF) | ✅✅ **YAPILDI** — Araştırmacı Merkezi'ne "Dil × yetenek envanteri" matrisi + 8 org (`ecosystem.json`); nötr (olgunluk yargısı yok) |
 | Faz 2.5 Kollar açıklayıcı | `8` (sınıflandırma çerçevesi) | ✅✅ **YAPILDI** — sonuç işlendi, Tarih & Köken'e "altı kol" kartı + Bayes soy ağacı |
 | Faz 2.6 Derin dil profilleri | `9` (kol-bazlı batch A-E) | ✅✅ **YAPILDI** — 14 dil derin profil işlendi (`profiles_deep.json`) + Joshi çapraz-kontrol düzeltmeleri |
-| **Kaynaklar büyük güncelleme** | TÜM deepsearch'ler (5,5b,5c,6,7,8,9) sonrası | bekliyor |
-> **Özet:** Şimdi deepsearch beklemeden **Faz 1.1 / 1.3 / 1.4** yapılabilir. Faz 2+ ve içerik/kaynak işleri deepsearch sonuçlarını bekler.
+| Faz 2.7 Kaynaklar güncelleme | TÜM deepsearch (5-9) sonrası | ✅ **YAPILDI** — bayes/hf/deepds + 3 veri dosyası kütüğe |
+| Ekosistem zenginleştirme | `10` (NLP ekosistemi, linkli+metrik) | ✅ **YAPILDI** — ecosystem.json metriklerle (Asure-12B, VNLP, KazLLM…) |
+| **★ YATAY ÖLÇEK** | `11-18` (envanter, 5 kol-profil, ses denklikleri, kognat) | ⏳ promptlar HAZIR, kullanıcı çalıştıracak → `GELECEK-PLANLAR.md` |
+> **Özet:** Dikey MVP (Faz 1/2/3) deepsearch-bağımsız işler dahil **BİTTİ.** Sıradaki makro-faz = **yatay ölçek** (`GELECEK-PLANLAR.md` Bölüm A/B/C/D); deepsearch 11-18 sonuçlarını bekler.
 
 ---
 
@@ -100,8 +104,12 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 
 ---
 
-## FAZ 4 — Yatay ölçek + Eğitim portalı
-`GELECEK-PLANLAR.md`'ye bak (tüm ~20 dil + tam veri açma + çocuk/öğrenci eğitim portalı). Bu fazlar EN SON.
+## FAZ 4 — YATAY ÖLÇEK (sıradaki makro-faz) → detay `GELECEK-PLANLAR.md`
+Dikey MVP bitti; sıra tüm Türk dilleri + lehçelerine ölçekte. **Sıralı plan `GELECEK-PLANLAR.md`'de:**
+- **A) Yatay ölçek öncesi UI cilası** (kullanıcı notları): A1 kognat kelime-seçici (kategorili/aranabilir — ölçek ön-şartı) · A2 Karşılaştır başlık hardcode'unu mantıksız sekmelerden kaldır · A3 ana sayfa dil-sayısı güncelliği · A4 harita arka planı (daha doğru, aynı tarz) + düğüm yoğunluğu önlemi · A5 Uzaklık Gezgini uzun-kutu dengelemesi · A6 Kaynaklar sayfası kategorize.
+- **B) Yatay ölçek:** deepsearch **11-18** (envanter + 5 kol-profil + ses denklikleri + kognat) → tüm modülleri tüm dillere aç (profiller/kognat/uzaklık/harita/ses-denklikleri/ekosistem).
+- **C) Altyapı:** gerçek ses motoru (Piper/MMS/eSpeak WASM + FastAPI) · morfolojik üretim arayüzü · ekosistem HfApi-CRON.
+- **D) EN SON:** çocuk/öğrenci eğitim portalı + Saha/Şor "Dilin Kalbi" şablonu.
 
 ---
 

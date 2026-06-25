@@ -1,28 +1,57 @@
-# GELECEK PLANLARI (MVP + yatay ölçek SONRASI)
+# GELECEK PLANLARI — Yatay ölçek + cila + altyapı (DİKEY MVP sonrası sıralı plan)
 
-> MVP'yi ve tüm Türk dillerine yatay ölçeği bitirdikten sonra ele alınacak fikirler. Şimdi YAPILMAZ; burada saklanır ki kaybolmasın.
+> **Durum (25 Haz 2026):** Deepsearch-bağımsız **dikey MVP neredeyse tamamen bitti** (Faz 1 + 2.x + 3.1; bkz `YOL-HARITASI.md`). Sırada **yatay ölçek** (tüm Türk dilleri + lehçeleri) ve ona hazırlık UI cilası var. **Sıralama aşağıda.** Çocuk eğitim portalı **EN SON** iş (Bölüm D). Felsefe değişmez: **kaynak + test + doğruluk; UYDURMA YOK** (DEVAM §4.5).
 
-## 1) Çocuk / öğrenci eğitim portalı (★ kullanıcı fikri, onaylı)
-**Fikir:** "Öğrenen modu"nu gerçek bir **eğitim portalına** dönüştürmek — siteyi çocuklar/öğrenciler için belirgin biçimde farklılaştıran bir bölüm.
-- **Öğrenen modu** (varsayılan, çocuk-dostu): sadeleştirilmiş arayüz, az jargon, **oyunlaştırma** (ICALL alıştırmaları, rozet/seri/SRS — UI'da iskelet zaten var), renkli görsel anlatım, **sanal Kiril/Latin klavye**, sesli okuma, adım adım dersler.
-- **Uzman modu** (araştırmacı): ham morfolojik etiketler, kaynak/lisans künyeleri, dışa aktarım (CSV/JSON/CoNLL-U), açık API. *(Şu an öğrenen/uzman anahtarı yalnız Analiz'de ham FST detayını gösterip gizliyor — bu fikir onu anlamlı kılar.)*
-- **Neden mantıklı:** vizyonumuzun "çift kitle" ayağının (öğrenen + araştırmacı) öğrenen tarafını gerçekten somutlaştırır; platformu salt referans olmaktan çıkarıp **öğretici** yapar; özellikle tehlikedeki diller için canlandırma değeri.
-- **Bağımlılık:** önce MVP morfoloji+karşılaştırma sağlamlaşmalı, sonra yatay ölçek (tüm diller). Ardından bu portal.
+---
 
-## ★ YATAY ÖLÇEK NOTLARI — kaynaktaki tam veriyi açmak (dikey bitince)
-> Şu an DİKEY (MVP'yi sağlam+kaliteli) yapıyoruz; aşağıdakiler kaynaklarımızda DAHA FAZLA olan ama bilinçli olarak **bir alt kümesini gösterdiğimiz** yerler. Yatay ölçekte (tüm Türk dilleri + tam veri) açılacak. Buraya çıktıkça ekle.
-- **Kognat ağı:** Savelyev'de **254 kavram / 905 kognat seti** var; biz şu an **14 kavram** gösteriyoruz → tümünü aç. (Not: "herhangi yazılan kelime → canlı kognat" APERTIUM'la mümkün değil; kognat tespiti ayrı bir araştırma işi.)
-- **Diller:** Apertium'da ~20 Türk dili FST'si hedefimizde; MVP'de **10 dil** canlı. Yatay ölçek = kalan dilleri (tuk, gag, crh, kaa, krc, kum, nog, alt, kjh, tyv, klj…) ekle.
-- **Dil profilleri / canlılık:** Glottolog AES **23 dil**, Wikipedia zengin metin **14 dil** → tüm dillere genişlet.
-- **Uzaklık matrisleri:** Savelyev **32 dil**; biz **10 dil** gösteriyoruz → matrisleri tam set için aç.
-- **Harita:** **14 dil** koordinatı yerleştirildi → tüm dilleri ekle.
-- **Anlaşılabilirlik (Lindsay):** sınırlı çift kümesi → kaynak elverdikçe genişlet.
-- **Genel ilke:** "kaynağımızda daha fazlası olup belirli bir kısmını gösterdiğimiz" her yer yatay-ölçek adayıdır; UI'da "şu an N gösteriliyor" notu + bu listeye kayıt.
+## BÖLÜM A — YATAY ÖLÇEK ÖNCESİ UI / CİLA (kullanıcı notları, 25 Haz)
+> Bunların çoğu yatay ölçeğin ÖN ŞARTI: dil sayısı artınca bu sorunlar büyür. Ölçekten hemen önce/sırasında yapılmalı.
 
-## 2) (yer tutucu) Diğer gelecek fikirleri
-- Kullanıcı katkısı / topluluk düzeltmeleri (kognat, çeviri, örnek cümle).
-- Apertium'a geri hata-düzeltme katkısı (kullanım arttıkça yüzeye çıkan hatalar).
-- Tarihsel metin/yazıt katmanı (Orhun, Dîvân) — derin tarih modülü.
-- Mobil uyum / PWA.
+- **A1 · Kognat kelime-seçme ekranı (★ ölçek ön-şartı):** Yatay ölçekte tüm kelimeleri ekleyeceğiz → seçim ekranı çok kalabalık olacak. **Kategorili/aranabilir** bir kelime-seçici lazım (vücut/doğa/sayı/akrabalık/eylem… — bkz deepsearch 18 kategorileri). Şimdiki düz liste ölçeklenemez.
+- **A2 · Karşılaştır ekranı başlık hardcode'u:** Karşılaştır'a girince **"'okuduk' — diller arası"** başlığı TÜM sekmelerde (dizilim, ses denklikleri, soy ağacı, harita) kalıyor — mantıksız sekmelerden (soy ağacı, harita, ses denklikleri) **kaldır** (yalnız "dizilim"e ait). *(Hardcoded — kolay unutulur; bkz E maddesi.)*
+- **A3 · Ana sayfa (landing) güncelliği:** İlk karşılayan ekran eskimiş — artık daha çok dilde analiz yapabiliyoruz, yatayda çok daha fazla olacak. Dil sayısı/kapsam dinamik yansımalı (hardcoded "N dil" varsa güncelle).
+- **A4 · Harita arka planı + düğüm yoğunluğu:** Konumlar doğru (gerçek koordinat projeksiyonu) ama **arka plan haritası biraz saçma duruyor** — şekil/renkler beğenildi, bu tarzda ama **daha doğru** bir arka plan çiz. + Bazı düğümler çok yakın (Çuvaşça↔Tatarca; Tatarca arkada kalıyor); yeni diller eklenince daha zor olacak → **düğüm seçme/ayırma önlemi** (hover büyütme, zoom, ya da tıkla-listeden-seç). (Deepsearch 11 koordinatları + S.Sibirya kümesi.)
+- **A5 · Uzaklık Gezgini ortadaki kutu:** Ortadaki gösterim kutusu **çok uzun** → taban-dil seçim kısmını kısıtlıyor. O UI yeniden dengelenmeli (kutu kompakt, taban-dil + eksenler ferah). Genel olarak iyi düşünülmeli.
+- **A6 · Kaynaklar & Lisanslar büyümesi:** Yatayda çok kaynak olacak → kendi sayfasında **kategori** (veri/araç/model/literatür/deepsearch…) düşün. Her modülün KULLANIM eşlemesi güncel kalmalı. (Ne zaman: her yeni veri eklendiğinde + ölçek sonrası toplu.)
 
-> Ekleme: yeni gelecek fikri çıktıkça buraya kaydet.
+---
+
+## BÖLÜM B — YATAY ÖLÇEK (tüm Türk dilleri + lehçeleri)
+> Felsefe: önce dikey sağlam (✅ şimdi öyle), sonra yatay. Kaynaklarımızda DAHA FAZLASI olup bir alt kümesini gösterdiğimiz her yer ölçek adayı. **Çok sayıda yeni deepsearch gerekli.**
+
+### B1 · Hazırlanan deepsearch promptları (kullanıcı çalıştıracak — AYRI dosyalar)
+- `arastirma/11-tum-turk-dilleri-envanter.prompt.md` — TAM dil/lehçe listesi + ISO/Glottocode/kol/koordinat/canlılık (ölçek TEMELİ).
+- `12-oguz` · `13-kipcak` · `14-karluk` · `15-sibirya` · `16-ogur-argu` **-derin-profiller.prompt.md** — kol-bazlı DERİN profiller + lehçeler (her dil: kimlik/canlılık/koordinat/tarih/yapı/izogloss/**15 kognat anahtar kelime**/dijital).
+- `17-capraz-kol-ses-denklikleri.prompt.md` — tüm kol-çiftleri izogloss tabloları (ses denklikleri modülünü Çuvaş-ötesine taşı).
+- `18-genisletilmis-kognat-leksikal.prompt.md` — Leipzig-Jakarta+Swadesh, **kategorize** (A1 kelime-seçiciyi besler).
+
+### B2 · Sonuçlar gelince işlenecek modüller
+- **Dil Profilleri:** 14 → tüm diller (profiles.json + profiles_deep + profiles_tts genişlet; deepsearch 9 zaten ~30 dil içeriyor — önce ONLARI işle, sonra 12-16 ile derinleştir).
+- **Kognat Ağı:** 14 kavram × 7 dil → çok kavram × tüm diller (Savelyev 254 kavram + deepsearch 18). A1 kelime-seçici şart.
+- **Ses denklikleri:** Çuvaş-merkezli → tüm kol-çiftleri (deepsearch 17).
+- **Uzaklık:** Savelyev 32 dil matrisini tam aç (şu an 10).
+- **Harita:** 14 → tüm diller (deepsearch 11 koordinatları; A4 yoğunluk önlemi).
+- **Ekosistem:** deepsearch 7+10 ~25 dil işlendi; yeni dillerde HF arama hub'ı + bulunanlar.
+
+---
+
+## BÖLÜM C — ALTYAPI (ayrı mühendislik fazları)
+- **C1 · Gerçek ses motoru (TTS/ASR):** "▷ Seslendir" şu an tarayıcı Web Speech'e düşüyor. Deepsearch 6'nın önerdiği **Dinamik Hibrit Yönlendirme**: tr/kaz → sunucu Piper (ONNX); uzb/uig/sah → HF Inference API (MMS-TTS, ön-işlem Latin→Kiril/num2words); chv/bak → tarayıcı eSpeak NG (WASM). FastAPI router. ASR telaffuz kontrolü yalnız tr/kaz (Whisper).
+- **C2 · Morfolojik ÜRETİM (kullanıcı notu):** Üretim ucu (`/generate`) var ama UI'da öne çıkmıyor; tam bir "kök + etiket → form üret" arayüzü gelecek planı.
+- **C3 · Ekosistem HfApi-CRON otomatik güncel-tutma:** `huggingface_hub` ile periyodik `list_models/list_datasets` (author=issai/ytu-ce-cosmos…, tags=language:tr…) → "Yeni çıkanlar" akışı + indirme sayısı güncelleme (ecosystem.json elle güncelden kurtulur).
+
+---
+
+## BÖLÜM D — EN SON: ÇOCUK / ÖĞRENCİ EĞİTİM PORTALI (★ onaylı, en son iş)
+**Fikir:** "Öğrenen modu"nu gerçek bir eğitim portalına dönüştürmek.
+- **Öğrenen modu** (çocuk-dostu): sade arayüz, oyunlaştırma (ICALL, rozet/seri/SRS — iskelet var), sanal Kiril/Latin klavye, sesli okuma (C1'e bağlı), adım adım dersler.
+- **Uzman modu** (araştırmacı): ham etiketler, künye, dışa aktarım, açık API.
+- **Saha/Şor "Dilin Kalbi" şablonu:** Çuvaş "Dilin Kalbi" sayfasını (Faz 3.1) diğer tehlikedeki dillere (Saha, Tuva, Halaç…) şablonla. Eğitim portalının canlandırma ayağı.
+- **Bağımlılık:** önce A+B+C bitmeli. **EN SON.**
+
+---
+
+## Diğer gelecek fikirleri (yer tutucu)
+- Kullanıcı katkısı / topluluk düzeltmeleri (kognat, çeviri, örnek cümle). · Apertium'a geri hata-düzeltme katkısı. · Tarihsel metin/yazıt katmanı (Orhun, Dîvân). · Mobil/PWA. · Kognat motoruna izogloss RegEx; chv px+hâl portmanteau'yu ayrı etiketleme; harita S.Sibirya etiket nudge.
+
+> Ekleme: yeni gelecek fikri/UI notu çıktıkça buraya kaydet.

@@ -255,7 +255,7 @@
         <div style="background:#f3efe6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:15px 18px;margin:0 0 18px;font-size:13.5px;line-height:1.7;color:#3f3a32;max-width:74ch">Yazdığınız kelime, tüm MVP dillerinde Apertium ile <strong>anlık çözümlenir</strong> (/analyze_all) ve kök+ek dizilimi diller arası yan yana getirilir. “Ses denklikleri” sekmesi ise Çuvaşça↔Ortak Türkçe <strong>düzenli ses değişimlerini</strong> (küratörlü) gösterir.</div>
         </sc-if>
         <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:8px">
-          <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:0">“{{ compareHeadline }}” — diller arası</h2>
+          <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:0">{{ compareHeadline }}</h2>
           <div style="display:flex;gap:8px;background:#ece7dc;padding:5px;border-radius:11px">
             <sc-for list="{{ compareTabs }}" as="t" hint-placeholder-count="3">
               <button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.label }}</button>
@@ -1937,7 +1937,7 @@ class Component extends DCLogic {
       goCompareActive:()=>{ if(this.state.activeWordId==='__api' && this.state.apiWord){ this.runCompare(this.state.apiWord.surface, this.state.apiMatchLang || this.state.searchLang); } else { this.setState({screen:'compare', compareTab:'rows'}); } },
       // compare
       compareTabs, isCmpRows:S.compareTab==='rows', isCmpSound:S.compareTab==='sound', isCmpTree:S.compareTab==='tree', isCmpMap:S.compareTab==='map',
-      compareRows, compareHeadline:(S.activeWordId==='__api' && w && w.surface) ? w.surface : (w?w.gloss:''), legend, soundCards, familyRows, timeline,
+      compareRows, compareHeadline:(S.compareTab==='sound' ? 'Ses denklikleri' : S.compareTab==='tree' ? 'Soy ağacı & zaman çizelgesi' : S.compareTab==='map' ? 'Dil haritası' : ('\u201C'+((S.activeWordId==='__api' && w && w.surface) ? w.surface : (w?w.gloss:''))+'\u201D — diller arası')), legend, soundCards, familyRows, timeline,
       mapNodes:this.MAP.map(m=>{
         const col = this.BRANCHCOLOR[m.branch];
         return { name:m.name, branch:m.branch, col, go:()=>this.setState({mapSel:m.code}),

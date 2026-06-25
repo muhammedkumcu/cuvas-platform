@@ -450,6 +450,7 @@ def main():
         '        </div>')
     if a1_mk_old in html:
         html = html.replace(a1_mk_old, a1_mk_new, 1); na1 += 1
+    # NOT: A2 (Karşılaştır başlık sekmeye-duyarlı) D-bloğunda compareHeadline tanımında yapılır (tek kaynak).
 
     # kopya/metin düzeltmeleri — yalnız NET redundant/teknik ifadeler (tasarımı bozmadan, minimal)
     copy_fix = {
@@ -1031,13 +1032,14 @@ def main():
         "    const allLangs = cmpRows\n"
         "      ? Object.entries(cmpRows).map(([lc,info])=>{ const seg=info.morphemes; const ms = (seg && seg.length) ? seg.map(m=>[m.surface, (m.tag||'').toString(), (m.type||'kök')]) : [[info.surface,'KÖK','kök']]; return {lang:lc, langName:(this.LIVE_LN[lc]||lc), branch:(CBR[lc]||'—'), translit:info.surface, morphemes:ms, self:!!info.self}; })\n"
         "      : [{lang:w.lang,langName:w.langName,branch:'Ogur',translit:w.translit,morphemes:w.morphemes.map(m=>[m.text,m.tag,m.type]),self:true}, ...w.cognates];"))
-    # başlık: canlı kelimede ham gloss yerine yüzey biçimi göster
-    dfix.append(("compare başlık binding",
+    # başlık: A2 — sekmeye-duyarlı. Dizilim'de canlı kelimenin yüzey biçimi + "— diller arası";
+    # mantıksız sekmelerde (ses denklikleri/soy ağacı/harita) kelime referansı YOK, sekme başlığı.
+    dfix.append(("compare başlık binding (A2 sekmeye-duyarlı)",
         "      compareRows, legend, soundCards, familyRows, timeline,",
-        "      compareRows, compareHeadline:(S.activeWordId==='__api' && w && w.surface) ? w.surface : (w?w.gloss:''), legend, soundCards, familyRows, timeline,"))
-    dfix.append(("compare başlık markup",
+        "      compareRows, compareHeadline:(S.compareTab==='sound' ? 'Ses denklikleri' : S.compareTab==='tree' ? 'Soy ağacı & zaman çizelgesi' : S.compareTab==='map' ? 'Dil haritası' : ('\\u201C'+((S.activeWordId==='__api' && w && w.surface) ? w.surface : (w?w.gloss:''))+'\\u201D — diller arası')), legend, soundCards, familyRows, timeline,"))
+    dfix.append(("compare başlık markup (A2 wrapper kaldır)",
         '<h2 style="font-family:\'Spectral\',serif;font-weight:600;font-size:38px;margin:0">“{{ active.gloss }}” — diller arası</h2>',
-        '<h2 style="font-family:\'Spectral\',serif;font-weight:600;font-size:38px;margin:0">“{{ compareHeadline }}” — diller arası</h2>'))
+        '<h2 style="font-family:\'Spectral\',serif;font-weight:600;font-size:38px;margin:0">{{ compareHeadline }}</h2>'))
     nd = 0
     for label, old, new in dfix:
         if old in html:

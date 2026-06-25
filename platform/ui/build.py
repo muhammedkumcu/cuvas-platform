@@ -1137,7 +1137,7 @@ def main():
                 'border:1px solid rgba(33,29,23,.12);border-radius:9px;padding:7px 12px;font-size:12.5px;color:#211d17;'
                 "font-family:'IBM Plex Sans',sans-serif;line-height:1.35\">"
                 f'<span>{label}{ns}</span><span style="color:#b86a2e;font-size:11px;align-self:center">↗</span></a>')
-    def _cat(c):
+    def _cat_inner(c):
         hubs = "".join(_chip(h["label"], h["url"]) for h in c.get("hubs", []))
         hubrow = (f'<div style="display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px">{hubs}</div>') if hubs else ''
         groups = ""
@@ -1146,31 +1146,36 @@ def main():
             groups += (f'<div style="margin-bottom:15px">'
                        f"<div style=\"font-family:'Spectral',serif;font-size:15px;font-weight:600;color:#211d17;margin-bottom:8px\">{lg['name']}</div>"
                        f'<div style="display:flex;flex-wrap:wrap;gap:8px">{chips}</div></div>')
-        return (f'<section id="cat-{c["key"]}" style="margin-top:30px;scroll-margin-top:64px">'
-                f"<div style=\"font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#d98b4a;margin-bottom:4px\">KATEGORİ</div>"
+        return (f"<div style=\"font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#d98b4a;margin-bottom:4px\">KATEGORİ</div>"
                 f"<h3 style=\"font-family:'Spectral',serif;font-weight:600;font-size:24px;margin:0 0 4px\">{c['title']}</h3>"
                 f'<p style="font-size:13px;line-height:1.55;color:#5f574b;max-width:80ch;margin:0 0 14px">{c["desc"]}</p>'
-                f'{hubrow}{groups}</section>')
-    cats = "".join(_cat(c) for c in eco["categories"])
-    catnav = "".join(f'<a href="#cat-{c["key"]}" '
-                     "style=\"text-decoration:none;background:#211d17;color:#f4f1ea;border-radius:8px;padding:6px 11px;font-size:11.5px;font-family:'IBM Plex Mono',monospace\">"
-                     f'{c["title"]}</a>' for c in eco["categories"])
+                f'{hubrow}{groups}')
+    # SEKMELİ: kategoriye basınca yalnız o kategori açılır (sc-if). Varsayılan: Üretken LLM.
+    cat_blocks = ""
+    for c in eco["categories"]:
+        cat_blocks += ('      <sc-if value="{{ eco_' + c["key"] + ' }}" hint-placeholder-val="{{ false }}">\n'
+                       '        <div style="margin-top:16px">' + _cat_inner(c) + '</div>\n'
+                       '      </sc-if>\n')
     ECO_SCREEN = (
         '      <sc-if value="{{ isEco }}" hint-placeholder-val="{{ false }}">\n'
         '      <section style="max-width:1080px;margin:0 auto;padding:34px 40px 70px">\n'
         "        <div style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a\">EKOSİSTEM</div>\n"
         "        <h2 style=\"font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 8px\">Türk dilleri NLP/LLM kaynak merkezi</h2>\n"
-        f'        <p style="font-size:15px;line-height:1.7;color:#5f574b;max-width:82ch;margin:0 0 8px">{eco["intro"]}</p>\n'
-        f'        <p style="font-size:12px;line-height:1.6;color:#9a9082;max-width:82ch;margin:0 0 16px">{eco["_meta"]["note"]}</p>\n'
-        '        <div style="position:sticky;top:0;z-index:5;background:#f4f1ea;padding:10px 0 11px;display:flex;flex-wrap:wrap;gap:7px;border-bottom:1px solid rgba(33,29,23,.1)">'
-        + catnav + '</div>\n'
-        + cats +
+        '        <p style="font-size:15px;line-height:1.7;color:#5f574b;max-width:82ch;margin:0 0 8px">' + eco["intro"] + '</p>\n'
+        '        <p style="font-size:12px;line-height:1.6;color:#9a9082;max-width:82ch;margin:0 0 16px">' + eco["_meta"]["note"] + '</p>\n'
+        '        <div style="position:sticky;top:0;z-index:5;background:#f4f1ea;padding:10px 0 12px;display:flex;flex-wrap:wrap;gap:7px;border-bottom:1px solid rgba(33,29,23,.1)">\n'
+        '          <sc-for list="{{ ecoTabs }}" as="t" hint-placeholder-count="8"><button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.title }}</button></sc-for>\n'
+        '        </div>\n'
+        + cat_blocks +
         '      </section>\n'
         '      </sc-if>\n')
     eco_screen_anchor = "      <!-- ===================== TARİH & KÖKEN ===================== -->"
     neco = 1 if eco_screen_anchor in html else 0
     html = html.replace(eco_screen_anchor, ECO_SCREEN + "\n" + eco_screen_anchor, 1)
-    # nav öğesi (ARAŞTIR grubu) + isEco bayrağı + USAGE'a Ekosistem modülü
+    # ECOCATMETA: sekme listesi (component field)
+    ecometa = json.dumps([{"key": c["key"], "title": c["title"]} for c in eco["categories"]], ensure_ascii=False)
+    html = html.replace("  LANGPROFILE = [", "  ECOCATMETA = " + ecometa + ";\n  LANGPROFILE = [", 1)
+    # nav öğesi (ARAŞTIR grubu)
     nnav = 0
     nav_old = ("    {group:'ARAŞTIR', items:[\n"
                "      {id:'research', label:'Araştırmacı Merkezi'},\n"
@@ -1183,7 +1188,16 @@ def main():
                "    ]},")
     if nav_old in html:
         html = html.replace(nav_old, nav_new, 1); nnav = 1
-    html = html.replace("isResearch:S.screen==='research',", "isResearch:S.screen==='research', isEco:S.screen==='eco',", 1)
+    # renderVals: isEco + ecoTabs (sekme butonları) + kategori bayrakları (varsayılan llm)
+    TAB_ACT = "cursor:pointer;background:#211d17;color:#f4f1ea;border:1px solid #211d17;border-radius:8px;padding:6px 11px;font-size:11.5px;font-family:'IBM Plex Mono',monospace"
+    TAB_INACT = "cursor:pointer;background:transparent;color:#5f574b;border:1px solid rgba(33,29,23,.2);border-radius:8px;padding:6px 11px;font-size:11.5px;font-family:'IBM Plex Mono',monospace"
+    eco_vals = ("isEco:S.screen==='eco', "
+                "ecoTabs:this.ECOCATMETA.map(c=>({title:c.title, go:()=>this.setState({ecoCat:c.key}), "
+                "style:((S.ecoCat||'llm')===c.key?\"" + TAB_ACT + "\":\"" + TAB_INACT + "\")})), "
+                "eco_llm:(S.ecoCat||'llm')==='llm', eco_encoder:S.ecoCat==='encoder', eco_asr:S.ecoCat==='asr', "
+                "eco_tts:S.ecoCat==='tts', eco_data:S.ecoCat==='data', eco_bench:S.ecoCat==='bench', "
+                "eco_tools:S.ecoCat==='tools', eco_orgs:S.ecoCat==='orgs',")
+    html = html.replace("isResearch:S.screen==='research',", "isResearch:S.screen==='research', " + eco_vals, 1)
     html = html.replace("{mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph']},",
                         "{mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph']},\n    {mod:'Ekosistem', srcs:['hf','deepds','fst']},", 1)
     ncat = len(eco["categories"]); nlink = sum(len(l["links"]) for c in eco["categories"] for l in c["langs"]) + sum(len(c.get("hubs", [])) for c in eco["categories"])

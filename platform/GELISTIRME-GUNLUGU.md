@@ -126,6 +126,12 @@ Voicing çiftleri Latin+Kiril kapsıyor; rozetler her dilde çalışıyor: tur p
 - **Misyon vurgusu (dürüst boşluk haritası):** Çuvaşça'nın MMS'te bile TTS olmaması (yalnız eSpeak NG) ve ~%60 ASR WER'i açıkça gösterildi — "dijital uçurum" kapsayıcılık anlatısı.
 - **KALAN = gerçek ses motoru entegrasyonu (ayrı altyapı fazı):** raporun Dinamik Hibrit Yönlendirme mimarisi (Piper ONNX sunucu / MMS HF API / eSpeak NG tarayıcı-WASM) ileride uygulanacak. "▷ Seslendir" hâlâ Web Speech.
 
+## EK-OTURUM (25 Haz, devam-3) — UI tutarlılık + Faz 2.2 EKOSİSTEM (deepsearch 7) ✅
+- **Dil Profilleri UI tutarlılık (kullanıcı geri bildirimi):** derin bölümler (Tarih'ten itibaren) sağ özet kartından çıkarılıp iki-sütun gridin ALTINA tam genişlikte (2 sütun) taşındı. Sağ özet kutusu yine kompakt — sol seçiciyle dengeli. Claude_Preview ✅.
+- **Faz 2.2 (deepsearch 7) YAPILDI:** `platform/data/ecosystem.json` → **Araştırmacı Merkezi**'ne "Dil × yetenek envanteri" matrisi (13 dil × Üretken LLM/Encoder/Korpus/Konuşma/Benchmark) + zero-resource notu + 8 anahtar org kartı (HF linkli ↗). build.py'de statik üretildi (overflow-x scroll tablo + org grid). Claude_Preview ✅ (logicError null).
+- **★ KULLANICI KARARI:** ekosistem matrisine **olgunluk/eksiklik yargısı KONMADI** — "—" yalnız "bu taramada kayıt yok"; caption açıkça "değerlendirme araştırmacıya aittir" der. Nötr envanter ilkesi.
+- **DURUM: TÜM DEEPSEARCH (5,5b,5c,6,7,8,9.1-9.5) İŞLENDİ.** Sıradaki deepsearch-bağımsız: 2.7 KAYNAKLAR, 1.1 füzyon-ayrışma, 1.3 harita/UX, 1.4 Hakkında, 3.1 Çuvaşça Dilin Kalbi.
+
 ## Sıradaki / açık işler — bkz `plan/YOL-HARITASI.md` (özet)
 1. **ŞİMDİ (deepsearch beklemez):** Faz 1.1 füzyonel ayrışma (NW kanonik-allomorf) · 1.3 harita/UX · 1.4 Hakkında.
 2. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.

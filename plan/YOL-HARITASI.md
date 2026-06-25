@@ -10,7 +10,7 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 | Faz 1.3 harita/soy-ağacı UX | gerekmez (saf UI) | hazır |
 | Faz 1.4 Hakkında/iletişim | gerekmez | hazır |
 | Faz 2.1 TTS | `6` (TTS/ASR) | ✅✅ **YAPILDI** — profillere "Seslendirme (TTS/ASR)" bölümü (`profiles_tts.json`); gerçek motor = gelecek altyapı |
-| Faz 2.2 LLM/HF ekosistem | `7` (LLM/NLP/HF) | ✅ sonuç GELDİ (`_llm_hf_ekosistem.txt`), işlenmeyi bekliyor — ★ "büyük" iş, ekosistem bölümü/sayfası |
+| Faz 2.2 LLM/HF ekosistem | `7` (LLM/NLP/HF) | ✅✅ **YAPILDI** — Araştırmacı Merkezi'ne "Dil × yetenek envanteri" matrisi + 8 org (`ecosystem.json`); nötr (olgunluk yargısı yok) |
 | Faz 2.5 Kollar açıklayıcı | `8` (sınıflandırma çerçevesi) | ✅✅ **YAPILDI** — sonuç işlendi, Tarih & Köken'e "altı kol" kartı + Bayes soy ağacı |
 | Faz 2.6 Derin dil profilleri | `9` (kol-bazlı batch A-E) | ✅✅ **YAPILDI** — 14 dil derin profil işlendi (`profiles_deep.json`) + Joshi çapraz-kontrol düzeltmeleri |
 | **Kaynaklar büyük güncelleme** | TÜM deepsearch'ler (5,5b,5c,6,7,8,9) sonrası | bekliyor |
@@ -54,8 +54,10 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 - **Ne yapıldı (içerik katmanı):** Dil Profilleri'ne **"Seslendirme (TTS/ASR)" 5. bölümü** (`platform/data/profiles_tts.json`) — 14 dil × açık model + lisans + kalite + boşluk (Piper/MIT, Meta MMS-TTS/CC-BY-NC, ISSAI Spark/TatarTTS, eSpeak NG; Common Voice saatleri, WER). Çuvaşça TTS boşluğu ve yüksek ASR WER'leri dürüstçe gösterildi (dijital kapsayıcılık misyonu).
 - **★ KALAN (gerçek motor entegrasyonu = gelecek ALTYAPI işi):** "▷ Seslendir" hâlâ tarayıcı Web Speech'e düşüyor. Raporun önerdiği mimari: **Dinamik Hibrit Yönlendirme** — tr/kaz → sunucu Piper(ONNX); uzb/uig/sah → HF Inference API (MMS-TTS, ön-işlem: Latin→Kiril, num2words); chv/bak → tarayıcı eSpeak NG (WASM, espeakng.js). ASR telaffuz kontrolü yalnız tr/kaz (Whisper); chv/sah WER yüksek → ertelendi. Bu altyapı ayrı bir mühendislik fazıdır.
 
-### 2.2 ⏳ Türk Dilleri NLP/LLM Ekosistemi bölümü (kullanıcı notu — ★ büyük)
-- **Ne:** HF + literatürde Türk dilleri için ne varsa (LLM, dataset, ASR/STT/TTS, benchmark, org'lar; örn. TurkmedSTT) gösteren, eksik/gelişmişliği işaretleyen **araştırmacı hub'ı**. Vizyonun "ilk uğrak" ayağıyla birebir.
+### 2.2 ✅✅ Türk Dilleri NLP/LLM Ekosistemi — YAPILDI (deepsearch 7, 25 Haz)
+- **Ne yapıldı:** **Araştırmacı Merkezi**'ne (kullanıcı kararı: ayrı sayfa değil) **"Dil × yetenek envanteri"** matrisi (`platform/data/ecosystem.json`) — 13 dil × 5 sütun (Üretken LLM / Encoder / Veri seti / Konuşma ASR-TTS / Benchmark), gerçek model/dataset adlarıyla (BERTurk, TURNA, KAZ-LLM, Alloma, Aya Expanse, mGPT, ISSAI TatarTTS, chuvash_russian_parallel, Cetvel, TUMLU…). + zero-resource notu (Gagavuz/Tuva/Şor/Halaç… bağımsız HF kaydı yok) + 8 anahtar org kartı HF linkli (TurkicNLP, ISSAI, YTU Cosmos, VNGRS-AI, aLLMA, Tahrirchi, Boğaziçi, kesimeg). build.py'de `ecosystem.json`'dan statik üretildi.
+- **★ KULLANICI KARARI (uygulandı):** **olgunluk/eksiklik yargısı KONMADI** — "—" yalnız "bu taramada kayıt yok" demek; caption bunu açıkça yazar ("o değerlendirme araştırmacıya aittir"). Nötr envanter.
+- **İleride (opsiyonel):** deepsearch'in önerdiği HuggingFace `HfApi` CRON ile otomatik güncel-tutma (list_models/list_datasets, lastModified, downloads) — "Yeni çıkanlar" akışı; ayrı altyapı işi.
 - **Yapar mıyız:** EVET — bu, platformu salt morfolojiden "Türk dil dünyası araştırma merkezi"ne taşır. **Çok detaylı deepsearch hazırlandı: `arastirma/7-...llm-nlp-hf-ekosistemi`.**
 - **Nasıl:** dil × yetenek (LLM/dataset/ASR/TTS/benchmark) matrisi + her hücre künye+HF linki+lisans + boşluk haritası. Joshi kaynak-sınıfıyla bütünleşir.
 - **❓Soru:** ne kadar belirgin/kapsamlı — ayrı ana-menü modülü mü, Araştırmacı Merkezi içinde mi? Güncel tutma: HF API ile otomatik çekme mi, periyodik manuel mi?

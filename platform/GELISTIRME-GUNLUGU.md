@@ -105,6 +105,15 @@ Voicing çiftleri Latin+Kiril kapsıyor; rozetler her dilde çalışıyor: tur p
 - **✅ (b) ses denklikleri kanıt-destekli + kognata bağlı** (kullanıcı kararı): 4 kural Savelyev verisinden kanıtlı (rotasizm 36, lambdasizm 29, y->ś 14, proto-fonem temelli); kognat→kural vurgusu. `build.py: sound_evidence + build_cognates ruleIdx`.
 - **Planlama:** `plan/YOL-HARITASI.md` fazlı + DEEPSEARCH İHTİYAÇ HARİTASI; yeni notlar yerleşti (kollar açıklayıcı, derin profiller, kaynaklar güncelleme, Hakkında). Deepsearch promptları hazır: `6` TTS, `7` LLM/HF, `8` sınıflandırma çerçevesi, `9` kol-bazlı derin profiller.
 
+## EK-OTURUM (25 Haz) — deepsearch 8 işlendi: KOLLAR AÇIKLAYICI (Faz 2.5 ✅)
+- **Tüm deepsearch sonuçları geldi** (6 TTS, 7 LLM/HF, 8 sınıflandırma, 9.1-9.5 derin profiller A-E) → locale çıkarıldı (`_siniflandirma.txt`, `_profil_*.txt`; pdfminer, PDF gitignore, `_*.txt` commit'li).
+- **Veri çapraz-kontrolü (uydurma denetimi):** deepsearch 9.5 (Çuvaş+Argu) yetkili sayıları `profiles.json` ile örtüştü — chv 740K/2020 EGIDS 6b, Joshi chv=1/klj=0, **Çuvaş morfotaktik sıra Kök+İyelik+Çoğul+Hâl (xĕr-ĕm-sen-čen) bizim uyguladığımızı doğruladı**. Tutarsızlık yok.
+- **Faz 2.5 YAPILDI (kullanıcının deepsearch 8 sonrası kararıydı):**
+  1. **"Tarih & Köken" ekranına "Türk dillerinin altı kolu" kartı** — 6 Johanson kolu (Oğur/Argu/Sibirya/Karluk/Kıpçak/Oğuz), her biri pedagojik tanım + ayırt edici izogloss + örnek kelime + bölge/tarih. Johanson "altın standart" + Savelyev & Robbeets 2020 Bayes doğrulaması atfı.
+  2. **Karşılaştır>Soy ağacı = Bayes Maximum Credibility Tree** (basit 5 satır → 14 düğüm gerçek topoloji + mutlak tarihler ~MÖ 66 Oğur / ~MS 474 Kuzey Sibirya).
+  - **Karar:** ayrı sol-menü değil, mevcut Tarih & Köken ekranı (kullanıcı). build.py enjeksiyonu (E2 bölümü), Claude_Preview'da doğrulandı (6 kol + 14 düğüm render, logicError null).
+- **Sıradaki içerik işleri (deepsearch sonucu ELDE, işlenecek):** Faz 2.6 derin profiller (9.1-9.4 → Dil Profilleri zenginleştirme + çapraz-kontrol), Faz 2.1 TTS (`6`), Faz 2.2 LLM/HF ekosistem (`7`), Faz 2.7 KAYNAKLAR. Deepsearch 8'in işlenmemiş düzeltme önerileri: Sarı Uygurca→G.Sibirya, Kırım Tatarcası geçişken, Salarca areal etiketi.
+
 ## Sıradaki / açık işler — bkz `plan/YOL-HARITASI.md` (özet)
 1. **ŞİMDİ (deepsearch beklemez):** Faz 1.1 füzyonel ayrışma (NW kanonik-allomorf) · 1.3 harita/UX · 1.4 Hakkında.
 2. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.

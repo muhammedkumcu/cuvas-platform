@@ -9,10 +9,10 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 | **Faz 1.1 füzyonel ayrışma** | **GEREKMEZ** — `5c` (_morfoloji_plani) zaten yöntemi+örnekleri verdi | hazır, yapılabilir |
 | Faz 1.3 harita/soy-ağacı UX | gerekmez (saf UI) | hazır |
 | Faz 1.4 Hakkında/iletişim | gerekmez | hazır |
-| Faz 2.1 TTS | `6` (TTS/ASR) | prompt hazır, sonuç bekleniyor |
-| Faz 2.2 LLM/HF ekosistem | `7` (LLM/NLP/HF) | prompt hazır, sonuç bekleniyor |
-| Faz 2.5 Kollar açıklayıcı | `8` (sınıflandırma çerçevesi) | prompt hazır |
-| Faz 2.6 Derin dil profilleri | `9` (kol-bazlı batch A-E) | prompt hazır |
+| Faz 2.1 TTS | `6` (TTS/ASR) | ✅ sonuç GELDİ (`_tts_asr.txt`), işlenmeyi bekliyor |
+| Faz 2.2 LLM/HF ekosistem | `7` (LLM/NLP/HF) | ✅ sonuç GELDİ (`_llm_hf_ekosistem.txt`), işlenmeyi bekliyor |
+| Faz 2.5 Kollar açıklayıcı | `8` (sınıflandırma çerçevesi) | ✅✅ **YAPILDI** — sonuç işlendi, Tarih & Köken'e "altı kol" kartı + Bayes soy ağacı |
+| Faz 2.6 Derin dil profilleri | `9` (kol-bazlı batch A-E) | ✅ sonuçlar GELDİ (`_profil_oguz/kipcak/karluk/sibirya/cuvas_ogur.txt`), işlenmeyi bekliyor |
 | **Kaynaklar büyük güncelleme** | TÜM deepsearch'ler (5,5b,5c,6,7,8,9) sonrası | bekliyor |
 > **Özet:** Şimdi deepsearch beklemeden **Faz 1.1 / 1.3 / 1.4** yapılabilir. Faz 2+ ve içerik/kaynak işleri deepsearch sonuçlarını bekler.
 
@@ -73,11 +73,11 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 - **Yapar mıyız:** araştırma kalemi — kısmen `5`/`5b`/`7` deepsearch'leriyle örtüşür.
 - **Nasıl:** mevcut envanter deepsearch'lerine ekle; çıkanları ekosistem bölümüne (2.2) yerleştir.
 
-### 2.5 ⏳ "Türk dilleri kolları NEDİR" açıklayıcı kategorisi (kullanıcı notu) — ★
-- **Ne:** Oğuz/Kıpçak/Karluk/Sibirya/Oğur/Argu kollarını **herkesin anlayacağı dilde + diyagram/şablonla** anlatan, sol menüde ayrı bir açıklayıcı bölüm. ("Bunları anlatmak bu platformun görevidir.")
-- **Yapar mıyız:** EVET — vizyonun pedagoji + "ilk uğrak" ayağıyla birebir; çocuk eğitim portalının da temeli.
-- **Nasıl:** her kol için sade tanım + tanımlayıcı izogloss (örn. Ogur=rotasizm) + örnek kelime + interaktif soy ağacı diyagramı. **Deepsearch `8` (sınıflandırma çerçevesi)** verisiyle.
-- **❓Soru:** ayrı sol-menü kategorisi mi, yoksa mevcut "Tarih & Köken" / "Dil Profilleri" içine mi? (Mevcut Tarih & Köken + Karşılaştır>Soy ağacı kısmen var.)
+### 2.5 ✅✅ "Türk dilleri kolları NEDİR" açıklayıcı — YAPILDI (deepsearch 8 işlendi, 25 Haz)
+- **Ne yapıldı:** "Tarih & Köken" ekranına **"Türk dillerinin altı kolu"** kartı (zaman çizelgesinin üstüne) — 6 Johanson kolu, her biri: pedagojik tanım + ayırt edici izogloss (rotasizm/lambdasizm, *h-, *-d-, *-G, *y-) + örnek kelime + bölge/tarih etiketi. Kart başlığında Johanson "altın standart" + Savelyev & Robbeets (2020) Bayes doğrulaması atfı.
+- **+ Soy ağacı (Karşılaştır):** basit 5-satırlık ağaç → **Bayes Maximum Credibility Tree** topolojisine güncellendi (14 düğüm: Proto-Türkçe→Oğur/Genel Türkçe→Kuzey Sibirya, Çekirdek→Güney Sibirya, Makro GB-Doğu→Halaç-Salar, Merkezî→Oğuz/Makro-Kıpçak→Karluk/Kıpçak); mutlak tarihler ~MÖ 66 (Oğur) / ~MS 474 (Kuzey Sibirya).
+- **Karar (uygulandı):** ayrı sol-menü değil → **mevcut "Tarih & Köken" ekranına** girdi (kullanıcı kararı). Kaynak: `_siniflandirma.txt` (deepsearch 8); 6-kol etiketimiz "altın standart Johanson modeli" olarak teyit edildi.
+- **Deepsearch 8'in işlenmemiş düzeltme önerileri (ileride):** Salarca→Oğuz'da [Areal:Amdo] meta-etiket; Sarı Uygurca→Karluk değil G.Sibirya; Kırım Tatarcası→geçişken (Kıpçak ana+Oğuz temas); kognat motoruna izogloss RegEx kuralları.
 
 ### 2.6 ⏳ Derin dil profillerini doldurma (kullanıcı notu — çok detaylı deepsearch)
 - **Ne:** Her dilin tarihi, yapısı, ilişkileri, dijital gücü, apertium/NLP varlığı/ürün/avantaj/dezavantaj — kapsamlı, atıflı profiller; hem modülleri DOLDURUR hem verimizi TEST eder (doğruluk/eksik/tutarlılık).

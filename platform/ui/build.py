@@ -228,6 +228,44 @@ def build_map(prof):
     return "MAP = [\n" + "\n".join(rows) + "\n  ];"
 
 
+# A4a — harita arka planı DOTLARLA AYNI projeksiyonda (viewBox 0..100); iç denizler gerçek
+# lat/lon'dan project() ile yerleştirilir → arka plan artık veriyle hizalı (eski SVG ayrı 1000×560
+# koord sistemindeydi = "saçma"). Ölçek: 1° boylam ≈ 0.7517 x-birim, 1° enlem ≈ 1.6949 y-birim.
+def build_map_bg():
+    p = project
+    # iç denizler/göller: (boylam_merkez, enlem_merkez, boylam_açıklık°, enlem_açıklık°)
+    seas = [(34.5, 43.2, 13.0, 4.6),   # Karadeniz
+            (50.5, 41.7, 7.0, 10.6),   # Hazar (dikey)
+            (59.5, 45.0, 3.2, 2.8),    # Aral
+            (76.0, 45.7, 6.6, 1.4),    # Balkaş
+            (107.0, 53.6, 2.2, 4.4)]   # Baykal
+    sea_svg = []
+    for lon, lat, ws, hs in seas:
+        cx, cy = p(lon, lat)
+        rx, ry = round(ws / 2 * 0.7517, 2), round(hs / 2 * 1.6949, 2)
+        sea_svg.append(f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" fill="url(#mSea)" '
+                       f'stroke="#a6bdbf" stroke-width="0.8" vector-effect="non-scaling-stroke"/>')
+    grat = []
+    for lon in (40, 60, 80, 100, 120):
+        x, _ = p(lon, 45)
+        grat.append(f'<line x1="{x}" y1="0" x2="{x}" y2="100"/>')
+    for lat in (30, 40, 50, 60):
+        _, y = p(70, lat)
+        grat.append(f'<line x1="0" y1="{y}" x2="100" y2="{y}"/>')
+    # Akdeniz/güneybatı yumuşak köşe (Anadolu'nun güneyi) — coğrafi olarak gerçek su kenarı
+    med = ('<path d="M 0 57 Q 6 60 10 68 Q 8 84 4 100 L 0 100 Z" fill="url(#mSea)" opacity="0.92"/>')
+    return ('<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">'
+            '<defs>'
+            '<linearGradient id="mLand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ece5d5"></stop><stop offset="1" stop-color="#e3dbc8"></stop></linearGradient>'
+            '<linearGradient id="mSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cdd9da"></stop><stop offset="1" stop-color="#bccbcc"></stop></linearGradient>'
+            '</defs>'
+            '<rect x="0" y="0" width="100" height="100" fill="url(#mLand)"></rect>'
+            + med
+            + '<g stroke="rgba(33,29,23,.08)" stroke-width="0.6" vector-effect="non-scaling-stroke">' + "".join(grat) + '</g>'
+            + "".join(sea_svg)
+            + '</svg>')
+
+
 def main():
     html = SRC.read_text(encoding="utf-8")
     prof = {p["iso"]: p for p in json.load(open(DATA / "profiles.json", encoding="utf-8"))["profiles"]}
@@ -351,7 +389,19 @@ def main():
     html = html.replace("        return { name:m.name, branch:m.branch, col,",
                         "        return { name:m.name, branch:m.branch, col, go:()=>this.setState({mapSel:m.code}),", 1)
     html = html.replace('<div style="{{ n.dotStyle }}">',
-                        '<div onClick="{{ n.go }}" style="cursor:pointer;{{ n.dotStyle }}">', 1)
+                        '<div onClick="{{ n.go }}" style="cursor:pointer;transition:transform .14s ease;{{ n.dotStyle }}" style-hover="z-index:40;transform:translate(-50%,-50%) scale(1.5)">', 1)
+    # A4a — arka plan SVG'sini projeksiyon-hizalı yenisiyle değiştir (eski 1000×560 elle-çizim blob = saçma)
+    na4 = 0
+    html, na4a = re.subn(r'<svg viewBox="0 0 1000 560".*?</svg>', lambda m: build_map_bg(), html, flags=re.DOTALL)
+    na4 += na4a
+    # konteyner arka planı: deniz mavisi → kara tonu (yeni SVG kara-tabanlı; köşelerde mavi sızmasın)
+    if 'aspect-ratio:1000/560;background:#cdd9da;' in html:
+        html = html.replace('aspect-ratio:1000/560;background:#cdd9da;', 'aspect-ratio:1000/560;background:#ece5d5;', 1); na4 += 1
+    # bölge etiketlerini projeksiyon-doğru konuma taşı (HTML span = SVG stretch'inden etkilenmez)
+    for old_pos, new_pos in [("left:7%;top:60%", "left:3.5%;top:63%"), ("left:30%;top:14%", "left:16%;top:12%"),
+                             ("left:42%;top:60%", "left:33%;top:62%"), ("left:72%;top:8%", "left:60%;top:6%")]:
+        if old_pos in html:
+            html = html.replace(old_pos, new_pos, 1); na4 += 1
     # Argu kolu rengini ekle (Halaçça düğümü + lejant)
     html = html.replace("    'Karluk':'oklch(0.5 0.13 295)', 'Sibirya':'oklch(0.52 0.13 235)',",
                         "    'Karluk':'oklch(0.5 0.13 295)', 'Sibirya':'oklch(0.52 0.13 235)', 'Argu':'#8a7a2e',", 1)
@@ -385,6 +435,7 @@ def main():
         "Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur.",
         "Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur. Bir dile tıkla — bilgisi aşağıda açılır.", 1)
     print(f"  Harita inline kart (1.3): mapInfo+kart={nmapcard}")
+    print(f"  A4a harita arka planı projeksiyon-hizalı (SVG+konteyner+4 bölge etiketi): {na4}/6 yama")
 
     # Uzaklık Gezgini ← gerçek matrisler: leksikal(Savelyev) + tipolojik(WALS) + coğrafi(koordinat)
     real_dist = build_distance(prof, lex, typ, cog, intel)

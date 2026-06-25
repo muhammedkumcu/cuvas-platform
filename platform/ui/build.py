@@ -987,7 +987,11 @@ def main():
         "  ];")
     nfam = 1 if old_family in html else 0
     html = html.replace(old_family, new_family, 1)
-    print(f"  Kollar aciklayici (ds8): kol_karti={nkol} soy_agaci={nfam} kol_sayisi={len(KOLLAR)}")
+    # Kullanıcı geri bildirimi: "Tarih & Köken" en altındaki kara "ırk/gen" kutusu gereksiz → kaldır
+    html, nbox = re.subn(
+        r'\s*<div style="margin-top:14px;background:#211d17;color:#f4f1ea;border-radius:18px;padding:28px 32px">.*?</div>\s*(</section>)',
+        r'\n      \1', html, flags=re.S, count=1)
+    print(f"  Kollar aciklayici (ds8): kol_karti={nkol} soy_agaci={nfam} kol_sayisi={len(KOLLAR)} irk_kutu_kaldir={nbox}")
 
     # --- Katman ağacı / soyma: canlı kelimede GERÇEK yüzey kümülatif biçim (kitap→kitabımız→kitabımızda)
     #     morfem-metni birleştirmek yerine /segment'in döndürdüğü forms[] kullanılır (ses olayı dahil) ---

@@ -1409,6 +1409,9 @@ class Component extends DCLogic {
     wiki:{label:'Wikipedia', detail:'dil profili serbest-metni (çapraz-kontrollü)', lic:'CC BY-SA 4.0', kind:'veri', url:'wikipedia.org'},
     ethnologue:{label:'Ethnologue / EGIDS', detail:'canlılık & konuşur sayıları', lic:'tescilli', kind:'veri', url:'ethnologue.com'},
     joshi:  {label:'Joshi ve ark. 2020', detail:'dijital kaynak sınıfları (0–5)', lic:'akademik', kind:'literatür', url:'aclanthology.org'},
+    bayes:  {label:'Savelyev & Robbeets 2020', detail:'Bayes filogenetik — soy ağacı & zaman derinliği; Johanson altı kol tasnifi', lic:'akademik', kind:'literatür', url:'academic.oup.com/jole'},
+    hf:     {label:'HuggingFace ekosistemi', detail:'açık model/veri kartları (LLM · encoder · ASR/TTS · benchmark)', lic:'model bazında', kind:'veri', url:'huggingface.co'},
+    deepds: {label:'KÖKEN derin araştırmalar', detail:'çapraz-kontrollü derleme (profiller · seslendirme · ekosistem · sınıflandırma)', lic:'derleme', kind:'sentez', url:'arastirma/'},
     yunusbayev:{label:'Yunusbayev ve ark. 2015', detail:'dil ≠ gen; popülasyon genetiği', lic:'akademik', kind:'literatür', url:'doi.org/10.1371/journal.pgen.1005068'},
     kasgari:{label:'Dîvânu Lugâti’t-Türk (~1075)', detail:'Kâşgarlı Mahmud · tarihsel atıf', lic:'kamu malı', kind:'literatür', url:'—'},
   };
@@ -1419,10 +1422,10 @@ class Component extends DCLogic {
     {mod:'Kognat Ağı', srcs:['cldf','nel']},
     {mod:'Karşılaştır', srcs:['cldf','glottolog']},
     {mod:'Uzaklık Gezgini', srcs:['cldf','wals','glottolog','lindsay']},
-    {mod:'Dil Profilleri', srcs:['glottolog','wiki','joshi']},
-    {mod:'Tarih & Köken', srcs:['kasgari','yunusbayev','glottolog']},
+    {mod:'Dil Profilleri', srcs:['glottolog','wiki','joshi','hf','deepds']},
+    {mod:'Tarih & Köken', srcs:['kasgari','glottolog','bayes','cldf','yunusbayev']},
     {mod:'Çuvaşça Atölyesi', srcs:['fst','cldf']},
-    {mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph']},
+    {mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph','hf','deepds']},
   ];
 
   // navigation groups

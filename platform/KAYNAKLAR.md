@@ -2,7 +2,7 @@
 ### (Veri Provenance & Lisans Defteri)
 
 > **İlke (kullanıcı kararı):** Platformdaki HER veri **doğrudan bir kaynağa** dayanır. Kaynakları **locale çekeriz** (`sources/`, gitignored), **inceleriz**, veriyi oradan **çıkarırız** — uydurmayız. Gerçek veriyle değişene kadar UI'da **"⚠ örnek/illüstratif"** etiketi kalır. UI'daki `SOURCES` + `USAGE` kütüğü bu defterle **birebir** tutulur.
-> Güncelleme: **24 Haziran 2026.**
+> Güncelleme: **25 Haziran 2026** (deepsearch 5–9 işlendi; `bayes`/`hf`/`deepds` + `profiles_deep`/`profiles_tts`/`ecosystem` eklendi).
 
 ## Durum lejantı
 `✅ çekildi` (locale indirildi+incelendi) · `⏳ bekliyor` · `🖥️ VM` (apertium, Linux'ta) · `📄 makale` (PDF) · `🔒 tescilli` (açık alternatif kullan)
@@ -23,6 +23,9 @@
 | `yunusbayev` | Yunusbayev vd. 2015 | 📄 makale | açık (PLOS Gen.) | `sources/_papers/yunusbayev2015.pdf` (doi 10.1371/journal.pgen.1005068) | ⏳ bekliyor | Genetik-vs-dil mit kırıcı. |
 | `kasgari` | Dîvânu Lugâti't-Türk (~1075) | 📄 tarihsel | kamu malı | tarihsel atıf | — referans | Tarih & Köken anlatısı. |
 | `arastirma` | **Bizim derlemeler #3/#3b/#4** | sentez | (derleme; kaynakları içinde) | `arastirma/*.pdf` + `_research*.txt` | **✅ elde** | Ses denklikleri, Uzaklık matrisleri (J.1-3), profiller, zaman çizelgesi, areal/temas. |
+| `bayes` | **Savelyev & Robbeets 2020** + Johanson tasnifi | 📄 makale | akademik | `arastirma/8-*siniflandirma*.pdf` → `_siniflandirma.txt` | **✅ çekildi + çıkarıldı** | Tarih & Köken: altı kol açıklayıcı + Bayes soy ağacı (zaman derinliği ~MÖ 66 / ~MS 474). |
+| `hf` | **HuggingFace ekosistemi** | veri/araç | model bazında (CC/Apache/MIT…) | `arastirma/6,7-*.pdf` → `_tts_asr.txt`, `_llm_hf_ekosistem.txt` | **✅ çekildi + çıkarıldı** | Dil Profilleri (Seslendirme TTS/ASR), Araştırmacı Merkezi (ekosistem matrisi). |
+| `deepds` | **KÖKEN derin araştırmalar (deepsearch 5–9)** | sentez | (derleme; her kayıt kaynağına atıflı) | `arastirma/_*.txt` (5/5b/5c/6/7/8/9.1-9.5) | **✅ elde + işlendi** | Derin dil profilleri, seslendirme, ekosistem, sınıflandırma çerçevesi. Çapraz-kontrol: Glottolog/Ethnologue/UNESCO + Wikipedia/Grokipedia/ACL/apertium-wiki/HF. |
 
 ## Çıkarım kuralları
 1. **Çek → incele → çıkar.** Her kaynağı `sources/`'a indir, yapısını incele, UI veri-sözleşmesine (bkz. `platform/ui/README.md`) eşle.
@@ -42,6 +45,9 @@
 | `profiles.json` | 23 dil profili: kimlik/koordinat/ülke/kol + **AES canlılık** (EGIDS/UNESCO eşlemeli) | Glottolog | Dil Profilleri, Canlılık ısı-haritası |
 | `distance.typological.json` | 23×23 tipolojik mesafe (WALS özniteliklerinde farklılık; her hücre `shared` sayısı taşır) | WALS | Uzaklık Gezgini (tipolojik eksen) |
 | `features.wals.json` | dil → 192 WALS özniteliği (değer etiketleriyle) | WALS | Özellik Matrisi |
+| `profiles_deep.json` | 14 dil × 4 bölüm derin profil (Tarih / Yapı-özgünlük / İlişkiler / Dijital güç), atıflı | deepsearch 9.1-9.5 (`deepds`) + Glottolog/Ethnologue/UNESCO çapraz-kontrol | Dil Profilleri (derin bölümler) |
+| `profiles_tts.json` | 14 dil × Seslendirme (TTS/ASR) durum + açık model/lisans/boşluk | deepsearch 6 (`hf`/`deepds`) | Dil Profilleri (5. bölüm) |
+| `ecosystem.json` | 13 dil × 5 yetenek NLP/LLM envanteri + 8 org + zero-resource notu (NÖTR, olgunluk yargısı yok) | deepsearch 7 (`hf`/`deepds`) | Araştırmacı Merkezi (Dil × yetenek matrisi) |
 
 > *Not (yöntem):* `distance.lexical.json` **derin kognat paylaşımı** ölçer (uzman kognat yargıları, 254 kavram) — #4'teki yüzey-Swadesh/anlaşılabilirlik yüzdelerinden farklı, tamamlayıcı bir sinyaldir; UI'da ayrı eksen olarak sunulabilir.
 

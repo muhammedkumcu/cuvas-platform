@@ -275,6 +275,22 @@ def main():
     html = html.replace("{mod:'Uzaklık Gezgini', srcs:['cldf','wals','glottolog','demo']}",
                         "{mod:'Uzaklık Gezgini', srcs:['cldf','wals','glottolog','lindsay']}")
 
+    # ── Faz 2.7 — KAYNAKLAR güncelleme: deepsearch-türevli kaynakları kütüğe ekle + modüllere bağla ──
+    html = html.replace(
+        "    joshi:  {label:'Joshi ve ark. 2020', detail:'dijital kaynak sınıfları (0–5)', lic:'akademik', kind:'literatür', url:'aclanthology.org'},",
+        "    joshi:  {label:'Joshi ve ark. 2020', detail:'dijital kaynak sınıfları (0–5)', lic:'akademik', kind:'literatür', url:'aclanthology.org'},\n"
+        "    bayes:  {label:'Savelyev & Robbeets 2020', detail:'Bayes filogenetik — soy ağacı & zaman derinliği; Johanson altı kol tasnifi', lic:'akademik', kind:'literatür', url:'academic.oup.com/jole'},\n"
+        "    hf:     {label:'HuggingFace ekosistemi', detail:'açık model/veri kartları (LLM · encoder · ASR/TTS · benchmark)', lic:'model bazında', kind:'veri', url:'huggingface.co'},\n"
+        "    deepds: {label:'KÖKEN derin araştırmalar', detail:'çapraz-kontrollü derleme (profiller · seslendirme · ekosistem · sınıflandırma)', lic:'derleme', kind:'sentez', url:'arastirma/'},")
+    # USAGE: yeni içerik katmanlarını ilgili modüllere bağla
+    html = html.replace("{mod:'Dil Profilleri', srcs:['glottolog','wiki','joshi']}",
+                        "{mod:'Dil Profilleri', srcs:['glottolog','wiki','joshi','hf','deepds']}")
+    html = html.replace("{mod:'Tarih & Köken', srcs:['kasgari','yunusbayev','glottolog']}",
+                        "{mod:'Tarih & Köken', srcs:['kasgari','glottolog','bayes','cldf','yunusbayev']}")
+    html = html.replace("{mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph']}",
+                        "{mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph','hf','deepds']}")
+    print("  Faz 2.7 KAYNAKLAR: +bayes +hf +deepds; USAGE Profiller/Tarih/Araştırmacı güncellendi")
+
     # canlı API tabanı + paylaşılan canlı-analiz yardımcıları (tek dil + tüm diller ortak)
     if "KOKEN_API" not in html:
         helper = (

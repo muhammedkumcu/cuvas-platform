@@ -114,6 +114,13 @@ Voicing çiftleri Latin+Kiril kapsıyor; rozetler her dilde çalışıyor: tur p
   - **Karar:** ayrı sol-menü değil, mevcut Tarih & Köken ekranı (kullanıcı). build.py enjeksiyonu (E2 bölümü), Claude_Preview'da doğrulandı (6 kol + 14 düğüm render, logicError null).
 - **Sıradaki içerik işleri (deepsearch sonucu ELDE, işlenecek):** Faz 2.6 derin profiller (9.1-9.4 → Dil Profilleri zenginleştirme + çapraz-kontrol), Faz 2.1 TTS (`6`), Faz 2.2 LLM/HF ekosistem (`7`), Faz 2.7 KAYNAKLAR. Deepsearch 8'in işlenmemiş düzeltme önerileri: Sarı Uygurca→G.Sibirya, Kırım Tatarcası geçişken, Salarca areal etiketi.
 
+## EK-OTURUM (25 Haz, devam) — deepsearch 9 işlendi: DERİN PROFİLLER (Faz 2.6 ✅)
+- **Kaynak okuma:** 9.1 (Oğuz), 9.2 (Kıpçak), 9.3 (Karluk), 9.4 (Sibirya), 9.5 (Oğur-Argu) tam okundu; 14 displayed dil için ORTAK ŞABLON çıkarıldı.
+- **`platform/data/profiles_deep.json`** oluşturuldu: 14 dil × 4 bölüm (Tarih / Yapı & özgünlük / İlişkiler / Dijital güç), atıflı (Joshi sınıfı, apertium kök sayıları, ses kuralları, alfabe tarihleri, kilit isimler: Aşmarin, Feyzhanov, Böhtlingk, Doerfer, Mahtumkulu, Abay, Baytursunov…). build.py `DEEPPROF` enjeksiyonu + `profileSel.deep` birleşimi + profil kartında bölümlü markup. Claude_Preview'da doğrulandı (14 dil render, logicError null).
+- **★ ÇAPRAZ-KONTROL = verimizi TEST etti, düzeltmeler yapıldı (kanıtla-iddia-etme ilkesi):** Joshi sınıfı eski değerleri (deepsearch 5 envanteri) deepsearch 9 dil-bazlı verisiyle çelişiyordu → düzeltildi: **az 1→2-3, kk 2-3→3, tt 2-3→1, ug 2-3→1, tyv 0→1, kjh 0→1**. Diğer veriler (Çuvaş morfotaktik sıra, 740K demografi, EGIDS, kol etiketleri) teyitli.
+- **Kullanıcı geri bildirimi:** "Tarih & Köken" en altındaki "ırk/gen midir" kara kutusu kaldırıldı (gereksiz görüldü). Sayfa zaman çizelgesiyle temiz bitiyor.
+- **Bekleyen:** Faz 2.1 TTS (`_tts_asr.txt`), Faz 2.2 LLM/HF ekosistem (`_llm_hf_ekosistem.txt`), Faz 2.7 KAYNAKLAR. Displayed-dışı diller (gag/crh/uzb/alt…) deepsearch 9 metinlerinde hazır → yatay ölçekte işlenecek.
+
 ## Sıradaki / açık işler — bkz `plan/YOL-HARITASI.md` (özet)
 1. **ŞİMDİ (deepsearch beklemez):** Faz 1.1 füzyonel ayrışma (NW kanonik-allomorf) · 1.3 harita/UX · 1.4 Hakkında.
 2. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.

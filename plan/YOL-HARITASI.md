@@ -12,7 +12,7 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 | Faz 2.1 TTS | `6` (TTS/ASR) | ✅ sonuç GELDİ (`_tts_asr.txt`), işlenmeyi bekliyor |
 | Faz 2.2 LLM/HF ekosistem | `7` (LLM/NLP/HF) | ✅ sonuç GELDİ (`_llm_hf_ekosistem.txt`), işlenmeyi bekliyor |
 | Faz 2.5 Kollar açıklayıcı | `8` (sınıflandırma çerçevesi) | ✅✅ **YAPILDI** — sonuç işlendi, Tarih & Köken'e "altı kol" kartı + Bayes soy ağacı |
-| Faz 2.6 Derin dil profilleri | `9` (kol-bazlı batch A-E) | ✅ sonuçlar GELDİ (`_profil_oguz/kipcak/karluk/sibirya/cuvas_ogur.txt`), işlenmeyi bekliyor |
+| Faz 2.6 Derin dil profilleri | `9` (kol-bazlı batch A-E) | ✅✅ **YAPILDI** — 14 dil derin profil işlendi (`profiles_deep.json`) + Joshi çapraz-kontrol düzeltmeleri |
 | **Kaynaklar büyük güncelleme** | TÜM deepsearch'ler (5,5b,5c,6,7,8,9) sonrası | bekliyor |
 > **Özet:** Şimdi deepsearch beklemeden **Faz 1.1 / 1.3 / 1.4** yapılabilir. Faz 2+ ve içerik/kaynak işleri deepsearch sonuçlarını bekler.
 
@@ -79,10 +79,11 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 - **Karar (uygulandı):** ayrı sol-menü değil → **mevcut "Tarih & Köken" ekranına** girdi (kullanıcı kararı). Kaynak: `_siniflandirma.txt` (deepsearch 8); 6-kol etiketimiz "altın standart Johanson modeli" olarak teyit edildi.
 - **Deepsearch 8'in işlenmemiş düzeltme önerileri (ileride):** Salarca→Oğuz'da [Areal:Amdo] meta-etiket; Sarı Uygurca→Karluk değil G.Sibirya; Kırım Tatarcası→geçişken (Kıpçak ana+Oğuz temas); kognat motoruna izogloss RegEx kuralları.
 
-### 2.6 ⏳ Derin dil profillerini doldurma (kullanıcı notu — çok detaylı deepsearch)
-- **Ne:** Her dilin tarihi, yapısı, ilişkileri, dijital gücü, apertium/NLP varlığı/ürün/avantaj/dezavantaj — kapsamlı, atıflı profiller; hem modülleri DOLDURUR hem verimizi TEST eder (doğruluk/eksik/tutarlılık).
-- **Yapar mıyız:** EVET — akademik ciddiyet + kaynağa bağlılık için omurga.
-- **Nasıl:** **Deepsearch `9` (kol-bazlı batch A-E; her batch ayrı çalıştır)** → çıktıları locale çek, çapraz-kontrol, profiller/tarih/ekosistem modüllerine işle. + **Deepsearch `8`** çerçevesi.
+### 2.6 ✅✅ Derin dil profilleri — YAPILDI (deepsearch 9.1-9.5 işlendi, 25 Haz)
+- **Ne yapıldı:** 14 displayed dil için **derin profil** (`platform/data/profiles_deep.json`) → Dil Profilleri ekranında 4 bölüm: **Tarih · Yapı & özgünlük · İlişkiler · Dijital güç**. Her bölüm atıflı (Glottolog/Ethnologue/UNESCO + Wikipedia/Grokipedia/ACL/apertium-wiki/HF), uydurma yok. build.py `DEEPPROF` enjeksiyonu + `profileSel.deep` birleşimi; not paragrafının altına bölümlü render.
+- **★ Verimizi TEST etti (çapraz-kontrol düzeltmeleri uygulandı):** Joshi sınıfı deepsearch 9 ile hizalandı — **az 1→2-3, kk 2-3→3 (yükselen), tt 2-3→1, ug 2-3→1, tyv 0→1, kjh 0→1** (eski değerler deepsearch 5 envanterindendi; 9 daha ayrıntılı/dil-bazlı). Çuvaş morfotaktik sıra, demografi (740K), EGIDS 6b — hepsi teyitli, tutarsızlık yok.
+- **İŞLENMEMİŞ kalan deepsearch 9 dilleri (displayed dışı, ileride yatay ölçek):** gag, crh, slr, kmz (Oğuz); kaa, krc, kum, nog (Kıpçak); uzb, aib(Eynu), ili (Karluk); alt, dlg, ybe, fuyu (Sibirya) — metinler `_profil_*.txt`'de hazır.
+- **Kalan profil işleri:** deepsearch 8'in düzeltme önerileri (Sarı Uygurca→G.Sibirya kol etiketi, Kırım Tatarcası geçişken, Salarca areal) + her dile birincil ürün/avantaj-dezavantaj alanı (opsiyonel derinleştirme).
 
 ### 2.7 ⏳ KAYNAKLAR büyük güncelleme (kullanıcı notu) — ★ tüm deepsearch'ler sonrası
 - **Ne:** Platformda her yerde geçen kaynak künyelerini + "Kaynaklar & Lisanslar" bölümünü **baştan, eksiksiz** güncelle (tüm deepsearch'lerin kaynakçaları + locale çekilen yeni veriler).

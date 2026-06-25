@@ -1054,6 +1054,15 @@ def main():
         """          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:13px">\n"""
         + kollar_cards +
         """          </div>\n"""
+        # Geçişken & sınır diller (deepsearch 8 nüansları) — kol etiketleri net olmayan diller
+        """          <div style="margin-top:18px;padding-top:16px;border-top:1px dashed rgba(33,29,23,.16)">\n"""
+        """            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;color:#9a9082;margin-bottom:9px">GEÇİŞKEN &amp; SINIR DİLLER</div>\n"""
+        """            <div style="display:flex;flex-direction:column;gap:7px;font-size:12.5px;line-height:1.55;color:#5f574b;max-width:80ch">\n"""
+        """              <div><b style="color:#211d17">Kırım Tatarcası</b> — köken olarak <b>Kıpçak</b>, ama yüzyıllarca Osmanlı temasıyla güçlü Oğuz tabakası edinmiş <b>geçişken</b> bir dil (Kıpçak gövde + Oğuz leksikon).</div>\n"""
+        """              <div><b style="color:#211d17">Salarca</b> — genetik olarak <b>Oğuz</b>, ancak Çin'de <b>Amdo</b> (Tibet-Çin) dil birliği etkisiyle ünlü uyumunu yitirip analitikleşmiş <span style="font-family:'IBM Plex Mono',monospace;font-size:11px">[areal: Amdo]</span>.</div>\n"""
+        """              <div><b style="color:#211d17">Sarı Uygurca</b> — adı yanıltıcıdır: Sincan'daki Karluk Uygurcasıyla akraba <b>değil</b>; arkaik bir <b>Güney Sibirya</b> (Yenisey) dilidir.</div>\n"""
+        """            </div>\n"""
+        """          </div>\n"""
         """        </div>\n""")
     hist_anchor = """        <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 18px">Proto-Türkçeden bugüne</h2>\n"""
     nkol = 1 if hist_anchor in html else 0

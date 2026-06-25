@@ -287,9 +287,8 @@ def main():
                         "{mod:'Dil Profilleri', srcs:['glottolog','wiki','joshi','hf','deepds']}")
     html = html.replace("{mod:'Tarih & Köken', srcs:['kasgari','yunusbayev','glottolog']}",
                         "{mod:'Tarih & Köken', srcs:['kasgari','glottolog','bayes','cldf','yunusbayev']}")
-    html = html.replace("{mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph']}",
-                        "{mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph','hf','deepds']}")
-    print("  Faz 2.7 KAYNAKLAR: +bayes +hf +deepds; USAGE Profiller/Tarih/Araştırmacı güncellendi")
+    # NOT: hf/deepds → Ekosistem sayfasına bağlanır (USAGE 'Ekosistem' satırı eco bloğunda eklenir); Araştırmacı sade kalır.
+    print("  Faz 2.7 KAYNAKLAR: +bayes +hf +deepds; USAGE Profiller/Tarih güncellendi")
 
     # canlı API tabanı + paylaşılan canlı-analiz yardımcıları (tek dil + tüm diller ortak)
     if "KOKEN_API" not in html:
@@ -1127,51 +1126,68 @@ def main():
     print(f"  Denetim düzeltmeleri: {naudit}")
 
     # ============================================================
-    #  Faz 2.2 — NLP/LLM EKOSİSTEM MATRİSİ (deepsearch 7) → Araştırmacı Merkezi
-    #  NÖTR envanter: yalnız BULUNAN araçlar; "—" = bu taramada kayıt yok (olgunluk yargısı DEĞİL — kullanıcı kararı)
+    #  Faz 2.2 (yeniden) — EKOSİSTEM SAYFASI (deepsearch 7 + web araştırması)
+    #  Ayrı "Ekosistem" sayfası: kategori × dil × DOĞRUDAN bağlantı (launchpad). Nötr; olgunluk yargısı yok.
     # ============================================================
     eco = json.load(open(DATA / "ecosystem.json", encoding="utf-8"))
-    def _cell(v):
-        if v == "—" or not v:
-            return '<td style="padding:9px 11px;border-top:1px solid rgba(33,29,23,.07);color:#bcb3a3;text-align:center">—</td>'
-        return f'<td style="padding:9px 11px;border-top:1px solid rgba(33,29,23,.07);color:#3f3a32;line-height:1.4">{v}</td>'
-    head = ('<th style="text-align:left;padding:10px 11px;background:#211d17;color:#f4f1ea;font-weight:600;'
-            'font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:.3px">Dil</th>')
-    head += "".join('<th style="text-align:left;padding:10px 11px;background:#211d17;color:#f4f1ea;font-weight:600;'
-                    'font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:.3px">' + c + '</th>' for c in eco["cols"])
-    rows = ""
-    for lg in eco["langs"]:
-        rows += ('<tr><td style="padding:9px 11px;border-top:1px solid rgba(33,29,23,.07);font-family:\'Spectral\',serif;'
-                 'font-weight:600;font-size:13px;white-space:nowrap;color:#211d17">' + lg["name"] + '</td>'
-                 + "".join(_cell(c) for c in lg["cells"]) + '</tr>')
-    orgs = ""
-    for o in eco["orgs"]:
-        orgs += (f'<a href="{o["url"]}" target="_blank" rel="noopener" style="display:block;text-decoration:none;'
-                 'background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:13px 15px">'
-                 '<div style="font-family:\'Spectral\',serif;font-size:15px;font-weight:600;color:#211d17">'
-                 f'{o["name"]} <span style="color:#b86a2e;font-size:12px">↗</span></div>'
-                 f'<div style="font-size:12px;color:#5f574b;line-height:1.5;margin-top:4px">{o["detail"]}</div></a>')
-    ECO = (
-        '        <div style="margin-top:36px;border-top:1px solid rgba(33,29,23,.14);padding-top:30px">\n'
-        '          <div style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">NLP / LLM EKOSİSTEMİ</div>\n'
-        '          <h3 style="font-family:\'Spectral\',serif;font-weight:600;font-size:28px;margin:8px 0 6px">Dil × yetenek envanteri</h3>\n'
-        '          <p style="font-size:13.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 18px">' + eco["caption"] + '</p>\n'
-        '          <div style="overflow-x:auto;border:1px solid rgba(33,29,23,.1);border-radius:14px">\n'
-        '            <table style="border-collapse:collapse;width:100%;font-size:12px;min-width:780px">\n'
-        '              <thead><tr>' + head + '</tr></thead>\n'
-        '              <tbody>' + rows + '</tbody>\n'
-        '            </table>\n'
-        '          </div>\n'
-        '          <p style="font-size:12px;line-height:1.6;color:#9a9082;margin:12px 0 0">' + eco["zero_note"] + '</p>\n'
-        '          <div style="margin-top:26px">\n'
-        '            <div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:12px">ANAHTAR ORGANİZASYONLAR</div>\n'
-        '            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">' + orgs + '</div>\n'
-        '          </div>\n'
-        '        </div>\n')
-    eco_anchor = "        </div>\n      </section>\n      </sc-if>\n\n      <!-- ===================== TARİH & KÖKEN ===================== -->"
-    neco = 1 if eco_anchor in html else 0
-    html = html.replace(eco_anchor, "        </div>\n" + ECO + "      </section>\n      </sc-if>\n\n      <!-- ===================== TARİH & KÖKEN ===================== -->", 1)
-    print(f"  Ekosistem matrisi (ds7): {len(eco['langs'])} dil, {len(eco['orgs'])} org, enjekte={neco}")
+    def _chip(label, url, note=""):
+        ns = f'<span style="color:#9a9082;font-weight:400"> · {note}</span>' if note else ''
+        return (f'<a href="{url}" target="_blank" rel="noopener" '
+                'style="display:inline-flex;align-items:baseline;gap:6px;text-decoration:none;background:#fbfaf6;'
+                'border:1px solid rgba(33,29,23,.12);border-radius:9px;padding:7px 12px;font-size:12.5px;color:#211d17;'
+                "font-family:'IBM Plex Sans',sans-serif;line-height:1.35\">"
+                f'<span>{label}{ns}</span><span style="color:#b86a2e;font-size:11px;align-self:center">↗</span></a>')
+    def _cat(c):
+        hubs = "".join(_chip(h["label"], h["url"]) for h in c.get("hubs", []))
+        hubrow = (f'<div style="display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px">{hubs}</div>') if hubs else ''
+        groups = ""
+        for lg in c["langs"]:
+            chips = "".join(_chip(l["label"], l["url"], l.get("note", "")) for l in lg["links"])
+            groups += (f'<div style="margin-bottom:15px">'
+                       f"<div style=\"font-family:'Spectral',serif;font-size:15px;font-weight:600;color:#211d17;margin-bottom:8px\">{lg['name']}</div>"
+                       f'<div style="display:flex;flex-wrap:wrap;gap:8px">{chips}</div></div>')
+        return (f'<section id="cat-{c["key"]}" style="margin-top:30px;scroll-margin-top:64px">'
+                f"<div style=\"font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#d98b4a;margin-bottom:4px\">KATEGORİ</div>"
+                f"<h3 style=\"font-family:'Spectral',serif;font-weight:600;font-size:24px;margin:0 0 4px\">{c['title']}</h3>"
+                f'<p style="font-size:13px;line-height:1.55;color:#5f574b;max-width:80ch;margin:0 0 14px">{c["desc"]}</p>'
+                f'{hubrow}{groups}</section>')
+    cats = "".join(_cat(c) for c in eco["categories"])
+    catnav = "".join(f'<a href="#cat-{c["key"]}" '
+                     "style=\"text-decoration:none;background:#211d17;color:#f4f1ea;border-radius:8px;padding:6px 11px;font-size:11.5px;font-family:'IBM Plex Mono',monospace\">"
+                     f'{c["title"]}</a>' for c in eco["categories"])
+    ECO_SCREEN = (
+        '      <sc-if value="{{ isEco }}" hint-placeholder-val="{{ false }}">\n'
+        '      <section style="max-width:1080px;margin:0 auto;padding:34px 40px 70px">\n'
+        "        <div style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a\">EKOSİSTEM</div>\n"
+        "        <h2 style=\"font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 8px\">Türk dilleri NLP/LLM kaynak merkezi</h2>\n"
+        f'        <p style="font-size:15px;line-height:1.7;color:#5f574b;max-width:82ch;margin:0 0 8px">{eco["intro"]}</p>\n'
+        f'        <p style="font-size:12px;line-height:1.6;color:#9a9082;max-width:82ch;margin:0 0 16px">{eco["_meta"]["note"]}</p>\n'
+        '        <div style="position:sticky;top:0;z-index:5;background:#f4f1ea;padding:10px 0 11px;display:flex;flex-wrap:wrap;gap:7px;border-bottom:1px solid rgba(33,29,23,.1)">'
+        + catnav + '</div>\n'
+        + cats +
+        '      </section>\n'
+        '      </sc-if>\n')
+    eco_screen_anchor = "      <!-- ===================== TARİH & KÖKEN ===================== -->"
+    neco = 1 if eco_screen_anchor in html else 0
+    html = html.replace(eco_screen_anchor, ECO_SCREEN + "\n" + eco_screen_anchor, 1)
+    # nav öğesi (ARAŞTIR grubu) + isEco bayrağı + USAGE'a Ekosistem modülü
+    nnav = 0
+    nav_old = ("    {group:'ARAŞTIR', items:[\n"
+               "      {id:'research', label:'Araştırmacı Merkezi'},\n"
+               "      {id:'sources', label:'Kaynaklar & Lisanslar'},\n"
+               "    ]},")
+    nav_new = ("    {group:'ARAŞTIR', items:[\n"
+               "      {id:'research', label:'Araştırmacı Merkezi'},\n"
+               "      {id:'eco', label:'Ekosistem'},\n"
+               "      {id:'sources', label:'Kaynaklar & Lisanslar'},\n"
+               "    ]},")
+    if nav_old in html:
+        html = html.replace(nav_old, nav_new, 1); nnav = 1
+    html = html.replace("isResearch:S.screen==='research',", "isResearch:S.screen==='research', isEco:S.screen==='eco',", 1)
+    html = html.replace("{mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph']},",
+                        "{mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph']},\n    {mod:'Ekosistem', srcs:['hf','deepds','fst']},", 1)
+    ncat = len(eco["categories"]); nlink = sum(len(l["links"]) for c in eco["categories"] for l in c["langs"]) + sum(len(c.get("hubs", [])) for c in eco["categories"])
+    print(f"  Ekosistem SAYFASI (ds7+web): ekran={neco} nav={nnav} kategori={ncat} bağlantı={nlink}")
 
     (DIST / "index.html").write_text(html, encoding="utf-8")
     shutil.copy(UI / "support.js", DIST / "support.js")

@@ -1,37 +1,193 @@
 {
   "_meta": {
-    "source": "Deepsearch 7 (Türk dilleri NLP/LLM ekosistem envanteri, 2024–2026) — HuggingFace model/dataset kartları + akademik literatür",
-    "license": "derleme envanter; her araç kendi kaynağına/lisansına atıflı",
+    "source": "Deepsearch 7 (Türk dilleri NLP/LLM envanteri, 2024–2026) + kendi web araştırması (HuggingFace model/dataset kartları, GitHub, leaderboard'lar, Common Voice, Apertium/Zemberek/TRmorph)",
+    "license": "derleme envanter; her bağlantı kendi kaynağına/lisansına aittir",
     "accessed": "2026-06-25",
-    "module": "Araştırmacı Merkezi — NLP/LLM Ekosistem Matrisi (Dil × Yetenek)",
-    "note": "NÖTR ENVANTER: yalnız BULUNAN açık-kaynak/HF araçlarını listeler. '—' = bu taramada bağımsız kayıt bulunamadı; olgunluk/yeterlilik yargısı DEĞİL (o araştırmacının kararı). Uydurma yok."
+    "module": "Ekosistem — Türk dilleri NLP/LLM kaynak merkezi (kategori × dil × doğrudan bağlantı)",
+    "note": "NÖTR launchpad: araştırmacıyı doğrudan çalışmaya götüren bağlantılar. 'Hub' = güncel takip (HF arama, leaderboard, awesome-liste). Olgunluk/yeterlilik yargısı YOK — değerlendirme araştırmacıya aittir. Uydurma bağlantı yok; bulunamayan dil/kategori boş bırakılır."
   },
-  "caption": "Açık kaynak ve HuggingFace'te bu taramada (2024–2026) bulunan araçların envanteri. “—” yalnızca bu taramada bağımsız bir kayıt bulunmadığını gösterir; olgunluk/yeterlilik yargısı içermez — o değerlendirme araştırmacıya aittir.",
-  "cols": ["Üretken LLM", "Encoder", "Veri seti / korpus", "Konuşma (ASR/TTS)", "Benchmark"],
-  "langs": [
-    {"name": "Türkçe", "cells": ["Cosmos · Kumru-2B · Trendyol-LLM", "BERTurk · TURNA", "vngrs-web-corpus · OSCAR", "TurkmedSTT · Piper", "Cetvel · Mukayese · TurkBench"]},
-    {"name": "Azerice", "cells": ["GPT2-Aze · Aya Expanse", "aLLMA BERT-Aze", "aze-books · AzWiki · eqanun", "MMS / NLLB altyapısı", "TUMLU"]},
-    {"name": "Türkmence", "cells": ["tm-hukuk · mGPT-turkmen", "—", "OSCAR · FLORES+", "whisper-turkmen · MMS-TTS", "TUMLU"]},
-    {"name": "Kazakça", "cells": ["ISSAI KAZ-LLM (8B/70B)", "mBERT · XLM-R", "KazCulture · OSCAR", "ISSAI KazakhTTS", "TUMLU · KazQAD"]},
-    {"name": "Kırgızca", "cells": ["mGPT-kirgiz", "KyrgyzBert", "kyrgyzRC · FLORES+", "MMS (genel)", "kyrgyzMMLU · TUMLU"]},
-    {"name": "Tatarca", "cells": ["mGPT-tatar · Tweety-Tatar", "TatarNLPWorld BERT'leri", "OSCAR · FLORES+", "ISSAI TatarTTS", "Tatar Morphology · TUMLU"]},
-    {"name": "Başkurtça", "cells": ["mGPT-bashkir", "Glot500 (çok dilli)", "bashqort-alpaca", "MMS · Common Voice (~268 saat)", "GlotLID (kısmen)"]},
-    {"name": "Özbekçe", "cells": ["Alloma (1–8B)", "TahrirchiBERT · UzBERT", "Dilmash · OSCAR", "Sayro-tts (1.7B)", "TUMLU"]},
-    {"name": "Uygurca", "cells": ["Aya Expanse", "MicroBERT-Uyghur", "FLORES+", "whisper-uyghur · MMS-TTS", "TUMLU"]},
-    {"name": "Çuvaşça", "cells": ["mGPT-chuvash (GGUF)", "LaBSE-chuvash (kısmen)", "chuvash_russian_parallel (1,4M cümle)", "whisper-chv · eSpeak NG", "TUMLU (kısmen)"]},
-    {"name": "Sahaca (Yakut)", "cells": ["mGPT · Translategemma (kısmen)", "ruBert-base-sakha", "sakha-russian-parallel", "wav2vec2-xlsr-sakha", "—"]},
-    {"name": "Karakalpakça", "cells": ["gpt2_karakalpak", "—", "Dilmash · FLORES+", "Karakalpak Speech Corpus (50 saat)", "TUMLU"]},
-    {"name": "Kırım Tatarcası", "cells": ["—", "—", "crh-parallel-corpora", "speech-uk TTS · MMS", "—"]}
-  ],
-  "zero_note": "Bu taramada bağımsız açık-kaynak/HF kaydı bulunmayan diller (çoğu mBERT/NLLB-200 gibi çok-dilli platformlarda dolaylı yer alabilir): Gagavuzca, Kumukça, Nogayca, Karaçay-Balkarca, Altayca, Hakasça, Tuvaca, Şorca, Halaçça, Salarca, Dolganca.",
-  "orgs": [
-    {"name": "TurkicNLP", "url": "https://arxiv.org/abs/2602.19174", "detail": "24 Türk dilini tek API'de birleştiren Python iskeleti: Stanza sinir ağları + Apertium FST + Latin/Kiril/Arap/Runik transliterasyon."},
-    {"name": "ISSAI (Nazarbayev Üni.)", "url": "https://huggingface.co/issai", "detail": "Orta Asya AI lokomotifi: KAZ-LLM (8B/70B), KazakhTTS, TatarTTS, KazQAD."},
-    {"name": "YTU CE Cosmos", "url": "https://huggingface.co/ytu-ce-cosmos", "detail": "Açık kaynak Türkçe LLM öncüsü: Turkish-Llama/Gemma, T1 reasoning serileri (DPO/SFT açık)."},
-    {"name": "VNGRS-AI", "url": "https://huggingface.co/vngrs-ai", "detail": "Özel Türkçe tokenizer'lı Kumru-2B / VBART; sıfırdan ön-eğitim."},
-    {"name": "aLLMA Lab", "url": "https://huggingface.co/allmalab", "detail": "Azerice BERT-Aze / GPT2-Aze + aze-books, eqanun korpusları."},
-    {"name": "Tahrirchi / UzLM", "url": "https://huggingface.co/tahrirchi", "detail": "Özbekçe TahrirchiBERT, Alloma LLM serisi, Dilmash çok-dilli korpus."},
-    {"name": "Boğaziçi (boun-tabilab)", "url": "https://huggingface.co/boun-tabi-LMG", "detail": "TURNA encoder-decoder + Mukayese benchmark."},
-    {"name": "awesome-turkish (kesimeg)", "url": "https://huggingface.co/spaces/kesimeg/awesome-turkish-language-models", "detail": "Güncel Türkçe LLM ve liderlik tablolarının takip edildiği topluluk 'sarı sayfalar' indeksi."}
+  "intro": "Türk dilleri için açık kaynak yapay zeka/DDİ çalışmalarına doğrudan bağlanan bir başlangıç noktası. Her kategoride: önce güncelliği takip için 'hub' bağlantıları (HuggingFace aramaları, leaderboard'lar, derli toplu listeler), sonra dil bazında öne çıkan model/veri/araç bağlantıları. Listeler tam değildir ve ekosistem hızla büyür — hub bağlantıları her zaman en güncele götürür.",
+  "categories": [
+    {
+      "key": "llm", "title": "Üretken LLM", "desc": "Metin üreten / talimat-izleyen büyük dil modelleri (chat, instruct, reasoning).",
+      "hubs": [
+        {"label": "HF · text-generation (Türkçe, en çok indirilen)", "url": "https://huggingface.co/models?pipeline_tag=text-generation&language=tr&sort=downloads"},
+        {"label": "OpenLLM Türkçe Liderlik Tablosu", "url": "https://huggingface.co/spaces/malhajar/OpenLLMTurkishLeaderboard_v0.2"},
+        {"label": "awesome-turkish-language-models", "url": "https://huggingface.co/spaces/kesimeg/awesome-turkish-language-models"},
+        {"label": "agmmnn/turkish-nlp-resources (liste)", "url": "https://github.com/agmmnn/turkish-nlp-resources"}
+      ],
+      "langs": [
+        {"name": "Türkçe", "links": [
+          {"label": "Cosmos · Turkish-Llama-8B-DPO", "url": "https://huggingface.co/ytu-ce-cosmos/Turkish-Llama-8b-DPO-v0.1", "note": "YTÜ; DPO"},
+          {"label": "Cosmos · Turkish-Gemma-9B-T1", "url": "https://huggingface.co/ytu-ce-cosmos/Turkish-Gemma-9b-T1", "note": "reasoning"},
+          {"label": "VNGRS · Kumru-2B", "url": "https://huggingface.co/vngrs-ai/Kumru-2B", "note": "sıfırdan; özel Türkçe tokenizer"},
+          {"label": "Trendyol-LLM-7B-chat", "url": "https://huggingface.co/Trendyol/Trendyol-LLM-7B-chat-v4.1.0", "note": "kurumsal"},
+          {"label": "Cohere · Aya Expanse 8B", "url": "https://huggingface.co/CohereLabs/aya-expanse-8b", "note": "çok dilli (Türkçe dahil)"}
+        ]},
+        {"name": "Kazakça", "links": [
+          {"label": "ISSAI · KAZ-LLM (8B/70B) koleksiyonu", "url": "https://huggingface.co/collections/issai/issai-kazllm-10", "note": "Llama 3.1; 150B token"},
+          {"label": "ISSAI organizasyonu", "url": "https://huggingface.co/issai"},
+          {"label": "HF · Kazakça üretken modeller", "url": "https://huggingface.co/models?pipeline_tag=text-generation&language=kk&sort=downloads"}
+        ]},
+        {"name": "Özbekçe", "links": [
+          {"label": "UzLM · Alloma-8B-Instruct", "url": "https://huggingface.co/uzlm/alloma-8B-Instruct"},
+          {"label": "UzLM · Alloma-3B-Instruct", "url": "https://huggingface.co/uzlm/alloma-3B-Instruct"},
+          {"label": "UzLM organizasyonu", "url": "https://huggingface.co/uzlm"}
+        ]},
+        {"name": "Azerice", "links": [
+          {"label": "aLLMA Lab organizasyonu", "url": "https://huggingface.co/allmalab"},
+          {"label": "Cohere · Aya Expanse 8B (Azerice dahil)", "url": "https://huggingface.co/CohereLabs/aya-expanse-8b"},
+          {"label": "HF · Azerice üretken modeller", "url": "https://huggingface.co/models?pipeline_tag=text-generation&language=az&sort=downloads"}
+        ]},
+        {"name": "Çuvaşça", "links": [
+          {"label": "mGPT-1.3B-chuvash (AI-Forever)", "url": "https://huggingface.co/ai-forever/mGPT-1.3B-chuvash"},
+          {"label": "mGPT-1.3B-chuvash · GGUF", "url": "https://huggingface.co/NikolayKozloff/mGPT-1.3B-chuvash-GGUF"}
+        ]},
+        {"name": "Tatarca", "links": [{"label": "mGPT-1.3B-tatar", "url": "https://huggingface.co/ai-forever/mGPT-1.3B-tatar"}]},
+        {"name": "Kırgızca", "links": [{"label": "mGPT-1.3B-kirgiz", "url": "https://huggingface.co/ai-forever/mGPT-1.3B-kirgiz"}]},
+        {"name": "Başkurtça", "links": [{"label": "mGPT-1.3B-bashkir", "url": "https://huggingface.co/ai-forever/mGPT-1.3B-bashkir"}]},
+        {"name": "Türkmence", "links": [{"label": "mGPT-1.3B-turkmen", "url": "https://huggingface.co/ai-forever/mGPT-1.3B-turkmen"}]},
+        {"name": "Karakalpakça", "links": [{"label": "gpt2_karakalpak", "url": "https://huggingface.co/nickoo004/gpt2_karakalpak"}]},
+        {"name": "Uygurca", "links": [{"label": "Cohere · Aya Expanse 8B (Uygurca dahil)", "url": "https://huggingface.co/CohereLabs/aya-expanse-8b"}]}
+      ]
+    },
+    {
+      "key": "encoder", "title": "Encoder / temsil", "desc": "BERT türü encoder modelleri, gömme (embedding) ve tokenizer'lar — sınıflandırma, özellik çıkarımı, arama.",
+      "hubs": [
+        {"label": "HF · fill-mask (Türkçe)", "url": "https://huggingface.co/models?pipeline_tag=fill-mask&language=tr&sort=downloads"}
+      ],
+      "langs": [
+        {"name": "Türkçe", "links": [
+          {"label": "BERTurk · bert-base-turkish-cased", "url": "https://huggingface.co/dbmdz/bert-base-turkish-cased", "note": "endüstri standardı; 128K vocab"},
+          {"label": "dbmdz/berts (ELECTRA, ConvBERT…)", "url": "https://github.com/dbmdz/berts"},
+          {"label": "TURNA (encoder-decoder, 1.1B)", "url": "https://huggingface.co/boun-tabi-LMG/TURNA", "note": "Boğaziçi"}
+        ]},
+        {"name": "Azerice", "links": [
+          {"label": "aLLMA · bert-large-aze", "url": "https://huggingface.co/allmalab/bert-large-aze"},
+          {"label": "aLLMA · bert-base-aze", "url": "https://huggingface.co/allmalab/bert-base-aze"}
+        ]},
+        {"name": "Özbekçe", "links": [
+          {"label": "TahrirchiBERT-base", "url": "https://huggingface.co/tahrirchi/tahrirchi-bert-base", "note": "morfolojiye duyarlı"}
+        ]},
+        {"name": "Kırgızca", "links": [
+          {"label": "KyrgyzBert", "url": "https://huggingface.co/metinovadilet/KyrgyzBert"},
+          {"label": "bert-kyrgyz-tokenizer", "url": "https://huggingface.co/metinovadilet/bert-kyrgyz-tokenizer"}
+        ]},
+        {"name": "Uygurca", "links": [{"label": "MicroBERT-Uyghur", "url": "https://huggingface.co/lgessler/microbert-uyghur-m", "note": "40K token ile"}]},
+        {"name": "Tatarca", "links": [
+          {"label": "TatarNLPWorld modelleri", "url": "https://huggingface.co/TatarNLPWorld/models"},
+          {"label": "TatarTokenizers", "url": "https://huggingface.co/arabovs-ai-lab/TatarTokenizers"}
+        ]},
+        {"name": "Sahaca", "links": [{"label": "ruBert-base-sakha", "url": "https://huggingface.co/bamaxi/ruBert-base-sakha"}]}
+      ]
+    },
+    {
+      "key": "asr", "title": "Konuşma tanıma (ASR / STT)", "desc": "Konuşmayı metne çeviren modeller. Düşük kaynaklı dillerde WER yüksek olabilir — araştırmacı kart üzerinde değerlendirir.",
+      "hubs": [
+        {"label": "HF · ASR (Türkçe)", "url": "https://huggingface.co/models?pipeline_tag=automatic-speech-recognition&language=tr&sort=downloads"},
+        {"label": "Mozilla Common Voice (veri)", "url": "https://commonvoice.mozilla.org/tr/datasets"},
+        {"label": "Meta MMS (1162 dil ASR)", "url": "https://huggingface.co/facebook/mms-1b-all"}
+      ],
+      "langs": [
+        {"name": "Türkçe", "links": [
+          {"label": "Whisper Large-v3 Turbo", "url": "https://huggingface.co/openai/whisper-large-v3-turbo", "note": "Türkçe ~%7.75 WER"}
+        ]},
+        {"name": "Kazakça", "links": [
+          {"label": "ISSAI · whisper-turbo-kaz-rus", "url": "https://huggingface.co/abilmansplus/whisper-turbo-kaz-rus-v1", "note": "1200 saat KSC2"}
+        ]},
+        {"name": "Özbekçe", "links": [{"label": "qwen3-asr-uzbek", "url": "https://huggingface.co/Gearnode/qwen3-asr-uzbek"}]},
+        {"name": "Sahaca", "links": [{"label": "wav2vec2-xlsr-sakha", "url": "https://huggingface.co/sammy786/wav2vec2-xlsr-sakha", "note": "~%36 WER"}]},
+        {"name": "Çuvaşça", "links": [{"label": "wav2vec2-large-xls-r-300m-chuvash", "url": "https://huggingface.co/infinitejoy/wav2vec2-large-xls-r-300m-chuvash", "note": "~%60 WER; CV ~2 saat"}]},
+        {"name": "Başkurtça", "links": [{"label": "Common Voice · Başkurtça (~268 saat)", "url": "https://commonvoice.mozilla.org/ba/datasets"}]}
+      ]
+    },
+    {
+      "key": "tts", "title": "Seslendirme (TTS)", "desc": "Metni konuşmaya çeviren modeller (sinir ağı + kural tabanlı).",
+      "hubs": [
+        {"label": "HF · TTS (Türkçe)", "url": "https://huggingface.co/models?pipeline_tag=text-to-speech&language=tr&sort=downloads"},
+        {"label": "Meta MMS-TTS (1107 dil)", "url": "https://huggingface.co/facebook/mms-tts"},
+        {"label": "Piper (yerel/offline TTS)", "url": "https://github.com/rhasspy/piper"},
+        {"label": "eSpeak NG (fonemik; Çuvaşça dahil)", "url": "https://github.com/espeak-ng/espeak-ng"}
+      ],
+      "langs": [
+        {"name": "Türkçe", "links": [{"label": "MMS-TTS Türkçe", "url": "https://huggingface.co/facebook/mms-tts-tur"}, {"label": "Piper sesleri", "url": "https://huggingface.co/rhasspy/piper-voices"}]},
+        {"name": "Kazakça", "links": [{"label": "Spark-TTS-Kazakh", "url": "https://huggingface.co/ErnarBahat/Spark-TTS-Kazakh"}, {"label": "ISSAI KazakhTTS (veri)", "url": "https://huggingface.co/datasets/issai/KazakhTTS"}]},
+        {"name": "Tatarca", "links": [{"label": "ISSAI TatarTTS (70 saat stüdyo)", "url": "https://huggingface.co/datasets/issai/TatarTTS"}]},
+        {"name": "Uygurca", "links": [{"label": "MMS-TTS Uygurca (Arap)", "url": "https://huggingface.co/facebook/mms-tts-uig-script_arabic"}, {"label": "qutadgu_bilik (fine-tune)", "url": "https://huggingface.co/piyazon/qutadgu_bilik"}]},
+        {"name": "Özbekçe", "links": [{"label": "MMS-TTS Özbekçe (Kiril)", "url": "https://huggingface.co/facebook/mms-tts-uzb-script_cyrillic"}]},
+        {"name": "Kırgızca", "links": [{"label": "kyrgyz-ai/TTS_small", "url": "https://huggingface.co/kyrgyz-ai/TTS_small"}]},
+        {"name": "Başkurtça", "links": [{"label": "MMS-TTS Başkurtça", "url": "https://huggingface.co/facebook/mms-tts-bak"}]},
+        {"name": "Sahaca", "links": [{"label": "MMS-TTS Sahaca", "url": "https://huggingface.co/facebook/mms-tts-sah"}]},
+        {"name": "Çuvaşça", "links": [{"label": "eSpeak NG (cv) — tek açık seçenek", "url": "https://github.com/espeak-ng/espeak-ng/blob/master/docs/languages.md"}]}
+      ]
+    },
+    {
+      "key": "data", "title": "Veri setleri / korpuslar", "desc": "Tek dilli korpuslar, paralel çeviri ve talimat (instruction) veri setleri.",
+      "hubs": [
+        {"label": "HF · veri setleri (Türkçe)", "url": "https://huggingface.co/datasets?language=tr&sort=downloads"},
+        {"label": "OSCAR (çok dilli web korpusu)", "url": "https://oscar-project.org/"},
+        {"label": "FLORES+ / OLDI (paralel)", "url": "https://github.com/openlanguagedata/flores"},
+        {"label": "TS Corpus (Türkçe)", "url": "https://tscorpus.com/"}
+      ],
+      "langs": [
+        {"name": "Türkçe", "links": [{"label": "vngrs-web-corpus (~85 GB)", "url": "https://huggingface.co/datasets/vngrs-ai/vngrs-web-corpus"}]},
+        {"name": "Azerice", "links": [{"label": "aLLMA · aze-books (180M kelime)", "url": "https://huggingface.co/datasets/allmalab/aze-books"}]},
+        {"name": "Çuvaşça", "links": [{"label": "chuvash_parallel (1.4M cümle, A. Antonov)", "url": "https://huggingface.co/datasets/alexantonov/chuvash_parallel"}]},
+        {"name": "Kazakça", "links": [{"label": "KazCulture", "url": "https://huggingface.co/datasets/issai/KazCulture"}, {"label": "Kazakh Speech Corpus 2 (KSC2)", "url": "https://huggingface.co/datasets/issai/Kazakh_Speech_Corpus_2"}]},
+        {"name": "Özbekçe / Karakalpakça", "links": [{"label": "Dilmash (çok dilli paralel)", "url": "https://huggingface.co/datasets/tahrirchi/dilmash"}]},
+        {"name": "Başkurtça", "links": [{"label": "bashqort-alpaca (instruction)", "url": "https://huggingface.co/datasets/metuKKhud/bashqort-alpaca"}]},
+        {"name": "Kırım Tatarcası", "links": [{"label": "crh-parallel-corpora (Kiril+Latin)", "url": "https://huggingface.co/datasets/QIRIM/crh-parallel-corpora"}]}
+      ]
+    },
+    {
+      "key": "bench", "title": "Benchmark / değerlendirme", "desc": "Yerel ve kültürel bağlamlı değerlendirme setleri ve liderlik tabloları.",
+      "hubs": [
+        {"label": "OpenLLM Türkçe Liderlik Tablosu", "url": "https://huggingface.co/spaces/malhajar/OpenLLMTurkishLeaderboard_v0.2"},
+        {"label": "Türkçe MMLU Liderlik Tablosu", "url": "https://huggingface.co/spaces/alibayram/turkish_mmlu_leaderboard"}
+      ],
+      "langs": [
+        {"name": "Türkçe", "links": [{"label": "Cetvel (KUIS-AI, 23 görev)", "url": "https://huggingface.co/KUIS-AI"}, {"label": "Mukayese (Boğaziçi)", "url": "https://huggingface.co/mukayese"}]},
+        {"name": "Çok dilli (9 Türk dili)", "links": [{"label": "TUMLU-mini", "url": "https://huggingface.co/datasets/jafarisbarov/TUMLU-mini"}]},
+        {"name": "Kırgızca", "links": [{"label": "kyrgyzMMLU", "url": "https://huggingface.co/datasets/TTimur/kyrgyzMMLU"}]},
+        {"name": "Tatarca", "links": [{"label": "Tatar Morphology Benchmark", "url": "https://huggingface.co/datasets/TatarNLPWorld/tatar-morphology-benchmark"}]}
+      ]
+    },
+    {
+      "key": "tools", "title": "Araçlar / kütüphaneler", "desc": "Morfolojik analizörler, FST'ler, çeviri ve işleme kütüphaneleri (kural-tabanlı + sinirsel).",
+      "hubs": [
+        {"label": "agmmnn/turkish-nlp-resources (kapsamlı liste)", "url": "https://github.com/agmmnn/turkish-nlp-resources"},
+        {"label": "TurkicNLP (24 Türk dili tek API)", "url": "https://github.com/turkic-nlp/turkicnlp"},
+        {"label": "Apertium · Türk dilleri", "url": "https://wiki.apertium.org/wiki/Turkic_languages"}
+      ],
+      "langs": [
+        {"name": "Türkçe", "links": [
+          {"label": "Zemberek-NLP (Java; morfoloji)", "url": "https://github.com/ahmetaa/zemberek-nlp", "note": "klasik Türkçe NLP"},
+          {"label": "TRmorph (FST; MIT)", "url": "https://github.com/coltekin/TRmorph"},
+          {"label": "Zeyrek (Python; Zemberek portu)", "url": "https://github.com/obulat/zeyrek"},
+          {"label": "Stanza (çok dilli; Türkçe)", "url": "https://stanfordnlp.github.io/stanza/"}
+        ]},
+        {"name": "Çok dilli (Türk dilleri)", "links": [
+          {"label": "Apertium (FST analizör/çevirici; bu platformun motoru)", "url": "https://github.com/apertium"},
+          {"label": "apertium-chv (Çuvaşça)", "url": "https://github.com/apertium/apertium-chv"},
+          {"label": "TurkicNLP", "url": "https://github.com/turkic-nlp/turkicnlp"}
+        ]}
+      ]
+    },
+    {
+      "key": "orgs", "title": "Organizasyonlar & topluluklar", "desc": "Ekosistemi taşıyan laboratuvarlar, organizasyonlar ve topluluk indeksleri.",
+      "hubs": [],
+      "langs": [
+        {"name": "Laboratuvarlar & topluluklar", "links": [
+          {"label": "ISSAI (Nazarbayev Üni.)", "url": "https://huggingface.co/issai", "note": "KAZ-LLM, KazakhTTS, TatarTTS"},
+          {"label": "YTU CE Cosmos", "url": "https://huggingface.co/ytu-ce-cosmos", "note": "açık Türkçe LLM öncüsü"},
+          {"label": "VNGRS-AI", "url": "https://huggingface.co/vngrs-ai", "note": "Kumru / VBART"},
+          {"label": "aLLMA Lab", "url": "https://huggingface.co/allmalab", "note": "Azerice"},
+          {"label": "Tahrirchi / UzLM", "url": "https://huggingface.co/tahrirchi", "note": "Özbekçe"},
+          {"label": "Boğaziçi (boun-tabi-LMG)", "url": "https://huggingface.co/boun-tabi-LMG", "note": "TURNA, Mukayese"},
+          {"label": "TurkicNLP", "url": "https://github.com/turkic-nlp/turkicnlp"},
+          {"label": "awesome-turkish (kesimeg)", "url": "https://huggingface.co/spaces/kesimeg/awesome-turkish-language-models"}
+        ]}
+      ]
+    }
   ]
 }

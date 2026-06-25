@@ -708,7 +708,7 @@
         <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">UZAKLIK GEZGİNİ</div>
         <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 6px">{{ distBaseName }} ↔ <span style="color:{{ distBranchColor }}">{{ distTargetName }}</span></h2>
         <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:66ch;margin:0">Akrabalık tek bir sayı değildir. Aynı iki dil, hangi ekseni sorduğunuza göre yakın da olur uzak da. Bir dil seçin; soy, kelime, anlaşılabilirlik, dilbilgisi ve coğrafyayı birlikte okuyun.</p>
-        <div style="display:grid;grid-template-columns:230px 1fr;gap:24px;margin-top:26px">
+        <div style="display:grid;grid-template-columns:248px 1fr;gap:30px;margin-top:26px;align-items:start">
           <div style="display:flex;flex-direction:column;gap:7px">
             <div style="font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;margin-bottom:3px">TABAN DİL</div>
             <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">
@@ -719,7 +719,8 @@
               <button onClick="{{ l.go }}" style="{{ l.style }}"><span style="{{ l.dot }}"></span>{{ l.name }}<span style="{{ l.branchStyle }}">{{ l.branch }}</span></button>
             </sc-for>
           </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start">
             <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:14px;display:flex;align-items:center;justify-content:center">
               <svg viewBox="0 0 360 330" style="width:100%;height:auto">
                 <sc-for list="{{ radarRings }}" as="r"><polygon points="{{ r.points }}" fill="none" stroke="rgba(33,29,23,.1)" stroke-width="1"></polygon></sc-for>
@@ -738,10 +739,11 @@
               </sc-for>
             </div>
           </div>
-        </div>
-        <div style="margin-top:20px;background:#211d17;color:#f4f1ea;border-radius:14px;padding:20px 24px;display:flex;gap:14px;align-items:flex-start">
-          <span style="font-size:20px">◎</span>
-          <div><div style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:1px;color:rgba(244,241,234,.5);margin-bottom:6px">OKUMA</div><div style="font-size:14.5px;line-height:1.6">{{ distNarr }}</div></div>
+          <div style="background:#211d17;color:#f4f1ea;border-radius:14px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start">
+            <span style="font-size:20px">◎</span>
+            <div><div style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:1px;color:rgba(244,241,234,.5);margin-bottom:6px">OKUMA</div><div style="font-size:14.5px;line-height:1.6">{{ distNarr }}</div></div>
+          </div>
+          </div>
         </div>
         <div style="margin-top:14px;display:inline-flex;align-items:center;gap:8px;font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace"><span style="width:8px;height:8px;border-radius:2px;background:#cbbfa8"></span>Kaynak: Savelyev (leksikal+filogenetik) · WALS (tipolojik) · koordinat (coğrafi) · Lindsay (anlaşılabilirlik)</div>
       </section>

@@ -545,6 +545,38 @@ def main():
     if a3_card_old in html:
         html = html.replace(a3_card_old, a3_card_new, 1); na3 += 1
 
+    # ---- A5: Uzaklık Gezgini — ortadaki radar kutusu "çok uzun" (grid stretch). Kompakt + dengele ----
+    na5 = 0
+    # (1) dış grid: stretch'i kapat (align-items:start) → radar kutusu içerik-boyu; sol sütun ferah (230→248)
+    a5_outer_old = '<div style="display:grid;grid-template-columns:230px 1fr;gap:24px;margin-top:26px">'
+    a5_outer_new = '<div style="display:grid;grid-template-columns:248px 1fr;gap:30px;margin-top:26px;align-items:start">'
+    if a5_outer_old in html:
+        html = html.replace(a5_outer_old, a5_outer_new, 1); na5 += 1
+    # (2) sağ sütunu flex-col yap (radar|eksen grid + OKUMA); iç grid align-start + gap ferah
+    a5_inner_old = '          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">'
+    a5_inner_new = ('          <div style="display:flex;flex-direction:column;gap:18px">\n'
+                    '            <div style="display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start">')
+    if a5_inner_old in html:
+        html = html.replace(a5_inner_old, a5_inner_new, 1); na5 += 1
+    # (3) OKUMA kutusunu sağ sütuna taşı (radar/eksen altına) → sağdaki boşluğu doldurur, denge kurar
+    a5_okuma_old = (
+        '          </div>\n'
+        '        </div>\n'
+        '        <div style="margin-top:20px;background:#211d17;color:#f4f1ea;border-radius:14px;padding:20px 24px;display:flex;gap:14px;align-items:flex-start">\n'
+        '          <span style="font-size:20px">◎</span>\n'
+        '          <div><div style="font-size:11px;font-family:\'IBM Plex Mono\',monospace;letter-spacing:1px;color:rgba(244,241,234,.5);margin-bottom:6px">OKUMA</div><div style="font-size:14.5px;line-height:1.6">{{ distNarr }}</div></div>\n'
+        '        </div>')
+    a5_okuma_new = (
+        '          </div>\n'
+        '          <div style="background:#211d17;color:#f4f1ea;border-radius:14px;padding:18px 22px;display:flex;gap:14px;align-items:flex-start">\n'
+        '            <span style="font-size:20px">◎</span>\n'
+        '            <div><div style="font-size:11px;font-family:\'IBM Plex Mono\',monospace;letter-spacing:1px;color:rgba(244,241,234,.5);margin-bottom:6px">OKUMA</div><div style="font-size:14.5px;line-height:1.6">{{ distNarr }}</div></div>\n'
+        '          </div>\n'
+        '          </div>\n'
+        '        </div>')
+    if a5_okuma_old in html:
+        html = html.replace(a5_okuma_old, a5_okuma_new, 1); na5 += 1
+
     # kopya/metin düzeltmeleri — yalnız NET redundant/teknik ifadeler (tasarımı bozmadan, minimal)
     copy_fix = {
         "14 dil · soldan kenar rengi = canlılık": "Türk dilleri ve canlılık durumları",
@@ -1590,6 +1622,7 @@ def main():
     print(f"  Kognat Ağı (SavelyevTurkic): {ncog} blok, {len(cog_obj)} kavram (default '{cog_default}')")
     print(f"  A1 kognat kelime-seçici (kategorili+aranabilir): {na1}/3 yama")
     print(f"  A3 landing kapsam (veriden: {n_live}/{n_prof}/{n_geo} dil, {n_branch} kol) + footer + kart: {na3}/3 yama")
+    print(f"  A5 Uzaklık radar kutusu kompakt + OKUMA sağ sütuna (denge): {na5}/3 yama")
     print(f"  Kopya düzeltmeleri: {nfix}")
     print(f"  Dil profili zenginleştirme (Wikipedia, çapraz-kontrollü): {nenrich} alan ({len(extra)} dil)")
     print(f"  Canlı API bağlama (Paradigma+Analiz): {nlive}/6 yama")

@@ -366,6 +366,20 @@ def _noun_tag_feat(tglist):
     return typ, " · ".join(parts)
 
 
+# Faz 1.1 — TEMİZ SINIR füzyon-bölme için bilinen ÇOĞUL allomorfları (uzun→kısa eşleştir).
+# Yalnız Çuvaşça: oblik çoğul (-сен/-сан) hâl ekinden ÖNCE gelir ve nom-çoğuldan (-сем/-сам) farklıdır;
+# bu yüzden kümülatif zincir tutmaz → kaynaşık çıkar. Diğer dillerde pl+hâl zinciri zaten tutuyor (bölme gereksiz).
+PLURAL_ALLO = {"chv": ("сен", "сан", "сем", "сам")}
+
+
+def _plural_allomorph(aff, lang):
+    """Yüzey ekinin başındaki bilinen çoğul allomorfunu döndürür (yoksa None)."""
+    for a in PLURAL_ALLO.get(lang, ()):
+        if aff.startswith(a) and len(a) < len(aff):
+            return a
+    return None
+
+
 def _segment_align(gen, lemma, tags, word, lang=""):
     """İSİM: kümülatif üretim (nom-sonlu ara biçimler) + NW hizalama → gerçek yüzey ekleri + ses olayları.
     Üretim eksik/yeniden üretmiyorsa None → çağıran fallback'e düşer."""
@@ -405,6 +419,15 @@ def _segment_align(gen, lemma, tags, word, lang=""):
         all_tags = [lv[0] for lv in levels[1:]]
         aff = _trailing_affix(surfaces[0], word)
         steps = [(all_tags, word, aff)] if aff else []
+        # Faz 1.1 — TEMİZ SINIR füzyon-bölme: yalnız [pl, <tek hâl>] (px YOK) ve yüzey ek bilinen
+        # çoğul allomorfuyla başlıyorsa çoğul|hâl sınırından böl (ör. chv сенче→сен+че, сене→сен+е).
+        # px+hâl portmanteau'ya DOKUNMA (iyelikli hâl Çuvaşçada tek yüzeyde gerçek-kaynaşıktır).
+        if aff and "pl" in all_tags and not any(str(t).startswith("px") for t in all_tags):
+            cs = [t for t in all_tags if t in CASE_SET and t != "nom"]
+            allo = _plural_allomorph(aff, lang)
+            if len(cs) == 1 and allo:
+                rsp = word[:len(word) - len(aff)]
+                steps = [(["pl"], rsp + allo, allo), (cs, word, aff[len(allo):])]
     total = sum(len(a) for _, _, a in steps)
     root_surface = word[:len(word) - total] if 0 < total <= len(word) else surfaces[0]
     # Büyük kutuda SÖZLÜK kökü (lemma); yüzeydeki ses-değişmiş gövde yalnız SES OLAYI rozetinde.

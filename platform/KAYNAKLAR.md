@@ -47,7 +47,7 @@
 | `features.wals.json` | dil → 192 WALS özniteliği (değer etiketleriyle) | WALS | Özellik Matrisi |
 | `profiles_deep.json` | 14 dil × 4 bölüm derin profil (Tarih / Yapı-özgünlük / İlişkiler / Dijital güç), atıflı | deepsearch 9.1-9.5 (`deepds`) + Glottolog/Ethnologue/UNESCO çapraz-kontrol | Dil Profilleri (derin bölümler) |
 | `profiles_tts.json` | 14 dil × Seslendirme (TTS/ASR) durum + açık model/lisans/boşluk | deepsearch 6 (`hf`/`deepds`) | Dil Profilleri (5. bölüm) |
-| `ecosystem.json` | 13 dil × 5 yetenek NLP/LLM envanteri + 8 org + zero-resource notu (NÖTR, olgunluk yargısı yok) | deepsearch 7 (`hf`/`deepds`) | Araştırmacı Merkezi (Dil × yetenek matrisi) |
+| `ecosystem.json` | **Ekosistem sayfası** — 8 kategori (LLM/Encoder/ASR/TTS/Veri/Benchmark/Araçlar/Org) × dil × **doğrudan bağlantı** (101 link: HF model/veri, GitHub, leaderboard, Zemberek/TRmorph/Apertium…). NÖTR launchpad, olgunluk yargısı yok | deepsearch 7 + **kendi web araştırması** (`hf`/`deepds`) | **Ekosistem** sayfası (ARAŞTIR) |
 
 > *Not (yöntem):* `distance.lexical.json` **derin kognat paylaşımı** ölçer (uzman kognat yargıları, 254 kavram) — #4'teki yüzey-Swadesh/anlaşılabilirlik yüzdelerinden farklı, tamamlayıcı bir sinyaldir; UI'da ayrı eksen olarak sunulabilir.
 

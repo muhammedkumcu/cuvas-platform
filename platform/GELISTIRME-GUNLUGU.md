@@ -133,6 +133,13 @@ Voicing çiftleri Latin+Kiril kapsıyor; rozetler her dilde çalışıyor: tur p
 - **Faz 2.7 (KAYNAKLAR) YAPILDI:** uygulama içi SOURCES+USAGE'a `bayes` (Savelyev & Robbeets 2020 + Johanson), `hf` (HuggingFace ekosistemi), `deepds` (KÖKEN derin araştırmalar) eklendi; USAGE eşlemesi güncellendi (Tarih & Köken'e bayes+cldf; Profiller/Araştırmacı'ya hf+deepds). KAYNAKLAR.md defterine 3 yeni veri dosyası + deepsearch satırları. Claude_Preview ✅ (KULLANIM doğru, demo yok).
 - **DURUM: TÜM DEEPSEARCH (5,5b,5c,6,7,8,9.1-9.5) + Faz 2.x içerik (2.1/2.2/2.5/2.6/2.7) İŞLENDİ.** Sıradaki deepsearch-bağımsız: 1.1 füzyon-ayrışma (dikkatli), 1.3 harita/UX, 1.4 Hakkında, 3.1 Çuvaşça Dilin Kalbi.
 
+## EK-OTURUM (25 Haz, devam-4) — EKOSİSTEM SAYFASI yeniden tasarımı (Faz 2.2 v2)
+- **Kullanıcı geri bildirimi (2.2 v1 matris yetersiz):** durağan tek isim (ör. Türkçe yalnız "TurkmedSTT"), **link yok**, **Zemberek/Apertium atlanmış**, kategori ayrımı yok. İstek: kategori-önce → dil-içinde → **bol DOĞRUDAN link** (HF "güncel takip" arama + en çok indirilen/öne çıkan direkt linkleri); araştırmacıyı çalışmaya götüren launchpad.
+- **Plan onaylandı** (plan-mode; placement=ayrı sayfa, ~8 kategori, dil başına hub+4-5 link; kendi web araştırması + uydurma yok).
+- **YAPILDI — ayrı "Ekosistem" sayfası** (sol menü ARAŞTIR): `ecosystem.json` kategori-önce yeniden yazıldı; **8 kategori, 101 bağlantı** (LLM/Encoder/ASR/TTS/Veri/Benchmark/Araçlar/Org). Her kategoride hub linkleri + dil-bazlı öne çıkanlar (↗ `target=_blank`). **Eksik araçlar eklendi:** Zemberek (github.com/ahmetaa/zemberek-nlp), TRmorph, Zeyrek, Apertium (per-lang), Stanza, TurkicNLP. build.py: matris Araştırmacı Merkezi'nden kaldırıldı (sade sorgu/API'ye döndü); yeni `eco` ekranı + NAVGROUPS öğesi + `isEco` + sticky anchor-jump kategori navı; USAGE'a Ekosistem. Claude_Preview ✅ (8 kategori, gerçek linkler, anchor-jump, logicError null).
+- **Kaynak/doğrulama:** deepsearch 7 (gerçek HF repoları) + **kendi WebSearch'üm** (Zemberek/TRmorph/zeyrek/Starlang, agmmnn/turkish-nlp-resources, OpenLLM-TR & alibayram Türkçe-MMLU leaderboard doğrulandı). Nötr (olgunluk yargısı yok — kullanıcı kararı).
+- **Zenginleştirme promptu hazır:** `arastirma/10-ekosistem-derin-linkli.prompt.md` (kategori-yapılı, link+indirme talepli, HF-dışı dahil — sonraki dalga).
+
 ## Sıradaki / açık işler — bkz `plan/YOL-HARITASI.md` (özet)
 1. **ŞİMDİ (deepsearch beklemez):** Faz 1.1 füzyonel ayrışma (NW kanonik-allomorf) · 1.3 harita/UX · 1.4 Hakkında.
 2. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.

@@ -1,0 +1,768 @@
+DEEP RESEARCH RAPORU: Türk Dilleri 
+Sınıflandırma Çerçevesi ve Filogenetik 
+Analizi 
+
+Geniş Avrasya coğrafyasına yayılan Türk dilleri, Doğu Avrupa'dan Sibirya'nın en uç noktalarına, 
+Orta Doğu'dan Çin'in içlerine kadar uzanan devasa bir dil ailesini oluşturur1. Tarihsel dilbilim ve 
+karşılaştırmalı filoloji alanında iki asrı aşkın süredir devam eden çalışmalar, bu dillerin genetik 
+akrabalıklarını, alt gruplarını ve tarihsel çatallanma (divergence) noktalarını belirlemek için sayısız 
+tasnif denemesi ortaya koymuştur3. Erken dönemlerde coğrafi temellere dayanan ve etnik 
+aidiyetleri merkeze alan sınıflandırmalar, zamanla yerini katı seslik (fonetik) izoglosslara ve 
+morfolojik gelişim çizgilerine dayanan modern dilbilimsel çerçevelere bırakmıştır5. Günümüzde 
+ise hem geleneksel tarihsel-karşılaştırmalı yöntemlerin sağladığı tipolojik veriler7 hem de 
+hesaplamalı Bayesyen filolinguistik modellerin sunduğu istatistiksel zaman derinliği (time-depth) 
+hesaplamaları3 sayesinde oldukça sağlam bir "altı kollu" kanonik yapı üzerinde akademik uzlaşıya 
+varılmıştır1. 
+Bu analiz, Türk dil ailesinin temel kollarını, bu kolları birbirinden ayıran ayırt edici izoglossları, soy 
+ağacı hiyerarşisini ve genetik-bölgesel (areal) temas alanlarını derinlemesine incelemektedir. 
+İnceleme, hem pedagojik düzeyde basitleştirilmiş tanımlamaları hem de ileri düzey akademik 
+tartışmaları içererek sunulmuş, dijital platform mimarilerinde kullanılmak üzere yapılandırılmış 
+sınıflandırma etiketlerinin güvenilirliği test edilmiştir. 
+Sınıflandırma Şemalarının Tarihsel Gelişimi ve 
+Akademik Tartışmalar 
+Türk dillerinin sınıflandırılması, geçmişten günümüze farklı dilbilimcilerin farklı metodolojik 
+kriterleri temel alması nedeniyle büyük bir çeşitlilik göstermiştir. G. Doerfer'in de belirttiği üzere, 
+Türk dili sınıflandırmalarının sayısı yüze yaklaşmaktadır ve bu durum, ailenin göçebe bozkır 
+yaşam stili nedeniyle sürekli bir temas ve yakınsama (convergence) hâlinde olmasından 
+kaynaklanmaktadır3. 
+Ondokuzuncu yüzyılda W. Radloff tarafından yapılan ilk tasnifler ağırlıklı olarak etnik ve coğrafi 
+temelliyken, 1922'de A. Samoyloviç fonetik kriterleri, özellikle Eski Türkçe *d sesinin gelişimini 
+merkeze alan ilk bilimsel sınıflandırmayı yapmıştır6. Samoyloviç'in bu tasnifi, kelime sonu ve 
+kelime içi ünsüzlerin tarihsel evrimini izlemesi bakımından devrim niteliğinde olsa da, Yakutça ile 
+Tuvacayı salt "ayak/adak" kelimesindeki *d reflekslerine bakarak aynı gruba koyması daha 
+sonraki dilbilimciler tarafından şiddetle eleştirilmiştir6. N. Baskakov'un 1952 ve sonrasında 
+geliştirdiği model ise, dilleri "Doğu Hun" ve "Batı Hun" gibi tarihsel-etnik gruplara ayırarak Sovyet 
+Türkolojisinde uzun süre hâkim olmuş; ancak Hunların konuştuğu dilin yapısı dahi tam olarak 
+bilinmediği için bu hayalî terminoloji batılı dilbilimciler tarafından bilimsel dayanaktan yoksun 
+bulunmuştur7. 
+Talat Tekin, 1990 yılında yayımladığı çığır açıcı çalışmasında, daha önceki coğrafi ve etnik 
+
+tasnifleri tamamen reddederek katı fonetik izoglosslara dayanan bir model geliştirmiştir6. Tekin'e 
+göre Türk dilleri, coğrafi yakınlıktan bağımsız olarak 6 temel fonetik kritere göre "12 bağımsız 
+gruba" ayrılmalıdır. Bu kriterler arasında rotasizm/lambdasizm, *d sesinin gelişimi ve kelime sonu 
+*-G sesinin korunumu yer alır. Tekin'in yaklaşımında Yakutça (atah), Tuvaca (adak), Hakasça 
+(azak) ve Halaçça (hadaq) gibi diller, fonetik farklılıkları nedeniyle birbirleriyle gruplanamayacak 
+tekil birer kol olarak kabul edilmiştir6. 
+Daha modern bir yaklaşım sunan Claus Schönig, 1997-1999 yılları arasında geliştirdiği eş zamanlı 
+(senkronik) tasnifte dilleri coğrafi veya tamamen genetik olmaktan ziyade yapısal ve alansal 
+(areal) özelliklerine göre "Merkezî Türkçe" (Central Turkic) ve "Kıyı Türkçesi" (Border Turkic) 
+olarak iki ana makro-gruba ayırmıştır. Merkezî Türkçe, temel olarak Oğuz, Kıpçak ve Karluk 
+dillerini kapsar ve Eski Türkçe *d > y değişimini eksiksiz tamamlamış, daha homojen bir blok 
+oluşturur8. Kıyı Türkçesi ise Çuvaşça, Yakutça, Sayan dilleri ve Halaçça gibi, Merkezî Türkçenin 
+yeniliklerini paylaşmayan, daha arkaik veya izole kalmış dilleri içerir7. 
+Günümüzde modern Türkolojinin evrensel olarak en çok kabul gören ve dijital veri tabanları için 
+de kanonik sayılan modeli Lars Johanson'a aittir1. Johanson, katı fonetik kurallar ile 
+coğrafi-tarihsel gerçeklikleri sentezleyerek aileyi genetik olarak temellenmiş altı ana kola ayırır: 
+Güneybatı (Oğuz), Kuzeybatı (Kıpçak), Güneydoğu (Karluk), Kuzeydoğu (Sibirya), Oğur 
+(Çuvaşça) ve Argu (Halaçça)5. Bu model, hem tarihsel karşılaştırmalı dilbilimin ses yasalarını ihlal 
+etmez hem de dillerin areal yayılımlarını mantıklı bir çerçeveye oturtur. 
+En güncel akademik yaklaşım ise, temel kelime dağarcığındaki kognatların bilgisayar destekli 
+algoritmalarla analiz edilmesine dayanan Bayesyen filolinguistik modeldir. A. Savelyev ve M. 
+Robbeets tarafından 2020 yılında Leipzig-Jakarta listesi üzerinden 32 Türk dili kullanılarak 
+yapılan bu analiz, geleneksel tasnifleri büyük oranda doğrulamakla birlikte, mutlak ayrılma 
+tarihleri ve ağaç topolojisi açısından ezber bozan bulgular sunmuştur3. 
+Sınıflandırma şemalarındaki temel anlaşmazlık noktaları, dillerin tarihsel göç yolları ve iç içe 
+geçmeleri nedeniyle ortaya çıkmaktadır. Örneğin, Johanson Sibirya dillerini tek bir Kuzeydoğu 
+kolu olarak gruplarken5, Bayesyen analiz Sibirya Türkçesinin tek bir ortak atadan (monofiletik) 
+gelmediğini, Kuzey Sibirya (Yakut/Dolgan) ile Güney Sibirya (Tuva/Hakas/Altay) gruplarının 
+ağaçta birbirinden çok farklı zamanlarda ana gövdeden ayrıldığını gösterir3. Benzer şekilde, 
+geleneksel olarak Oğuz grubuna dâhil edilen Salarca13, Çince ve Tibetçeden yoğun etkilenerek 
+yapısal olarak başkalaşmıştır13. Bayesyen ağaç modeli, kelime dağarcığındaki bu alıntı 
+erozyonunun (lexical replacement) yarattığı istatistiksel sapmadan dolayı Salarcayı Oğuz 
+grubundan koparıp Halaçça ile aynı dalda göstererek yeni bir tartışma başlatmıştır3. Öte yandan 
+Sarı Uygurcanın konumu da tartışmalıdır; T. Tekin ve diğer pek çok Türkolog bu dili bir "azak" dili 
+olması hasebiyle Hakas veya Sibirya grubuyla ilişkilendirirken6, coğrafi konumu ve Karluk 
+dilleriyle teması sınıflandırmasını karmaşıklaştırmıştır. Ancak Bayesyen analiz, bu dilin Güney 
+Sibirya kolunun ilk kopan üyesi olduğunu doğrulamaktadır3. 
+Kapsamlı İzogloss Çerçevesi: Türk Kollarını Ayıran Ses 
+Yasaları 
+Türk dil kollarının birbirlerinden tarihsel süreçte nasıl koptuğunu ve farklılaştığını tespit etmek 
+
+için kullanılan anahtar ses evrimlerine izogloss denir. Bu ses değişiklikleri, dillerin genetik 
+aidiyetini belirleyen matematiksel kurallar bütünü gibidir5. 
+Birinci temel izogloss, Proto-Türkçe dönemine ait en köklü ayrımı temsil eden Rotasizm (*z > r) 
+ve Lambdasizm (*š > l) yasasıdır. Bu ses gelişimi yalnızca Oğur (Bulgar) grubunda görülür. Şaz 
+(Genel Türkçe) grubundaki *z sesleri Oğurcada *r, *š sesleri ise *l olmuştur. Örneğin, Genel 
+Türkçede "dokuz" (*tokkuz) olarak bilinen kelime Çuvaşçada "tăhăr" biçimindedir5. Benzer 
+şekilde Genel Türkçedeki "kız" (*kïz) kelimesi Çuvaşçada laringalizasyon etkisiyle "hĕr" şeklini 
+almıştır17. 
+İkinci önemli izogloss, söz başı *h- (Laringal Frikativ) sesinin korunumuyla ilgilidir. Ön-Türkçedeki 
+kelime başı *h- sesi tüm Genel Türkçe kollarında tamamen kaybolmuşken, yalnızca Argu 
+(Halaçça) kolunda muhafaza edilmiştir16. Ön-Türkçede "ayak" anlamına gelen *hadaq kelimesi, 
+Halaççada "hadaq" olarak kalırken, diğer tüm kollarda *adak, *ayak, *atah gibi formlara 
+evrilmiştir5. 
+Üçüncü ve en meşhur izogloss, söz içi veya vokal arası *-d- sesinin gelişimidir6. Bu ses Sayan 
+dillerinde (Tuvaca) ve Halaççada patlamalı bir d olarak korunmuştur (adaq)5. Kuzey Sibirya 
+kolunda (Yakutça) ötümsüzleşerek t sesine evrilmiştir (atah)5. Hakasça ve Sarı Uygurca gibi 
+Yenisey havzası dillerinde sızıcılaşarak z olmuştur (azaq)5. Merkezî Türkçe olarak adlandırılan 
+Oğuz, Kıpçak ve Karluk kollarının tamamında ise kayıcı bir y sesine dönüşmüştür (ayaq)5. 
+Dördüncü temel ayrım, kelime sonu veya sonek başındaki velar *-G sesinin (Dağ/Taw kriteri) 
+evrimidir. Oğuz grubu kelime sonu *-G sesini düşürür veya ünlü uzunluğuna çevirir (tağlıg > 
+dağlı)5. Kıpçak grubunda *-G > -w dönüşümü karakteristik olarak görülür (tağlıg > tawlı)5. Karluk 
+ve Sibirya grupları ise bu velar ünsüzü muhafaza eder (taglık, tağlıg vb.)5. Beşinci kriter ise 
+kelime başı *y- sesinin durumudur; Kıpçak kolunun önemli bir bölümünde ve Güney Sibirya'da 
+kelime başı *y- sesi patlamalı/sürtünmeli *c- veya *j- seslerine dönmüştür (Oğuzca yol 
+karşılığında Kıpçakça col veya jol gibi)17. 
+Ana Kollar: Sınıflandırma, Tanımlar ve Morfolojik 
+Özellikler 
+Dijital platformların bilgi mimarisine entegre edilmek üzere, her bir alt dalın hem herkesin 
+anlayacağı pedagojik tanımlamaları hem de akademik izogloss tabloları aşağıda 
+yapılandırılmıştır. 
+Oğur (Bulgar) Kolu 
+
+Oğur kolu, pedagojik düzeyde "Türk dil ailesinden binlerce yıl önce ilk ayrılan, zamanla Rusça ve 
+Fin-Ugor dilleriyle iç içe geçerek diğer Türklere en uzak ve anlaşılması en zor hâle gelen kol" 
+olarak tanımlanabilir. Tarihsel derinlik bağlamında, Bayesyen modele göre MÖ 66 civarında 
+(güven aralığı MÖ 755 - MS 483) Ön-Türkçe gövdeden ayrılan ilk daldır4. Bu dalın yaşayan tek 
+temsilcisi Çuvaşça olup, İdil Bulgarcası, Hazarca ve Avarca gibi ölü dillerin de bu kola ait olduğu 
+tartışılmaktadır1. 
+
+Ayırt Edici 
+
+Evrim 
+
+Örnek Kelime 
+
+Akademik 
+
+Atıf 
+
+İzogloss 
+
+Mekanizması 
+
+Rotasizm 
+
+*z > r 
+
+(Genel Türkçe 
+vs 
+Oğur/Çuvaşça
+) 
+
+tokkuz > tăhăr 
+(dokuz) 
+
+Lambdasizm 
+
+*š > l 
+
+kïš > hĕl (kış) 
+
+*Kelime başı q- 
+
+*q- > x/h- 
+
+kïz > hĕr (kız) 
+
+Bağlam ve 
+Notlar 
+
+Proto-Türkçe 
+dönemine ait 
+en köklü ayrım 
+olan z/r 
+denkliğinin 
+ispatıdır. 
+
+Şaz-Lir 
+dikotomisini 
+belirleyen ş/l 
+zıtlığının temel 
+taşıdır. 
+
+Çuvaşçanın 
+karakteristik 
+laringalizasyon 
+ve 
+spirantizasyon 
+eğilimidir. 
+
+[cite: 5, 19] 
+
+[cite: 19] 
+
+[cite: 17] 
+
+Argu (Halaç) Kolu 
+
+Argu kolunun pedagojik tanımı, "İran'ın dağlık köylerinde yüzyıllardır dış dünyadan izole olarak 
+konuşulan, bu sayede Göktürkçe dönemindeki bazı eski sesleri tıpkı bir zaman kapsülü gibi 
+günümüze taşıyan özel bir Türk dili" şeklindedir. Tarihsel olarak, Genel Türkçe (Common Turkic) 
+blokundan bağımsızlaşan çok erken bir dallanmadır. Geçmişte Oğuz grubunun bir lehçesi 
+sanılsa da, G. Doerfer ve L. Johanson'un çalışmalarıyla başlı başına bağımsız bir kol olarak 
+tanımlanmıştır2. Tek temsilcisi İran'da konuşulan Halaççadır1. 
+
+Ayırt Edici 
+İzogloss 
+
+Evrim 
+Mekanizması 
+
+Örnek Kelime 
+(Genel Türkçe 
+vs 
+Argu/Halaçça) 
+
+Akademik 
+Bağlam ve 
+Notlar 
+
+Atıf 
+
+Ön Laringal 
+
+*h- korunur 
+
+ayaq > hadaq 
+
+Ön-Türkçe 
+kelime başı *h- 
+
+[cite: 5, 16, 18] 
+
+Frikativ 
+
+(ayak) 
+
+*Intervokalik 
+-d- 
+
+*-d- korunur 
+
+qoy- > qod- 
+(koymak) 
+
+Ünlü 
+Uzunlukları 
+
+Kısmen 
+korunur 
+
+kān > qaan 
+(kan) 
+
+sesinin 
+korunduğu 
+izole tek dildir. 
+
+Orhun 
+Türkçesindeki 
+arkaik d'li 
+yapıların 
+şaşmaz 
+korunumudur. 
+
+Ana Türkçe 
+birincil uzun 
+ünlülerin çift 
+vokal izlerini 
+barındırır. 
+
+[cite: 5] 
+
+[cite: 5] 
+
+Sibirya (Kuzeydoğu) Kolu 
+
+Sibirya dilleri pedagojik olarak, "Sibirya'nın dondurucu coğrafyasında, Moğol ve Tunguz 
+halklarıyla komşuluk ederek şekillenen; şamanistik ve doğayla iç içe bir yaşamın kelime 
+dağarcığını barındıran kuzey dilleri" olarak ifade edilebilir. Bayesyen analize göre bu kol kendi 
+içinde homojen değildir; Yakutça ve Dolgancayı barındıran Kuzey Sibirya dalı MS 474 civarında 
+Genel Türkçe gövdesinden ayrılmıştır4. Tuvaca, Hakasça, Altayca, Şorca ve Sarı Uygurcayı 
+barındıran Güney Sibirya ise ağaçta daha sonraki bir evrede düğümlenir1. 
+
+Ayırt Edici 
+İzogloss 
+
+Evrim 
+Mekanizması 
+
+Örnek Kelime 
+(Oğuz vs 
+Kuzey/Güney 
+Sibirya) 
+
+Akademik 
+Bağlam ve 
+Notlar 
+
+Atıf 
+
+*-d- 
+Farklılaşması 
+
+*d > t, z, d 
+
+[cite: 5, 6] 
+
+ayak > atah 
+(Yak), adak 
+(Tuv), azax 
+(Hak) 
+
+Kuzey (t), 
+Güney Sayan 
+(d), Yenisey (z) 
+reflekslerini 
+barındıran 
+varyasyon. 
+
+*Kelime Başı y- 
+
+*y > s, d, c 
+
+yol > suol (Yak) 
+/ col (Altay) 
+
+Kuzey Sibirya 
+kolunda y > s 
+
+[cite: 17] 
+
+*Son Ses -G 
+
+*-G- > -G- 
+
+dağlı > tağlıg 
+(Tuva) 
+
+(sahalaşma) 
+devinimi çok 
+belirgindir. 
+
+Sonek ve 
+kelime sonu 
+velar ünsüzler 
+düşmeden 
+muhafaza 
+edilir. 
+
+[cite: 5] 
+
+Karluk (Güneydoğu) Kolu 
+
+Karluk kolunun sadeleştirilmiş tanımı, "Orta Asya'da İpek Yolu üzerindeki tarihi şehirlerde 
+(Semerkant, Buhara, Kaşgar) konuşulan, Farsça ve Arapçadan çokça kelime almış, eski 
+Çağataycanın mirasçısı olan yerleşik medeniyet dilleri" biçimindedir. Bayesyen ağaçta Kıpçak 
+koluyla birlikte "Makro-Kıpçak" düğümünü oluşturur ve morfolojik olarak Oğuz dillerinden kesin 
+çizgilerle ayrılırlar3. Modern Özbekçe, Yeni Uygurca ile tarihi Eski İlikhanlı (Karahanlı) ve 
+Çağatayca bu gruba aittir1. 
+
+Ayırt Edici 
+İzogloss 
+
+Evrim 
+Mekanizması 
+
+Örnek Kelime 
+(Türkiye 
+Türkçesi vs 
+Karluk) 
+
+Akademik 
+Bağlam ve 
+Notlar 
+
+Atıf 
+
+Vokal Uyumu 
+Yitimi 
+
+Ünlü uyumu 
+bozulur 
+
+güzel > gözal 
+(Özbekçe) 
+
+*-d- Gelişimi 
+
+*d > y 
+
+adak > oyoq / 
+ayaq 
+
+[cite: 16] 
+
+[cite: 5, 8] 
+
+Özellikle 
+Özbekçede 
+yoğun İran 
+dilleri (Tacikçe) 
+etkisiyle damak 
+uyumu zayıflar. 
+
+Merkezî Türkçe 
+özelliği olarak d 
+> y evrimini 
+eksiksiz 
+tamamlarlar. 
+
+*-G 
+Korunumu 
+
+*-G düşmez 
+
+dağlık > tağlıq 
+(Uygurca) 
+
+Kıpçak (w) ve 
+Oğuz (Ø) 
+
+[cite: 5] 
+
+kollarının 
+aksine -G 
+patlamalı 
+kalarak 
+korunur. 
+
+Kıpçak (Kuzeybatı) Kolu 
+
+Kıpçak dilleri pedagojik bağlamda, "Karadeniz'in kuzeyinden Orta Asya bozkırlarına kadar 
+uzanan uçsuz bucaksız çayırlarda at binen, göçebe gelenekleri güçlü akraba toplulukların ortak 
+ve çok geniş coğrafyaya yayılan sesi" olarak nitelendirilir. Karluk grubu ile genetik olarak kardeş 
+olan bu kol, "Kıpçak-Karluk" çekirdeğinin kuzeybatı uzantısı olarak geniş bir coğrafyayı kaplar3. 
+Kazakça, Kırgızca, Tatarca, Başkurtça, Karakalpakça, Kumukça, Karaçay-Balkarca, Nogayca ve 
+Kırım Tatarcası bu ailenin üyeleridir1. 
+
+Ayırt Edici 
+İzogloss 
+
+Evrim 
+Mekanizması 
+
+Örnek Kelime 
+(Türkiye 
+Türkçesi vs 
+Kıpçak) 
+
+Akademik 
+Bağlam ve 
+Notlar 
+
+Atıf 
+
+*Kelime Başı y- 
+
+*y- > c/j- 
+
+yol > col / jol 
+
+*Son Ses -G 
+
+*-G > -w 
+
+dağlı > tawlı / 
+tawlı 
+
+Ünlü 
+Genişlemesi 
+
+*i > e 
+
+biz > bez 
+(Tatarca) 
+
+[cite: 17] 
+
+[cite: 5] 
+
+[cite: 1, 17] 
+
+Kıpçak 
+grubunun en 
+büyük 
+tanımlayıcı ve 
+ayırıcı 
+izoglossudur. 
+
+Hece sonu art 
+damak 
+ünsüzlerinin 
+labial-velar /w/ 
+sesine 
+evrilmesi 
+kuralıdır. 
+
+Volga-Ural 
+Kıpçakçasında 
+(Tatar/Başkurt) 
+dar ünlülerin 
+genişlemesi 
+
+eğilimidir. 
+
+Oğuz (Güneybatı) Kolu 
+
+Oğuz kolu, pedagojik düzeyde "Selçuklu ve Osmanlı akınlarıyla Orta Asya'dan Orta Doğu, 
+Kafkasya, Anadolu ve Balkanlar'a yayılan; bugün dünyada en fazla konuşanı bulunan ve 
+birbirlerini en rahat anlayan insanların konuştuğu diller" olarak bilinir. "Makro-Kıpçak" kolundan 
+çok erken ayrılarak kendi fonetik bütünlüğünü sağlayan bu grup, kendi içinde Batı, Doğu ve 
+Güney Oğuz alt gruplarına ayrılır ve karşılıklı anlaşılabilirliği en yüksek olan koldur4. Türkiye 
+Türkçesi, Azerbaycan Türkçesi, Türkmence, Gagavuzca, Kaşkayca, Horasan Türkçesi ve 
+(temaslarla yapısı değişse de genetik olarak) Salarca bu grubun üyeleridir1. 
+
+Ayırt Edici 
+İzogloss 
+
+Evrim 
+Mekanizması 
+
+Örnek Kelime 
+(Kıpçak vs 
+Oğuz) 
+
+Akademik 
+Bağlam ve 
+Notlar 
+
+Atıf 
+
+Baş Ses 
+Tonlulaşması 
+
+*t > d, *k > g 
+
+tağ > dağ, kök 
+> gök 
+
+*Sonek 
+Baş/Son G 
+
+*-G > Ø 
+(Düşer) 
+
+kalgan > kalan 
+
+Uzun Ünlüler 
+
+Korunum 
+
+yǒk > yook 
+(Türkmence) 
+
+[cite: 20] 
+
+[cite: 5] 
+
+[cite: 21] 
+
+Erken 
+Oğuzcada 
+kelime başı 
+ötümsüz 
+patlamalılar 
+kuralı olarak 
+ötümlüleşmiştir
+. 
+
+Otonom hece 
+sisteminde son 
+velarlar 
+tamamen erir 
+veya ardındaki 
+ünlüyü uzatır. 
+
+Özellikle Doğu 
+Oğuz dalında 
+(Türkmence) 
+Ana Türkçe 
+birincil uzun 
+ünlüler 
+korunmuştur. 
+
+Filogenetik Analiz: Soy Ağacı ve Bayesyen Zaman 
+Derinliği 
+Tarihsel dilbilimin kelime denkliklerine dayanan klasik glottokronoloji hesaplamaları, dillerin ne 
+zaman ayrıldığı konusunda genellikle statik ve tartışmalı sonuçlar vermiştir. Leksikostatistik 
+yaklaşımların dillerin farklı evrim hızlarını hesaba katamaması büyük bir eksiklik olmuştur. Ancak 
+A. Savelyev ve M. Robbeets (2020) tarafından uygulanan modern Bayesyen filogenetik çıkarım 
+yöntemi, bu alanda çığır açmıştır. Araştırmacılar, 32 Türk dilinden (ve tarihi dillerden) derlenen 
+254 kavramlık temel sözcük (Leipzig-Jakarta listesi) setine dayalı olarak aile ağacının mutlak 
+zaman derinliğini (time-depth) ve topolojisini istatistiksel geçerlilikle ortaya koymuştur3. Bu 
+analizde BEAST2 yazılımı ve "burst clock model" (dillerin bölündüğü evrede sosyal sınırları 
+belirlemek için farklılaşmanın hızlandığı şizojenez modeli) kullanılmıştır22. 
+Bayesyen yaklaşıma göre ailenin kök ayrılışları ve belirlenen mutlak tarihler şöyledir: Ailenin 
+bilinen en derin zaman çizgisi MÖ 66 yılıdır (İstatistiksel güven aralığı: MÖ 755 - MS 483). 
+Çuvaşçanın atası olan Oğur (Bulgar) dili, Şaz (Genel Türkçe) gövdesinden bu tarihte koparak 
+bağımsız evrimine başlamıştır4. Genel Türkçe blokundan kopan ilk otonom dal ise MS 474 
+civarında Kuzey Sibirya (Yakut/Dolgan) koludur4. Eski Türkçe metinlerinin (Orhun/Eski Uygur) 
+ortaya çıktığı referans noktası MS 650'lere tarihlenerek, dilin o dönemki bütünlüğü ağaç 
+üzerinde kanıtlanmıştır4. 
+Aşağıda, Bayesyen modelleme sonucunda oluşturulan Maximum Credibility Tree (Maksimum 
+Güvenilirlik Ağacı) topolojisinin metin tabanlı (ASCII) şeması sunulmuştur. Bu topoloji, dillerin 
+genetik olarak hangi sırayla çatallandığını net biçimde göstermektedir3: 
+PROTO-TÜRKÇE (Kök Düğüm ~ MÖ 66) ├── OĞUR KOLU │ └── Çuvaşça └── GENEL 
+TÜRKÇE (Common Turkic) ├── KUZEY SİBİRYA KOLU (~ MS 474) │ ├── Yakutça (Saha) │ └── 
+Dolganca └── ÇEKİRDEK GENEL TÜRKÇE ├── GÜNEY SİBİRYA DÜĞÜMÜ │ ├── Sarı Uygurca 
+(Saryg Yugur) -> [İlk ayrılan kol] │ ├── Altay dilleri │ ├── Sayan dilleri (Tuvaca, Tofaca) │ └── 
+Hakas dilleri (Hakasça, Şorca) └── MAKRO GÜNEY-BATI/DOĞU DÜĞÜMÜ ├── HALAÇ - 
+SALAR DÜĞÜMÜ │ ├── Halaçça (Argu) │ └── Salarca -> [Sözlüksel erozyon nedeniyle 
+istatistiksel kayma] └── MERKEZİ TÜRKÇE DÜĞÜMÜ ├── OĞUZ KOLU │ ├── Türkiye Türkçesi, 
+Azerbaycan Türkçesi, Türkmence, Gagavuzca vb. └── MAKRO-KIPÇAK DÜĞÜMÜ 
+(Kıpçak-Karluk Kardeşliği) ├── KARLUK KOLU (Özbekçe, Uygurca) └── KIPÇAK KOLU 
+(Kazakça, Tatarca, Kırgızca, Başkurtça vb.) 
+Diller-Arası İlişki Çerçevesi: Genetik Miras ve Areal 
+Temas (Sprachbund) 
+Türk dillerini sınıflandırırken literatürde karşılaşılan en büyük zorluk, dillerin genetik (soy) mirası 
+ile coğrafi komşuluktan kaynaklanan areal (temas) yakınsaması arasındaki farkları ayırt etmektir. 
+Göçebe bozkır yaşam stili, diller arası teması tarih boyunca sürekli canlı tutmuş, genetik olarak 
+birbirine uzak olan kolların kelime alışverişi ve sözdizimsel kopyalamalar yoluyla birbirine 
+benzemesine (Sprachbund / Dil Birliği) yol açmıştır3. 
+
+Yakutça (Saha), Türk ailesinin en izole kalmış üyelerinden biridir. Yüzyıllar boyunca Sibirya 
+taygalarında Moğol ve Tunguz halklarıyla aynı zorlu ekosistemi paylaşması, Yakutçanın gramer 
+yapısını ve söz varlığını ağır şekilde etkilemiştir. Öyle ki, Yakutçanın sözcük dağarcığının önemli 
+bir kısmı Moğolca alıntılardan oluşur (areal temas); ancak temel çekirdek kelimeler, şahıs 
+zamirleri ve fiil çekim mekanizmaları kesinlikle Türkçe kalmıştır (genetik miras)1. 
+Benzer bir durum Çuvaşça için geçerlidir. Çuvaşça, İdil-Ural havzasında yüzyıllar boyunca 
+Fin-Ugor dilleri (örneğin Mari dili) ve Rusça ile yaşadığı yoğun dil temasından dolayı çok belirgin 
+alansal özellikler geliştirmiştir. Bu durum, Çuvaşçanın zaten arkaik olan genetik Türk çekirdeğinin 
+üzerine kalın bir "yabancı adstratum" çekerek, onu diğer Türk dillerini konuşanlar için tamamen 
+anlaşılamaz hâle getirmiştir1. 
+Kırım Tatarcası, Kıpçak ve Oğuz geçişkenliğinin en mükemmel örneğidir. Kırım Tatarcası köken 
+(genetik) itibarıyla kesin bir Kıpçak (Kuzeybatı) dilidir. Ancak yüzyıllar boyunca Karadeniz'in 
+kuzeyinde Osmanlı Devleti'nin siyasi ve kültürel hâkimiyetine maruz kalması nedeniyle, Kırım 
+Tatarcası muazzam bir Oğuzca teması yaşamış, birçok kelimenin fonetik biçimini Oğuzca 
+kurallarına göre (örneğin kelime başı t > d tonlulaşması) areal olarak benimsemiştir1. 
+Salarca ise Amdo Dil Birliği'nin (Qinghai bölgesi) çarpıcı bir üyesidir. Ataları Orta Asya'dan Çin'e 
+göçmüş olan Salarların dili, genetik temelde net bir Oğuz dilidir13. Ancak yüzyıllar süren izolasyon 
+boyunca Tibetçenin ve Sinitik (Çin) dillerin baskısıyla sondan eklemeli (agglutinative) yapısını 
+kısmî olarak kaybederek analitik bir yapıya evrilmiş; areal yakınsama sonucunda Tibetçeden 
+kanıtsal (evidential) gramer ekleri ve Çinceden sentaktik diziliş kopyalamıştır13. Bayesyen ağacın 
+onu Oğuz'dan koparıp Halaçça'nın yanına koymasının en büyük nedeni de, kelime 
+dağarcığındaki bu muazzam Çin-Tibet erozyonunun yarattığı istatistiksel sapmadır3. 
+KÖKEN Modülleri İçin Doğrulama ve Platform Mimarisi 
+Önerileri 
+İncelenen mevcut "KÖKEN" veri tabanında kullanılan branch (kol) etiketlerinin Oğuz, Kıpçak, 
+Karluk, Sibirya, Oğur, Argu şeklinde yapılandırıldığı tespit edilmiştir. 
+Sistemdeki bu 6'lı tasnif yapısı kesinlikle doğrudur ve günümüzde dünya Türkoloji camiasında 
+standart referans kabul edilen Lars Johanson modeline1 eksiksiz biçimde uymaktadır. Ana 
+dalların tamamı isabetli bir şekilde belirlenmiştir. Ancak platformun harita modüllerinde ve 
+kognat eşleştirme algoritmalarında yaşanabilecek olası hata oranlarını (false positive/negative 
+eşleşmeler) sıfırlamak adına bazı düzeltme ve mimari optimizasyon önerileri geliştirilmiştir: 
+
+1.  Salarca'nın Ataması (Tartışmalı Nokta): Salarca genetik olarak Oğuz dalı altındadır13. 
+Ancak platformda Bayesyen soyağaçları (Savelyev 2020) referans alınarak kognat 
+eşleştirmesi yapılacaksa, Salarcanın temel kelime dağarcığındaki Çince-Tibetçe alıntı 
+yüzdesi algoritmada yanılgılara yol açabilir3. KÖKEN sisteminde Salarca "Oğuz" dalında 
+tutulmalı (genetik sadakat), ancak sistemin harita modüllerinde bu dil için [Areal Temas: 
+Amdo / Tibet-Çin] şeklinde uyarıcı bir meta-etiket tanımlanmalıdır. 
+
+2.  Sarı Uygurcanın (Saryg Yugur) Yeri: Çin'in Kansu bölgesinde konuşulan bu dil, ismindeki 
+
+"Uygur" ibaresi nedeniyle sıklıkla yanlışlıkla Karluk dalına yerleştirilir. Oysa T. Tekin'in 
+izoglossları ("azaq" kriteri) ve modern filogenetik analizler, bu dilin bir Sibirya (Güney 
+
+Sibirya) dili olduğunu kesin olarak kanıtlamıştır3. Veri tabanında olası bir Karluk ataması 
+varsa, derhal Sibirya koluna taşınması gerekmektedir. 
+
+3.  Geçişken Diller (Transitional Nodes) İçin Mimari Çözüm: Kırım Tatarcası genetik bir 
+
+Kıpçak dilidir1. KÖKEN uygulamasının kognat eşleştirme algoritması, Kırım Tatarından veri 
+çekerken Oğuzca formlarla eşleşme bulduğunda hata vermemelidir (Kıpçakça beklenen 
+taw yerine Oğuzlaşmış dağ kullanımı gibi)24. Algoritmaya "Geçişken Kol" (Transitional) 
+parametresi eklenerek, Kırım Tatarcası için "Ana Kol: Kıpçak | İkincil Temas: Oğuz" şeklinde 
+çift yönlü bir arama toleransı tanımlanmalıdır. 
+
+4.  Sibirya Grubunun Soyağacı Hiyerarşisi: Sistem Sibirya'yı tek bir makro-kol olarak 
+
+kullanmaktadır. Ancak Soy Ağacı (Phylogenetic Tree) çizim modülünde görselleştirme 
+yapılırken, Sibirya dilleri arka planda iki alt düğüme ayrılmalıdır: Kuzey Sibirya 
+(Yakut/Dolgan - en erken ayrılanlar) ve Güney Sibirya (Tuva, Hakas, Altay). Bu yapısal 
+revizyon, modülü Savelyev (2020) Bayesyen parametrelerine tam uyumlu hâle 
+getirecektir3. 
+
+Mevcut etiket seti uluslararası literatürün altın standardı olup platformda güvenle kullanılabilir. 
+Bu raporda sunulan izogloss evrim mekanizmaları (*z>r, *d>y, *G>w vb.), yazılım mimarisinde 
+RegEx (Düzenli İfadeler) kuralları olarak kodlandığında, sistemin etimolojik kognat bulma motoru 
+çok daha yüksek bir doğruluk oranıyla çalışacaktır. Analizler, uygulamanın bilimsel temelinin 
+modern filolinguistik normlarla tamamen örtüştüğünü doğrulamaktadır. 
+
+Alıntılanan çalışmalar 
+
+1.  Turkic languages | Geography, History, & Comparison - Britannica, 
+
+https://www.britannica.com/topic/Turkic-languages 
+2.  8 Grammaticalization in Turkic - Oxford Academic, 
+
+https://academic.oup.com/book/26797/chapter/195752801/chapter-pdf/46619426/
+oso-9780198795841-chapter-8.pdf 
+
+3.  Bayesian phylolinguistics infers the internal structure and the time, 
+
+https://iling-ran.ru/savelyev/2020_bayesian.pdf 
+
+4.  Bayesian phylolinguistics infers the internal structure and the time, 
+
+https://academic.oup.com/jole/article/5/1/39/5736268 
+
+5.  The Turkic Language Family (Chapter 3), 
+
+https://www.cambridge.org/core/books/turkic/turkic-language-family/783EA334D
+9E40F3D10A3280AA17A1479 
+
+6.  Tekin A New Classification of the Turkic Languages 1990, 
+
+https://altaica.ru/LIBRARY/Tekin%20Talat/Tekin_A%20New%20Classification%20o
+f%20the%20Turkic%20Languages%201990.pdf 
+
+7.  Classification of Turkic Languages - Brill Reference Works, 
+
+https://referenceworks.brill.com/display/entries/ETLO/SIM-031966.xml 
+
+8.  Modern Türk Dillerinin Eş Zamanlı Tasnifi ve Tarihsel Yönleri*1, 
+
+https://www.isa-sari.com/dosya/claus-schonig-turk-dillerinin-tasnifi.pdf 
+
+9.  Bayesian phylolinguistics infers the internal structure and the time, 
+
+https://www.researchgate.net/publication/339297095_Bayesian_phylolinguistics_i
+nfers_the_internal_structure_and_the_time-depth_of_the_Turkic_language_family 
+
+10. Common Turkic languages - Wikipedia, 
+
+https://en.wikipedia.org/wiki/Common_Turkic_languages 
+11. TEACHING TURKISH AS A FOREIGN LANGUAGE AT SEOUL, 
+
+https://tdkbelleten.gov.tr/tam-metin-pdf/942/tur 
+
+12. Modern Türk Dillerinin Eş Zamanlı Tasnifi ve Tarihsel Yönleri, 
+https://dergipark.org.tr/tr/pub/dilarastirmalari/article/64785 
+
+13. Salar language - Grokipedia, https://grokipedia.com/page/Salar_language 
+14. The salar | Institut National des Langues et Civilisations Orientales, 
+
+https://www.inalco.fr/en/salar 
+
+15. Turkic Languages, 
+
+https://ilaraen.hypotheses.org/classes/ilara-courses/turkic-caucasian-and-iranian
+-worlds/turkic-languages 
+
+16. Turkic languages - Wikipedia, https://en.wikipedia.org/wiki/Turkic_languages 
+17. Türk dilleri - Vikipedi, https://tr.wikipedia.org/wiki/T%C3%BCrk_dilleri 
+18. What does Xələc(Khalaj) mean? : r/Tiele - Reddit, 
+
+https://www.reddit.com/r/Tiele/comments/1o2x7nk/what_does_x%C9%99l%C9%9
+9ckhalaj_mean/ 
+
+19. Oghuz languages - Wikipedia, https://en.wikipedia.org/wiki/Oghuz_languages 
+20. A DensiTree for the Turkic family. - ResearchGate, 
+
+https://www.researchgate.net/figure/A-DensiTree-for-the-Turkic-family_fig3_339
+297095 
+
+21. The maximum credibility tree for the Turkic family. - ResearchGate, 
+
+https://www.researchgate.net/figure/The-maximum-credibility-tree-for-the-Turki
+c-family_fig2_339297095 
+
+22. Turkish Language Family Tree with Bayesian Phylolinguistic Method, 
+
+https://www.reddit.com/r/filoloji/comments/1llcc7x/bayesyen_filolinguistik_metho
+du_ile_t%C3%BCrk_dil/?tl=en 
+
+

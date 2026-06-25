@@ -1,0 +1,885 @@
+Karluk (Güneydoğu) Türk Dilleri Derin 
+Profilleri: Özbekçe, Uygurca, Eynu Dili ve 
+İli Türki Varyantları 
+
+Güneydoğu Türk dilleri olarak da bilinen Karluk grubu, sekizinci yüzyıl civarında Altay 
+Dağları'ndan batıya doğru göç ederek Tarım Havzası ve Maveraünnehir bölgelerinde hakimiyet 
+kuran tarihi Karluk boy konfederasyonunun konuştuğu dillerden türeyen temel bir alt daldır1. 
+Tarihsel süreçte Karahanlı, Harezm ve Çağatay Türkçesi gibi güçlü edebî ve idari dillerin mirasını 
+devralan bu grup, İslamiyet'in ve Fars kültürünün Türk dili konuşan topluluklar arasında 
+yayılmasında merkezi bir rol oynamıştır1. Günümüzde bu dil dalı, Özbekçe ve Uygurca gibi 
+demografik, kültürel ve dijital ağırlığı yüksek makro dilleri barındırmakla kalmayıp, Eynu (Ainu) 
+gibi yalnızca belirli bir gruba açık izole kriptolektleri (gizli diller) ve İli Türki gibi yok olma 
+eşiğindeki varyantları da ekosisteminde bulundurmaktadır2. 
+Karluk dilleri tipolojik olarak aglütinatif (sondan eklemeli) yapıya, Özne-Nesne-Yüklem (SOV) 
+sözdizimine ve gramatik cinsiyetin yokluğuna sahip olmakla birlikte, bin yılı aşkın Fars, Tacik, Arap 
+ve Çin kültürel etkileşimleri neticesinde yoğun leksikal ve fonolojik alıntılarla şekillenmiştir1. 
+Standart dilbilimsel sınıflandırmalarda ve Glottolog veritabanında "Turkestan" (uygh1241) 
+düğümü altında konumlandırılan bu dal, Batı (Oğuz), Kuzeybatı (Kıpçak) ve Kuzeydoğu (Sibirya) 
+kollarından paylaşılan fonolojik yenilikler ve coğrafi etkileşimlerle belirgin bir biçimde 
+ayrılmaktadır1. 
+Aşağıdaki detaylı akademik rapor, eğitim portalları ve doğal dil işleme (NLP) ekosistemleri için 
+özel olarak derlenmiş; Özbekçe, Uygurca, Eynu dili ve İli Türki dillerinin her birine ait kimlik, 
+canlılık, tarih, yapı, ilişkiler, dijital kapasite, ürünler, avantajlar/dezavantajlar ve platform veri 
+çapraz-kontrol (Test Notu) parametrelerini derinlemesine incelemektedir. 
+
+Dil 
+Varyantı 
+
+ISO 639-3 
+
+Glottocode 
+
+Joshi NLP 
+Sınıfı 
+
+Canlılık 
+Durumu 
+
+Kuzey 
+Özbekçesi 
+
+uzn 
+
+nort2690 
+
+Sınıf 3 
+(Rising Star) 
+
+EGIDS 1 
+(Ulusal Dil) 
+
+Güney 
+Özbekçesi 
+
+uzs 
+
+sout2699 
+
+Sınıf 3 
+(Rising Star) 
+
+EGIDS 2 
+(Eyalet Dili) 
+
+Temel 
+Karakterist
+ik 
+
+Ünlü uyumu 
+kaybı, 
+Farsça 
+etkisi, Latin 
+geçişi. 
+
+Oğuz 
+substratum
+u, bağımsız 
+gelişim. 
+
+Uygurca 
+
+uig 
+
+uigh1240 
+
+Sınıf 1 
+(Scraping-B
+ys) 
+
+EGIDS 2 
+(Bölgesel 
+Dil) 
+
+Lopnor 
+Diyalekti 
+
+- 
+
+lopn1238 
+
+Sınıf 1 
+(Scraping-B
+ys) 
+
+EGIDS 8a 
+(Kritik) 
+
+Eynu Dili 
+
+aib 
+
+ainu1252 
+
+Sınıf 0 
+(Left-Behin
+ds) 
+
+EGIDS 8b 
+(Kritik) 
+
+İli Türki 
+
+ili 
+
+ilit1241 
+
+Sınıf 0 
+(Left-Behin
+ds) 
+
+EGIDS 8a 
+(Can 
+Çekişen) 
+
+Arap 
+alfabesinde 
+zorunlu ünlü 
+gösterimi. 
+
+Doğu 
+Uygurcası 
+alt dalı, 
+muhafazaka
+r dudak 
+uyumu. 
+
+İrani 
+(Farsça) 
+leksikonlu 
+Uygur 
+morfolojisi, 
+kriptolekt. 
+
+Karluk 
+tabanlı, 
+yoğun 
+Kıpçak 
+(Kazak) 
+fonolojik 
+altkatmanı. 
+
+1. Özbekçe (Uzbek) Profili 
+1. Kimlik 
+
+Özbekçe, Karluk kolunun batı grubunu temsil eden, Özbekistan'ın yasal ve resmî devlet dili olan, 
+Orta Asya'nın en geniş konuşur kitlesine sahip yerli dilidir7. Uluslararası standardizasyonda ISO 
+639-3 kapsamında "uzb" koduyla bir makrodil (macrolanguage) olarak tanımlanır8. Bu makrodil 
+sınıflandırması, Özbekçenin kendi içinde tarihsel, coğrafi ve yapısal olarak ayrışan farklı 
+varyantları tek bir çatı altında toplama ihtiyacından doğmuştur. Temelde, Özbekistan sınırları 
+içinde konuşulan Kuzey Özbekçesi (ISO 639-3: uzn; Glottocode: nort2690) ve Afganistan'ın 
+kuzey vilayetlerinde konuşulan Güney Özbekçesi (ISO 639-3: uzs; Glottocode: sout2699) olmak 
+üzere iki ana kola ayrılmaktadır8. 
+
+2. Canlılık 
+
+Kuzey Özbekçesi, 1995 Resmî Dil Kanunu ile güvence altına alınmış olup, eğitimde öğretim dili 
+olarak kullanılan ve kurumlar tarafından desteklenen yasal ulusal dil statüsündedir (EGIDS 1 - 
+National)10. Güney Özbekçesi ise Afganistan anayasasının 16. maddesi uyarınca Faryab, Cüzcan 
+ve Sar-i Pol gibi kuzey eyaletlerinde eyalet kimlik dili olarak tanınmakta ve kurumsal destekten 
+yoksun kalsa da toplum içinde canlılığını sürdürmektedir (EGIDS 2 - Provincial)11. Etnolog verileri 
+ve bağımsız demografik araştırmalara göre, Özbekçenin dünya çapında anadili konuşur sayısı 32 
+milyon ile 40 milyon arasında değişmektedir7. Sadece Özbekistan'da 34 milyon konuşuru 
+bulunurken, komşu ülkelerdeki tarihsel ve diasporik yayılımı son derece güçlüdür. 
+Özbekistan'dan sonra en büyük kitle 4,5 milyon kişiyle Afganistan'da yer alırken, Tacikistan'da 1,5 
+milyon, Kırgızistan'da 1 milyon, Pakistan'da 1,6 milyon ve Rusya'da özellikle göçmen işgücü 
+dinamiklerine bağlı olarak 5 milyon civarında Özbek kökenli nüfus bulunmaktadır7. Tüm bu 
+istatistikler, UNESCO metriklerinde dilin "Güvenli/İstikrarlı" (Stable) statüsünde olduğunu 
+göstermektedir12. 
+
+Coğrafi Dağılım 
+
+Tahmini Konuşur Sayısı 
+(Milyon) 
+
+Dilin Statüsü / Rolü 
+
+Özbekistan 
+
+~34.0 
+
+Afganistan 
+
+Tacikistan 
+
+Kırgızistan 
+
+~4.5 
+
+~1.5 
+
+~1.0 
+
+Rusya 
+
+~5.0 (Göçmen nüfus) 
+
+Resmî Devlet Dili, Ulusal 
+Eğitim Dili (Kuzey) 
+
+Eyalet Dili, Topluluk İletişim 
+Dili (Güney) 
+
+Bölgesel Azınlık Dili (özellikle 
+Sughd bölgesi) 
+
+Yerel Eğitim ve İletişim Dili 
+(Oş bölgesi) 
+
+İletişim Dili, İşgücü 
+Diasporası 
+
+3. Tarih 
+
+Modern Özbekçenin dilbilimsel kökeni, Orta Asya'da 20. yüzyılın başlarına kadar ortak bir 
+edebiyat dili olarak hüküm süren ve Karahanlı ile Harezm Türkçesinin mirasını taşıyan 
+Çağataycaya dayanır2. Tarihsel olarak "Özbek" etnonimi, aslında Kazakçaya yapısal ve sözcüksel 
+olarak çok benzeyen Kıpçak kökenli bir dile atıfta bulunmaktaydı7. Ancak bölgenin yerli halkı 
+
+tarafından konuşulan, Çağatay hanlıkları döneminden süzülüp gelen ve o dönemde "Türki" 
+olarak bilinen dil, Sovyet dil politikaları ve Batılı araştırmacıların adlandırma tercihleri sonucunda 
+modern "Özbekçe" etnonimini almıştır7. Özbekçe, yirminci yüzyılda çalkantılı bir alfabe serüveni 
+yaşamıştır. Arap alfabesinden Kiril alfabesine geçirilen dil, Özbekistan'ın bağımsızlığının ardından 
+1993 yılında Latin alfabesine geçiş sürecini başlatmış; bu kademeli geçiş 2023 itibarıyla resmî 
+belgelerde zorunlu kılınarak dijital ve kurumsal alanda büyük ölçüde tamamlanmıştır1. 
+4. Yapı 
+
+Özbekçe, tipolojik olarak Türk dilleri ailesi içinde bir istisna teşkil etmektedir. Yüzyıllar boyunca 
+Fars ve Tacik dilleriyle kurulan sıkı temas, Özbekçenin fonolojisinde köklü değişikliklere yol 
+açmış; Türk dillerinin en karakteristik özelliği olan "ünlü uyumu" (vowel harmony) kuralı, standart 
+Kuzey Özbekçe edebi dilinde büyük oranda ortadan kalkmıştır5. Fonolojik envanterinde, 
+köklerden ve Farsça etkisinden kaynaklanan altı temel ünlü (a, e, i, o, u, oʻ) bulunur15. Morfolojik 
+olarak sondan eklemeli (aglütinatif) bir yapı sergiler ve gramatik cinsiyet veya tanımlık (article) 
+barındırmaz5. Sözdizimi, esnek bir Özne-Nesne-Yüklem (SOV) yapısına sahiptir, ancak bilgi 
+yapısına (information structure) bağlı olarak konunun öne çekilmesi gibi durumlarda bu sıra 
+değişebilir18. 
+Universal Dependencies (UD) ağaç bankası yapısında Özbekçe morfolojisi detaylı bir şekilde 
+analiz edilmiştir. İsimlerde altı temel hâl eki (Yalın, Belirtme, Tamlayan, Yönelme, Bulunma, 
+Ayrılma) etiketlenir ve isim öbeklerinde sayı uyumu zorunlu değildir; yani nicelik belirten 
+sözcüklerden sonra çoğul eki kullanımı nadirdir17. Fiil yapılarında kip (Indicative, Imperative, 
+Interrogative, Optative, Conditional, Desiderative, Purposive), zaman (Past, Present, Future) ve 
+görünüş (Habitual, Perfect, Progressive) detaylıca işaretlenir17. En dikkat çekici sözdizimsel 
+özelliklerden biri, anlamca zayıf bir fiilin sözcüksel olarak belirgin bir fiilin sonsuz (non-finite) 
+haliyle birleşerek oluşturduğu "hafif fiil yapılarıdır" (light-verb constructions). Geleneksel 
+gramerde yardımcı fiil olarak geçen bu yapılar, UD sisteminde compound:lvc bağıntısıyla 
+karmaşık birimler olarak değerlendirilmektedir17. 
+5. İlişkiler 
+
+Özbekçe diyalektleri, coğrafi yayılımından ötürü diğer Türk dilleriyle geniş bir etkileşim halindedir 
+ve diyalekt sürekliliği (dialect continuum) oluşturur7. Kuzey Özbekçesi, gramerde Kıpçak ve 
+Oğuz lehçelerinin izlerini, fonolojide ise yoğun Farsça altkatmanını taşıdığı için dilbilimsel olarak 
+karmaşık bir yapı sergiler7. Öte yandan, Afganistan'daki Güney Özbekçesi, yüzyıllar boyunca 
+Kuzey Özbekçesinden coğrafi izolasyon ve siyasi sınırlar nedeniyle bağımsız gelişmiş; komşu 
+Oğuz (Türkmen) topluluklarıyla yaşanan yoğun temas neticesinde farklı ses değişimleri ve 
+sözcüksel özellikler edinmiştir1. Standart Kuzey Özbekçesi, Sibirya Türk dilleri hariç 
+tutulduğunda, farklı Türk lehçelerini konuşan topluluklar tarafından en kolay anlaşılan 
+varyantlardan biri olarak kabul edilmektedir7. 
+6. Dijital Güç (Apertium, NLP, Avantaj ve Dezavantajlar) 
+
+Doğal dil işleme (NLP) kapasitesi bağlamında Özbekçe, Joshi vd. (2020) tarafından geliştirilen dil 
+
+dijital canlılık taksonomisinde Class 3 (The Rising Star - Yükselen Yıldız) kategorisine 
+yerleştirilmiştir20. Bu sınıflandırma, dilin internet üzerinde hatırı sayılır miktarda etiketlenmemiş 
+(unlabeled) veriye ve gelişmekte olan etiketli (labeled) veri setlerine sahip olduğunu, akademik 
+araştırmalarda ve teknoloji endüstrisinde ivme kazandığını gösterir. 
+Apertium kural tabanlı makine çeviri platformunda Özbekçe için oldukça gelişmiş bir modül 
+bulunmaktadır (apertium-uzb). Bu paket, morfolojik analiz, morfolojik üretim ve Constraint 
+Grammar (CG) tabanlı kelime türü etiketlemesi yapabilmektedir23. Apertium geliştiricileri, 
+Özbekçenin dijital ortamdaki en büyük dezavantajı olan Kiril ve Latin alfabelerinin eşzamanlı 
+kullanım sorununu çözmek için .dix (sözlük) dosyalarını her iki alfabeyle otomatik güncelleyen 
+geçişli bir betik (script) mimarisi kurmuşlardır23. Özbekçe paketi, platformda özellikle 
+Kırgızca-Özbekçe ve Kara-Kalpakça-Özbekçe çiftlerinde çeviri altyapısı sağlamaktadır23. 
+Evrensel Bağımlılıklar (Universal Dependencies) projesi kapsamında Özbekçe, yapay zeka 
+eğitimlerine büyük avantaj sağlayan yüksek kaliteli ağaç bankalarına sahiptir. "UD_Uzbek-UT" adlı 
+korpus, haber ve edebiyat metinlerinden oluşan 500 cümle ve 5.850 token içerirken18, akademik 
+ve edebi metinlerin derlenmesiyle oluşturulan ve daha yeni bir altın standart olan 
+"UD_Uzbek-UzUDT" projesi 684 cümle ve 7.582 tokenden oluşmaktadır27. Bu veri setleri 
+lemmatizasyon, morfolojik özellikler ve sözdizimsel bağıntılar açısından %90'ın üzerinde 
+güvenilirlikle işaretlenmiştir27. Ayrıca HuggingFace gibi platformlarda Özbekçe için metin üretimi 
+ve ses tanıma görevlerinde kullanılan çeşitli modeller barındırılmaktadır28. Özbekçenin en büyük 
+teknolojik avantajı, arkasında devlet desteği olan kurumsal bir mekanizmanın bulunmasıdır. Dijital 
+kütüphanelerdeki anlambilimsel arama motorları, Karakalpakça ve Tacikçe gibi diğer yerel dillere 
+kıyasla Özbekçe için daha gelişmiş durumdadır29. Dezavantajı ise, web üzerindeki verilerin Kiril 
+ve Latin alfabeleri arasında bölünmüş olması ve algoritmaların bu ikili yapıyı (dual script) 
+anlamlandırmada hala zorluk çekmesidir29. 
+7. Test Notu (Veri Çapraz-Kontrol) 
+
+●  Canlılık Testi: Platform veritabanındaki EGIDS 1 ve 2 kodlamaları tarihsel ve sosyolojik 
+
+gerçeklerle birebir örtüşmektedir. Algoritma "uzb" makrodil etiketini gördüğünde, bunu 
+anlambilimsel haritalamada mutlaka "Kuzey" (uzn) ve "Güney" (uzs) olarak iki ayrı kırılıma 
+ayırmalıdır. 
+
+●  Joshi Sınıfı Testi: Özbekçenin Sınıf 3 olduğu verisi teyit edilmiştir21. Çapraz kontrolde 
+Özbekçe, web verisi ve paralel korpus büyüklüğü bakımından Türkçe ve Kazakçanın 
+arkasından gelerek bölgede güçlü bir varlık sergilemektedir21. 
+
+●  Yapısal Dilbilgisi Testi: Sistemde yer alabilecek genel geçer "Türk dillerinde ünlü uyumu 
+
+vardır" kuralı, standart Kuzey Özbekçesi için çalıştırıldığında bir hata verecektir. Özbekçe 
+profilindeki ünlü uyumu parametresi "Yok/Zayıf" olarak güncellenmeli ve Farsça leksikal 
+etki oranı yükseltilmelidir. 
+
+8. Sade Özet 
+
+Özbekçe, yaklaşık 40 milyon konuşuruyla Orta Asya'nın demografik açıdan en güçlü yerli dilidir. 
+Çağatay Türkçesinin doğrudan varisi olmasına rağmen, tarih boyunca yoğun bir şekilde Fars 
+
+dilinin etkisi altında kalmış ve bu nedenle Türk dillerinin vazgeçilmezi olan "ünlü uyumu" kuralını 
+büyük ölçüde yitirmiştir. Dijital dünyada, özellikle doğal dil işleme ve yapay zeka alanında 
+"Yükselen Yıldız" (Class 3) konumundadır. Bir yandan devlet desteğiyle hızla Latin alfabesine 
+geçiş sürecini tamamlarken, diğer yandan sahip olduğu geniş morfolojik veri setleri ve açık 
+kaynaklı dil modelleri sayesinde yapay zeka ekosisteminde sağlam bir altyapı inşa etmektedir. 
+2. Uygurca (Uyghur) ve Lopnor Diyalekti Profili 
+1. Kimlik 
+
+Uygurca, Karluk kolunun doğu kanadını temsil eden, öncelikli olarak Çin'in Sincan Uygur Özerk 
+Bölgesi'nde (tarihi adıyla Doğu Türkistan) konuşulan makro bir dildir31. Çin hükümeti tarafından 
+resmî azınlık dillerinden biri olarak kabul edilir32. Tarihte "Doğu Türkçesi" veya "Türki" gibi isimlerle 
+anılan dil, uluslararası standartlarda ISO 639-3 için "uig" koduyla ve Glottolog sisteminde 
+"uigh1240" koduyla tanımlanmaktadır31. Uygurca, Merkezi, Hotan ve Lopnor olmak üzere başlıca 
+üç temel coğrafi diyalekte ayrılır31. 
+2. Canlılık 
+
+Uygurcanın günümüzde 8 milyon ile 13 milyon arasında değişen anadili konuşuruna sahip olduğu 
+tahmin edilmektedir14. Etnolog verilerine göre dilin canlılık seviyesi EGIDS 2 (Provincial) olup, 
+bölgesel düzeyde eğitim ve iletişim dili olarak stabil bir kullanıma sahip olduğu görülmektedir32. 
+Çin sınırları dışında Kazakistan (yaklaşık 300.000), Kırgızistan, Özbekistan, Suudi Arabistan, 
+Türkiye, Amerika Birleşik Devletleri ve çeşitli Avrupa ülkelerinde önemli Uygur diasporaları dilin 
+yaşatılmasına katkı sağlamaktadır31. Ancak, bölgedeki artan demografik asimilasyon baskıları 
+sebebiyle dilin geleceği risk altında (Endangered) değerlendirilen kategorilere kayma 
+eğilimindedir33. 
+Bu noktada özellikle Doğu diyalektleri altında incelenen Lopnor (Lop) diyalekti, canlılık 
+açısından çok farklı bir durumdadır. Lopnor gölü ve Tarım Havzası çevresinde yaşayan yaklaşık 
+25.000 kişilik bir topluluğun dili olan Lopnor Uygurcası (Glottocode: lopn1238), 50 yaş altındaki 
+nüfusun tamamen standart Uygurcaya veya Çinceye yönelmesi nedeniyle nesiller arası aktarımı 
+durmuş ve UNESCO tarafından "Kritik Derecede Tehlike Altında" (Critically Endangered) olarak 
+ilan edilmiştir31. 
+3. Tarih 
+
+Modern Uygurca sanılanın aksine, eski çağlarda Moğolistan ve Doğu Türkistan'da kurulan 
+devletlerin dili olan Eski Uygurcanın doğrudan bir torunu değildir; asıl varis Karahanlılar 
+döneminde Kaşgarlı Mahmud tarafından Divanu Lugati't-Türk'te kaydedilen ve daha sonra 
+Çağataycaya evrilen Karluk dilidir31. (Eski Uygurcanın doğrudan dilbilimsel mirasçısı bugün 
+Sibirya koluna mensup olan Batı Yugurcadır). Bugün konuşulan dilin "Uygurca" olarak 
+adlandırılması, 1922'de Sovyet yetkililerinin ve 1934'te Sincan yönetiminin ortak bir politik 
+kararıyla yerel halkın konuştuğu "Türki" ismini tarihsel Uygur ismiyle değiştirmesiyle 
+resmileşmiştir31. 
+
+4. Yapı 
+
+Uygurca, Türk dillerinin karakteristik özellikleri olan sondan eklemeliliği (aglütinasyon), gramatik 
+cinsiyetsizliği ve Özne-Nesne-Yüklem dizilimini harfiyen korur31. Fonolojik envanteri, kökleri eski 
+Altay dillerine uzanan 8 temel ünlü (a, ε, e, i, o, ø, u, y) ve 24 ünsüz fonem barındırır31. 
+
+Çift Dudakıl / Dişcil  Damaksıl / Art 
+
+Damaksıl 
+
+Küçük Dilli / 
+Gırtlaksıl 
+
+Uygurca Ünsüz 
+(Consonant) 
+Envanteri 
+
+Patlamalılar 
+(Plosive) 
+
+Sürtünmeliler 
+(Fricative) 
+
+p, b, t, d 
+
+v, s, z, ʃ, ʒ 
+
+Genizsiller (Nasal) 
+/ Akıcılar 
+
+m, n 
+
+k, g 
+
+ç, ʝ 
+
+ŋ 
+
+q 
+
+x, ɣ, h 
+
+(l, r, w, y) 
+
+Özbekçenin aksine Uygurcada ünlü uyumu kuralları aktiftir37. Özellikle kaybolmakta olan Lopnor 
+diyalektinde ünlü uyumu (dudak uyumu) çok daha muhafazakardır; dudaksıllaşma yalnızca ilk 
+hecede kalmaz, yüksek olmayan (non-high) ünlülere kadar ilerleyerek kelimenin sonuna dek 
+sirayet eder1. Yazı sistemi bağlamında, Uygurcanın kullandığı Fars-Arap türevi alfabe 20. yüzyılda 
+modifiye edilmiş ve standart Arapçanın aksine kelimedeki tüm ünlü harflerin metinde 
+gösterilmesi zorunlu hale getirilmiştir31. Bu reform, makine çevirisi ve optik karakter tanıma 
+(OCR) teknolojilerinde Uygurcaya büyük bir yapısal avantaj sağlamıştır. Ayrıca Latin ve Kiril 
+tabanlı her biri 32 harfli alfabeleri de mevcuttur31. 
+5. İlişkiler 
+
+Uygurca, coğrafi yakınlığı ve tarihsel kök birliği nedeniyle Özbekçe ile %70 oranında temel 
+kelime dağarcığı benzerliği taşır37. Buna karşın, Kıpçak (Kazak, Kırgız) ve Oğuz dillerine nazaran 
+Farsça ve Arapçadan, son yüzyılda ise modern Çinceden leksikal düzeyde devasa oranlarda 
+alıntı yapmıştır37. Merkez diyalekti Urumçi ve İli ağızlarına dayanırken, Khotan diyalekti daha 
+yalıtılmış bir güney ağzını temsil eder. Lopnor diyalekti ise Uygurcanın tarihsel ses değişimlerini 
+anlamada eşsiz bir diyakronik köprü vazifesi görmektedir38. 
+6. Dijital Güç (Apertium, NLP, Avantaj ve Dezavantajlar) 
+
+Özbekçenin aksine Uygurca, Joshi Sınıflandırmasında Class 1 (The Scraping-Bys - Zar Zor 
+Geçinenler) kategorisinde yer almaktadır21. Bu durum, dilin dijital dünyada ancak kısıtlı web 
+verileriyle ve küçük ölçekli projelerle ayakta kalabildiğini gösterir. 
+
+Evrensel Bağımlılıklar (UD) altyapısında "UD_Uyghur-UDT" adlı bir ağaç bankası bulunmasına 
+rağmen, bu korpus yaklaşık 40 bin token ile oldukça küçük kalmıştır39. Ayrıca, Uygurca ağaç 
+bankasında yardımcı fiillerin (auxiliaries) ccomp (açık tümcecik tamamlayıcısı) olarak 
+etiketlenmesi gibi yöntem farklılıkları, diğer Türk dilleriyle veri uyumlaştırma (harmonization) 
+süreçlerinde teknik handikaplar yaratmaktadır18. 
+Makine çevirisi alanında, açık kaynaklı Apertium platformunda apertium-uig modülü aktif olarak 
+geliştirilmektedir. Mevcut durumda 17.585 kelime kökü barındıran bu modül, kelimelerin yaklaşık 
+%54,2'sini tanıyabilmekte ve morfolojik analiz yapabilmektedir40. Sistemin en büyük avantajı, 
+Kazakça-Uygurca dil çifti çevirisinde yüksek doğruluk potansiyeline sahip olmasıdır40. Konuşma 
+teknolojileri (ASR) tarafında ise, Mozilla CommonVoice inisiyatifiyle toplanan 119 saatlik veri seti, 
+THUYG-20 ve M2ASR-Uyghur (136 saat) projeleri, Uygurcanın sesten metne dönüşüm 
+teknolojilerindeki en büyük dayanak noktalarıdır36. En büyük dezavantajı ise, yüksek kaliteli yazılı 
+metinlerin (özellikle haber domaini) telif hakkı sorunları nedeniyle araştırmacıların erişimine 
+kapanması veya URLs tabanlı yeniden yapılandırma zorunluluklarıdır41. 
+7. Test Notu (Veri Çapraz-Kontrol) 
+
+●  Canlılık Testi: Sincan bölgesindeki ana Uygur diyalektlerinin EGIDS 2 seviyesinde tutulması 
+doğrudur. Ancak platformun coğrafi alt diyalekt modülünde Lopnor (lopn1238) mutlaka 
+ayrı bir dilsel varlık olarak işaretlenmeli ve statüsü "Critically Endangered" olarak 
+güncellenmelidir. 
+
+●  Joshi Sınıfı Testi: Uygurca için Class 1 durumu geçerliliğini korumaktadır21. Dijital 
+
+etiketlenmiş verilerin kıtlığı ve domain çeşitliliğinin azlığı, dilin Sınıf 2 veya 3'e çıkmasını 
+engellemektedir41. 
+
+●  Gramer Modülü Çapraz Kontrol: "Arap Alfabesi Kullanımı" parametresinde "Ünlüler 
+
+Gösterilmez/İsteğe Bağlı" kuralı, Uygurca profilinde iptal edilmeli; "Tüm Ünlüler Zorunlu 
+Olarak Yazılır" etiketi algoritmaya işlenmelidir. 
+
+8. Sade Özet 
+
+Uygurca, Çin'in kuzeybatısında yaşayan yaklaşık 13 milyon kişinin anadili olup, Karluk kolunun 
+doğu yakasını oluşturur. Arap alfabesini kullanmasına rağmen her sesli harfi açıkça yazdıran 
+benzersiz alfabe reformu, dilin okuryazarlığına ve dijitalleşmesine büyük katkı sağlamıştır. Her ne 
+kadar ses teknolojilerinde çeşitli korpus projeleri hayata geçirilmiş olsa da, metin verilerindeki 
+yetersizlik ve politik bariyerler nedeniyle dijital dünyada "Zar Zor Geçinen" (Class 1) dillerden 
+biridir. Uygurcanın izole kalmış kollarından Lopnor diyalekti ise, bugün sadece yaşlı nüfusun 
+hatırladığı ve sonsuza dek kaybolmak üzere olan bir kültürel hazinedir. 
+3. Eynu (Ainu / Äynu) Dili Profili: Kriptolekt ve Karma 
+Dil 
+1. Kimlik 
+
+Eynu (Äynu, Ainu), Çin'in Sincan Uygur Özerk Bölgesi'nde, özellikle Taklamakan Çölü'nün güney 
+
+saçaklarında (Kaşgar, Hotan vb.) Abdal halkı tarafından konuşulan benzersiz, sosyodilbilimsel bir 
+olgudur. Uluslararası standartlarda ISO 639-3 "aib" ve Glottolog "ainu1252" kodlarıyla 
+tanımlanır43. Eynu, standart bir ulus veya halk dilinden ziyade, dışarıdan gelenlere ve hatta kendi 
+toplumlarındaki kadınlara karşı bir sır niteliğinde kullanılan, yalnızca yetişkin erkekler arasında 
+aktarılan bir kriptolekt (şifreli/gizli dil) olarak işlev görür4. 
+2. Canlılık 
+
+Eynu dili, UNESCO'nun Tehlike Altındaki Diller Atlası'nda "Kritik Derecede Tehlike Altında" 
+(Critically Endangered) olarak sınıflandırılmıştır14. Toplam konuşur sayısının 6.000 civarında 
+olduğu tahmin edilmektedir14. Dilin aktarımı doğal bir anadil edinimi (mother tongue acquisition) 
+şeklinde olmaz; annelerin birinci dili Uygurca olduğu için çocuklar önce Uygurca öğrenir. Eynu 
+dili, babalarından mesleki ve gizli iletişim eğitimi alan erkek çocukları tarafından sonradan 
+öğrenilir4. Toplumsal entegrasyonun artmasıyla bu gizliliğe duyulan ihtiyacın azalması, Eynu'nun 
+canlılığını tamamen bitirme noktasına getirmiştir. 
+3. Tarih 
+
+Eynu (Abdal) halkı, tarihsel olarak göçebe (peripatetic) bir yaşam sürmüş; seyyar satıcılık, 
+şifacılık ve geleneksel sünnetçilik gibi marjinal mesleklerle uğraşmışlardır. Sık sık farklı köyler ve 
+vahalar arasında dolaştıkları için, dışarıdaki baskın Uygur nüfusuyla yaptıkları ticarette veya kendi 
+aralarındaki konuşmalarda niyetlerini gizleme ihtiyacı duymuşlardır. Bu mesleki izolasyon ve 
+kültürel sınırlarını koruma güdüsü, 19. yüzyılın sonlarından (1898) günümüze (Japon araştırmacı 
+Tooru Hayasi'nin modern çalışmalarına) kadar en az 125 yıldır istikrarını koruyan bu kriptolektin 
+doğuşuna zemin hazırlamıştır4. 
+4. Yapı 
+
+Dilbilimsel olarak Eynu, dünya üzerinde eşine az rastlanan bir "ortakyaşar karma dil" (symbiotic 
+mixed language) örneğidir. Literatürde, bir dilin gramerinin (morfoloji ve sentaks) bir dilden, 
+temel sözcük dağarcığının ise tamamen başka bir dil ailesinden gelmesi durumunda bu yapı 
+"karışık/karma dil" olarak tanımlanır4. 
+
+●  Gramer (Morfoloji ve Sentaks): Eynu'nun tüm dilbilgisel iskeleti Karluk/Uygur grameri 
+kurallarına dayanır. Özne-Nesne-Yüklem dizilimi, ünlü uyumu kuralları ve isim/fiil çekim 
+ekleri Uygurca ile birebir aynıdır4. 
+
+●  Leksikon (Sözcük Dağarcığı): Dili gizli kılan şey sözcük dağarcığıdır. Temel isimler, sıfatlar 
+
+ve fiil köklerinin büyük çoğunluğu Farsça ve diğer İrani dillerden alınmıştır4. 
+
+Eynu Sözcük 
+Türetimi 
+
+Farsça (İrani) Kök 
+
+Uygurca (Türkçe) 
+Ek 
+
+Anlamı 
+
+čov-çi 
+
+čov (ağaç, odun) 
+
+-çi (meslek eki) 
+
+Marangoz45 
+
+ 
+kart-çi 
+
+kart (bıçak) 
+
+-çi (meslek eki) 
+
+Bıçakçı / Bıçak satan 
+yer45 
+
+ha-liḳ 
+
+šipaː-či 
+
+ha (dışkı, vergi) 
+
+-liḳ (yer/durum eki) 
+
+Sırt / Arka bölge45 
+
+šipaː (şifa, ilaç) 
+
+-çi (meslek eki) 
+
+Eczane45 
+
+Yukarıdaki tabloda görüldüğü üzere, Eynu konuşan biri Türkçe/Uygurca dilbilgisi kurallarını 
+kullanarak Farsça köklere ekler getirir. Bu sayede cümleyi duyan bir Uygur, cümlenin zamanını, 
+öznesini ve yapısını anlasa dahi, kullanılan kökler yabancı olduğu için cümlenin şifresini (anlamını) 
+çözemez4. 
+5. İlişkiler 
+
+Eynu dilinin yapısı, Uygurca ile tamamen iç içe geçmiştir (interchangeability). Konuşurlar 
+istedikleri an Uygurca kelimeleri kullanabildikleri gibi, Uygurca kalıpların ve deyimlerin 
+kelimelerini Eynu eşanlamlılarıyla değiştirerek (lexical replacement) yeni ifadeler yaratabilirler. 
+Buna anlamsal genişleme (semantic expansion) adı verilir. Örneğin; Eynu dilinde säŋ kelimesi 
+Farsçadaki gibi "taş" anlamına gelse de, gizliliği artırmak için bu kelimenin anlamı genişletilmiş ve 
+"yumurta" veya "tuğla" demek için de kullanılmaya başlanmıştır45. 
+6. Dijital Güç (Apertium, NLP, Avantaj ve Dezavantajlar) 
+
+Eynu dili, Joshi vd. (2020) modelinde en alt seviye olan Class 0 (The Left-Behinds - Geride 
+Kalanlar) kategorisine aittir. Küresel NLP ekosisteminde Eynu dili için eğitilmiş hiçbir dil modeli, 
+açık kaynak kodlu bir Apertium çeviri modülü veya Universal Dependencies ağaç bankası 
+bulunmamaktadır. Dilin yapısına dair veriler sadece saha dilbilimcilerinin yazılı PDF raporlarında 
+ve akademik kitaplarda bulunmaktadır. Bu durumun en büyük dezavantajı, kriptolektlerin doğası 
+gereği yazılı bir edebiyatının olmaması ve verinin dijital ortama aktarılmasının önündeki kültürel 
+engellerdir. 
+7. Test Notu (Veri Çapraz-Kontrol) 
+
+●  Sınıflandırma Sınaması: Mevcut veritabanlarında "Eynu dili bir İrani dildir" algısı oluşma riski 
+vardır çünkü leksikonu Farsçadır. Ancak çapraz kontrol sonucu bu yanılgı yanlışlanmıştır. 
+Glottolog, Ethnologue ve önde gelen tarihsel dilbilimciler (örn. Lars Johanson), Eynu'yu 
+sözdizimsel, fonolojik ve morfolojik kalıbı nedeniyle Karluk (Uyghuric) dalına ait bir Türk 
+dili (cryptolect) olarak kesin bir şekilde sınıflandırmaktadır4. 
+
+●  Sosyodilbilimsel Uyarı: Platformun hedef kitle ve "Cinsiyet/Kullanım" etiketine "Yalnızca 
+Yetişkin Erkekler Tarafından Kullanılan Kriptolekt" uyarısı mutlaka düşülmelidir. Bu, dilin 
+yapısını anlama açısından hayati bir detaydır. 
+
+8. Sade Özet 
+
+Eynu dili, Çin'deki göçebe Abdal topluluğunun erkekleri tarafından ticaret ve sosyal yaşamda 
+yabancıların ve kadınların ne konuşulduğunu anlamaması için "şifreli" bir iletişim aracı olarak icat 
+
+edilmiş, dünyadaki en ilginç karma dillerden biridir. Cümlelerin grameri ve ekleri tamamen 
+Uygurca iken, kelimelerin kökleri ağırlıklı olarak Farsçadan alınmıştır. Sadece 6.000 kişinin bildiği 
+ve hiçbir dijital veya yazılı varlığı bulunmayan bu "Geride Kalan" dil (Class 0), dijitalleşen dünyada 
+nesiller arası aktarımın durmasıyla yok olmanın eşiğindedir. 
+4. İli Türki (Ili Turki) Profili 
+1. Kimlik 
+
+İli Türki, Çin'in Sincan Uygur Özerk Bölgesi'nin kuzey sınırlarında yer alan İli Kazak Özerk İli'nde ve 
+özellikle İli Vadisi'nde çok dar bir topluluk (İli Türkleri) tarafından konuşulan bir dildir3. Çin resmi 
+etnik sınıflandırma sisteminde tanınmayan (unrecognized) bu halkın dili, uluslararası normlarda 
+bağımsız bir dil olarak kabul edilir ve ISO 639-3 standardında "ili", Glottolog'da ise "ilit1241" 
+koduyla tescillenmiştir3. 
+2. Canlılık 
+
+İli Türki, UNESCO Dünya Tehlike Altındaki Diller Atlasında "Ağır/Ciddi Derecede Tehlike Altında" 
+(Severely Endangered), Ethnologue metriklerinde ise son basamaklardan biri olan EGIDS 8a 
+(Moribund / Can Çekişen) durumundadır48. 1982 yılındaki resmi saha araştırmalarında 120 
+konuşuru varken, 2007'ye gelindiğinde sadece 30 ailenin bu dili aktif kullandığı raporlanmıştır48. 
+Günümüzde en iyimser tahminler konuşur sayısını 100 ile 300 civarında yaşlı bireyle 
+sınırlamaktadır47. Kazakistan'daki küçük varlığı tamamen yok olmuş (extinct) kabul edilmekte, 
+Çin'de ise ebeveynler dili çocuklarına aktarmayı bıraktığı için (intergenerational transmission 
+failure) yeni nesiller tamamen bölgesel baskın diller olan Kazakça veya standart Uygurcaya 
+asimile olmuştur47. 
+3. Tarih 
+
+İli Türklerinin tarihsel kökenleri ve etnogenezleri, bugünkü Özbekistan ve Kırgızistan sınırlarında 
+kalan Fergana Vadisi'nde yaşayan Türk boylarına dayanmaktadır. Oral (sözlü) tarih kayıtlarına 
+göre, bu boylar 18. ve 19. yüzyıllardaki göç hareketleriyle kuzeydoğuya doğru ilerleyerek İli 
+Vadisi'ne yerleşmişlerdir47. Bu göç esnasında Çağatay (Proto-Özbek-Uygur) kültürü ile bozkırın 
+göçebe Kıpçak (Kazak vb.) topluluklarının dil ve yaşam tarzını harmanlamışlardır47. Geleneksel 
+olarak Sünni Müslüman ve pastoral (hayvancılığa dayalı) göçebe bir yaşam süren halk, modern 
+dönemin asimilasyonist politikalarına entegre olamamıştır3. 
+4. Yapı 
+
+İli Türki, genetik ve sözdizimsel olarak Karluk (Güneydoğu) koluna ait olmasına rağmen, 
+barındırdığı arkaik Kıpçak substratumu (altkatman) ile benzersiz bir ses yapısı ve fonolojik 
+karakter sergiler3. 
+
+●  Fonoloji: Karluk dillerinde (ör. Özbekçe) kaybolan veya zayıflayan ünlü uyumunu, 
+
+Kazakçaya benzer şekilde son derece muhafazakar bir biçimde korur47. Dilsiz-titreşimli 
+ötümlü ünsüz çiftleri (p/b, t/d, k/g) ve uvular (küçük dilli) ünsüzler (/q/ ve /ʁ/) belirgin 
+
+özelliklerdir47. 
+
+●  Kıpçak Ses Evrimleri: Karluk özelliklerine taban tabana zıt olan Kıpçak ses evrimlerini 
+
+barındırır. Örneğin; çift ünsüzlerin tekilleşmesi (loss of geminate consonants) ve art/düşük 
+ünlülerin ardından gelen tarihsel G sesinin w sesine kayması48. 
+
+Özellik / Kelime 
+
+Kazakça (Kıpçak 
+Grubu) 
+
+İli Türki (Melez 
+Yapı) 
+
+Özbekçe (Karluk 
+Grubu) 
+
+Sondan G > w 
+Kayması 
+
+Çift Ünsüzlerin 
+Erimesi 
+
+Yüksek Ünlüden 
+Sonra G Erimesi 
+
+taw (dağ) 
+
+taw 
+
+tağ / tɒɣ 
+
+segiz (sekiz) 
+
+sekiz 
+
+säkkiz 
+
+sarı 
+
+sarıq 
+
+sarıq 
+
+Yukarıdaki tabloda görüldüğü üzere İli Türki, kelimelerin morfolojik ses değişimlerinde Kıpçak 
+(Kazak) kalıplarını kopyalarken, sözdiziminde (SOV) ve ek yapılarında Karluk (Özbek/Uygur) 
+tabanını sürdürür48. 
+5. İlişkiler 
+
+Karluk koluna ait olmasına karşın İli Türki'nin komşularıyla kurduğu ilişki hiyerarşisi oldukça 
+karışıktır. Yerel İli Uygurcasına sözdizimsel ve temel leksikon açısından son derece yakınken, 
+Kazakça konuşan topluluklarla yüzyıllardır aynı coğrafyada yan yana (pastoral-göçebe 
+bağlamda) bulunmaları nedeniyle Kazakçadan yoğun morfolojik alıntılar yapmıştır47. Eğitim veya 
+kurumsal bir kimliği, resmi bir alfabesi olmadığı için (sınırlı belgeleme çalışmalarında Kiril ve Latin 
+harfleri kullanılır) modern asimilasyon dalgasına direnememiş, konuşurları Uygur ve Kazak 
+dillerine kaymıştır. 
+6. Dijital Güç (Apertium, NLP, Avantaj ve Dezavantajlar) 
+
+İli Türki, herhangi bir dijital kapasite, kaynak kullanılabilirliği veya algoritmik varlık 
+barındırmadığından Joshi Sınıflandırmasında Class 0 (The Left-Behinds) kategorisi altındadır22. 
+Eynu dilinde olduğu gibi makine çevirisi altyapısı, ağaç bankası (UD korpusu), sözlük veri seti 
+veya Apertium modülü bulunmamaktadır. Dilin doğası gereği tek avantajı, tarihsel Türk dilleri 
+fonolojisindeki diyakronik (zaman içi) değişimleri incelemek isteyen akademisyenler için yaşayan 
+bir "zaman kapsülü" işlevi görmesidir. Ancak NLP geliştiricileri için bu dil, veri yokluğu nedeniyle 
+tamamen ulaşılamaz durumdadır. 
+7. Test Notu (Veri Çapraz-Kontrol) 
+
+●  Dal (Branch) Testi: Platformdaki veri çapraz-kontrolü esnasında algoritmanın İli Türki'nin 
+gösterdiği taw, sekiz gibi Kazakça (Kıpçak) fonolojik özelliklerine aldanarak dili Kıpçak 
+grubuna ataması riski yüksektir. Literatür (Glottolog ve Ethnologue), arkaik Kıpçak 
+özelliklerine rağmen dilin köken olarak Karluk (Uyghuric) dalı altında bir uç (node) 
+olduğunu doğrulamaktadır47. Kıpçak Kolu etiketlemeleri reddedilmelidir. 
+
+●  Canlılık Testi: Dil EGIDS 8a (Moribund) durumundadır. Eğitim materyali üretmek için değil, 
+yalnızca dilsel arşivleme, akademik referans ve "yok olmak üzere olan diller" müzesi 
+(endangered languages archiving) kapsamında ele alınmalıdır. 
+
+8. Sade Özet 
+
+İli Türki, Çin'deki devasa Kazak ve Uygur nüfusları arasına sıkışmış, günümüzde sadece 100 
+civarında yaşlının hatırladığı ve tamamen yok olma aşamasına gelmiş bir dildir. Tarihte 
+Özbekistan'dan bu bölgeye göçen toplulukların dili olan bu varyant; cümle kuruluşunda Özbek 
+ve Uygurlara benzerken, kelimelerin söyleniş biçimlerinde (dağ yerine daw, sekiz yerine säkkiz 
+dememesi vb.) Kazakçayı taklit ederek iki farklı Türk boyunun özelliklerini tek bünyede 
+birleştirmiştir. Ne yazık ki hiçbir dijital varlığı (Sınıf 0) bulunmayan bu dil, son konuşucularının da 
+vefat etmesiyle birlikte sessizliğe gömülecektir. 
+Genel Sentez ve Ekosistem İçin Stratejik Uygulama 
+Bu raporda derinlemesine incelenen Karluk (Güneydoğu) kolunun Batch C grubu (Özbekçe, 
+Uygurca, Eynu, İli Türki), dil teknolojileri kaynakları ve sosyodilbilimsel hiyerarşi bakımından 
+dramatik uçurumlar barındıran bir ekosistemi temsil etmektedir. İngilizce gibi yüksek kaynaklı 
+diller ile diğer diller arasındaki dijital "resourcedness gap" (kaynak uçurumu), Karluk dilleri içinde 
+kendi mikrokosmosunu yaratmıştır42. 
+Joshi vd. (2020) tarafından vurgulanan "Dilsel Çeşitliliğin Durumu ve Geleceği" prensibine göre; 
+Özbekçe (Class 3) LLM'ler ve MT (makine çevirisi) platformları için devlet desteğiyle yükselen bir 
+ivmeye sahipken; Uygurca (Class 1) politik izolasyon ve telif sorunları nedeniyle temel 
+sözlük/çeviri sistemlerinin ötesine geçememekte; Eynu ve İli Türki (Class 0) ise sıfır kaynaklı 
+(zero-resource) diller olarak dijital dünyanın tamamen dışında kalarak teknolojik yok oluşla 
+(digital extinction) yüzleşmektedir21. 
+Gelecekte kurulacak dil teknolojisi portalları ve çocuk eğitim sistemlerinde, algoritmanın sadece 
+dillerin kelimelerini değil; Özbekçenin Farsça kaynaklı ünlü uyumsuzluğunu, Uygurcanın Arap 
+alfabesinde zorunlu vokal yapısını, Eynu'nun sentaktik-leksikal bölünen karma mekanizmasını ve 
+İli Türki'nin Kıpçak fonolojik altkatmanını kesin ve aşılmaz parametreler olarak veri doğrulama 
+aşamasına entegre etmesi şarttır. 
+
+Alıntılanan çalışmalar 
+
+1.  Karluk languages - Grokipedia, https://grokipedia.com/page/Karluk_languages 
+2.  Karluk languages - Wikipedia, https://en.wikipedia.org/wiki/Karluk_languages 
+3.  Ili Turks - Grokipedia, https://grokipedia.com/page/ili_turks 
+4.  Äynu language - Grokipedia, https://grokipedia.com/page/%C3%84ynu_language 
+5.  Turkic languages - Wikipedia, https://en.wikipedia.org/wiki/Turkic_languages 
+
+6.  Uzbek - Glottolog 5.3, https://glottolog.org/resource/languoid/id/uzbe1247 
+7.  Uzbek language - Wikipedia, https://en.wikipedia.org/wiki/Uzbek_language 
+8.  Uzbek Language (UZB) - Ethnologue, https://www.ethnologue.com/language/uzb/ 
+9.  Language Uzbek (Northern) - WALS Online, 
+
+https://wals.info/languoid/lect/wals_code_uzn 
+
+10. Northern Uzbek - Glottolog 5.3, 
+
+https://glottolog.org/resource/languoid/id/nort2690 
+
+11. Southern Uzbek - Glottolog 5.3, 
+
+https://glottolog.org/resource/languoid/id/sout2699 
+
+12. Uzbek, Northern Language (UZN) - Ethnologue, 
+https://www.ethnologue.com/language/uzn/ 
+13. Uzbek, Southern Language (UZS) - Ethnologue, 
+https://www.ethnologue.com/language/uzs/ 
+
+14. List of Turkic languages - Wikipedia, 
+
+https://en.wikipedia.org/wiki/List_of_Turkic_languages 
+
+15. Recent Advancements and Challenges of Turkic Central Asian, 
+
+https://arxiv.org/html/2407.05006v3 
+
+16. Recent Advancements and Challenges of Turkic Central Asian, 
+
+https://arxiv.org/html/2407.05006 
+
+17. Uzbek UD, https://universaldependencies.org/uz/index.html 
+18. Universal Dependencies Treebank for Uzbek - ACL Anthology, 
+
+https://aclanthology.org/2025.resourceful-1.1.pdf 
+
+19. Creating Translation Resources for Southern Uzbek - ACL Anthology, 
+
+https://aclanthology.org/2025.wmt-1.83.pdf 
+
+20. A Survey of NLP Progress in Sino-Tibetan Low-Resource Languages, 
+
+https://aclanthology.org/2025.naacl-long.396.pdf 
+
+21. A Large-Scale Study of Machine Translation in Turkic Languages, 
+
+https://www.researchgate.net/publication/357120692_A_Large-Scale_Study_of_M
+achine_Translation_in_Turkic_Languages 
+
+22. Plots of different available resources for different languages., 
+
+https://www.researchgate.net/figure/Plots-of-different-available-resources-for-d
+ifferent-languages-Languages-to-the-far_fig3_340805920 
+23. Apertium-uzb, https://wiki.apertium.org/wiki/Apertium-uzb 
+24. Uzbek ( apertium-uzb ) - GitHub, https://github.com/apertium/apertium-uzb 
+25. List of language pairs - Apertium, 
+
+https://wiki.apertium.org/wiki/List_of_language_pairs 
+
+26. Universal Dependencies Treebank for Uzbek - ACL Anthology, 
+
+https://aclanthology.org/2025.resourceful-1.1/ 
+
+27. UniversalDependencies/UD_Uzbek-UzUDT - GitHub, 
+
+https://github.com/UniversalDependencies/UD_Uzbek-UzUDT 
+
+28. Models in UZ - Hugging Face, https://huggingface.co/models?language=uz 
+29. An Innovative Approach to Semantic Search in Digital Libraries for, 
+
+https://ojs.trp.org.in/index.php/ijiss/article/download/5048/7772/11450 
+
+30. Recent Advancements and Challenges of Turkic Central Asian, 
+
+https://aclanthology.org/2025.loreslm-1.25.pdf 
+
+31. Uyghur language - Wikipedia, https://en.wikipedia.org/wiki/Uyghur_language 
+32. Uighur - Glottolog 5.3, https://glottolog.org/resource/languoid/id/uigh1240 
+33. Uyghur: from a lingua franca to an endangered language - Inalco, 
+
+https://www.inalco.fr/en/uyghur-lingua-franca-endangered-language 
+
+34. Lop language and alphabet - Omniglot, 
+
+https://www.omniglot.com/writing/lop.htm 
+
+35. Lop dialect - Wikipedia, https://en.wikipedia.org/wiki/Lop_dialect 
+36. Automatic Speech Recognition for Uyghur, Kazakh, and Kyrgyz - MDPI, 
+
+https://www.mdpi.com/2076-3417/13/1/326?type=check_update&version=1 
+37. Language code: uig - Localizely, https://localizely.com/language-code/uig/ 
+38. Loanwords in Uyghur in a Historical And Socio-Cultural Perspective, 
+
+https://dergipark.org.tr/en/download/article-file/1163552 
+
+39. Modern Uyghur Dependency Treebank (MUDT): An Integrated, 
+
+https://chatpaper.com/paper/171530 
+
+40. Apertium-uig, https://wiki.apertium.org/wiki/Apertium-uig 
+41. The State and Fate of Summarization Datasets - arXiv, 
+
+https://arxiv.org/html/2411.04585v1 
+
+42. Toward Better Automated Content Moderation in Low-Resource, 
+
+https://pdfs.semanticscholar.org/bd28/f6883c377d505317bc0b4ba902d23dd9351
+7.pdf 
+
+43. Turkic | Ethnologue Free, https://www.ethnologue.com/subgroup/27/ 
+44. Typology of Mixed Languages (Chapter 8), 
+
+https://www.cambridge.org/core/books/cambridge-handbook-of-linguistic-typol
+ogy/typology-of-mixed-languages/7613902026DA189AA788C59EF30199CD 
+
+45. Eynu - Brill Reference Works, 
+
+https://referenceworks.brill.com/display/entries/ETLO/SIM-032031.xml 
+
+46. Do languages die of 'structuritis'? On the role of code-copying in, 
+
+https://linguistica.sns.it/RdL/14.2/4.Johanson.pdf 
+
+47. Ili Turki language - Grokipedia, https://grokipedia.com/page/Ili_Turki_language 
+48. Ili Turki language - Wikipedia, https://en.wikipedia.org/wiki/Ili_Turki_language 
+49. Ili Turki - Wikidata, https://www.wikidata.org/wiki/Q33627 
+
+

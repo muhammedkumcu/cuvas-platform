@@ -1,0 +1,878 @@
+Oğuz (Güneybatı) Grubu Türk Dilleri: 
+Derinlemesine Dilbilimsel, Tarihsel ve 
+NLP Ekosistemi Profilleri 
+
+Türk dilleri ailesinin en geniş coğrafyaya yayılan ve en yüksek konuşur sayısına sahip olan 
+Güneybatı veya Oğuz grubu, tarihsel süreçte hem kendi içinde organik bir bütünlük korumuş 
+hem de temas ettiği farklı dil aileleriyle derin yapısal etkileşimlere girmiştir. Bu rapor, BATCH A 
+olarak tanımlanan Oğuz grubu dillerinin (Türkiye Türkçesi, Azerbaycanca, Türkmence, 
+Gagavuzca, Kırım Tatarcası, Salar ve Horasan Türkçesi) kimlik, tarih, yapı, soy ağacı ilişkileri ve 
+Doğal Dil İşleme (NLP) yetkinliklerini kapsamlı bir biçimde analiz etmektedir. Yapılan analizler, 
+mevcut dilbilimsel veri tabanlarının (Glottolog, Ethnologue, UNESCO) çapraz doğrulamasıyla 
+KÖKEN platformunun Dil Profilleri, Tarih ve Ekosistem modüllerini doldurmak ve doğrulamak için 
+kritik bir akademik zemin sunmaktadır. 
+Türkiye Türkçesi 
+Türkiye Türkçesi, Türk dilleri ailesinin Şaz-Türkçe koluna bağlı Batı Oğuz alt grubunun en yaygın 
+temsilcisidir1. Dünya genelinde 80 ila 85 milyon anadili konuşuruna sahip olan bu dil, başlıca 
+Türkiye, Kuzey Kıbrıs, Balkanlar ve Batı Avrupa'daki diyaspora toplulukları tarafından 
+konuşulmaktadır. Glottolog tarafından Güvenli (Not Endangered) ve Ethnologue tarafından 
+EGIDS 1 (Ulusal Dil) seviyesinde sınıflandırılan Türkiye Türkçesi, kurumsal desteği, eğitimdeki 
+mutlak hakimiyeti ve kuşaklararası aktarımının kesintisizliği ile UNESCO tehlike ölçeğinde 
+tamamen güvenli bir statüde yer almaktadır. 
+Tarihsel gelişim çizgisi incelendiğinde, Türkiye Türkçesinin 11. yüzyılda Selçuklu göçleriyle 
+Anadolu'ya taşınan Eski Anadolu Türkçesinden evrildiği görülmektedir. Klasik Osmanlı dönemi 
+boyunca Arapça ve Farsçadan yoğun sözcük ve tamlama yapıları kopyalanmış, ancak yirminci 
+yüzyılın başlarındaki Harf Devrimi (1928) ile Latin tabanlı modern Türk alfabesine geçilmiş ve eş 
+zamanlı yürütülen Dil Devrimi ile dilde özleşme hareketine gidilmiştir. Bu tarihsel süreç, Türkiye 
+Türkçesinin leksikal yapısını diğer Oğuz dillerinden kısmen uzaklaştırırken, fonolojik ve morfolojik 
+çekirdeğini korumasını sağlamıştır. 
+Dilin fonolojik envanteri sekiz ünlü sese ve yirmi bir ünsüz sese dayanmaktadır. Türkiye Türkçesini 
+yapısal olarak tanımlayan en belirgin özellikler, büyük ve küçük ünlü uyumu kurallarının son 
+derece sıkı bir şekilde işlemesi ve sözcük sonu ötümsüzleşmesi (final consonant devoicing) 
+kuralıdır2. Arapça kökenli kelimelerde bile bu ötümsüzleşme kuralı işletilerek kök sesler 
+uyarlanmaktadır. Morfolojik olarak sondan eklemeli (agglutinative) bir yapıya sahip olan dil, 
+bilhassa -Iyor şimdiki zaman eki ve -mIş öğrenilen geçmiş zaman eki gibi özgün fiil çekim 
+paradigmaları barındırır3. Sözdizimi açısından başı sonda (head-final) bir yapı sergiler ve 
+standart Özne-Nesne-Yüklem (SOV) dizilimi esastır. Bu özellikler, Gagavuzca ve Azerbaycan 
+Türkçesi gibi en yakın akrabalarıyla yüksek düzeyde bir karşılıklı anlaşılabilirlik zemini 
+yaratmaktadır1. 
+
+Özellik 
+
+Veri / Değer 
+
+Yerel Ad / İngilizce Ad 
+
+Türkçe / Turkish 
+
+ISO 639-3 Kodu 
+
+tur 
+
+Konuşur Sayısı 
+
+~85 Milyon 
+
+Glottolog AES / UNESCO 
+
+Tehlikede Değil / Güvenli 
+
+Yazı Sistemi (Tarihsel/Güncel) 
+
+Arap (Osmanlı) / Latin (Güncel) 
+
+Türkiye Türkçesinin Doğal Dil İşleme (NLP) ekosistemi, Türk dilleri arasında en gelişmiş olanıdır ve 
+Joshi sınıflandırmasında Sınıf 4 (Yüksek Kaynaklı / High-Resource) kategorisinde yer almaktadır5. 
+Universal Dependencies (UD) projesi kapsamında çok sayıda ve zengin ağaç bankasına sahiptir. 
+Bunlar arasında, Boğaziçi Üniversitesi TABILAB tarafından oluşturulan ve Türkiye Ulusal 
+Derlemi'nden (TNC) alınan 9.761 manuel etiketlenmiş cümleyi içeren UD_Turkish-BOUN ile 5.635 
+cümleden oluşan UD_Turkish-IMST öne çıkmaktadır7. Ayrıca çapraz dil araştırmaları için 
+tasarlanan UD_Turkish-TueCL gibi paralel derlemler de mevcuttur9. Kural tabanlı sistemler 
+bağlamında, Apertium platformunda yer alan apertium-tur modülü 17.221 kök barındıran olgun 
+bir morfolojik analizör ve üreteç olarak hizmet vermektedir10. TRmorph gibi gelişmiş araçlar bu 
+kural tabanlı altyapıyı desteklerken11, TurkicNLP kütüphanesi ve HuggingFace üzerindeki sayısız 
+derin öğrenme modeli (BERT, RoBERTa, LLM) dilin dijital varlığını domine etmektedir12. 
+
+NLP & Ekosistem Özelliği 
+
+Detay / Durum 
+
+Joshi Sınıfı 
+
+4 (Yüksek Kaynaklı) 
+
+Apertium FST Olgunluğu 
+
+Üretim aşamasında (Production), 17.221+ 
+kök 
+
+Açık Derlem / UD Ağaç Bankası 
+
+UD_Turkish-BOUN, UD_Turkish-IMST, TueCL 
+
+Avantaj / Dezavantaj 
+
+Zengin veri seti ile transfer öğrenmede 
+merkez dildir. 
+
+KÖKEN platformu için yapılan test notunda, Türkiye Türkçesi verilerinde herhangi bir çelişki 
+
+tespit edilmemiştir. Ancak platformun veri mimarisine, ağaç bankalarının farklı derlem 
+kökenlerini (IMST vs. BOUN) yansıtan meta-etiketlerin eklenmesi kilit bir gereksinimdir. Sade bir 
+özetle ifade edilecek olursa; Türkiye Türkçesi, dünyada en çok konuşulan ve dijital dünyada en 
+güçlü olan Türk dilidir. Onu özel kılan, köklü göçebelik tarihinden gelen kurallı yapısını modern 
+teknolojinin yapay zeka sistemlerine kusursuzca entegre edebilmiş olmasıdır. 
+Azerbaycanca 
+Azerbaycan dili (Azerbaijani), Türk dillerinin Oğuz kolunda Merkez Oğuz alt grubunu temsil 
+etmektedir1. Kuzeyde Azerbaycan Cumhuriyeti ve Rusya'nın Dağıstan bölgesinde, güneyde ise 
+İran'ın Doğu ve Batı Azerbaycan ile Erdebil eyaletlerinde toplam 30 ila 35 milyon kişi tarafından 
+konuşulmaktadır. Makro ISO 639-3 kodu aze olan dil, coğrafi ve politik ayrılıklar sebebiyle Kuzey 
+(azj) ve Güney (azb) olmak üzere iki farklı koda ve standarda ayrılmıştır2. Glottolog AES 
+sisteminde tehlikede olmayan bir dil olarak listelenen Azerbaycanca, Kuzeyde ulusal dil 
+statüsüyle EGIDS 1 seviyesindeyken, Güneyde bölgesel ve standart dışı kullanım sebebiyle 
+EGIDS 3 seviyesinde değerlendirilmektedir. 
+Dilin tarihsel kökenleri Selçuklu mirasına dayanmakla birlikte, edebi kimliğini Şah İsmail (Hatai) ve 
+Fuzûlî gibi kilit figürlerin eserleriyle 16. yüzyılda Safevi Devleti döneminde kazanmıştır. Bu 
+dönemden itibaren Osmanlı Türkçesinden yavaş yavaş ayrışan bağımsız bir gelişim çizgisi 
+izlemiştir. Modern dönemde Kuzey Azerbaycanca uzun yıllar Sovyet idaresinde kalarak 
+Rusçadan adstrat (adstrate) etkiler almış ve Kiril alfabesini kullanmış, bağımsızlık sonrası ise Latin 
+alfabesine geçiş yapmıştır. Buna karşılık Güney Azerbaycanca, İran yönetimi altında Farsçadan 
+yoğun sözcük ve sözdizimi kopyalamaları yapmış ve Arap-Fars alfabesini kullanmaya devam 
+etmiştir. 
+Azerbaycancanın dilbilimsel yapısı ve fonolojisi, Türkiye Türkçesine büyük oranda benzemekle 
+birlikte ayrıştırıcı bazı temel özelliklere sahiptir. Fonolojik olarak en belirgin özellik, açık "e" /æ/ 
+(yazıda ə veya ä) ünlüsünün dilde son derece yaygın ve ayırt edici bir fonem olarak 
+kullanılmasıdır2. Morfolojik düzlemde hal ekleri ve iyelik sistemi Ortak Oğuz karakterini 
+yansıtırken, zaman çekimlerindeki şahıs eklerinde farklılaşmalar gözlemlenir. Sentaksı genel 
+olarak SOV karakterindedir ancak Güney diyalektlerinde Farsçanın etkisiyle bağlaç kullanımı ve 
+yan tümcecik dizilimlerinde esneklikler görülür. En yakın akrabaları Türkiye Türkçesi ve Horasan 
+Türkçesidir ve bu dillerle yüksek düzeyde karşılıklı anlaşılabilirlik gösterir. 
+
+Özellik 
+
+Veri / Değer 
+
+Yerel Ad / İngilizce Ad 
+
+Azərbaycan dili / Azerbaijani 
+
+ISO 639-3 Kodu 
+
+aze (makro), azj (Kuzey), azb (Güney) 
+
+Konuşur Sayısı 
+
+30-35 Milyon 
+
+Glottolog AES / UNESCO 
+
+Tehlikede Değil / Güvenli 
+
+Yazı Sistemi (Tarihsel/Güncel) 
+
+Kiril & Arap (Tarihsel) / Latin & Arap (Güncel) 
+
+Dijital ekosistem bağlamında Azerbaycanca, Joshi sınıflandırmasına göre Sınıf 2 veya 3 (Orta 
+Kaynaklı / Medium-Resource) konumundadır5. Apertium platformunda Türkiye Türkçesi ile 
+Azerbaycanca arasındaki makine çevirisini sağlayan apertium-tur-aze modülü hazırlık (staging) 
+aşamasında olup 8.194 kök kelime içermektedir15. Çok dilli doğal dil işleme sistemlerinde, 
+özellikle HuggingFace altyapısındaki NLLB-200 çeviri modellerinde ve Glot500 temel 
+modellerinde yer bulmaktadır13. Evrensel Bağlamlı Ağaç Bankaları (UD) ekosisteminde, 
+Turkic-TueCL projesi çerçevesinde paralel veri setleriyle temsil edilmekte olup dilin yapısal 
+analizi giderek derinleşmektedir9. 
+
+NLP & Ekosistem Özelliği 
+
+Detay / Durum 
+
+Joshi Sınıfı 
+
+2-3 (Orta Kaynaklı) 
+
+Apertium FST Olgunluğu 
+
+Hazırlık (Staging) aşaması, ~8.194 kök 
+
+Açık Derlem / UD Ağaç Bankası 
+
+UD_Azerbaijani-TueCL 
+
+Avantaj / Dezavantaj 
+
+İki farklı alfabenin eşzamanlı kullanımı 
+modellemede çift yönlü (transliterasyon) 
+maliyeti yaratır. 
+
+KÖKEN sistemi için gerçekleştirilen test bağlamında, makro aze kodunun tekil bir varlık olarak 
+işlenmesinin transliterasyon ve morfolojik ayrıştırma hatalarına yol açabileceği tespit edilmiştir. 
+Sistemde "yazı sistemi" özelliğinin coğrafi bağlama göre (Kuzey: Latin, Güney: Arap) dinamik 
+olarak filtrelenmesi kilit bir gereksinimdir. Sade bir dille özetlendiğinde; Azerbaycanca, kendine 
+has "ə" (açık e) sesiyle tanınan ve köklü edebi geçmişiyle Kafkaslar ile İran coğrafyasına yayılan 
+güçlü bir dildir. Onu özel kılan, iki farklı coğrafyada iki farklı alfabe kullanarak aynı kültürel 
+zenginliği yaşatmaya devam etmesidir. 
+Türkmence 
+Türkmen dili (Turkmen), Türk dilleri ağacında Ortak Türkçe kolunun Doğu Oğuz alt grubunu 
+oluşturan köklü bir dildir1. Türkmenistan'ın resmi ve ulusal dili olmakla birlikte, Kuzeydoğu İran ve 
+Kuzey Afganistan'ı kapsayan geniş bir coğrafyada toplam 7 ila 8 milyon kişi tarafından 
+konuşulmaktadır. ISO 639-3 kodu tuk olan dil, Glottolog AES sistemine göre tehlikede değildir ve 
+Ethnologue tarafından EGIDS 1 (Ulusal Dil) seviyesinde tasnif edilerek UNESCO kriterlerince 
+güvenli kabul edilmektedir18. Tarihsel süreçte Arap ve Kiril alfabeleriyle yazılmış olan dil, 
+günümüzde Türkmenistan sınırları içerisinde Latin alfabesiyle standartlaştırılmıştır20. 
+
+Türkmencenin tarihsel gelişimi, Oğuz boylarının Orta Asya'da, özellikle Karakum Çölü ve 
+çevresinde şekillendirdiği göçebe kültürüyle iç içedir. Uzun yüzyıllar boyunca Çağataycanın 
+edebî tahakkümü altında kalmış olsa da, on sekizinci yüzyılda Mahtumkulu Firaki gibi büyük 
+şairlerin eserleriyle kendi edebi standartını ve kimliğini oluşturmaya başlamıştır21. Dilin yapısı, 
+eski Türkçenin birçok arkaik özelliğini günümüze taşımayı başarmıştır. Bu arkaik özelliklerin en 
+önemlisi, Proto-Türkçe döneminden kalma birincil uzun ünlülerin (primary long vowels) dilde 
+korunmuş olmasıdır; böylece kısa ve uzun ünlüler arasındaki farklılık doğrudan kelime anlamını 
+değiştirmektedir22. 
+Türkmencenin fonolojisi, onu diğer tüm Oğuz dillerinden keskin biçimde ayıran özgün ünsüz 
+realizasyonlarına sahiptir. Standart Oğuz dillerindeki alveoler sızıcılar olan /s/ ve /z/ sesleri, 
+Türkmencede dişlerarası sızıcılar (interdental fricatives) olan /θ/ (İngilizcedeki peltek 'th' - thin) 
+ve /ð/ (İngilizcedeki peltek 'th' - this) şeklinde telaffuz edilir19. Türk dünyasında bu "pelteklik" 
+özelliğine sahip olan tek diğer dil Başkurtçadır; ancak Başkurtçada bu sesler /s/ ve /z/'den 
+bağımsız fonemler iken, Türkmencede doğrudan /s/ ve /z/'nin ana realizasyonlarıdır19. Bu özellik, 
+Teke ve Yomut gibi büyük boyların diyalektlerinde standart kabul edilirken, Çärjew ağzında /s/ ve 
+/z/ sesleri korunur20. Morfolojik açıdan sondan eklemeli bir dil olan Türkmence, SOV sözdizimini 
+sıkı bir şekilde muhafaza etmektedir. Genetik olarak en yakın akrabası İran'da konuşulan 
+Horasan Türkçesi olmakla birlikte, Özbekçe gibi Karluk dilleriyle de areal bağlamda sözcük 
+alışverişinde bulunmuştur24. 
+
+Özellik 
+
+Veri / Değer 
+
+Yerel Ad / İngilizce Ad 
+
+Türkmençe / Turkmen 
+
+ISO 639-3 Kodu 
+
+Konuşur Sayısı 
+
+tuk 
+
+7-8 Milyon 
+
+Glottolog AES / UNESCO 
+
+Tehlikede Değil / Güvenli 
+
+Yazı Sistemi (Tarihsel/Güncel) 
+
+Arap & Kiril / Latin 
+
+Geniş konuşur kitlesine rağmen Türkmencenin dijital ve NLP ekosistemi oldukça sığdır. Joshi 
+sınıflandırmasında Sınıf 1 (Düşük Kaynaklı / Low-Resource) olarak değerlendirilmektedir5. Kural 
+tabanlı makine çevirisi platformu Apertium'da apertium-tuk sözlüğü yalnızca 2.988 kök içerirken, 
+apertium-tuk-tur çeviri modülü 3.387 kök ile "nursery" (gelişim/kreş) aşamasındadır ve üretim 
+ortamı için yetersizdir10. Modern sinir ağları tarafında ise durum görece gelişmektedir; 
+NLLB-200 çeviri modelleri Türkmenceyi desteklemektedir13. Ayrıca tkWaC (Turkmen Web 
+Corpus) gibi çevrimiçi metin derlemleri oluşturulmuş ve UD çatısı altında gümüş standartta 
+(silver-standard) bir UD_Turkmen-TUD ağaç bankası araştırmacıların kullanımına sunulmuştur27. 
+
+NLP & Ekosistem Özelliği 
+
+Detay / Durum 
+
+Joshi Sınıfı 
+
+1 (Düşük Kaynaklı) 
+
+Apertium FST Olgunluğu 
+
+Gelişim (Nursery) aşaması, ~3.387 kök 
+
+Açık Derlem / UD Ağaç Bankası 
+
+tkWaC, UD_Turkmen-TUD (Silver-standard) 
+
+Avantaj / Dezavantaj 
+
+Ulusal bir dil olmasına rağmen metin ve ses 
+verisinin internete aktarımı yetersizdir. 
+
+KÖKEN testleri çerçevesinde, Türkmencenin yüksek anadili konuşur sayısına rağmen düşük NLP 
+olgunluğuna sahip olması, sistemdeki dijital canlılık parametreleriyle çelişkili gibi görünse de 
+kapalı devlet politikalarıyla açıklanabilir bir durumdur. KÖKEN veri tabanına eklenecek kilit unsur; 
+fonolojik matriste /θ/ ve /ð/ pelteklik (lisping) parametresinin aktif hale getirilmesidir. Bu özellik, 
+konuşma tanıma (ASR) ve metinden sese (TTS) motorlarının eğitilmesinde hayati öneme sahiptir. 
+Sade bir dille özetlendiğinde; Türkmence, atalarından miras kalan uzun ünlüleri ve "peltek" s/z 
+seslerini bir müze gibi günümüze kadar korumuş özel bir dildir. Onu benzersiz kılan, Orta 
+Asya'nın kalbinde göçebe ruhunun en eski ses tınılarını yaşatmasıdır. 
+Gagavuzca 
+Gagavuz dili (Gagauz), Ortak Türkçe kolunun Batı Oğuz alt grubuna mensup, Balkan dil 
+coğrafyasına özgü benzersiz bir Türk dilidir1. ISO 639-3 kodu gag olan dil, ağırlıklı olarak Moldova 
+sınırları içerisindeki Gagavuzya Özerk Bölgesi'nde, bunun yanı sıra Ukrayna ve Bulgaristan'daki 
+dağınık topluluklar tarafından konuşulmaktadır30. Konuşur sayısının küresel çapta 140.000 ile 
+180.000 arasında olduğu tahmin edilmektedir2. Glottolog tarafından Değişen/Tehdit Altında 
+(Shifting) ve UNESCO tarafından Tehlike Altında (Vulnerable) olarak sınıflandırılmaktadır31. Rusça 
+ile yaşanan yoğun iki dillilik (bilingualism), dilin yeni nesillere aktarımını zayıflatarak varlığını tehdit 
+eden en önemli sosyolinguistik faktördür2. Sovyetler Birliği döneminde standartlaştırılma 
+çabalarıyla Kiril alfabesi kullanan Gagavuzca, 1993 yılından itibaren Latin tabanlı modern 
+Gagavuz alfabesine geçiş yapmıştır29. 
+Gagavuzların tarihsel kökeni, 11. ve 12. yüzyıllarda Karadeniz'in kuzey bozkırlarını aşarak 
+Balkanlar'a inen Peçenek, Kuman ve Oğuz boylarına dayanmaktadır29. Selçuklu veya Osmanlı 
+kültürel havzasında şekillenerek İslamiyet'i benimseyen diğer Oğuz topluluklarının aksine, Bizans 
+ve Bulgar etkisiyle Doğu Ortodoks Hristiyanlığını benimsemiş olmaları onları tarihsel ve kültürel 
+bağlamda istisnai bir konuma yerleştirmiştir29. Daha sonraki yüzyıllarda 19. yüzyıl Rus 
+İmparatorluğu'nun demografik politikalarıyla Besarabya bölgesine göç ederek bugünkü 
+anayurtlarına yerleşmişlerdir. 
+Dilbilimsel olarak incelendiğinde Gagavuzca, kökleri itibarıyla Anadolu ağızlarına çok yakın 
+
+olmasına karşın, çevresindeki Slav (Rusça, Bulgarca) ve Romen dillerinin devasa adstrat 
+(adstrate) etkisi altında kalarak ciddi bir yapısal evrim geçirmiştir29. Fonolojik düzeyde, Türk 
+dillerinin çoğunda görülen sözcük sonu ötümsüzleşmesi kuralı Gagavuzcada görülmez; örneğin 
+"Arap" kelimesi arap değil, aslına sadık kalarak arab biçiminde telaffuz edilir2. Açık /ä/ (/æ/) sesi ile 
+/e/ sesinin ayırt edici kullanımı belirgindir2. Ayrıca Türkçede bulunmayan ve Slavca alıntılardan 
+geçen /ts/ affrikatı dilin ses envanterine dahil olmuştur29. 
+Morfolojik olarak zengin bir türetme kapasitesine sahip olan dil, Türkiye Türkçesinde yaygın olan 
+-Iyor şimdiki zaman kipini (progressive aspect) kullanmaz2. Ancak Gagavuzcayı dilbilimsel bir 
+laboratuvar haline getiren asıl unsuru, sözdizimsel düzeyde yaşadığı Balkan Dil Birliği (Balkan 
+Sprachbund) entegrasyonudur. Klasik Türk SOV sözdizimi, Gagavuzcada kırılarak Slav ve Romen 
+modellerine uygun Özne-Yüklem-Nesne (SVO) dizilimine esnemiştir31. Dahası, eylem 
+çekimlerindeki eski mastar (infinitive) yapıları işlevini yitirmiş, yerine tıpkı komşu Balkan dillerinde 
+olduğu gibi dilek-şart (subjunctive) kipiyle bağlanan ve "ki" bağlacını andıran yapılarla kurulan 
+yan tümcecikler yerleşmiştir33. Sözcük dağarcığının yaklaşık yüzde otuzu Slav ve Romen 
+kökenlidir29. 
+
+Özellik 
+
+Veri / Değer 
+
+Yerel Ad / İngilizce Ad 
+
+Gagauz dili / Gagauz 
+
+ISO 639-3 Kodu 
+
+gag 
+
+Konuşur Sayısı 
+
+~140.000 - 180.000 
+
+Glottolog AES / UNESCO 
+
+Tehdit Altında / Tehlikede 
+
+Yazı Sistemi (Tarihsel/Güncel) 
+
+Kiril / Latin (Gagavuz Alfabesi) 
+
+Gagavuzcanın dijital ve NLP ekosistemi son derece kısıtlıdır ve Joshi sınıflandırmasında Sınıf 0 
+veya 1 düzeyinde Çok Düşük Kaynaklı (Extremely Low-Resource) olarak değerlendirilmektedir5. 
+Kural tabanlı makine çevirisi platformu Apertium'da yer alan apertium-gag modülü halen 
+prototip (prototype) aşamasındadır ve yalnızca 3.143 kök ile metinlerde yaklaşık %78 oranında 
+bir kapsama (coverage) sunmaktadır34. Universal Dependencies (UD) projesinde dilin yapısal 
+karmaşıklığını yansıtan büyük ve resmi bir ağaç bankası henüz olgunlaşmamış olsa da, morfolojik 
+terimler sözlüğü gibi dar kapsamlı araştırma derlemleri literatürde yer bulmaya başlamıştır35. 
+Ayrıca TurkicNLP gibi açık kaynaklı derin öğrenme projelerinde başlangıç seviyesinde bir 
+desteğe sahiptir12. 
+
+NLP & Ekosistem Özelliği 
+
+Detay / Durum 
+
+Joshi Sınıfı 
+
+0-1 (Çok Düşük Kaynaklı) 
+
+Apertium FST Olgunluğu 
+
+Prototip (Prototype) aşaması, ~3.143 kök 
+
+Açık Derlem / UD Ağaç Bankası 
+
+Gelişim aşamasında, büyük çaplı UD yok. 
+
+Avantaj / Dezavantaj 
+
+SVO kayması, Türkiye Türkçesi parser'larının 
+doğrudan aktarımını imkansız kılar. 
+
+KÖKEN sistem doğrulama testleri sonucunda, Gagavuzca için sistemde kayıtlı olabilecek "Sıkı 
+SOV" sözdizimsel tipoloji parametresinin bir yanılgı olduğu saptanmıştır. Bu parametrenin acilen 
+"Esnek (SVO/SOV karışık - Sprachbund Etkisi)" olarak güncellenmesi gerekmektedir. Türkiye 
+Türkçesi temel alınarak eğitilmiş bağımlılık ayrıştırıcılarının (dependency parsers) mastar kaybı ve 
+yan tümce kurulum farklılıkları nedeniyle bu dilde doğrudan kullanılamayacağı algoritmik bir 
+kural olarak tanımlanmalıdır. Sade bir özetle; Gagavuzca, Balkan coğrafyasının ruhunu yansıtan, 
+kelimeleri Slav ve Romen dilleriyle renklenmiş bir Türk dilidir. Onu bu kadar önemli kılan, kurallı 
+Türk dil yapısının Avrupa dilleriyle asırlarca komşuluk ettiğinde nasıl esnekleşip yepyeni gramer 
+yapıları icat ettiğinin yaşayan, somut bir kanıtı olmasıdır. 
+Kırım Tatarcası 
+Kırım Tatarcası (Crimean Tatar), köken olarak Türk dillerinin Kıpçak kolunun Kuman alt grubuna 
+ait olmakla birlikte, diyalektolojik yapısı itibarıyla Kıpçak ve Oğuz dilleri arasında tarihsel bir 
+köprü vazifesi gören eşsiz bir dildir4. ISO 639-3 kodu crh olan dil, anavatanı Kırım Yarımadası 
+başta olmak üzere, 1944 sürgünü ve sonrasındaki jeopolitik buhranların bir sonucu olarak 
+Özbekistan, Türkiye, Romanya ve Bulgaristan'da dağınık topluluklar halinde yaklaşık 500.000 kişi 
+tarafından konuşulmaktadır4. Dilin kuşaklararası aktarımının sekteye uğraması ve Rusça baskısı 
+nedeniyle Glottolog AES sisteminde Tehlikede (Threatened), Ethnologue'da EGIDS 5 
+(Gelişmekte/Threatened) ve UNESCO atlasında ise Ciddi Tehlike Altında (Severely Endangered) 
+olarak tasnif edilmiştir39. Yazı dili tarihi boyunca Arap ve Kiril (Rusya etkisiyle "ъ, ь" kullanılarak) 
+alfabelerini kullanmış, modern dönemde ise Türk alfabesine eklenen Q ve Ñ harflerini içeren 
+Latin tabanlı bir standarda kavuşmuştur3. 
+Dilin tarihsel seyri, diyalekt ağının karmaşıklığını doğrudan açıklamaktadır. Altın Orda'nın Kıpçak 
+kökleri üzerinde Kırım Hanlığı'nın lingua franca'sı olarak filizlenen dil, Osmanlı İmparatorluğu ile 
+asırlarca süren yoğun siyasi, askeri ve kültürel entegrasyon nedeniyle derin bir değişim 
+geçirmiştir4. Bu durum, dilin üç ana lehçeye ayrılmasına neden olmuştur: Kırım'ın kuzey 
+bozkırlarında konuşulan Kuzey (Çöl/Nogay) diyalekti saf Kıpçak özelliklerini korurken; Kırım'ın 
+güney sahillerinde konuşulan Güney (Yalıboyu) diyalekti fonolojik ve sözdizimsel olarak 
+tamamen Oğuzlaşarak Anadolu Türkçesine asimile olmuş bir yapı sergiler40. Bu iki ucun 
+ortasında kalan ve edebi dile kaynaklık eden Orta (Yolak/Bağçasaray) diyalekti ise Kıpçak 
+fonolojisi ile Oğuz morfolojisini harmanlayan bir melezdir4. İsmail Gaspıralı'nın "Tercüman" 
+
+gazetesiyle 19. yüzyılda bu melez yapıyı kullanarak tüm Türk dünyası için ortak bir iletişim dili 
+("Türklerin Esperantosu") kurma hedefi, dilin tarihsel prestijini gözler önüne sermektedir37. 
+Kırım Tatarcasının (standart diyalektinin) yapısal incelenişi, belirgin fonolojik ve morfolojik farkları 
+ortaya koyar. Türkiye Türkçesinden farklı olarak /q/ (ötümsüz küçük dil patlamalısı), /ʁ/ (küçük dil 
+sızıcısı) ve /ŋ/ (damaksıl genizsil) fonemlerini aktif bir biçimde kullanır3. Rusçadan alınan yabancı 
+kelimelerdeki /ts/ affrikatı Türkçede /s/ sesine dönüşürken, Kırım Tatarcasında korunur (örneğin 
+Türkçe silindir, Kırım Tatarcası tsilindir)3. Morfolojik düzlemde ise farklılıklar daha sistematiktir. 
+Geniş zaman (Aorist) eki Türkiye Türkçesinde -Ir/-Ar iken, Kırım Tatarcasında bu ek gelecek 
+zaman anlamı taşır ve geniş zaman -A ekiyle oluşturulur3. Benzer şekilde, Kıpçak karakterli -GAn 
+sıfat-fiil ve geçmiş zaman eki kullanımda olup, -mI soru ekinin şahıs eklerinden sonra gelmesi 
+(örneğin bilesiñmi) tipik bir ayırıcı özelliktir3. 
+
+Özellik 
+
+Veri / Değer 
+
+Yerel Ad / İngilizce Ad 
+
+Qırımtatarca / Crimean Tatar 
+
+ISO 639-3 Kodu 
+
+Konuşur Sayısı 
+
+crh 
+
+~500.000 
+
+Glottolog AES / UNESCO 
+
+Tehlikede / Ciddi Tehlike Altında 
+
+Yazı Sistemi (Tarihsel/Güncel) 
+
+Arap & Kiril / Latin 
+
+Kırım Tatarcasının dijital ve NLP ekosistemi, tehlike altındaki bir dil olmasına karşın aktivist 
+araştırmacıların çabalarıyla kayda değer bir noktaya gelmiştir. Joshi sınıflandırmasında Sınıf 0 
+veya 1 (Düşük Kaynaklı) aralığında olsa da, Apertium platformunda devasa bir başarıya imza 
+atılmıştır. apertium-crh-tur projesi "trunk" düzeyindedir ve 7.106 kök kelime içermektedir15. 
+Gökırmak, Tyers ve Washington tarafından geliştirilen bu sistem, formatlama, morfolojik analiz 
+(lexc/twol), sözcüksel ve yapısal aktarım katmanlarından oluşan sığ aktarım (shallow-transfer) 
+temelli kural tabanlı bir makine çevirisi (RBMT) sistemidir ve haber metinlerinde %90'ın üzerinde 
+başarı ile çalışmaktadır3. Derin öğrenme (HuggingFace) tarafında ise dil veri setleri (Tatoeba, 
+NLLB) mevcuttur ve Servin Osmanov tarafından Sevil, Arslan, ve Abibullah adlı veri setleri 
+kullanılarak SpeechT5 mimarisiyle Metinden Sese (TTS) modelleri eğitilmektedir45. 
+QIRIM/crh-parallel-corpora ile İngilizce ve Rusça çaprazlı paralel metin ağları sağlanmıştır46. 
+
+NLP & Ekosistem Özelliği 
+
+Detay / Durum 
+
+Joshi Sınıfı 
+
+0-1 (Düşük Kaynaklı) 
+
+Apertium FST Olgunluğu 
+
+Üretim (Trunk) aşaması, ~7.106 kök, yüksek 
+başarı. 
+
+Açık Derlem / UD Ağaç Bankası 
+
+HF Tatoeba, QIRIM Parallel Corpora, HF TTS 
+modelleri 
+
+Avantaj / Dezavantaj 
+
+RBMT sistemi çok güçlüdür ancak kirlenmiş 
+wiki verilerinde performansı düşer. 
+
+KÖKEN sistem kontrolünde tespit edilen kilit nokta, Kırım Tatarcasının soy ağacı (branch) 
+parametrelerinde salt "Kıpçak" veya salt "Oğuz" olarak etiketlenmesinin morfolojik motorlar için 
+hataya neden olacağıdır. Bu dilin "Filogenetik Ağ Geçişi (Phylogenetic Network Node)" 
+mantığıyla sisteme Kıpçak gövdeli ve Oğuz leksikonlu bir hibrit olarak işlenmesi elzemdir. Sade 
+ve anlaşılır bir dille ifade edilecek olursa; Kırım Tatarcası, Karadeniz'in kuzeyinden gelen bozkır 
+atlılarıyla Osmanlı denizcilerinin dillerinin birbiriyle kaynaştığı tarihi bir köprüdür. Onu özel kılan, 
+birbirine benzeyen ama farklılıkları olan iki Türk kolunu ustalıkla birleştirip yüzyıllar önce "Bütün 
+Türklerin anlayabileceği ortak dil" idealine en çok yaklaşan dil olmasıdır. 
+Salar (Salır) 
+Salar dili (Salarca), Türk dillerinin Ortak Türkçe kolunun Doğu Oğuz alt grubuna mensup olup, 
+Çin sınırları içerisinde dilsel bir adacık olarak varlığını sürdüren son derece arkaik ve yapısal 
+değişime uğramış bir dildir47. ISO 639-3 kodu slr olan dil, temel olarak Çin'in Qinghai (Çinghay), 
+Gansu ve Xinjiang eyaletlerinde, özellikle Xunhua Salar Özerk İlçesi'nde yaklaşık 70.000 (2002 
+verileri) kişi tarafından konuşulmaktadır48. Ethnologue tarafından EGIDS 6b (Threatened) ve 
+UNESCO tarafından Tehlike Altında (Vulnerable) olarak etiketlenmiştir48. Ancak Glottolog AES 
+değerlendirmesi, kentsel alanlara göç eden Salarların çocuklarına dillerini aktaramayıp Mandarin 
+veya yerel Çin lehçelerini anadil edindiklerini saptayarak durumu %100 kesinlikle 
+"Değişen/Tehdit Altında" (Shifting) olarak raporlamaktadır50. Tarihsel olarak İslami aidiyetleri 
+sebebiyle gayriresmi Arap-Fars alfabesi kullanan topluluk, modern dönemde resmi bir 
+standardizasyonun yokluğunda Pinyin tabanlı Latin harfleri ve Çin karakterleri (Hanzi) ile dili yazılı 
+ortama aktarmaya çalışmaktadır48. 
+Salar halkının ve dilinin tarihsel serüveni, 14. yüzyılda Yuan Hanedanı döneminde Semerkant 
+yöresinden Çin'in kuzeybatısına doğru gerçekleşen göç hareketlerine dayanmaktadır51. Göç 
+eden Oğuz/Salur boyları İpek Yolu üzerinde yerleşik tarım ve ticaret hayatına geçmiş, 
+bulundukları bölgedeki yerli Han Çinlileri, Hui ve Amdo Tibetçesi konuşan topluluklarla yüzlerce 
+yıllık karmaşık bir kültürel ve dilsel temas sürecine girmişlerdir51. Bu uzun süreli temas, Salarcanın 
+Doğu Oğuz çekirdeği üzerine ağır bir Çin ve Tibet leksikal, fonolojik ve sentaktik katmanının 
+(adstrat) eklenmesiyle sonuçlanmıştır. 
+Dilin yapısını Türk dillerinin genelinden farklılaştıran en radikal husus, fonolojik düzeyde yaşanan 
+erozyondur. Amdo Tibetçesi ve Çincenin baskın etkisiyle, Salarca bir Altay dili özelliği olan ünlü 
+
+uyumunu (vowel harmony) tamamen kaybetmiştir51. Ayrıca temas edilen dillerden geçen ünsüz 
+kümelerini kırabilmek amacıyla dilde ünlü türemesi (epenthesis - literatürde gahawa sendromu 
+olarak bilinir) mekanizmaları devreye girmiştir51. Morfolojik bağlamda sondan eklemeli çekim 
+düzeni temel olarak korunsa da yapısal paradigmalar oldukça basitleşmiştir51. Sözdizimi ağırlıklı 
+olarak Özne-Nesne-Yüklem (SOV) yapısında devam etse de51, Tibetçenin etkisiyle 
+"Evidentsiyallik" (Kanıtsallık) adı verilen yapı dile entegre olmuştur; konuşmacı bilgiyi doğrudan 
+kendi mi deneyimledi yoksa dolaylı mı öğrendi ayrımını belirten egoforik ekler geliştirmiştir51. 
+İdari, teknolojik ve modern kültür kelimeleri büyük ölçüde Çinceden ödünçlenirken, coğrafya, 
+doğa ve soyut terimler Tibetçeden kopyalanmıştır. 
+
+Özellik 
+
+Veri / Değer 
+
+Yerel Ad / İngilizce Ad 
+
+Salarcha (Salarça) / Salar 
+
+ISO 639-3 Kodu 
+
+Konuşur Sayısı 
+
+slr 
+
+~70.000 
+
+Glottolog AES / UNESCO 
+
+Değişen (Shifting) / Tehlike Altında 
+
+Yazı Sistemi (Tarihsel/Güncel) 
+
+Pinyin (Latin) & Hanzi (Gayriresmi) 
+
+Salarcanın dijital varlığı ve NLP ekosistemi, literatürde tam bir "Sınıf 0" (Çok Düşük Kaynaklı / 
+Left-Behind) profili çizmektedir6. Dilin ne kural tabanlı Apertium FST ortamında bir çözümleyicisi, 
+ne de Universal Dependencies (UD) projesi kapsamında bir ağaç bankası mevcuttur. Sadece 
+TurkicNLP gibi çok dilli NLP araç takımlarında marjinal bir düzeyde referans bulabilmekte ve 
+HuggingFace modellerinde neredeyse yok denecek kadar az (10'dan az veri seti/model) veriyle 
+temsil edilmektedir13. Standart bir yazım sisteminin olmaması ve yüksek oranda iki dillilik 
+(Mandarin-Salarca kod değiştirme / code-switching) dilde veri madenciliğini neredeyse 
+imkansız hale getirmektedir. 
+
+NLP & Ekosistem Özelliği 
+
+Detay / Durum 
+
+Joshi Sınıfı 
+
+0 (Left-Behind / Çok Düşük Kaynaklı) 
+
+Apertium FST Olgunluğu 
+
+Yok 
+
+Açık Derlem / UD Ağaç Bankası 
+
+Yok. Çevrimiçi veri (treebank) eksikliği 
+sürmektedir. 
+
+Avantaj / Dezavantaj 
+
+Standart alfabe eksikliği ve kural dışı 
+sentaks, kural tabanlı NLP gelişimini 
+engeller. 
+
+KÖKEN sistemi için Salarcanın profil testinde, Türk dillerinin tüm özellikleri için ortak miras sayılan 
+vowel_harmony: True parametresinin bu dil özelinde kesin bir hata (false positive) üreteceği 
+saptanmıştır. Salar dili profiline "Ünlü Uyumu: Yok" ve "Evidentsiyel Morfoloji: Var (Tibet Etkisi)" 
+istisnai kuralları eklenerek, gelecekte kurgulanacak morfolojik analizörlerin hataya düşmesi 
+engellenmelidir. Sade ve anlaşılır bir dille ifade etmek gerekirse; Salarca, asırlar önce Orta 
+Asya'dan kopup Çin'in içlerine kadar giden Türklerin dilidir. Onu özel kılan, Tibetli ve Çinli 
+komşularıyla asırlarca yaşayarak Türkçenin temel kuralı olan "ünlü uyumu"nu dahi kaybedecek 
+kadar uzak bir tınıya bürünmesi, ancak yine de kelimelerinin kökündeki atalarının sesini 
+yaşatmayı başarmasıdır. 
+Horasan Türkçesi 
+Horasan Türkçesi (Khorasani Turkic), Ortak Türkçe kolunun Doğu Oğuz alt grubunda, 
+Türkmence ile Azerbaycanca arasında tarihsel ve coğrafi bir geçiş (intermediate) formu 
+oluşturan önemli bir dildir1. ISO 639-3 kodu kmz olan bu dil, İran'ın kuzeydoğusundaki Kuzey 
+Horasan ve Razavi Horasan eyaletlerinde (özellikle Bojnurd ve Quchan şehirlerinde) yoğun 
+olarak tahmini 1 ila 1,5 milyon kişi tarafından konuşulmaktadır24. Glottolog AES tarafından 
+Değişen (Shifting) ve UNESCO tarafından Tehlike Altında (Vulnerable) olarak etiketlenmiştir56. 
+Ethnologue verilerinde EGIDS 6a (Vigorous) görünse de, İran'ın asimilasyonist eğitim politikaları 
+nedeniyle dilin eğitim sistemi dışında kalması ve konuşurların tamamına yakınının Farsça ile çift 
+dilli (bilingual) olması dilin kuşaklararası varlığını tehdit etmektedir56. Herhangi bir resmi statüsü 
+bulunmadığı için Fars-Arap tabanlı bir alfabe (çoğunlukla Talik ve Nestalik kaligrafisi) kullanarak 
+ve Güney Azerbaycan yazım kurallarına öykünerek gayriresmi olarak yazılmaktadır56. 
+Tarihsel sürece bakıldığında, 11. yüzyılda Büyük Selçuklu İmparatorluğu'nun kurulmasıyla bölgeye 
+göç eden Oğuz boyları dilin temel iskeletini atmıştır57. 18. yüzyılda Nadir Şah döneminde Afşar 
+boylarının bölgedeki hakimiyetiyle dil, karakteristik özelliklerini pekiştirmiştir57. Uzun yıllar 
+dilbilimciler tarafından sadece bir "Güney Azerbaycan ağzı" olarak kabul edilmiş olan Horasan 
+Türkçesi, ünlü araştırmacılar Javad Heyat ve Gerhard Doerfer'in çalışmalarıyla başlı başına 
+bağımsız bir dil ve Oğuzyanın doğu-batı geçiş halkası olarak bilimsel literatürde yerini almıştır56. 
+Dilin fonolojik ve morfolojik yapısı incelendiğinde, onu akrabalarından ayıran eşsiz kurallar 
+dizgesi göze çarpar. Oğuz dillerindeki uzun ünlülerin Horasan Türkçesinde korunduğu 
+görülmektedir. Ancak en belirgin fonolojik kuralı, ünlü yuvarlaklaşması (rounding) olayıdır: Kısa 
+veya uzun /u/, /i/ ve /oː/ seslerinden sonra gelen düz-geniş /ɑ/ (a) sesi yuvarlaklaşarak 
+Farsçadakine benzer [ɒ] (o'ya çalan a) sesine dönüşür56. Buna karşın, bu kural dildeki her eke etki 
+etmez; örneğin çoğul eki olan -lAr ekindeki a harfi bu fonolojik baskıdan bağımsızdır ve her 
+zaman düz [ɑ] olarak varlığını sürdürür56. Morfolojik olarak genitif (tamlayan) ve datif (yönelme) 
+eklerindeki ünlü-ünsüz uyumu kullanımları (ör. -nıñ/-nin ve -ya/-yə) tipik Oğuz niteliği taşır56. 
+
+Sözdizimsel boyutta ise, yüzlerce yıllık areal temasın bir sonucu olarak Farsçadan kopyalanan 
+dolaylı anlatım kalıpları (ki- cümleleri) ve bağlaç kullanımı son derece yaygındır24. 
+
+Özellik 
+
+Veri / Değer 
+
+Yerel Ad / İngilizce Ad 
+
+Xorasan Türkîsi / Khorasani Turkic 
+
+ISO 639-3 Kodu 
+
+kmz 
+
+Konuşur Sayısı 
+
+~1 - 1.5 Milyon 
+
+Glottolog AES / UNESCO 
+
+Değişen (Shifting) / Tehlike Altında 
+
+Yazı Sistemi (Tarihsel/Güncel) 
+
+Arap (Fars-Arap / Nestalik) 
+
+Horasan Türkçesinin Doğal Dil İşleme (NLP) kapasitesi ve dijital görünürlüğü, Joshi 
+sınıflandırmasında net bir Sınıf 0 (Çok Düşük Kaynaklı / Left-Behind) örneğidir5. Dilin Apertium 
+gibi kural tabanlı bir FST analizörü, Universal Dependencies (UD) gibi evrensel bir ağaç bankası 
+veya geniş çaplı açık kaynaklı bir derlemi bulunmamaktadır. Dijital varlığa dair tek kayda değer 
+girişim, Wikimedia Incubator projesindeki Wp/kmz kodlu deneme ansiklopedisidir ve burada da 
+onay almak için salt Fars-Arap alfabesi kullanma zorunluluğu getirilmiştir60. Mevcut NLP eksikliği, 
+Farsça ile olan kod-değiştirme (code-switching) pratikleri ve yazılı veriden ziyade sözlü 
+edebiyata (bakhshi müzikleri) dayalı olması nedeniyle doğrudan yapısal analiz yapılmasını 
+güçleştirmektedir24. 
+
+NLP & Ekosistem Özelliği 
+
+Detay / Durum 
+
+Joshi Sınıfı 
+
+0 (Çok Düşük Kaynaklı) 
+
+Apertium FST Olgunluğu 
+
+Yok 
+
+Açık Derlem / UD Ağaç Bankası 
+
+Yok, sadece Wikimedia Incubator 
+
+Avantaj / Dezavantaj 
+
+Yazılı veri kıtlığı sebebiyle Speech-to-Text 
+(STT) modellerine muhtaçtır. 
+
+KÖKEN sistem doğrulama süreçleri açısından Horasan Türkçesi dikkatle incelenmelidir. 
+Sistemde hatalı bir varsayımla Azerbaycan ağzı olarak etiketlenmemelidir. Filogenetik soy 
+
+ağacında Türkmence ile aynı doğu dalına yerleştirilmesi gerekmekte olup, /ɑ/ -> [ɒ] 
+yuvarlaklaşması gibi özgün kural dizgeleri, gelecekte kurgulanacak morfolojik motorlar için 
+sisteme özel istisnalar (exception algorithms) olarak kaydedilmelidir. Sade bir dille özetlenecek 
+olursa; Horasan Türkçesi, İran'ın dağlık köylerinde yankılanan, hem Türkmencenin çöl tınısını hem 
+de Azerbaycancanın şiirselliğini Farsça ile harmanlamış bir dildir. Onu özel kılan, okulları veya 
+resmi kitapları olmadan, sadece anneden çocuğa söylenen türkülerle, ninnilerle yüzyılları aşıp 
+günümüze kadar ayakta kalmayı başarmış olmasıdır. 
+Sentez ve KÖKEN Çapraz-Kontrol Analizi 
+Yukarıda detaylandırılan diller, Oğuz kolunun hem merkezini (Türkiye, Azerbaycan, Türkmen) 
+hem de farklı dilsel evrenlerle temas ederek yapısal başkalaşımlar geçirmiş dış çeperini 
+(Gagavuz, Salar, Horasan, Kırım Tatar) oluşturmaktadır. KÖKEN platformunun veri mimarisi, 
+Joshi sınıfı olgunluk seviyeleri, Apertium FST analizörlerinin durumu ve UD ağaç bankası varlıkları 
+ışığında sentezlendiğinde makine çevirisi ve NLP stratejisi açısından net bir tablo ortaya 
+çıkmaktadır. 
+Apertium gibi kural tabanlı sistemlerin yapısal transfer kuralları (T1X, T2X, T3X makroları) Türkiye 
+Türkçesi merkez alınarak işletildiğinde, bu kurallar yalnızca Merkez Oğuz (Azerbaycanca) ve 
+belirli fonolojik filtrelemelerle Doğu Oğuz (Türkmence) üzerinde yüksek performanslı sığ aktarım 
+(shallow transfer) sağlayabilmektedir. Ancak uçlara doğru gidildikçe, Gagavuzcanın SVO 
+sözdizimsel kayması ve mastar eksikliği29 veya Salarcanın ünlü uyumunu kaybederek Tibetçe 
+kaynaklı evidentsiyel ekler alması51, kural tabanlı şablonları tamamen işlevsiz kılmaktadır. Kırım 
+Tatarcasının ise bir Kıpçak dili olmasına rağmen Oğuz ekosistemi içerisinde Apertium 
+platformunda apertium-crh-tur projesiyle "üretim/trunk" seviyesinde eşleşebilmesi3, morfolojik 
+hibritleşmenin (Kıpçak çekimi + Oğuz köken kelimeleri) dijital ortamda ne denli esnek bir 
+biçimde çözülebileceğini kanıtlayan eşsiz bir başarı örneğidir. 
+KÖKEN veri tabanının doğruluğunu güvenceye almak için; özellikle Gagavuzca, Salarca ve 
+Horasan Türkçesi için varsayılan genel Türk dil kuralları (SOV dizilimi, s/z sızıcıları, ünlü uyumunun 
+varlığı vb.) Boolean etiketler vasıtasıyla sistemde istisnai olarak güncellenmelidir. Bu dillerin dijital 
+uçurumu ancak hedefli derlem madenciliği ve sözlü verilerin yazıya dökülmesi (STT modelleri) ile 
+aşılabilir. 
+
+Alıntılanan çalışmalar 
+
+1.  Khorasan Turkic - Glottolog 5.3, 
+
+https://glottolog.org/resource/languoid/id/khor1269 
+
+2.  Finite-state morphological analysis for Gagauz - ACL Anthology, 
+
+https://aclanthology.org/L18-1411.pdf 
+3.  https://aclanthology.org/W19-6805.pdf 
+4.  Crimean Tatar dialects - Wikipedia, 
+
+https://en.wikipedia.org/wiki/Crimean_Tatar_dialects 
+
+5.  Revealing Large Quality Differences Between Web-Crawled Parallel, 
+
+https://aclanthology.org/2025.coling-main.124.pdf 
+
+6.  Joshi Et Al. (2020) | PDF | Cognitive Science | Linguistics - Scribd, 
+https://www.scribd.com/document/1019091382/Joshi-Et-Al-2020 
+
+7.  UD_Turkish-BOUN - Universal Dependencies, 
+
+https://universaldependencies.org/treebanks/tr_boun/index.html 
+
+8.  UniversalDependencies/UD_Turkish-IMST - GitHub, 
+
+https://github.com/UniversalDependencies/UD_Turkish-IMST 
+
+9.  UniversalDependencies/UD_Turkish-TueCL - GitHub, 
+
+https://github.com/UniversalDependencies/UD_Turkish-TueCL 
+10. Languages - Apertium, https://wiki.apertium.org/wiki/Languages 
+11. A set of open-source tools for Turkish natural language processing, 
+
+https://coltekin.net/cagri/papers/trmorph-tools.pdf 
+12. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/html/2602.19174v2 
+
+13. Turkic NLP — Toolkit for 24 Languages, https://turkic-nlp.github.io/ 
+14. Language system tags (OpenType 1.8.4) - Typography, 
+
+https://learn.microsoft.com/en-us/typography/opentype/otspec184/languagetags 
+
+15. Turkic-Turkic translator - Apertium, 
+
+https://wiki.apertium.org/wiki/Turkic-Turkic_translator 
+
+16. turkic-nlp/turkicnlp: NLP Toolkit for Turkic Languages - GitHub, 
+
+https://github.com/turkic-nlp/turkicnlp 
+
+17. Parallel Universal Dependencies Treebanks for Turkic Languages, 
+
+https://aclanthology.org/2025.udw-1.14/ 
+
+18. Header Checking Anti-Spam Filter - GFI MailEssentials, 
+
+https://support.mailessentials.gfi.com/article/116852-header-checking-anti-spam
+-filter 
+
+19. Turkmen language - Wikipedia, https://en.wikipedia.org/wiki/Turkmen_language 
+20. Türkmençe-iňlisçe sözlük (Turkmen-English Dictionary) » Phonology, 
+
+https://www.webonary.org/turkmen/en/language/phonology/ 
+
+21. Turkmen - The Language Gulper, 
+
+https://www.languagesgulper.com/eng/Turkmen.html 
+
+22. Turkmen grammar - Grokipedia, https://grokipedia.com/page/turkmen_grammar 
+23. Turkmen grammar - Wikipedia, https://en.wikipedia.org/wiki/Turkmen_grammar 
+24. Khorasani Turkic - Grokipedia, https://grokipedia.com/page/Khorasani_Turkic 
+25. Apertium-tuk-tur, https://wiki.apertium.org/wiki/Apertium-tuk-tur 
+26. XSkills/nllb-200-turkmen-english-lora - Hugging Face, 
+
+https://huggingface.co/XSkills/nllb-200-turkmen-english-lora 
+
+27. tkWaC – Turkmen corpus from the web - Sketch Engine, 
+https://www.sketchengine.eu/tkwac-turkmen-corpus/ 
+
+28. Universal Dependencies, https://universaldependencies.org/ 
+29. Gagauz language - Grokipedia, https://grokipedia.com/page/Gagauz_language 
+30. Digital Language Vitality | Gagauz - BME, https://hlt.bme.hu/en/dld/language/5486 
+31. Emotional and Functional Speaker Attitudes towards Gagauz as an, 
+
+https://bilig.yesevi.edu.tr/yonetim/icerik/makaleler/2959-published.pdf 
+
+32. Case shifts and case syncretism in Gagauz, 
+
+http://www.turkdilleri.org/turkdilleri/sayilar/tda26-2/MStachowski.pdf 
+
+33. Balkan sprachbund - Wikipedia, https://en.wikipedia.org/wiki/Balkan_sprachbund 
+34. Turkic languages - Apertium, https://wiki.apertium.org/wiki/Turkic_languages 
+
+35. SITUATION OF THE DEVELOPMENT OF THE NATIVE LANGUAGE, 
+
+https://www.researchgate.net/publication/339823499_SITUATION_OF_THE_DEVEL
+OPMENT_OF_THE_NATIVE_LANGUAGE_OF_GAGAUZ_PEOPLE 
+
+36. Gagauz Türkçesinin Şekil Bilgisi Terimleri - DergiPark, 
+
+https://dergipark.org.tr/en/download/article-file/5421740 
+37. Are Crimean Tatars Oghuz, Cuman, or Kipchak? - Quora, 
+
+https://www.quora.com/Are-Crimean-Tatars-Oghuz-Cuman-or-Kipchak 
+
+38. Urum language (Urum Dili) - Rumeli Beylerbeyliği, 
+
+http://urumeliler.blogspot.com/2009/06/urum-language-urum-dili.html 
+
+39. Tenth Cambridge Conference on Language Endangerment 12th, 
+
+https://www.mmll.cam.ac.uk/sites/default/files/LE10%20Abstract%20Booklet.pdf 
+
+40. Turkish Language Family Tree with Bayesian Phylolinguistic Method, 
+
+https://www.reddit.com/r/filoloji/comments/1llcc7x/bayesyen_filolinguistik_metho
+du_ile_t%C3%BCrk_dil/?tl=en 
+
+41. Are Crimean Tatars Oghuz or Kipchak? - Quora, 
+
+https://www.quora.com/Are-Crimean-Tatars-Oghuz-or-Kipchak 
+
+42. Apertium-crh-tur/stats, https://wiki.apertium.org/wiki/Apertium-crh-tur/stats 
+43. (PDF) Recent advances in Apertium, a free/open-source rule-based, 
+
+https://www.researchgate.net/publication/355393125_Recent_advances_in_Aperti
+um_a_freeopen-source_rule-based_machine_translation_platform_for_low-resou
+rce_languages 
+
+44. Machine Translation for Crimean Tatar to Turkish, 
+
+https://works.swarthmore.edu/context/fac-linguistics/article/1259/viewcontent/W1
+9_6805.pdf 
+
+45. My Journey Improving a TTS Model for the Crimean Tatar Language, 
+
+https://medium.com/@servinosmanov/my-journey-improving-a-tts-model-for-th
+e-crimean-tatar-language-66ff85e90a43 
+
+46. QIRIM/crh-parallel-corpora · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/QIRIM/crh-parallel-corpora 
+
+47. Xinjiang Salar - Glottolog 5.3, https://glottolog.org/resource/languoid/id/xinj1234 
+48. Salar language - Wikipedia, https://en.wikipedia.org/wiki/Salar_language 
+49. Salarca - Vikipedi, https://tr.wikipedia.org/wiki/Salarca 
+50. Salar - Glottolog 5.3, https://glottolog.org/resource/languoid/id/sala1264 
+51. Salar language - Grokipedia, https://grokipedia.com/page/Salar_language 
+52. The Western Yugur (Yellow Uygur) Language. - The Swiss Bay, 
+
+https://www.theswissbay.ch/pdf/Books/Linguistics/Mega%20linguistics%20pack/
+Turkic/Western%20Yugur%20%28Yellow%20Uygur%29%20Language%20%28Ro
+os%29.pdf 
+
+53. The Tibetic Languages - LACITO, 
+
+https://lacito.cnrs.fr/wp-content/uploads/2023/09/TibeticAll-12-9-2023-1.pdf 
+54. Turkic languages - Wikipedia, https://en.wikipedia.org/wiki/Turkic_languages 
+55. Languages - Hugging Face, https://huggingface.co/languages 
+56. Khorasani Turkic - Wikipedia, https://en.wikipedia.org/wiki/Khorasani_Turkic 
+57. Khorasani Turks - Grokipedia, https://grokipedia.com/page/Khorasani_Turks 
+58. Khorasani Turkic - Wikidata, https://www.wikidata.org/wiki/Q35373 
+
+59. Plots of different available resources for different languages., 
+
+https://www.researchgate.net/figure/Plots-of-different-available-resources-for-d
+ifferent-languages-Languages-to-the-far_fig3_340805920 
+
+60. Wp/kmz - Incubator Wikimedia, https://incubator.wikimedia.org/wiki/Wp/kmz 
+61. Requests for new languages/Wikipedia Khorasani Turkic - Meta-Wiki, 
+
+https://meta.wikimedia.org/wiki/Requests_for_new_languages/Wikipedia_Khorasa
+ni_Turkic 
+
+

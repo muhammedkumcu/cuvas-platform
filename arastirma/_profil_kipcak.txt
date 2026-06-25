@@ -1,0 +1,1018 @@
+Kuzeybatı (Kıpçak) Türk Dilleri: 
+Dilbilimsel Kimlik, Tarihsel Morfoloji ve 
+Doğal Dil İşleme (NLP) Ekosistemi Derin 
+Profili 
+
+Bu araştırma raporu, Türk dilleri ailesinin coğrafi olarak en geniş alana yayılan ve alt 
+gruplaşmaları bakımından en fazla çeşitliliği barındıran kolu olan Kıpçak (Kuzeybatı) dillerine 
+yönelik akademik, tipolojik ve hesaplamalı dilbilim odaklı kapsamlı bir analiz sunmaktadır. 
+Araştırmanın temel amacı, geliştirilmekte olan KÖKEN platformunun Dil Profilleri, Tarih ve 
+Ekosistem modüllerine entegre edilecek yüksek yoğunluklu yapısal veriyi sağlamaktır. Bu 
+kapsamda Kazakça, Kırgızca, Tatarca, Başkurtça, Karakalpakça, Karaçay-Balkarca, Kumukça, 
+Nogayca ve Kırım Tatarcası olmak üzere dokuz kilit dil incelenmiştir. Mevcut platform verileri; 
+demografik canlılık ölçekleri (Glottolog AES, Ethnologue EGIDS, UNESCO), tarihsel ses 
+değişimleri, morfotaktik dizilimler ve dijital varlık (Joshi NLP taksonomisi, Apertium FST 
+olgunluğu, HuggingFace modelleri) bağlamında çapraz kontrole tabi tutulmuş ve tutarsızlıklar 
+test edilmiştir. 
+Kıpçak dilleri genel olarak sondan eklemeli (agglutinative) morfolojileri, SOV 
+(Özne-Nesne-Yüklem) sözdizimleri, katı ünlü uyumları ve cinsiyet kategorisinin yokluğu gibi 
+Altay dilleri tipolojisinin temel özelliklerini paylaşmaktadır1. Ancak bu dillerin hesaplamalı 
+modellemeleri, yüksek varyantlı çekim ekleri (örneğin Kazakça ve Kırgızcada 12 farklı çoğul eki 
+varyantı) ve akraba olmayan komşu dillerle yaşanan yoğun etkileşimler nedeniyle ciddi zorluklar 
+barındırmaktadır3. Dijital ekosistem analizi bağlamında, dillerin kaynak durumu büyük bir 
+asimetri sergilemektedir. Joshi ve ark. (2020) tarafından geliştirilen ve dilleri etiketli ve etiketsiz 
+veri hacmine göre 0 (Left-Behinds) ile 5 (Winners) arasında sınıflandıran taksonomiye göre, 
+incelenen Kıpçak dillerinin birçoğu Sınıf 1 (Scraping-Bys) veya Sınıf 0 kategorilerinde yer 
+almaktadır6. Raporun ilerleyen bölümlerinde, büyük dil modellerinin (LLM) ve kural tabanlı 
+sistemlerin bu dillerin makine çevirisi ve morfolojik analiz süreçlerindeki performansları 
+detaylandırılacaktır. 
+Aşağıdaki tablolar, araştırmaya konu olan dillerin demografik, tipolojik ve hesaplamalı dilbilim 
+metriklerini karşılaştırmalı olarak özetlemektedir. 
+
+Dil Adı 
+
+ISO 
+639-3 
+
+Glottolo
+g AES 
+Durumu 
+
+Ethnolog
+ue 
+EGIDS 
+
+Joshi 
+NLP 
+Sınıfı 
+
+Apertium 
+FST 
+(Kapsam 
+/ Gövde) 
+
+Universa
+l 
+Depende
+ncies 
+(UD) 
+
+Kazakça 
+
+kaz 
+
+Not 
+
+1 
+
+Sınıf 1 -> 
+
+Trunk 
+
+Mevcut 
+
+Endanger
+ed 
+
+(National) 
+
+3 
+
+(~%88.7 / 
+36.595) 
+
+(UD_Kaz
+akh-KTB) 
+
+Kırgızca 
+
+kir 
+
+Safe 
+
+1 
+(National) 
+
+Sınıf 1 
+
+Tatarca 
+
+tat 
+
+Vulnerabl
+e 
+
+Başkurtç
+a 
+
+bak 
+
+Vulnerabl
+e 
+
+Sınıf 1 
+
+Sınıf 1 
+
+2 
+(Provinci
+al) 
+
+2 
+(Provinci
+al) 
+
+Karakalp
+akça 
+
+kaa 
+
+Vulnerabl
+e 
+
+2 / 3 
+
+Sınıf 1 
+
+Kırım 
+Tatarcası 
+
+crh 
+
+Severely 
+Endanger
+ed 
+
+5 
+(Developi
+ng) 
+
+Sınıf 1 
+
+Mevcut 
+(Turkish-
+TueCL) 
+
+Mevcut 
+(NMCTT) 
+
+Yok 
+
+Yok 
+
+Yok 
+
+Staging 
+(~%85.8 / 
+Bilinmiyor
+) 
+
+Trunk 
+(~%87.0 / 
+55.702) 
+
+Nursery 
+(tat-bak 
+%97.3) 
+
+Incubator 
+(Yok / 
+5.408) 
+
+Trunk 
+(crh-tur 
+olgun) 
+
+Karaçay-
+Balkarca 
+
+krc 
+
+Vulnerabl
+e 
+
+4 
+(Educatio
+nal) 
+
+Sınıf 1 / 0  Geliştirilm
+
+Yok 
+
+iyor 
+
+Kumukça 
+
+kum 
+
+Nogayca 
+
+nog 
+
+Vulnerabl
+e 
+
+Definitely 
+Endanger
+ed 
+
+4 / 5 
+
+Sınıf 0 
+
+5 / 6 
+
+Sınıf 0 
+
+Yok 
+
+Incubator 
+(Yok / 
+561) 
+
+Incubator 
+(Yok / 9) 
+
+Yok 
+
+Dil Adı 
+
+Ünlü Sayısı 
+
+Ünsüz 
+Özgünlükleri / 
+Tarihsel 
+
+Çoğul Eki 
+Varyantı 
+
+LLM ve Açık 
+Model 
+
+ 
+Kazakça 
+
+9-12 
+
+Kırgızca 
+
+8 
+
+Tatarca 
+
+9+ 
+
+Başkurtça 
+
+9+ 
+
+Karakalpakça 
+
+9-12 
+
+Kırım Tatarcası 
+
+8 
+
+Karaçay-Balkar
+ca 
+
+8+ 
+
+Kumukça 
+
+Nogayca 
+
+8 
+
+8 
+
+Kaymalar 
+
+Ekosistemi 
+
+Ünsüz 
+asimilasyonu 
+çok yüksek 
+
+12 (-lar/ler, 
+-dar/der, 
+-tar/ter) 
+
+Sherkala-Chat 
+(8B), KAZ-LLM 
+
+Katı dudak 
+uyumu (labial 
+harmony) 
+
+12 (-lar, -dor, 
+-tör vb.) 
+
+AkylAI, 
+KyrgyzBERT 
+
+/i/ > /e/, /ü/ > 
+/ö/ (Tarihsel 
+Ünlü Kayması) 
+
+2 (-lar/-ler 
+standart, nadir 
+ekler) 
+
+/s/ > /h/, /z/ > 
+/ð/ (Peltek diş 
+ünsüzleri) 
+
+Ses 
+değişimlerine 
+tabi 
+
+mGPT, 
+mBERT, 
+TURNA 
+(transfer) 
+
+mGPT 
+
+Kazakça ile 
+aynı 
+asimilasyon 
+matrisi 
+
+Yalıboyu 
+lehçesinde 
+Oğuzca 
+ünsüzleri 
+
+/q/, /χ/, /ʁ/ 
+(Kafkas 
+substratı 
+uvularları) 
+
+Avar ve Dargi 
+dilleri leksikal 
+etkisi 
+
+12 (-lar/ler, 
+-dar/der, 
+-tar/ter) 
+
+TUMLU 
+(Benchmark) 
+
+2 (-lar/-ler) 
+
+TUMLU 
+(Benchmark) 
+
+2 (-la/-le 
+yaygın 
+kullanımda) 
+
+Yok 
+
+2 (-lar/-ler) 
+
+Yok 
+
+/ş/ > /s/, /ç/ > 
+/ş/ kaymaları 
+
+12 varyanta 
+yatkın arkaik 
+
+Yok 
+
+(Kazakça gibi) 
+
+yapı 
+
+1. Kazakça (Kazakh / Қазақ тілі) 
+Kimlik ve Yazı Sistemleri: Kazakça (İngilizce: Kazakh, Yerli adlandırma: Қазақ тілі / Qazaq tili), 
+ISO 639-3 standardında kaz koduyla tanımlanmış olup Türk dil ailesinin Kıpçak-Nogay alt 
+grubuna mensuptur. Ağırlıklı olarak Kazakistan Cumhuriyeti'nin resmi devlet dili olarak işlev 
+görmekle birlikte, Çin Halk Cumhuriyeti'nin Sincan Uygur Özerk Bölgesi'nde (İli Kazak Özerk İli), 
+Moğolistan'ın Bayan-Ölgiy vilayetinde, Özbekistan ve Rusya Federasyonu'nda geniş topluluklar 
+tarafından konuşulmaktadır9. Tarihsel süreçte İslamiyet'in kabulüyle Arap alfabesi kullanılmış, 
+Sovyetler Birliği döneminin başlarında kısa bir süreliğine Latin alfabesine geçilmiş ve 
+nihayetinde 1940'lardan itibaren Kazakçaya uyarlanmış Kiril alfabesi standartlaşmıştır. 
+Günümüzde Kazakistan devleti kademeli bir stratejiyle yeniden Latin alfabesine geçiş sürecini 
+yürütmektedir. Çin'de yaşayan Kazaklar ise hala Arap kaynaklı Tötö (Töte) alfabesini 
+kullanmaya devam etmektedir. 
+Konuşur ve Canlılık Durumu: Dünya genelinde yaklaşık 13 ila 14 milyon kişi tarafından anadili 
+olarak konuşulmaktadır10. Glottolog tarafından "Not Endangered" (Tehlikede Değil), Ethnologue 
+tarafından EGIDS 1 (National) statüsünde ve UNESCO tarafından "Safe" (Güvende) olarak 
+sınıflandırılmıştır. Sovyet döneminde kentsel alanlarda yaşanan Rusça baskınlığına rağmen, 
+bağımsızlık sonrası uygulanan agresif dil politikaları sayesinde dildeki kuşaklararası aktarım 
+tamamen güvence altına alınmış ve Kazakça akademik, ticari ve dijital bir dil olarak prestijini 
+maksimize etmiştir. KÖKEN platformunda kayıtlı canlılık verileri en güncel statü ile tam 
+uyumludur. 
+Tarihsel Süreç: Kıpçak kolunun doğu coğrafyasında, Altın Orda İmparatorluğu'nun 
+parçalanmasını izleyen dönemde, 15. yüzyılda kurulan Kazak Hanlığı ile birlikte müstakil bir dil 
+olarak belirginleşmeye başlamıştır. Klasik dönemde Çağataycanın (Orta Asya edebi Türkçesi) 
+yoğun etkisinde kalmış olan dil, 19. yüzyılın sonlarında büyük düşünür ve şair Abay 
+Kunanbayoğlu (Abay Qunanbayulı) ile edebi kimliğini bulmuş, 20. yüzyılın başlarında ise Alaş 
+Orda aydınlarından Ahmet Baytursunov'un dilbilimsel çalışmaları (özellikle Arap alfabesini sesçil 
+bir temele oturtması) sayesinde modern edebi standartlarına kavuşmuştur. 
+Dilbilimsel Yapı ve Özgünlük: Kazakça, morfolojik açıdan sondan eklemeli bir yapıya ve katı 
+bir ünlü uyumu sistemine (kalınlık-incelik) sahiptir. Analiz metotlarına göre 9 ila 12 arasında ünlü 
+foneme ev sahipliği yapmaktadır1. Kazakçayı akrabalarından ayıran en belirgin morfotaktik 
+özellik, kök ve eklerin birleşme noktalarında (morpheme boundaries) görülen agresif ünsüz 
+asimilasyonudur. Örneğin, standart Türk dillerinde iki varyantı olan çoğul eki (-lar/-ler), 
+Kazakçada kökün son sesine göre 12 farklı forma bürünür: Kök ünlüyle veya /r, l, u/ ile bitiyorsa 
+-lar/-ler, ötümsüz bir ünsüzle veya /b, v, g, d/ ile bitiyorsa -tar/-ter, /z, j, m, n/ ile bitiyorsa 
+-dar/-der şeklini alır3. Kazakçada morfotaktik kural zinciri istisnasız olarak "Kök + Yapım Eki + 
+Çoğul Eki + İyelik Eki + Hâl Eki" formülünü izler (Örneğin: mektep+ter+i+nde - "okullarında")14. 
+Sözdizimi bakımından SOV (Subject-Object-Verb) kuralı geçerlidir1. 
+İlişkiler ve Temas Etkileri: Filogenetik olarak en yakın akrabaları Karakalpakça ve Nogaycadır. 
+
+Kazakça konuşan bir birey Karakalpakça ile neredeyse tam, Kırgızca ile ise yüksek düzeyde 
+karşılıklı anlaşılabilirlik (mutual intelligibility) kurabilir16. Uzun süren siyasi birliktelik nedeniyle 
+Rusçadan teknik, idari ve gündelik bağlamlarda yoğun sözcüksel kopyalamalar yapılmış olsa 
+da, Kazakçanın agglutinatif çekim yapısı bozulmadan kalmıştır. 
+Dijital ve NLP Gücü: Joshi ve ark. (2020) tarafından yapılan erken dönem NLP 
+taksonomilerinde Kazakça Sınıf 1 (Scraping-Bys) olarak kategorize edilmiş olsa da, güncel 
+literatür bu dilin Sınıf 3 (Rising Stars) seviyesine doğru büyük bir sıçrama yaptığını 
+kanıtlamaktadır7. Kural tabanlı makine çevirisi altyapısı Apertium'da kaz-tat (Kazak-Tatar) çeviri 
+çifti "trunk" (en üst olgunluk) seviyesindedir; rastgele derlenmiş metinler üzerinde ~%88.7 ila 
+%94.5 arasında bir kapsama ulaşılarak 36.595 kök kelime (stem) başarıyla modellenmiştir18. 
+Sinir ağları ve derin öğrenme ekosisteminde ise Nazarbayev Üniversitesi Yapay Zeka Enstitüsü 
+(ISSAI) başı çekmektedir. Yakın zamanda duyurulan, LLaMA-3.1 altyapısına sahip 8 milyar 
+parametreli Sherkala-Chat modeli, 45.3 milyar token (Kazakça, İngilizce, Rusça, Türkçe) ile 
+eğitilmiş olup dilin sentaktik yapısını mükemmele yakın bir düzeyde kavramıştır20. Ayrıca 
+KAZ-LLM ve KazNERD (112.702 tokenlik adlandırılmış varlık tanıma veri seti) dilin dijital zırhını 
+oluşturmaktadır23. Sentaktik analiz tarafında ise Universal Dependencies uyumlu 
+UD_Kazakh-KTB ağaç bankası mevcuttur25. TurkicNLP adlı entegre Python kütüphanesi 
+Kazakçayı üretim seviyesinde desteklemektedir27. Mevcut en büyük zorluk, zengin morfolojik 
+varyantların alt kelime (subword) tokenizasyon algoritmalarında yarattığı parçalanma (fertility) 
+sorunudur23; ancak FEMSeg_kaz gibi morfolojiye duyarlı ayrıştırıcılarla bu sorun aşılmaktadır29. 
+KÖKEN Test Notu ve Eksiklik Analizi: KÖKEN platformunda Kazakça için Joshi sınıfı verisi 1 
+olarak görünüyorsa, Sherkala-Chat ve Apertium olgunluğu gerekçe gösterilerek 3 (Rising Star) 
+olarak güncellenmelidir. Ayrıca platformdaki morfolojik üretim motorlarında, çoğul eki ve 
+yönelme hâli eklerindeki ötümsüzleşme/ötüklüleşme asimilasyon (morphotactics) kurallarının 
+(-dar/-der, -tar/-ter) eksiksiz kodlanıp kodlanmadığı bir çapraz test senaryosu ile mutlaka valide 
+edilmelidir. Çelişki bulunmamaktadır. 
+Sade Özet: Kazakça, Orta Asya'nın uçsuz bucaksız bozkırlarında kurulan atlı medeniyetlerin 
+bugüne uzanan sesidir. Bu dili en özel kılan şey, kelimelere eklenen eklerin tıpkı bir yapboz 
+parçası gibi yan yana gelirken seslerin birbirine çok ahenkli bir şekilde uyması ve matematiksel 
+bir kusursuzlukla dizilmesidir. 
+2. Kırgızca (Kyrgyz / Кыргыз тили) 
+Kimlik ve Yazı Sistemleri: Kırgızca (İngilizce: Kyrgyz, Yerli adlandırma: Кыргыз тили / Qırğız 
+tili), ISO 639-3 standardında kir kodu ile tanımlanmıştır ve Kıpçak kolunun Kırgız-Kıpçak alt 
+grubunu oluşturur. Çoğunlukla Kırgızistan Cumhuriyeti'nde konuşulmasının yanında Çin Halk 
+Cumhuriyeti'ne bağlı Kızılsu Kırgız Özerk İli'nde, Tacikistan, Özbekistan ve Afganistan'ın Pamir 
+bölgelerinde önemli topluluklarca kullanılmaktadır. Kırgızistan'da resmi eğitim dili olarak Kiril 
+alfabesi dominant konumdayken, Çin'deki Kırgızlar Arap alfabesini sürdürmektedir. 
+Konuşur ve Canlılık Durumu: Kırgızca dünya genelinde 5 ila 6 milyon arasında konuşura 
+sahiptir. Glottolog tarafından "Safe" (Güvende), Ethnologue tarafından EGIDS 1 (National) 
+statüsünde ve UNESCO tarafından "Safe" olarak sınıflandırılmıştır. Başkent Bişkek gibi kentsel 
+alanlarda eğitim ve iş dünyasında Rusçanın ciddi bir ağırlığı bulunsa da, Kırgızca kırsal 
+
+kesimde, ulusal edebiyatta ve medyada kesin bir hakimiyete sahiptir. 
+Tarihsel Süreç: Kırgızların etnik ve dilsel kökleri Güney Sibirya'daki Yenisey vadisine uzanır. 
+Tarihsel evrelerde Yenisey Kırgızlarının güneye, günümüzdeki Tanrı Dağları (Tien Shan) 
+bölgesine göç etmesi ve buradaki Kıpçak kökenli boylarla entegre olması sonucunda modern 
+Kırgızca şekillenmiştir. Bu uzun soluklu kültürel ve dilsel sentezin en muazzam kanıtı, aynı 
+zamanda bir sözlü edebiyat şaheseri olan ve hacim olarak dünyanın en uzun destanı kabul 
+edilen Manas Destanı'dır. Bu eser, Kırgızcanın tarihsel sözlükçesi ve gramer yapısının 
+korunmasında birincil taşıyıcı olmuştur. 
+Dilbilimsel Yapı ve Özgünlük: Kırgızca, fonolojik olarak 8 temel ünlü barındırır. Dilin en çarpıcı 
+ve onu diğer akrabalarından keskin çizgilerle ayıran özgünlüğü, katı dudak uyumu (labial 
+harmony) kurallarıdır4. Ünlü uyumu yalnızca incelik-kalınlık ekseninde değil, dudakların 
+düzlük-yuvarlaklık durumuna göre de tam bir asimilasyon gerektirir. Örneğin Kazakçadaki 12'li 
+çoğul eki sistemi Kırgızcada da mevcut olmakla birlikte, yuvarlak ünlülü kökler ekleri de 
+yuvarlaklaştırır; böylece ek varyantları -lar, -ler, -dar, -der, -tar, -ter, -lor, -lör, -dor, -dör, -tor, -tör 
+şekline evrilir (Örn: kol+dor "eller", küz+dör "güzler")4. Morfolojik olarak kişi zamirlerinde de 
+dörtlü bir nezaket yapısı dikkati çeker: gayriresmi tekil sen, resmi tekil siz, gayriresmi çoğul siler 
+ve resmi çoğul sizder formları aktif kullanılır31. 
+İlişkiler ve Temas Etkileri: Kazakça ile uzun süreli sınır komşuluğu (areal contact), bu iki dilin 
+sözdizimi ve morfolojik davranışlarını büyük ölçüde birbirine yaklaştırmıştır16. Bununla birlikte, 
+Sibirya bölgesindeki Altayca ve diğer Yenisey dillerinden miras alınan substrat etkiler 
+Kırgızcanın arkaik Kıpçak formlarından farklılaşmasına neden olmuştur. 
+Dijital ve NLP Gücü: Kırgızca, NLP gelişmişlik taksonomisinde Joshi ve ark. (2020) tarafından 
+Sınıf 1 (Scraping-Bys) olarak konumlandırılmıştır8. Apertium altyapısında kaz-kir 
+(Kazakça-Kırgızca) makine çevirisi çifti "staging" (hazırlık) aşamasında olup Kırgızcada 
+~%85.8'lik umut verici bir kapsama ulaşmıştır18. LLM ve makine öğrenmesi tarafında, Kırgızistan 
+merkezli araştırmacılar tarafından geliştirilen AkylAI modeli (1.499 adet yüksek kaliteli veri ile 
+fine-tune edilmiş) ve KyrgyzBERT, dilin teknolojik gelişimine ivme kazandırmaktadır23. Universal 
+Dependencies (UD) çerçevesinde, dört Türk dilini paralel inceleyen Turkish-TueCL ağaç 
+bankası projesi içinde Kırgızca sentaktik veriler manuel olarak analiz edilmiştir33. Ancak yine de 
+dijital kaynaklar bakımından Kazakçanın niceliksel olarak oldukça gerisindedir. Dudak 
+uyumunun yarattığı istisnai formlar, morfolojik üreticilerin (generators) algoritmalarında zaman 
+zaman belirsizliklere yol açabilmektedir. 
+KÖKEN Test Notu ve Eksiklik Analizi: KÖKEN platformunda Kırgızca için dudak uyumu 
+asimilasyonları (labial harmony constraints) kritik bir kural setidir. Sistemdeki morfolojik 
+analizatörlerin Yuvarlak Ünlü + Çoğul Eki (o/ö/u/ü + dor/dör/tor/tör) dizilimini başarıyla 
+çözümlediği test edilmelidir. Ayrıca UD_Turkish-TueCL korpusu üzerinden Kırgızca sentaktik 
+yapısının çapraz doğrulaması platforma eklenmelidir. 
+Sade Özet: Kırgızca, ulu Tanrı Dağları'nın ve dünyanın en destansı kahramanlık öyküsü olan 
+Manas'ın dilidir. Konuşurken dudakların aldığı şekle göre kelimelere eklenen eklerin 
+yuvarlaklaştığı, son derece melodik ve şiirsel bir ahenge sahiptir. 
+3. Tatarca (Tatar / Татар теле) 
+
+Kimlik ve Yazı Sistemleri: Tatarca (İngilizce: Tatar, Yerli adlandırma: Татар теле / Tatar tele), 
+ISO 639-3 standardında tat koduyla sınıflandırılan, Kıpçak-Bulgar (Kuzey Kıpçak) alt grubunun 
+en önemli temsilcisidir. Rusya Federasyonu'na bağlı Tataristan Cumhuriyeti'nin resmi dilidir; 
+bunun yanı sıra Başkurtistan, Çuvaşistan ve İdil-Ural bölgesinin geniş coğrafyasında yoğun bir 
+demografik tabana sahiptir. İslami dönemle başlayan Arap alfabesi geleneği, Sovyet devriminin 
+başlarında Latin alfabesine (Yañalif) bırakmış, 1939 sonrasında ise günümüze kadar 
+kullanılmaya devam eden Kiril alfabesi zorunlu kılınmıştır. 
+Konuşur ve Canlılık Durumu: Yaklaşık 5 milyonun üzerinde anadili konuşuruna sahip 
+olmasıyla en kalabalık Kıpçak dillerinden biridir35. Buna rağmen Glottolog tarafından 
+"Vulnerable" (Kırılgan), Ethnologue tarafından EGIDS 2 (Provincial) ve UNESCO tarafından 
+"Endangered" (Tehlikede) statülerinde listelenmiştir. Tataristan özerk bir cumhuriyet olmasına 
+karşın, Rus dilinin eğitim, devlet kurumları ve kentsel ekonomideki ezici asimilasyon baskısı, 
+yeni nesiller arasında Tatarcaya olan ilgiyi azaltmakta ve kuşaklararası aktarımı tehdit 
+etmektedir. 
+Tarihsel Süreç: Tatarca, tarihsel olarak İdil (Volga) Bulgarları ve Altın Orda İmparatorluğu'nun 
+doğrudan kültürel mirasçısıdır. Eski Tatarca (İdil-Ural edebi Türkiçesi), yüzyıllar boyunca Rus 
+Çarlığı bünyesindeki tüm Müslüman Türk halkları arasında ortak bilim ve ticaret dili (lingua 
+franca) olarak işlev görmüştür. Kul Gali'nin 13. yüzyılda kaleme aldığı Kıssa-i Yusuf eseri Tatar 
+edebi tarihinin temellerinden biri sayılır. Modern Tatar standart edebi dili ise 19. yüzyılda 
+Kayyum Nasıri ve Şehabeddin Mercani gibi aydınların reformlarıyla oluşturulmuştur. 
+Dilbilimsel Yapı ve Özgünlük: Morfolojik olarak standart Kıpçak özelliklerini (sondan 
+eklemelilik, SOV) göstermekle birlikte, Tatarcayı (ve akrabası Başkurtçayı) diğer tüm Türk 
+dillerinden ayıran en devrimsel özellik geçirdiği tarihsel ünlü kaymasıdır (historical vowel 
+shift). Proto-Türkçedeki ve standart Ortak Türkçedeki yüksek ünlülerin (i, ü, u, ı) Tatarca'da aşırı 
+derecede kısalıp merkezileştiği, orta ünlülerin (e, ö, o) ise daralarak yükseldiği görülür. Kural 
+olarak: Ortak Türkçe et -> Tatarca it; söz -> süz; kol -> kul; kum -> kom; kül -> köl şekline 
+dönüşmüştür36. Çoğul ekleri morfolojisinde Kazakça veya Kırgızcadaki kadar agresif ünsüz 
+uyumları görülmez; standart -lar/-ler formları (ve nazallardan sonra gelen formlar) büyük ölçüde 
+korunmuştur. 
+İlişkiler ve Temas Etkileri: En yakın akrabası olan Başkurtça ile fonolojik bazı istisnalar hariç 
+%90'ın üzerinde karşılıklı anlaşılabilirliğe sahiptir38. Çuvaşça ile asırlar süren coğrafi komşuluk 
+(areal proximity) nedeniyle yapısal ve leksikal bir İdil-Ural dil birliği oluşturmuştur37. Modern 
+sözlü ve yazılı iletişimde, Rusça ile iç içe geçmiş kelime içi kod kopyalamaları (intra-word 
+code-switching) çok sık karşılaşılan bir olgudur40. 
+Dijital ve NLP Gücü: Joshi ve ark. (2020) sınıflandırmasında Sınıf 1 (Scraping-Bys) olarak yer 
+almaktadır8. Kural tabanlı NLP altyapısında müthiş bir başarıya sahiptir; Apertium FST 
+motorlarında kaz-tat (Kazak-Tatar) çeviri çifti "trunk" (üretim) seviyesindedir ve 55.702 gövdeye 
+(stem) ulaşarak %87.0'lık bir test metni kapsaması sağlamıştır18. Benzer şekilde tat-bak 
+(Tatar-Başkurt) modülü %97.3 gibi devasa bir doğrulukla çalışmaktadır41. Derin öğrenme 
+tarafında mGPT, mBERT ve NLLB-200 gibi büyük çok dilli modellerin kapsama alanındadır23. 
+Üniversite düzeyinde geliştirilen en dikkat çekici kaynak, Universal Dependencies çerçevesine 
+oturtulmuş NMCTT (NAIST Multilingual Corpus Tatar) ağaç bankasıdır. Bu corpus, Tatarca ile 
+
+Rusça arasındaki kelime içi kod geçişlerini (morpheme-level code-switching) etiketlemesi 
+bakımından NLP literatürüne büyük katkı sunmaktadır35. 
+KÖKEN Test Notu ve Eksiklik Analizi: Platform veritabanında Tatarca için ünlü kayması 
+(vowel shift: /o/ > /u/, /ö/ > /ü/ vd.) bir fonolojik kural fonksiyonu olarak eşlenmelidir. Ayrıca, kural 
+tabanlı morfolojik analizlerde Rusça köklere Tatarca eklerin geldiği (code-switching) formların 
+hata (OOTV - Out of Target Vocabulary) vermemesi adına NMCTT korpusunun etiketleme 
+mantığı KÖKEN'e entegre edilmelidir. 
+Sade Özet: Tatarca, İdil Nehri boylarında asırlarca bilim ve edebiyat dili olarak kullanılmış, 
+zengin bir geçmişe sahip saygın bir dildir. Kendine has ses yapısıyla, bildiğimiz ortak kelimelerin 
+(örneğin "söz" yerine "süz" diyerek) bambaşka ve hoş bir melodiyle söylendiği eşsiz bir yapıya 
+sahiptir. 
+4. Başkurtça (Bashkir / Башҡорт теле) 
+Kimlik ve Yazı Sistemleri: Başkurtça (İngilizce: Bashkir, Yerli adlandırma: Башҡорт теле / 
+Başqort tele), ISO 639-3 kodu bak olan, Kıpçak-Bulgar grubuna ait bir dildir. Rusya 
+Federasyonu içindeki Başkurtistan Cumhuriyeti'nde Tatarca ve Rusça ile birlikte eş-resmi dil 
+statüsündedir. Yazı dili, Başkurtçanın fonolojik evrimini yansıtacak şekilde 1940'ta Rus Kiril 
+alfabesine dokuz özel karakter (Ғ, Ҙ, Ҡ, Ң, Ө, Ҫ, Ү, Һ, Ə) eklenerek tasarlanmış bir alfabeye 
+dayanır36. 
+Konuşur ve Canlılık Durumu: Günümüzde yaklaşık 1.2 milyon anadili konuşuruna sahiptir. 
+Demografik büyüklüğüne rağmen Glottolog ve UNESCO tarafından "Vulnerable" (Kırılgan), 
+Ethnologue tarafından EGIDS 2 (Provincial) olarak etiketlenmiştir. Kentleşme ve Rusçanın idari 
+hakimiyeti, dili ev içi kullanıma doğru sıkıştırmaktadır. 
+Tarihsel Süreç: Başkurt etnik kimliği tarihsel kaynaklarda İbn Fadlan (10. yy) dönemine dek 
+gitse de, yazılı kültür olarak yüzyıllar boyu Çağatayca ve İdil Türkiçesi kullanılmıştır. Sovyetlerin 
+"her halka ayrı bir edebi standart" yaratma politikaları (Korenizatsiya) çerçevesinde 1920'lerde, 
+bilhassa Tatarcadan fonetik olarak ayrışan doğu ve güney ağızları merkeze alınarak müstakil bir 
+Başkurt yazı dili standartlaştırılmıştır. 
+Dilbilimsel Yapı ve Özgünlük: Başkurtçayı bütün Türk dilleri ekosistemi içinde tamamen eşsiz 
+bir adaya dönüştüren şey, geçirdiği muazzam ve radikal ünsüz kaymalarıdır (consonant 
+debuccalization/shifts). 
+
+1.  Kelime başındaki veya morfem başındaki Ortak Türkçe /s/ sesleri istisnasız /h/ sesine 
+
+dönüşür (Örn: Tatarca süz -> Başkurtça hüź /hʏð/, su -> hıw)36. 
+
+2.  Ortak Türkçedeki /s/ ve /z/ sesleri, Başkurtçada İngilizcedeki "th" sesine benzeyen peltek 
+diş sürtünmelisi (interdental fricative) olan /θ/ (Ҫ) ve /ð/ (Ҙ) fonemlerine kaymıştır. (Örn: 
+küz -> küź /kyð/, söz -> hüź /hYð/, tatarca bas -> baś /bäθ/)36. 
+
+3.  Ortak Türkçe /ç/ affrikat sesi /s/ olmuştur (Örn: ağaç -> ağas)36. Bu radikal peltekleşme ve 
+gırtlaksılaşma, Türkmençe dışında hiçbir modern Türk dilinde böylesine net bir fonemik 
+ayrım olarak bulunmaz36. Ünlü dizgesinde ise Tatarca ile aynı tarihsel ünlü kaymasını (/o/ 
+> /u/, /e/ > /i/ vd.) yaşar36. 
+
+İlişkiler ve Temas Etkileri: Başkurtça, gramer ve sözcük dağarcığı bakımından Tatarcaya o 
+denli yakındır ki salt yazılı metinler üzerinden aralarında neredeyse tam bir karşılıklı 
+
+anlaşılabilirlik vardır. Ancak sözlü iletişimde peltek ve gırtlaksı sesler (h, θ, ð) Tatar konuşurları 
+için bir algılama bariyeri oluşturur42. 
+Dijital ve NLP Gücü: Joshi NLP sınıflandırmasında Sınıf 1 (Scraping-Bys) olarak yer bulur8. 
+Kural tabanlı modellemeler, diller arası fonolojik algoritmalar kurmaya çok müsaittir; nitekim 
+Apertium sisteminde tat-bak (Tatar-Başkurt) ikilisi, ses değişim kurallarının sistematikliği 
+sayesinde %97.3 gibi mükemmele yakın bir kapsam doğruluğuna ve 57.710 kök kelimeye 
+ulaşarak "nursery" modülünde hizmet vermektedir41. Ancak derin öğrenme (LLM) tarafında, 
+BERT ve GPT modelleri için veri seti son derece kısıtlıdır. Sadece mGPT gibi makro-çok dilli 
+projeler içinde küçük bir temsil alanına sahiptir23. Ağaç bankası (UD) henüz olgunlaşmamıştır. 
+KÖKEN Test Notu ve Eksiklik Analizi: Platformun fonetik eşleme tablosunda Başkurtçanın 
+interdental sürtünmelileri (θ, ð) ve debuccalize olmuş (h) ünsüzleri muhakkak /s/ ve /z/ 
+köklerinden türetilen kural bazlı (rule-based) transfer matrisleri olarak kodlanmalıdır. Bu 
+kodlamanın eksikliği durumunda, akraba dillerden sıfır-veri transferi (zero-shot transfer) 
+yapılması imkansızlaşır. 
+Sade Özet: Başkurtça, Ural Dağları'nın yamaçlarında yankılanan, çıkardığı peltek "th" sesleriyle 
+dinleyene adeta eski İngilizceyi anımsatan çok gizemli ve müzikal bir ahenge sahip, 
+kardeşlerine hiç benzemeyen eşsiz bir Türk dilidir. 
+5. Karakalpakça (Karakalpak / Қарақалпақ тили) 
+Kimlik ve Yazı Sistemleri: Karakalpakça (Yerli adlandırma: Qaraqalpaq tili), ISO 639-3 kodu 
+kaa olan ve Kıpçak-Nogay grubuna giren bir dildir. Özbekistan sınırları içerisindeki özerk 
+Karakalpakistan Cumhuriyeti'nde resmi dil statüsüyle konuşulmaktadır. Uzun yıllar Sovyetler 
+Birliği güdümünde Kiril alfabesiyle yazılan dil, Özbekistan'ın ulusal dil reformlarına paralel olarak 
+1990'lı yıllardan itibaren yeni bir Latin alfabesine geçiş yapmıştır8. 
+Konuşur ve Canlılık Durumu: Karakalpakça konuşur sayısının 600.000 ile 800.000 arasında 
+olduğu tahmin edilmektedir. Glottolog tarafından "Vulnerable", Ethnologue tarafından EGIDS 2 
+(Provincial) / 3 ve UNESCO tarafından "Vulnerable" olarak tasnif edilmiştir. Demografik olarak 
+en büyük tehdit, Aral Gölü'nün kurumasıyla başlayan derin ekolojik krizin bölge halkını göçe 
+zorlaması ve Özbekçenin resmi hayattaki ağır asimilasyon baskısıdır. 
+Tarihsel Süreç: Karakalpakların etnik kökeni, Altın Orda ve sonrasındaki Nogay Orda'nın 
+dağılışıyla güneye inen yarı göçebe Kıpçak boylarına dayanır. Bu boylar, coğrafi izolasyon ve 
+Özbeklerle (Karluk) kurulan temaslar sonucunda kendi edebi kimliklerini inşa etmişlerdir. 
+Dilbilimsel Yapı ve Özgünlük: Dilin omurgası (fonoloji ve morfotaktik) Kazakça ile adeta ikiz 
+kardeştir. Kazakçada gözlemlenen ünlü uyumlarına bağlı 12 varyantlı çoğul eki dizilimi (-lar/-ler, 
+-dar/-der, -tar/-ter) Karakalpakçada birebir aynı şemayla işler43. Onu Kazakçadan farklılaştıran 
+temel unsur, coğrafi sınırların getirdiği sonuç olarak Özbekçeden (Karluk dalı) yüksek oranda 
+kelime ve kalıp kopyalamasıdır. 
+İlişkiler ve Temas Etkileri: Kazakça ve Nogayca ile pratik olarak tam bir karşılıklı anlaşılabilirlik 
+(mutual intelligibility) sergiler. Ancak eğitim ve devlet kademelerindeki ikidillilik (bilingualism) 
+sebebiyle Özbekçe ile çok ciddi bir bölgesel (areal) temas halindedir. 
+Dijital ve NLP Gücü: Joshi taksonomisinde Sınıf 1 (Scraping-Bys) kategorisine girmektedir8. 
+Dijital kaynaklar açısından ciddi bir veri açlığı (data starvation) çekmektedir. Apertium makine 
+
+çevirisi platformunda kaz-kaa (Kazak-Karakalpak) çeviri kural seti "incubator" (kuluçka) 
+aşamasında olup henüz 5.408 gövde kelimeye sahiptir18. Morfosentaktik yapının Kazakça ile 
+aynı olması, NLP modüllerinin transferini çok kolaylaştırmaktadır. Yakın zamanda yayımlanan 
+TUMLU (Turkic Multilingual Language Understanding) benchmark testlerinde Karakalpakça LLM 
+kapasiteleri ölçülmeye başlanmıştır23. Geniş kapsamlı TurkicNLP kütüphanesi Karakalpakça için 
+tokenizasyon ve transliterasyon modüllerini barındırmaktadır27. 
+KÖKEN Test Notu ve Eksiklik Analizi: Platformda Karakalpakça morfolojik birimi olarak 
+"Kazakça modelinin klonu" şeklinde işlenmişse de, Özbekçe sözlükbirim (lexicon) alıntıları 
+nedeniyle yaşanacak "Out-of-Vocabulary" hatalarının önüne geçmek için Karluk substrat 
+leksikonu entegre edilmelidir. FST stem sayısının (5.408) artırılması platform içi manuel 
+eklemelerle desteklenmelidir. 
+Sade Özet: Karakalpakça, Aral Gölü'nün etrafındaki bozkırların bir zamanlar gür akan sularını 
+yansıtan hüzünlü dilidir. Kazakçanın ikizi gibi seslense de, komşusu Özbeklerden aldığı 
+kelimelerle kendi kültürel zenginliğini oluşturmuştur. 
+6. Karaçay-Balkarca (Karachay-Balkar / 
+Къарачай-Малкъар тил) 
+Kimlik ve Yazı Sistemleri: Karaçay-Balkarca (Yerli adlandırma: Къарачай-Малкъар тил / 
+Qaraçay-Malqar til), ISO 639-3 kodu krc olan, Kıpçak-Kuman alt dalına ait bir Kuzeybatı Kafkas 
+Türk dilidir. Rusya Federasyonu bünyesindeki Karaçay-Çerkesya ve Kabardino-Balkarya 
+Cumhuriyetlerinde Kafkasya'nın sarp bölgelerinde yaşayan halklarca konuşulur. 20. yüzyıl 
+başlarına dek Pers-Arap alfabesiyle yazılırken günümüzde Kiril alfabesi kullanılmaktadır5. 
+Konuşur ve Canlılık Durumu: Tahmini 300.000 dolayında konuşuru bulunmaktadır. Glottolog 
+tarafından "Vulnerable", Ethnologue tarafından EGIDS 4 (Educational) ve UNESCO tarafından 
+"Vulnerable" olarak listelenmiştir. Konuşulduğu bölgelerde eğitim dili olmaktan ziyade kültürel bir 
+miras dili olarak daralmaktadır. 
+Tarihsel Süreç: Dilin şekillenmesi, Altın Orda İmparatorluğu döneminde ve sonrasında 
+Kuman-Kıpçak boylarının Kafkasya dağlarının içlerine doğru çekilmesiyle başlamıştır. Bu 
+bölgede yaşayan İrani kökenli Alanlar (Osetlerin ataları) ve yerli Kafkas halklarıyla yüzyıllar 
+süren bir arada yaşama (cohabitation) sonucunda Karaçay-Balkar etnogenezi ve dili ortaya 
+çıkmıştır5. Dilin gramer yapısı resmi olarak ilk kez 1930'larda yazıya dökülüp 
+standartlaştırılmıştır5. 
+Dilbilimsel Yapı ve Özgünlük: Kıpçak dil özelliklerini korumakla birlikte, çevresindeki Kafkas 
+dillerinin (özellikle Osetçe ve Kabardeyce) çok güçlü bir fonolojik substrat etkisini taşır. Bu 
+etkinin en bariz örneği, standart Türk dillerinde bulunmayan veya zayıf olan küçük dil (uvular) 
+ünsüzlerinin (öttümsüz uvular patlamalı /q/, uvular sürtünmeli /χ/ ve ötümlü /ʁ/) kelime içinde 
+belirgin biçimde boğumlanmasıdır5. Ünlü uyumu mekanizmasında dudak uyumu (labial 
+harmony) vardır, fakat Kırgızca veya Kazakçadaki kadar katı ve istikrarlı bir şekilde eklere 
+yansımaz5. Çoğul eki genellikle standart bir asimilasyon olmaksızın -la/-le (veya nadiren -lar/-ler) 
+şeklindedir. Dilde coğrafi izolasyona bağlı c, č ve karma diyalekt farklılıkları görülür44. 
+İlişkiler ve Temas Etkileri: Filogenetik açıdan en yakın akrabası, bir diğer Kafkas Türk dili olan 
+
+Kumukçadır (karşılıklı anlaşılabilirlik yaklaşık %80'dir)5. Sözcük dağarcığı İrani ve Kafkasyalı 
+(Çerkes) komşulardan yoğun leksikal kopyalamalar içerir44. 
+Dijital ve NLP Gücü: Joshi NLP sınıflandırmasında Sınıf 0 (Left-Behinds) veya en iyi ihtimalle 
+Sınıf 1 alt bandında kabul edilir7. Kural tabanlı FST'lerde (Apertium) veya HuggingFace 
+altyapısındaki derin öğrenme modellerinde aktif bir geliştirme alanı, çeviri çifti veya olgunlaşmış 
+bir ağaç bankası (UD) bulunmamaktadır. Veri kıtlığı en yüksek dillerdendir. 
+KÖKEN Test Notu ve Eksiklik Analizi: Karaçay-Balkarcanın fonoloji haritası, Kafkas dilleri 
+substratı hesaba katılmadan standart Kıpçak dilleri üzerinden modellenirse analiz hataları 
+(morphological failure) oluşacaktır. Platform, bu dilin ekosistem yetersizliğini (Class 0) kırmızı 
+alarm (P1) statüsünde raporlamalıdır. 
+Sade Özet: Karaçay-Balkarca, Kafkas Dağları'nın dumanlı zirvelerinde yaşayan yiğit insanların 
+konuştuğu köklü bir dildir. Binlerce yıl önceki atlı göçebelerin sözcüklerini, gizemli Kafkas 
+halklarının sert ve güçlü tınılarıyla mükemmel bir şekilde harmanlamıştır. 
+7. Kumukça (Kumyk / Къумукъ тил) 
+Kimlik ve Yazı Sistemleri: Kumukça (İngilizce: Kumyk, Yerli adlandırma: Къумукъ тил / Qumuq 
+til), ISO 639-3 kum koduna sahip Kıpçak-Kuman grubuna ait bir dildir. Esas olarak Rusya 
+Federasyonu'nun Dağıstan Cumhuriyeti'nde, Hazar Denizi'nin batı kıyılarında konuşulmaktadır. 
+Geleneksel Arap alfabesinin ardından bugün standart Kiril alfabesi kullanılmaktadır. 
+Konuşur ve Canlılık Durumu: Yaklaşık 400.000 konuşuru olduğu hesaplanmaktadır. Glottolog 
+ve UNESCO verilerinde "Vulnerable", Ethnologue'da EGIDS 4 / 5 statüsündedir. Dağıstan'ın son 
+derece kozmopolit yapısı içinde varlığını korumaya çalışmaktadır. 
+Tarihsel Süreç: Çarlık Rusya'sının Kafkasya'yı kontrol altına almasından önceki yüzyıllarda 
+Kumukça, tüm Kuzey Kafkasya havzasının, pazarlarının ve diplomasi ağlarının tartışmasız ortak 
+dili (lingua franca) olarak hizmet etmiştir. Lev Tolstoy gibi ünlü Rus yazarların eserlerinde, 
+Kafkasya haklarının Kumukça üzerinden anlaştıklarına dair tarihi veriler bulunmaktadır. 
+Dilbilimsel Yapı ve Özgünlük: Karaçay-Balkarca ile temel gramer ve fonoloji özelliklerini 
+paylaşır ancak Dağıstan yöresinin yerel dillerinden (özellikle Avarca ve Dargice) aldığı spesifik 
+kültürel alıntılar onu kuzenlerinden ayırır. Ünlü uyumu standart Kıpçak kurallarına sadıktır, çoğul 
+ekinin varyasyonu standarttır. 
+İlişkiler ve Temas Etkileri: Karaçay-Balkarca ve Kırım Tatarcasının bozkır (Çöl) lehçesi ile 
+tarihsel ve dilbilimsel bir süreklilik içindedir. Dağıstan Kafkas dillerinin bölgesel etkisini taşır. 
+Dijital ve NLP Gücü: Tarihsel bir lingua franca olmasına rağmen modern çağda tamamen 
+unutulmuş, Joshi sınıflandırmasında Sınıf 0 (Left-Behinds) kategorisine hapsolmuştur8. 
+Apertium altyapısındaki kaz-kum (Kazakça-Kumukça) çeviri motoru yalnızca 561 kelimelik bir 
+"incubator" demosu aşamasında terk edilmiştir18. LLM'ler veya büyük etiketli korpuslar mevcut 
+değildir. Sadece TurkicNLP gibi kapsayıcı kütüphanelerde alt seviye tokenizasyon şemalarında 
+desteklenir27. 
+KÖKEN Test Notu ve Eksiklik Analizi: Platformda Kumukça için girilen dijital varlık verisinin 
+Class 0 olduğu doğrulanmıştır. Apertium'daki 561 gövdelik eksik veri, açık kaynak kod 
+topluluğuna kitle kaynaklı (crowdsourcing) morfoloji üretimi görevi olarak tanımlanmalıdır. 
+Sade Özet: Kumukça, bir zamanlar Hazar Denizi'nin kıyılarında ve sarp Kafkas dağlarının renkli 
+
+pazarlarında farklı dilleri konuşan herkesin ortak anlaşma diliydi. Günümüzde ise Dağıstan'ın 
+zengin kültürel mozaiği içinde özenle korunmaya çalışılan değerli bir mirastır. 
+8. Nogayca (Nogai / Ногай тили) 
+Kimlik ve Yazı Sistemleri: Nogayca (İngilizce: Nogai, Yerli adlandırma: Ногай тили / Noğay 
+tili), ISO 639-3 kodu nog, Kıpçak-Nogay grubuna giren bir dildir. Kuzey Kafkasya'da, Dağıstan, 
+Karaçay-Çerkesya, Astrahan ve Stavropol kraylarında dağınık topluluklar halinde yaşan 
+Nogaylarca konuşulur. Kiril alfabesi kullanır. 
+Konuşur ve Canlılık Durumu: Yaklaşık 80.000 - 100.000 arası konuşuru vardır. Dağınık 
+demografik yapısı sebebiyle Glottolog ve UNESCO tarafından "Definitely Endangered" 
+(Kesinlikle Tehlikede), Ethnologue'da ise EGIDS 5 / 6 bandında etiketlenmiştir. Yeni nesiller 
+arasındaki aktarım kırsal kesimler dışında neredeyse tamamen kesilmiştir. 
+Tarihsel Süreç: 14. yüzyılda Altın Orda emiri Edige'nin (Edigu) liderliğinde kurulan Nogay 
+Orda'nın torunlarıdır. 18. ve 19. yüzyıllardaki Rus imparatorluğu ile yaşanan şiddetli çatışmalar 
+ve zorunlu göçler, Nogay demografisini parçalamış ve dili büyük bir zafiyete uğratmıştır 
+(Osmanlı'ya göçen milyonlarca Nogay asimile olmuştur). 
+Dilbilimsel Yapı ve Özgünlük: Kıpçak dilinin en saf ve arkaik özelliklerini muhafaza eder. 
+Kazakça ve Karakalpakça ile gramer ve fonetik kuralları açısından adeta aynı dilin 
+varyantlarıdır. Sözgelimi Ortak Türkçedeki /ş/ sesinin /s/, /ç/ sesinin ise /ş/ olarak telaffuz 
+edilmesi (Örn: ağaç -> ağaş) Nogaycada da karakteristik bir unsurdur43. Yüksek varyasyonlu 
+asimilasyon matrisi bozulmamıştır. 
+İlişkiler ve Temas Etkileri: Kazakça ile olan akrabalık seviyesi karşılıklı anlaşılabilirliği pratik 
+olarak tam kılar. Kafkas dillerinin baskısından ziyade Rusçanın baskın asimilasyonu altındadır. 
+Dijital ve NLP Gücü: Joshi sisteminde net bir Sınıf 0 (Left-Behinds) örneğidir7. Dijital ayak izi 
+yok denecek kadar azdır. Apertium sisteminde nog-kaz çevirmeni yalnızca 9 (dokuz) stem 
+barındıran bir iskeletten ibarettir45. Yalnızca transliterasyon temelli araçlarda (TurkicNLP) yer 
+alır27. Derin öğrenme çağının tamamen dışarısında kalmıştır. 
+KÖKEN Test Notu ve Eksiklik Analizi: Sınıf 0 ve UNESCO "Definitely Endangered" metrikleri 
+KÖKEN veritabanı ile uyumludur. Platform geliştiricileri, Kazakça için üretilen kural tabanlı 
+(rule-based) morfoloji motorlarının minör fonetik ayarlamalarla (zero-shot transfer) doğrudan 
+Nogaycayı çözümlemek için kullanılabileceğini sistem mimarisine işlemelidir. 
+Sade Özet: Nogayca, geçmişte büyük imparatorluklar kuran görkemli atlı savaşçıların 
+günümüze ulaşan son nefeslerinden biridir. Ne yazık ki konuşan sayısı her geçen gün azaldığı 
+için bir hazine gibi korunmaya ihtiyaç duyan, Kazakçanın en yakın kardeşidir. 
+9. Kırım Tatarcası (Crimean Tatar / Qırımtatar tili) 
+Kimlik ve Yazı Sistemleri: Kırım Tatarcası (İngilizce: Crimean Tatar, Yerli adlandırma: 
+Qırımtatar tili / Qırımca), ISO 639-3 crh koduna sahip olup temel filogenisinde Kıpçak-Kuman 
+olarak geçer. Ancak tarihsel etkileşimler sonucunda çok güçlü bir Oğuz tabakası (Türkiye 
+Türkçesi) edinmiş bir geçiş (transitional) dilidir. Karadeniz'in kuzeyindeki Kırım Yarımadası ana 
+vatanıdır; Romanya (Dobruca), Ukrayna anakarası ve Türkiye'deki geniş diasporada yaşam 
+alanı bulur. Latin ve Kiril alfabelerinin her ikisi de yaygın olarak kullanılır. 
+Konuşur ve Canlılık Durumu: Dünya genelinde 500.000'den fazla kişi tarafından konuşulur. 
+
+Glottolog ve UNESCO tarafından "Severely Endangered" (Ciddi Tehlikede), Ethnologue 
+tarafından EGIDS 5 (Developing) olarak kodlanmıştır. 1944 Kırım Tatar Sürgünü (Sürgünlik) dilin 
+ekosistemini fiziksel olarak parçalamış, Sovyetlerin yıkılışı sonrası Kırım'a dönen halk bu kez de 
+Rusçanın baskın kurumsal hegemonyasıyla yüzleşmek zorunda kalmıştır. 
+Tarihsel Süreç: Kırım Hanlığı dönemi boyunca Kıpçak ve Oğuz dil alanlarının tam bir kesişim 
+noktasında şekillenmiştir. Ortaçağ Kuman-Kıpçak Türkçesinin en değerli kaynağı olan meşhur 
+Codex Cumanicus Kırım'daki dilin atası kabul edilir. 19. yüzyılda İsmail Gaspıralı'nın "Dilde, 
+fikirde, işte birlik" şiarıyla çıkardığı efsanevi Tercüman gazetesi, Kırım Tatarcasını Osmanlı 
+Türkçesi ile harmanlayarak tüm Türk dünyasının ortak edebi dili yapmaya gayret etmiştir. 
+Dilbilimsel Yapı ve Özgünlük: Kırım Tatarcası, diller arası bir köprü hüviyetindedir ve üç ana 
+diyalekte ayrılır: 
+
+1.  Yalıboyu (Güney): Neredeyse saf bir Oğuz dilidir (Türkiye Türkçesine çok benzer). 
+2.  Çöl (Kuzey/Bozkır): Nogayca ve Kumukça gibi standart bir Kıpçak dilidir. 
+3.  Orta Yol (Tat/Merkez): İkisinin tarihsel bir füzyonudur ve modern edebi dil bu meleklikten 
+doğmuştur46. Bu melez (hybrid) morfofonoloji yapısı, bazı kelimelerde Kıpçak sertliğinin, 
+bazı kelimelerde ise Oğuzca ötümlülüğün ve inceliğinin bir arada yaşamasını sağlar. 
+Çoğul ekleri genellikle standart -lar/-ler dizilimi gösterir. 
+
+İlişkiler ve Temas Etkileri: Türkiye Türkçesi ile karşılıklı anlaşılabilirliği en yüksek olan Kıpçak 
+dilidir39. Bir konuşur aynı anda hem bir İstanbullu ile hem de bir Kumuk ile iletişim kurabilir. 
+Dijital ve NLP Gücü: Joshi NLP sisteminde Sınıf 1 (Scraping-Bys) olarak yer almaktadır8. Kural 
+tabanlı morfolojik aktarımda Türkiye Türkçesinin gücünden yararlandığı için Apertium sisteminde 
+çok başarılıdır. crh-tur (Kırım Tatarcası-Türkçe) FST çeviricisi "trunk" (üretim/olgunluk) 
+seviyesindedir18. Modern LLM ekosisteminde de dikkat çekmeye başlamış, TUMLU gibi güncel 
+büyük dil modeli değerlendirme ölçütlerinde (benchmarks) analiz edilen 9 Türk dili arasına 
+girerek umut vaat etmiştir23. 
+KÖKEN Test Notu ve Eksiklik Analizi: Platform veritabanında "Kıpçak" şemsiyesi altında 
+bulunmasına rağmen, NLP modüllerinde "Oğuz-Kıpçak Hibridi" (Transitional) olarak özel bir 
+morfolojik sınıfta etiketlenmesi şarttır. Katı Kıpçak morfotaktik kuralları Kırım Tatarcasının 
+merkez lehçesinde çalışan stemmer ve lemmatizer'larda hataya (parsing error) yol açacaktır. 
+Apertium trunk seviyesi FST modeli KÖKEN için ana motor olarak referans alınmalıdır. 
+Sade Özet: Kırım Tatarcası, Karadeniz'in iki yakasını birbirine bağlayan, tarihi efsanelerle dolu 
+ancak yaşanan sürgünler yüzünden hüzünlü bir dildir. Hem Türkiye Türkçesine hem de Orta 
+Asya'daki bozkır akrabalarına benzeyen kelimeleriyle, Türk dünyasının tam kalbinde bir köprü 
+gibidir. 
+Genel Çapraz Kontrol ve Sonuç Analizi (KÖKEN Test 
+Özeti) 
+
+1.  Joshi Taksonomisi Uyuşmazlığı ve NLP İvmelenmesi: Veritabanlarındaki standart 
+
+metrikler (Joshi et al., 2020), Kıpçak dillerinin tamamını statik olarak Sınıf 0 ve 1 arasında 
+göstermektedir6. Oysa Kazakça için 45.3 milyar tokenlik Sherkala-Chat (8B LLM)21 ve 
+Kırgızca için 1.499 parametrelik özelleşmiş AkylAI32 gibi büyük dil modeli projeleri bu 
+dilleri dinamik olarak Sınıf 3 (Rising Stars) bandına taşımıştır. KÖKEN platformu, statik 
+
+taksonomileri "Zaman Serisi (Time-series) NLP Olgunluğu" algoritmalarıyla güncelleyecek 
+şekilde yapılandırılmalıdır. 
+
+2.  Apertium Morfoloji FST Potansiyeli ve Sıfır-Kaynak Transferi: Kural tabanlı FST'lerde 
+(Finite State Transducers) Tatarca (tat-bak %97.341) ve Kazakçanın (kaz-tat %88.718) 
+ulaştığı prodüksiyon olgunluğu, son derece kritik bir avantajdır. Bu olgunluk; sıfır-kaynak 
+(zero-resource) durumundaki Nogayca, Karakalpakça (incubator: 5.408 stem) ve 
+Kumukçanın (incubator: 561 stem) analizatörlerini fonolojik transfer kuralları (örneğin 
+Başkurtça peltekleşmesi veya Nogayca ş/s kayması) vasıtasıyla kodlamak 
+(bootstrapping) için altın bir şablon sunar. 
+
+3.  UD Ağaç Bankaları ve Kod Kopyalama (Code-Switching): Tatarca NMCTT korpusunda 
+
+tespit edilen Rusça ile yoğun kelime içi kod kopyalama (intra-word code-switching) 
+fenomeni40, Sovyet sonrası Kıpçak dillerinin evrensel bir gerçeğidir. KÖKEN sentaktik 
+ayrıştırıcılarının (parser), standart dışı morfolojik sınırları gürültü (noise) olarak değil, 
+hedef dilin sosyolinguistik davranışı olarak etiketlemesi zorunludur. Evrensel Bağımlılıklar 
+(Universal Dependencies) UD_Kazakh-KTB ve Turkish-TueCL gibi projeler25 bu 
+adaptasyon için asgari iskeleti sağlamaktadır. 
+
+4.  Dijital Çürüme (Digital Extinction) ve Aciliyet: Karaçay-Balkarca, Kumukça ve 
+
+Nogayca Sınıf 0 seviyesinde dijital varlık yoksunluğu çekmektedir. KÖKEN platformu, bu 
+dillerin makine öğrenimi veya sentaktik ağaç bankalarından ziyade, kitle kaynaklı 
+(crowdsourced) temel sözlük inşası ve çocuk eğitim modüllerinde akustik (ASR/TTS) veri 
+toplanması görevlerine acil öncelik (P1) atamalıdır. Standart NLP hattı (pipeline) sunan 
+TurkicNLP gibi araçlar27 bu dilleri asgari Unicode ve tokenizasyon seviyesinde desteklese 
+de anlambilimsel veri kıtlığı devam etmektedir. 
+
+Alıntılanan çalışmalar 
+
+1.  Recent Advancements and Challenges of Turkic Central Asian, 
+
+https://arxiv.org/html/2407.05006v3 
+
+2.  TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/html/2602.19174v2 
+
+3.  Appendix:Kazakh suffixes - Wiktionary, the free dictionary, 
+https://en.wiktionary.org/wiki/Appendix:Kazakh_suffixes 
+4.  teaching elements of kipchak language in north azerbaijani, 
+
+https://periodicos.fclar.unesp.br/rpge/article/download/16468/12777/56171 
+5.  Karachay-Balkar - Grokipedia, https://grokipedia.com/page/Karachay-Balkar 
+6.  The State and Fate of Linguistic Diversity and Inclusion in the NLP, 
+
+https://aclanthology.org/anthology-files/anthology-files/pdf/acl/2020.acl-main.560.p
+df 
+
+7.  The State and Fate of Linguistic Diversity and Inclusion in the NLP, 
+
+https://www.researchgate.net/publication/340805920_The_State_and_Fate_of_Lin
+guistic_Diversity_and_Inclusion_in_the_NLP_World 
+
+8.  A Large-Scale Study of Machine Translation in Turkic Languages, 
+
+https://www.researchgate.net/publication/357120692_A_Large-Scale_Study_of_M
+achine_Translation_in_Turkic_Languages 
+
+9.  Kazakh language - Wikipedia, https://en.wikipedia.org/wiki/Kazakh_language 
+10. Introducing Qolda-AVL for the Kazakh Language - MDPI, 
+
+https://www.mdpi.com/2504-2289/10/6/192 
+
+11. A CEFR-Graded Lexicon and Morphology-Aware Benchmarks for, 
+
+https://www.mdpi.com/2227-7080/14/6/346 
+
+12. Introduction to the Kazakh Language, 
+
+https://languagecanvas.com/free/kaz1/kaz1_10/intro/intro.htm 
+13. What are the rules for adding suffixes in Kazakh? - Talkpal AI, 
+
+https://talkpal.ai/culture/what-are-the-rules-for-adding-suffixes-in-kazakh/ 
+
+14. A Rule Based Morphological Analyzer and A Morphological, 
+
+https://www.hrpub.org/download/20151231/LLS11-19304874.pdf 
+
+15. Rule Based Morphological Analyzer of Kazakh Language, 
+
+https://aclanthology.org/W14-2806.pdf 
+
+16. Recent Advancements and Challenges of Turkic Central Asian, 
+
+https://aclanthology.org/2025.loreslm-1.25.pdf 
+
+17. Recent Advancements and Challenges of Turkic Central Asian, 
+
+https://www.researchgate.net/publication/382081088_Recent_Advancements_and
+_Challenges_of_Turkic_Central_Asian_Language_Processing 
+
+18. Turkic-Turkic translator - Apertium, 
+
+https://wiki.apertium.org/wiki/Turkic-Turkic_translator 
+
+19. Kazakh and Tatar - Apertium, https://wiki.apertium.org/wiki/Kazakh_and_Tatar 
+20. Common Crawl Foundation at COLM 2025, 
+
+https://commoncrawl.org/blog/common-crawl-foundation-at-colm-2025 
+
+21. (PDF) Llama-3.1-Sherkala-8B-Chat: An Open Large Language, 
+
+https://www.researchgate.net/publication/389580277_Llama-31-Sherkala-8B-Chat
+_An_Open_Large_Language_Model_for_Kazakh 
+
+22. Sherkala-Chat: Building a State-of-the-Art LLM for Kazakh in ... - arXiv, 
+
+https://arxiv.org/html/2503.01493v2 
+
+23. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/html/2602.19174v4 
+
+24. KazNERD: Kazakh Named Entity Recognition Dataset - LREC, 
+
+http://www.lrec-conf.org/proceedings/lrec2022/pdf/2022.lrec-1.44.pdf 
+
+25. UniversalDependencies/UD_Kazakh-KTB - GitHub, 
+
+https://github.com/UniversalDependencies/UD_Kazakh-KTB 
+
+26. UD_Kazakh-KTB - Universal Dependencies, 
+
+https://universaldependencies.org/treebanks/kk_ktb/index.html 
+27. TurkicNLP: An NLP Toolkit for Turkic Languages - ResearchGate, 
+
+https://www.researchgate.net/publication/401133169_TurkicNLP_An_NLP_Toolkit
+_for_Turkic_Languages 
+
+28. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/pdf/2602.19174v1?utm_source=daily-mt-picks&utm_medium=ema
+il&utm_campaign=machine-translation-digest-for-feb-22-2026 
+29. Question–Answer Models for Teaching Programming in Kazakh, 
+
+https://www.mdpi.com/2076-3417/16/12/6156 
+
+30. CSE-Guided Linguistically Constrained Morphological ... - MDPI, 
+
+https://www.mdpi.com/2078-2489/17/6/594 
+31. Kyrgyz - Article .::. UCLA International Institute, 
+
+https://international.ucla.edu/institute/article/123622 
+32. KyrgyzNER: Human-Annotated NER Dataset for Kyrgyz, 
+
+https://mozilladatacollective.com/datasets/cmihefmde01vxmd07djfchz51 
+
+33. UniversalDependencies/UD_Turkish-TueCL - GitHub, 
+
+https://github.com/UniversalDependencies/UD_Turkish-TueCL 
+34. Parallel Universal Dependencies Treebanks for Turkic Languages, 
+
+https://aclanthology.org/2025.udw-1.14.pdf 
+
+35. Universal Dependencies Treebank for Tatar: Incorporating Intra, 
+
+https://aclanthology.org/2022.eurali-1.17.pdf 
+
+36. Bashkir language - Wikipedia, https://en.wikipedia.org/wiki/Bashkir_language 
+37. Bashkir phonology - Wikipedia, https://en.wikipedia.org/wiki/Bashkir_phonology 
+38. Bashkir language - Grokipedia, https://grokipedia.com/page/Bashkir_language 
+39. https://opendata.uni-halle.de/bitstream/1981185920/94565/1/menz_2011_turkic_e
+
+urope.pdf 
+
+40. [PDF] Universal Dependencies Treebank for Tatar - Semantic Scholar, 
+
+https://www.semanticscholar.org/paper/Universal-Dependencies-Treebank-for-Tat
+ar%3A-Taguchi-Iwata/92008e63aae88099890088c43cfb83ac4d1b56e9 
+
+41. Труды конференции - TurkLang, 
+
+http://www.turklang.net/wp-content/uploads/2021/12/TurkLang2019-1.pdf 
+
+42. Bashkir (башҡорт теле) — 20 words & pronunciations - LangMap, 
+
+https://langmap.heuron.com/en/wordmap/ba 
+
+43. Kazakh language - Grokipedia, https://grokipedia.com/page/Kazakh_language 
+44. KARACHAY-BALKAR VOCABULARY OF PROTO-TURKIC ORIGIN, 
+
+http://www.elbrusoid.org/upload/iblock/8fc/8fcc2129334a913dc958411ff582a7f0.pd
+f 
+
+45. Turkic languages - Apertium, https://wiki.apertium.org/wiki/Turkic_languages 
+46. TURKISH to CRIMEAN TATAR MACHINE TRANSLATION SYSTEM, 
+
+https://repository.bilkent.edu.tr/bitstreams/805250e0-364c-4bf7-b1af-0c0ff820b5f4/
+download 
+
+47. A Morphological Analyser for Crimean Tatar - Bilkent CS, 
+
+http://www.cs.bilkent.edu.tr/~ilyas/PDF/tainn2001-morph.pdf 
+
+48. Machine Translation for Crimean Tatar to Turkish, 
+
+https://works.swarthmore.edu/context/fac-linguistics/article/1259/viewcontent/W19
+_6805.pdf 
+
+

@@ -1,0 +1,823 @@
+Sibirya (Kuzeydoğu) Türk Dilleri: Derin 
+Dilbilimsel, Tarihsel ve Bilişimsel (NLP) 
+Profiller 
+
+Sibirya veya Kuzeydoğu Türk dilleri, Türk dil ailesinin coğrafi olarak en izole, filogenetik olarak 
+ise en arkaik katmanlarını barındıran alt kolunu temsil etmektedir. Ortak Türkçe gövdesinden 
+erken dönemde ayrılan bu diller; Ural, Yenisey, Tunguz ve Moğol dilleriyle kurdukları yoğun 
+areal temaslar neticesinde tipolojik olarak emsalsiz evrimler geçirmiştir1. Bu derin araştırma 
+raporu, KÖKEN platformunun veri altyapısını beslemek ve mevcut verileri (canlılık, Joshi 
+sınıflaması, dilbilimsel uzaklık ve alt-dal aidiyetleri) çapraz kontrolden geçirmek amacıyla 
+hazırlanmıştır. İnceleme; Saha (Yakut), Tuvaca, Hakasça, Altayca, Şorca, Dolganca, Sarı 
+Uygurca (Batı Yugurca) ve Fu-yü Kırgızcası dillerini kapsamaktadır. 
+1. Saha (Yakut) Dili 
+Saha veya Yakut dili, Kuzeydoğu Sibirya'nın sert iklim koşullarında izole biçimde gelişerek 
+Proto-Türkçe köklerden yapısal olarak ciddi ölçüde farklılaşmış bir Kuzey Sibirya Türk dilidir. Dil, 
+coğrafi yalıtılmışlığı sayesinde arkaik özellikleri korurken, Tunguzca (Evenki) ve Moğolca 
+altkatman (substrate) etkileriyle yeni tipolojik adaptasyonlar geliştirmiştir1. 
+
+Parametre 
+
+Veri / Değer 
+
+Yerli / İngilizce / Türkçe Adı 
+
+Саха тыла (Sakha tyla) / Yakut, Sakha / 
+Saha, Yakutça 
+
+ISO 639-3 Kodu 
+
+sah 
+
+Kol / Alt-grup 
+
+Kuzey Sibirya Türk Dilleri (Yakutik) 
+
+Konuşulduğu Yer 
+
+Yazı Sistemi 
+
+Rusya Federasyonu, Saha Cumhuriyeti 
+(Yakutistan) 
+
+1819 Ortodoks Kiril, 1851 Böhtlingk, 1917 
+Novgorodov Latin, 1938 Modern Kiril 
+
+Konuşur Sayısı (Kaynak/Tarih) 
+
+~482.000 (Rusya Nüfus Sayımı, 2020/2021) 
+
+Canlılık (AES / EGIDS / UNESCO) 
+
+Not Endangered / 2 (Provincial) / Vulnerable 
+
+Saha dilinin kökenleri, 13. ve 15. yüzyıllar arasında Moğol yayılmacılığının baskısıyla Baykal 
+bölgesinden kuzeye, Lena Nehri havzasına göç eden Türk boylarına dayanmaktadır1. Bu göç 
+süreci, dilin Ortak Türkçeden dramatik biçimde kopmasına ve Tunguz dilleriyle, özellikle Evenki 
+ile yoğun bir temasa girmesine yol açmıştır. Yazılı edebiyat geçmişi, 1819'da dini metinlerin 
+çevrilmesiyle başlamış olup, Otto von Böhtlingk'in 1851 tarihli gramer çalışmasıyla akademik 
+standartlara kavuşmuştur4. 1917'de Semyon Novgorodov'un geliştirdiği ve Uluslararası Fonetik 
+Alfabe'den (IPA) esinlenen Latin alfabesi 1938'e kadar kullanılmış, ardından Rus Kiril alfabesine 
+beş özgün harf (Ҕ, Ҥ, Ө, Һ, Ү) eklenerek oluşturulan modern sisteme geçilmiştir4. Genç nesiller 
+arasında şehir merkezlerinde Rusça baskın dil haline gelmiş olsa da, kırsal kesimlerde 
+kuşaklararası dil aktarımı güçlü bir şekilde devam etmekte ve dilin canlılığını korumasını 
+sağlamaktadır. 
+Dilbilimsel yapı bağlamında Sahaca, sekiz kısa ve sekiz uzun ünlüye ek olarak dört adet çift 
+ünlü (diphthong) barındıran zengin bir ünlü envanterine sahiptir3. Proto-Türkçedeki uzun ünlüler 
+korunmuş, ayrıca kelime başı s- sesinin tarihsel süreçte debuccalization (ağız boşluğundaki 
+boğumlanma noktasının yitirilip gırtlağa çekilmesi) yoluyla h- sesine ve nihayetinde sıfır foneme 
+(Ø) dönüşmesi gibi çok katmanlı ses değişimleri yaşanmıştır (örneğin Proto-Türkçe suox > 
+Dolganca huoq > Sahaca uox veya doğrudan suox biçiminin evrimi)5. Ünsüz benzeşmeleri 
+morfem sınırlarında oldukça katıdır; örneğin çoğul ve iyelik ekleri (G, B, T, L arkafonemleri 
+etrafında) kelime sonundaki sese göre sayısız allomorfik varyasyona uğrar (at 'at' > appıt 
+'atımız' örneğinde olduğu gibi t sesinin labial bir sese benzeşmesi)5. Morfolojik açıdan en radikal 
+sapma, Sahacanın Ortak Türkçedeki Genitif (İlgi) ve Lokatif (Bulunma) durum eklerini tamamen 
+kaybetmiş olmasıdır3. Bunun yerine Tunguz dillerinden kopyalanan Partitif (Bölünme) ve 
+Komitatif (Birliktelik) gibi yeni hâl ekleri sisteme entegre edilmiştir6. Modern sözdizimsel 
+teorilerde, Sahacadaki Akuzatif ve Datif durumlarının yapısal bir konfigürasyona dayalı olarak, 
+Nominatif ve Genitif durumlarının ise fonksiyonel başlıklar (functional heads) üzerinden atandığı 
+iddia edilmektedir7. Fiil çekimlerinde ise "uzak gelecek zaman" (distant future imperative) gibi 
+nadir kipler, Sahacanın özgünlüğünü pekiştirir3. 
+Saha dilinin bilişimsel (NLP) olgunluğu, diğer Sibirya Türk dillerine kıyasla yüksek bir ivme 
+yakalamıştır. Joshi et al. sınıflandırmasında Sınıf 1 (Scraping By) ile Sınıf 2 (Hopeful) arasında 
+konumlandırılmaktadır8. Açık kaynaklı morfolojik analiz ve kural tabanlı makine çevirisi platformu 
+Apertium ekosisteminde, apertium-sah modülü HFST (Helsinki Finite-State Transducer) tabanlı 
+lexc ve twol yapılarıyla geliştirilmiş, 11.531 kök kelime ile yaklaşık %89.6 metin kapsama 
+(coverage) oranına ulaşmıştır10. Bu platformda Kazakça-Sahaca yönünde işleyen bir çeviri çifti 
+mevcuttur. Daha derin sözdizimsel analizler için "Universal Dependencies" (UD) projesi 
+kapsamında manuel olarak etiketlenmiş UD_Yakut-YKTDT ağaç bankası aktif olarak 
+kullanılmaktadır12. Konuşma tanıma (ASR) alanında HuggingFace altyapısında barındırılan 
+Facebook MMS (Massively Multilingual Speech) tabanlı MatricariaV/Yakut-ASR modeli ve 
+bcckfdn/yakut-alpha-0.1-gguf gibi yerel olarak çalıştırılabilen dil modelleri, dilin teknolojik 
+dayanıklılığını (avantaj) artırmaktadır14. Ancak geniş çaplı paralel korpusların eksikliği 
+(dezavantaj), derin öğrenme modellerinin performansını kısıtlamaktadır. 
+
+KÖKEN Test Notu: Platform verilerinde Sahacanın durum ekleri listelenirken Genitif ve Lokatif 
+eklerin kesinlikle "Yok" (veya "Kaybolmuş") olarak işaretlenmesi ve UD Ağaç Bankası 
+değişkeninin bu dil için "Aktif" konuma getirilmesi gerekmektedir. Aksi halde tipolojik ve dijital 
+veri tutarsızlığı doğacaktır. 
+Sade Özet: Kuzey Sibirya'nın dondurucu soğuğunda konuşulan, eski Türkçenin uzun sesli 
+harflerini binlerce yıldır saklayan çok özel bir dildir. Onu benzersiz kılan, diğer Türk dillerindeki 
+"-nın" ve "-da" gibi ekleri zamanla unutup, komşusu olan yerli halklardan yepyeni ekler alarak 
+tamamen kendi kurallarını yaratmış olmasıdır. 
+2. Tuvaca 
+Sayan dağlarının izole coğrafyasında şekillenen Tuvaca, içerdiği fonolojik tuhaflıklar ve Moğolca 
+ile kurduğu asimetrik temas ilişkileri nedeniyle Türk dilleri ailesinin en sıradışı üyelerinden 
+biridir16. 
+
+Parametre 
+
+Veri / Değer 
+
+Yerli / İngilizce / Türkçe Adı 
+
+Тыва дыл (Tyva dyl) / Tuvan / Tuvaca 
+
+ISO 639-3 Kodu 
+
+tyv 
+
+Kol / Alt-grup 
+
+Sibirya Türk Dilleri, Sayan Alt-Grubu 
+
+Konuşulduğu Yer 
+
+Yazı Sistemi 
+
+Rusya Federasyonu (Tuva Cumhuriyeti), 
+Moğolistan, Çin 
+
+1928 Latin, 1943 Modern Kiril (Ө, Ү, Ң 
+harfleri ile) 
+
+Konuşur Sayısı (Kaynak/Tarih) 
+
+~273.000 (Rusya Nüfus Sayımı) 
+
+Canlılık (AES / EGIDS / UNESCO) 
+
+Shifting / 2 (Provincial) / Vulnerable 
+
+Tarihsel kayıtlarda Soyot veya Uriankhai olarak da anılan Tuvalar, Eski Uygur ve Oğuz 
+unsurlarının birleşimiyle şekillenmiş, yüzyıllarca süren Moğol idaresi altında derin yapısal 
+etkileşimlere maruz kalmıştır16. Dilin kodifikasyon süreci Sovyet dilbilimciler (Polivanov, Poppe, 
+Jakovlev) tarafından 1928'de başlatılmış, başlangıçta Latin alfabesi kullanılmış ancak daha 
+sonra Rus alfabesine dayalı bir Kiril sistemine geçilmiştir16. Tuva başkenti Kızıl'daki genç nesiller 
+arasında Rusçanın etkisiyle temas kaynaklı yeniden yapılanma (contact-induced restructuring) 
+görülse de, kırsal bölgelerde dilin aktarımı oldukça canlıdır. 
+Tuvacanın fonolojisi, dünya dilleri arasında eşine az rastlanır bir özelliğe sahiptir: İlgili literatürde 
+
+"pharyngealized", "kargyraa" veya daha isabetli bir akustik terimle "alçak ton vurgusu" (low pitch 
+/ creaky voice) olarak adlandırılan ünlü sistemi17. Tuvacada ünlüler kısa, uzun ve alçak tonlu 
+kısa ünlüler olmak üzere üç belirgin kategoriye ayrılır. Alçak tonlu bir ünlü, normal modun çok 
+altında, adeta gırtlaktan gelen çatırtılı bir sesle (creaky) başlar ve ünlünün ikinci yarısında ton 
+aniden yükselir17. Bu özellik, kelimelerin anlamını doğrudan değiştirir; örneğin at (kısa ünlü ile) 
+'ad/isim' anlamına gelirken, àt (alçak tonlu ünlü ile) 'at (hayvan)' anlamına gelir17. Dil ayrıca, 
+kelimedeki ünlülerin hem kalınlık-incelik (palatal) hem de yuvarlaklık-düzlük (labial) açısından 
+uyumlu olmasını zorunlu kılan katı bir ünlü uyumu rejimine tabidir17. Morfolojik olarak Tuvaca, 
+Türkçe köklere Moğolca yapım eklerinin eklendiği melez sözcük üretimleri barındırır ve fiil 
+çekimlerinde şahıs ekleri yerine daha çok serbest enklitik zamirleri kullanma eğilimindedir16. 
+Dijital dünyada Tuvaca, kısıtlı kaynaklarına rağmen sistematik çabalarla belirli bir ivme 
+kazanmış ve Joshi Sınıf 1 (Scraping By) kategorisinde değerlendirilebilir. Apertium 
+ekosisteminde Tuvaca (apertium-tyv), Sayan grubunun en olgun kural-tabanlı çeviri 
+modüllerinden birine sahiptir. Modül, Kazakça-Tuvaca geçişlerini desteklemekte olup, 11.695 
+kök kelime ile Wikipedia, Shyn gazetesi ve İncil metinlerinden oluşan korpuslarda sırasıyla 
+%88.9, %95.5 ve %94.3 oranında bir morfolojik kapsama oranına (coverage) erişmiştir11. Ürün 
+açısından, Apertium'un sağladığı bu yüksek kapsama oranı morfolojik analiz için büyük bir 
+avantaj sağlarken; açık kaynaklı modern LLM (Large Language Model) veriseti eksikliği, üretken 
+yapay zeka entegrasyonlarında dilin gelişimini yavaşlatmaktadır (dezavantaj). 
+KÖKEN Test Notu: KÖKEN veri tabanında Tuvaca fonoloji paneline "Alçak Tonlama/Pitch 
+Accent (Kargyraa Vowels)" özelliğinin mutlaka anahtar tipolojik bir ayırt edici olarak girilmiş 
+olması gerekmektedir. Uzun/kısa ünlü ikiliğinin ötesindeki bu üçlü ayrım sistemin akustik 
+doğruluğu için kilit noktadır. 
+Sade Özet: Moğolistan sınırındaki karlı dağlarda yaşayan Tıvaların, tüm dünyaca bilinen 
+"gırtlaktan şarkı söyleme" (höömey) sanatını konuşmalarına da yansıttığı çok müzikal bir dildir. 
+Onu dünya üzerinde en ilginç dillerden biri yapan şey, aynı kelimenin içindeki sesli harfi biraz 
+daha alçak, pes ve boğuk bir sesle okuduğunuzda kelimenin anlamının bir anda tamamen 
+değişmesidir. 
+3. Hakasça 
+Hakasça, Yenisey Kırgızlarının torunları olarak kabul edilen ve tarihsel süreçte çeşitli Türk 
+boylarının (Saga, Kaça, Koybal, Beltir, Kızıl) asimile olup birleşmesiyle ortaya çıkan bir Güney 
+Sibirya Türk dilidir21. 
+
+Parametre 
+
+Veri / Değer 
+
+Yerli / İngilizce / Türkçe Adı 
+
+Тадар тілі (Tadar tili) / Khakas / Hakasça 
+
+ISO 639-3 Kodu 
+
+kjh 
+
+Kol / Alt-grup 
+
+Sibirya Türk Dilleri, Yenisey Alt-Grubu 
+
+Konuşulduğu Yer 
+
+Yazı Sistemi 
+
+Rusya Federasyonu (Hakasya Cumhuriyeti, 
+Minusinsk Havzası) 
+
+Tarihsel: Yenisey Runik. Güncel: Kiril (ғ, ӌ, 
+ң, ӧ, ӱ, һ harfleriyle) 
+
+Konuşur Sayısı (Kaynak/Tarih) 
+
+~54.000 akıcı konuşur (73.000 etnik nüfus, 
+2020) 
+
+Canlılık (AES / EGIDS / UNESCO) 
+
+Threatened / 6b / Definitely Endangered 
+
+Tarihsel kökenleri 7. yüzyıldaki Yenisey runik yazıtlarına uzanan Hakas dili, daha sonra Sogdian 
+kökenli Uygur alfabesini kullanmış, Sovyet devrimi sonrasında ise önce Latin (1929), ardından 
+Kiril (1939) alfabesiyle modern edebi bir dil hüviyeti kazanmıştır22. Dilbilimsel dokümantasyonu, 
+1840'larda Fin dilbilimci Matthias Castrén'in Minusinsk Havzasındaki Koybal ağzı üzerine yaptığı 
+saha çalışmalarıyla ivme kazanmıştır21. Günümüzde gençler arasında Rusçanın baskın dil 
+haline gelmesi, Hakasçayı "Kesinlikle Tehlikede" statüsüne itmiştir ve konuşurların büyük 
+çoğunluğu iki dillidir23. 
+Hakasçanın yapısal profili, fonolojik ve morfolojik arkaizmlerin yeniliklerle harmanlandığı bir 
+sisteme dayanır. Fonolojik olarak en radikal özellik, Ortak Türkçedeki damaksıl/sürtünmeli 
+seslerin (ş, ç, j) ıslıklı sibilantlara (s, z) dönüşmesidir. Örneğin, diğer lehçelerdeki şyrbek 
+(tavşan) kelimesi Hakasçada sÿrbek olarak telaffuz edilir21. Kelime başındaki palatal (damaksıl) j 
+ünsüzü, kelime içinde bir genizsil (nazal) ünsüz bulunduğunda gerileyici bir asimilasyonla n veya 
+ɲ sesine dönüşür22. Morfolojik olarak dil, standart 6 Türkçe hâl ekine ek olarak Direktif/Allatif 
+(Yönelme), Ekvatif/Prosekütif (Eşitlik/Geçiş) ve Circumstantial (Durum/Neden bildiren) gibi 
+eklerle birlikte tam 10 farklı gramatikal durum (case) sistemi geliştirmiştir (-dañar eki gibi)22. Dilin 
+SOV sözdizimi oldukça katıdır ve nitelenen daima niteleyenden sonra gelir. Leksikal olarak 
+Rusçadan etkilenmiş olsa da, tarihsel nedenlerden ötürü Arapça ve Farsça kopyalar yok 
+denecek kadar azdır22. 
+Dijital varlık açısından Hakasça, düşük kaynaklı diller arasında yer alır ve Joshi Sınıf 1 
+(Scraping By) seviyesindedir. Apertium altyapısında apertium-kjh adlı bir modül geliştirilmeye 
+başlanmışsa da, Tuvaca veya Sahacanın ulaştığı metin kapsama (coverage) olgunluğuna 
+ulaşamamıştır11. Kapsamlı bir dijital sözlük inşası veya paralel derlem (corpus) oluşturma 
+projeleri akademik makalelere konu olmuş (örneğin Khakass-Russian-English elektronik 
+sözlüğü) ancak geniş çaplı NLP ardışık düzenlerine (pipeline) tam entegre edilememiştir25. 
+Avantajı, kural tabanlı sistemlerin ıslıklı sibilant kurallarını kolayca modelleyebilmesi iken; büyük 
+dil modelleri (LLM) için gereken eğitim verisi hacminin olmaması en büyük eksikliğidir. 
+KÖKEN Test Notu: Platformda Hakasçanın gramer özellikleri kısmında yer alan durum (case) 
+ekleri toplam sayısının "10" olarak doğrulanması ve fonoloji eşleştirmelerinde "Islıklı Sibilant 
+
+(Whistling Sibilant) - s/z kullanımı" maddesinin mevcut olması şarttır. 
+Sade Özet: Sibirya'nın kalbinde, geniş Yenisey nehrinin etrafında konuşulan ve tarihteki eski 
+Kırgız savaşçılarının mirasını günümüze taşıyan bir dildir. Onu ilginç kılan, Türkçedeki "ş" gibi 
+sesler yerine "s" gibi ıslıklı sesleri tercih etmesi ve kelimelere eklenebilen tam 10 farklı yön, 
+durum ve sebep eki barındırmasıdır. 
+4. Altayca 
+Altayca, Güney Sibirya'nın sarp coğrafyasında, hem Sibirya (Kuzey) hem de Kıpçak (Güney) dil 
+özelliklerini harmanlayan, lehçe sürekliliği (dialect continuum) açısından oldukça karmaşık bir 
+Türk dilidir26. 
+
+Parametre 
+
+Veri / Değer 
+
+Yerli / İngilizce / Türkçe Adı 
+
+Алтай тили (Altay tili) / Altai / Altayca 
+
+ISO 639-3 Kodu 
+
+alt (Güney Altayca), atv (Kuzey Altayca) 
+
+Kol / Alt-grup 
+
+Sibirya Türk Dilleri ve Kıpçak Geçiş Grubu 
+
+Konuşulduğu Yer 
+
+Yazı Sistemi 
+
+Rusya Federasyonu (Altay Cumhuriyeti, 
+Altay Krayı) 
+
+1928-1938 Latin, 1938- Kiril (9 ek harf: Ј, Ҥ, 
+Ӧ, Ӱ, Ғ, Қ, Һ, Ҷ, I) 
+
+Konuşur Sayısı (Kaynak/Tarih) 
+
+~125.700 (Kuzey ve Güney toplamı, 
+2010/2021) 
+
+Canlılık (AES / EGIDS / UNESCO) 
+
+Severely Endangered (Özellikle Kuzey 
+Ağızları) 
+
+Tarihsel olarak Altayca, Proto-Türkçe evresinden izler taşımakla birlikte 13. ve 15. yüzyıllar 
+arasındaki Kıpçak göçlerinden (Kazak, Nogay) derin biçimde etkilenmiştir26. Dil, birbirleriyle her 
+zaman net bir karşılıklı anlaşılabilirlik sunmayan iki büyük alt gruba ayrılır: Güney Altay (Altay 
+proper, Telengit, Teleut) ve Kuzey Altay (Tuba, Kumandı, Çalkan/Kuu)27. Talat Tekin'in 
+sınıflandırmasına göre Kuzey Altay ağızları Şorca ve Hakasça ile birlikte Yenisey/Sibirya 
+grubuna aitken, Güney Altay ağızları Kırgızca ve Kazakçaya daha yakındır26. Yazı dili, 1928'de 
+Latin alfabesiyle standardize edilmeye çalışılmış, ardından karmaşık bir Kiril adaptasyon süreci 
+(1938, 1944 revizyonları) yaşanmıştır27. Özellikle Kumandı ve Çalkan gibi Kuzey lehçeleri, 
+UNESCO tarafından "Ciddi Tehlikede" olarak sınıflandırılmış olup, eğitim dilinde tamamen 
+
+Rusça ve kısmen Standart Güney Altaycanın gerisinde kalmıştır. 
+Fonolojik açıdan Altayca, 8 kısa ve 8 uzun ünlü barındırır. Proto-Türkçe kelime içi ve sonu -d- 
+sesi, Altaycada istikrarlı bir biçimde -j- (veya diyalektik olarak /ɟ/ ~ /d͡ z/) sesine evrilmiştir (Örn: 
+adak yerine ajak 'ayak')27. Kuzey Altay ağızlarında Proto-Türkçe */ag/ ses öbeği lehçeye göre 
+/u/, /aw/ veya /aʁ/ olarak refleks verir27. Morfolojik olarak Altayca sondan eklemelidir; ancak 
+Güney Altayca Kıpçak dillerine özgü zamir çekimlerini yansıtırken, Kuzey Altayca daha arkaik 
+Sibirya çekim kurallarına (örneğin -tIŋ genitif ekinin kendine has kullanımları) tutunmuştur26. 
+Ayrıca edatların ekleşmesi (grammaticalization) süreci Altaycada da görülür ve "-la" gibi edatlar 
+modern gramerde komitatif (birliktelik) hâl eki olarak işlev görmektedir29. 
+Altaycanın NLP kapasitesi son derece kısıtlıdır. Joshi et al. Sınıf 1 (Scraping By) ile Sınıf 0 
+arasında değerlendirilmektedir. Apertium açık kaynak projesinde apertium-alt adında deneysel 
+bir depo (repository) bulunsa da, bu depo henüz çalışan bir kural-tabanlı çeviri analizörüne tam 
+olarak dönüşememiş, taslak aşamasında kalmıştır24. Bu nedenle makine çevirisi, açık sözlük 
+veya UD Ağaç Bankası gibi gelişmiş ürünler (avantaj) henüz mevcut değildir (dezavantaj). 
+KÖKEN Test Notu: Platformdaki veri mimarisinde Altayca için ISO kodlarının "alt" (Güney) ve 
+"atv" (Kuzey) olarak ayrı diller/makro-diller düzeyinde etiketlenip etiketlenmediği test edilmelidir. 
+Sibirya ve Kıpçak dalları arasında bir tipolojik "köprü" olduğu ilişkiler (relations) tablosuna 
+yansıtılmalıdır. 
+Sade Özet: Altay dağlarının eteklerinde, asırlar öncesinin destanlarına ve şaman masallarına 
+ev sahipliği yapan bir dildir. Onu özel kılan, Türk dilinin doğduğu topraklarda yer alması ve hem 
+Kuzey Sibirya'nın gizemli orman seslerini hem de Güney bozkırlarının (Kazak/Kırgız) özelliklerini 
+birbirine bağlayan tarihi bir köprü olmasıdır. 
+5. Şorca 
+Şorca, Güney Sibirya'da Kemerovo Oblastı'nın sık ormanlarla kaplı dağlık bölgelerinde (Dağlık 
+Şorya) konuşulan ve yok olma tehlikesiyle karşı karşıya olan izole bir Yenisey Türk dilidir30. 
+
+Parametre 
+
+Veri / Değer 
+
+Yerli / İngilizce / Türkçe Adı 
+
+Тадар тил (Tadar til), Shor til / Shor / Şorca 
+
+ISO 639-3 Kodu 
+
+cjs 
+
+Kol / Alt-grup 
+
+Konuşulduğu Yer 
+
+Yazı Sistemi 
+
+Sibirya Türk Dilleri, Yenisey Alt-Grubu 
+(Hakasça ile birlikte) 
+
+Rusya Federasyonu (Kemerovo Oblastı, 
+Tom ve Kondoma havzası) 
+
+1885 Misyoner Kiril, 1930 Latin, 1938 
+Modern Kiril 
+
+Konuşur Sayısı (Kaynak/Tarih) 
+
+~2.800 (Etnik Nüfus: ~15.900, ancak 
+%10'dan azı akıcı) 
+
+Canlılık (AES / EGIDS / UNESCO) 
+
+Severely Endangered / 6b (Threatened) 
+
+Şorcanın tarihsel oluşumu, prehistorik dönemde Ketler ve Ob-Ugorları gibi Hint-Avrupa ve 
+Türkçe dışı Ural/Yenisey halklarıyla yaşanan yoğun asimilasyon ve temasa (substrate etkilerine) 
+dayanır30. Ortak Türkçe döneminden ayrıldıktan sonra Moğol ve son olarak Rus dilleriyle 
+sarmalanmıştır. Şor dili temel olarak iki ana lehçeye ayrılır: Mrassu ve Kondoma. Bu lehçeler o 
+kadar farklılaşmıştır ki, Proto-Türkçe intervokalik (iki ünlü arası) -d- sesi Mrassu lehçesinde -z- 
+sesine dönüşürken (örn. azaq), Kondoma lehçesinde -y- sesine dönüşmüştür31. Şor nüfusunun 
+yoğun asimilasyona uğraması, dilin kullanımını yalnızca yaşlı nesillerle sınırlı bırakmıştır. 
+Fonolojik olarak Şorca, intervokalik ünsüzlerin erimesi neticesinde oluşan uzun ünlüler dahil 16 
+ünlü foneme (8 kısa, 8 uzun) sahiptir30. Ünlü uyumu, kelime kökü ve ekler bazında çok heceli 
+kelimelerde belirginken; dudak uyumu (labial harmony) Mrassu lehçesinde korunmuş, Kondoma 
+lehçesinde ise bozulmuştur30. Morfolojik olarak dil, son eklemeli yapıya sahip olmakla birlikte 
+analitik süreçler (fusion) geliştirmiştir. Şorcanın en özgün morfosentaktik özelliklerinden biri, 
+edatların kelime gövdelerine eklenerek (grammaticalization) yeni durum ekleri (longitudinal ve 
+directive vakaları) yaratması ve Karatay-Balkarca gibi dillerdeki yapılarla tarihsel bağlar kuran 
+(örn. -wčAn ekinin evrimi) -čAn fiil çekim ekinin fiilden isim veya partisipler üretmesidir30. 
+Sözdizimi, ulaç (converb) ve zarf-fiillerin yoğun kullanıldığı çok-yüklemli bileşik cümlelere 
+(Poly-Predicative Constructions - PPC) dayanır; bu sayede aynı özneli veya farklı özneli 
+karmaşık zaman ilişkileri tek bir sentaktik düzlemde kurulur33. 
+NLP ve dijital hazırlık seviyesi açısından Şorca, Joshi Sınıf 0 (Left Behind) olarak 
+derecelendirilmektedir9. apertium-cjs deposu taslak halinde varlık gösterse de, açık erişimli bir 
+metin korpusu (tek dilli veya paralel) bulunmadığı için analizör geliştirilememiş ve herhangi bir 
+makine çevirisi, TTS (Text-to-Speech) veya ASR (Speech Recognition) aracı inşa 
+edilememiştir24. Bu durum, dilin dijital olarak belgelenmesini ve korunmasını (dezavantaj) kritik 
+derecede sekteye uğratmaktadır. 
+KÖKEN Test Notu: Platformda Şorcanın lehçe dağılımında (Mrassu ve Kondoma) "z-dili" ve 
+"y-dili" ayrımının doğru yapıldığı kontrol edilmelidir. Ayrıca, dilbilimsel temas kısmında "Ket ve 
+Ob-Ugor dilleri (Uralic/Yeniseian)" altkatman etkilerinin yer alıp almadığı teyit edilmelidir. 
+Sade Özet: Sibirya'nın derin ormanlarında yaşayan Şor Türklerinin, günümüzde maalesef 
+sadece birkaç bin kişinin hatırladığı ve doğayla iç içe olan benzersiz dilidir. Onu özel kılan, 
+kelime yapılarında çevrelerindeki çok eski Sibirya yerlilerinden aldıkları izleri taşıması ve 
+eskiden kelimelerin yanında duran edatları zamanla kelimenin içine çekerek yepyeni ekler 
+üretmesidir. 
+6. Dolganca 
+Dolganca, dünyanın en kuzeyinde, Kuzey Kutbu'nun zorlu koşullarında konuşulan, etnik sentez 
+
+sonucu oluşmuş eşsiz bir temas dili (contact variety) ve Kuzey Sibirya Türk dilidir34. 
+
+Parametre 
+
+Veri / Değer 
+
+Yerli / İngilizce / Türkçe Adı 
+
+Һака (Haka), Dolgan / Dolgan / Dolganca 
+
+ISO 639-3 Kodu 
+
+dlg 
+
+Kol / Alt-grup 
+
+Konuşulduğu Yer 
+
+Yazı Sistemi 
+
+Kuzey Sibirya Türk Dilleri (Sahaca/Yakutça 
+ile birlikte) 
+
+Rusya Federasyonu (Taymır Yarımadası, 
+Saha Cumhuriyeti Anabar bölgesi) 
+
+20. yy başları Latin, günümüzde Saha Kiril 
+temelli Modern Kiril 
+
+Konuşur Sayısı (Kaynak/Tarih) 
+
+~4.800 ile 5.400 (2020 Rusya Nüfus 
+Sayımı) 
+
+Canlılık (AES / EGIDS / UNESCO) 
+
+Vulnerable / 6b (Threatened) / Definitely 
+Endangered 
+
+Dolgancanın etnojenezi, 17. ve 19. yüzyıllar arasında Lena nehrinden kuzeye, Taymır 
+yarımadasına göç eden Yakutların, bölgedeki ren geyiği çobanı Tunguzlar (Evenkiler), 
+Samoyetler ve izole Rus yerleşimcilerle kaynaşmasına dayanır36. Bu tarihsel karışım, genetik 
+olarak Sahacaya (Yakutça) o kadar yakındır ki, Sovyetler Birliği döneminde uzun süre sadece 
+bir Yakut lehçesi olarak kabul edilmiştir35. Ancak günümüzde güçlü Evenki altkatman etkisi ve 
+sosyokültürel farklılıklar nedeniyle ayrı bir dil olarak sınıflandırılmaktadır36. Genç nesiller 
+arasında Rusça baskın dil haline geldiği için (globalizasyon ve internet etkisiyle), dilin geleceği 
+kesin tehlike altındadır38. 
+Fonolojik ve morfolojik yapı olarak Dolganca, Sahacanın özelliklerini Tunguz etkisiyle yeniden 
+yorumlamıştır. En belirgin ses değişimi, Yakutçadaki s- sesinin Dolgancada istikrarlı bir şekilde 
+h- sesine dönüşmüş olmasıdır (Yakutça saxa, Dolganca haka)35. Ayrıca, kök hecelerde Ortak 
+Türkçe orta derece ünlüleri (/o, e, ö/), Dolgancada çift ünlülere (diphthongization) evrilmiştir35. 
+Morfolojik olarak sekiz durum (case) barındırır, ancak Sahacadan farklı olarak Komitatif 
+(Birliktelik) durumunu kaybetmiştir; Sahacadaki komitatif eki olan -LI:N Dolgancada durum eki 
+değil, sosyatif (sociative) bir türetim eki (derivational suffix) olarak yeniden analiz edilmiştir35. 
+Dolgancada ayrıca, morfolojik sınır kayması (boundary shift) gözlemlenir: Örneğin Yakutça 
+
+kennitten kelimesi, kök ve eklerin yeniden analizi sonucu Dolgancada fazladan bir hece alarak 
+kennititten şeklinde çekimlenir40. Kelime dağarcığında ise yön bildiren terimlerin coğrafi olarak 
+yeniden anlamlandırılması dikkat çeker; örneğin tās sadece 'taş' değil, aynı zamanda 
+'güney/doğu' anlamına gelir35. 
+Dolgancanın NLP ve dijital mevcudiyeti Joshi Sınıf 0 seviyesindedir. Apertium ekosisteminde 
+deneysel bir apertium-dlg modül taslağı mevcuttur ancak kelime köklerinin eksikliği ve analizör 
+kurallarının yazılmamış olması nedeniyle işlevsel bir makine çevirisi, metin oluşturma veya dil 
+modeli (LLM/ASR) üretilememiştir11. Bu eksiklik, akademisyenler dışındaki dijital erişimi 
+imkânsız kılmaktadır. 
+KÖKEN Test Notu: Platformda Dolgancanın durum (case) ekleri listesinde "Komitatif Hâl"in 
+(Birliktelik Eki) kaldırılmış / geçersiz olduğundan emin olunmalıdır. Ayrıca köken kısmında 
+"Evenki / Tunguz altkatmanı (substrate)" özelliğinin tipolojik bir farklılaştırıcı olarak girilmesi kilit 
+önem taşır. 
+Sade Özet: Kuzey Kutbu'na en yakın bölgede, ren geyiği çobanlarının konuştuğu dondurucu 
+soğukların dilidir. Onu bu kadar özel kılan şey, Yakutça konuşanların ve Evenki adlı yerlilerin 
+yüzlerce yıl önce kaynaşmasıyla, kelimeleri ve doğa algısı bambaşka olan yepyeni ve "melez" 
+bir kuzey dili olarak doğmuş olmasıdır. 
+7. Sarı Uygurca (Batı Yugurca) 
+Çin'in Gansu eyaletinde izole bir grup tarafından konuşulan Sarı Uygurca (veya Batı Yugurca), 
+adındaki benzerliğe rağmen Şincan'daki Karluk tabanlı Modern Uygurca ile kesinlikle akraba 
+olmayan, arkaik Sibirya özelliklerini koruyan bir Yenisey Türk dilidir41. 
+
+Parametre 
+
+Veri / Değer 
+
+Yerli / İngilizce / Türkçe Adı 
+
+Yoğır lar, Yoğır śoz / Western Yugur, Yellow 
+Uyghur / Sarı Uygurca, Batı Yugurca 
+
+ISO 639-3 Kodu 
+
+ybe 
+
+Kol / Alt-grup 
+
+Konuşulduğu Yer 
+
+Yazı Sistemi 
+
+Sibirya Türk Dilleri (Yenisey grubu ile uzak 
+akraba) 
+
+Çin Halk Cumhuriyeti (Gansu Eyaleti, 
+Sunan Yugur Özerk İlçesi) 
+
+Tarihsel: Eski Uygur. Güncel: Latin / Çin 
+yazısı tabanlı transkripsiyonlar 
+
+Konuşur Sayısı (Kaynak/Tarih) 
+
+~4.600 (Son tahminler, çoğu yaşlı nesil) 
+
+Canlılık (AES / EGIDS / UNESCO) 
+
+Severely Endangered / 8a (Moribund) 
+
+Modern Uygurlar 10. yüzyıldaki Karahanlı mirası (Karluk) üzerinden evrimleşirken, Batı Yugurlar 
+MS 840 yılında Uygur Kağanlığı'nın çöküşü sonrası Gansu bölgesine kaçıp Ganzhou Uygur 
+Krallığı'nı kuran asıl eski Uygurların doğrudan torunlarıdır41. Aynı Yugur topluluğu içinde 
+yaşayan Doğu Yugurlar ise tamamen farklı olan Moğolik bir dil konuşurlar41. Standard bir yazı 
+dilinin olmaması ve Çince okullaşma nedeniyle dil bugün "Yok Olmak Üzere" (Moribund) 
+kategorisindedir11. 
+Batı Yugurcanın en çarpıcı dilbilimsel yapıları fonolojisinde gizlidir. Dil sekiz ünlüye sahiptir ve 
+Türk dilleri içinde Tuvacadaki "pharyngealized" ünlülere karşılık gelen eşsiz bir preaspiration 
+(ön-soluklanma) özelliği geliştirmiştir. Bu özellik, ünlü harften sonra gelen ünsüzden önce 
+duyulan hafif bir nefes /h/ sesidir (Örn: otuz yerine oʰtɯs, et yerine iʰt)41. Ayrıca Çincenin areal 
+etkisiyle patlamalı ünsüzlerdeki ötümlülük zıtlığı (p/b, t/d) kaybolmuş, yerini soluklu/soluksuz 
+(aspirated vs. unaspirated) ünsüz zıtlığına bırakmıştır45. Morfolojik olarak Türk dillerinin 
+vazgeçilmezi olan ünlü uyumu büyük ölçüde çökmüş ve yalnızca belli eklerde ezbere 
+(lexicalized) dayalı olarak yaşatılmaktadır41. Gramer alanında fiillerde şahıs ekleri (kişi uyumu) 
+tamamen kaybolmuş olup, Eski Türkçede görülen ancak diğer modern Türk dillerinde yok olmuş 
+olan "anticipating counting" (sayıları bir sonraki onluğa bağlayarak söyleme) sistemi aktif olarak 
+kullanılmaktadır41. İsim çekimlerinde 6 durum (case) mevcuttur43. 
+Dijital güç bakımından Sarı Uygurca tam anlamıyla Sınıf 0/1 bandında sıkışmıştır. Apertium 
+altyapısında apertium-ybe kuluçka modülü olarak mevcuttur ancak işlevsel değildir. Wikimedia 
+Kuluçka (Incubator) projesinde (Wp/ybe) test aşamasında bir Wikipedia başlatılmaya 
+çalışılmışsa da, yeterli anadili konuşuru ve dijital içerik üreticisi bulunamadığından dolayı proje 
+atıl kalmıştır48. Modern NLP ürünleri (LLM, ASR) bu dil için sıfıra yakındır. 
+KÖKEN Test Notu: Platformdaki veri mimarisinde Modern Uygurca (ISO: ug - Karluk kolu) ile 
+Sarı Uygurca (ISO: ybe - Sibirya kolu) arasındaki farkın alt-dal (branch) verisinde kesin olarak 
+ayrıldığı kontrol edilmelidir. Ayrıca yapısal profilde "Preaspiration (Ön-soluklanma)" ve "Fiillerde 
+şahıs ekinin yokluğu" maddeleri eklenmelidir. 
+Sade Özet: Çin'in Gansu bölgesinde, 1200 yıl önce yıkılan eski Uygur Kağanlığı'nın asıl 
+torunları tarafından konuşulan çok tarihi bir dildir. Onu son derece özel yapan şey, kelimelerin 
+içindeki sesleri söylerken nefes vererek (ön-soluklanma) çıkardıkları tuhaf sesler ve yüzyıllar 
+öncesindeki eski Türkçe sayma sistemini günümüze bozulmadan taşımasıdır. 
+8. Fu-yü Kırgızcası 
+Adında "Kırgız" kelimesini taşımasına rağmen Orta Asya'daki Kıpçak Kırgızlarıyla dilbilimsel 
+hiçbir bağı kalmamış olan Fu-yü Kırgızcası, Manchuria'da (Kuzeydoğu Çin) hapsolmuş izole bir 
+Sibirya-Yenisey Türk dilidir49. 
+
+Parametre 
+
+Veri / Değer 
+
+Yerli / İngilizce / Türkçe Adı 
+
+Fuyü Gïrgïs, Gĭrgĭs / Fuyu Kyrgyz / Fu-yü 
+Kırgızcası 
+
+ISO 639-3 Kodu 
+
+Yok (Tanımsız/mis, Glottolog: fuyu1243) 
+
+Kol / Alt-grup 
+
+Konuşulduğu Yer 
+
+Yazı Sistemi 
+
+Sibirya Türk Dilleri, Yenisey Alt-Grubu 
+(Hakasça'ya yakın) 
+
+Çin Halk Cumhuriyeti (Heilongjiang Eyaleti, 
+Fuyu İlçesi) 
+
+Yazı dili yoktur (Tarihsel Moğol, modern 
+kısıtlı Latin pinyin) 
+
+Konuşur Sayısı (Kaynak/Tarih) 
+
+~10 yaşlı akıcı konuşur (2007 verisi) 
+
+Canlılık (AES / EGIDS / UNESCO) 
+
+Critically Endangered / Moribund 
+
+Fu-yü Kırgızcasının hikayesi, dramatik bir sürgün tarihine dayanır. Aslen Güney Sibirya'nın 
+Yenisey nehir havzasında yaşayan bu halk, 1761 yılında Cungarların Qing Hanedanı tarafından 
+kesin yenilgiye uğratılmasının ardından, anavatanlarından koparılıp binlerce kilometre doğuya, 
+Mançurya'daki Nonni (Nen) nehir havzasına sürülmüştür49. Bu tecrit, dili iki yüzyıl boyunca 
+Sibirya'daki Yenisey ağızlarının arkaik bir kapsülü haline getirmiştir. Ancak modern Çin 
+devletinin asimilasyon politikaları ve etrafındaki Moğol ile Çin nüfusunun baskısı nedeniyle, etnik 
+nüfusu 1.400 civarında olmasına rağmen dili akıcı konuşabilenlerin sayısı 10 civarı yaşlı bireye 
+düşmüştür50. Genç nesil, eğitim dili olan Mandarin Çincesine geçiş yapmıştır52. 
+Yapısal olarak incelendiğinde Fu-yü Kırgızcası, 7 ünlü ses fonemine (/a/, /ä/, /i/, /o/, /ö/, /u/, /ü/) 
+sahiptir49. Kıpçak kökenli Kırgızcadan fonolojik olarak en büyük farkı, tarihsel ünsüz silinmeleri 
+sonucunda oluşan ikincil uzun ünlüleridir (Örneğin Kıpçak Kırgızcasındaki bügün kelimesi, 
+Fu-yü'da ortadaki ünsüzün düşmesiyle pʉːn olarak uzun ünlüyle telaffuz edilir)49. Altay dillerinin 
+karakteristik ünlü ve ünsüz uyumu korunmuştur49. Ancak Çincenin areal baskısıyla durak (stop) 
+ünsüzlerinde ötümlü/ötümsüz ayrımı (p/b, t/d) kaybolmuş; bunun yerine Çincedeki gibi kelime 
+başlarında soluklanma (aspiration) temel ayırt edici özellik haline gelmiştir49. Dil, karşılıklı 
+anlaşılabilirlik açısından Kırgızca ile değil, Hakasça ve Şorca ile daha yakındır49. 
+Sadece linguistik dokümantasyonlar halinde varlık gösteren bu dilin Dijital ve NLP yetkinlik 
+düzeyi tamamen Sınıf 0 (Left Behind) olarak derecelendirilmektedir11. Kapsamlı bir sözlük, 
+Apertium analizörü veya HuggingFace dil modeli bulunmamaktadır; bu durum dilin dijital çağda 
+yaşama şansını pratikte ortadan kaldırmaktadır (büyük dezavantaj). 
+KÖKEN Test Notu: Sistemin bu dili Kıpçak kolundaki "Kırgızca (kir)" ile kesinlikle 
+
+eşleştirmemesi, ISO kodu atanmadığı için veri tabanında "mis" (miscellaneous) veya "fuyu1243" 
+(Glottolog) özel ID'si ile "Yenisey Alt Kolu"na sabitlenmesi kilit bir gerekliliktir. Aksi takdirde 
+algoritmik akrabalık ağaçları (phylogenetic trees) hatalı üretilecektir. 
+Sade Özet: Çin'in en doğusunda sadece birkaç yaşlı insanın hatırladığı, kaybolmak üzere olan 
+çok nadir bir dildir. Onu eşsiz kılan, adına "Kırgız" denmesine rağmen, 250 yıl önce bir 
+imparatorluk sürgünüyle Sibirya'daki anavatanlarından binlerce kilometre uzağa, Mançurya'ya 
+savrulmuş Hakasların kayıp ve unutulmuş kardeşleri olmalarıdır. 
+9. Genel Sonuç ve Ekosistem Değerlendirmesi 
+Kuzeydoğu/Sibirya Türk dilleri, morfolojik asimilasyon ve aşınmalar (Saha dilinde genitif/lokatif 
+kaybı6), Tunguz-Moğol-Yenisey gibi komşu dil ailelerinden alınan substrat etkileri (Dolgancada 
+Evenki temelleri36) ve preaspiration, ton vurgusu (pitch accent), ıslıklı sibilantlar gibi benzersiz 
+fonolojik evrimleri (Sarı Uygurca, Tuvaca ve Hakasça17) barındırmasıyla genel Türkoloji ve 
+evrensel dilbilim teorileri (örn. Marantz'ın konfigürasyonel durum atamaları7) için paha biçilemez 
+bir laboratuvar niteliğindedir. 
+Ancak teknolojik hayatta kalma ve dijitalleşme kapasiteleri bağlamında (NLP yetkinlikleri) 
+devasa bir asimetri gözlemlenmektedir: 
+
+1.  Saha ve Tuvaca: Apertium gibi kural-tabanlı (FST) morfolojik çözümleyicilerde (%90 üzeri 
+
+kapsama oranları) ve UD_Yakut-YKTDT gibi modern makine öğrenimi alanlarında 
+tutunarak (Joshi Sınıf 1-2) dijital ekosistemde var olma şansını maksimize etmişlerdir8. Bu 
+dillerin makine çevirisi altyapısı mevcuttur. 
+
+2.  Kırılgan ve Çölde Kalan Diller: Buna karşın Şorca, Fu-yü Kırgızcası, Sarı Uygurca ve 
+Dolganca tamamen "Dijital Çölde" (Joshi Sınıf 0) mahsur kalmıştır9. Eğitim dilinin Rusça 
+veya Çince olmasıyla nesiller arası aktarımın kopması, bu eşsiz dilbilgisel yapıların birkaç 
+on yıl içinde tamamen sessizliğe gömüleceğini kesinleştirmektedir30. 
+
+KÖKEN platformu, geliştireceği veri altyapısında bu asimetriyi dillerin tarihsel uzaklık (distance) 
+matrislerine kodlamalı ve dijital hayatta kalma endekslerini (digital vitality) yapısal bir değişken 
+(feature) olarak çapraz doğrulamalıdır. Sistem, salt genetik-tarihsel bağlara değil, dilin dijital 
+dünyada (korpus, FST, LLM entegrasyonu) sahip olduğu varlık hacmine de eşit derecede ağırlık 
+vermelidir. 
+
+Alıntılanan çalışmalar 
+
+1.  Siberian Turkic languages - Grokipedia, 
+
+https://grokipedia.com/page/Siberian_Turkic_languages 
+
+2.  Ural-Altaic languages | Turkic, Mongolian, Samoyedic - Britannica, 
+
+https://www.britannica.com/topic/Ural-Altaic-languages 
+
+3.  Yakut language - Grokipedia, https://grokipedia.com/page/Yakut_language 
+4.  Yakut Language - Structure, Writing & Alphabet - MustGo, 
+
+https://www.mustgo.com/worldlanguages/yakut/ 
+
+5.  Yakut language - Wikipedia, https://en.wikipedia.org/wiki/Yakut_language 
+6.  Yakut - The Language Gulper, https://languagesgulper.com/eng/Yakut.html 
+7.  Two Modalities of Case Assignment: Case in Sakha* - Sites@Rutgers, 
+
+https://sites.rutgers.edu/mark-baker/wp-content/uploads/sites/199/2019/07/sakha_
+case_postreview.pdf 
+
+8.  Participatory Research for Low-resourced Machine Translation: A Case Study in 
+
+African Languages - ACL Anthology, 
+https://aclanthology.org/2020.findings-emnlp.195.pdf 
+
+9.  WORLDCUISINES: A Massive-Scale Benchmark for Multilingual and Multicultural 
+
+Visual Question Answering on Global Cuisines - ACL Anthology, 
+https://aclanthology.org/anthology-files/pdf/naacl/2025.naacl-long.167.pdf 
+10. Sakha: apertium-sah - GitHub, https://github.com/apertium/apertium-sah 
+11. Turkic languages - Apertium, https://wiki.apertium.org/wiki/Turkic_languages 
+12. Universal Dependencies, https://universaldependencies.org/ 
+13. GitHub - UniversalDependencies/UD_Yakut-YKTDT, 
+
+https://github.com/UniversalDependencies/UD_Yakut-YKTDT 
+
+14. MatricariaV/Yakut-ASR - Hugging Face, 
+
+https://huggingface.co/MatricariaV/Yakut-ASR 
+
+15. initial commit · bcckfdn/yakut-alpha-0.1-gguf at 185c238 - Hugging Face, 
+
+https://huggingface.co/bcckfdn/yakut-alpha-0.1-gguf/commit/185c23883a15173bf7
+7770939cc47a6346dea580 
+
+16. Tuvan; Tyvan (Anderson & Harrison).pdf - The Swiss Bay, 
+
+https://www.theswissbay.ch/pdf/Books/Linguistics/Mega%20linguistics%20pack/Tu
+rkic/Tuvan%3B%20Tyvan%20%28Anderson%20%26%20Harrison%29.pdf 
+17. Tuvan language - Wikipedia, https://en.wikipedia.org/wiki/Tuvan_language 
+18. Sound Types (Chapter 12) - Turkic - Cambridge University Press & Assessment, 
+https://www.cambridge.org/core/books/turkic/sound-types/400FCAFE2048CB1F7
+BEC17790A711C16 
+
+19. Apertium-tyv, https://wiki.apertium.org/wiki/Apertium-tyv 
+20. apertium/apertium-tyv: Apertium linguistic data for Tuvinian - GitHub, 
+
+https://github.com/apertium/apertium-tyv 
+
+21. Khakas language - Grokipedia, https://grokipedia.com/page/Khakas_language 
+22. Khakas language - Wikipedia, https://en.wikipedia.org/wiki/Khakas_language 
+23. The Talking Khakas Phrasebook - Folkways Today, 
+
+https://folkways.today/the-talking-khakas-phrasebook/ 
+
+24. Released Apertium language modules - GitHub, 
+https://github.com/apertium/apertium-languages 
+
+25. Khakass And English In Electronic Bilingual Lexicography - European 
+
+Proceedings, 
+https://www.europeanproceedings.com/article/10.15405/epsbs.2020.12.02.29 
+
+26. Northern Altai language - Grokipedia, 
+
+https://grokipedia.com/page/Northern_Altai_language 
+
+27. Altai languages - Wikipedia, https://en.wikipedia.org/wiki/Altai_languages 
+28. Altai languages - Simple English Wikipedia, the free encyclopedia, 
+
+https://simple.wikipedia.org/wiki/Altai_languages 
+
+29. Case system in the Altai language (on material of three scientific grammars of the 
+
+Altai language) - ResearchGate, 
+https://www.researchgate.net/publication/322052319_Case_system_in_the_Altai_l
+
+anguage_on_material_of_three_scientific_grammars_of_the_Altai_language 
+
+30. Endangered Languages of Siberia - The Shor Language, 
+
+https://lingsib.iea.ras.ru/en/languages/shor.shtml 
+
+31. Shor language - Wikipedia, https://en.wikipedia.org/wiki/Shor_language 
+32. The Suffixes {-(V)wčAn} and {+čAn} in the Karachay-Balkar Language: Structure 
+
+and Function Текст научной статьи по специальности - КиберЛенинка, 
+https://cyberleninka.ru/article/n/the-suffixes-v-w-an-and-an-in-the-karachay-balkar-
+language-structure-and-function 
+
+33. Preservation of the Shor Language of the Small People of Kuzbass as a 
+
+Component of Russian Coal Cluster Sustainable Development, 
+https://www.e3s-conferences.org/articles/e3sconf/pdf/2021/54/e3sconf_sdemr202
+1_03027.pdf 
+
+34. Tehlikedeki Diller Dergisi Journal of Endangered Languages e-ISSN 2148-130X - 
+
+DergiPark, https://dergipark.org.tr/tr/download/article-file/3631398 
+
+35. Dolgan language - Wikipedia, https://en.wikipedia.org/wiki/Dolgan_language 
+36. The Dynamics of Multilingualism in an Arctic Language Ecology in - Brill, 
+
+https://brill.com/view/journals/jlc/17/1/article-p246_7.xml 
+
+37. Dolgan language - Grokipedia, https://grokipedia.com/page/Dolgan_language 
+38. The Functioning of the Anabar Dolgan Language and the Dialect Vocabulary of 
+
+the Sakha Language - Berghahn Journals, 
+https://www.berghahnjournals.com/view/journals/sibirica/21/3/sib210304.pdf 
+
+39. Chapter 12 Derivational Processes in: A Grammar of Dolgan - Brill, 
+
+https://brill.com/display/book/9789004516427/BP000012.xml 
+
+40. Contact-induced change in Dolgan - Scholarly Publications Leiden University, 
+
+https://scholarlypublications.universiteitleiden.nl/access/item%3A2940591/view 
+
+41. Western Yugur language - Wikipedia, 
+
+https://en.wikipedia.org/wiki/Western_Yugur_language 
+42. Western Yugur? - Turkic Database at Elegant Lexicon, 
+
+https://turkic.elegantlexicon.com/lx.php?lx=yug 
+
+43. The Western Yugur (Yellow Uygur) Language. - Grammar, Texts, Vocabulary. - 
+
+The Swiss Bay, 
+https://www.theswissbay.ch/pdf/Books/Linguistics/Mega%20linguistics%20pack/Tu
+rkic/Western%20Yugur%20%28Yellow%20Uygur%29%20Language%20%28Roos
+%29.pdf 
+
+44. Western Yugur language | Laskon Wiki - Fandom, 
+
+https://laskon.fandom.com/wiki/Western_Yugur_language 
+
+45. Recent developments in Western Yugur, 
+
+http://acta.bibl.u-szeged.hu/16612/1/altaica_039_255-267.pdf 
+
+46. Neutral vowels and exceptional harmony in Western Yugur Sichen Lyu* Abstract. 
+
+This study examines the highly lexicalized vowel h - Proceedings, 
+https://journals.linguisticsociety.org/proceedings/index.php/tu/article/download/563
+5/5403/11629 
+
+47. ANA çiZGiLERiYLE SARI UYGURCA, 
+
+https://tdkturkdunyasi.gov.tr/tam-metin-pdf/14/tur 
+
+48. Wp/ybe - Incubator Wikimedia, https://incubator.wikimedia.org/wiki/Wp/ybe 
+
+49. Fuyu Kyrgyz language - Wikipedia, 
+
+https://en.wikipedia.org/wiki/Fuyu_Kyrgyz_language 
+
+50. Fuyu Kyrgyz language - Grokipedia, 
+
+https://grokipedia.com/page/Fuyu_Kyrgyz_language 
+
+51. Fuyu Kyrgyz people - Grokipedia, 
+
+https://grokipedia.com/page/Fuyu_Kyrgyz_people 
+
+52. Fuyu Kyrgyz language, alphabet and pronunciation - Omniglot, 
+
+https://www.omniglot.com/writing/fuyukyrgyz.htm 
+
+

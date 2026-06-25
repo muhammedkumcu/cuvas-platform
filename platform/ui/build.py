@@ -1203,6 +1203,63 @@ def main():
     ncat = len(eco["categories"]); nlink = sum(len(l["links"]) for c in eco["categories"] for l in c["langs"]) + sum(len(c.get("hubs", [])) for c in eco["categories"])
     print(f"  Ekosistem SAYFASI (ds7+web): ekran={neco} nav={nnav} kategori={ncat} bağlantı={nlink}")
 
+    # ============================================================
+    #  Faz 1.4 — HAKKINDA & İLETİŞİM sayfası (kullanıcı notu)
+    # ============================================================
+    REPO = "https://github.com/muhammedkumcu/cuvas-platform"
+    _src_items = [
+        ("Apertium FST", "morfoloji motoru (analiz/üretim)", "GPL-3.0"),
+        ("SavelyevTurkic CLDF", "kognat ağı, çok-boyutlu uzaklık", "CC BY 4.0"),
+        ("Glottolog", "sınıflandırma + AES canlılık", "CC BY 4.0"),
+        ("WALS", "tipolojik özellikler", "CC BY 4.0"),
+        ("Savelyev & Robbeets 2020", "Bayes soy ağacı (Tarih & Köken)", "akademik"),
+        ("HuggingFace + derin araştırma", "ekosistem + derin profiller", "derleme"),
+    ]
+    src_cards = "".join(
+        '<div style="background:#fff;border:1px solid rgba(33,29,23,.1);border-radius:11px;padding:13px 15px">'
+        f"<div style=\"font-family:'Spectral',serif;font-size:15px;font-weight:600;color:#211d17\">{a}</div>"
+        f'<div style="font-size:12.5px;color:#5f574b;margin-top:3px;line-height:1.45">{b}</div>'
+        f"<div style=\"font-size:11px;color:#9a9082;margin-top:6px;font-family:'IBM Plex Mono',monospace\">{c}</div></div>"
+        for a, b, c in _src_items)
+    misyon = "".join(f'<li style="margin-bottom:7px">{x}</li>' for x in [
+        'Araştırmacının <b>ilk uğrağı</b>: Türk dil dünyasının açık literatür ve araçlarını tek yerde.',
+        'Düşük-kaynaklı / tehlikedeki Türk dillerine <b>dijital kapsayıcılık</b> (çekirdek: Çuvaşça).',
+        'Akademik dürüstlük: <b>her veri kaynağına bağlı</b>, uydurma yok; gerçek veriyle değişene kadar işaretli.',
+        "Apertium'u yeniden icat etmeden üstüne <b>erişilebilirlik + pedagoji + karşılaştırma</b> katmanı; hatalar yüzeye çıktıkça motora geri katkı.",
+    ])
+    ABOUT = (
+        '      <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">\n'
+        '      <section style="max-width:900px;margin:0 auto;padding:34px 40px 70px">\n'
+        "        <div style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a\">HAKKINDA & İLETİŞİM</div>\n"
+        "        <h2 style=\"font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 16px\">KÖKEN nedir?</h2>\n"
+        '        <p style="font-size:15.5px;line-height:1.75;color:#3f3a32;max-width:74ch;margin:0 0 14px">KÖKEN, ~20 Türk dili için açık kaynak bir <b>morfoloji + karşılaştırma + araştırma</b> platformudur. Olgun <b>Apertium</b> sonlu-durum dilbilgileri (FST) üzerine; analiz, üretim, paradigma, kognat ağı, ses denklikleri, çok-boyutlu uzaklık, dil profilleri, harita, tarih ve NLP/LLM ekosistemi katmanları ekler. İki kitleye birden hizmet eder: <b>öğrenenler</b> (öğrenci/çocuk) ve <b>araştırmacılar</b>.</p>\n'
+        '        <p style="font-size:15.5px;line-height:1.75;color:#3f3a32;max-width:74ch;margin:0 0 24px">Çekirdeği <b>Çuvaşça</b>dır — yaşayan tek Oğur (Bulgar) Türk dili ve tehlikedeki düşük-kaynaklı bir dil. Platformun bir ayağı bu tür dilleri dijital dünyada görünür kılmaktır.</p>\n'
+        '        <div style="background:#211d17;color:#f4f1ea;border-radius:18px;padding:26px 30px;margin-bottom:26px">\n'
+        "          <h3 style=\"font-family:'Spectral',serif;font-size:22px;font-weight:600;margin:0 0 12px\">Misyon</h3>\n"
+        '          <ul style="margin:0;padding-left:20px;font-size:14.5px;line-height:1.6;color:rgba(244,241,234,.9)">' + misyon + '</ul>\n'
+        '        </div>\n'
+        "        <h3 style=\"font-family:'Spectral',serif;font-size:22px;font-weight:600;margin:0 0 4px\">Veri & motor</h3>\n"
+        '        <p style="font-size:13.5px;color:#5f574b;margin:0 0 14px">Her veri doğrudan bir kaynağa dayanır. Tam liste: <b>Kaynaklar &amp; Lisanslar</b> sayfası.</p>\n'
+        '        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:26px">' + src_cards + '</div>\n'
+        "        <h3 style=\"font-family:'Spectral',serif;font-size:22px;font-weight:600;margin:0 0 10px\">İletişim & katkı</h3>\n"
+        '        <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:14px;padding:20px 24px;font-size:14.5px;line-height:1.8;color:#3f3a32">\n'
+        '          <div>Geliştirici: <b>Muhammed Kumcu</b> — Marmara Üniversitesi.</div>\n'
+        f'          <div>Kaynak kod / katkı (issue · PR): <a href="{REPO}" target="_blank" rel="noopener" style="color:#2f6fb0;text-decoration:none">github.com/muhammedkumcu/cuvas-platform ↗</a></div>\n'
+        '          <div>E-posta: <a href="mailto:muhammedkumcu@marun.edu.tr" style="color:#2f6fb0;text-decoration:none">muhammedkumcu@marun.edu.tr</a></div>\n'
+        '        </div>\n'
+        '        <p style="font-size:12.5px;color:#9a9082;margin:14px 0 0;line-height:1.6">Açık kaynak. Akademik hedef: UBMK/TurkLang ve ötesi. Apertium GPL-3.0 motorunun üstünde, verisi kaynaklı bir erişim/araştırma katmanı.</p>\n'
+        '      </section>\n'
+        '      </sc-if>\n')
+    about_anchor = "      <!-- ===================== KAYNAKLAR & LİSANSLAR ===================== -->"
+    nabout = 1 if about_anchor in html else 0
+    html = html.replace(about_anchor, ABOUT + "\n" + about_anchor, 1)
+    # nav (KEŞFET grubuna Hakkında) + isAbout bayrağı
+    html = html.replace(
+        "      {id:'history', label:'Tarih & Köken'},\n    ]},\n    {group:'ANALİZ', items:[",
+        "      {id:'history', label:'Tarih & Köken'},\n      {id:'about', label:'Hakkında'},\n    ]},\n    {group:'ANALİZ', items:[", 1)
+    html = html.replace("isHistory:S.screen==='history',", "isHistory:S.screen==='history', isAbout:S.screen==='about',", 1)
+    print(f"  Hakkında sayfası (1.4): ekran={nabout}, kaynak kart={len(_src_items)}")
+
     (DIST / "index.html").write_text(html, encoding="utf-8")
     shutil.copy(UI / "support.js", DIST / "support.js")
 

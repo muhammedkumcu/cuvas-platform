@@ -4,8 +4,8 @@
 
 ---
 
-## BÖLÜM A — YATAY ÖLÇEK ÖNCESİ UI / CİLA (kullanıcı notları, 25 Haz)
-> Bunların çoğu yatay ölçeğin ÖN ŞARTI: dil sayısı artınca bu sorunlar büyür. Ölçekten hemen önce/sırasında yapılmalı.
+## BÖLÜM A — YATAY ÖLÇEK ÖNCESİ UI / CİLA (kullanıcı notları, 25 Haz) — ✅ TAMAMLANDI (26 Haz)
+> Bunların çoğu yatay ölçeğin ÖN ŞARTI: dil sayısı artınca bu sorunlar büyür. **A1–A6 hepsi yapıldı, Claude_Preview'da doğrulandı, ayrı commit+push'lu** (sonuç özeti aşağıda, her madde başında ✅).
 
 - **A1 · Kognat kelime-seçme ekranı (★ ölçek ön-şartı):** Yatay ölçekte tüm kelimeleri ekleyeceğiz → seçim ekranı çok kalabalık olacak. **Kategorili/aranabilir** bir kelime-seçici lazım (vücut/doğa/sayı/akrabalık/eylem… — bkz deepsearch 18 kategorileri). Şimdiki düz liste ölçeklenemez.
 - **A2 · Karşılaştır ekranı başlık hardcode'u:** Karşılaştır'a girince **"'okuduk' — diller arası"** başlığı TÜM sekmelerde (dizilim, ses denklikleri, soy ağacı, harita) kalıyor — mantıksız sekmelerden (soy ağacı, harita, ses denklikleri) **kaldır** (yalnız "dizilim"e ait). *(Hardcoded — kolay unutulur; bkz E maddesi.)*
@@ -13,6 +13,15 @@
 - **A4 · Harita arka planı + düğüm yoğunluğu:** Konumlar doğru (gerçek koordinat projeksiyonu) ama **arka plan haritası biraz saçma duruyor** — şekil/renkler beğenildi, bu tarzda ama **daha doğru** bir arka plan çiz. + Bazı düğümler çok yakın (Çuvaşça↔Tatarca; Tatarca arkada kalıyor); yeni diller eklenince daha zor olacak → **düğüm seçme/ayırma önlemi** (hover büyütme, zoom, ya da tıkla-listeden-seç). (Deepsearch 11 koordinatları + S.Sibirya kümesi.)
 - **A5 · Uzaklık Gezgini ortadaki kutu:** Ortadaki gösterim kutusu **çok uzun** → taban-dil seçim kısmını kısıtlıyor. O UI yeniden dengelenmeli (kutu kompakt, taban-dil + eksenler ferah). Genel olarak iyi düşünülmeli.
 - **A6 · Kaynaklar & Lisanslar büyümesi:** Yatayda çok kaynak olacak → kendi sayfasında **kategori** (veri/araç/model/literatür/deepsearch…) düşün. Her modülün KULLANIM eşlemesi güncel kalmalı. (Ne zaman: her yeni veri eklendiğinde + ölçek sonrası toplu.)
+
+### ✅ SONUÇ ÖZETİ (26 Haz — yapıldı, Claude_Preview doğrulamalı, ayrı commit'ler)
+- **A1 ✅** kategorili+aranabilir kognat seçici (çipler Vücut/Doğa/Zaman/Sayılar/Soyut sayaçlı + arama + boş-durum; `COG_CAT`, ds18 ile genişleyecek).
+- **A2 ✅** `compareHeadline` sekmeye-duyarlı: "X — diller arası" yalnız dizilim; diğer sekmeler sekme-başlığı (çift-tanım çakışması giderildi).
+- **A3 ✅** landing katmanlı kapsam şeridi (10/23/32 dil + 6 kol, hepsi VERİDEN) + footer "6 KOL·32 DİL" (eski "5·14" stale+yanlıştı) + "yedi dilde"→"diller arasında".
+- **A4 ✅** harita arka planı projeksiyon-hizalı (`build_map_bg()`, iç denizler gerçek lat/lon: Hazar Azerice↔Türkmence kıyıları doğru) + hover-büyütme + etiket kademe (Tatarca/Şor/Tuvaca); tıkla→inline kart korundu.
+- **A5 ✅** Uzaklık radar kutusu kompakt (`align-items:start`) + taban-dil/eksen ferah + OKUMA sağ sütuna (denge).
+- **A6 ✅** Kaynaklar 4 kategori grubu (Araçlar & motorlar / Veri setleri / Akademik literatür / Derin araştırma & derlemeler) + sayaç; ölçekte yeni kaynaklar kategoriye düşer.
+> **Ölçek bağı:** A1'in `COG_CAT` taksonomisi + kavram listesi deepsearch 18 işlenince genişletilecek; seçici altyapısı hazır.
 
 ---
 

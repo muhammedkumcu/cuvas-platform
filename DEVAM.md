@@ -16,8 +16,8 @@
 - **SAYFALAR (sol menü):** KEŞFET (Ana Sayfa·Dil Profilleri·Tarih&Köken·**Çuvaşça Kalbi**·**Hakkında**) · ANALİZ (Morfoloji·Paradigma·Kognat·Karşılaştır·Uzaklık) · ÖĞREN (Çuvaşça Atölyesi) · ARAŞTIR (Araştırmacı Merkezi·**Ekosistem**·Kaynaklar).
 
 **★ SIRADAKİ MAKRO-FAZ = YATAY ÖLÇEK** (tüm Türk dilleri + lehçeleri). **Sıralı plan: `plan/GELECEK-PLANLAR.md`** →
-- **A) Yatay ölçek öncesi UI cilası (kullanıcı notları):** A1 kognat kelime-seçici (kategorili/aranabilir, ölçek ön-şartı) · A2 Karşılaştır başlık hardcode'unu mantıksız sekmelerden kaldır · A3 ana sayfa dil-sayısı güncel · A4 harita arka planı (daha doğru, aynı tarz) + düğüm yoğunluğu önlemi · A5 Uzaklık uzun-kutu dengele · A6 Kaynaklar sayfası kategorize.
-- **B) Yatay ölçek:** **deepsearch 11-18 promptları HAZIR** (`arastirma/11..18*.prompt.md` — envanter, 5 kol-profil, ses denklikleri, kognat). **Kullanıcı çalıştırıp atacak** → locale çek, çapraz-kontrol, tüm modülleri tüm dillere aç.
+- **A) Yatay ölçek öncesi UI cilası (kullanıcı notları) — ✅ TAMAMLANDI (26 Haz, A1–A6 hepsi, Claude_Preview doğrulamalı, ayrı commit'ler):** A1 kognat kelime-seçici kategorili+aranabilir ✅ (`COG_CAT`, ds18 ile genişler) · A2 Karşılaştır başlığı sekmeye-duyarlı ✅ (kelime yalnız dizilim'de) · A3 landing katmanlı kapsam şeridi VERİDEN + footer "6 KOL·32 DİL" düzeltildi ✅ · A4 harita projeksiyon-hizalı arka plan (`build_map_bg()`, iç denizler gerçek lat/lon) + hover-büyütme + etiket kademe ✅ · A5 Uzaklık radar kutusu kompakt + OKUMA sağ sütuna ✅ · A6 Kaynaklar 4 kategori grubu ✅. **(Detay sonuç özeti: GELECEK-PLANLAR Bölüm A.)**
+- **B) Yatay ölçek (★ SIRADAKİ):** **deepsearch 11-18 promptları HAZIR + ÇIKTILAR GELDİ** (`arastirma/11..18*.pdf` — kullanıcı çalıştırdı, PDF'ler klasörde). → **locale çek (pdfminer→`_*.txt`), çapraz-kontrol, tüm modülleri tüm dillere aç** (A1 kategori taksonomisi + COG_CONC genişlet, profiller 14→tüm, harita/uzaklık/ses-denklikleri/ekosistem ölçekle).
 - **C) Altyapı:** gerçek ses motoru (Piper/MMS/eSpeak WASM+FastAPI) · morfolojik üretim arayüzü · ekosistem HfApi-CRON.
 - **D) EN SON:** çocuk eğitim portalı + Saha/Şor "Dilin Kalbi" şablonu.
 

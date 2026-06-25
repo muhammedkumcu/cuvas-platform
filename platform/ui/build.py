@@ -464,6 +464,13 @@ def main():
                              ("left:42%;top:60%", "left:33%;top:62%"), ("left:72%;top:8%", "left:60%;top:6%")]:
         if old_pos in html:
             html = html.replace(old_pos, new_pos, 1); na4 += 1
+    # B2 — deniz etiketleri (suyun içinde, dot yok → clutter yok; "denizler önemli olsun"). pointer-events:none
+    _sea_lbl = lambda lf, tp, name: (f'<span style="position:absolute;left:{lf}%;top:{tp}%;font-family:\'Spectral\',serif;'
+                                     f'font-style:italic;font-size:9.5px;color:#7f9aa6;letter-spacing:.3px;pointer-events:none;white-space:nowrap">{name}</span>\n            ')
+    sea_labels = (_sea_lbl(5.5, 42, "Karadeniz") + _sea_lbl(18.5, 56, "Hazar Denizi")
+                  + _sea_lbl(26, 37.5, "Aral") + _sea_lbl(3.5, 74, "Akdeniz"))
+    if "            <!-- language dots -->" in html:
+        html = html.replace("            <!-- language dots -->", sea_labels + "<!-- language dots -->", 1); na4 += 1
     # Argu kolu rengini ekle (Halaçça düğümü + lejant)
     html = html.replace("    'Karluk':'oklch(0.5 0.13 295)', 'Sibirya':'oklch(0.52 0.13 235)',",
                         "    'Karluk':'oklch(0.5 0.13 295)', 'Sibirya':'oklch(0.52 0.13 235)', 'Argu':'#8a7a2e',", 1)
@@ -498,7 +505,7 @@ def main():
         "Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur.",
         "Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur. Bir dile tıkla — bilgisi aşağıda açılır.", 1)
     print(f"  Harita inline kart (1.3): mapInfo+kart={nmapcard}")
-    print(f"  A4a harita arka planı projeksiyon-hizalı (SVG+konteyner+4 bölge etiketi): {na4}/6 yama")
+    print(f"  A4a/B2 harita arka planı (SVG+konteyner+4 bölge+deniz etiketleri): {na4}/7 yama")
     print(f"  B3/B4 harita TÜM diller ({len(master)}) + açgözlü etiket + era stili: mapNodes={nb34}/4 yama")
 
     # Uzaklık Gezgini ← gerçek matrisler: leksikal(Savelyev) + tipolojik(WALS) + coğrafi(koordinat)

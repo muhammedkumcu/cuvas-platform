@@ -1313,6 +1313,106 @@ def main():
     html = html.replace("isHistory:S.screen==='history',", "isHistory:S.screen==='history', isAbout:S.screen==='about',", 1)
     print(f"  Hakkında sayfası (1.4): ekran={nabout}, kaynak kart={len(_src_items)}")
 
+    # ============================================================
+    #  Faz 3.1 — ÇUVAŞÇA "DİLİN KALBİ" anlatı sayfası (çekirdek dil; kullanıcı onaylı ayrı sayfa)
+    # ============================================================
+    SES = [
+        ("dokuz", "тăхăр · tăhăr", "rotasizm *z→r + *q→x"),
+        ("kız", "хӗр · hĕr", "*z→r, *q→x"),
+        ("kış", "хӗл · hĕl", "lambdasizm *š→l"),
+        ("gümüş", "кӗмӗл · kĕmĕl", "*š→l"),
+        ("yüz (100)", "ҫӗр · śĕr", "söz başı *y→ś, *z→r"),
+        ("yol", "ҫул · śul", "*y→ś"),
+        ("kara", "хура · hura", "*q→x"),
+        ("öküz", "вăкăр · văkăr", "*z→r"),
+    ]
+    ses_rows = "".join(
+        '<tr>'
+        f"<td style=\"padding:8px 12px;border-top:1px solid rgba(33,29,23,.07);font-family:'Spectral',serif;font-size:15px;color:#5f574b\">{a}</td>"
+        f"<td style=\"padding:8px 12px;border-top:1px solid rgba(33,29,23,.07);font-family:'Spectral',serif;font-size:16px;font-weight:600;color:#b86a2e\">{b}</td>"
+        f"<td style=\"padding:8px 12px;border-top:1px solid rgba(33,29,23,.07);font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9a9082\">{c}</td>"
+        '</tr>' for a, b, c in SES)
+    OZG = [
+        ("Tersine morfotaktik", "Ekler Kök + <b>İyelik</b> + <b>Çoğul</b> + Hâl sırasıyla dizilir — diğer tüm Türk dilleri Kök+Çoğul+İyelik+Hâl kullanır. Örn. <i>хӗр-ӗм-сен-чен</i> 'kızlarımdan'."),
+        ("-сем / -сам çoğulu", "Ana Türkçe -lAr yerine kökeni belirsiz, Ana Türkçe'ye dayandırılamayan <b>-сем/-сам</b> eki (Mari diliyle temas izi)."),
+        ("Yönelme-Belirtme birleşmesi", "Türk dillerinde ayrı işaretlenen yönelme (dative) ve belirtme (accusative) Çuvaşçada <b>tek ekte</b> kaynaşır (-(н)А)."),
+        ("İndirgenmiş ünlüler", "Kiril'e özel eklenen <b>ă (Ӑ)</b> ve <b>ĕ (Ӗ)</b> ultra-kısa ünlüleri + ünlü kalitesine göre yer değiştiren sıra dışı vurgu."),
+    ]
+    ozg_cards = "".join(
+        '<div style="background:#fff;border:1px solid rgba(33,29,23,.1);border-left:4px solid #b8602e;border-radius:12px;padding:16px 18px">'
+        f"<div style=\"font-family:'Spectral',serif;font-size:16px;font-weight:700;color:#211d17;margin-bottom:6px\">{t}</div>"
+        f'<div style="font-size:13px;line-height:1.6;color:#5f574b">{b}</div></div>' for t, b in OZG)
+    TARIH = [
+        ("13–14. yy", "İdil Bulgar mezar yazıtları", "Volga Bulgarcasının r/l-Türkçesi (Oğur) izlerini taşıyan Arap harfli taş yazıtlar — Çuvaşçanın doğrudan tarihsel tanığı."),
+        ("1863", "Feyzhanov · 'Çuvaş anahtarı'", "Hüseyin Feyzhanov, Bulgar kitabelerindeki tarih/sayıların Çuvaşça fonolojiyle (rotasizm/lambdasizm) yazıldığını gösterip İdil Bulgarcasının bir Oğur dili olduğunu kanıtladı."),
+        ("1928–1950", "Aşmarin · 17 ciltlik Sözlük", "N. İ. Aşmarin'in 'Thesaurus Linguae Tschuvaschorum'u — şamanik dualar, halk şarkıları, arkaik sözcüklerle devasa kültürel ansiklopedi; düşük-kaynaklı bir dil için olağanüstü temel."),
+    ]
+    tarih_rows = "".join(
+        '<div style="position:relative;padding-left:30px;padding-bottom:20px">'
+        '<span style="position:absolute;left:4px;top:4px;width:12px;height:12px;border-radius:50%;background:#b8602e;border:2px solid #f4f1ea"></span>'
+        f"<div style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;color:#d98b4a\">{e}</div>"
+        f"<div style=\"font-family:'Spectral',serif;font-size:17px;font-weight:600;margin:2px 0 3px\">{t}</div>"
+        f'<div style="font-size:13.5px;line-height:1.55;color:#5f574b;max-width:64ch">{d}</div></div>' for e, t, d in TARIH)
+    HEART = (
+        '      <sc-if value="{{ isHeart }}" hint-placeholder-val="{{ false }}">\n'
+        '      <section style="max-width:920px;margin:0 auto;padding:34px 40px 70px">\n'
+        # hero
+        '        <div style="background:#211d17;color:#f4f1ea;border-radius:22px;padding:34px 36px;margin-bottom:30px">\n'
+        "          <div style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:2px;color:#e9a978\">ÇEKİRDEK DİL</div>\n"
+        "          <h2 style=\"font-family:'Spectral',serif;font-weight:600;font-size:42px;margin:10px 0 6px\">Çuvaşça — Dilin Kalbi</h2>\n"
+        '          <p style="font-size:16px;line-height:1.7;color:rgba(244,241,234,.85);max-width:64ch;margin:0">Yaşayan tek <b>Oğur (Bulgar)</b> Türk dili. Türk dil ailesinden binlerce yıl önce ilk ayrılan kolun son temsilcisi — ve bu yüzden Ana Türkçenin yeniden kurulduğu paha biçilmez bir laboratuvar.</p>\n'
+        '          <div style="display:flex;gap:26px;flex-wrap:wrap;margin-top:20px">\n'
+        "            <div><div style=\"font-family:'Spectral',serif;font-size:24px;font-weight:700\">~740 bin</div><div style=\"font-size:11px;color:rgba(244,241,234,.55);font-family:'IBM Plex Mono',monospace\">KONUŞUR (2020)</div></div>\n"
+        "            <div><div style=\"font-family:'Spectral',serif;font-size:24px;font-weight:700\">Oğur</div><div style=\"font-size:11px;color:rgba(244,241,234,.55);font-family:'IBM Plex Mono',monospace\">KOL (tek üye)</div></div>\n"
+        "            <div><div style=\"font-family:'Spectral',serif;font-size:24px;font-weight:700\">EGIDS 6b</div><div style=\"font-size:11px;color:rgba(244,241,234,.55);font-family:'IBM Plex Mono',monospace\">TEHLİKEDE</div></div>\n"
+        '          </div>\n'
+        '        </div>\n'
+        # neden paha biçilmez
+        "        <h3 style=\"font-family:'Spectral',serif;font-size:24px;font-weight:600;margin:0 0 10px\">Neden paha biçilmez?</h3>\n"
+        '        <p style="font-size:15px;line-height:1.75;color:#3f3a32;max-width:74ch;margin:0 0 28px">Çuvaşça, Ortak (Şaz) Türkçeden çok erken ayrıldığı için karşılıklı anlaşılabilirliği sıfıra yakındır. Ama tam da bu uzaklık onu değerli kılar: düzenli ses denklikleri (rotasizm, lambdasizm), Ana Türkçe ve hatta Transavrasya rekonstrüksiyonlarında bir <b>anahtar dil</b> yapar. İdil-Ural havzasında Fin-Ugor (Mari) ve Rusça ile yüzyıllarca temas, ona benzersiz areal özellikler kazandırmıştır.</p>\n'
+        # ses kanunları
+        "        <h3 style=\"font-family:'Spectral',serif;font-size:24px;font-weight:600;margin:0 0 6px\">Ses kanunları</h3>\n"
+        '        <p style="font-size:13.5px;line-height:1.6;color:#5f574b;max-width:74ch;margin:0 0 14px">Ortak Türkçedeki bir ses, Çuvaşçada düzenli olarak başka bir sese karşılık gelir. Bu kurallar Savelyev kognat verimizde kanıtlıdır: <b>36</b> rotasizm (*z→r), <b>29</b> lambdasizm (*š→l), <b>14</b> söz başı *y→ś çifti.</p>\n'
+        '        <div style="border:1px solid rgba(33,29,23,.1);border-radius:14px;overflow:hidden;margin-bottom:30px">\n'
+        '          <table style="border-collapse:collapse;width:100%">\n'
+        "            <thead><tr style=\"background:#fbfaf6\"><th style=\"text-align:left;padding:9px 12px;font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px\">ORTAK TÜRKÇE</th><th style=\"text-align:left;padding:9px 12px;font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px\">ÇUVAŞÇA</th><th style=\"text-align:left;padding:9px 12px;font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px\">KURAL</th></tr></thead>\n"
+        '            <tbody>' + ses_rows + '</tbody>\n'
+        '          </table>\n'
+        '        </div>\n'
+        # yapı özgünlüğü
+        "        <h3 style=\"font-family:'Spectral',serif;font-size:24px;font-weight:600;margin:0 0 14px\">Yapının özgünlüğü</h3>\n"
+        '        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:30px">' + ozg_cards + '</div>\n'
+        # tarih
+        "        <h3 style=\"font-family:'Spectral',serif;font-size:24px;font-weight:600;margin:0 0 16px\">Tarihsel tanıklar</h3>\n"
+        '        <div style="position:relative;padding-left:6px;margin-bottom:30px"><div style="position:absolute;left:9px;top:6px;bottom:14px;width:2px;background:rgba(33,29,23,.12)"></div>' + tarih_rows + '</div>\n'
+        # bugün
+        '        <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:24px 28px;margin-bottom:28px">\n'
+        "          <h3 style=\"font-family:'Spectral',serif;font-size:22px;font-weight:600;margin:0 0 10px\">Bugün — ve dijital uçurum</h3>\n"
+        '          <p style="font-size:14.5px;line-height:1.7;color:#3f3a32;max-width:74ch;margin:0 0 8px">Konuşur sayısı on yılda ~1,04 milyondan <b>740 bine</b> düştü (≈%30 kayıp); kentlerde aktarım Rusçaya kayıyor. Dijital dünyada da geride: Joshi <b>Sınıf 1</b>; Meta\'nın 1.107 dilik dev TTS projesinde bile Çuvaşça <b>yok</b> (yalnız eSpeak NG), konuşma tanımada hata oranı ~%60.</p>\n'
+        '          <p style="font-size:13.5px;line-height:1.65;color:#5f574b;max-width:74ch;margin:0">KÖKEN\'in çekirdeği Çuvaşça olması tesadüf değil: bu platformun bir amacı, böyle paha biçilmez ama tehlikedeki bir dili dijital dünyada görünür kılmaktır.</p>\n'
+        '        </div>\n'
+        # CTA
+        "        <div style=\"font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:10px\">ÇUVAŞÇAYI KEŞFET</div>\n"
+        '        <div style="display:flex;flex-wrap:wrap;gap:10px">\n'
+        '          <button onClick="{{ heartLearn }}" style="cursor:pointer;background:#b8602e;color:#fff;border:none;border-radius:10px;padding:11px 18px;font-size:14px;font-family:\'Spectral\',serif;font-weight:600">Çuvaşça Atölyesi →</button>\n'
+        '          <button onClick="{{ heartProfile }}" style="cursor:pointer;background:#fff;color:#211d17;border:1px solid rgba(33,29,23,.18);border-radius:10px;padding:11px 18px;font-size:14px;font-family:\'Spectral\',serif;font-weight:600">Dil profili →</button>\n'
+        '          <button onClick="{{ heartCognate }}" style="cursor:pointer;background:#fff;color:#211d17;border:1px solid rgba(33,29,23,.18);border-radius:10px;padding:11px 18px;font-size:14px;font-family:\'Spectral\',serif;font-weight:600">Kognat ağı →</button>\n'
+        '          <button onClick="{{ heartCompare }}" style="cursor:pointer;background:#fff;color:#211d17;border:1px solid rgba(33,29,23,.18);border-radius:10px;padding:11px 18px;font-size:14px;font-family:\'Spectral\',serif;font-weight:600">Ses denklikleri →</button>\n'
+        '        </div>\n'
+        '      </section>\n'
+        '      </sc-if>\n')
+    heart_anchor = "      <!-- ===================== KAYNAKLAR & LİSANSLAR ===================== -->"
+    nheart = 1 if heart_anchor in html else 0
+    html = html.replace(heart_anchor, HEART + "\n" + heart_anchor, 1)
+    # nav (KEŞFET'e Çuvaşça Kalbi, Tarih & Köken'den sonra) + isHeart + CTA handler'ları
+    html = html.replace(
+        "      {id:'history', label:'Tarih & Köken'},\n      {id:'about', label:'Hakkında'},",
+        "      {id:'history', label:'Tarih & Köken'},\n      {id:'heart', label:'Çuvaşça Kalbi'},\n      {id:'about', label:'Hakkında'},", 1)
+    html = html.replace(
+        "isAbout:S.screen==='about',",
+        "isAbout:S.screen==='about', isHeart:S.screen==='heart', heartLearn:this.go('learn'), heartProfile:()=>this.setState({screen:'profile',profileSel:'chv'}), heartCognate:this.go('cognate'), heartCompare:this.go('compare'),", 1)
+    print(f"  Çuvaşça Dilin Kalbi (3.1): ekran={nheart}, ses={len(SES)} özg={len(OZG)} tarih={len(TARIH)}")
+
     (DIST / "index.html").write_text(html, encoding="utf-8")
     shutil.copy(UI / "support.js", DIST / "support.js")
 

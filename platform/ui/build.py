@@ -222,7 +222,10 @@ def build_map(prof):
                  f"speakers:{json.dumps(sp, ensure_ascii=False)}", f"note:{json.dumps(note, ensure_ascii=False)}"]
         if iso == "chv":
             parts.append("hi:true")
-        if y > 50:
+        # A4b — düğüm yoğunluğu: çakışan komşuların etiketini YUKARI al (alternatif yön → üst üste binmez).
+        # tat (Çuvaşça d=1.6) · cjs Şor + tyv Tuvaca (Hakasça'yla d=2.3–3.9 Sibirya üçlüsü).
+        FORCE_ABOVE = {"tat", "cjs", "tyv"}
+        if y > 50 or iso in FORCE_ABOVE:
             parts.append("below:true")
         rows.append("    {" + ", ".join(parts) + "},")
     return "MAP = [\n" + "\n".join(rows) + "\n  ];"

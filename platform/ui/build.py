@@ -906,6 +906,89 @@ def main():
             print("  ! E eşleşmedi:", label)
     print(f"  Tarih & Köken kaynaklı genişletme (E): {ne}/{len(efix)}")
 
+    # ============================================================
+    #  E2 — KOLLAR AÇIKLAYICI (deepsearch 8: Türk dilleri sınıflandırma çerçevesi)
+    #  6 kol (Johanson; Savelyev & Robbeets 2020 Bayes filogenetiğiyle doğrulandı) — her kol
+    #  pedagojik tanım + ayırt edici izogloss + örnek. + Soy ağacı = Bayes Max-Credibility Tree.
+    # ============================================================
+    KOLLAR = [
+        ("Oğur (Bulgar)", "İdil-Ural · ilk ayrılan (~MÖ 66)", "#b8602e",
+         "Aileden en erken kopan kol. Tek yaşayan dili Çuvaşça; Fin-Ugor ve Rusça ile iç içe geçtiği için diğer Türk dillerinden en uzağı.",
+         [("Rotasizm *z &gt; r", "tokkuz → tăhăr “dokuz”"),
+          ("Lambdasizm *š &gt; l", "kïš → hĕl “kış”")]),
+        ("Argu (Halaç)", "İran · izole zaman kapsülü", "#8a7a2e",
+         "Göktürkçe dönemi seslerini bir zaman kapsülü gibi koruyan izole dil. Tek üye Halaçça (İran, Markazi).",
+         [("Söz başı *h- korunur", "*hadaq → hadaq “ayak”"),
+          ("Söz içi *-d- korunur", "Orhun arkaik d’li biçimleri")]),
+        ("Sibirya (Kuzeydoğu)", "Sibirya · Kuzey + Güney", "oklch(0.52 0.13 235)",
+         "Moğol ve Tunguz komşulukla şekillenen kuzey dilleri. Kuzey (Yakut, Dolgan ~MS 474) ile Güney (Tuva, Hakas, Altay) ayrı dallardır.",
+         [("*-d- ayrışır", "ayak → atah · adak · azax"),
+          ("Söz başı *y- &gt; s", "yol → suol (Yakut)")]),
+        ("Karluk (Güneydoğu)", "Orta Asya · İpek Yolu", "oklch(0.5 0.13 295)",
+         "Semerkant–Buhara–Kaşgar şehir dilleri; Farsça-Arapça etkili, Çağataycanın mirasçısı. Özbekçe, Uygurca.",
+         [("*-G korunur", "dağlık → tağlıq"),
+          ("Ünlü uyumu zayıflar", "güzel → gözal (Özbek)")]),
+        ("Kıpçak (Kuzeybatı)", "Bozkır · geniş yayılım", "oklch(0.5 0.13 150)",
+         "Karadeniz kuzeyinden Orta Asya bozkırlarına uzanan göçebe kol. Kazak, Tatar, Kırgız, Başkurt, Karakalpak…",
+         [("*-G &gt; -w", "dağlı → tawlı"),
+          ("Söz başı *y- &gt; c/j", "yol → col / jol")]),
+        ("Oğuz (Güneybatı)", "Anadolu–Kafkas–Balkan", "oklch(0.55 0.13 35)",
+         "En çok konuşulan ve birbirini en rahat anlayan kol. Türkçe, Azerice, Türkmence, Gagavuzca.",
+         [("Baş ses tonlulaşması *t&gt;d, *k&gt;g", "tağ → dağ, kök → gök"),
+          ("Sonek *-G düşer", "kalgan → kalan")]),
+    ]
+    def _kol_card(name, region, color, desc, rules):
+        rr = ""
+        for rule, ex in rules:
+            rr += (f"""                  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-family:'IBM Plex Mono',monospace;font-size:10px;background:#f3eee3;border-radius:5px;padding:2px 7px;color:#7a7164;white-space:nowrap">{rule}</span><span style="font-family:'Spectral',serif;font-size:13px;color:#211d17">{ex}</span></div>\n""")
+        return (f"""                <div style="background:#fff;border:1px solid rgba(33,29,23,.1);border-left:4px solid {color};border-radius:12px;padding:15px 17px">\n"""
+                f"""                  <div style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap"><span style="font-family:'Spectral',serif;font-size:17px;font-weight:700;color:{color}">{name}</span><span style="font-size:10.5px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.3px">{region}</span></div>\n"""
+                f"""                  <p style="font-size:12px;line-height:1.55;color:#5f574b;margin:7px 0 11px">{desc}</p>\n"""
+                f"""                  <div style="display:flex;flex-direction:column;gap:6px">\n{rr}                  </div>\n"""
+                f"""                </div>\n""")
+    kollar_cards = "".join(_kol_card(*k) for k in KOLLAR)
+    # Kart, "Tarih & Köken" (isHistory) ekranına — kronolojik zaman çizelgesinin HEMEN ÜSTÜNE girer.
+    kollar_card = (
+        """        <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:24px 26px;margin:6px 0 30px">\n"""
+        """          <div style="font-family:'Spectral',serif;font-weight:600;font-size:22px;margin-bottom:6px">Türk dillerinin altı kolu</div>\n"""
+        """          <p style="font-size:13.5px;line-height:1.6;color:#5f574b;max-width:74ch;margin:0 0 18px">Lars Johanson'ın <b>altı kollu</b> modeli bugün Türkoloji'nin altın standardıdır; Savelyev &amp; Robbeets (2020) Bayes filogenetiğiyle de doğrulanmıştır. Her kolu, tarihsel bir ses yasası — <b>izogloss</b> — birbirinden ayırır.</p>\n"""
+        """          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:13px">\n"""
+        + kollar_cards +
+        """          </div>\n"""
+        """        </div>\n""")
+    hist_anchor = """        <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 18px">Proto-Türkçeden bugüne</h2>\n"""
+    nkol = 1 if hist_anchor in html else 0
+    html = html.replace(hist_anchor, hist_anchor + kollar_card, 1)
+
+    old_family = (
+        "  FAMILY = [\n"
+        "    {name:'Proto-Türkçe', note:'ana dil', depth:0},\n"
+        "    {name:'Ogur (Bulgar) kolu', note:'erken ayrılan dal', depth:1},\n"
+        "    {name:'Çuvaşça', note:'tek yaşayan Ogur dili', depth:2, hi:true},\n"
+        "    {name:'Ortak Türkçe', note:'diğer tüm diller', depth:1},\n"
+        "    {name:'Oğuz · Kıpçak · Karluk · Sibirya', note:'Türkçe, Tatarca, Kazakça, Yakutça…', depth:2},\n"
+        "  ];")
+    new_family = (
+        "  FAMILY = [\n"
+        "    {name:'Proto-Türkçe', note:'ana dil · kök ~MÖ 66 (Bayes: Savelyev & Robbeets 2020)', depth:0},\n"
+        "    {name:'Oğur (Bulgar) kolu', note:'ilk ayrılan dal — rotasizm *z>r, lambdasizm *š>l', depth:1},\n"
+        "    {name:'Çuvaşça', note:'Oğur kolunun tek yaşayan dili', depth:2, hi:true},\n"
+        "    {name:'Genel (Ortak) Türkçe', note:'diğer tüm kollar', depth:1},\n"
+        "    {name:'Kuzey Sibirya', note:'~MS 474 — Yakutça (Saha), Dolganca', depth:2},\n"
+        "    {name:'Çekirdek Genel Türkçe', note:'', depth:2},\n"
+        "    {name:'Güney Sibirya', note:'Tuva, Hakas, Altay · ilk kopan: Sarı Uygurca', depth:3},\n"
+        "    {name:'Makro Güneybatı–Doğu', note:'', depth:3},\n"
+        "    {name:'Halaç–Salar', note:'Halaçça (Argu) · söz başı *h- korunur', depth:4},\n"
+        "    {name:'Merkezî Türkçe', note:'*d>y tamamlanmış homojen blok', depth:4},\n"
+        "    {name:'Oğuz kolu', note:'Türkçe, Azerice, Türkmence, Gagavuz', depth:5},\n"
+        "    {name:'Makro-Kıpçak', note:'Kıpçak–Karluk kardeşliği', depth:5},\n"
+        "    {name:'Karluk kolu', note:'Özbekçe, Uygurca', depth:6},\n"
+        "    {name:'Kıpçak kolu', note:'Kazak, Tatar, Kırgız, Başkurt…', depth:6},\n"
+        "  ];")
+    nfam = 1 if old_family in html else 0
+    html = html.replace(old_family, new_family, 1)
+    print(f"  Kollar aciklayici (ds8): kol_karti={nkol} soy_agaci={nfam} kol_sayisi={len(KOLLAR)}")
+
     # --- Katman ağacı / soyma: canlı kelimede GERÇEK yüzey kümülatif biçim (kitap→kitabımız→kitabımızda)
     #     morfem-metni birleştirmek yerine /segment'in döndürdüğü forms[] kullanılır (ses olayı dahil) ---
     html = html.replace(

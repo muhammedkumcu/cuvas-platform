@@ -231,41 +231,59 @@ def build_map(prof):
     return "MAP = [\n" + "\n".join(rows) + "\n  ];"
 
 
-# A4a — harita arka planı DOTLARLA AYNI projeksiyonda (viewBox 0..100); iç denizler gerçek
-# lat/lon'dan project() ile yerleştirilir → arka plan artık veriyle hizalı (eski SVG ayrı 1000×560
-# koord sistemindeydi = "saçma"). Ölçek: 1° boylam ≈ 0.7517 x-birim, 1° enlem ≈ 1.6949 y-birim.
+# B2 — GERÇEK çizim harita: dotlarla AYNI projeksiyonda (viewBox 0..100), gerçek lat/lon'dan
+# çizilmiş tanınabilir Avrasya: su tabanı + kara poligonu (Akdeniz/Arabistan/Hindistan kıyıları +
+# doğu Pasifik kıyısı) + iç denizler + Basra Körfezi + önemli dağ sıraları. "Çizim ama gerçek."
+# Ölçek: 1° boylam ≈ 0.7517 x-birim, 1° enlem ≈ 1.6949 y-birim (project() ile birebir).
+def _pj(lon, lat):
+    return (round(0.7517 * lon - 14.71, 2), round(-1.6949 * lat + 118.58, 2))
+
+
 def build_map_bg():
-    p = project
-    # iç denizler/göller: (boylam_merkez, enlem_merkez, boylam_açıklık°, enlem_açıklık°)
-    seas = [(34.5, 43.2, 13.0, 4.6),   # Karadeniz
-            (50.5, 41.7, 7.0, 10.6),   # Hazar (dikey)
-            (59.5, 45.0, 3.2, 2.8),    # Aral
-            (76.0, 45.7, 6.6, 1.4),    # Balkaş
-            (107.0, 53.6, 2.2, 4.4)]   # Baykal
+    # Doğu (Pasifik) kıyısı NE→SE, sonra güney kıyısı SE→W (Hindistan + Arabistan çıkıntıları)
+    EAST = [(148, 60), (145, 54), (141, 50), (137, 47), (132, 44), (128, 41), (125, 38),
+            (122, 34), (120, 30), (116, 25), (112, 21), (108, 17), (106, 14)]
+    SOUTH = [(103, 13), (99, 14), (95, 17), (91, 21), (88, 22), (85, 18), (82, 14), (79, 9),
+             (76, 9), (73, 15), (70, 20), (66, 24), (62, 25), (58, 25), (55, 26), (58, 23),
+             (59, 21), (55, 16), (51, 13), (47, 13), (44, 14), (41, 18), (39, 23), (37, 28),
+             (36, 32), (37, 36), (33, 36), (29, 36.5), (25, 37), (22, 38.5), (20, 41)]
+    seg = lambda pts: "".join(f"L {_pj(lo,la)[0]} {_pj(lo,la)[1]} " for lo, la in pts)
+    land = (f"M -5 -5 L 105 -5 L 105 {_pj(148,60)[1]} " + seg(EAST) + seg(SOUTH)
+            + f"L -5 {_pj(20,41)[1]} L -5 -5 Z")
+    # iç denizler/göller: (boylam, enlem, boylam_açıklık°, enlem_açıklık°)
+    seas = [(34.5, 43.2, 13.0, 4.6), (50.5, 41.7, 7.0, 10.6), (59.5, 45.0, 3.2, 2.8),
+            (76.0, 45.7, 6.6, 1.4), (107.0, 53.6, 2.2, 4.4), (51.0, 28.7, 6.5, 3.0)]  # +Basra Körfezi
     sea_svg = []
     for lon, lat, ws, hs in seas:
-        cx, cy = p(lon, lat)
+        cx, cy = _pj(lon, lat)
         rx, ry = round(ws / 2 * 0.7517, 2), round(hs / 2 * 1.6949, 2)
         sea_svg.append(f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" fill="url(#mSea)" '
-                       f'stroke="#a6bdbf" stroke-width="0.8" vector-effect="non-scaling-stroke"/>')
+                       f'stroke="#a6bdbf" stroke-width="0.7" vector-effect="non-scaling-stroke"/>')
+    # önemli dağ sıraları (gerçek konum): (boylam1,enlem1, boylam2,enlem2, tepe-sayısı)
+    ranges = [(40, 43.5, 48, 42, 3), (59, 52, 60.5, 61, 4), (72, 42, 84, 42.5, 5),
+              (85, 49, 92, 51, 3), (67, 37, 75, 38, 3), (80, 35.5, 94, 36, 4)]
+    peaks = []
+    for lo1, la1, lo2, la2, n in ranges:
+        x1, y1 = _pj(lo1, la1); x2, y2 = _pj(lo2, la2)
+        for i in range(n):
+            t = (i + 0.5) / n
+            cx = x1 + (x2 - x1) * t; cy = y1 + (y2 - y1) * t
+            peaks.append(f"M {cx-0.9:.1f} {cy+0.4:.1f} L {cx:.1f} {cy-1.5:.1f} L {cx+0.9:.1f} {cy+0.4:.1f}")
     grat = []
     for lon in (40, 60, 80, 100, 120):
-        x, _ = p(lon, 45)
-        grat.append(f'<line x1="{x}" y1="0" x2="{x}" y2="100"/>')
+        x, _ = _pj(lon, 45); grat.append(f'<line x1="{x}" y1="0" x2="{x}" y2="100"/>')
     for lat in (30, 40, 50, 60):
-        _, y = p(70, lat)
-        grat.append(f'<line x1="0" y1="{y}" x2="100" y2="{y}"/>')
-    # Akdeniz/güneybatı yumuşak köşe (Anadolu'nun güneyi) — coğrafi olarak gerçek su kenarı
-    med = ('<path d="M 0 57 Q 6 60 10 68 Q 8 84 4 100 L 0 100 Z" fill="url(#mSea)" opacity="0.92"/>')
+        _, y = _pj(70, lat); grat.append(f'<line x1="0" y1="{y}" x2="100" y2="{y}"/>')
     return ('<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">'
             '<defs>'
-            '<linearGradient id="mLand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ece5d5"></stop><stop offset="1" stop-color="#e3dbc8"></stop></linearGradient>'
-            '<linearGradient id="mSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cdd9da"></stop><stop offset="1" stop-color="#bccbcc"></stop></linearGradient>'
+            '<linearGradient id="mLand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ece4d3"></stop><stop offset="1" stop-color="#e0d7c2"></stop></linearGradient>'
+            '<linearGradient id="mSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cbd8d9"></stop><stop offset="1" stop-color="#b9c9ca"></stop></linearGradient>'
             '</defs>'
-            '<rect x="0" y="0" width="100" height="100" fill="url(#mLand)"></rect>'
-            + med
-            + '<g stroke="rgba(33,29,23,.08)" stroke-width="0.6" vector-effect="non-scaling-stroke">' + "".join(grat) + '</g>'
+            '<rect x="0" y="0" width="100" height="100" fill="url(#mSea)"></rect>'
+            f'<path d="{land}" fill="url(#mLand)" stroke="#c2b393" stroke-width="0.6" vector-effect="non-scaling-stroke"></path>'
+            + '<g stroke="rgba(33,29,23,.07)" stroke-width="0.5" vector-effect="non-scaling-stroke">' + "".join(grat) + '</g>'
             + "".join(sea_svg)
+            + f'<path d="{" ".join(peaks)}" fill="none" stroke="#b7a378" stroke-width="0.7" stroke-linejoin="round" vector-effect="non-scaling-stroke" opacity="0.85"></path>'
             + '</svg>')
 
 

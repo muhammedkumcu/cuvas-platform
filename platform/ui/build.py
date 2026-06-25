@@ -1110,6 +1110,53 @@ def main():
             print("  ! denetim eşleşmedi:", old[:46])
     print(f"  Denetim düzeltmeleri: {naudit}")
 
+    # ============================================================
+    #  Faz 2.2 — NLP/LLM EKOSİSTEM MATRİSİ (deepsearch 7) → Araştırmacı Merkezi
+    #  NÖTR envanter: yalnız BULUNAN araçlar; "—" = bu taramada kayıt yok (olgunluk yargısı DEĞİL — kullanıcı kararı)
+    # ============================================================
+    eco = json.load(open(DATA / "ecosystem.json", encoding="utf-8"))
+    def _cell(v):
+        if v == "—" or not v:
+            return '<td style="padding:9px 11px;border-top:1px solid rgba(33,29,23,.07);color:#bcb3a3;text-align:center">—</td>'
+        return f'<td style="padding:9px 11px;border-top:1px solid rgba(33,29,23,.07);color:#3f3a32;line-height:1.4">{v}</td>'
+    head = ('<th style="text-align:left;padding:10px 11px;background:#211d17;color:#f4f1ea;font-weight:600;'
+            'font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:.3px">Dil</th>')
+    head += "".join('<th style="text-align:left;padding:10px 11px;background:#211d17;color:#f4f1ea;font-weight:600;'
+                    'font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:.3px">' + c + '</th>' for c in eco["cols"])
+    rows = ""
+    for lg in eco["langs"]:
+        rows += ('<tr><td style="padding:9px 11px;border-top:1px solid rgba(33,29,23,.07);font-family:\'Spectral\',serif;'
+                 'font-weight:600;font-size:13px;white-space:nowrap;color:#211d17">' + lg["name"] + '</td>'
+                 + "".join(_cell(c) for c in lg["cells"]) + '</tr>')
+    orgs = ""
+    for o in eco["orgs"]:
+        orgs += (f'<a href="{o["url"]}" target="_blank" rel="noopener" style="display:block;text-decoration:none;'
+                 'background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:13px 15px">'
+                 '<div style="font-family:\'Spectral\',serif;font-size:15px;font-weight:600;color:#211d17">'
+                 f'{o["name"]} <span style="color:#b86a2e;font-size:12px">↗</span></div>'
+                 f'<div style="font-size:12px;color:#5f574b;line-height:1.5;margin-top:4px">{o["detail"]}</div></a>')
+    ECO = (
+        '        <div style="margin-top:36px;border-top:1px solid rgba(33,29,23,.14);padding-top:30px">\n'
+        '          <div style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">NLP / LLM EKOSİSTEMİ</div>\n'
+        '          <h3 style="font-family:\'Spectral\',serif;font-weight:600;font-size:28px;margin:8px 0 6px">Dil × yetenek envanteri</h3>\n'
+        '          <p style="font-size:13.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 18px">' + eco["caption"] + '</p>\n'
+        '          <div style="overflow-x:auto;border:1px solid rgba(33,29,23,.1);border-radius:14px">\n'
+        '            <table style="border-collapse:collapse;width:100%;font-size:12px;min-width:780px">\n'
+        '              <thead><tr>' + head + '</tr></thead>\n'
+        '              <tbody>' + rows + '</tbody>\n'
+        '            </table>\n'
+        '          </div>\n'
+        '          <p style="font-size:12px;line-height:1.6;color:#9a9082;margin:12px 0 0">' + eco["zero_note"] + '</p>\n'
+        '          <div style="margin-top:26px">\n'
+        '            <div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:12px">ANAHTAR ORGANİZASYONLAR</div>\n'
+        '            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">' + orgs + '</div>\n'
+        '          </div>\n'
+        '        </div>\n')
+    eco_anchor = "        </div>\n      </section>\n      </sc-if>\n\n      <!-- ===================== TARİH & KÖKEN ===================== -->"
+    neco = 1 if eco_anchor in html else 0
+    html = html.replace(eco_anchor, "        </div>\n" + ECO + "      </section>\n      </sc-if>\n\n      <!-- ===================== TARİH & KÖKEN ===================== -->", 1)
+    print(f"  Ekosistem matrisi (ds7): {len(eco['langs'])} dil, {len(eco['orgs'])} org, enjekte={neco}")
+
     (DIST / "index.html").write_text(html, encoding="utf-8")
     shutil.copy(UI / "support.js", DIST / "support.js")
 

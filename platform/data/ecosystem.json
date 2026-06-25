@@ -1,0 +1,37 @@
+{
+  "_meta": {
+    "source": "Deepsearch 7 (Türk dilleri NLP/LLM ekosistem envanteri, 2024–2026) — HuggingFace model/dataset kartları + akademik literatür",
+    "license": "derleme envanter; her araç kendi kaynağına/lisansına atıflı",
+    "accessed": "2026-06-25",
+    "module": "Araştırmacı Merkezi — NLP/LLM Ekosistem Matrisi (Dil × Yetenek)",
+    "note": "NÖTR ENVANTER: yalnız BULUNAN açık-kaynak/HF araçlarını listeler. '—' = bu taramada bağımsız kayıt bulunamadı; olgunluk/yeterlilik yargısı DEĞİL (o araştırmacının kararı). Uydurma yok."
+  },
+  "caption": "Açık kaynak ve HuggingFace'te bu taramada (2024–2026) bulunan araçların envanteri. “—” yalnızca bu taramada bağımsız bir kayıt bulunmadığını gösterir; olgunluk/yeterlilik yargısı içermez — o değerlendirme araştırmacıya aittir.",
+  "cols": ["Üretken LLM", "Encoder", "Veri seti / korpus", "Konuşma (ASR/TTS)", "Benchmark"],
+  "langs": [
+    {"name": "Türkçe", "cells": ["Cosmos · Kumru-2B · Trendyol-LLM", "BERTurk · TURNA", "vngrs-web-corpus · OSCAR", "TurkmedSTT · Piper", "Cetvel · Mukayese · TurkBench"]},
+    {"name": "Azerice", "cells": ["GPT2-Aze · Aya Expanse", "aLLMA BERT-Aze", "aze-books · AzWiki · eqanun", "MMS / NLLB altyapısı", "TUMLU"]},
+    {"name": "Türkmence", "cells": ["tm-hukuk · mGPT-turkmen", "—", "OSCAR · FLORES+", "whisper-turkmen · MMS-TTS", "TUMLU"]},
+    {"name": "Kazakça", "cells": ["ISSAI KAZ-LLM (8B/70B)", "mBERT · XLM-R", "KazCulture · OSCAR", "ISSAI KazakhTTS", "TUMLU · KazQAD"]},
+    {"name": "Kırgızca", "cells": ["mGPT-kirgiz", "KyrgyzBert", "kyrgyzRC · FLORES+", "MMS (genel)", "kyrgyzMMLU · TUMLU"]},
+    {"name": "Tatarca", "cells": ["mGPT-tatar · Tweety-Tatar", "TatarNLPWorld BERT'leri", "OSCAR · FLORES+", "ISSAI TatarTTS", "Tatar Morphology · TUMLU"]},
+    {"name": "Başkurtça", "cells": ["mGPT-bashkir", "Glot500 (çok dilli)", "bashqort-alpaca", "MMS · Common Voice (~268 saat)", "GlotLID (kısmen)"]},
+    {"name": "Özbekçe", "cells": ["Alloma (1–8B)", "TahrirchiBERT · UzBERT", "Dilmash · OSCAR", "Sayro-tts (1.7B)", "TUMLU"]},
+    {"name": "Uygurca", "cells": ["Aya Expanse", "MicroBERT-Uyghur", "FLORES+", "whisper-uyghur · MMS-TTS", "TUMLU"]},
+    {"name": "Çuvaşça", "cells": ["mGPT-chuvash (GGUF)", "LaBSE-chuvash (kısmen)", "chuvash_russian_parallel (1,4M cümle)", "whisper-chv · eSpeak NG", "TUMLU (kısmen)"]},
+    {"name": "Sahaca (Yakut)", "cells": ["mGPT · Translategemma (kısmen)", "ruBert-base-sakha", "sakha-russian-parallel", "wav2vec2-xlsr-sakha", "—"]},
+    {"name": "Karakalpakça", "cells": ["gpt2_karakalpak", "—", "Dilmash · FLORES+", "Karakalpak Speech Corpus (50 saat)", "TUMLU"]},
+    {"name": "Kırım Tatarcası", "cells": ["—", "—", "crh-parallel-corpora", "speech-uk TTS · MMS", "—"]}
+  ],
+  "zero_note": "Bu taramada bağımsız açık-kaynak/HF kaydı bulunmayan diller (çoğu mBERT/NLLB-200 gibi çok-dilli platformlarda dolaylı yer alabilir): Gagavuzca, Kumukça, Nogayca, Karaçay-Balkarca, Altayca, Hakasça, Tuvaca, Şorca, Halaçça, Salarca, Dolganca.",
+  "orgs": [
+    {"name": "TurkicNLP", "url": "https://arxiv.org/abs/2602.19174", "detail": "24 Türk dilini tek API'de birleştiren Python iskeleti: Stanza sinir ağları + Apertium FST + Latin/Kiril/Arap/Runik transliterasyon."},
+    {"name": "ISSAI (Nazarbayev Üni.)", "url": "https://huggingface.co/issai", "detail": "Orta Asya AI lokomotifi: KAZ-LLM (8B/70B), KazakhTTS, TatarTTS, KazQAD."},
+    {"name": "YTU CE Cosmos", "url": "https://huggingface.co/ytu-ce-cosmos", "detail": "Açık kaynak Türkçe LLM öncüsü: Turkish-Llama/Gemma, T1 reasoning serileri (DPO/SFT açık)."},
+    {"name": "VNGRS-AI", "url": "https://huggingface.co/vngrs-ai", "detail": "Özel Türkçe tokenizer'lı Kumru-2B / VBART; sıfırdan ön-eğitim."},
+    {"name": "aLLMA Lab", "url": "https://huggingface.co/allmalab", "detail": "Azerice BERT-Aze / GPT2-Aze + aze-books, eqanun korpusları."},
+    {"name": "Tahrirchi / UzLM", "url": "https://huggingface.co/tahrirchi", "detail": "Özbekçe TahrirchiBERT, Alloma LLM serisi, Dilmash çok-dilli korpus."},
+    {"name": "Boğaziçi (boun-tabilab)", "url": "https://huggingface.co/boun-tabi-LMG", "detail": "TURNA encoder-decoder + Mukayese benchmark."},
+    {"name": "awesome-turkish (kesimeg)", "url": "https://huggingface.co/spaces/kesimeg/awesome-turkish-language-models", "detail": "Güncel Türkçe LLM ve liderlik tablolarının takip edildiği topluluk 'sarı sayfalar' indeksi."}
+  ]
+}

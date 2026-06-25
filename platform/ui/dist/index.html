@@ -1163,17 +1163,27 @@
       <section style="max-width:1000px;margin:0 auto;padding:34px 40px 70px">
         <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">KAYNAKLAR & LİSANSLAR</div>
         <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 6px">Her veri, kaynağı ve lisansıyla</h2>
-        <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:68ch;margin:0 0 22px">Akademik dürüstlük ilkesi: hiçbir veri kaynaksız değildir. Aşağıda her kaynak, lisansı ve <strong>hangi modüllerde kullanıldığı</strong> listelenir. “Örnek/illüstratif” işaretli alanlar, gerçek backend (Apertium + CLDF) bağlandığında değişecektir.</p>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <sc-for list="{{ sourceRows }}" as="s" hint-placeholder-count="6">
-            <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:13px;padding:16px 20px">
-              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-                <span style="font-family:'Spectral',serif;font-size:17px;font-weight:600;color:#211d17">{{ s.label }}</span>
-                <span style="{{ s.kindStyle }}">{{ s.kind }}</span>
-                <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9a9082;margin-left:auto">{{ s.lic }}</span>
+        <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:68ch;margin:0 0 22px">Akademik dürüstlük ilkesi: hiçbir veri kaynaksız değildir. Kaynaklar <strong>kategoriye göre</strong> düzenlenir; her biri lisansı ve <strong>hangi modüllerde kullanıldığıyla</strong> listelenir. Yatay ölçekte bu kütük büyüdükçe yeni kaynaklar ilgili kategoriye eklenir.</p>
+        <div style="display:flex;flex-direction:column;gap:28px">
+          <sc-for list="{{ sourceGroups }}" as="g" hint-placeholder-count="4">
+            <div>
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;border-bottom:1px solid rgba(33,29,23,.08);padding-bottom:8px">
+                <span style="width:9px;height:9px;border-radius:3px;background:{{ g.hue }}"></span>
+                <span style="font-family:'Spectral',serif;font-size:21px;font-weight:600;color:#211d17">{{ g.catLabel }}</span>
+                <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:#9a9082">{{ g.count }} kaynak</span>
               </div>
-              <div style="font-size:13px;color:#5f574b;margin-top:5px">{{ s.detail }}</div>
-              <div style="font-size:12px;color:#9a9082;margin-top:8px;font-family:'IBM Plex Mono',monospace">KULLANIM: {{ s.used }}</div>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <sc-for list="{{ g.rows }}" as="s" hint-placeholder-count="3">
+                  <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:13px;padding:16px 20px">
+                    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                      <span style="font-family:'Spectral',serif;font-size:17px;font-weight:600;color:#211d17">{{ s.label }}</span>
+                      <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9a9082;margin-left:auto">{{ s.lic }}</span>
+                    </div>
+                    <div style="font-size:13px;color:#5f574b;margin-top:5px">{{ s.detail }}</div>
+                    <div style="font-size:12px;color:#9a9082;margin-top:8px;font-family:'IBM Plex Mono',monospace">KULLANIM: {{ s.used }}</div>
+                  </div>
+                </sc-for>
+              </div>
             </div>
           </sc-for>
         </div>
@@ -2049,14 +2059,17 @@ class Component extends DCLogic {
     const screenToMod = {analiz:'Morfolojik Analiz', paradigm:'Paradigma Gezgini', cognate:'Kognat Ağı', compare:'Karşılaştır', distance:'Uzaklık Gezgini', profile:'Dil Profilleri', history:'Tarih & Köken', learn:'Çuvaşça Atölyesi', research:'Araştırmacı Merkezi'};
     const usage = this.USAGE.find(u=>u.mod===screenToMod[S.screen]);
     const pageSources = usage ? usage.srcs.map(k=>({label:this.SOURCES[k].label, lic:this.SOURCES[k].lic})) : [];
-    const kindHue = {veri:'#2f6fb0', 'araç':'#2f8a5b', 'literatür':'#8a5cc0', 'geçici':'#b86a2e'};
+    const kindHue = {veri:'#2f6fb0', 'araç':'#2f8a5b', 'literatür':'#8a5cc0', 'sentez':'#b86a2e', 'geçici':'#9a9082'};
     const sourceRows = Object.entries(this.SOURCES).map(([k,v])=>({
       label:v.label, detail:v.detail, lic:v.lic, kind:v.kind, url:v.url,
       used: this.USAGE.filter(u=>u.srcs.includes(k)).map(u=>u.mod).join(' · ') || '—',
       kindStyle:`font-size:10px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;padding:2px 8px;border-radius:5px;color:#fff;background:${kindHue[v.kind]||'#9a9082'}`,
     }));
+    const CAT_ORDER=['araç','veri','literatür','sentez'];
+    const CAT_LABEL={'araç':'Araçlar & motorlar','veri':'Veri setleri','literatür':'Akademik literatür','sentez':'Derin araştırma & derlemeler'};
+    const sourceGroups = CAT_ORDER.map(cat=>{ const rows=sourceRows.filter(r=>r.kind===cat); return {cat, catLabel:CAT_LABEL[cat]||cat, hue:(kindHue[cat]||'#9a9082'), rows, count:rows.length}; }).filter(g=>g.count>0);
     return { showSrcStrip:!!usage, pageSources, pageHasDemo: usage ? usage.srcs.includes('demo') : false,
-      goSources:this.go('sources'), isSources:S.screen==='sources', sourceRows };
+      goSources:this.go('sources'), isSources:S.screen==='sources', sourceRows, sourceGroups };
   }
 
   // ---------- PARADIGM ----------

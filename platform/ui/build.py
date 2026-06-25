@@ -577,6 +577,72 @@ def main():
     if a5_okuma_old in html:
         html = html.replace(a5_okuma_old, a5_okuma_new, 1); na5 += 1
 
+    # ---- A6: Kaynaklar sayfası KATEGORİZE (yatay ölçekte çok kaynak gelecek → araç/veri/literatür/sentez) ----
+    na6 = 0
+    # (1) kindHue: 'sentez' rengi ekle (deepds), kullanılmayan 'geçici'yi nötrle
+    a6_hue_old = "const kindHue = {veri:'#2f6fb0', 'araç':'#2f8a5b', 'literatür':'#8a5cc0', 'geçici':'#b86a2e'};"
+    a6_hue_new = "const kindHue = {veri:'#2f6fb0', 'araç':'#2f8a5b', 'literatür':'#8a5cc0', 'sentez':'#b86a2e', 'geçici':'#9a9082'};"
+    if a6_hue_old in html:
+        html = html.replace(a6_hue_old, a6_hue_new, 1); na6 += 1
+    # (2) sourceVals'e kategori grupları (sıralı: araç→veri→literatür→sentez; boş kategori atlanır)
+    a6_grp_old = "    return { showSrcStrip:!!usage, pageSources,"
+    a6_grp_new = ("    const CAT_ORDER=['araç','veri','literatür','sentez'];\n"
+                  "    const CAT_LABEL={'araç':'Araçlar & motorlar','veri':'Veri setleri','literatür':'Akademik literatür','sentez':'Derin araştırma & derlemeler'};\n"
+                  "    const sourceGroups = CAT_ORDER.map(cat=>{ const rows=sourceRows.filter(r=>r.kind===cat); return {cat, catLabel:CAT_LABEL[cat]||cat, hue:(kindHue[cat]||'#9a9082'), rows, count:rows.length}; }).filter(g=>g.count>0);\n"
+                  "    return { showSrcStrip:!!usage, pageSources,")
+    if a6_grp_old in html:
+        html = html.replace(a6_grp_old, a6_grp_new, 1); na6 += 1
+    a6_ret_old = "isSources:S.screen==='sources', sourceRows };"
+    a6_ret_new = "isSources:S.screen==='sources', sourceRows, sourceGroups };"
+    if a6_ret_old in html:
+        html = html.replace(a6_ret_old, a6_ret_new, 1); na6 += 1
+    # (3) markup: flat liste → kategori başlıklı gruplu liste (kart-içi tür rozeti kaldırıldı, başlık taşıyor)
+    a6_mk_old = (
+        '        <div style="display:flex;flex-direction:column;gap:10px">\n'
+        '          <sc-for list="{{ sourceRows }}" as="s" hint-placeholder-count="6">\n'
+        '            <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:13px;padding:16px 20px">\n'
+        '              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">\n'
+        '                <span style="font-family:\'Spectral\',serif;font-size:17px;font-weight:600;color:#211d17">{{ s.label }}</span>\n'
+        '                <span style="{{ s.kindStyle }}">{{ s.kind }}</span>\n'
+        '                <span style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#9a9082;margin-left:auto">{{ s.lic }}</span>\n'
+        '              </div>\n'
+        '              <div style="font-size:13px;color:#5f574b;margin-top:5px">{{ s.detail }}</div>\n'
+        '              <div style="font-size:12px;color:#9a9082;margin-top:8px;font-family:\'IBM Plex Mono\',monospace">KULLANIM: {{ s.used }}</div>\n'
+        '            </div>\n'
+        '          </sc-for>\n'
+        '        </div>')
+    a6_mk_new = (
+        '        <div style="display:flex;flex-direction:column;gap:28px">\n'
+        '          <sc-for list="{{ sourceGroups }}" as="g" hint-placeholder-count="4">\n'
+        '            <div>\n'
+        '              <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;border-bottom:1px solid rgba(33,29,23,.08);padding-bottom:8px">\n'
+        '                <span style="width:9px;height:9px;border-radius:3px;background:{{ g.hue }}"></span>\n'
+        '                <span style="font-family:\'Spectral\',serif;font-size:21px;font-weight:600;color:#211d17">{{ g.catLabel }}</span>\n'
+        '                <span style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;color:#9a9082">{{ g.count }} kaynak</span>\n'
+        '              </div>\n'
+        '              <div style="display:flex;flex-direction:column;gap:10px">\n'
+        '                <sc-for list="{{ g.rows }}" as="s" hint-placeholder-count="3">\n'
+        '                  <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:13px;padding:16px 20px">\n'
+        '                    <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">\n'
+        '                      <span style="font-family:\'Spectral\',serif;font-size:17px;font-weight:600;color:#211d17">{{ s.label }}</span>\n'
+        '                      <span style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#9a9082;margin-left:auto">{{ s.lic }}</span>\n'
+        '                    </div>\n'
+        '                    <div style="font-size:13px;color:#5f574b;margin-top:5px">{{ s.detail }}</div>\n'
+        '                    <div style="font-size:12px;color:#9a9082;margin-top:8px;font-family:\'IBM Plex Mono\',monospace">KULLANIM: {{ s.used }}</div>\n'
+        '                  </div>\n'
+        '                </sc-for>\n'
+        '              </div>\n'
+        '            </div>\n'
+        '          </sc-for>\n'
+        '        </div>')
+    if a6_mk_old in html:
+        html = html.replace(a6_mk_old, a6_mk_new, 1); na6 += 1
+    # (4) intro metni: 'örnek/illüstratif' artık yok (F temizliği) → kategori + ölçek vurgulu güncel metin
+    a6_intro_old = 'Akademik dürüstlük ilkesi: hiçbir veri kaynaksız değildir. Aşağıda her kaynak, lisansı ve <strong>hangi modüllerde kullanıldığı</strong> listelenir. “Örnek/illüstratif” işaretli alanlar, gerçek backend (Apertium + CLDF) bağlandığında değişecektir.'
+    a6_intro_new = 'Akademik dürüstlük ilkesi: hiçbir veri kaynaksız değildir. Kaynaklar <strong>kategoriye göre</strong> düzenlenir; her biri lisansı ve <strong>hangi modüllerde kullanıldığıyla</strong> listelenir. Yatay ölçekte bu kütük büyüdükçe yeni kaynaklar ilgili kategoriye eklenir.'
+    if a6_intro_old in html:
+        html = html.replace(a6_intro_old, a6_intro_new, 1); na6 += 1
+
     # kopya/metin düzeltmeleri — yalnız NET redundant/teknik ifadeler (tasarımı bozmadan, minimal)
     copy_fix = {
         "14 dil · soldan kenar rengi = canlılık": "Türk dilleri ve canlılık durumları",
@@ -1623,6 +1689,7 @@ def main():
     print(f"  A1 kognat kelime-seçici (kategorili+aranabilir): {na1}/3 yama")
     print(f"  A3 landing kapsam (veriden: {n_live}/{n_prof}/{n_geo} dil, {n_branch} kol) + footer + kart: {na3}/3 yama")
     print(f"  A5 Uzaklık radar kutusu kompakt + OKUMA sağ sütuna (denge): {na5}/3 yama")
+    print(f"  A6 Kaynaklar sayfası kategorize (araç/veri/literatür/sentez): {na6}/5 yama")
     print(f"  Kopya düzeltmeleri: {nfix}")
     print(f"  Dil profili zenginleştirme (Wikipedia, çapraz-kontrollü): {nenrich} alan ({len(extra)} dil)")
     print(f"  Canlı API bağlama (Paradigma+Analiz): {nlive}/6 yama")

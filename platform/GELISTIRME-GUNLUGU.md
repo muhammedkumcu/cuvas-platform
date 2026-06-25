@@ -146,8 +146,13 @@ Voicing çiftleri Latin+Kiril kapsıyor; rozetler her dilde çalışıyor: tur p
 - **Faz 1.3 (Harita UX) ✅:** düğüme tıkla → INLINE bilgi kartı (sayfadan çıkmaz; kullanıcı kararı); gerçek koordinat projeksiyonu (Türkçe Anadolu'da); Argu kolu rengi+lejant (Halaçça). 14 dil.
 - **Faz 1.1 (füzyon ayrışma) — CANLI ARAŞTIRMA (değişiklik yapılmadı, bilinçli):** `/segment` (chv) gerçek davranış incelendi → **tek-tip bölme YANLIŞ.** Üç sınıf: zaten-doğru / gerçek-portmanteau (ҫуртне, BÖLME) / güvenle-bölünebilir (кӗнекесенче→сен+че). + olası bug (кӗнекине'de iyelik -и- sahte ses-değişimi). Bulgular + plan `MORFOLOJI-DEGERLENDIRME.md`'de. **Backend morfoloji + "%100 doğru" mandası + kullanıcı away → ayrı odaklı, `segment_eval`-doğrulamalı oturumda yapılacak; aceleye getirilip uydurma segmentasyon üretilmedi.**
 
+## EK-OTURUM (25 Haz, devam-6) — Faz 1.1 GÜVENLİ-BÖLME (doğrulandı) + Faz 3.1 (Dilin Kalbi)
+- **Faz 1.1 (güvenli füzyon-bölme) ✅ — segment_eval ile DOĞRULANDI:** `app.py`'ye TEMİZ-SINIR bölme (chv pl+hâl: сенче→сен+че; px+hâl portmanteau KORUNDU). VM'ye scp + start.sh ile temiz uvicorn restart (§4.6) + eval. **Sonuç: chv ek-sayı %75.3→%92.0 (+16.7), align %100 & yeniden-üretim %93.2 değişmedi, diğer 9 dil regresyonsuz.** Kalan ~%8 = bilinçli korunan px+hâl portmanteau + `кӗнеки` px3sp-и yutulma bug'ı (ayrı pas). Bulgular+sonuçlar `MORFOLOJI-DEGERLENDIRME.md`'de.
+- **Faz 3.1 (Çuvaşça "Dilin Kalbi") ✅:** KEŞFET'e anlatı sayfası — hero + neden paha biçilmez + ses kanunları tablosu (8 kognat + kanıt) + yapı özgünlüğü (4 kart) + tarihsel tanıklar (Bulgar/Feyzhanov/Aşmarin) + dijital uçurum + CTA. Claude_Preview ✅ (CTA→chv profili).
+- **Süreç notu:** 1.1 backend olduğundan VM workflow kullanıldı — scp app.py → start.sh (setsid+disown; tek-seferlik SSH `& disown` SIGHUP'a takıldı, start.sh düzeltti) → VM-içi health doğrula → eval. §4.6 uvicorn tuzağı yine geçerli.
+
 ## Sıradaki / açık işler — bkz `plan/YOL-HARITASI.md` (özet)
-1. **ŞİMDİ (deepsearch beklemez):** Faz 1.1 GÜVENLİ-bölme (doğrulamalı backend) · 3.1 Çuvaşça "Dilin Kalbi".
+1. **ŞİMDİ (deepsearch beklemez):** 1.1 kalanı (кӗнеки px3sp-и, dikkatli) · deepsearch-8 kol-düzeltmeleri (Sarı Uygurca→G.Sibirya vb.).
 2. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.
 3. Sıfat/zarf yüzey bölümleme (POS başına kümülatif şablon).
 4. **.dix kalıcılığı:** VM'de `/root/koken_api/dix/` (gitignored, GPL). VM sıfırlanırsa `bash platform/backend/fetch_dix.sh` (VM'de) ile yeniden indir.

@@ -94,10 +94,9 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 
 ## FAZ 3 — Çuvaşça derinlik ("dilin kalbi") — brainstorm
 
-### 3.1 ⏳ Çuvaşça "Dilin Kalbi" sayfası (kullanıcı fikri)
-- **Ne:** Çekirdek dilimiz Çuvaşçaya özel, derin bir sayfa — Ogur kolu hikâyesi, ses kanunları (kanıtlı, 1.2 ile), tarihçe (İdil Bulgar, Aşmarin), canlılık, örnek paradigmalar, kognat ağı, "neden bu dil paha biçilmez".
-- **Yapar mıyız:** ❓ kullanıcı "üzerine düşünürüz" dedi. **Benim görüşüm:** EVET değerli — misyonun (tehlikedeki dile derinlik) somut vitrini + paper için güçlü vaka çalışması. Mevcut modülleri (profil+kognat+ses+tarih) Çuvaşça için tek "anlatı" sayfasında birleştirir.
-- **❓Soru:** ayrı özel sayfa mı (anlatı/hikâye akışı) yoksa mevcut Çuvaşça içeriğini derinleştirmek mi yeterli? Diğer tehlikedeki diller (Saha, Şor) için de şablon olur mu?
+### 3.1 ✅ Çuvaşça "Dilin Kalbi" sayfası — YAPILDI (25 Haz)
+- **Ne yapıldı:** Sol menü KEŞFET'e **"Çuvaşça Kalbi"** anlatı sayfası (`heart` ekranı): kara hero (740 bin · Oğur · EGIDS 6b) + "Neden paha biçilmez?" + **Ses kanunları** (8 satırlık Ortak Türkçe↔Çuvaşça tablosu: dokuz→tăhăr… + Savelyev kanıt 36/29/14) + **Yapının özgünlüğü** (4 kart: tersine morfotaktik xĕr-ĕm-sen-čen, -сем çoğulu, dat-acc birleşmesi, ă/ĕ) + **Tarihsel tanıklar** (İdil Bulgar / Feyzhanov 1863 / Aşmarin 17 cilt) + **Bugün — dijital uçurum** (740K düşüş, TTS yok, ASR %60) + **CTA** (Atölye/Profil/Kognat/Ses denklikleri). `build.py: HEART bloğu + heart ekranı + isHeart + 4 CTA handler`. Claude_Preview ✅.
+- **İleride (opsiyonel):** Saha/Şor gibi diğer tehlikedeki diller için şablonlaştırma — yatay ölçek.
 
 ---
 

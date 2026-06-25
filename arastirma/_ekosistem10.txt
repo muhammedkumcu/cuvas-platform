@@ -1,0 +1,2769 @@
+Türk Dilleri NLP ve LLM Ekosistemi 
+Kapsamlı Araştırma Raporu (2025-2026) 
+
+Bitişken (eklemeli) yapıları, ünlü uyumu, zengin morfosentaktik özellikleri ve karmaşık çekim 
+kuralları ile Hint-Avrupa dillerinden keskin biçimde ayrılan Türk dilleri, Doğal Dil İşleme (NLP) ve 
+Büyük Dil Modelleri (LLM) alanında 2025 ve 2026 yıllarında eşi görülmemiş bir yapısal dönüşüm 
+yaşamıştır1. Geçmişte evrensel, çok dilli devasa modellere (örneğin mBERT veya XLM-R) ikincil 
+diller olarak İngilizce merkezli bir çeviri mantığıyla entegre edilen bu diller, günümüzde kendi 
+yapılarına özgü kökten (native) eğitilen temel modellere ve yerel verilerle inşa edilen 
+değerlendirme kıstaslarına (benchmark) kavuşmuştur2. İngilizce merkezli modellerin en büyük 
+dezavantajı olan yüksek tokenizasyon maliyetleri (tokenizer bloat), Türkçe veya Kazakça gibi 
+dillerde bir kelimenin çok sayıda anlamsız alt parçaya bölünmesine yol açarak hem bağlam 
+penceresinin (context window) israf edilmesine hem de işlem maliyetlerinin dramatik biçimde 
+artmasına neden olmaktaydı4. 
+Güncel ekosistem haritası, Türk dillerinin üretken yapay zeka, konuşma sentezi (TTS), konuşma 
+tanıma (ASR/STT), kodlayıcı (encoder) sistemler ve kültürel değerlendirme standartlarındaki 
+mevcut durumunu ağ-odaklı bir perspektifle sunmayı amaçlamaktadır. Analiz, yirmi beş farklı 
+Türk dilini kapsayacak şekilde yapılandırılmış olup, araştırmacıları doğrudan ilgili açık kaynaklı veri 
+havuzlarına (Hugging Face, GitHub, Zenodo) yönlendirecek bağlantılar ve kullanım metrikleriyle 
+desteklenmiştir. 
+Üretken Büyük Dil Modelleri (LLM - Chat / Instruct / 
+Reasoning) 
+
+Üretken dil modelleri kategorisi, özellikle Türkçe, Kazakça ve Özbekçe ekseninde mimari bir 
+olgunlaşma sürecinden geçmektedir3. Doğrudan Tercih Optimizasyonu (Direct Preference 
+Optimization - DPO) ve yerel BPE (Byte-Pair Encoding) veya SentencePiece tokenizer 
+kullanımları, bu alandaki araştırmaların ana odağını oluşturmaktadır5. Standart çok dilli 
+modellerin Türkçe kelimeleri yüksek token sayılarıyla ifade etmesi sorununa karşı, Kumru ve 
+Magibu gibi yerel tokenizer'a sahip mimariler, sıfırdan eğitilmiş sözcük dağarcıkları (vocabulary) 
+ile aynı metni ifade etmek için rakip modellere kıyasla yüzde ellinin üzerinde token tasarrufu 
+sağlamaktadır3. Kazakistan'da devlet destekli enstitüler (ISSAI) tarafından 150 milyar token ile 
+eğitilen KazLLM projesi, ulusal bir yapay zeka hamlesi olarak açık kaynak ekosistemine 
+sunulurken6, Özbekistan'da UzLM ve Tahrirchi gibi yerel laboratuvarlar "continual pre-training" 
+yöntemleriyle temel modelleri Özbekçeye adapte etmektedir9. 
+Aşağıdaki tablo, üretken modellerin dil bazlı en güncel envanterini sunmaktadır. Kategorinin 
+evrensel "hub" (merkez) bağlantıları Hugging Face üzerindeki çok dilli etiket aramalarından, 
+OpenLLM-TR liderlik tablolarından ve ilgili organizasyon listelerinden beslenmektedir11. 
+
+ 
+Dil 
+
+Model Adı 
+
+TAM URL 
+
+Not (Mimari / 
+Lisans / Boyut 
+/ Tokenizer) 
+
+Metrikler 
+(İndirme / 
+Yıldız / Tarih) 
+
+Türkçe 
+
+🥇 
+Trendyol-LLM-
+Asure-12B 
+
+https://hugging
+face.co/Trendy
+ol/Trendyol-LL
+M-Asure-12B 
+
+Türkçe 
+
+🥇 Kumru-2B 
+
+https://hugging
+face.co/vngrs-
+ai/Kumru-2B 
+
+Türkçe 
+
+🥈 
+Turkish-Llama-
+8b-DPO-v0.1 
+
+https://hugging
+face.co/ytu-ce
+-cosmos/Turki
+sh-Llama-8b-D
+PO-v0.1 
+
+Türkçe 
+
+🥉 
+Kara-Kumru-v1
+.0-2B 
+
+https://hugging
+face.co/Alican
+Kiraz0/Kara-Ku
+mru-v1.0-2B 
+
+458 indirme / 
+41 yıldız / Şubat 
+202613 
+
+1.11K indirme / 
+118 yıldız / Eylül 
+202515 
+
+49 yıldız / 38 
+indirme / 2024 
+Sonu7 
+
+Yeni Sürüm / 
+202517 
+
+Gemma 3-12B 
+tabanlı 
+multimodal, 
+e-ticaret 
+odaklı, İng/Tr 
+bilingüal. 
+Yapılandırılmış 
+talimat izleme. 
+
+Mistral tabanlı, 
+VNGRS AI 
+tarafından 
+300B token ile 
+sıfırdan eğitim. 
+BPE 50K 
+vocab, çok 
+yüksek token 
+verimliliği. 
+
+YTU Cosmos 
+Lab, Llama 3 
+tabanlı DPO 
+(Direct 
+Preference 
+Optimization), 
+muhakeme 
+(reasoning) 
+odaklı. 
+
+Kumru-2B 
+üzerinden QA, 
+özetleme ve 
+çeviri görevleri 
+için "full 
+fine-tune". 
+Cetvel 
+ortalaması: 
+
+Türkçe 
+
+Magibu-11b-v0
+.8 
+
+https://hugging
+face.co/magib
+u/magibu-11b-
+v0.8 
+
+Türkçe 
+
+Turkcell-LLM-7
+b-v1 
+
+https://hugging
+face.co/TURKC
+ELL/Turkcell-LL
+M-7b-v1 
+
+Kazakça 
+
+🥇 
+Llama-3.1-KazL
+LM-1.0-8B 
+
+https://hugging
+face.co/issai/LL
+ama-3.1-KazLL
+M-1.0-8B 
+
+Kazakça 
+
+Llama-3.1-KazL
+LM-1.0-70B-G
+GUF4 
+
+https://hugging
+face.co/issai/LL
+ama-3.1-KazLL
+M-1.0-70B-GG
+UF4 
+
+37.56 (70B 
+modelleri 
+aşıyor). 
+
+Gemma-3 
+mimarisi, özel 
+Türkçe 
+tokenizer (%54 
+daha az token 
+kullanımı), 70B 
+Llama 3.1 ile 
+yarışan 
+deneysel 
+sürüm. 
+
+Mistral 7B 
+tabanlı, 5 
+milyar Türkçe 
+token ile DORA 
+ve LORA ince 
+ayarı. 
+Genişletilmiş 
+tokenizer. 
+
+ISSAI 
+tarafından 
+150B token ile 
+eğitilmiş ulusal 
+LLM projesi. 
+Kazakça, 
+Rusça, İngilizce 
+ve Türkçe 
+desteği 
+(CC-BY-NC). 
+
+KazLLM 70B 
+modelinin yerel 
+cihazlarda 
+(llama.cpp) 
+çalıştırılabilmes
+i için optimize 
+
+SOTA (Cetvel 
+QA 1.si) / 20254 
+
+173 indirme / 
+97 yıldız / Nisan 
+202419 
+
+20 yıldız / Aralık 
+20246 
+
+Güncel / Aralık 
+20246 
+
+Kazakça 
+
+Qolda 
+
+https://hugging
+face.co/issai/Q
+olda 
+
+Özbekçe 
+
+🥇 
+Alloma-3B-Inst
+ruct 
+
+https://hugging
+face.co/uzlm/all
+oma-3B-Instru
+ct 
+
+Özbekçe 
+
+Mistral-7B-Inst
+ruct-Uz 
+
+https://hugging
+face.co/behbu
+diy/Mistral-7B-I
+nstruct-Uz 
+
+Azerice 
+
+🥇 Atllama.v3.5 
+
+https://hugging
+face.co/az-llm/
+atllama.v3.5 
+
+edilmiş 4-bit 
+kuantize 
+versiyonu. 
+
+Cihaz içi 
+(on-device) 
+çalışma hedefli, 
+çok dilli 
+Language-Visi
+on modeli (4B 
+parametre). 
+Görüntü ve 
+metin işleme. 
+
+UzLM ekibi 
+tarafından 
+Özbek dili için 
+optimize 
+edilmiş 
+yapılandırılmış 
+talimat modeli 
+(3B). 
+
+Behbudiy Labs, 
+İngilizce ve 
+Özbekçe veri 
+setiyle sürekli 
+ön eğitim 
+(continual 
+pre-training) 
+ve talimat ince 
+ayarı. 
+
+Az-LLM 
+projesi, LLaMA 
+3.1 8B üzerine 
+50.000 
+örneklik 
+talimat/Wikipe
+dia verisi ile 
+ince ayar (fp16, 
+
+Açık Kaynak / 
+Kasım 202522 
+
+186 indirme / 6 
+yıldız / Eylül 
+202523 
+
+15 yıldız / 
+202410 
+
+5 yıldız / 
+2024-202524 
+
+Azerice 
+
+mGPT-1.3B-az
+erbaijan 
+
+https://hugging
+face.co/ai-fore
+ver/mGPT-1.3B
+-azerbaijan 
+
+Tatarca 
+
+mistral-7b-tata
+r-lora-r16 
+
+Başkurtça 
+
+bashkir-lora-ql
+ora-benchmar
+k 
+
+Diğer Diller 
+
+Kayıt 
+Bulunamadı 
+
+https://hugging
+face.co/TatarN
+LPWorld/mistra
+l-7b-tatar-lora
+-r16 
+
+https://hugging
+face.co/datase
+ts/BashkirNLP
+World/bashkir-l
+ora-qlora-ben
+chmark 
+
+Belirtilen Çok 
+Dilli 
+Platformlara 
+(NLLB, Aya, 
+mGPT) 
+Yönlendirme. 
+
+Stabil Sürüm25 
+
+Mart 202426 
+
+Kıyaslama 
+Arşivi27 
+
+İzole özel LLM 
+bulunamadı28 
+
+MIT). 
+
+mGPT-XL 
+(1.3B) 
+modelinin 
+Azerice 
+verilerle 
+70.000 adım 
+ek eğitim almış 
+versiyonu. 
+
+TatarNLPWorld 
+tarafından 
+Mistral-7B 
+üzerine QLoRA 
+yöntemiyle 
+geliştirilen 
+Tatarca metin 
+üretim modeli. 
+
+Doğrudan 
+ağırlık yerine, 
+Başkurtça için 
+Mistral 7B 
+QLoRA r=16'nın 
+en verimli 
+olduğunu 
+kanıtlayan 
+araştırma 
+havuzu. 
+
+Türkmence, 
+Gagavuzca, 
+Kırım Tatarcası, 
+Kırgızca, 
+Karakalpakça, 
+Karaçay-Balkar
+ca, Kumukça, 
+Nogayca, 
+Uygurca, 
+Çuvaşça, 
+
+Sahaca, 
+Tuvaca, 
+Hakasça, 
+Altayca, Şorca, 
+Halaçça, 
+Salarca, Sarı 
+Uygurca, 
+Dolganca. 
+
+●  Üretken LLM Hub URL'leri: 
+○  Hugging Face Model Arama (Turkish): 
+
+https://huggingface.co/models?language=tr&pipeline_tag=text-generation 
+
+○  Awesome Turkish LLMs Listesi: 
+
+https://huggingface.co/spaces/kesimeg/awesome-turkish-language-models 
+[cite: 12] 
+
+Kodlayıcı (Encoder) ve Temsil (Representation) 
+Sistemleri 
+
+Vektörel arama (RAG altyapıları), metin sınıflandırma, anlamsal temsil ve zararlı içerik (toksisite) 
+tespiti için Çift Yönlü Kodlayıcı Temsilleri (BERT ve türevleri) mimarileri kritik önem 
+taşımaktadır30. Gelişmiş kaynaklı dillerde (Türkçe, Özbekçe), özellikle e-ticaret metinlerinin 
+çözümlenmesinde, arama motoru eşleşmelerinde ve alana özgü metin sınıflandırma 
+işlemlerinde yüksek başarım gösteren yerel encoder modelleri öne çıkmaktadır30. Türkçe için 
+VNGRS tarafından 135 GB temiz veri ile 2.7 milyon adım boyunca eğitilen VBART modeli, 
+SentencePiece Unigram mimarisi sayesinde OpenAI'ın BPE tokenizer'ına kıyasla Türkçeyi 
+ortalama 7.28 kat daha kompakt temsil edebilmektedir5. Özbekçe için maskelenmiş dil 
+modelleme (Fill-Mask) görevlerinde 340.000'den fazla indirilen mmBERT serisi dikkat 
+çekerken33, Tatarca gibi dillerde kelimelerin karmaşık morfolojik yapılarını çözümleyebilmek 
+amacıyla XLM-RoBERTa altyapıları üzerine toponimi (yer adları) ve morfoloji sınıflandırma ince 
+ayarları yapılmaktadır26. 
+
+Dil 
+
+Türkçe 
+
+Model / Araç 
+Adı 
+
+TAM URL 
+
+Not (Mimari / 
+Lisans / 
+Boyut) 
+
+Metrikler 
+(İndirme / 
+Yıldız / Tarih) 
+
+🥇 
+TY-ecomm-em
+bed-multilingu
+al-base-v1.2.0 
+
+https://hugging
+face.co/Trendy
+ol/TY-ecomm-
+embed-multilin
+gual-base-v1.2.
+
+Trendyol, 
+e-ticaret ve 
+çok dilli 
+verilerle 
+eğitilmiş cümle 
+
+3.38K indirme / 
+40 yıldız / 
+Mayıs 202514 
+
+ 
+0 
+
+Türkçe 
+
+VBART-Large-
+Base 
+
+https://hugging
+face.co/vngrs-
+ai/VBART-Larg
+e-Base 
+
+Türkçe 
+
+bert-offensive-
+lang-detection
+-tr 
+
+https://hugging
+face.co/TURKC
+ELL/bert-offen
+sive-lang-dete
+ction-tr 
+
+Özbekçe 
+
+🥇 
+mmBERT-base
+-uzs 
+
+https://hugging
+face.co/jhu-cls
+p/mmBERT-bas
+e 
+
+Özbekçe 
+
+tahrirchi-bert-
+base 
+
+https://hugging
+face.co/tahrirc
+hi/tahrirchi-ber
+t-base 
+
+benzerliği 
+(Sentence 
+Similarity) 
+temsil modeli 
+(0.3B). 
+
+VNGRS, 135 
+GB Türkçe veri, 
+Seq2Seq 
+Transformer. 
+SentencePiece 
+Unigram 
+tokenizer 
+(32K). Kompakt 
+temsil. 
+
+Turkcell, metin 
+sınıflandırma 
+üzerinden 
+küfür, hakaret 
+ve toksisite 
+tespiti yapan 
+encoder (0.2B). 
+
+JHU CLSP, 
+Özbekçe 
+destekli 
+maskelenmiş 
+dil modeli 
+(Fill-Mask). 
+Geniş kullanım 
+alanı. 
+
+Tahrirchi lab., 
+Özbek dili için 
+sıfırdan 
+eğitilmiş SOTA 
+encoder 
+modeli (0.1B). 
+
+Stabil / 20245 
+
+499 indirme / 9 
+yıldız / Ocak 
+202420 
+
+340K indirme / 
+216 yıldız / Ekim 
+202533 
+
+258 indirme / 
+12 yıldız / Kasım 
+20239 
+
+Özbekçe 
+
+bert-finetuned
+-uzbek-text-cl
+assification 
+
+Tatarca 
+
+🥇 
+xlm-roberta-ta
+tar-morph 
+
+Tatarca 
+
+rubert-large-ta
+tar-toponyms-
+qa 
+
+Tatarca 
+
+TatarTokenizer
+s 
+
+Stabil / 202530 
+
+5 yıldız / Mart 
+202426 
+
+5 yıldız26 
+
+Tokenizer 
+Repo34 
+
+https://hugging
+face.co/abdum
+alikov/bert-fine
+tuned-uzbek-t
+ext-classificati
+on 
+
+https://hugging
+face.co/TatarN
+LPWorld/xlm-r
+oberta-tatar-
+morph 
+
+https://hugging
+face.co/TatarN
+LPWorld/rubert
+-large-tatar-to
+ponyms-qa 
+
+https://hugging
+face.co/arabov
+s-ai-lab/TatarT
+okenizers 
+
+512.750 
+örnekle 
+eğitilmiş, 15 
+farklı alanda 
+metin 
+kategorizasyon
+u yapan BERT 
+adaptasyonu 
+(%86 F1). 
+
+XLM-R 
+altyapısı, 
+Tatarca 
+token/morfoloji 
+sınıflandırma 
+ve morfolojik 
+çözümleme 
+odaklı. 
+
+RuBERT tabanlı, 
+Tatarca 
+toponimi (yer 
+adları) ve 
+soru-cevap 
+çıkarımı 
+modeli. 
+
+BPE, 
+WordPiece, 
+Unigram, 
+SentencePiece 
+kıyaslamalı; 
+Tatarca 
+metinler için 
+%3.4x 
+sıkıştırma aracı. 
+
+Sahaca 
+(Yakut) 
+
+ruBert-base-s
+akha 
+
+https://hugging
+face.co/bamaxi
+/ruBert-base-s
+
+Sahaca 
+metinlerin 
+anlamsal 
+temsili için 
+
+Stabil Sürüm35 
+
+Diğer Diller 
+
+Kayıt 
+Bulunamadı 
+
+İzole encoder 
+modeli yok36 
+
+akha 
+
+Çok-dilli 
+Encoder 
+Platformlarına 
+(Glot500, 
+NLLB 
+Embeddings) 
+Yönlendirme. 
+
+RuBERT 
+üzerinden 
+türetilmiş 
+temel dil 
+modeli. 
+
+Azerice, 
+Türkmence, 
+Gagavuzca, 
+Kırım Tatarcası, 
+Kazakça, 
+Kırgızca, 
+Başkurtça, 
+Karakalpakça, 
+Karaçay-Balkar
+ca, Kumukça, 
+Nogayca, 
+Uygurca, 
+Çuvaşça, 
+Tuvaca, 
+Hakasça, vb. 
+
+●  Encoder / Temsil Hub URL'leri: 
+○  Hugging Face Fill-Mask & Embedding Arama: 
+
+https://huggingface.co/models?pipeline_tag=fill-mask 
+
+○  Glot500 Evrensel Çok Dilli Temsil Havuzu: https://github.com/cisnlp/Glot500 
+
+[cite: 36] 
+
+Konuşma Tanıma Sistemleri (ASR / STT) 
+
+Konuşma tanıma (Speech-to-Text) alanında OpenAI'ın Whisper mimarisi üzerine yapılan ince 
+ayarlar (fine-tuning) ve Mozilla Common Voice kitle kaynaklı ses arşivi, düşük kaynaklı diller için 
+yegane veri can simidi konumundadır37. Ancak, Whisper modellerinin doğasında var olan kelime 
+dağarcığı (vocabulary) kısıtlamaları, Uygurca gibi dillerin tokenizer'larda bulunmaması sebebiyle 
+Özbekçe tokenizer kullanılarak Latin alfabesi üzerinden zoraki bir transkripsiyon üretilmesi gibi 
+yaratıcı ama geçici çözümlere yol açmaktadır39. Buna karşılık Kazakça, ISSAI tarafından 
+geliştirilen ve LLM tabanlı noktalama ile büyük harf restorasyonu sağlayan 1.151 saatlik devasa 
+KSC2++ endüstriyel korpusu sayesinde STT alanında tam bağımsız ve lider konumdadır40. 
+Sahaca (Yakut) ve Başkurtça gibi azınlık dillerinde, donanım gereksinimlerini azaltmak adına 
+kelime dağarcığını daraltan (trimming) "Turbo" veya "Faster-Whisper" mimarileri CTranslate2 
+entegrasyonlarıyla gecikmesiz (low-latency) çözümler sunmaktadır41. 
+
+ 
+Dil 
+
+Model Adı 
+
+TAM URL 
+
+Not (Mimari / 
+Lisans / 
+Boyut) 
+
+Metrikler 
+(İndirme / 
+Yıldız / Tarih) 
+
+Kazakça 
+
+🥇 KSC2 
+(ISSAI_SAIDA_
+Kazakh_ASR) 
+
+https://github.c
+om/IS2AI/ISSAI
+_SAIDA_Kazak
+h_ASR 
+
+Kazakça 
+
+TurkicASR 
+
+https://github.c
+om/IS2AI/Turki
+cASR 
+
+Özbekçe 
+
+🥇 
+uzbek-stt-v2 
+
+https://hugging
+face.co/rifkat/u
+zbek-stt-v2 
+
+Özbekçe 
+
+whisper-small-
+ug 
+
+https://hugging
+face.co/osman/
+whisper-small-
+ug 
+
+56 yıldız / 6 
+fork / 202440 
+
+85 yıldız / 11 
+fork43 
+
+STT Repo44 
+
+3 yıldız39 
+
+1,151 saatlik 
+KSC2++ 
+endüstriyel ses 
+korpusu, LLM 
+tabanlı 
+noktalama 
+restorasyonu. 
+Açık kaynak 
+SOTA. 
+
+Kazakça, 
+Türkmence, 
+Uygurca vb. 10 
+Türk dilini 
+tanıyan 
+birleştirilmiş 
+ASR. 
+
+wav2vec2 
+tabanlı, dil 
+modeli (LM) 
+destekli, 
+yüksek 
+başarım 
+sağlayan 
+(ROVER) 
+Özbekçe 
+modeli. 
+
+Uygurca 
+verinin Özbek 
+tokenizer 
+üzerinden 
+zorunlu 
+kullanımı. Çıktı 
+Latin 
+alfabesindedir 
+
+Uygurca 
+
+🥇 
+whisper-small-
+uyghur-comm
+on-voice 
+
+https://hugging
+face.co/ixxan/
+whisper-small-
+uyghur-comm
+on-voice 
+
+Uygurca 
+
+whisper-small-
+uyghur 
+
+https://hugging
+face.co/anke01
+/whisper-small
+-uyghur 
+
+Türkmence 
+
+🥇 
+whisper-base-
+tk-finetuned 
+
+Türkmence 
+
+whisper-small-
+tk 
+
+Kırım 
+Tatarcası 
+
+whisper-large-
+v3-crh 
+
+https://hugging
+face.co/Atamyr
+at2005/whispe
+r-base-tk-finet
+uned 
+
+https://hugging
+face.co/ray030
+3/whisper-smal
+l-tk 
+
+https://hugging
+face.co/servino
+smanov/whisp
+er-large-v3-cr
+
+(WER: 26.87). 
+
+Common 
+Voice 15 (11K 
+kayıt) ile eğitilip 
+THUYG20 
+üzerinde test 
+edilen model. 
+(WER: 28.29, 
+CER: 10.89). 
+
+THUYG-20 veri 
+seti (7.600 
+kayıt) 
+kullanılarak 
+mikrofondan 
+veri işleyen 
+Whisper (CER: 
+~16.5). 
+
+Common 
+Voice 17.0 
+kullanılarak 
+Türkmence 
+fonetik 
+yapılarına 
+adapte edilen 
+Whisper-base. 
+
+Common 
+Voice 17.0 ile 
+ince ayar. 
+Değerlendirme 
+seti test WER 
+skoru: 57.93. 
+
+Whisper-large-
+v3 üzerine 
+Kiril/Latin çift 
+script desteği 
+için 17 epoch 
+
+6 yıldız / 202445 
+
+1 yıldız46 
+
+1 yıldız38 
+
+1 yıldız / 202547 
+
+202448 
+
+2 yıldız49 
+
+Hızlı Sürüm / 
+202541 
+
+Güncelleme 
+Eylül 202542 
+
+[cite: 44, 50] 
+
+h 
+
+https://hugging
+face.co/alexant
+onov/whisper-
+medium-chv-p
+re 
+
+https://hugging
+face.co/alphae
+dge-ai/whisper
+-large-v3-turb
+o-bak-16384 
+
+https://github.c
+om/Sakha-Lan
+guage-Process
+ing/faster-whis
+per 
+
+Mozilla 
+Common 
+Voice Genel 
+İndirme Portalı 
+
+eğitim (WER: 
+13.67). 
+
+Common 
+Voice 17.0 ve 
+63 saatlik 
+Chuvash Voice 
+verisi 
+birleşimiyle 
+eğitilmiş STT. 
+
+Trimming 
+yöntemiyle 
+Başkurtça için 
+16.384 token 
+sınırına 
+indirilmiş, 
+düşük bellek 
+izine sahip 
+hızlandırılmış 
+model. 
+
+CTranslate2 
+entegrasyonu 
+ile donanım 
+optimizasyonlu
+, düşük 
+gecikmeli 
+(latency) STT. 
+
+Türkçe, 
+Azerice, 
+Gagavuzca, 
+Kırgızca, 
+Tatarca, 
+Karakalpakça, 
+Karaçay-Balkar
+ca, Kumukça, 
+vb. 
+
+Çuvaşça 
+
+whisper-mediu
+m-chv-pre 
+
+Başkurtça 
+
+whisper-large-
+v3-turbo-bak-1
+6384 
+
+Sahaca 
+(Yakut) 
+
+faster-whisper 
+
+Diğer Diller 
+
+Kayıt 
+Bulunamadı 
+
+●  ASR / STT Hub URL'leri: 
+
+○  Mozilla Common Voice İndirme Portalı: https://commonvoice.mozilla.org/en/datasets 
+○  Hugging Face ASR Model Arama: 
+
+https://huggingface.co/models?pipeline_tag=automatic-speech-recognition 
+
+Seslendirme ve Konuşma Sentezi (TTS) 
+
+TTS sistemlerinde, 2025 ve 2026 yıllarında eski nesil hece-tabanlı veya form tabanlı 
+sentezleyicilerin yerini (Tacotron, VITS), kesintisiz difüzyon temelli (Diffusion Language Model - 
+DLM) mimariler almıştır51. Özellikle Qwen3-TTS altyapısı, sadece birkaç saniyelik referans ses 
+verisi ile hedef sesi taklit edebilme (zero-shot voice cloning) yeteneği sayesinde düşük kaynaklı 
+dillerdeki devasa veri boşluğunu kapatmaktadır51. Özbekçe için UzLM laboratuvarı tarafından 
+geliştirilen Sayro-TTS, sentetik veri ve açık kaynaklı konuşma arşivlerini harmanlayarak bölgesel 
+ağızları ve insansı vurguları başarıyla sentezleyen 2 milyar parametreli bir model olarak hizmete 
+sunulmuştur52. Türkçe ve Kazakça dilleri, endüstriyel kalitedeki profesyonel kayıt stüdyosu 
+verileriyle (ISSAI KazakhTTS2 gibi 271 saatlik korpuslar) yüksek MOS (Mean Opinion Score) 
+değerlerine erişerek ticari uygulamalarda dahi kullanılabilir hale gelmiştir32. 
+
+Dil 
+
+Model Adı 
+
+TAM URL 
+
+Özbekçe 
+
+🥇 
+sayro-tts-1.7B 
+
+https://hugging
+face.co/uzlm/s
+ayro-tts-1.7B 
+
+Kazakça 
+
+🥇 Kazakh_TTS 
+
+Türkçe 
+
+Trendyol-TTS 
+
+https://github.c
+om/IS2AI/Kaza
+kh_TTS 
+
+https://hugging
+face.co/Trendy
+ol/Trendyol-TT
+S 
+
+Not (Mimari / 
+Lisans / 
+Boyut) 
+
+Metrikler 
+(İndirme / 
+Yıldız / Tarih) 
+
+Qwen3-TTS-12
+Hz altyapılı, 
+sentetik/açık 
+veri harmanlı 
+yerel ağızları 
+koruyan TTS. 
+(2B, 
+CC-BY-NC). 
+
+ISSAI, 
+KazakhTTS2 
+veri seti (271 
+saat). İnsan 
+kalitesine yakın 
+MOS skorları. 
+
+Trendyol ekibi, 
+Türkçe doğal 
+prozodi için 
+geliştirilen 
+metinden sese 
+
+269 indirme / 
+23 yıldız / 
+2025-202652 
+
+153 yıldız / 28 
+fork43 
+
+322 indirme / 
+30 yıldız / 
+Şubat 202632 
+
+ 
+Kırgızca 
+
+AkylAI TTS Mini 
+
+(GitHub Açık 
+Kod) 
+
+Sahaca 
+(Yakut) 
+
+sakha-tts 
+
+Çok Dilli 
+
+🥇 OmniVoice 
+
+https://github.c
+om/Sakha-Lan
+guage-Process
+ing/sakha-tts 
+
+https://hugging
+face.co/hik633
+82/TTS-Multi_l
+anguage_High
+_Quality 
+
+Çok Dilli 
+
+TurkicTTS 
+
+https://github.c
+om/IS2AI/Turki
+cTTS 
+
+Awesome 
+Kyrgyz NLP 
+İndeksi50 
+
+2023 (Eski 
+Sürüm)42 
+
+2 yıldız / 
+Kapsamlı 
+Mod51 
+
+84 yıldız43 
+
+dönüşüm 
+modeli (2B). 
+
+Matcha-TTS 
+üzerine 13 
+saatlik / 7.000 
+ses kaydı 
+örneği. Hafif 
+siklet 
+sentezleyici. 
+
+Sahaca 
+konuşma 
+sentezi için 
+deneysel açık 
+kaynak 
+repozitorisi. 
+
+Difüzyon 
+tabanlı (DLM), 
+600+ dilde 
+Sahaca/Türkçe 
+dâhil 
+"zero-shot" 
+klonlama 
+yetenekli 
+devasa model. 
+
+ISSAI, Düşük 
+kaynaklı 10 
+Türk dili 
+(Kırgızca, 
+Tatarca, 
+Başkurtça vb.) 
+için çapraz dil 
+aktarımı. 
+
+Diğer Diller 
+
+Kayıt 
+Bulunamadı 
+
+OmniVoice ve 
+TurkicTTS çok 
+dilli 
+modellerine 
+
+Azerice, 
+Türkmence, 
+Gagavuzca, 
+Kırım Tatarcası, 
+
+İzole özel 
+model yok51 
+
+(Hub) 
+yönlendirme. 
+
+Karakalpakça, 
+Karaçay-Balkar
+ca, Kumukça 
+vb. 
+
+●  TTS Hub URL'leri: 
+○  Hugging Face TTS Model Arama: 
+
+https://huggingface.co/models?pipeline_tag=text-to-speech 
+
+Veri Setleri ve Korpuslar (Paralel, Tek Dilli, Talimat) 
+
+Eğitim verisi inşası, herhangi bir modelin kültürel yetkinliğinin ve sözdizimsel doğruluğunun 
+yegane belirleyicisidir. Meta'nın başlattığı FLORES makine çevirisi değerlendirme projesi, Open 
+Language Data Initiative (OLDI) gibi açık kaynak komüniteleri tarafından devralınmış ve Hakasça, 
+Karakalpakça, Çuvaşça gibi tehlike altındaki dillere yönelik geniş paralel korpusların ortaya 
+çıkmasını sağlamıştır54. Ayrıca, İnternet kazıma (crawling) yöntemleriyle elde edilen Common 
+Crawl verilerinin titizlikle filtrelenip (metric-based cleaning, deduplication) birleştirilmesiyle 
+oluşturulan CulturaX ve OSCAR gibi devasa havuzlar, terabaytlarca ham metni araştırmacılara 
+açmaktadır56. Özellikle Türkiye merkezli TS Corpus, 1.8 milyardan fazla tokeni, yayın tarihi, yazar 
+ve alan gibi gelişmiş meta veri etiketleriyle sunarak akademik sözcük analizi çalışmalarına temel 
+oluşturmaktadır58. 
+
+Dil 
+
+Veri Seti / 
+Korpus Adı 
+
+TAM URL 
+
+Not (Özellikler 
+/ Format / 
+Boyut) 
+
+Metrikler 
+(İndirme / 
+Yıldız / Tarih) 
+
+Çok Dilli Hub  🥇 FLORES+ 
+
+Çok Dilli Hub  🥇 CulturaX 
+
+883K indirme / 
+147 yıldız55 
+
+643 yıldız57 
+
+https://hugging
+face.co/datase
+ts/openlangua
+gedata/flores_
+plus 
+
+https://hugging
+face.co/datase
+ts/uonlp/Cultur
+aX 
+
+OLDI, 
+Hakasça/Karak
+alpakça/Gagav
+uzca dâhil 229 
+varyant için 
+makine çevirisi 
+devtest seti 
+(CC BY-SA 
+4.0). 
+
+mC4 ve 
+OSCAR 
+verilerinin 
+temizlenip 
+tekilleştirilmiş 
+(deduplicated) 
+
+ 
+Çok Dilli Hub 
+
+OSCAR 
+Corpus 
+
+https://hugging
+face.co/oscar-
+corpus 
+
+Türkçe 
+
+TS Corpus 
+
+https://tscorpu
+s.com/ 
+
+Azerice 
+
+az_customer_s
+upport-v1.0 
+
+https://hugging
+face.co/datase
+ts/az-llm/az_cu
+stomer_suppor
+t-v1.0 
+
+Temel Tarama 
+Verisi56 
+
+Üniversite 
+Odaklı58 
+
+6.01K indirme63 
+
+Parquet 
+birleşimi. 
+Toplam 16TB. 
+
+Colossal 
+OSCAR 
+sürümleri. 
+Türkçe, 
+Azerice, 
+Kazakça, 
+Kırgızca, 
+Tatarca, 
+Çuvaşça vb. 
+ham web arşivi. 
+
+Türkçe Zaman 
+Çizelgesi 
+(702M token), 
+TS Corpus V2 
+(491M) ve 
+Syllable 
+Corpus gibi 
+1.8B+ tokenlik 
+indeks. 
+
+Az-LLM; 
+müşteri 
+hizmetleri 
+intent 
+senaryolarını 
+(İng-Az) 
+barındıran 
+6.000 satırlık 
+talimat (SFT) 
+seti. 
+
+Azerice 
+
+az_instruct_qa
+-v1.0 
+
+https://hugging
+face.co/datase
+ts/az-llm/az_ins
+truct_qa-v1.0 
+
+Azerice LLM 
+eğitimi için 
+hazırlanan 
+çoktan seçmeli 
+ve soru-cevap 
+
+6.82K indirme63 
+
+Özbekçe 
+
+🥇 uz-crawl 
+
+Özbekçe 
+
+uz-books 
+
+https://hugging
+face.co/datase
+ts/tahrirchi/uz-
+crawl 
+
+https://hugging
+face.co/datase
+ts/murodbek/u
+z-books 
+
+Karakalpakça  🥇 Karakalpak 
+
+Speech 
+Corpus 
+
+https://zenodo.
+org/records/19
+079670 
+
+Karakalpakça 
+
+Karakalpak 
+Parallel 
+Corpora 
+
+(OLDI / ACL 
+2024 makalesi 
+ile 
+dağıtılmaktadır
+) 
+
+1.62M inceleme 
+/ 104 yıldız / 
+Haziran 20249 
+
+666 yıldız / 
+Haziran 20259 
+
+Zenodo Yayını / 
+202665 
+
+ACL 
+Referanslı54 
+
+(QA) talimat 
+seti. 
+
+Tahrirchi 
+laboratuvarı 
+tarafından 
+toplanan 1.62 
+milyon 
+dökümanlık 
+devasa ham 
+web veri seti. 
+
+Özbek edebi 
+ve kurgusal 
+olmayan metin 
+derlemeleri 
+(77.4K 
+döküman). LLM 
+kültürel eğitimi 
+için. 
+
+ASR 
+modellerini 
+(Wav2Vec2) 
+eğitmek için 25 
+konuşmacıdan 
+alınan 50 
+saatlik açık 
+kaynak 
+konuşma 
+benchmarkı. 
+
+Özbekçe/Rusç
+a/İngilizce <-> 
+Karakalpakça 
+için her biri 
+100.000 
+satırlık paralel 
+çeviri metin 
+arşivi. 
+
+Çuvaşça 
+
+chuvash_parall
+el 
+
+Kırım 
+Tatarcası 
+
+crh-parallel-co
+rpora 
+
+Başkurtça 
+
+bashkir-news-
+cluster 
+
+https://hugging
+face.co/datase
+ts/alexantonov/
+chuvash_parall
+el 
+
+https://hugging
+face.co/datase
+ts/QIRIM/crh-p
+arallel-corpora 
+
+https://hugging
+face.co/datase
+ts/BashkirNLP
+World/bashkir-
+news-cluster 
+
+Türkmence 
+
+TurkmenSpeec
+h 
+
+https://hugging
+face.co/datase
+ts/mamed0v/T
+urkmenSpeech 
+
+6 yıldız / 202468 
+
+2 yıldız / 
+100K-1M 
+bandı70 
+
+2025-202671 
+
+Yüksek Kalite / 
+16kHz72 
+
+Çuvaşça-Rusç
+a (1 Milyon, 
+manuel hizalı) 
+ve 
+Çuvaşça-İngiliz
+ce (200K) 
+paralel çeviri 
+setleri. 
+
+Kırım Tatarcası 
+ile 
+İngilizce/Rusça/
+Ukraynaca 
+arası kitap 
+kaynaklı 
+(Kiril/Latin) 
+paralel korpus. 
+
+Haber ve 
+edebiyat 
+sitelerinden 
+derlenmiş, 
+kümeleme ve 
+embedding 
+için 24.428 
+Başkurtça 
+metin. 
+
+Röportaj ve 
+haberlerden 
+derlenen 
+251.86 saatlik 
+(119.847 klip) 
+ASR model 
+eğitim seti (CC 
+BY-NC 4.0). 
+
+Türkmence 
+
+alpaca-turkme
+n 
+
+https://hugging
+face.co/datase
+ts/mamed0v/al
+
+LLM talimat 
+eğitimi (SFT) 
+için standart 
+Alpaca veri 
+
+JSON 
+formatlı73 
+
+Uygurca 
+
+uyghur-whispe
+r-finetune 
+
+Karaçay-Balk
+arca 
+
+Karachay-wor
+ds 
+
+paca-turkmen 
+
+https://hugging
+face.co/datase
+ts/anke01/uygh
+ur-whisper-fin
+etune 
+
+https://hugging
+face.co/datase
+ts/thetemirbola
+tov/Karachay-
+words 
+
+Kırgızca 
+
+KTMU UD 
+Treebank 
+
+(Awesome 
+Kyrgyz NLP 
+üzerinden) 
+
+Diğer Diller 
+
+(FLORES+ ve 
+CulturaX) 
+
+Universal 
+platformlara 
+entegre 
+edilmiştir. 
+
+ASR İçin Temel 
+Veri74 
+
+Parquet 
+Formatlı76 
+
+Sentaktik 
+Analiz50 
+
+[cite: 55, 57] 
+
+setinin 
+Türkmenceye 
+uyarlanmış 
+versiyonu. 
+
+THUYG-20 
+tabanlı ~7.600 
+Uygurca-Çince 
+paralel 
+konuşma ve 
+transkripsiyon 
+dosyası 
+klasörü. 
+
+100K - 1M 
+boyutları 
+arasında 
+Parquet ve 
+JSON uyumlu 
+kelime/metin 
+veritabanı. 
+
+Üniversite 
+kaynaklı 
+(KTMU) 781 
+cümlelik 
+morfosentaktik 
+Universal 
+Dependencies 
+(UD) ağacı. 
+
+Tuva, 
+Gagavuzca, 
+Kumukça, 
+Nogayca, 
+Hakasça, 
+Altayca, Şorca, 
+Halaçça, 
+Salarca, Sarı 
+Uygurca, 
+
+Dolganca. 
+
+●  Veri Seti Hub URL'leri: 
+○  Hugging Face Dataset Arama: https://huggingface.co/datasets 
+
+Benchmark / Değerlendirme Çerçeveleri (Evaluation) 
+
+Erken dönem LLM değerlendirmeleri, ağırlıklı olarak İngilizce hazırlanmış testlerin makine çevirisi 
+ile diğer dillere çevrilmesine (örneğin MMLU'nun salt çevirisi) dayanmaktaydı. Bu durum hem 
+çeviri hatalarına (translation artifacts) hem de Batı kültürüne ait konseptlerin alakasız 
+bağlamlarda sorulması sonucu oluşan "kültürel önyargı" (cultural bias) problemlerine sebep 
+olmuştur2. 2025-2026 itibarıyla bu sorun, doğrudan yerel dillerde yazılmış, ulusal eğitim 
+müfredatlarına (örneğin Türkiye veya Kırgızistan lise soruları) dayanan nativ benchmarkların 
+geliştirilmesiyle çözülmüştür2. Ayrıca statik soru-cevap setlerinin yanı sıra, Mezura gibi 
+platformlar, "LLM-as-a-Judge" (hakem model) mimarilerini ve insan geri bildirimli ELO skorlarını 
+kullanarak modellerin günlük diyalog ve RAG (Retrieval-Augmented Generation) 
+performanslarını canlı bir arena mantığıyla sıralamaktadır11. 
+
+Dil 
+
+Araç / 
+Benchmark 
+Adı 
+
+TAM URL 
+
+Not (Özellikler 
+/ Kapsam) 
+
+Metrikler 
+(İndirme / 
+Yıldız / Tarih) 
+
+Çok Dilli Hub  🥇 TUMLU 
+
+https://github.c
+om/ceferisbaro
+v/TUMLU 
+
+Türkçe 
+
+🥇 Cetvel 
+
+https://github.c
+om/KUIS-AI/cet
+vel 
+
+26 yıldız / Şubat 
+202582 
+
+29 yıldız / Şubat 
+202677 
+
+Çeviri olmayan, 
+akademik 
+müfredattan 
+alınan; Azerice, 
+Kırım Tatarcası, 
+Karakalpakça, 
+Kazakça, 
+Tatarca, 
+Türkçe, 
+Uygurca, 
+Özbekçe 
+değerlendirme 
+platformu (ACL 
+2025). 
+
+KUIS-AI (EACL 
+2026), 23 
+görev ve 7 
+kategoriden 
+(Gramer, NLI, 
+
+ 
+Türkçe 
+
+🥈 
+TurkishMMLU 
+
+Türkçe 
+
+🥉 Mezura 
+
+https://github.c
+om/ArdaYueks
+el/TurkishMML
+U 
+
+https://hugging
+face.co/spaces
+/newmindai/Me
+zura 
+
+Türkçe 
+
+TurkBench 
+
+https://hugging
+face.co/TurkBe
+nch 
+
+Tarih QA) 
+oluşan 
+lm-eval-harnes
+s uyumlu 
+değerlendirme 
+çatısı. 
+
+Türkiye lise 
+müfredatından 
+(Fen, Sosyal, 
+Matematik, Dil) 
+alınan 10.000+ 
+soruluk nativ 
+çoktan seçmeli 
+(QA) kıstas. 
+
+İnsan 
+değerlendirme 
+(ELO) skorları 
+ve RAG 
+performansını 
+barındıran 
+dinamik LLM 
+liderlik tablosu 
+(Grok, 
+DeepSeek, 
+Qwen 
+kıyaslamaları). 
+
+ODTÜ/Turkcell 
+işbirliğiyle 
+(SIGTURK 
+2026), 21 alt 
+görev ve 8.151 
+kültürel örnek 
+üzerinden 
+üretken LLM 
+kapasitesini 
+ölçen platform. 
+
+17 yıldız / 
+202478 
+
+Canlı Liderlik 
+Tablosu11 
+
+Güncel / 
+202680 
+
+Özbekçe 
+
+🥇 UzLiB 
+(Uzbek 
+Linguistic 
+Benchmark) 
+
+https://github.c
+om/tahrirchi/uz
+lib 
+
+Özbekçe 
+
+uzbek-llm-ben
+ch 
+
+https://github.c
+om/khasanyus
+upkhujaev/uzb
+ek-llm-bench 
+
+Kırgızca 
+
+🥇 
+KyrgyzLLM-Be
+nch 
+
+https://github.c
+om/golden-rati
+o/kyrgyzLLM_b
+ench 
+
+20 yıldız / 
+202589 
+
+Akademik Arşiv 
+/ 202591 
+
+2 yıldız / 202579 
+
+Tahrirchi 
+laboratuvarı; 
+LLM'lerin 
+Özbekçe 
+dilbilgisi, doğru 
+kullanım 
+formları ve 
+kelime 
+nüanslarındaki 
+doğruluklarını 
+ölçen sistem. 
+
+Küçük/kompak
+t modellerin 
+(0.6B-2B) 
+düşük kaynaklı 
+kısıtlamalarda 
+çeviri ve 
+okuduğunu 
+anlama 
+kapasitelerini 
+değerlendiren 
+havuz. 
+
+Lighteval 
+destekli; 
+KyrgyzMMLU 
+(7.977 uzman 
+yerel sorusu), 
+KyrgyzRC (400 
+okuma anlama) 
+ve GSM8K 
+çevirilerini 
+içeren 
+kapsamlı 
+değerlendirme. 
+
+Tatarca 
+
+Tatar 
+Morphology 
+Benchmark 
+
+https://hugging
+face.co/datase
+ts/TatarNLPWo
+rld/tatar-morp
+
+mBERT, 
+RuBERT ve 
+XLM-R gibi 
+modellerin 
+
+Değerlendirme 
+Verisi93 
+
+Diğer Diller 
+
+Kayıt 
+Bulunamadı 
+
+hology-bench
+mark 
+
+Bireysel 
+spesifik repolar 
+yerine, TUMLU 
+mimarisine 
+dâhil edilerek 
+ölçülmektedirl
+er. 
+
+Tatar dilindeki 
+eklemeli 
+morfolojiyi 
+çözümleme 
+performansları
+nı karşılaştıran 
+matriks. 
+
+Türkmence, 
+Gagavuzca, 
+Başkurtça, 
+Karaçay-Balkar
+ca, Kumukça, 
+Nogayca, 
+Çuvaşça, 
+Sahaca, 
+Tuvaca, 
+Hakasça, vb. 
+
+[cite: 2] 
+
+●  Benchmark Hub URL'leri: 
+○  Hugging Face Lighteval: https://github.com/huggingface/lighteval 
+
+[cite: 94] 
+
+Araçlar ve Kütüphaneler (FST, Morfoloji, 
+Transliterasyon, İşleme) 
+
+Morfosentaktik analiz, sondan eklemeli Türk dilleri için kritik bir ön işleme aşamasıdır. Geçmişte 
+katı Kural Tabanlı (Rule-based) ve Sonlu-Durum Dönüştürücü (Finite-State Transducer - FST / 
+HFST / Apertium) sistemlerle çözülen bu problemler, günümüzde Sinirsel (Neural / Stanza / 
+Glot500) altyapılarla birleşerek hibrit kütüphaneler oluşturmuştur36. Söz gelimi TurkicNLP 
+kütüphanesi; Apertium'un yirmi dile yayılmış kesin kural tabanlı morfolojik analiz yeteneği ile 
+Stanza'nın bağlamı anlayan sinirsel kövde bulucu (lemmatization) yeteneğini tek bir çatı altında 
+birleştirerek devasa bir çok dilli araç kutusu sunmuştur36. Aynı zamanda dillerin Kiril, Latin ve 
+Perso-Arap (Uygurca, vb.) alfabeleri arasında geçiş yapabilmesi için çift yönlü transliterasyon 
+(çeviri yazı) modülleri bu paketlerin temel bir bileşeni haline gelmiştir36. 
+
+Dil 
+
+Kütüphane 
+Adı 
+
+TAM URL 
+
+Not (Özellikler 
+/ Mimari / 
+Lisans) 
+
+Metrikler 
+(İndirme / 
+Yıldız / Tarih) 
+
+Genel Türk 
+
+🥇 TurkicNLP 
+
+https://github.c
+
+24 farklı dilde 
+
+18 yıldız / Nisan 
+
+ 
+Dilleri 
+
+om/turkic-nlp/t
+urkicnlp 
+
+Türkçe 
+
+🥇 VNLP 
+
+https://github.c
+om/vngrs-ai/vn
+lp 
+
+Türkçe 
+
+TRmorph 
+
+https://github.c
+om/coltekin/TR
+morph 
+
+Türkçe 
+
+Zeyrek 
+
+https://github.c
+om/obulat/zeyr
+ek 
+
+202636 
+
+287 yıldız / 16 
+fork98 
+
+193 yıldız / 30 
+fork99 
+
+Morfoloji 
+Aracı101 
+
+(Kiril/Latin/Arap
+ça çevrimi), 
+Apertium FST 
+morfolojik 
+analiz, 
+Glot500/Stanz
+a POS Tagging 
+ve NLLB 
+makine 
+çevirisini sunan 
+tek paket 
+(Apache-2.0). 
+
+VNGRS AI; 
+yazım/imla 
+düzeltmesi, 
+Deasciification, 
+sayıyı yazıya 
+çevirme ve 
+stopword 
+araçlarını 
+barındıran 
+SOTA paket. 
+
+Çağrı Çöltekin, 
+xfst/lexc 
+kullanan ve 
+Türkçe 
+kelimeleri 
+eksiksiz 
+çözümleyen 
+Finite-State 
+(Sonlu-Durum) 
+analizörü (MIT). 
+
+Klasik Java 
+tabanlı 
+Zemberek 
+kütüphanesinin 
+Python portu. 
+Lemmatizasyo
+
+Türkçe 
+
+Nuve / Resha 
+Stemmer 
+
+https://github.c
+om/harunzafer/
+resha-turkish-s
+temmer 
+
+Türkçe 
+
+Kip 
+
+https://github.c
+om/kip-dili/kip 
+
+Özbekçe 
+
+🥇 Fitrat 
+
+https://github.c
+om/tahrirchi/fit
+rat 
+
+26 yıldız103 
+
+Eğitim/Araştırm
+a104 
+
+27 yıldız97 
+
+n ve heceleme 
+analizörü. 
+
+İstatistiksel 
+N-Gram 
+modelini 
+kullanarak 
+karmaşık 
+çekim eklerini 
+agresif 
+olmayan 
+şekilde kökten 
+(stem) ayıran 
+C# tabanlı 
+algoritma. 
+
+Türkçenin 
+morfolojik 
+yapısını (ismin 
+halleri ve ünlü 
+uyumu) tip 
+teorisine 
+aktarmayı 
+hedefleyen 
+deneysel 
+programlama 
+dili. 
+
+Tahrirchi ekibi; 
+hfst üzerinden 
+yüksek 
+verimlilikle 
+Kiril-Latin 
+çevrimi, 
+tokenizasyon 
+ve morfolojik 
+analiz yapan 
+paket. 
+
+Karakalpakça 
+
+Apertium-kaa 
+
+https://github.c
+om/apertium/a
+
+Apertium vakfı 
+altında 
+
+1 yıldız / 11 
+izleyici105 
+
+pertium-kaa 
+
+Kazakça 
+
+Apertium-kaz 
+
+https://apertiu
+m.github.io/ap
+ertium-kaz/ 
+
+Diğer Diller 
+
+TurkicNLP 
+Entegrasyonlu 
+
+(TurkicNLP 
+GitHub 
+üzerinden 
+erişilebilir) 
+
+geliştirilen, 
+GPL-3.0 
+lisanslı, 
+Karakalpakça 
+kural tabanlı 
+morfolojik 
+çözümleyici. 
+
+Kazakçanın 
+morfolojik 
+transducer 
+(dönüştürücü) 
+ve anlam 
+belirsizliği 
+giderici 
+(disambiguator
+) mimarisi. 
+
+Gagavuzca, 
+Kırım Tatarcası, 
+Kırgızca, 
+Tatarca, 
+Başkurtça, 
+Karaçay-Balkar
+ca, Kumukça, 
+Nogayca, 
+Uygurca, vb. 
+
+Kural Tabanlı 
+Sistem106 
+
+[cite: 36] 
+
+Organizasyonlar ve Topluluklar 
+
+Ekosistemin mevcut büyümesi büyük oranda, bölgesel dillerdeki bilgi birikimini organize eden ve 
+fonlayan akademik enstitüler ile kâr amacı gütmeyen açık kaynak inisiyatiflerinin iş birliğine 
+dayanmaktadır. 
+
+● 
+
+ISSAI (Institute of Smart Systems and Artificial Intelligence): Kazakistan Nazarbayev 
+Üniversitesi çatısı altındaki vizyoner kurumdur. KAZ-LLM (8B/70B), cihaz içi Qolda modeli, 
+konuşma tanıma için devasa KSC2 (ASR) ve çok dilli TurkicASR/TurkicTTS sistemlerinin 
+yaratıcısıdır. Düşük kaynaklı Türk dilleri ekosisteminde donanım (H100 kümelemeleri) ve 
+açık kaynak standartlarını belirlemektedir6. 
+
+●  VNGRS AI (Türkiye): Türk yazılım ve bulut mimarisi firması; BPE tokenizasyon verimliliği 
+
+yüksek Kumru LLM serisini, VBART encoder projelerini ve VNLP SOTA dil işleme 
+kütüphanesini açık kaynak olarak yayımlayan kilit endüstriyel oyunculardandır3. 
+
+●  YTU Cosmos Lab: Yıldız Teknik Üniversitesi Bilgisayar Mühendisliği bünyesinde faaliyet 
+
+gösteren, Türkiye'nin Llama 3 ve Gemma tabanlı ilk 'Instruct' ve 'DPO' (İnsan Tercihli 
+Optimizasyon) modellerini eğiten akademik laboratuvarıdır7. 
+
+●  Tahrirchi / UzLM: Özbekistan tabanlı dil teknolojisi araştırma grubu. Özbek dili için Lutfiy 
+makine çevirisi, Alloma LLM ailesi, Fitrat transliterasyon kütüphanesi ve UzLib benchmark 
+projeleri ile Özbek NLP’sini domine etmektedirler9. 
+
+●  Az-LLM: Azerbaycan Türkçesi için "LLM-Beetle" ve "Atllama" projelerini organize eden, 
+
+açık kaynak müşteri hizmetleri ve çeviri korpuslarını hazırlayan sivil topluluk24. 
+
+●  TatarNLPWorld & BashkirNLPWorld: Rusya eksenindeki azınlık Türk dilleri için LORA ince 
+
+ayarları, morfolojik encoder (RuBERT/XLM-R) testleri ve Hugging Face veri setlerini 
+derleyen kritik indeksleyici topluluk26. 
+
+●  TurkicNLP: FST ve sinirsel mimarileri birleştirerek 24 dili tek bir Python kütüphanesine 
+dönüştüren ve araştırmacılara standart sağlayan akademik girişim (Sherzod Hakimov 
+liderliğinde)29. 
+
+Otomatik Güncel-Tutma (HfApi CRON) İçin Filtreli Organizasyon 
+Bağlantıları 
+
+Aşağıdaki URL'ler, Hugging Face API (HfApi) üzerinden organizasyonların veya dillerin periyodik 
+taramalarında (CRON jobs) kullanılmak üzere hazırlanmıştır. 
+
+Organizasyon / Kategori 
+
+API Tarama veya Hub Filtre Bağlantısı 
+
+VNGRS AI (Kumru vb.) 
+
+https://huggingface.co/vngrs-ai 
+
+Trendyol LLM 
+
+https://huggingface.co/Trendyol 
+
+ISSAI (Kazakistan) 
+
+https://huggingface.co/issai 
+
+UzLM & Tahrirchi (Özbekistan) 
+
+https://huggingface.co/uzlm ve 
+https://huggingface.co/tahrirchi 
+
+YTU Cosmos (Türkiye) 
+
+https://huggingface.co/ytu-ce-cosmos 
+
+Az-LLM (Azerice) 
+
+https://huggingface.co/az-llm 
+
+TatarNLPWorld & BashkirNLPWorld 
+
+https://huggingface.co/TatarNLPWorld ve 
+https://huggingface.co/BashkirNLPWorld 
+
+Turkcell LLM 
+
+https://huggingface.co/TURKCELL 
+
+Genel Türk Dilleri Araması 
+
+https://huggingface.co/models?language=tr
+
+,az,kk,uz,ky,tk,tt,ba,cv,sah,tyv,kjh,crh 
+
+Mozilla Common Voice (ASR Hub) 
+
+https://commonvoice.mozilla.org/en/dataset
+s 
+
+OSCAR Çok Dilli Korpus Hub 
+
+https://huggingface.co/oscar-corpus 
+
+Alıntılanan çalışmalar 
+
+1.  (PDF) Kyrgyz Orthography and Morphotactics with Implementation in NUVE - 
+
+ResearchGate, 
+https://www.researchgate.net/publication/313774172_Kyrgyz_Orthography_and_
+Morphotactics_with_Implementation_in_NUVE 
+
+2.  TUMLU: A Unified and Native Language Understanding Benchmark for Turkic 
+
+Languages, https://arxiv.org/html/2502.11020v2 
+
+3.  vngrs-ai/Kumru-2B-Base - Hugging Face, 
+
+https://huggingface.co/vngrs-ai/Kumru-2B-Base 
+
+4.  magibu/magibu-11b-v0.8 - Hugging Face, 
+
+https://huggingface.co/magibu/magibu-11b-v0.8 
+
+5.  VBART - VNGRS, https://vngrs.com/vbart/ 
+6.  Kazakh Large Language Model ISSAI KAZ-LLM, https://issai.nu.edu.kz/kazllm/ 
+7.  ytu-ce-cosmos/Turkish-Llama-8b-DPO-v0.1 - Hugging Face, 
+
+https://huggingface.co/ytu-ce-cosmos/Turkish-Llama-8b-DPO-v0.1 
+
+8.  Kazakh Language Gets its National LLM with a Groundbreaking Partnership of 
+
+Kazakh Research Institutions and VEON's QazCode | VEON, 
+https://www.veon.com/newsroom/press-releases/kazakh-language-gets-its-natio
+nal-llm-with-a-groundbreaking-partnership-of-kazakh-research-institutions-and
+-veons-qazcode 
+
+9.  Tahrirchi - Hugging Face, https://huggingface.co/tahrirchi 
+10. behbudiy/Mistral-7B-Instruct-Uz - Hugging Face, 
+
+https://huggingface.co/behbudiy/Mistral-7B-Instruct-Uz 
+
+11. kesimeg/awesome-turkish-language-models: A curated list of Turkish AI models, 
+
+datasets, papers - GitHub, 
+https://github.com/kesimeg/awesome-turkish-language-models 
+
+12. Awesome Turkish Language Models - a Hugging Face Space by kesimeg, 
+
+https://huggingface.co/spaces/kesimeg/awesome-turkish-language-models 
+
+13. Trendyol/Trendyol-LLM-Asure-12B - Hugging Face, 
+
+https://huggingface.co/Trendyol/Trendyol-LLM-Asure-12B 
+
+14. Trendyol - Hugging Face, https://huggingface.co/Trendyol/collections 
+15. vngrs-ai (VNGRS) - Hugging Face, https://huggingface.co/vngrs-ai 
+16. vngrs-ai/Kumru-2B - Hugging Face, https://huggingface.co/vngrs-ai/Kumru-2B 
+17. AlicanKiraz0/Kara-Kumru-v1.0-2B - Hugging Face, 
+
+https://huggingface.co/AlicanKiraz0/Kara-Kumru-v1.0-2B 
+
+18. alibayram/magibu-11b-v8-mlx - Hugging Face, 
+
+https://huggingface.co/alibayram/magibu-11b-v8-mlx 
+
+19. TURKCELL/Turkcell-LLM-7b-v1 - Hugging Face, 
+
+https://huggingface.co/TURKCELL/Turkcell-LLM-7b-v1 
+20. Turkcell - Hugging Face, https://huggingface.co/TURKCELL 
+21. issai/LLama-3.1-KazLLM-1.0-8B - Hugging Face, 
+
+https://huggingface.co/issai/LLama-3.1-KazLLM-1.0-8B 
+
+22. ISSAI Launches Qolda – A New Open-Source, Compact Language-Vision Model 
+
+for Devices, 
+https://issai.nu.edu.kz/2025/11/14/issai-launches-qolda-a-new-open-source-com
+pact-language-vision-model-for-devices/ 
+
+23. uzlm (Uzbek LLM Lab) - Hugging Face, https://huggingface.co/uzlm 
+24. az-llm/atllama.v3.5 - Hugging Face, https://huggingface.co/az-llm/atllama.v3.5 
+25. ai-forever/mGPT-1.3B-azerbaijan - Hugging Face, 
+
+https://huggingface.co/ai-forever/mGPT-1.3B-azerbaijan 
+
+26. TatarNLPWorld (Tatar NLP Community / Natural Language Processing for Tatar 
+Language) - Hugging Face, https://huggingface.co/TatarNLPWorld/models 
+
+27. Upload README.md with huggingface_hub · 
+
+BashkirNLPWorld/bashkir-lora-qlora-benchmark at 88c41da, 
+https://huggingface.co/datasets/BashkirNLPWorld/bashkir-lora-qlora-benchmark/
+commit/88c41da4f73a2de524e7c3c135fe6e1bd329ba26 
+
+28. slone/nllb-rus-tyv-v2-extvoc - Hugging Face, 
+
+https://huggingface.co/slone/nllb-rus-tyv-v2-extvoc 
+29. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/html/2602.19174v2 
+
+30. abdumalikov/bert-finetuned-uzbek-text-classification - Hugging Face, 
+
+https://huggingface.co/abdumalikov/bert-finetuned-uzbek-text-classification 
+
+31. Transmorph: a transformer based morphological disambiguator for Turkish - 
+
+TÜBİTAK Academic Journals, 
+https://journals.tubitak.gov.tr/cgi/viewcontent.cgi?article=3912&context=elektrik 
+
+32. Trendyol - Hugging Face, https://huggingface.co/Trendyol 
+33. Models in UZS - Hugging Face, https://huggingface.co/models?language=uzs 
+34. arabovs-ai-lab/TatarTokenizers - Hugging Face, 
+
+https://huggingface.co/arabovs-ai-lab/TatarTokenizers 
+
+35. bamaxi/ruBert-base-sakha - Hugging Face, 
+
+https://huggingface.co/bamaxi/ruBert-base-sakha 
+
+36. turkic-nlp/turkicnlp: NLP Toolkit for Turkic Languages - GitHub, 
+
+https://github.com/turkic-nlp/turkicnlp 
+
+37. ixxan/whisper-small-common-voice-ug - Hugging Face, 
+
+https://huggingface.co/ixxan/whisper-small-common-voice-ug 
+
+38. Atamyrat2005/whisper-base-tk-finetuned - Hugging Face, 
+
+https://huggingface.co/Atamyrat2005/whisper-base-tk-finetuned 
+
+39. osman/whisper-small-ug - Hugging Face, 
+
+https://huggingface.co/osman/whisper-small-ug 
+
+40. IS2AI/KSC2: KSC2++: Enhanced Kazakh Speech Corpus with LLM-Based 
+
+Transcription Restoration - GitHub, https://github.com/IS2AI/KSC2 
+41. alphaedge-ai/whisper-large-v3-turbo-bak-16384 - Hugging Face, 
+
+https://huggingface.co/alphaedge-ai/whisper-large-v3-turbo-bak-16384 
+
+42. Sakha-Language-Processing · GitHub, 
+
+https://github.com/Sakha-Language-Processing 
+
+43. ISSAI - GitHub, https://github.com/IS2AI 
+44. awesome-speech/uzbek.md at main - GitHub, 
+
+https://github.com/alphacep/awesome-speech/blob/main/uzbek.md 
+
+45. ixxan/whisper-small-uyghur-common-voice - Hugging Face, 
+
+https://huggingface.co/ixxan/whisper-small-uyghur-common-voice 
+
+46. anke01/whisper-small-uyghur - Hugging Face, 
+
+https://huggingface.co/anke01/whisper-small-uyghur 
+
+47. ray0303/whisper-small-tk - Hugging Face, 
+
+https://huggingface.co/ray0303/whisper-small-tk 
+
+48. Upload README.md with huggingface_hub · 
+
+servinosmanov/whisper-large-v3-crh at 74b6e40, 
+https://huggingface.co/servinosmanov/whisper-large-v3-crh/commit/74b6e40fd9
+05a2409008b923d5148a0f0cb921e6 
+
+49. alexantonov/whisper-medium-chv-pre - Hugging Face, 
+
+https://huggingface.co/alexantonov/whisper-medium-chv-pre 
+
+50. alexeyev/awesome-kyrgyz-nlp: Kyrgyz language processing software, models 
+
+and datasets., https://github.com/alexeyev/awesome-kyrgyz-nlp 
+
+51. hik63382/TTS-Multi_language_High_Quality - Hugging Face, 
+
+https://huggingface.co/hik63382/TTS-Multi_language_High_Quality 
+
+52. uzlm/sayro-tts-1.7B - Hugging Face, https://huggingface.co/uzlm/sayro-tts-1.7B 
+53. KazakhTTS: An Open-Source Kazakh Text-to-Speech Synthesis Dataset - ISCA 
+
+Archive, 
+https://www.isca-archive.org/interspeech_2021/mussakhojayeva21_interspeech.p
+df 
+
+54. Open Language Data Initiative: Advancing Low-Resource Machine Translation for 
+
+Karakalpak - arXiv, https://arxiv.org/html/2409.04269v1 
+
+55. openlanguagedata (Open Language Data Initiative) - Hugging Face, 
+
+https://huggingface.co/openlanguagedata 
+
+56. oscar-corpus (OSCAR) - Hugging Face, https://huggingface.co/oscar-corpus 
+57. uonlp/CulturaX · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/uonlp/CulturaX 
+58. An online Turkish Dictionary and TS DIY Corpus, 
+
+https://apbseski.mersin.edu.tr/files/tsezer/Publications_001.pdf 
+
+59. Corpora - TS Corpus, https://tscorpus.com/corpora 
+60. openlanguagedata/flores_plus · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/openlanguagedata/flores_plus 
+
+61. oscar-corpus/colossal-oscar-1.0 · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/oscar-corpus/colossal-oscar-1.0 
+
+62. TS Corpus, https://tscorpus.com/ 
+63. Az-LLM - Hugging Face, https://huggingface.co/az-llm 
+
+64. az-llm/az_customer_support-v1.0 · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/az-llm/az_customer_support-v1.0 
+
+65. Karakalpak Speech Corpus - Mendeley Data, 
+
+https://data.mendeley.com/datasets/2th8jvft8f 
+
+66. KARAKALPAK SPEECH CORPUS: THE FIRST BENCHMARK DATASET FOR 
+
+AUTOMATIC SPEECH RECOGNITION - Zenodo, 
+https://zenodo.org/records/19079670 
+
+67. Open Language Data Initiative: Advancing Low-Resource Machine Translation for 
+
+Karakalpak, https://www2.statmt.org/wmt24/pdf/2024.wmt-1.48.pdf 
+
+68. alexantonov/chuvash_parallel · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/alexantonov/chuvash_parallel 
+
+69. Open the Data! Chuvash Datasets - arXiv, https://arxiv.org/html/2407.11982v1 
+70. QIRIM/crh-parallel-corpora · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/QIRIM/crh-parallel-corpora 
+
+71. BashkirNLPWorld/bashkir-news-cluster · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/BashkirNLPWorld/bashkir-news-cluster 
+
+72. mamed0v/TurkmenSpeech · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/mamed0v/TurkmenSpeech 
+
+73. mamed0v/alpaca-turkmen · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/mamed0v/alpaca-turkmen 
+74. anke01/uyghur-whisper-finetune · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/anke01/uyghur-whisper-finetune/viewer/ 
+
+75. anke01/uyghur-whisper-finetune at main - Hugging Face, 
+
+https://huggingface.co/datasets/anke01/uyghur-whisper-finetune/tree/main 
+76. thetemirbolatov/Karachay-words · [bot] Conversion to Parquet - Hugging Face, 
+https://huggingface.co/datasets/thetemirbolatov/Karachay-words/discussions/1 
+77. Cetvel: A Unified Benchmark for Evaluating Language Understanding, Generation 
+
+and Cultural Capacity of LLMs for Turkish - ACL Anthology, 
+https://aclanthology.org/2026.eacl-long.46/ 
+
+78. GitHub - ArdaYueksel/TurkishMMLU, 
+
+https://github.com/ArdaYueksel/TurkishMMLU 
+
+79. golden-ratio/kyrgyzLLM_bench - GitHub, 
+
+https://github.com/golden-ratio/kyrgyzLLM_bench 
+
+80. TurkBench: A Benchmark for Evaluating Turkish Large Language Models - arXiv, 
+
+https://arxiv.org/pdf/2601.07020 
+
+81. Mezura - a Hugging Face Space by newmindai, 
+
+https://huggingface.co/spaces/newmindai/Mezura 
+82. Projects - SIGTURK, https://sigturk.github.io/projects/ 
+83. ceferisbarov/TUMLU: TUMLU: A Unified and Native Language Understanding 
+
+Benchmark for Turkic Languages - GitHub, 
+https://github.com/ceferisbarov/TUMLU 
+
+84. [2502.11020] TUMLU: A Unified and Native Language Understanding Benchmark 
+
+for Turkic Languages - arXiv, https://arxiv.org/abs/2502.11020 
+85. Cetvel: A Unified Benchmark for Evaluating Turkish LLMs - GitHub, 
+
+https://github.com/KUIS-AI/cetvel 
+
+86. AYueksel/TurkishMMLU · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/AYueksel/TurkishMMLU 
+
+87. TurkBench: A Benchmark for Evaluating Turkish Large Language Models - ACL 
+
+Anthology, https://aclanthology.org/2026.sigturk-1.12/ 
+
+88. TurkBench - Hugging Face, https://huggingface.co/TurkBench 
+89. tahrirchi - GitHub, https://github.com/tahrirchi 
+90. Code for UzLiB (Uzbek Linguistic Benchmark) for LLMs - GitHub, 
+
+https://github.com/tahrirchi/uzlib 
+
+91. khasanyusupkhujaev/uzbek-llm-bench: Code, datasets, and results for 
+
+benchmarking seven small-scale LLMs on Uzbek language tasks, supporting the 
+paper "Benchmarking Pre-Trained Open-Source Large Language Models for 
+Uzbek" · GitHub, https://github.com/khasanyusupkhujaev/uzbek-llm-bench 
+
+92. TTimur/kyrgyzMMLU · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/TTimur/kyrgyzMMLU 
+
+93. TatarNLPWorld/tatar-morphology-benchmark · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/TatarNLPWorld/tatar-morphology-benchmark 
+94. Lighteval is your all-in-one toolkit for evaluating LLMs across multiple backends - 
+
+GitHub, https://github.com/huggingface/lighteval 
+
+95. Finite-state morphological analysis for Gagauz - ACL Anthology, 
+
+https://aclanthology.org/L18-1411.pdf 
+
+96. (PDF) TurkicNLP: An NLP Toolkit for Turkic Languages - ResearchGate, 
+
+https://www.researchgate.net/publication/401133169_TurkicNLP_An_NLP_Toolkit_f
+or_Turkic_Languages 
+
+97. tahrirchi/fitrat: An NLP library for Uzbek. It includes language identification, 
+transliterators and tokenizers. - GitHub, https://github.com/tahrirchi/fitrat 
+98. vngrs-ai/vnlp: State-of-the-art, lightweight NLP tools for Turkish language. 
+
+Developed by ... - GitHub, https://github.com/vngrs-ai/vnlp 
+
+99. coltekin/TRmorph: A finite-state morphological analyzer for Turkish - GitHub, 
+
+https://github.com/coltekin/TRmorph 
+
+100.  Çağrı Çöltekin coltekin - GitHub, https://github.com/coltekin 
+101.  Zeyrek 0.1.0 documentation - Read the Docs, 
+
+https://zeyrek.readthedocs.io/en/latest/ 
+
+102.  obulat/zeyrek: Python morphological analyzer for Turkish language. Partial 
+
+port of ZemberekNLP. - GitHub, https://github.com/obulat/zeyrek 
+
+103.  harunzafer/resha-turkish-stemmer - GitHub, 
+
+https://github.com/harunzafer/resha-turkish-stemmer 
+
+104.  GitHub - kip-dili/kip: A programming language in Turkish where grammatical 
+case and mood are part of the type system., https://github.com/kip-dili/kip 
+105.  apertium/apertium-kaa: Apertium linguistic data for Karakalpak · GitHub - 
+
+GitHub, https://github.com/apertium/apertium-kaa 
+
+106.  APERTIUM-KAZ: A MORPHOLOGICAL TRANSDUCER AND DISAMBIGUATOR 
+
+FOR KAZAKH, https://apertium.github.io/apertium-kaz/ 
+
+107.  VNGRS: Home, https://vngrs.com/ 
+108.  ytu-ce-cosmos/Turkish-Llama-8b-Instruct-v0.1 - Hugging Face, 
+
+https://huggingface.co/ytu-ce-cosmos/Turkish-Llama-8b-Instruct-v0.1 
+
+

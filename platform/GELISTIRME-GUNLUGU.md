@@ -121,6 +121,11 @@ Voicing çiftleri Latin+Kiril kapsıyor; rozetler her dilde çalışıyor: tur p
 - **Kullanıcı geri bildirimi:** "Tarih & Köken" en altındaki "ırk/gen midir" kara kutusu kaldırıldı (gereksiz görüldü). Sayfa zaman çizelgesiyle temiz bitiyor.
 - **Bekleyen:** Faz 2.1 TTS (`_tts_asr.txt`), Faz 2.2 LLM/HF ekosistem (`_llm_hf_ekosistem.txt`), Faz 2.7 KAYNAKLAR. Displayed-dışı diller (gag/crh/uzb/alt…) deepsearch 9 metinlerinde hazır → yatay ölçekte işlenecek.
 
+## EK-OTURUM (25 Haz, devam-2) — deepsearch 6 işlendi: SESLENDİRME ekosistem haritası (Faz 2.1 ✅)
+- **`platform/data/profiles_tts.json`** (deepsearch 6) → Dil Profilleri'ne **"Seslendirme (TTS/ASR)" 5. bölümü**: 14 dil × açık model + lisans + kalite + boşluk (Piper/MIT, Meta MMS-TTS/CC-BY-NC, ISSAI Spark-TTS/TatarTTS, eSpeak NG; Common Voice saatleri, WER). build.py'de `deep`'e 5. bölüm olarak merge edildi. Claude_Preview'da doğrulandı (logicError null).
+- **Misyon vurgusu (dürüst boşluk haritası):** Çuvaşça'nın MMS'te bile TTS olmaması (yalnız eSpeak NG) ve ~%60 ASR WER'i açıkça gösterildi — "dijital uçurum" kapsayıcılık anlatısı.
+- **KALAN = gerçek ses motoru entegrasyonu (ayrı altyapı fazı):** raporun Dinamik Hibrit Yönlendirme mimarisi (Piper ONNX sunucu / MMS HF API / eSpeak NG tarayıcı-WASM) ileride uygulanacak. "▷ Seslendir" hâlâ Web Speech.
+
 ## Sıradaki / açık işler — bkz `plan/YOL-HARITASI.md` (özet)
 1. **ŞİMDİ (deepsearch beklemez):** Faz 1.1 füzyonel ayrışma (NW kanonik-allomorf) · 1.3 harita/UX · 1.4 Hakkında.
 2. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.

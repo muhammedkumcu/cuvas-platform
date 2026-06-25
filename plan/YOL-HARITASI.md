@@ -9,8 +9,8 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 | **Faz 1.1 füzyonel ayrışma** | **GEREKMEZ** — `5c` (_morfoloji_plani) zaten yöntemi+örnekleri verdi | hazır, yapılabilir |
 | Faz 1.3 harita/soy-ağacı UX | gerekmez (saf UI) | hazır |
 | Faz 1.4 Hakkında/iletişim | gerekmez | hazır |
-| Faz 2.1 TTS | `6` (TTS/ASR) | ✅ sonuç GELDİ (`_tts_asr.txt`), işlenmeyi bekliyor |
-| Faz 2.2 LLM/HF ekosistem | `7` (LLM/NLP/HF) | ✅ sonuç GELDİ (`_llm_hf_ekosistem.txt`), işlenmeyi bekliyor |
+| Faz 2.1 TTS | `6` (TTS/ASR) | ✅✅ **YAPILDI** — profillere "Seslendirme (TTS/ASR)" bölümü (`profiles_tts.json`); gerçek motor = gelecek altyapı |
+| Faz 2.2 LLM/HF ekosistem | `7` (LLM/NLP/HF) | ✅ sonuç GELDİ (`_llm_hf_ekosistem.txt`), işlenmeyi bekliyor — ★ "büyük" iş, ekosistem bölümü/sayfası |
 | Faz 2.5 Kollar açıklayıcı | `8` (sınıflandırma çerçevesi) | ✅✅ **YAPILDI** — sonuç işlendi, Tarih & Köken'e "altı kol" kartı + Bayes soy ağacı |
 | Faz 2.6 Derin dil profilleri | `9` (kol-bazlı batch A-E) | ✅✅ **YAPILDI** — 14 dil derin profil işlendi (`profiles_deep.json`) + Joshi çapraz-kontrol düzeltmeleri |
 | **Kaynaklar büyük güncelleme** | TÜM deepsearch'ler (5,5b,5c,6,7,8,9) sonrası | bekliyor |
@@ -50,11 +50,9 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 
 ## FAZ 2 — Yeni modüller (araştırmacı + içerik değeri; deepsearch SONRASI)
 
-### 2.1 ⏳ Doğru seslendirme (TTS) — her dil için (kullanıcı notu)
-- **Ne:** "▷ Seslendir" şu an tarayıcı Web Speech'e düşüyor → çoğu Türk dilini desteklemiyor/yanlış. Dil-başına doğru TTS lazım.
-- **Yapar mıyız:** EVET (öğrenci + araştırmacı değeri). **Deepsearch hazırlandı: `arastirma/6-seslendirme-tts-asr...`** (MMS-TTS, Coqui, Piper, espeak; dürüst boşluk: Çuvaşça TTS var mı?).
-- **Nasıl:** deepsearch sonucu → dil→model yönlendirme; sunucu yerel / HF API / tarayıcı-WASM kararı.
-- **Bağımlılık:** deepsearch 6 sonucu.
+### 2.1 ✅ Seslendirme (TTS/ASR) — ekosistem/boşluk haritası YAPILDI (deepsearch 6, 25 Haz)
+- **Ne yapıldı (içerik katmanı):** Dil Profilleri'ne **"Seslendirme (TTS/ASR)" 5. bölümü** (`platform/data/profiles_tts.json`) — 14 dil × açık model + lisans + kalite + boşluk (Piper/MIT, Meta MMS-TTS/CC-BY-NC, ISSAI Spark/TatarTTS, eSpeak NG; Common Voice saatleri, WER). Çuvaşça TTS boşluğu ve yüksek ASR WER'leri dürüstçe gösterildi (dijital kapsayıcılık misyonu).
+- **★ KALAN (gerçek motor entegrasyonu = gelecek ALTYAPI işi):** "▷ Seslendir" hâlâ tarayıcı Web Speech'e düşüyor. Raporun önerdiği mimari: **Dinamik Hibrit Yönlendirme** — tr/kaz → sunucu Piper(ONNX); uzb/uig/sah → HF Inference API (MMS-TTS, ön-işlem: Latin→Kiril, num2words); chv/bak → tarayıcı eSpeak NG (WASM, espeakng.js). ASR telaffuz kontrolü yalnız tr/kaz (Whisper); chv/sah WER yüksek → ertelendi. Bu altyapı ayrı bir mühendislik fazıdır.
 
 ### 2.2 ⏳ Türk Dilleri NLP/LLM Ekosistemi bölümü (kullanıcı notu — ★ büyük)
 - **Ne:** HF + literatürde Türk dilleri için ne varsa (LLM, dataset, ASR/STT/TTS, benchmark, org'lar; örn. TurkmedSTT) gösteren, eksik/gelişmişliği işaretleyen **araştırmacı hub'ı**. Vizyonun "ilk uğrak" ayağıyla birebir.

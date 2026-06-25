@@ -26,7 +26,7 @@
 | `bayes` | **Savelyev & Robbeets 2020** + Johanson tasnifi | 📄 makale | akademik | `arastirma/8-*siniflandirma*.pdf` → `_siniflandirma.txt` | **✅ çekildi + çıkarıldı** | Tarih & Köken: altı kol açıklayıcı + Bayes soy ağacı (zaman derinliği ~MÖ 66 / ~MS 474). |
 | `hf` | **HuggingFace ekosistemi** | veri/araç | model bazında (CC/Apache/MIT…) | `arastirma/6,7-*.pdf` → `_tts_asr.txt`, `_llm_hf_ekosistem.txt` | **✅ çekildi + çıkarıldı** | Dil Profilleri (Seslendirme TTS/ASR), Araştırmacı Merkezi (ekosistem matrisi). |
 | `deepds` | **KÖKEN derin araştırmalar (deepsearch 5–10)** | sentez | (derleme; her kayıt kaynağına atıflı) | `arastirma/_*.txt` (5/5b/5c/6/7/8/9.1-9.5/10) | **✅ elde + işlendi** | Derin dil profilleri, seslendirme, ekosistem (+metrik, ds10), sınıflandırma. Çapraz-kontrol: Glottolog/Ethnologue/UNESCO + Wikipedia/Grokipedia/ACL/apertium-wiki/HF/GitHub. |
-| `deepds-yatay` | **Yatay ölçek deepsearch promptları (11–18)** | prompt | — | `arastirma/11..18*.prompt.md` (envanter, 5 kol-profil, ses denklikleri, kognat) | ⏳ **kullanıcı çalıştıracak** | Yatay ölçek (tüm Türk dilleri+lehçeleri): profiller/kognat/uzaklık/harita/ses-denklikleri tüm dillere. Sonuçlar gelince locale çek + işle. |
+| `deepds-yatay` | **Yatay ölçek deepsearch (11–18)** | sentez/prompt | — | `arastirma/11..18*.pdf` + `_envanter11.json/.txt` | **🔄 11 İŞLENDİ**, 12-18 elde (çıkarım sürüyor) | **11 (envanter) ✅ → `languages.master.json`** (47 dil, Glottolog çapraz-kontrol). 12-16 kol-profil · 17 ses denklikleri · 18 kognat → profiller/kognat/uzaklık/ses-denklikleri tüm dillere (sıradaki). |
 
 ## Çıkarım kuralları
 1. **Çek → incele → çıkar.** Her kaynağı `sources/`'a indir, yapısını incele, UI veri-sözleşmesine (bkz. `platform/ui/README.md`) eşle.
@@ -40,7 +40,8 @@
 
 | Dosya | İçerik | Kaynak | Besler |
 |---|---|---|---|
-| `languages.geo.json` | 32 dil: glottocode/iso/lat-lon/kol (10 MVP işaretli) | SavelyevTurkic | Harita, dil kimliği |
+| `languages.master.json` ★ | **47 dil/lehçe/tarihsel form** (39 canlı+7 tarihsel+1 proto): iso/glottocode/ad/kol/lat-lon/era/konuşur/canlılık/not. **Yatay ölçek temeli.** Koordinat/ad canlıda Glottolog (otorite), tarihselde ds11 (Glottolog yanlış). | **deepsearch 11 + Glottolog CLDF çapraz-kontrol** (`platform/etl/build_master.py`) | **Harita (47 dil, açgözlü etiket+era stili)**; sıradaki: profiller/kognat/uzaklık ölçeği |
+| `languages.geo.json` | 32 dil: glottocode/iso/lat-lon/kol (10 MVP işaretli) | SavelyevTurkic | (eski harita; master'a devrediliyor), dil kimliği |
 | `cognates.json` | 254 kavram → 905 kognat seti (üye diller+biçim+segment+kök) | SavelyevTurkic | Kognat Ağı (kognat boşlukları görünür: ör. "göz" *gȫrs vs Sibirya *Karak) |
 | `distance.lexical.json` | 32×32 leksikostatistik mesafe (derin kognat paylaşımı) | SavelyevTurkic | Uzaklık Gezgini (leksikal eksen) |
 | `profiles.json` | 23 dil profili: kimlik/koordinat/ülke/kol + **AES canlılık** (EGIDS/UNESCO eşlemeli) | Glottolog | Dil Profilleri, Canlılık ısı-haritası |

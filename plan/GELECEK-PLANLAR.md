@@ -25,10 +25,14 @@
 
 ---
 
-## BÖLÜM B — YATAY ÖLÇEK (tüm Türk dilleri + lehçeleri)
-> Felsefe: önce dikey sağlam (✅ şimdi öyle), sonra yatay. Kaynaklarımızda DAHA FAZLASI olup bir alt kümesini gösterdiğimiz her yer ölçek adayı. **Çok sayıda yeni deepsearch gerekli.**
+## BÖLÜM B — YATAY ÖLÇEK (tüm Türk dilleri + lehçeleri) — 🔄 DEVAM EDİYOR
+> Felsefe: önce dikey sağlam (✅), sonra yatay. **Deepsearch 11-18 çıktıları geldi (`arastirma/11..18*.pdf`).**
 
-### B1 · Hazırlanan deepsearch promptları (kullanıcı çalıştıracak — AYRI dosyalar)
+### ✅ YAPILDI (26 Haz)
+- **B0 · Master envanteri `languages.master.json` (★ temel):** ds11 (pdfplumber tablo) + Glottolog çapraz-kontrol → **47 dil/lehçe/tarihsel** (39 canlı+7 tarihsel+1 proto). Koordinat: canlı→Glottolog, tarihsel→ds11. `platform/etl/build_master.py`.
+- **Harita ✅ tüm 47 dile açıldı:** gerçek çizim harita (`build_map_bg()` v2: kıyılar/iç denizler/Basra/dağ sıraları/ızgara/deniz etiketleri) + açgözlü etiket-yerleştirme (çakışma çözüldü) + era stili (tarihsel ayrı) + inline kart (vitalite+era). **Kullanıcı isteği karşılandı: gerçek harita + etiket çakışma çözümü.**
+
+### B1 · Deepsearch promptları/çıktıları (11 ✅ işlendi; 12-18 elde, çıkarım sırada)
 - `arastirma/11-tum-turk-dilleri-envanter.prompt.md` — TAM dil/lehçe listesi + ISO/Glottocode/kol/koordinat/canlılık (ölçek TEMELİ).
 - `12-oguz` · `13-kipcak` · `14-karluk` · `15-sibirya` · `16-ogur-argu` **-derin-profiller.prompt.md** — kol-bazlı DERİN profiller + lehçeler (her dil: kimlik/canlılık/koordinat/tarih/yapı/izogloss/**15 kognat anahtar kelime**/dijital).
 - `17-capraz-kol-ses-denklikleri.prompt.md` — tüm kol-çiftleri izogloss tabloları (ses denklikleri modülünü Çuvaş-ötesine taşı).
@@ -39,7 +43,7 @@
 - **Kognat Ağı:** 14 kavram × 7 dil → çok kavram × tüm diller (Savelyev 254 kavram + deepsearch 18). A1 kelime-seçici şart.
 - **Ses denklikleri:** Çuvaş-merkezli → tüm kol-çiftleri (deepsearch 17).
 - **Uzaklık:** Savelyev 32 dil matrisini tam aç (şu an 10).
-- **Harita:** 14 → tüm diller (deepsearch 11 koordinatları; A4 yoğunluk önlemi).
+- **Harita:** ✅ 14 → 47 dil (master envanteri; gerçek çizim harita + açgözlü etiket declutter + era stili). *(Profiller ölçeklenince inline kart notları ds12-16'dan zenginleştirilebilir.)*
 - **Ekosistem:** deepsearch 7+10 ~25 dil işlendi; yeni dillerde HF arama hub'ı + bulunanlar.
 
 ---

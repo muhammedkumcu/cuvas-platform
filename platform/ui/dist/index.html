@@ -895,15 +895,15 @@
               <div style="background:#fff;border:1px solid rgba(33,29,23,.08);border-radius:11px;padding:14px 16px" title="Joshi ve ark. 2020 — dijital/NLP kaynak zenginliği sınıfı (0=aşırı düşük … 5=yüksek)"><div style="font-size:11px;color:#9a9082;letter-spacing:.5px">NLP KAYNAK SINIFI</div><div style="font-family:'Spectral',serif;font-size:18px;font-weight:600;margin-top:3px">{{ profileSel.joshi }}</div></div>
             </div>
             <p style="font-size:15px;line-height:1.7;color:#3f3a32;margin:22px 0 0">{{ profileSel.note }}</p>
-            <div style="margin-top:6px">
-              <sc-for list="{{ profileSel.deep }}" as="d" hint-placeholder-count="4">
-                <div style="border-top:1px solid rgba(33,29,23,.08);padding:13px 0 1px">
-                  <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#b86a2e">{{ d.label }}</div>
-                  <p style="font-size:13.5px;line-height:1.65;color:#3f3a32;margin:6px 0 0;max-width:78ch">{{ d.body }}</p>
-                </div>
-              </sc-for>
-            </div>
           </div>
+        </div>
+        <div style="margin-top:22px;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;align-items:start">
+          <sc-for list="{{ profileSel.deep }}" as="d" hint-placeholder-count="5">
+            <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:14px;padding:18px 22px">
+              <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#b86a2e">{{ d.label }}</div>
+              <p style="font-size:14px;line-height:1.65;color:#3f3a32;margin:8px 0 0">{{ d.body }}</p>
+            </div>
+          </sc-for>
         </div>
       </section>
       </sc-if>

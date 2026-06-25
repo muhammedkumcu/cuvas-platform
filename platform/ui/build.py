@@ -243,19 +243,24 @@ def main():
     html = html.replace(
         "profileSel:{...sel, vc:this.vitColor(sel.vit), branchColor:this.BRANCHCOLOR[sel.branch]||'#5f574b'},",
         "profileSel:{...sel, deep:(this.DEEPPROF&&this.DEEPPROF[sel.code])||[], vc:this.vitColor(sel.vit), branchColor:this.BRANCHCOLOR[sel.branch]||'#5f574b'},", 1)
+    # Derin bölümler ARTIK iki-sütun gridin ALTINDA, TAM GENİŞLİKTE (sağ özet kutusu küçük/dengeli kalsın).
+    # 2 sütunlu kart ızgarası → "Tarih"ten itibaren genişçe okunur (kullanıcı UI tutarlılık notu).
     deep_markup = (
-        '\n            <div style="margin-top:6px">\n'
-        '              <sc-for list="{{ profileSel.deep }}" as="d" hint-placeholder-count="4">\n'
-        '                <div style="border-top:1px solid rgba(33,29,23,.08);padding:13px 0 1px">\n'
-        "                  <div style=\"font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#b86a2e\">{{ d.label }}</div>\n"
-        '                  <p style="font-size:13.5px;line-height:1.65;color:#3f3a32;margin:6px 0 0;max-width:78ch">{{ d.body }}</p>\n'
-        '                </div>\n'
-        '              </sc-for>\n'
-        '            </div>')
-    note_p = '<p style="font-size:15px;line-height:1.7;color:#3f3a32;margin:22px 0 0">{{ profileSel.note }}</p>'
-    ndeep = 1 if note_p in html else 0
-    html = html.replace(note_p, note_p + deep_markup, 1)
-    print(f"  Derin profiller (ds9): {len(deep)} dil, markup={ndeep}")
+        '\n        <div style="margin-top:22px;display:grid;grid-template-columns:repeat(2,1fr);gap:16px;align-items:start">\n'
+        '          <sc-for list="{{ profileSel.deep }}" as="d" hint-placeholder-count="5">\n'
+        '            <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:14px;padding:18px 22px">\n'
+        "              <div style=\"font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#b86a2e\">{{ d.label }}</div>\n"
+        '              <p style="font-size:14px;line-height:1.65;color:#3f3a32;margin:8px 0 0">{{ d.body }}</p>\n'
+        '            </div>\n'
+        '          </sc-for>\n'
+        '        </div>')
+    # özet kartının notu + sağ kart kapanışı + iki-sütun grid kapanışı → deep bloğunu grid'in HEMEN ALTINA koy
+    note_block = ('<p style="font-size:15px;line-height:1.7;color:#3f3a32;margin:22px 0 0">{{ profileSel.note }}</p>\n'
+                  '          </div>\n'
+                  '        </div>')
+    ndeep = 1 if note_block in html else 0
+    html = html.replace(note_block, note_block + deep_markup, 1)
+    print(f"  Derin profiller (ds9): {len(deep)} dil, tam-genislik markup={ndeep}")
 
     # Wikipedia kaynağını kütüğe ekle + profil modülünün kaynaklarını güncelle (demo çıktı, wiki girdi)
     html = html.replace(

@@ -37,6 +37,23 @@ TR_NAME = {"tur": "Türkçe", "azj": "Azerbaycanca", "tuk": "Türkmence", "chv":
 # iso → UI profil kodu (harita düğümünden profile gitmek için)
 ISO_TO_PROFILE = {"tur": "tr", "azj": "az", "tuk": "tk", "chv": "chv", "tat": "tt", "bak": "bak", "kaz": "kk",
                   "kir": "kg", "uig": "ug", "sah": "sah", "tyv": "tyv", "kjh": "kjh", "klj": "clw", "cjs": "shor"}
+# Harita düğümüne tıklanınca açılan inline kart için kısa bilgi (profil koduna göre): (konuşur, ayırt edici not)
+MAP_CARD = {
+    "tr": ("~85 milyon", "Batı Oğuz; en çok konuşulan Türk dili."),
+    "az": ("~24 milyon", "Merkez Oğuz; ayırt edici açık ə sesi."),
+    "tk": ("~7 milyon", "Doğu Oğuz; Ana Türkçe uzun ünlülerini korur."),
+    "chv": ("~740 bin", "Yaşayan TEK Oğur dili; rotasizm *z>r, lambdasizm *š>l."),
+    "tt": ("~5 milyon", "İdil-Ural Kıpçakçası; tarihsel ünlü kayması (söz→süz)."),
+    "bak": ("~1,2 milyon", "Peltek /θ/(ҫ), /ð/(ҙ) ve söz başı /h/ sesleri."),
+    "kk": ("~14 milyon", "Katı ünlü uyumu; 12 çoğul eki varyantı."),
+    "kg": ("~5 milyon", "Katı dudak uyumu; Manas destanı dili."),
+    "ug": ("~10 milyon", "Karluk; Arap yazısı tüm ünlüleri gösterir."),
+    "sah": ("~450 bin", "Kuzey Sibirya; genitif/lokatif hâllerini yitirdi."),
+    "tyv": ("~280 bin", "Gırtlaksı (kargyraa) ünlüler; höömey geleneği."),
+    "kjh": ("~40 bin", "Islıklı sibilantlar (ş→s); 10 gramatik hâl."),
+    "clw": ("~20 bin", "Argu kolu; söz başı *h-'yi korur — arkaik 'müze'."),
+    "shor": ("~2,8 bin", "Ciddi tehlikede; Yenisey (Mrassu/Kondoma) lehçeleri."),
+}
 
 
 # Uzaklık Gezgini: UI dil kodu -> veri anahtarları
@@ -188,8 +205,11 @@ def build_map(prof):
         if not p or p.get("lat") is None or p.get("lon") is None:
             continue
         x, y = project(p["lon"], p["lat"])
-        parts = [f"name:'{TR_NAME.get(iso, p['name'])}'", f"code:'{ISO_TO_PROFILE.get(iso, '')}'",
-                 f"branch:'{p['branch']}'", f"x:{x}", f"y:{y}"]
+        code = ISO_TO_PROFILE.get(iso, "")
+        sp, note = MAP_CARD.get(code, ("", ""))
+        parts = [f"name:'{TR_NAME.get(iso, p['name'])}'", f"code:'{code}'",
+                 f"branch:'{p['branch']}'", f"x:{x}", f"y:{y}",
+                 f"speakers:{json.dumps(sp, ensure_ascii=False)}", f"note:{json.dumps(note, ensure_ascii=False)}"]
         if iso == "chv":
             parts.append("hi:true")
         if y > 50:
@@ -310,11 +330,44 @@ def main():
     # Harita ← gerçek Glottolog koordinatları (şematik projeksiyon)
     new_map = build_map(prof)
     html, nmap = re.subn(r"MAP = \[.*?\n  \];", lambda m: new_map, html, flags=re.DOTALL)
-    # Harita düğümü → o dilin profiline git (mapNodes'a go + düğümü tıklanabilir yap)
+    # Faz 1.3 — Harita düğümü TIKLANINCA INLINE bilgi (sayfadan çıkmaz; kullanıcı kararı), profile gitmez
     html = html.replace("        return { name:m.name, branch:m.branch, col,",
-                        "        return { name:m.name, branch:m.branch, col, go:()=>this.setState({screen:'profile', profileSel:m.code}),", 1)
+                        "        return { name:m.name, branch:m.branch, col, go:()=>this.setState({mapSel:m.code}),", 1)
     html = html.replace('<div style="{{ n.dotStyle }}">',
                         '<div onClick="{{ n.go }}" style="cursor:pointer;{{ n.dotStyle }}">', 1)
+    # Argu kolu rengini ekle (Halaçça düğümü + lejant)
+    html = html.replace("    'Karluk':'oklch(0.5 0.13 295)', 'Sibirya':'oklch(0.52 0.13 235)',",
+                        "    'Karluk':'oklch(0.5 0.13 295)', 'Sibirya':'oklch(0.52 0.13 235)', 'Argu':'#8a7a2e',", 1)
+    # mapInfo (seçili düğümün inline kartı) — renderVals
+    html = html.replace(
+        "      mapLegend:Object.entries(this.BRANCHCOLOR).map(([k,v])=>({label:k, hue:v})),",
+        "      mapLegend:Object.entries(this.BRANCHCOLOR).map(([k,v])=>({label:k, hue:v})),\n"
+        "      mapInfo:(()=>{ const m=this.MAP.find(x=>x.code===S.mapSel); return m?{has:true,name:m.name,branch:m.branch,speakers:m.speakers,note:m.note,col:(this.BRANCHCOLOR[m.branch]||'#5f574b')}:{has:false,name:'',branch:'',speakers:'',note:'',col:'#5f574b'}; })(),", 1)
+    # inline kart markup'ı (lejantın hemen altına)
+    map_legend_block = (
+        '          <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;padding:0 4px">\n'
+        '            <sc-for list="{{ mapLegend }}" as="l" hint-placeholder-count="5">\n'
+        '              <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:11px;height:11px;border-radius:50%;background:{{ l.hue }}"></span>{{ l.label }} kolu</span>\n'
+        '            </sc-for>\n'
+        '          </div>')
+    map_card = (
+        '\n          <sc-if value="{{ mapInfo.has }}" hint-placeholder-val="{{ false }}">\n'
+        '          <div style="margin-top:14px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-left:4px solid {{ mapInfo.col }};border-radius:12px;padding:14px 18px">\n'
+        '            <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">\n'
+        "              <span style=\"font-family:'Spectral',serif;font-size:18px;font-weight:700;color:#211d17\">{{ mapInfo.name }}</span>\n"
+        "              <span style=\"font-size:11px;color:#fff;background:{{ mapInfo.col }};border-radius:12px;padding:2px 10px;font-family:'IBM Plex Mono',monospace\">{{ mapInfo.branch }} kolu</span>\n"
+        "              <span style=\"margin-left:auto;font-size:12px;color:#9a9082;font-family:'IBM Plex Mono',monospace\">{{ mapInfo.speakers }}</span>\n"
+        '            </div>\n'
+        '            <p style="font-size:13.5px;line-height:1.6;color:#5f574b;margin:8px 0 0">{{ mapInfo.note }}</p>\n'
+        '          </div>\n'
+        '          </sc-if>')
+    nmapcard = 1 if map_legend_block in html else 0
+    html = html.replace(map_legend_block, map_legend_block + map_card, 1)
+    # intro ipucu
+    html = html.replace(
+        "Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur.",
+        "Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur. Bir dile tıkla — bilgisi aşağıda açılır.", 1)
+    print(f"  Harita inline kart (1.3): mapInfo+kart={nmapcard}")
 
     # Uzaklık Gezgini ← gerçek matrisler: leksikal(Savelyev) + tipolojik(WALS) + coğrafi(koordinat)
     real_dist = build_distance(prof, lex, typ, cog, intel)

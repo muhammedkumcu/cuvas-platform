@@ -362,7 +362,7 @@
         <!-- TAB: harita -->
         <sc-if value="{{ isCmpMap }}" hint-placeholder-val="{{ true }}">
         <div style="margin-top:24px">
-          <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:72ch;margin:0 0 18px">Şematik yayılım: batıdan doğuya Türk dilleri ve kolları. Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur.</p>
+          <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:72ch;margin:0 0 18px">Şematik yayılım: batıdan doğuya Türk dilleri ve kolları. Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur. Bir dile tıkla — bilgisi aşağıda açılır.</p>
           <div style="position:relative;width:100%;aspect-ratio:1000/560;background:#cdd9da;border:1px solid rgba(33,29,23,.12);border-radius:18px;overflow:hidden">
             <svg viewBox="0 0 1000 560" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">
               <defs>
@@ -407,6 +407,16 @@
               <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:11px;height:11px;border-radius:50%;background:{{ l.hue }}"></span>{{ l.label }} kolu</span>
             </sc-for>
           </div>
+          <sc-if value="{{ mapInfo.has }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:14px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-left:4px solid {{ mapInfo.col }};border-radius:12px;padding:14px 18px">
+            <div style="display:flex;align-items:baseline;gap:10px;flex-wrap:wrap">
+              <span style="font-family:'Spectral',serif;font-size:18px;font-weight:700;color:#211d17">{{ mapInfo.name }}</span>
+              <span style="font-size:11px;color:#fff;background:{{ mapInfo.col }};border-radius:12px;padding:2px 10px;font-family:'IBM Plex Mono',monospace">{{ mapInfo.branch }} kolu</span>
+              <span style="margin-left:auto;font-size:12px;color:#9a9082;font-family:'IBM Plex Mono',monospace">{{ mapInfo.speakers }}</span>
+            </div>
+            <p style="font-size:13.5px;line-height:1.6;color:#5f574b;margin:8px 0 0">{{ mapInfo.note }}</p>
+          </div>
+          </sc-if>
         </div>
         </sc-if>
       </section>
@@ -1397,23 +1407,23 @@ class Component extends DCLogic {
 
   BRANCHCOLOR = {
     'Ogur':'#b8602e', 'Oğuz':'oklch(0.55 0.13 35)', 'Kıpçak':'oklch(0.5 0.13 150)',
-    'Karluk':'oklch(0.5 0.13 295)', 'Sibirya':'oklch(0.52 0.13 235)',
+    'Karluk':'oklch(0.5 0.13 295)', 'Sibirya':'oklch(0.52 0.13 235)', 'Argu':'#8a7a2e',
   };
   MAP = [
-    {name:'Türkçe', code:'tr', branch:'Oğuz', x:10.0, y:51.0, below:true},
-    {name:'Azerbaycanca', code:'az', branch:'Oğuz', x:20.2, y:49.1},
-    {name:'Türkmence', code:'tk', branch:'Oğuz', x:29.8, y:55.7, below:true},
-    {name:'Çuvaşça', code:'chv', branch:'Ogur', x:20.7, y:24.5, hi:true},
-    {name:'Tatarca', code:'tt', branch:'Kıpçak', x:22.2, y:24.0},
-    {name:'Başkurtça', code:'bak', branch:'Kıpçak', x:27.8, y:27.7},
-    {name:'Kazakça', code:'kk', branch:'Kıpçak', x:39.0, y:31.9},
-    {name:'Kırgızca', code:'kg', branch:'Kıpçak', x:40.9, y:47.4},
-    {name:'Uygurca', code:'ug', branch:'Karluk', x:51.0, y:44.2},
-    {name:'Yakutça', code:'sah', branch:'Sibirya', x:86.0, y:14.0},
-    {name:'Tuvaca', code:'tyv', branch:'Sibirya', x:56.2, y:31.0},
-    {name:'Hakasça', code:'kjh', branch:'Sibirya', x:52.7, y:29.3},
-    {name:'Halaçça', code:'clw', branch:'Argu', x:23.1, y:60.2, below:true},
-    {name:'Şorca', code:'shor', branch:'Sibirya', x:51.3, y:27.5},
+    {name:'Türkçe', code:'tr', branch:'Oğuz', x:10.0, y:51.0, speakers:"~85 milyon", note:"Batı Oğuz; en çok konuşulan Türk dili.", below:true},
+    {name:'Azerbaycanca', code:'az', branch:'Oğuz', x:20.2, y:49.1, speakers:"~24 milyon", note:"Merkez Oğuz; ayırt edici açık ə sesi."},
+    {name:'Türkmence', code:'tk', branch:'Oğuz', x:29.8, y:55.7, speakers:"~7 milyon", note:"Doğu Oğuz; Ana Türkçe uzun ünlülerini korur.", below:true},
+    {name:'Çuvaşça', code:'chv', branch:'Ogur', x:20.7, y:24.5, speakers:"~740 bin", note:"Yaşayan TEK Oğur dili; rotasizm *z>r, lambdasizm *š>l.", hi:true},
+    {name:'Tatarca', code:'tt', branch:'Kıpçak', x:22.2, y:24.0, speakers:"~5 milyon", note:"İdil-Ural Kıpçakçası; tarihsel ünlü kayması (söz→süz)."},
+    {name:'Başkurtça', code:'bak', branch:'Kıpçak', x:27.8, y:27.7, speakers:"~1,2 milyon", note:"Peltek /θ/(ҫ), /ð/(ҙ) ve söz başı /h/ sesleri."},
+    {name:'Kazakça', code:'kk', branch:'Kıpçak', x:39.0, y:31.9, speakers:"~14 milyon", note:"Katı ünlü uyumu; 12 çoğul eki varyantı."},
+    {name:'Kırgızca', code:'kg', branch:'Kıpçak', x:40.9, y:47.4, speakers:"~5 milyon", note:"Katı dudak uyumu; Manas destanı dili."},
+    {name:'Uygurca', code:'ug', branch:'Karluk', x:51.0, y:44.2, speakers:"~10 milyon", note:"Karluk; Arap yazısı tüm ünlüleri gösterir."},
+    {name:'Yakutça', code:'sah', branch:'Sibirya', x:86.0, y:14.0, speakers:"~450 bin", note:"Kuzey Sibirya; genitif/lokatif hâllerini yitirdi."},
+    {name:'Tuvaca', code:'tyv', branch:'Sibirya', x:56.2, y:31.0, speakers:"~280 bin", note:"Gırtlaksı (kargyraa) ünlüler; höömey geleneği."},
+    {name:'Hakasça', code:'kjh', branch:'Sibirya', x:52.7, y:29.3, speakers:"~40 bin", note:"Islıklı sibilantlar (ş→s); 10 gramatik hâl."},
+    {name:'Halaçça', code:'clw', branch:'Argu', x:23.1, y:60.2, speakers:"~20 bin", note:"Argu kolu; söz başı *h-'yi korur — arkaik 'müze'.", below:true},
+    {name:'Şorca', code:'shor', branch:'Sibirya', x:51.3, y:27.5, speakers:"~2,8 bin", note:"Ciddi tehlikede; Yenisey (Mrassu/Kondoma) lehçeleri."},
   ];
 
   // illustrative distance matrix from Çuvaşça (0 = yakın, 1 = uzak) — örnek veri
@@ -1873,12 +1883,13 @@ class Component extends DCLogic {
       compareRows, compareHeadline:(S.activeWordId==='__api' && w && w.surface) ? w.surface : (w?w.gloss:''), legend, soundCards, familyRows, timeline,
       mapNodes:this.MAP.map(m=>{
         const col = this.BRANCHCOLOR[m.branch];
-        return { name:m.name, branch:m.branch, col, go:()=>this.setState({screen:'profile', profileSel:m.code}),
+        return { name:m.name, branch:m.branch, col, go:()=>this.setState({mapSel:m.code}),
           dotStyle:`position:absolute;left:${m.x}%;top:${m.y}%;transform:translate(-50%,-50%);display:flex;flex-direction:${m.below?'column-reverse':'column'};align-items:center;gap:4px;z-index:${m.hi?3:2}`,
           ball:`width:${m.hi?18:13}px;height:${m.hi?18:13}px;border-radius:50%;background:${col};border:2px solid #fbfaf6;box-shadow:0 0 0 ${m.hi?'4px':'1px'} ${m.hi?'rgba(184,96,46,.25)':'rgba(33,29,23,.12)'}`,
           label:`font-size:${m.hi?'13px':'12px'};font-weight:${m.hi?'700':'500'};font-family:'Spectral',serif;color:#211d17;white-space:nowrap;background:rgba(251,250,246,.85);padding:1px 6px;border-radius:5px` };
       }),
       mapLegend:Object.entries(this.BRANCHCOLOR).map(([k,v])=>({label:k, hue:v})),
+      mapInfo:(()=>{ const m=this.MAP.find(x=>x.code===S.mapSel); return m?{has:true,name:m.name,branch:m.branch,speakers:m.speakers,note:m.note,col:(this.BRANCHCOLOR[m.branch]||'#5f574b')}:{has:false,name:'',branch:'',speakers:'',note:'',col:'#5f574b'}; })(),
       // learn
       ...learn,
     };

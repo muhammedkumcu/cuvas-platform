@@ -49,7 +49,7 @@
         <span style="font-size:10px;font-family:'IBM Plex Mono',monospace;color:rgba(244,241,234,.4);letter-spacing:.5px">YAZI</span>
         <div style="display:flex;background:rgba(244,241,234,.08);border-radius:8px;padding:3px"><sc-for list="{{ scriptToggle }}" as="m" hint-placeholder-count="2"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for></div>
       </div>
-      <div style="font-size:10.5px;color:rgba(244,241,234,.34);line-height:1.6;font-family:'IBM Plex Mono',monospace">5 KOL · 14 DİL · ÇUVAŞ ÇEKİRDEK · v0.4</div>
+      <div style="font-size:10.5px;color:rgba(244,241,234,.34);line-height:1.6;font-family:'IBM Plex Mono',monospace">6 KOL · 32 DİL · ÇUVAŞ ÇEKİRDEK · v0.4</div>
     </div>
   </aside>
 
@@ -65,6 +65,25 @@
         <h1 style="font-family:'Spectral',serif;font-weight:600;font-size:52px;line-height:1.06;margin:14px 0 0;max-width:18ch">Kaybolan dilleri sök, kur, kendi dilinle karşılaştır.</h1>
         <p style="font-size:17px;line-height:1.6;color:#5f574b;max-width:62ch;margin:20px 0 0">Çuvaşçadan başlayarak Türk dillerinin kelimelerini köküne ve eklerine ayırır; aynı anlamı diller arasında yan yana dizer, ses denkliklerini, tarihi, canlılığı ve kaynaklarıyla gösterir. Çift kitle: hem araştırmacı hem öğrenci için.</p>
 
+        <div style="margin-top:30px;display:flex;gap:10px;flex-wrap:wrap">
+          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:11px 16px;display:flex;flex-direction:column;gap:2px">
+            <span style="font-family:'Spectral',serif;font-size:24px;font-weight:700;color:#b8602e;line-height:1">10</span>
+            <span style="font-size:11.5px;color:#5f574b;font-family:'IBM Plex Mono',monospace;letter-spacing:.3px">dil · canlı FST analizi</span>
+          </div>
+          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:11px 16px;display:flex;flex-direction:column;gap:2px">
+            <span style="font-family:'Spectral',serif;font-size:24px;font-weight:700;color:#2f6fb0;line-height:1">23</span>
+            <span style="font-size:11.5px;color:#5f574b;font-family:'IBM Plex Mono',monospace;letter-spacing:.3px">dil · derin profil</span>
+          </div>
+          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:11px 16px;display:flex;flex-direction:column;gap:2px">
+            <span style="font-family:'Spectral',serif;font-size:24px;font-weight:700;color:#2f8a5b;line-height:1">32</span>
+            <span style="font-size:11.5px;color:#5f574b;font-family:'IBM Plex Mono',monospace;letter-spacing:.3px">dil · karşılaştırmalı atlas</span>
+          </div>
+          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:11px 16px;display:flex;flex-direction:column;gap:2px">
+            <span style="font-family:'Spectral',serif;font-size:24px;font-weight:700;color:#8a6d2e;line-height:1">6</span>
+            <span style="font-size:11.5px;color:#5f574b;font-family:'IBM Plex Mono',monospace;letter-spacing:.3px">kol · Türk dil ailesi</span>
+          </div>
+          <div style="align-self:center;font-size:11.5px;color:#9a9082;font-family:'IBM Plex Mono',monospace;max-width:16ch;line-height:1.4">…yatay ölçekte tüm Türk dillerine açılıyor</div>
+        </div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px">
           <sc-for list="{{ homeCards }}" as="c" hint-placeholder-count="3">
             <button onClick="{{ c.go }}" style="text-align:left;cursor:pointer;background:#fbfaf6;border:1px solid rgba(33,29,23,.12);border-radius:14px;padding:24px 22px 26px;display:flex;flex-direction:column;gap:10px;transition:transform .15s,box-shadow .15s,border-color .15s" style-hover="transform:translateY(-3px);box-shadow:0 10px 26px rgba(33,29,23,.1);border-color:rgba(33,29,23,.22)">
@@ -1812,7 +1831,7 @@ class Component extends DCLogic {
     // home cards
     const homeCards = [
       {kicker:'ARAŞTIRMACI', title:'Analiz', desc:'Kelimeyi kök ve eklere ayır; renkli morfem blokları, katman ağacı ve satır arası çözümleme.', cta:'Çözümle', hue:this.hue('kök'), go:this.go('analiz')},
-      {kicker:'KÖKENBİLİM', title:'Karşılaştır', desc:'Aynı anlamı yedi dilde yan yana diz; ç↔ş, z↔r ses denkliklerini ve soy ağacını gör.', cta:'Karşılaştır', hue:this.hue('zaman'), go:this.go('compare')},
+      {kicker:'KÖKENBİLİM', title:'Karşılaştır', desc:'Aynı anlamı diller arasında yan yana diz; ç↔ş, z↔r ses denkliklerini ve soy ağacını gör.', cta:'Karşılaştır', hue:this.hue('zaman'), go:this.go('compare')},
       {kicker:'ÖĞRENCİ', title:'Öğren', desc:'Parçalardan Çuvaşça kelime kur, kendi dilinle eşleştir, puan topla.', cta:'Başla', hue:this.hue('kişi'), go:this.go('learn')},
     ];
 

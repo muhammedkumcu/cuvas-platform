@@ -237,6 +237,13 @@ def main():
     extra = json.load(open(DATA / "lang_extra.json", encoding="utf-8"))["languages"]
     intel = json.load(open(DATA / "intelligibility.json", encoding="utf-8"))["intel"]
 
+    # A3 — landing/footer kapsam sayıları VERİDEN (hardcode değil; veri büyüdükçe rebuild ile güncellenir)
+    LIVE_FST = ["chv", "tur", "aze", "kaz", "kir", "uzb", "uig", "tat", "bak", "sah"]  # canlı FST (LIVE_LN ile eş)
+    n_live = len(LIVE_FST)                                    # 10 — canlı morfolojik analiz
+    n_prof = len(prof)                                        # 23 — derin profil
+    n_geo = len(lex)                                          # 32 — karşılaştırmalı atlas (Savelyev)
+    n_branch = len({p.get("branch") for p in prof.values()})  # 6 — Türk dil kolu
+
     changed = []
     for code, iso in CODE2ISO.items():
         p = prof.get(iso)
@@ -451,6 +458,38 @@ def main():
     if a1_mk_old in html:
         html = html.replace(a1_mk_old, a1_mk_new, 1); na1 += 1
     # NOT: A2 (Karşılaştır başlık sekmeye-duyarlı) D-bloğunda compareHeadline tanımında yapılır (tek kaynak).
+
+    # ---- A3: ana sayfa (landing) güncelliği — kapsam sayıları VERİDEN, footer düzelt ----
+    na3 = 0
+    # (1) kenar çubuğu footer: "5 KOL · 14 DİL" hem stale hem yanlış (gerçek: 6 kol, 32 dil atlas)
+    a3_foot_old = "5 KOL · 14 DİL · ÇUVAŞ ÇEKİRDEK · v0.4"
+    a3_foot_new = f"{n_branch} KOL · {n_geo} DİL · ÇUVAŞ ÇEKİRDEK · v0.4"
+    if a3_foot_old in html:
+        html = html.replace(a3_foot_old, a3_foot_new, 1); na3 += 1
+    # (2) landing'e KATMANLI KAPSAM şeridi (dürüst: analiz 10 < profil 23 < atlas 32; yatay ölçek ipucu)
+    a3_strip = (
+        '        <div style="margin-top:30px;display:flex;gap:10px;flex-wrap:wrap">\n'
+        + "".join(
+            '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:11px 16px;display:flex;flex-direction:column;gap:2px">\n'
+            f'            <span style="font-family:\'Spectral\',serif;font-size:24px;font-weight:700;color:{col};line-height:1">{num}</span>\n'
+            f'            <span style="font-size:11.5px;color:#5f574b;font-family:\'IBM Plex Mono\',monospace;letter-spacing:.3px">{lab}</span>\n'
+            '          </div>\n'
+            for num, lab, col in [
+                (n_live, "dil · canlı FST analizi", "#b8602e"),
+                (n_prof, "dil · derin profil", "#2f6fb0"),
+                (n_geo, "dil · karşılaştırmalı atlas", "#2f8a5b"),
+                (n_branch, "kol · Türk dil ailesi", "#8a6d2e"),
+            ])
+        + '          <div style="align-self:center;font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;max-width:16ch;line-height:1.4">…yatay ölçekte tüm Türk dillerine açılıyor</div>\n'
+        + '        </div>\n')
+    a3_anchor = '        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px">'
+    if a3_anchor in html:
+        html = html.replace(a3_anchor, a3_strip + a3_anchor, 1); na3 += 1
+    # (3) landing kartındaki "yedi dilde" stale-sayısı → ölçek-dayanıklı "diller arasında"
+    a3_card_old = "desc:'Aynı anlamı yedi dilde yan yana diz; ç↔ş, z↔r ses denkliklerini ve soy ağacını gör.'"
+    a3_card_new = "desc:'Aynı anlamı diller arasında yan yana diz; ç↔ş, z↔r ses denkliklerini ve soy ağacını gör.'"
+    if a3_card_old in html:
+        html = html.replace(a3_card_old, a3_card_new, 1); na3 += 1
 
     # kopya/metin düzeltmeleri — yalnız NET redundant/teknik ifadeler (tasarımı bozmadan, minimal)
     copy_fix = {
@@ -1496,6 +1535,7 @@ def main():
     print(f"  Uzaklık matrisleri (Savelyev+WALS+coğrafi): val patch={ndist}, REAL_DIST enjekte")
     print(f"  Kognat Ağı (SavelyevTurkic): {ncog} blok, {len(cog_obj)} kavram (default '{cog_default}')")
     print(f"  A1 kognat kelime-seçici (kategorili+aranabilir): {na1}/3 yama")
+    print(f"  A3 landing kapsam (veriden: {n_live}/{n_prof}/{n_geo} dil, {n_branch} kol) + footer + kart: {na3}/3 yama")
     print(f"  Kopya düzeltmeleri: {nfix}")
     print(f"  Dil profili zenginleştirme (Wikipedia, çapraz-kontrollü): {nenrich} alan ({len(extra)} dil)")
     print(f"  Canlı API bağlama (Paradigma+Analiz): {nlive}/6 yama")

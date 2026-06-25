@@ -80,10 +80,10 @@ SPK_CURATED = {"tur": "~85 milyon", "azj": "~24 milyon", "tuk": "~7 milyon", "ch
 
 def spk_label(iso, raw, era):
     """ds11 konuşur metnindeki sayıyı (sarma-boşluklu) temiz '~N milyon/bin' etiketine çevir."""
+    if era != "living":
+        return ""   # tarihsel/proto: era rozeti gösterir (konuşur alanı boş)
     if iso in SPK_CURATED:
         return SPK_CURATED[iso]
-    if era != "living":
-        return "tarihsel (ölü dil)"
     m = re.match(r"~?\s*([\d.\s]+)", raw or "")
     if not m:
         return ""

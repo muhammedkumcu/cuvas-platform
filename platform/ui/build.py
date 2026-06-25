@@ -208,25 +208,49 @@ def project(lon, lat):
     return x, y
 
 
-def build_map(prof):
+def _spk_rank(label):
+    """'~85 milyon' / '~740 bin' → sayısal sıralama anahtarı (önem)."""
+    m = re.search(r"([\d,.]+)\s*(milyon|bin)?", label or "")
+    if not m:
+        return 0.0
+    try:
+        v = float(m.group(1).replace(".", "").replace(",", "."))
+    except ValueError:
+        return 0.0
+    u = m.group(2)
+    return v * 1e6 if u == "milyon" else (v * 1e3 if u == "bin" else v)
+
+
+def build_map(master):
+    # B3 — TÜM diller (master envanteri); B4 — açgözlü etiket-yerleştirme (çakışmayan önemli
+    # dillerde etiket; diğerleri etiketsiz ama tıklanabilir/hover-büyür) + era stili.
+    langs = [L for L in master if L.get("lat") is not None and L.get("lon") is not None]
+    # öncelik: canlı > tarihsel/proto, sonra konuşur sayısı (önemli diller etiket önceliği alır)
+    # chv (platform çekirdeği) en yüksek öncelik → ilk/belirgin yerleşir; sonra canlı>tarihsel, konuşur
+    langs.sort(key=lambda L: ({"living": 2}.get(L["era"], 1),
+                              1e9 if L["iso"] == "chv" else _spk_rank(L.get("speakers", ""))), reverse=True)
+    placed = []  # yerleştirilmiş etiket kutuları: (cx, cy, yarı-genişlik, yarı-yükseklik)
     rows = []
-    for iso in MAP_ISOS:
-        p = prof.get(iso)
-        if not p or p.get("lat") is None or p.get("lon") is None:
-            continue
-        x, y = project(p["lon"], p["lat"])
-        code = ISO_TO_PROFILE.get(iso, "")
-        sp, note = MAP_CARD.get(code, ("", ""))
-        parts = [f"name:'{TR_NAME.get(iso, p['name'])}'", f"code:'{code}'",
-                 f"branch:'{p['branch']}'", f"x:{x}", f"y:{y}",
-                 f"speakers:{json.dumps(sp, ensure_ascii=False)}", f"note:{json.dumps(note, ensure_ascii=False)}"]
-        if iso == "chv":
+    for L in langs:
+        x, y = project(L["lon"], L["lat"])
+        name = L["name"]
+        hw, hh = 0.6 + 0.5 * len(name), 3.0   # etiket yarı-genişlik (x≈%) / yarı-yükseklik (y)
+        lbl = 0
+        for cand, cy in ((1, y + 4.6), (2, y - 4.6)):   # 1=alt, 2=üst
+            if cy - hh < 2 or cy + hh > 98:
+                continue
+            if all(not (abs(x - px) < (hw + phw) and abs(cy - py) < (hh + phh)) for px, py, phw, phh in placed):
+                placed.append((x, cy, hw, hh)); lbl = cand; break
+        rank = _spk_rank(L.get("speakers", ""))
+        sz = 3 if (L["era"] == "living" and rank >= 1e6) else (2 if L["era"] == "living" else 1)  # 3 büyük/2 orta/1 küçük-tarihsel
+        parts = [f"name:{json.dumps(name, ensure_ascii=False)}", f"code:{json.dumps(L['iso'])}",
+                 f"branch:{json.dumps(L['branch'], ensure_ascii=False)}", f"x:{x}", f"y:{y}",
+                 f"speakers:{json.dumps(L.get('speakers',''), ensure_ascii=False)}",
+                 f"note:{json.dumps(L.get('note',''), ensure_ascii=False)}",
+                 f"vit:{json.dumps(L.get('vitality',''), ensure_ascii=False)}",
+                 f"era:{json.dumps(L['era'])}", f"lbl:{lbl}", f"sz:{sz}"]
+        if L["iso"] == "chv":
             parts.append("hi:true")
-        # A4b — düğüm yoğunluğu: çakışan komşuların etiketini YUKARI al (alternatif yön → üst üste binmez).
-        # tat (Çuvaşça d=1.6) · cjs Şor + tyv Tuvaca (Hakasça'yla d=2.3–3.9 Sibirya üçlüsü).
-        FORCE_ABOVE = {"tat", "cjs", "tyv"}
-        if y > 50 or iso in FORCE_ABOVE:
-            parts.append("below:true")
         rows.append("    {" + ", ".join(parts) + "},")
     return "MAP = [\n" + "\n".join(rows) + "\n  ];"
 
@@ -289,6 +313,7 @@ def build_map_bg():
 
 def main():
     html = SRC.read_text(encoding="utf-8")
+    master = json.load(open(DATA / "languages.master.json", encoding="utf-8"))["languages"]  # B1 — yatay ölçek temeli
     prof = {p["iso"]: p for p in json.load(open(DATA / "profiles.json", encoding="utf-8"))["profiles"]}
     lex = json.load(open(DATA / "distance.lexical.json", encoding="utf-8"))["matrix"]
     typ = json.load(open(DATA / "distance.typological.json", encoding="utf-8"))["matrix"]
@@ -404,13 +429,29 @@ def main():
         html = html.replace("class Component extends DCLogic {", helper, 1)
 
     # Harita ← gerçek Glottolog koordinatları (şematik projeksiyon)
-    new_map = build_map(prof)
+    new_map = build_map(master)
     html, nmap = re.subn(r"MAP = \[.*?\n  \];", lambda m: new_map, html, flags=re.DOTALL)
     # Faz 1.3 — Harita düğümü TIKLANINCA INLINE bilgi (sayfadan çıkmaz; kullanıcı kararı), profile gitmez
     html = html.replace("        return { name:m.name, branch:m.branch, col,",
                         "        return { name:m.name, branch:m.branch, col, go:()=>this.setState({mapSel:m.code}),", 1)
     html = html.replace('<div style="{{ n.dotStyle }}">',
                         '<div onClick="{{ n.go }}" style="cursor:pointer;transition:transform .14s ease;{{ n.dotStyle }}" style-hover="z-index:40;transform:translate(-50%,-50%) scale(1.5)">', 1)
+    # B3/B4 — mapNodes render: çap (sz), etiket-görünürlüğü (lbl: 0 gizli / 1 alt / 2 üst), era stili (tarihsel içi boş+italik)
+    nb34 = 0
+    b34 = [
+        ("        const col = this.BRANCHCOLOR[m.branch];",
+         "        const col = this.BRANCHCOLOR[m.branch] || '#9a9082';\n"
+         "        const _hist = m.era && m.era!=='living', _d = m.hi?19:(m.sz===3?16:(m.sz===2?12:9));"),
+        ("display:flex;flex-direction:${m.below?'column-reverse':'column'};align-items:center;gap:4px;z-index:${m.hi?3:2}",
+         "display:flex;flex-direction:${m.lbl===2?'column-reverse':'column'};align-items:center;gap:3px;z-index:${m.hi?5:(m.lbl?3:2)}"),
+        ("ball:`width:${m.hi?18:13}px;height:${m.hi?18:13}px;border-radius:50%;background:${col};border:2px solid #fbfaf6;box-shadow:0 0 0 ${m.hi?'4px':'1px'} ${m.hi?'rgba(184,96,46,.25)':'rgba(33,29,23,.12)'}`,",
+         "ball:`width:${_d}px;height:${_d}px;border-radius:50%;background:${_hist?'#fbfaf6':col};border:${_hist?'2px solid '+col:'2px solid #fbfaf6'};box-shadow:0 0 0 ${m.hi?'4px':'1px'} ${m.hi?'rgba(184,96,46,.25)':'rgba(33,29,23,.12)'}${_hist?';opacity:.9':''}`,"),
+        ("label:`font-size:${m.hi?'13px':'12px'};font-weight:${m.hi?'700':'500'};font-family:'Spectral',serif;color:#211d17;white-space:nowrap;background:rgba(251,250,246,.85);padding:1px 6px;border-radius:5px` };",
+         "label:`${m.lbl?'':'display:none;'}font-size:${m.hi?'13px':'11.5px'};font-weight:${m.hi?'700':'500'};font-family:'Spectral',serif;color:${_hist?'#6b6356':'#211d17'};${_hist?'font-style:italic;':''}white-space:nowrap;background:rgba(251,250,246,.92);padding:1px 6px;border-radius:5px` };"),
+    ]
+    for old, new in b34:
+        if old in html:
+            html = html.replace(old, new, 1); nb34 += 1
     # A4a — arka plan SVG'sini projeksiyon-hizalı yenisiyle değiştir (eski 1000×560 elle-çizim blob = saçma)
     na4 = 0
     html, na4a = re.subn(r'<svg viewBox="0 0 1000 560".*?</svg>', lambda m: build_map_bg(), html, flags=re.DOTALL)
@@ -430,7 +471,7 @@ def main():
     html = html.replace(
         "      mapLegend:Object.entries(this.BRANCHCOLOR).map(([k,v])=>({label:k, hue:v})),",
         "      mapLegend:Object.entries(this.BRANCHCOLOR).map(([k,v])=>({label:k, hue:v})),\n"
-        "      mapInfo:(()=>{ const m=this.MAP.find(x=>x.code===S.mapSel); return m?{has:true,name:m.name,branch:m.branch,speakers:m.speakers,note:m.note,col:(this.BRANCHCOLOR[m.branch]||'#5f574b')}:{has:false,name:'',branch:'',speakers:'',note:'',col:'#5f574b'}; })(),", 1)
+        "      mapInfo:(()=>{ const m=this.MAP.find(x=>x.code===S.mapSel); const eL={living:'',historical:'tarihsel · ölü dil',proto:'ata dil (kök)'}; return m?{has:true,name:m.name,branch:m.branch,speakers:m.speakers,note:m.note||'',vit:m.vit||'',era:(eL[m.era]||''),col:(this.BRANCHCOLOR[m.branch]||'#9a9082')}:{has:false,name:'',branch:'',speakers:'',note:'',vit:'',era:'',col:'#9a9082'}; })(),", 1)
     # inline kart markup'ı (lejantın hemen altına)
     map_legend_block = (
         '          <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;padding:0 4px">\n'
@@ -446,7 +487,8 @@ def main():
         "              <span style=\"font-size:11px;color:#fff;background:{{ mapInfo.col }};border-radius:12px;padding:2px 10px;font-family:'IBM Plex Mono',monospace\">{{ mapInfo.branch }} kolu</span>\n"
         "              <span style=\"margin-left:auto;font-size:12px;color:#9a9082;font-family:'IBM Plex Mono',monospace\">{{ mapInfo.speakers }}</span>\n"
         '            </div>\n'
-        '            <p style="font-size:13.5px;line-height:1.6;color:#5f574b;margin:8px 0 0">{{ mapInfo.note }}</p>\n'
+        "            <div style=\"display:flex;gap:8px;flex-wrap:wrap;margin-top:7px\"><sc-if value=\"{{ mapInfo.era }}\" hint-placeholder-val=\"{{ false }}\"><span style=\"font-size:10.5px;color:#b8602e;background:#f4ece2;border:1px solid #e4d3c2;border-radius:10px;padding:1px 9px;font-family:'IBM Plex Mono',monospace\">{{ mapInfo.era }}</span></sc-if><sc-if value=\"{{ mapInfo.vit }}\" hint-placeholder-val=\"{{ false }}\"><span style=\"font-size:10.5px;color:#5f574b;background:#efece4;border-radius:10px;padding:1px 9px;font-family:'IBM Plex Mono',monospace\">canlılık: {{ mapInfo.vit }}</span></sc-if></div>\n"
+        '            <sc-if value="{{ mapInfo.note }}" hint-placeholder-val="{{ false }}"><p style="font-size:13.5px;line-height:1.6;color:#5f574b;margin:8px 0 0">{{ mapInfo.note }}</p></sc-if>\n'
         '          </div>\n'
         '          </sc-if>')
     nmapcard = 1 if map_legend_block in html else 0
@@ -457,6 +499,7 @@ def main():
         "Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur. Bir dile tıkla — bilgisi aşağıda açılır.", 1)
     print(f"  Harita inline kart (1.3): mapInfo+kart={nmapcard}")
     print(f"  A4a harita arka planı projeksiyon-hizalı (SVG+konteyner+4 bölge etiketi): {na4}/6 yama")
+    print(f"  B3/B4 harita TÜM diller ({len(master)}) + açgözlü etiket + era stili: mapNodes={nb34}/4 yama")
 
     # Uzaklık Gezgini ← gerçek matrisler: leksikal(Savelyev) + tipolojik(WALS) + coğrafi(koordinat)
     real_dist = build_distance(prof, lex, typ, cog, intel)

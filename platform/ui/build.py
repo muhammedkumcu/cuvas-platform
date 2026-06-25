@@ -117,6 +117,15 @@ COG_CONC = {"EYE": ("göz", "goz"), "WATER": ("su", "su"), "YEAR": ("yıl", "yil
             "HEAD": ("baş", "bas"), "BLOOD": ("kan", "kan"), "BONE": ("kemik", "kemik"), "TWO": ("iki", "iki"),
             "ARM OR HAND": ("el / kol", "el"), "DAY (NOT NIGHT)": ("gün", "gun")}
 
+# A1 — Kognat kelime-seçici için anlamsal kategoriler (Leipzig-Jakarta/Swadesh alanları;
+# yatay ölçekte deepsearch 18 kategorileriyle aynı taksonomi genişletilecek). Kavram→kategori.
+COG_CAT = {"EYE": "Vücut", "TONGUE": "Vücut", "HEAD": "Vücut", "BLOOD": "Vücut",
+           "BONE": "Vücut", "ARM OR HAND": "Vücut",
+           "WATER": "Doğa", "STONE": "Doğa", "FOREST": "Doğa",
+           "YEAR": "Zaman", "DAY (NOT NIGHT)": "Zaman",
+           "FIVE": "Sayılar", "TWO": "Sayılar",
+           "NAME": "Soyut"}
+
 
 # C — kognat düğüm sözcükleri okunur karşılaştırmalı yazıma çevrilir (Savelyev IPA-vari → sade Latin).
 # Bunlar YEREL ortografi DEĞİL; kaynak yerel-script vermiyor → dürüst etiket: "karşılaştırmalı biçim".
@@ -162,7 +171,8 @@ def build_cognates(cog):
             rule_idx = 2
         note = f"Proto-Türkçe kök {dom_root}. Aynı renk = aynı kognat seti; farklı düğüm = kognat boşluğu" + \
                (f" ({', '.join(gaps)})." if gaps else ".") + " Biçimler okunur karşılaştırmalı yazımdadır."
-        out[key] = {"gloss": tr, "proto": dom_root, "note": note, "nodes": nodes, "ruleIdx": rule_idx}
+        out[key] = {"gloss": tr, "proto": dom_root, "note": note, "nodes": nodes, "ruleIdx": rule_idx,
+                    "cat": COG_CAT.get(gloss, "Diğer")}
         if first is None:
             first = key
     return out, first
@@ -386,7 +396,60 @@ def main():
     new_cog = "COGNATES = " + json.dumps(cog_obj, ensure_ascii=False) + ";"
     html, ncog = re.subn(r"COGNATES = \{.*?\n  \};", lambda m: new_cog, html, flags=re.DOTALL)
     if cog_default:
-        html = html.replace("cognateKey: 'kiz',", f"cognateKey: '{cog_default}',", 1)
+        html = html.replace("cognateKey: 'kiz',", f"cognateKey: '{cog_default}', cognateQ: '', cognateCat: 'all',", 1)
+
+    # ---- A1: Kognat kelime-seçici = kategorili + aranabilir (yatay ölçek ön-şartı) ----
+    na1 = 0
+    # (1) cognateVals filtre + kategori mantığı: düz .map → kategori çipleri + filtrelenmiş .filter().map()
+    a1_old = (
+        "    const keys = Object.entries(this.COGNATES).map(([k,v])=>{\n"
+        "      const sel = k===S.cognateKey;\n"
+        "      return { key:k, label:v.gloss, sel, go:()=>this.setState({cognateKey:k}),\n"
+        "        style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:18px;padding:7px 16px;font-size:14px;font-family:'Spectral',serif;font-weight:600` };\n"
+        "    });\n")
+    a1_new = (
+        "    const _cq = (S.cognateQ||'').trim().toLocaleLowerCase('tr'), _ccat = S.cognateCat||'all';\n"
+        "    const _norm = (s)=>String(s||'').toLocaleLowerCase('tr');\n"
+        "    const _catCount = {}; Object.values(this.COGNATES).forEach(v=>{ const kk=v.cat||'Diğer'; _catCount[kk]=(_catCount[kk]||0)+1; });\n"
+        "    const _catList = Object.keys(_catCount).sort((a,b)=>a.localeCompare(b,'tr'));\n"
+        "    const _mkCat = (key,label,nn)=>{ const sel=_ccat===key; return { key, label: label+(nn!=null?' · '+nn:''), go:()=>this.setState({cognateCat:key}),\n"
+        "      style:`cursor:pointer;border:1px solid ${sel?'#d98b4a':'rgba(33,29,23,.16)'};background:${sel?'#d98b4a':'#fff'};color:${sel?'#211d17':'#5f574b'};border-radius:14px;padding:5px 13px;font-size:12.5px;font-family:'IBM Plex Mono',monospace;font-weight:${sel?600:400}` }; };\n"
+        "    const cognateCats = [_mkCat('all','Tümü',Object.keys(this.COGNATES).length)].concat(_catList.map(k=>_mkCat(k,k,_catCount[k])));\n"
+        "    const keys = Object.entries(this.COGNATES).filter(([k,v])=>{\n"
+        "      if (_ccat!=='all' && (v.cat||'Diğer')!==_ccat) return false;\n"
+        "      if (_cq && _norm(v.gloss).indexOf(_cq)<0 && _norm(k).indexOf(_cq)<0) return false;\n"
+        "      return true;\n"
+        "    }).map(([k,v])=>{\n"
+        "      const sel = k===S.cognateKey;\n"
+        "      return { key:k, label:v.gloss, sel, go:()=>this.setState({cognateKey:k}),\n"
+        "        style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:18px;padding:7px 16px;font-size:14px;font-family:'Spectral',serif;font-weight:600` };\n"
+        "    });\n")
+    if a1_old in html:
+        html = html.replace(a1_old, a1_new, 1); na1 += 1
+    # (2) return'e yeni alanlar: kategori çipleri, arama kutusu state+handler, boş-durum bayrağı
+    a1_ret_old = "    return { cognateKeys:keys, cognateGloss:c.gloss, cognateProto:c.proto, cognateNote:c.note, cognateNodes:nodes };"
+    a1_ret_new = ("    return { cognateKeys:keys, cognateCats, cognateEmpty:keys.length===0, cognateQ:S.cognateQ||'',\n"
+                  "      onCognateInput:(e)=>this.setState({cognateQ:e.target.value}),\n"
+                  "      cognateGloss:c.gloss, cognateProto:c.proto, cognateNote:c.note, cognateNodes:nodes };")
+    if a1_ret_old in html:
+        html = html.replace(a1_ret_old, a1_ret_new, 1); na1 += 1
+    # (3) seçici markup: düz buton satırı → arama kutusu + kategori çipleri + filtrelenmiş kavramlar + boş-durum
+    a1_mk_old = ('        <div style="display:flex;gap:8px;flex-wrap:wrap">\n'
+                 '          <sc-for list="{{ cognateKeys }}" as="k" hint-placeholder-count="3"><button onClick="{{ k.go }}" style="{{ k.style }}">{{ k.label }}</button></sc-for>\n'
+                 '        </div>')
+    a1_mk_new = (
+        '        <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:14px;padding:16px 18px">\n'
+        '          <input value="{{ cognateQ }}" onInput="{{ onCognateInput }}" placeholder="Kavram ara — ör. göz, su, sayı…" style="width:100%;max-width:340px;padding:9px 13px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:14px;font-family:inherit;color:#211d17;outline:none">\n'
+        '          <div style="display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 10px">\n'
+        '            <sc-for list="{{ cognateCats }}" as="c"><button onClick="{{ c.go }}" style="{{ c.style }}">{{ c.label }}</button></sc-for>\n'
+        '          </div>\n'
+        '          <div style="display:flex;gap:8px;flex-wrap:wrap">\n'
+        '            <sc-for list="{{ cognateKeys }}" as="k" hint-placeholder-count="3"><button onClick="{{ k.go }}" style="{{ k.style }}">{{ k.label }}</button></sc-for>\n'
+        '          </div>\n'
+        '          <sc-if value="{{ cognateEmpty }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;padding:6px 2px">Eşleşen kavram yok — aramayı veya kategoriyi değiştir.</div></sc-if>\n'
+        '        </div>')
+    if a1_mk_old in html:
+        html = html.replace(a1_mk_old, a1_mk_new, 1); na1 += 1
 
     # kopya/metin düzeltmeleri — yalnız NET redundant/teknik ifadeler (tasarımı bozmadan, minimal)
     copy_fix = {
@@ -1430,6 +1493,7 @@ def main():
     print(f"  MAP harita koordinatları (Glottolog): {nmap} blok, {new_map.count('{name')} dil")
     print(f"  Uzaklık matrisleri (Savelyev+WALS+coğrafi): val patch={ndist}, REAL_DIST enjekte")
     print(f"  Kognat Ağı (SavelyevTurkic): {ncog} blok, {len(cog_obj)} kavram (default '{cog_default}')")
+    print(f"  A1 kognat kelime-seçici (kategorili+aranabilir): {na1}/3 yama")
     print(f"  Kopya düzeltmeleri: {nfix}")
     print(f"  Dil profili zenginleştirme (Wikipedia, çapraz-kontrollü): {nenrich} alan ({len(extra)} dil)")
     print(f"  Canlı API bağlama (Paradigma+Analiz): {nlive}/6 yama")

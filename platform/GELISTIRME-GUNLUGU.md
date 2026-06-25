@@ -130,7 +130,8 @@ Voicing çiftleri Latin+Kiril kapsıyor; rozetler her dilde çalışıyor: tur p
 - **Dil Profilleri UI tutarlılık (kullanıcı geri bildirimi):** derin bölümler (Tarih'ten itibaren) sağ özet kartından çıkarılıp iki-sütun gridin ALTINA tam genişlikte (2 sütun) taşındı. Sağ özet kutusu yine kompakt — sol seçiciyle dengeli. Claude_Preview ✅.
 - **Faz 2.2 (deepsearch 7) YAPILDI:** `platform/data/ecosystem.json` → **Araştırmacı Merkezi**'ne "Dil × yetenek envanteri" matrisi (13 dil × Üretken LLM/Encoder/Korpus/Konuşma/Benchmark) + zero-resource notu + 8 anahtar org kartı (HF linkli ↗). build.py'de statik üretildi (overflow-x scroll tablo + org grid). Claude_Preview ✅ (logicError null).
 - **★ KULLANICI KARARI:** ekosistem matrisine **olgunluk/eksiklik yargısı KONMADI** — "—" yalnız "bu taramada kayıt yok"; caption açıkça "değerlendirme araştırmacıya aittir" der. Nötr envanter ilkesi.
-- **DURUM: TÜM DEEPSEARCH (5,5b,5c,6,7,8,9.1-9.5) İŞLENDİ.** Sıradaki deepsearch-bağımsız: 2.7 KAYNAKLAR, 1.1 füzyon-ayrışma, 1.3 harita/UX, 1.4 Hakkında, 3.1 Çuvaşça Dilin Kalbi.
+- **Faz 2.7 (KAYNAKLAR) YAPILDI:** uygulama içi SOURCES+USAGE'a `bayes` (Savelyev & Robbeets 2020 + Johanson), `hf` (HuggingFace ekosistemi), `deepds` (KÖKEN derin araştırmalar) eklendi; USAGE eşlemesi güncellendi (Tarih & Köken'e bayes+cldf; Profiller/Araştırmacı'ya hf+deepds). KAYNAKLAR.md defterine 3 yeni veri dosyası + deepsearch satırları. Claude_Preview ✅ (KULLANIM doğru, demo yok).
+- **DURUM: TÜM DEEPSEARCH (5,5b,5c,6,7,8,9.1-9.5) + Faz 2.x içerik (2.1/2.2/2.5/2.6/2.7) İŞLENDİ.** Sıradaki deepsearch-bağımsız: 1.1 füzyon-ayrışma (dikkatli), 1.3 harita/UX, 1.4 Hakkında, 3.1 Çuvaşça Dilin Kalbi.
 
 ## Sıradaki / açık işler — bkz `plan/YOL-HARITASI.md` (özet)
 1. **ŞİMDİ (deepsearch beklemez):** Faz 1.1 füzyonel ayrışma (NW kanonik-allomorf) · 1.3 harita/UX · 1.4 Hakkında.

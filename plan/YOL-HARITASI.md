@@ -85,11 +85,10 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 - **İŞLENMEMİŞ kalan deepsearch 9 dilleri (displayed dışı, ileride yatay ölçek):** gag, crh, slr, kmz (Oğuz); kaa, krc, kum, nog (Kıpçak); uzb, aib(Eynu), ili (Karluk); alt, dlg, ybe, fuyu (Sibirya) — metinler `_profil_*.txt`'de hazır.
 - **Kalan profil işleri:** deepsearch 8'in düzeltme önerileri (Sarı Uygurca→G.Sibirya kol etiketi, Kırım Tatarcası geçişken, Salarca areal) + her dile birincil ürün/avantaj-dezavantaj alanı (opsiyonel derinleştirme).
 
-### 2.7 ⏳ KAYNAKLAR büyük güncelleme (kullanıcı notu) — ★ tüm deepsearch'ler sonrası
-- **Ne:** Platformda her yerde geçen kaynak künyelerini + "Kaynaklar & Lisanslar" bölümünü **baştan, eksiksiz** güncelle (tüm deepsearch'lerin kaynakçaları + locale çekilen yeni veriler).
-- **Yapar mıyız:** EVET — "hiçbir veri kaynaksız değildir" ilkesi; akademik dürüstlüğün vitrini.
-- **Nasıl:** 5,5b,5c,6,7,8,9 sonuçları geldikçe her birinin kaynakçasını `KAYNAKLAR.md` + UI Kaynaklar bölümüne işle; her modülün kullandığı kaynağı doğrula/güncelle.
-- **Bağımlılık:** TÜM deepsearch'ler.
+### 2.7 ✅ KAYNAKLAR güncelleme — YAPILDI (25 Haz)
+- **Ne yapıldı:** Uygulama içi **"Kaynaklar & Lisanslar"** (SOURCES + USAGE) ekranına 3 yeni künye: **`bayes`** (Savelyev & Robbeets 2020 + Johanson tasnifi → Tarih & Köken), **`hf`** (HuggingFace ekosistemi → Dil Profilleri + Araştırmacı), **`deepds`** (KÖKEN derin araştırmalar 5–9 → Dil Profilleri + Araştırmacı). USAGE eşlemesi güncellendi (Tarih & Köken'e bayes+cldf; Profiller/Araştırmacı'ya hf+deepds). `demo` zaten kaldırılmıştı.
+- **+ `KAYNAKLAR.md` defteri:** kaynak tablosuna bayes/hf/deepds satırları; veri-ürünleri tablosuna `profiles_deep.json` / `profiles_tts.json` / `ecosystem.json`; tarih 25 Haz.
+- **Not (ileride):** UD ağaçbank-bazlı lisans ayrımı + her deepsearch'in tam kaynakça URL listesi (akademik ek) henüz işlenmedi — paper aşamasında genişletilebilir.
 
 ---
 

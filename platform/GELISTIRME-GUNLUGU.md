@@ -151,8 +151,13 @@ Voicing çiftleri Latin+Kiril kapsıyor; rozetler her dilde çalışıyor: tur p
 - **Faz 3.1 (Çuvaşça "Dilin Kalbi") ✅:** KEŞFET'e anlatı sayfası — hero + neden paha biçilmez + ses kanunları tablosu (8 kognat + kanıt) + yapı özgünlüğü (4 kart) + tarihsel tanıklar (Bulgar/Feyzhanov/Aşmarin) + dijital uçurum + CTA. Claude_Preview ✅ (CTA→chv profili).
 - **Süreç notu:** 1.1 backend olduğundan VM workflow kullanıldı — scp app.py → start.sh (setsid+disown; tek-seferlik SSH `& disown` SIGHUP'a takıldı, start.sh düzeltti) → VM-içi health doğrula → eval. §4.6 uvicorn tuzağı yine geçerli.
 
+## EK-OTURUM (25 Haz, devam-7) — A BLOĞU: 1.1b + kol-düzeltmeleri (tek patch)
+- **Faz 1.1b (vokal-sonu iyelik kurtarma) ✅ doğrulandı:** `app.py`'de saf-iyelik + boş-ek durumunda `_suffix` ile sapma-kuyruğu kurtarma. `кӗнеки`→кӗнеке+**и** (ünlü düşmesi е→∅), `ачи`→ача+и. **segment_eval: chv ek-sayı %92.0→%93.2, yeniden-üretim %93.2→%94.4; ünsüz-sonu iyelik (хӗр→хӗрри) + diğer 9 dil regresyonsuz.** Toplam 1.1 (a+b): chv ek-sayı **%75.3→%93.2 (+17.9)**. Kalan ~%6.8 = bilinçli korunan px+hâl portmanteau (doğru çözüm). VM'ye deploy.
+- **Kol-düzeltmeleri (deepsearch 8) ✅:** ÖNCE veri çapraz-kontrol — `cognates.json` kol etiketleri ZATEN doğru (CrimeanTatar→Kıpçak, Salar→Oğuz, **SarygYugur→Sibirya** [Karluk değil], Khalaj→Argu). **Yanlış atama yoktu** → uydurma "düzeltme" yapılmadı; bunun yerine Tarih & Köken altı-kol kartına **"Geçişken & sınır diller"** NÜANS notu eklendi (Kırım Tatarcası geçişken / Salarca [areal:Amdo] / Sarı Uygurca adı-yanıltıcı Güney Sibirya). Claude_Preview ✅.
+- **Paper notu:** "verimizi test ettik, kol etiketleri deepsearch 8 ile bire bir tutuyor" — değerli bir doğrulama kaydı.
+
 ## Sıradaki / açık işler — bkz `plan/YOL-HARITASI.md` (özet)
-1. **ŞİMDİ (deepsearch beklemez):** 1.1 kalanı (кӗнеки px3sp-и, dikkatli) · deepsearch-8 kol-düzeltmeleri (Sarı Uygurca→G.Sibirya vb.).
+1. **DEEPSEARCH BEKLEYEN:** ekosistem zenginleştirme (`arastirma/10-*.prompt.md` çıktısı).
 2. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.
 3. Sıfat/zarf yüzey bölümleme (POS başına kümülatif şablon).
 4. **.dix kalıcılığı:** VM'de `/root/koken_api/dix/` (gitignored, GPL). VM sıfırlanırsa `bash platform/backend/fetch_dix.sh` (VM'de) ile yeniden indir.

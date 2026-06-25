@@ -233,6 +233,11 @@ def main():
                 nenrich += n
     # Derin dil profilleri (deepsearch 9.1–9.5) → DEEPPROF; profil ekranında bölümlü gösterilir
     deep = json.load(open(DATA / "profiles_deep.json", encoding="utf-8"))["deep"]
+    # + Seslendirme (TTS/ASR) bölümü (deepsearch 6) — her dile 5. bölüm olarak eklenir
+    tts = json.load(open(DATA / "profiles_tts.json", encoding="utf-8"))["tts"]
+    for code, body in tts.items():
+        if code in deep:
+            deep[code].append({"label": "Seslendirme (TTS/ASR)", "body": body})
     html = html.replace("  LANGPROFILE = [",
                         "  DEEPPROF = " + json.dumps(deep, ensure_ascii=False) + ";\n  LANGPROFILE = [", 1)
     html = html.replace(

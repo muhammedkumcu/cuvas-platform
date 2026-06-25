@@ -1,0 +1,25 @@
+{
+  "_meta": {
+    "source": "Deepsearch 6 (Türk dilleri açık TTS/ASR ekosistemi) — HuggingFace model kartları, Mozilla Common Voice, ISSAI, Meta MMS, Piper, eSpeak NG",
+    "license": "derleme metin; model/lisans bilgisi kaynaklara atıflı",
+    "accessed": "2026-06-25",
+    "module": "Dil Profilleri — Seslendirme (TTS/ASR) durum/boşluk satırı (deepsearch 6)",
+    "note": "Her dil için açık TTS/ASR durumu + kilit model + lisans + boşluk. Dijital kapsayıcılık misyonu: boşlukları DÜRÜSTçe göster. Gerçek ses motoru entegrasyonu (Piper/MMS/eSpeak WASM + FastAPI hibrit yönlendirme) gelecek altyapı işi."
+  },
+  "tts": {
+    "tr": "Açık kaynak en zengin dil. TTS: Piper tr_TR (doğal, MIT, sunucuda ONNX); XTTS ve Meta MMS-TTS de var. ASR: Whisper Large-v3 Turbo (~%7,75 WER, 218 saat TSC) — telaffuz kontrolü sorunsuz.",
+    "az": "TTS: Meta MMS-TTS (azj Latin / azb Güney), orta kalite, dini-robotik ton, CC-BY-NC 4.0 (ticari risk). ASR Whisper'da zayıf; telaffuz kontrolü için henüz olgun değil.",
+    "tk": "TTS: Meta MMS-TTS (tuk-script_latin) ve eSpeak NG (tk) — orta/mekanik. ASR düşük kaynaklı, açık model sınırlı.",
+    "kk": "ISSAI sayesinde düşük-kaynaklılar içinde en güçlü ekosistem. TTS: Spark-TTS-Kazakh / KazEmoTTS (doğal, duygu destekli, Kiril+Arap). ASR: ISSAI Whisper-Turbo (1.200 saat KSC2) — endüstriyel; telaffuz kontrolüne uygun.",
+    "kg": "TTS: Meta MMS-TTS (kir) / kyrgyz-ai TTS_small (orta; Latin sözcük ve noktalamayı atlar → ön-temizlik gerekir). ASR: Common Voice ~20 saat, sınırlı.",
+    "tt": "TTS: ISSAI TatarTTS (70 saat stüdyo kaydı, doğal tonlama; MMS'ten iyi). ASR: wav2vec2-MMS / Common Voice ~29 saat — orta, yalnız net seslerde.",
+    "bak": "TTS: yalnız eSpeak NG (ba), mekanik (GPLv3). ASR ise güçlü: Common Voice ~268 saat (Türk dilleri içinde en büyük korpuslardan), wav2vec2-XLS-R iyi sonuç.",
+    "ug": "TTS: Meta MMS-TTS (uig-script_arabic) / topluluk QutadguBilik fine-tune — orta; sayıların harflendirilmesi (num2words) ve noktalama temizliği şart. ASR: Whisper halüsinasyon yapar, MMS-ASR daha güvenli.",
+    "chv": "★ Modern TTS'teki en büyük boşluklardan biri: Meta'nın 1.107 dilik MMS projesinde bile Çuvaşça TTS YOK. Tek çözüm eSpeak NG (cv) fonemik motoru (mekanik, GPLv3). ASR: wav2vec2-XLS-R-chuvash ~%60 WER, Common Voice'ta yalnız ~2 saat — telaffuz testi yapılamaz, sadece kaba transkripsiyon.",
+    "sah": "TTS: Meta MMS-TTS (sah), orta kalite (dini-robotik), CC-BY-NC 4.0; sinir ağı alternatifi yok. ASR: wav2vec2-xlsr-sakha ~%36 WER, Common Voice ~6 saat — araştırmacı için, telaffuz kontrolü için değil.",
+    "tyv": "Açık TTS/ASR modeli pratikte yok (boşluk). Strateji: yakın-dil ses klonlama (Altayca/Hakasça referansıyla zero-shot) ya da eSpeak NG'ye fonem kuralı enjeksiyonu.",
+    "kjh": "Açık TTS/ASR boşluğu. eSpeak NG fonem kuralı enjeksiyonu veya çok-dilli ses klonlama (XTTS/OmniVoice) ile MVP telaffuz altyapısı kurulabilir.",
+    "shor": "Dijital seslendirme kaynağı yok — raporun 'boşluk haritası'nda. Fonetik olarak yakın Altayca/Hakasça referansıyla diller-arası ses klonlama veya eSpeak NG modülü tek yol.",
+    "clw": "Açık TTS/ASR kaynağı yok (boşluk haritasında). Çözüm: eSpeak NG fonem modülü ya da Azerice/Türkçe akustik referansıyla diller-arası ses klonlama."
+  }
+}

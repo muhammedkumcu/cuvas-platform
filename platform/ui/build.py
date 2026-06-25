@@ -231,6 +231,27 @@ def main():
                 pat = re.compile(r"(\{code:'" + re.escape(code) + r"',[^\n]*?" + field + r":)'[^']*'")
                 html, n = pat.subn(lambda m, v=e[field]: m.group(1) + json.dumps(v, ensure_ascii=False), html, count=1)
                 nenrich += n
+    # Derin dil profilleri (deepsearch 9.1–9.5) → DEEPPROF; profil ekranında bölümlü gösterilir
+    deep = json.load(open(DATA / "profiles_deep.json", encoding="utf-8"))["deep"]
+    html = html.replace("  LANGPROFILE = [",
+                        "  DEEPPROF = " + json.dumps(deep, ensure_ascii=False) + ";\n  LANGPROFILE = [", 1)
+    html = html.replace(
+        "profileSel:{...sel, vc:this.vitColor(sel.vit), branchColor:this.BRANCHCOLOR[sel.branch]||'#5f574b'},",
+        "profileSel:{...sel, deep:(this.DEEPPROF&&this.DEEPPROF[sel.code])||[], vc:this.vitColor(sel.vit), branchColor:this.BRANCHCOLOR[sel.branch]||'#5f574b'},", 1)
+    deep_markup = (
+        '\n            <div style="margin-top:6px">\n'
+        '              <sc-for list="{{ profileSel.deep }}" as="d" hint-placeholder-count="4">\n'
+        '                <div style="border-top:1px solid rgba(33,29,23,.08);padding:13px 0 1px">\n'
+        "                  <div style=\"font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;color:#b86a2e\">{{ d.label }}</div>\n"
+        '                  <p style="font-size:13.5px;line-height:1.65;color:#3f3a32;margin:6px 0 0;max-width:78ch">{{ d.body }}</p>\n'
+        '                </div>\n'
+        '              </sc-for>\n'
+        '            </div>')
+    note_p = '<p style="font-size:15px;line-height:1.7;color:#3f3a32;margin:22px 0 0">{{ profileSel.note }}</p>'
+    ndeep = 1 if note_p in html else 0
+    html = html.replace(note_p, note_p + deep_markup, 1)
+    print(f"  Derin profiller (ds9): {len(deep)} dil, markup={ndeep}")
+
     # Wikipedia kaynağını kütüğe ekle + profil modülünün kaynaklarını güncelle (demo çıktı, wiki girdi)
     html = html.replace(
         "glottolog:{label:'Glottolog', detail:'soy ağacı / sınıflandırma', lic:'CC BY 4.0', kind:'veri', url:'glottolog.org'},",
@@ -1005,9 +1026,11 @@ def main():
     # ============================================================
     #  JOSHI KAYNAK SINIFI (0–5) — dil profillerine rozet (deepsearch envanter PDF'i; misyon: eksik/gelişmişlik)
     # ============================================================
-    JOSHI = {"tr": "4–5 · yüksek", "az": "1 · düşük", "tk": "1 · düşük", "kk": "2–3 · orta",
-             "kg": "1 · düşük", "tt": "2–3 · orta", "bak": "1 · düşük", "ug": "2–3 · orta",
-             "chv": "1 · düşük", "sah": "1 · düşük", "tyv": "0 · aşırı düşük", "kjh": "0 · aşırı düşük",
+    # Joshi sınıfı deepsearch 9 (kol-bazlı derin profiller) ile hizalandı (çapraz-kontrol düzeltmeleri):
+    #   az 1→2–3, kk 2–3→3, tt 2–3→1, ug 2–3→1, tyv 0→1, kjh 0→1 (kaynak: _profil_*.txt)
+    JOSHI = {"tr": "4 · yüksek", "az": "2–3 · orta", "tk": "1 · düşük", "kk": "3 · yükselen",
+             "kg": "1 · düşük", "tt": "1 · düşük", "bak": "1 · düşük", "ug": "1 · düşük",
+             "chv": "1 · düşük", "sah": "1–2 · gelişen", "tyv": "1 · düşük", "kjh": "1 · düşük",
              "shor": "0 · aşırı düşük", "clw": "0 · aşırı düşük"}
     njoshi = 0
     for code, val in JOSHI.items():

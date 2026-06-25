@@ -39,6 +39,14 @@ Bilinen etiketlerden form ÜRET (gold) → `/segment` ile çöz → **yeniden-ü
 - **Diller-arası eşdeğer (★ sıradaki):** **Apertium `.dix` iki-dilli sözlükler** (tur-aze, kaz-tat, tat-bak, tur-kir/tat/uzb, tuk-tur…) GPL-3.0 → boru hattı: `analiz → .dix kök eşle → hedefte AYNI etiketlerle üret`. Deterministik, morfolojik sadık. Doğrudan çift yoksa `networkx` ile pivot (tur→tat→bak). **Savelyev CLDF** (254 kavram, bizde var) = altın-standart fallback. **NLLB/OPUS = RED** (CC-BY-NC + morfoloji kaybı). PanLex/Wiktionary = gürültülü/araştırma.
 - **Joshi kaynak sınıfı (0–5)** dil profillerine eklenmeli (misyon: eksik/gelişmişlik): Türkçe 4-5; Kazakça/Özbekçe/Tatarca/Uygurca 2-3; Çuvaşça/Azerice/Türkmence/Başkurtça/Saha 1; çoğu 0.
 
+## FAZ 1.1 — FÜZYON EK-AYRIŞMASI: CANLI ARAŞTIRMA BULGULARI (25 Haz)
+> Canlı `/segment` (chv) ile gerçek davranış incelendi. **Sonuç: tek-tip "hepsini böl" YANLIŞ olur; nüanslı.** Kullanıcı kararı: "%100 emin olalım" → aşağıdaki ayrım netleştirildi; backend değişikliği `segment_eval` ile doğrulanarak yapılmalı (ayrı odaklı pas).
+- **Zaten doğru bölünen (dokunma):** `хӗррӗмсем` → хӗр+рӗм+сем (kök+iyelik+çoğul); `кӗнекемре` → кӗнеке+м+ре (kök+iyelik+hâl). Çuvaş sırası Kök+İyelik+Çoğul+Hâl korunuyor. ✓
+- **GERÇEK portmanteau (BÖLME):** `ҫуртне` → ҫурт + **не** (tags: n·px3sp·dat). İyelikli yönelme Çuvaşçada tek yüzeyde kaynaşır. Zorla bölmek tartışmalı/yanlış olur → "iyelik (onun)·Yönelme" portmanteau etiketi DOĞRU; korunmalı.
+- **GÜVENLE bölünebilir (temiz sınır):** `кӗнекесенче` → кӗнеке + **сенче** (tags: n·pl·loc). Gramer açık: `-сен`(çoğul oblik allomorf) + `-че`(bulunma). → Hedef ayrışma: кӗнеке+сен+че. Çoğul allomorfları (сем/сам/сен/сан) gövde başında tanınıp kesilebilir; kalan = hâl eki.
+- **Olası HATA (ayrı düzelt):** `кӗнекине` (n·px3sp·dat) → kod -не'yi yalnız DAT etiketleyip 3sg iyelik `-и-`'yi sahte **"ses değişimi е→и"** olarak gösteriyor. Doğrusu кӗнеке + **и**(px3sp) + не(dat). Bazı iyelik morfemleri "ünlü değişimi" olarak yutuluyor.
+- **PLAN (backend app.py, doğrulamalı):** (1) Füzyon-çöküş çıktısı tag-listesini taşıdığından, **yalnız [..,pl,<tek hâl>]** kalıbında ve yüzey-parça **bilinen çoğul allomorfuyla başlıyorsa** → çoğul/hâl sınırından böl (güvenli). (2) px+hâl portmanteau'ya DOKUNMA. (3) `кӗнекине` tipi iyelik-as-ses-değişimini gerçek iyelik morfemine çevir (ünlü düşmesi/uyumla karışmasın). **Her değişiklik sonrası `segment_eval.py` (1700+ form) → chv yeniden-üretim %92-95 düşmemeli, ek-sayı artmalı.** Uygulama: ayrı odaklı oturum (VM app.py + temiz uvicorn restart §4.6 + eval).
+
 ## SIRADAKİ İŞLER (öncelik)
 1. **★ Diller-arası `.dix` karşılaştırma motoru** — en yüksek değer; aranan kelimeyi tüm Türk dillerinde (statik "okuduk" gibi) canlı üret. Parçalar hazır (apertium .dix + Savelyev).
 2. **Joshi kaynak sınıfı** → dil profillerine rozet (hızlı, envanter PDF'inden).

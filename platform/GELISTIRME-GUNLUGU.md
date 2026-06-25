@@ -140,8 +140,14 @@ Voicing çiftleri Latin+Kiril kapsıyor; rozetler her dilde çalışıyor: tur p
 - **Kaynak/doğrulama:** deepsearch 7 (gerçek HF repoları) + **kendi WebSearch'üm** (Zemberek/TRmorph/zeyrek/Starlang, agmmnn/turkish-nlp-resources, OpenLLM-TR & alibayram Türkçe-MMLU leaderboard doğrulandı). Nötr (olgunluk yargısı yok — kullanıcı kararı).
 - **Zenginleştirme promptu hazır:** `arastirma/10-ekosistem-derin-linkli.prompt.md` (kategori-yapılı, link+indirme talepli, HF-dışı dahil — sonraki dalga).
 
+## EK-OTURUM (25 Haz, devam-5) — Ekosistem SEKMELERİ + FAZ 1 (1.3 ✅, 1.4 ✅, 1.1 araştırıldı)
+- **Ekosistem sekmeleri (kullanıcı geri bildirimi):** kategoriler artık SEKME — basınca yalnız o kategori yerinde açılır (varsayılan Üretken LLM), hepsi tek sayfada değil, jump-scroll yok. Reaktif sc-if (eco_<key>) + ecoTabs/ecoCat. Claude_Preview ✅.
+- **Faz 1.4 (Hakkında & İletişim) ✅:** KEŞFET'e sayfa — KÖKEN nedir + Misyon + Veri & motor (6 kaynak kartı) + iletişim (GitHub + e-posta).
+- **Faz 1.3 (Harita UX) ✅:** düğüme tıkla → INLINE bilgi kartı (sayfadan çıkmaz; kullanıcı kararı); gerçek koordinat projeksiyonu (Türkçe Anadolu'da); Argu kolu rengi+lejant (Halaçça). 14 dil.
+- **Faz 1.1 (füzyon ayrışma) — CANLI ARAŞTIRMA (değişiklik yapılmadı, bilinçli):** `/segment` (chv) gerçek davranış incelendi → **tek-tip bölme YANLIŞ.** Üç sınıf: zaten-doğru / gerçek-portmanteau (ҫуртне, BÖLME) / güvenle-bölünebilir (кӗнекесенче→сен+че). + olası bug (кӗнекине'de iyelik -и- sahte ses-değişimi). Bulgular + plan `MORFOLOJI-DEGERLENDIRME.md`'de. **Backend morfoloji + "%100 doğru" mandası + kullanıcı away → ayrı odaklı, `segment_eval`-doğrulamalı oturumda yapılacak; aceleye getirilip uydurma segmentasyon üretilmedi.**
+
 ## Sıradaki / açık işler — bkz `plan/YOL-HARITASI.md` (özet)
-1. **ŞİMDİ (deepsearch beklemez):** Faz 1.1 füzyonel ayrışma (NW kanonik-allomorf) · 1.3 harita/UX · 1.4 Hakkında.
+1. **ŞİMDİ (deepsearch beklemez):** Faz 1.1 GÜVENLİ-bölme (doğrulamalı backend) · 3.1 Çuvaşça "Dilin Kalbi".
 2. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.
 3. Sıfat/zarf yüzey bölümleme (POS başına kümülatif şablon).
 4. **.dix kalıcılığı:** VM'de `/root/koken_api/dix/` (gitignored, GPL). VM sıfırlanırsa `bash platform/backend/fetch_dix.sh` (VM'de) ile yeniden indir.

@@ -21,9 +21,10 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 ## FAZ 1 — Yakın kalite (mevcut MVP'yi akademik-mükemmel yap) — ÖNCE BU
 Çekirdek morfoloji + karşılaştırma zaten çalışıyor; bu faz onu "%100 doğru / paper-hazır" yapar.
 
-### 1.1 🔶 Füzyonel ek ince-ayrışması — KISMİ (Çuvaş SIRA ✅ yapıldı; kanonik-allomorf füzyon-bölme ⏳ sırada)
-- **✅ Yapıldı (Çuvaş morfotaktik sıra):** deepsearch 5c'nin dediği gibi chv sırası Kök+İyelik+Çoğul (px<pl) — apertium-chv yalnız `<px><pl>` üretir; `_segment_align`'a dile-duyarlı slot sırası eklendi → `хӗррӗмсем` artık `хӗр+рӗм+сем`. Basit çoğul/hâl bozulmadı. (`app.py: _segment_align(lang)`.)
-- **⏳ Kalan (kanonik-allomorf füzyon-bölme) — DİKKATLİ:** chv `-не`/uig `lir`/sah oblik-gövde gibi kaynaşık ekleri ALT-morfeme bölme. Yöntem (5c): "lemma + KANONİK allomorf dizisi" vs yüzey TEK NW; dile-özgü 0-ceza (uig ä→i; chv epentetik н). **100% doğruluk için** kanonik allomorf tabloları (chv px3sg -ĕ/-i + dat -e/-a + epentez n; uig -lär/-im) gramer kaynağıyla doğrulanmalı → bu yüzden aceleye getirilmedi.
+### 1.1 🔶 Füzyonel ek ince-ayrışması — Çuvaş SIRA ✅ + CANLI ARAŞTIRMA YAPILDI (25 Haz); güvenli-bölme ⏳ doğrulamalı pas
+- **✅ Yapıldı (Çuvaş morfotaktik sıra):** chv sırası Kök+İyelik+Çoğul (px<pl) → `хӗррӗмсем` = `хӗр+рӗм+сем`. (`app.py: _segment_align(lang)`.)
+- **✅ Canlı araştırma (25 Haz) — bulgular `MORFOLOJI-DEGERLENDIRME.md`:** `/segment` (chv) ile gerçek davranış incelendi. **Kritik: tek-tip "hepsini böl" YANLIŞ.** Üç sınıf: (a) **zaten doğru** (хӗррӗмсем, кӗнекемре ✓), (b) **gerçek portmanteau — BÖLME** (`ҫуртне`= ҫурт+не, px3sp+dat kaynaşık; zorla bölmek yanlış), (c) **güvenle bölünebilir** (`кӗнекесенче`= кӗнеке+сенче → сен(pl)+че(loc) temiz sınır). + **olası HATA:** `кӗнекине`'de 3sg iyelik `-и-` sahte "ses değişimi е→и" olarak yutuluyor (doğrusu кӗнеке+и+не).
+- **⏳ Kalan (DİKKATLİ, doğrulamalı backend pası):** yalnız **temiz sınırı** böl — [..,pl,<tek hâl>] kalıbında ve yüzey-parça bilinen çoğul allomorfuyla (сем/сам/сен/сан) başlıyorsa çoğul/hâl sınırından kes; px+hâl portmanteau'ya dokunma; кӗнекине iyelik-as-ses-değişimi düzelt. **Her adım `segment_eval` (1700+ form) ile doğrula** (chv yeniden-üretim %92-95 düşmemeli). Backend morfoloji çekirdeği + "%100 doğru" mandası olduğundan **ayrı odaklı oturumda** yapılmalı (uydurma riski yok).
 - **Ne:** chv `-не`, uig `lir`, sah oblik-gövde gibi kaynaşık ekleri ŞU AN tek kaynaşık ek bırakıyoruz (yeniden-üretim %93 ama tam ayrışma değil). Deepsearch (5c) bunların **gerçek portmanteau OLMADIĞINI** kanıtladı: chv -не = +i(iyelik)+**n**(epentez)+e(hâl); uig lär+i (ä→i daralması); **bölünebilir.**
 - **Yapar mıyız:** EVET — paper'ın morfoloji çekirdeğini güçlendirir, Çuvaşçayı derinleştirir.
 - **Nasıl:** deepsearch'ün önerdiği yöntem — "lemma + KANONİK allomorf dizisi" vs yüzey TEK Needleman-Wunsch hizalaması; dile-özgü maliyet matrisi (uig ä→i = 0 ceza; chv epentetik н = 0 gap). Kanonik allomorf dizileri apertium `.twol` dosyalarından + dilbilgisinden. **chv morfotaktik sırası farklı: Kök+İyelik+Çoğul+Hâl** (ortak Türkçe Kök+Çoğul+İyelik+Hâl değil) — kümülatif seviyelerimizi chv için bu sıraya göre düzelt.
@@ -35,15 +36,12 @@ Promptlar `arastirma/`'da; sonuçlar geldikçe locale çekip işleriz.
 - **✅ Yapıldı:** Karşılaştır > Ses denklikleri'ndeki 4 kural artık **SavelyevTurkic kognat verisinden kanıtlı** (proto-fonem temelli: rotasizm 36 *ŕ, lambdasizm 29 *ĺ, baş y->ś 14 çift). Kognat ağında bir kelime seçip "ses denkliklerinde incele" → o kelimenin örneklediği kural OTOMATİK vurgulanır (güvenli tespit: proto-fonem + Çuvaşça yüzey çıktısı). `build.py: sound_evidence()` + `build_cognates ruleIdx`.
 - **Açık (sonra):** vurgulanan kural için seçili kognatın verideki destek çiftlerini de listelemek; diğer kol-çifti denklikleri (Kıpçak↔Oğuz) — yatay.
 
-### 1.3 ⏳ Soy ağacı + Harita UX iyileştirmesi (kullanıcı notu)
-- **Ne:** Haritada **Türkiye boşlukta** duruyor gibi; dile tıklayınca **direkt sayfa değiştirmek yerine** o sayfada (yan panel/popover) bilgi açılması daha kaliteli.
-- **Yapar mıyız:** EVET, küçük-orta UI işi, kalite artışı net.
-- **Nasıl:** harita projeksiyonunu düzelt (Türkiye konumu/etiketi); düğüme tıkla → inline kart (profil özeti + "tam profile git" linki), navigasyon yerine. Soy ağacı interaktif (dal tıkla → vurgu).
-- **❓Soru:** harita gerçek coğrafi projeksiyon mu kalsın yoksa şematik mi; inline panel mı popover mı?
+### 1.3 ✅ Harita UX — YAPILDI (25 Haz)
+- **Ne yapıldı:** Harita düğümüne tıklayınca **sayfadan çıkmadan INLINE bilgi kartı** (kol + konuşur + ayırt edici not) açılır (önceden profile gidiyordu → kullanıcı kararı: inline). Konumlar gerçek Glottolog koordinat projeksiyonu (Türkçe Anadolu'da — "boşlukta" değil); 14 dil. **Argu kolu** rengi+lejant eklendi (Halaçça artık renkli). `build.py: MAP_CARD, mapInfo, project()`.
+- **Açık (küçük):** Güney Sibirya kümesinde (Şor/Hakas/Tuva gerçekte çok yakın) etiketler hafif üst üste — şematik için kabul edilebilir; istenirse elle nudge.
 
-### 1.4 ⏳ "Hakkında" + iletişim (kullanıcı notu)
-- **Ne:** Platformun amacı/felsefesi/ekibi/kaynak-ilkesi + iletişim (e-posta/GitHub) — sol menüde "Hakkında".
-- **Yapar mıyız:** EVET, küçük, akademik ciddiyet + iletişim için gerekli. Deepsearch gerekmez.
+### 1.4 ✅ "Hakkında & İletişim" — YAPILDI (25 Haz)
+- **Ne yapıldı:** Sol menü KEŞFET'e **Hakkında** sayfası: "KÖKEN nedir?" + Misyon kartı (4 ilke) + Veri & motor (6 kaynaklı kart) + İletişim (Muhammed Kumcu · Marmara Üni · GitHub repo · e-posta). `build.py: ABOUT bloğu + about ekranı + isAbout`.
 - **Nasıl:** tek sayfa: misyon (çift kitle, dijital kapsayıcılık), metodoloji (gerçek kaynak/atıf/uydurma-yok), açık kaynak/lisans, ekip + iletişim. İletişim bu sayfanın içinde.
 
 ---

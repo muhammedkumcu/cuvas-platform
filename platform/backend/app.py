@@ -418,6 +418,12 @@ def _segment_align(gen, lemma, tags, word, lang=""):
     if not (joined and word.endswith(joined)):
         all_tags = [lv[0] for lv in levels[1:]]
         aff = _trailing_affix(surfaces[0], word)
+        # Faz 1.1b — vokal-sonu gövdede İYELİK eki son ünlüyü değiştirip yutulabilir (кӗнеке→кӗнеки,
+        # iyelik -и). _trailing_affix bunu yakın-eşleşme sanıp BOŞ ek döndürür → iyelik kaybolur.
+        # Ek YOK ama tüm etiketler iyelik(px) ise: sapma-kuyruğunu (_suffix) ek olarak geri al
+        # (kök yüzeyde ünlü düşmesi rozetiyle gösterilir). YALNIZ saf-iyelik durumu (hâl/çoğul yok).
+        if not aff and all_tags and all(str(t).startswith("px") for t in all_tags):
+            aff = _suffix(surfaces[0], word)
         steps = [(all_tags, word, aff)] if aff else []
         # Faz 1.1 — TEMİZ SINIR füzyon-bölme: yalnız [pl, <tek hâl>] (px YOK) ve yüzey ek bilinen
         # çoğul allomorfuyla başlıyorsa çoğul|hâl sınırından böl (ör. chv сенче→сен+че, сене→сен+е).

@@ -431,8 +431,13 @@
           <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:34px;margin:0">Dil Atlası — tüm Türk dilleri</h2>
           <button onClick="{{ goCompareMap }}" style="cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.18);border-radius:9px;padding:8px 14px;font-size:13px;font-family:inherit;color:#211d17">← Karşılaştır</button>
         </div>
-        <p style="font-size:14.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 4px">Tüm Türk dilleri, lehçeleri ve tarihsel formları gerçek coğrafyada — denizler, dağlar, nehirler ve bilinen yer şekilleriyle. Bir dile tıkla, bilgisi açılır. <b>Tarihsel/ölü diller</b> içi boş halka + italik gösterilir.</p>
+        <p style="font-size:14.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 4px">Tüm Türk dilleri, lehçeleri ve tarihsel formları gerçek coğrafyada — denizler, dağlar, nehirler ve bilinen yer şekilleriyle. Bir bölgeye odaklan ya da <b>yakınlaştır</b> (+/−); yaklaştıkça isimler çakışmadan açılır. <b>Tarihsel/ölü diller</b> içi boş halka + italik.</p>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 0;align-items:center">
+          <span style="font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;margin-right:2px">ODAK:</span>
+          <sc-for list="{{ atlasRegions }}" as="r"><button onClick="{{ r.go }}" style="{{ r.style }}">{{ r.label }}</button></sc-for>
+        </div>
         <div style="position:relative;width:100%;aspect-ratio:1.62;background:#ece5d5;border:1px solid rgba(33,29,23,.12);border-radius:18px;overflow:hidden;margin-top:10px">
+          <div style="{{ atlasWrapStyle }}">
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><defs><linearGradient id="mLand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ece4d3"></stop><stop offset="1" stop-color="#e0d7c2"></stop></linearGradient><linearGradient id="mSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cbd8d9"></stop><stop offset="1" stop-color="#b9c9ca"></stop></linearGradient></defs><rect x="0" y="0" width="100" height="100" fill="url(#mSea)"></rect><path d="M -5 -5 L 105 -5 L 105 16.89 L 96.54 16.89 L 94.29 27.06 L 91.28 33.83 L 88.27 38.92 L 84.51 44.0 L 81.51 49.09 L 79.25 54.17 L 77.0 60.95 L 75.49 67.73 L 72.49 76.21 L 69.48 82.99 L 66.47 89.77 L 64.97 94.85 L 62.72 96.55 L 59.71 94.85 L 56.7 89.77 L 53.69 82.99 L 51.44 81.29 L 49.18 88.07 L 46.93 94.85 L 44.67 103.33 L 42.42 103.33 L 40.16 93.16 L 37.91 84.68 L 34.9 77.9 L 31.9 76.21 L 28.89 76.21 L 26.63 74.51 L 28.89 79.6 L 29.64 82.99 L 26.63 91.46 L 23.63 96.55 L 20.62 96.55 L 18.36 94.85 L 16.11 88.07 L 14.61 79.6 L 13.1 71.12 L 12.35 64.34 L 13.1 57.56 L 10.1 57.56 L 7.09 56.72 L 4.08 55.87 L 1.83 53.33 L 0.32 49.09 L -5 49.09 L -5 -5 Z" fill="url(#mLand)" stroke="#c2b393" stroke-width="0.6" vector-effect="non-scaling-stroke"></path><g stroke="rgba(33,29,23,.07)" stroke-width="0.5" vector-effect="non-scaling-stroke"><line x1="15.36" y1="0" x2="15.36" y2="100"/><line x1="30.39" y1="0" x2="30.39" y2="100"/><line x1="45.43" y1="0" x2="45.43" y2="100"/><line x1="60.46" y1="0" x2="60.46" y2="100"/><line x1="75.49" y1="0" x2="75.49" y2="100"/><line x1="0" y1="67.73" x2="100" y2="67.73"/><line x1="0" y1="50.78" x2="100" y2="50.78"/><line x1="0" y1="33.83" x2="100" y2="33.83"/><line x1="0" y1="16.89" x2="100" y2="16.89"/></g><path d="M 28.14 21.97 L 25.13 24.51 L 22.12 28.75 L 21.0 33.83 L 20.62 38.92" fill="none" stroke="#9fb9c2" stroke-width="0.7" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.7"/><path d="M 40.16 54.17 L 36.41 53.33 L 33.4 50.78 L 31.14 47.39 L 30.24 44.85" fill="none" stroke="#9fb9c2" stroke-width="0.7" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.7"/><path d="M 38.66 49.09 L 35.65 45.7 L 33.4 43.16 L 31.9 41.46" fill="none" stroke="#9fb9c2" stroke-width="0.7" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.7"/><ellipse cx="11.22" cy="45.36" rx="4.89" ry="3.9" fill="url(#mSea)" stroke="#a6bdbf" stroke-width="0.7" vector-effect="non-scaling-stroke"/><ellipse cx="23.25" cy="47.9" rx="2.63" ry="8.98" fill="url(#mSea)" stroke="#a6bdbf" stroke-width="0.7" vector-effect="non-scaling-stroke"/><ellipse cx="30.02" cy="42.31" rx="1.2" ry="2.37" fill="url(#mSea)" stroke="#a6bdbf" stroke-width="0.7" vector-effect="non-scaling-stroke"/><ellipse cx="42.42" cy="41.12" rx="2.48" ry="1.19" fill="url(#mSea)" stroke="#a6bdbf" stroke-width="0.7" vector-effect="non-scaling-stroke"/><ellipse cx="65.72" cy="27.73" rx="0.83" ry="3.73" fill="url(#mSea)" stroke="#a6bdbf" stroke-width="0.7" vector-effect="non-scaling-stroke"/><ellipse cx="23.63" cy="69.94" rx="2.44" ry="2.54" fill="url(#mSea)" stroke="#a6bdbf" stroke-width="0.7" vector-effect="non-scaling-stroke"/><path d="M 15.5 45.7 L 16.4 43.8 L 17.3 45.7 M 17.5 46.5 L 18.4 44.6 L 19.3 46.5 M 19.5 47.4 L 20.4 45.5 L 21.3 47.4 M 28.9 28.9 L 29.8 27.0 L 30.7 28.9 M 29.2 25.1 L 30.1 23.2 L 31.0 25.1 M 29.4 21.3 L 30.3 19.4 L 31.2 21.3 M 29.7 17.5 L 30.6 15.6 L 31.5 17.5 M 39.4 47.7 L 40.3 45.8 L 41.2 47.7 M 41.2 47.5 L 42.1 45.6 L 43.0 47.5 M 43.0 47.4 L 43.9 45.5 L 44.8 47.4 M 44.8 47.2 L 45.7 45.3 L 46.6 47.2 M 46.6 47.0 L 47.5 45.1 L 48.4 47.0 M 49.2 35.4 L 50.1 33.5 L 51.0 35.4 M 50.9 34.2 L 51.8 32.3 L 52.7 34.2 M 52.7 33.1 L 53.6 31.2 L 54.5 33.1 M 35.8 56.0 L 36.7 54.1 L 37.6 56.0 M 37.8 55.4 L 38.7 53.5 L 39.6 55.4 M 39.8 54.9 L 40.7 53.0 L 41.6 54.9 M 45.8 58.7 L 46.7 56.8 L 47.6 58.7 M 48.5 58.5 L 49.4 56.6 L 50.3 58.5 M 51.1 58.3 L 52.0 56.4 L 52.9 58.3 M 53.7 58.1 L 54.6 56.2 L 55.5 58.1" fill="none" stroke="#b7a378" stroke-width="0.7" stroke-linejoin="round" vector-effect="non-scaling-stroke" opacity="0.85"></path></svg>
             <span style="position:absolute;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;font-family:'Spectral',serif;letter-spacing:.2px;left:10.85%;top:45.7%;font-style:italic;font-size:11px;color:#6f8e9b">Karadeniz</span>
             <span style="position:absolute;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;font-family:'Spectral',serif;letter-spacing:.2px;left:24.0%;top:52.48%;font-style:italic;font-size:11px;color:#6f8e9b">Hazar Denizi</span>
@@ -454,15 +459,22 @@
             <span style="position:absolute;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;font-family:'Spectral',serif;letter-spacing:.2px;left:37.16%;top:43.16%;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2px;color:rgba(122,110,90,.6)">TURAN</span>
             <span style="position:absolute;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;font-family:'Spectral',serif;letter-spacing:.2px;left:57.45%;top:16.89%;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2px;color:rgba(122,110,90,.6)">SİBİRYA</span>
             <sc-for list="{{ mapNodes }}" as="n" hint-placeholder-count="8">
-              <div onClick="{{ n.go }}" style="cursor:pointer;transition:transform .14s ease;{{ n.dotStyle }}" style-hover="z-index:40;transform:translate(-50%,-50%) scale(1.4)">
+              <div onClick="{{ n.go }}" style="cursor:pointer;transition:transform .14s ease;{{ n.dotStyle }}" style-hover="z-index:40">
                 <span style="{{ n.ball }}"></span>
                 <span style="{{ n.label }}">{{ n.name }}</span>
               </div>
             </sc-for>
+          </div>
+          <div style="position:absolute;right:12px;bottom:12px;z-index:20;display:flex;flex-direction:column;gap:5px">
+            <button onClick="{{ atlasZoomIn }}" style="cursor:pointer;width:34px;height:34px;border-radius:9px;border:1px solid rgba(33,29,23,.18);background:#fff;font-size:19px;font-weight:600;color:#211d17;box-shadow:0 2px 8px rgba(33,29,23,.16);line-height:1">+</button>
+            <button onClick="{{ atlasZoomOut }}" style="cursor:pointer;width:34px;height:34px;border-radius:9px;border:1px solid rgba(33,29,23,.18);background:#fff;font-size:21px;font-weight:600;color:#211d17;box-shadow:0 2px 8px rgba(33,29,23,.16);line-height:1">−</button>
+          </div>
+          <div style="position:absolute;left:12px;bottom:12px;z-index:20;font-size:11px;color:#5f574b;background:rgba(251,250,246,.9);border-radius:8px;padding:3px 9px;font-family:'IBM Plex Mono',monospace">{{ atlasZoomPct }}</div>
         </div>
         <div style="display:flex;gap:15px;flex-wrap:wrap;margin-top:14px;padding:0 2px;align-items:center">
           <sc-for list="{{ mapLegend }}" as="l"><span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:11px;height:11px;border-radius:50%;background:{{ l.hue }}"></span>{{ l.label }} kolu</span></sc-for>
           <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:10px;height:10px;border-radius:50%;background:#fbfaf6;border:2px solid #9a9082"></span>tarihsel · ölü dil</span>
+          <span style="font-size:11.5px;color:#9a9082;font-family:'IBM Plex Mono',monospace;margin-left:auto">yakınlaştıkça daha çok isim açılır</span>
         </div>
 
           <sc-if value="{{ mapInfo.has }}" hint-placeholder-val="{{ false }}">
@@ -1286,7 +1298,7 @@ class Component extends DCLogic {
     selMorphIdx: 0,
     analizView: 'tree',     // tree | strip
     stripCount: 0,
-    compareTab: 'rows',     // rows | sound | tree
+    compareTab: 'rows', atlasZoom:1, atlasCx:50, atlasCy:45,     // rows | sound | tree
     soundSel: 0,
     query: '',
     mode: 'learner',        // learner | expert
@@ -1534,53 +1546,53 @@ class Component extends DCLogic {
     'Karluk':'oklch(0.5 0.13 295)', 'Sibirya':'oklch(0.52 0.13 235)', 'Argu':'#8a7a2e',
   };
   MAP = [
-    {name:"Çuvaşça", code:"chv", branch:"Ogur", x:20.7, y:24.5, speakers:"~740 bin", note:"Yaşayan TEK Oğur dili; rotasizm *z>r, lambdasizm *š>l.", vit:"Safe / 2 / Vulne rable", era:"living", lbl:1, sz:2, hi:true},
-    {name:"Türkçe", code:"tur", branch:"Oğuz", x:10.0, y:51.0, speakers:"~85 milyon", note:"Batı Oğuz; en çok konuşulan Türk dili.", vit:"Safe / 1 / Safe", era:"living", lbl:1, sz:3},
-    {name:"Özbekçe", code:"uzn", branch:"Karluk", x:37.3, y:49.3, speakers:"~30 milyon", note:"", vit:"Safe / 1 / Safe", era:"living", lbl:1, sz:3},
-    {name:"Azerbaycanca", code:"azj", branch:"Oğuz", x:20.2, y:49.1, speakers:"~24 milyon", note:"Merkez Oğuz; ayırt edici açık ə sesi.", vit:"Safe / 1 / Safe", era:"living", lbl:1, sz:3},
-    {name:"Güney Azerbaycanca", code:"azb", branch:"Oğuz", x:21.7, y:56.7, speakers:"~15 milyon", note:"", vit:"Safe / 3 / Safe", era:"living", lbl:1, sz:3},
-    {name:"Kazakça", code:"kaz", branch:"Kıpçak", x:39.0, y:31.9, speakers:"~14 milyon", note:"Katı ünlü uyumu; 12 çoğul eki varyantı.", vit:"Safe / 1 / Safe", era:"living", lbl:1, sz:3},
-    {name:"Uygurca", code:"uig", branch:"Karluk", x:51.0, y:44.2, speakers:"~10 milyon", note:"Karluk; Arap yazısı tüm ünlüleri gösterir.", vit:"Threa tene d / 2 / Vulne rable", era:"living", lbl:1, sz:3},
-    {name:"Türkmence", code:"tuk", branch:"Oğuz", x:29.8, y:55.7, speakers:"~7 milyon", note:"Doğu Oğuz; Ana Türkçe uzun ünlülerini korur.", vit:"Safe / 1 / Safe", era:"living", lbl:1, sz:3},
-    {name:"Kırgızca", code:"kir", branch:"Kıpçak", x:40.9, y:47.4, speakers:"~5 milyon", note:"Katı dudak uyumu; Manas destanı dili.", vit:"Safe / 1 / Safe", era:"living", lbl:2, sz:3},
-    {name:"Tatarca", code:"tat", branch:"Kıpçak", x:22.2, y:24.0, speakers:"~5 milyon", note:"İdil-Ural Kıpçakçası; tarihsel ünlü kayması (söz→süz).", vit:"Threa tene d / 2 / Vulne rable", era:"living", lbl:2, sz:3},
-    {name:"Güney Özbekçe", code:"uzs", branch:"Karluk", x:30.9, y:56.5, speakers:"~4 milyon", note:"", vit:"Safe / 3 / Safe", era:"living", lbl:2, sz:3},
-    {name:"Başkurtça", code:"bak", branch:"Kıpçak", x:27.8, y:27.7, speakers:"~1,2 milyon", note:"Peltek /θ/(ҫ), /ð/(ҙ) ve söz başı /h/ sesleri.", vit:"Threa tene d / 2 / Vulne rable", era:"living", lbl:1, sz:3},
-    {name:"Horasan Türkçesi", code:"kmz", branch:"Oğuz", x:30.4, y:56.8, speakers:"~1 milyon", note:"", vit:"Threa tene d / 6b / Vulne rable", era:"living", lbl:0, sz:3},
-    {name:"Karakalpakça", code:"kaa", branch:"Kıpçak", x:32.9, y:50.8, speakers:"~748 bin", note:"", vit:"Safe / 3 / Defini tely", era:"living", lbl:2, sz:2},
-    {name:"Kırım Tatarcası", code:"crh", branch:"Oğuz", x:10.9, y:42.3, speakers:"~600 bin", note:"", vit:"Threa tene d / 5 / Sever ely", era:"living", lbl:1, sz:2},
-    {name:"Yakutça (Saha)", code:"sah", branch:"Sibirya", x:86.0, y:14.0, speakers:"~450 bin", note:"Kuzey Sibirya; genitif/lokatif hâllerini yitirdi.", vit:"Safe / 2 / Vulne rable", era:"living", lbl:1, sz:2},
-    {name:"Kumukça", code:"kum", branch:"Kıpçak", x:20.6, y:45.7, speakers:"~426 bin", note:"", vit:"Safe / 4 / Vulne", era:"living", lbl:2, sz:2},
-    {name:"Balkan Gagavuzcası", code:"bgx", branch:"Oğuz", x:4, y:48.8, speakers:"~331 bin", note:"", vit:"Threa tene d / 6b / Vulne rable", era:"living", lbl:0, sz:2},
-    {name:"Karaçay-Balkarca", code:"krc", branch:"Kıpçak", x:17.1, y:44.8, speakers:"~300 bin", note:"", vit:"Safe / 4 / Vulne rable", era:"living", lbl:0, sz:2},
-    {name:"Tuvaca", code:"tyv", branch:"Sibirya", x:56.2, y:31.0, speakers:"~280 bin", note:"Gırtlaksı (kargyraa) ünlüler; höömey geleneği.", vit:"Safe / 2 / Vulne rable", era:"living", lbl:1, sz:2},
-    {name:"Urumca", code:"uum", branch:"Kıpçak", x:18.4, y:47.3, speakers:"~190 bin", note:"", vit:"Shifti ng / 7 /", era:"living", lbl:0, sz:2},
-    {name:"Gagavuzca", code:"gag", branch:"Oğuz", x:6.4, y:43.0, speakers:"~150 bin", note:"", vit:"Safe / 3 / Defini tely Endg.", era:"living", lbl:2, sz:2},
-    {name:"Kaşkayca", code:"qxq", branch:"Oğuz", x:25.0, y:70.7, speakers:"~100 bin", note:"", vit:"Shifti ng /", era:"living", lbl:1, sz:2},
-    {name:"Sibirya Tatarcası", code:"sty", branch:"Kıpçak", x:39.8, y:21.1, speakers:"~100 bin", note:"", vit:"Safe / 6a / Defini tely", era:"living", lbl:1, sz:2},
-    {name:"Nogayca", code:"nog", branch:"Kıpçak", x:17.7, y:42.5, speakers:"~87 bin", note:"", vit:"Threa tene d / 4 / Defini tely", era:"living", lbl:0, sz:2},
-    {name:"Salarca", code:"slr", branch:"Oğuz", x:62.6, y:58.3, speakers:"~70 bin", note:"", vit:"Shifti ng / 6b / Sever ely", era:"living", lbl:1, sz:2},
-    {name:"Altayca (Güney)", code:"alt", branch:"Kıpçak", x:50.6, y:33.6, speakers:"~55 bin", note:"", vit:"Threa tene d / 2 / Defini tely", era:"living", lbl:0, sz:2},
-    {name:"Hakasça", code:"kjh", branch:"Sibirya", x:52.7, y:29.3, speakers:"~40 bin", note:"Islıklı sibilantlar (ş→s); 10 gramatik hâl.", vit:"Threa tene d / 2 / Defini tely", era:"living", lbl:2, sz:2},
-    {name:"Halaçça", code:"klj", branch:"Argu", x:23.1, y:60.2, speakers:"~20 bin", note:"Argu kolu; söz başı *h-'yi korur — arkaik 'müze'.", vit:"Threa tene d / 6b / Vulne rable", era:"living", lbl:1, sz:2},
-    {name:"Altayca (Kuzey)", code:"atv", branch:"Sibirya", x:51.5, y:32.3, speakers:"~10 bin", note:"", vit:"Shifti ng / 6b / Sever ely", era:"living", lbl:0, sz:2},
-    {name:"Eynuca", code:"aib", branch:"Karluk", x:42.7, y:52.0, speakers:"~6 bin", note:"", vit:"Shifti ng / 6b / Critic ally", era:"living", lbl:1, sz:2},
-    {name:"Şorca", code:"cjs", branch:"Sibirya", x:51.3, y:27.5, speakers:"~2,8 bin", note:"Ciddi tehlikede; Yenisey (Mrassu/Kondoma) lehçeleri.", vit:"Shifti ng / 6b /", era:"living", lbl:1, sz:2},
-    {name:"Dolganca", code:"dlg", branch:"Sibirya", x:56.2, y:6, speakers:"~1 bin", note:"", vit:"Shifti ng / 6b / Defini tely", era:"living", lbl:1, sz:2},
-    {name:"Sarı Uygurca", code:"ybe", branch:"Sibirya", x:59.9, y:52.4, speakers:"~1 bin", note:"", vit:"Shifti ng / 7 /", era:"living", lbl:1, sz:2},
-    {name:"Kırımçak", code:"jct", branch:"Kıpçak", x:11.3, y:42.2, speakers:"~200", note:"", vit:"Nearl y Extin ct / 8b / Critic ally", era:"living", lbl:0, sz:2},
-    {name:"İli Türki", code:"ili", branch:"Karluk", x:45.8, y:44.0, speakers:"~120", note:"", vit:"Nearl y Extin ct / 8a / Sever ely", era:"living", lbl:0, sz:2},
-    {name:"Karayca", code:"kdr", branch:"Kıpçak", x:4.2, y:26.1, speakers:"", note:"", vit:"Nearl y Extin ct / 8b / Critic ally", era:"living", lbl:1, sz:2},
-    {name:"Tofaca", code:"kim", branch:"Sibirya", x:59.2, y:27.5, speakers:"", note:"", vit:"Nearl y Extin ct / 8a / Critic ally", era:"living", lbl:1, sz:2},
-    {name:"Çulımca", code:"clw", branch:"Sibirya", x:50.4, y:22.2, speakers:"", note:"", vit:"Nearl y Extin ct / 8a / Critic ally", era:"living", lbl:2, sz:2},
-    {name:"Eski Türkçe (Orhun)", code:"otk", branch:"Ortak", x:62.0, y:38.9, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"proto", lbl:1, sz:1},
-    {name:"Eski Uygurca", code:"oui", branch:"Karluk", x:52.2, y:47.4, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"historical", lbl:0, sz:1},
-    {name:"Karahanlı Türkçesi", code:"xqa", branch:"Karluk", x:42.4, y:52.5, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"historical", lbl:0, sz:1},
-    {name:"Harezm Türkçesi", code:"xzm", branch:"Kıpçak", x:29.6, y:47.4, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"historical", lbl:0, sz:1},
-    {name:"Codex Cumanicus Kıpçakçası", code:"qwm", branch:"Kıpçak", x:7.8, y:40.6, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"historical", lbl:0, sz:1},
-    {name:"İdil Bulgarcası", code:"xbo", branch:"Ogur", x:22.1, y:27.1, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"historical", lbl:0, sz:1},
-    {name:"Hazarca", code:"zkz", branch:"Ogur", x:21.4, y:42.3, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"historical", lbl:2, sz:1},
-    {name:"Çağatayca", code:"chg", branch:"Karluk", x:37.2, y:49.1, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"historical", lbl:0, sz:1},
+    {name:"Çuvaşça", code:"chv", branch:"Ogur", x:20.7, y:24.5, speakers:"~740 bin", note:"Yaşayan TEK Oğur dili; rotasizm *z>r, lambdasizm *š>l.", vit:"Safe / 2 / Vulne rable", era:"living", lz:1.0, ldir:1, sz:2, hi:true},
+    {name:"Türkçe", code:"tur", branch:"Oğuz", x:10.0, y:51.0, speakers:"~85 milyon", note:"Batı Oğuz; en çok konuşulan Türk dili.", vit:"Safe / 1 / Safe", era:"living", lz:1.0, ldir:1, sz:3},
+    {name:"Özbekçe", code:"uzn", branch:"Karluk", x:37.3, y:49.3, speakers:"~30 milyon", note:"", vit:"Safe / 1 / Safe", era:"living", lz:1.0, ldir:1, sz:3},
+    {name:"Azerbaycanca", code:"azj", branch:"Oğuz", x:20.2, y:49.1, speakers:"~24 milyon", note:"Merkez Oğuz; ayırt edici açık ə sesi.", vit:"Safe / 1 / Safe", era:"living", lz:1.0, ldir:2, sz:3},
+    {name:"Güney Azerbaycanca", code:"azb", branch:"Oğuz", x:21.7, y:56.7, speakers:"~15 milyon", note:"", vit:"Safe / 3 / Safe", era:"living", lz:1.5, ldir:1, sz:3},
+    {name:"Kazakça", code:"kaz", branch:"Kıpçak", x:39.0, y:31.9, speakers:"~14 milyon", note:"Katı ünlü uyumu; 12 çoğul eki varyantı.", vit:"Safe / 1 / Safe", era:"living", lz:1.0, ldir:1, sz:3},
+    {name:"Uygurca", code:"uig", branch:"Karluk", x:51.0, y:44.2, speakers:"~10 milyon", note:"Karluk; Arap yazısı tüm ünlüleri gösterir.", vit:"Threa tene d / 2 / Vulne rable", era:"living", lz:1.0, ldir:1, sz:3},
+    {name:"Türkmence", code:"tuk", branch:"Oğuz", x:29.8, y:55.7, speakers:"~7 milyon", note:"Doğu Oğuz; Ana Türkçe uzun ünlülerini korur.", vit:"Safe / 1 / Safe", era:"living", lz:1.0, ldir:1, sz:3},
+    {name:"Kırgızca", code:"kir", branch:"Kıpçak", x:40.9, y:47.4, speakers:"~5 milyon", note:"Katı dudak uyumu; Manas destanı dili.", vit:"Safe / 1 / Safe", era:"living", lz:1.0, ldir:2, sz:3},
+    {name:"Tatarca", code:"tat", branch:"Kıpçak", x:22.2, y:24.0, speakers:"~5 milyon", note:"İdil-Ural Kıpçakçası; tarihsel ünlü kayması (söz→süz).", vit:"Threa tene d / 2 / Vulne rable", era:"living", lz:1.0, ldir:2, sz:3},
+    {name:"Güney Özbekçe", code:"uzs", branch:"Karluk", x:30.9, y:56.5, speakers:"~4 milyon", note:"", vit:"Safe / 3 / Safe", era:"living", lz:0, ldir:0, sz:3},
+    {name:"Başkurtça", code:"bak", branch:"Kıpçak", x:27.8, y:27.7, speakers:"~1,2 milyon", note:"Peltek /θ/(ҫ), /ð/(ҙ) ve söz başı /h/ sesleri.", vit:"Threa tene d / 2 / Vulne rable", era:"living", lz:1.5, ldir:1, sz:3},
+    {name:"Horasan Türkçesi", code:"kmz", branch:"Oğuz", x:30.4, y:56.8, speakers:"~1 milyon", note:"", vit:"Threa tene d / 6b / Vulne rable", era:"living", lz:0, ldir:0, sz:3},
+    {name:"Karakalpakça", code:"kaa", branch:"Kıpçak", x:32.9, y:50.8, speakers:"~748 bin", note:"", vit:"Safe / 3 / Defini tely", era:"living", lz:3.4, ldir:1, sz:2},
+    {name:"Kırım Tatarcası", code:"crh", branch:"Oğuz", x:10.9, y:42.3, speakers:"~600 bin", note:"", vit:"Threa tene d / 5 / Sever ely", era:"living", lz:1.0, ldir:2, sz:2},
+    {name:"Yakutça (Saha)", code:"sah", branch:"Sibirya", x:86.0, y:14.0, speakers:"~450 bin", note:"Kuzey Sibirya; genitif/lokatif hâllerini yitirdi.", vit:"Safe / 2 / Vulne rable", era:"living", lz:1.0, ldir:1, sz:2},
+    {name:"Kumukça", code:"kum", branch:"Kıpçak", x:20.6, y:45.7, speakers:"~426 bin", note:"", vit:"Safe / 4 / Vulne", era:"living", lz:1.5, ldir:2, sz:2},
+    {name:"Balkan Gagavuzcası", code:"bgx", branch:"Oğuz", x:4, y:48.8, speakers:"~331 bin", note:"", vit:"Threa tene d / 6b / Vulne rable", era:"living", lz:2.0, ldir:2, sz:2},
+    {name:"Karaçay-Balkarca", code:"krc", branch:"Kıpçak", x:17.1, y:44.8, speakers:"~300 bin", note:"", vit:"Safe / 4 / Vulne rable", era:"living", lz:3.4, ldir:2, sz:2},
+    {name:"Tuvaca", code:"tyv", branch:"Sibirya", x:56.2, y:31.0, speakers:"~280 bin", note:"Gırtlaksı (kargyraa) ünlüler; höömey geleneği.", vit:"Safe / 2 / Vulne rable", era:"living", lz:1.0, ldir:1, sz:2},
+    {name:"Urumca", code:"uum", branch:"Kıpçak", x:18.4, y:47.3, speakers:"~190 bin", note:"", vit:"Shifti ng / 7 /", era:"living", lz:0, ldir:0, sz:2},
+    {name:"Gagavuzca", code:"gag", branch:"Oğuz", x:6.4, y:43.0, speakers:"~150 bin", note:"", vit:"Safe / 3 / Defini tely Endg.", era:"living", lz:1.0, ldir:1, sz:2},
+    {name:"Kaşkayca", code:"qxq", branch:"Oğuz", x:25.0, y:70.7, speakers:"~100 bin", note:"", vit:"Shifti ng /", era:"living", lz:1.0, ldir:1, sz:2},
+    {name:"Sibirya Tatarcası", code:"sty", branch:"Kıpçak", x:39.8, y:21.1, speakers:"~100 bin", note:"", vit:"Safe / 6a / Defini tely", era:"living", lz:1.0, ldir:1, sz:2},
+    {name:"Nogayca", code:"nog", branch:"Kıpçak", x:17.7, y:42.5, speakers:"~87 bin", note:"", vit:"Threa tene d / 4 / Defini tely", era:"living", lz:2.0, ldir:1, sz:2},
+    {name:"Salarca", code:"slr", branch:"Oğuz", x:62.6, y:58.3, speakers:"~70 bin", note:"", vit:"Shifti ng / 6b / Sever ely", era:"living", lz:1.0, ldir:1, sz:2},
+    {name:"Altayca (Güney)", code:"alt", branch:"Kıpçak", x:50.6, y:33.6, speakers:"~55 bin", note:"", vit:"Threa tene d / 2 / Defini tely", era:"living", lz:2.6, ldir:1, sz:2},
+    {name:"Hakasça", code:"kjh", branch:"Sibirya", x:52.7, y:29.3, speakers:"~40 bin", note:"Islıklı sibilantlar (ş→s); 10 gramatik hâl.", vit:"Threa tene d / 2 / Defini tely", era:"living", lz:1.5, ldir:2, sz:2},
+    {name:"Halaçça", code:"klj", branch:"Argu", x:23.1, y:60.2, speakers:"~20 bin", note:"Argu kolu; söz başı *h-'yi korur — arkaik 'müze'.", vit:"Threa tene d / 6b / Vulne rable", era:"living", lz:2.0, ldir:1, sz:2},
+    {name:"Altayca (Kuzey)", code:"atv", branch:"Sibirya", x:51.5, y:32.3, speakers:"~10 bin", note:"", vit:"Shifti ng / 6b / Sever ely", era:"living", lz:0, ldir:0, sz:2},
+    {name:"Eynuca", code:"aib", branch:"Karluk", x:42.7, y:52.0, speakers:"~6 bin", note:"", vit:"Shifti ng / 6b / Critic ally", era:"living", lz:2.0, ldir:1, sz:2},
+    {name:"Şorca", code:"cjs", branch:"Sibirya", x:51.3, y:27.5, speakers:"~2,8 bin", note:"Ciddi tehlikede; Yenisey (Mrassu/Kondoma) lehçeleri.", vit:"Shifti ng / 6b /", era:"living", lz:2.6, ldir:2, sz:2},
+    {name:"Dolganca", code:"dlg", branch:"Sibirya", x:56.2, y:6, speakers:"~1 bin", note:"", vit:"Shifti ng / 6b / Defini tely", era:"living", lz:1.0, ldir:1, sz:2},
+    {name:"Sarı Uygurca", code:"ybe", branch:"Sibirya", x:59.9, y:52.4, speakers:"~1 bin", note:"", vit:"Shifti ng / 7 /", era:"living", lz:1.5, ldir:1, sz:2},
+    {name:"Kırımçak", code:"jct", branch:"Kıpçak", x:11.3, y:42.2, speakers:"~200", note:"", vit:"Nearl y Extin ct / 8b / Critic ally", era:"living", lz:0, ldir:0, sz:2},
+    {name:"İli Türki", code:"ili", branch:"Karluk", x:45.8, y:44.0, speakers:"~120", note:"", vit:"Nearl y Extin ct / 8a / Sever ely", era:"living", lz:2.0, ldir:2, sz:2},
+    {name:"Karayca", code:"kdr", branch:"Kıpçak", x:4.2, y:26.1, speakers:"", note:"", vit:"Nearl y Extin ct / 8b / Critic ally", era:"living", lz:1.0, ldir:1, sz:2},
+    {name:"Tofaca", code:"kim", branch:"Sibirya", x:59.2, y:27.5, speakers:"", note:"", vit:"Nearl y Extin ct / 8a / Critic ally", era:"living", lz:1.0, ldir:2, sz:2},
+    {name:"Çulımca", code:"clw", branch:"Sibirya", x:50.4, y:22.2, speakers:"", note:"", vit:"Nearl y Extin ct / 8a / Critic ally", era:"living", lz:1.5, ldir:2, sz:2},
+    {name:"Eski Türkçe (Orhun)", code:"otk", branch:"Ortak", x:62.0, y:38.9, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"proto", lz:1.5, ldir:1, sz:1},
+    {name:"Eski Uygurca", code:"oui", branch:"Karluk", x:52.2, y:47.4, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"historical", lz:2.6, ldir:1, sz:1},
+    {name:"Karahanlı Türkçesi", code:"xqa", branch:"Karluk", x:42.4, y:52.5, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"historical", lz:0, ldir:0, sz:1},
+    {name:"Harezm Türkçesi", code:"xzm", branch:"Kıpçak", x:29.6, y:47.4, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"historical", lz:1.5, ldir:2, sz:1},
+    {name:"Codex Cumanicus Kıpçakçası", code:"qwm", branch:"Kıpçak", x:7.8, y:40.6, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"historical", lz:1.5, ldir:2, sz:1},
+    {name:"İdil Bulgarcası", code:"xbo", branch:"Ogur", x:22.1, y:27.1, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"historical", lz:2.6, ldir:1, sz:1},
+    {name:"Hazarca", code:"zkz", branch:"Ogur", x:21.4, y:42.3, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"historical", lz:2.0, ldir:2, sz:1},
+    {name:"Çağatayca", code:"chg", branch:"Karluk", x:37.2, y:49.1, speakers:"", note:"", vit:"Extin ct / 10 / Extin ct", era:"historical", lz:3.4, ldir:2, sz:1},
   ];
 
   // illustrative distance matrix from Çuvaşça (0 = yakın, 1 = uzak) — örnek veri
@@ -2014,6 +2026,11 @@ class Component extends DCLogic {
       historyRows:this.HISTORY.map(h=>({...h, dot:({dil:'#2f6fb0',yazı:'#d98b4a',eser:'#2f8a5b'})[h.kind]||'#9a9082', kindLabel:h.kind.toUpperCase()})),
       goCognate:()=>this.setState({screen:'cognate'}),
       isAtlas:S.screen==='atlas', goAtlas:()=>this.setState({screen:'atlas'}), goCompareMap:()=>this.setState({screen:'compare', compareTab:'map'}),
+      atlasWrapStyle:(()=>{ const z=S.atlasZoom||1, cx=S.atlasCx||50, cy=S.atlasCy||45; return `position:absolute;inset:0;transform-origin:0 0;transition:transform .3s ease;transform:scale(${z}) translate(${(50/z-cx).toFixed(2)}%, ${(50/z-cy).toFixed(2)}%)`; })(),
+      atlasZoomPct:'%'+Math.round((S.atlasZoom||1)*100),
+      atlasZoomIn:()=>this.setState(s=>({atlasZoom:Math.min(4,Math.round((((s.atlasZoom||1))+0.5)*10)/10)})),
+      atlasZoomOut:()=>this.setState(s=>({atlasZoom:Math.max(1,Math.round((((s.atlasZoom||1))-0.5)*10)/10)})),
+      atlasRegions:[['Tüm dünya',1,50,45],['Anadolu–Kafkas',2.7,15,49],['İdil-Ural',2.7,23,26],['Orta Asya',2.4,37,45],['Batı Sibirya',2.3,53,28],['Doğu (Saha)',2.0,72,13]].map(rr=>{ const sel=Math.abs((S.atlasZoom||1)-rr[1])<0.05 && Math.abs((S.atlasCx||50)-rr[2])<0.6; return { label:rr[0], go:()=>this.setState({atlasZoom:rr[1],atlasCx:rr[2],atlasCy:rr[3]}), style:`cursor:pointer;border:1px solid ${sel?'#211d17':'rgba(33,29,23,.16)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#5f574b'};border-radius:14px;padding:5px 12px;font-size:12px;font-family:'IBM Plex Sans',sans-serif;font-weight:${sel?600:500}` }; }),
       goCompareSound:()=>{ const cg=this.COGNATES[this.state.cognateKey]; this.setState({screen:'compare', compareTab:'sound', soundSel:(cg && cg.ruleIdx!=null)?cg.ruleIdx:this.state.soundSel}); },
       goParadigm:()=>this.setState({screen:'paradigm'}),
       paradigmExamples: [{lang:'chv', lemma:'хӗр', gloss:'kız', name:'Çuvaşça'}, {lang:'tur', lemma:'ev', gloss:'ev', name:'Türkçe'}, {lang:'tat', lemma:'кул', gloss:'el', name:'Tatarca'}, {lang:'kaz', lemma:'бала', gloss:'çocuk', name:'Kazakça'}, {lang:'sah', lemma:'ат', gloss:'at', name:'Yakutça'}].map(e=>{ const sel = this.state.paradigmFree && this.state.paradigmFree.lemma===e.lemma && this.state.searchLang===e.lang; return { label:e.lemma, gloss:e.gloss, kind:e.name, go:()=>{ this.setState({searchLang:e.lang, paradigmFreeQ:e.lemma}); setTimeout(()=>this.runParadigm(e.lemma),0); }, style:`cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:11px;padding:10px 15px;font-family:inherit`, glossStyle:`font-size:11px;color:${sel?'rgba(244,241,234,.6)':'#9a9082'}` }; }),
@@ -2043,12 +2060,13 @@ class Component extends DCLogic {
       compareRows, compareHeadline:(S.compareTab==='sound' ? 'Ses denklikleri' : S.compareTab==='tree' ? 'Soy ağacı & zaman çizelgesi' : S.compareTab==='map' ? 'Dil haritası' : ('\u201C'+((S.activeWordId==='__api' && w && w.surface) ? w.surface : (w?w.gloss:''))+'\u201D — diller arası')), legend, soundCards, familyRows, timeline,
       mapNodes:this.MAP.map(m=>{
         const col = this.BRANCHCOLOR[m.branch] || '#9a9082';
-        const _hist = m.era && m.era!=='living', _big = this.state.screen==='atlas';
-        const _d = m.hi?(_big?22:18):(_big?(m.sz===3?18:(m.sz===2?13:10)):(m.sz===3?14:(m.sz===2?11:8)));
+        const _hist = m.era && m.era!=='living', _big = this.state.screen==='atlas', _z = (this.state.atlasZoom||1);
+        const _cs = _big ? (1/_z) : 1;
+        const _d = m.hi?18:(m.sz===3?14:(m.sz===2?11:8)), _show = _big && m.lz>0 && _z>=m.lz;
         return { name:m.name, branch:m.branch, col, go:()=>this.setState({mapSel:m.code}),
-          dotStyle:`position:absolute;left:${m.x}%;top:${m.y}%;transform:translate(-50%,-50%);display:flex;flex-direction:${m.lbl===2?'column-reverse':'column'};align-items:center;gap:2px;z-index:${m.hi?5:(m.lbl?3:2)}`,
+          dotStyle:`position:absolute;left:${m.x}%;top:${m.y}%;transform:translate(-50%,-50%) scale(${_cs});display:flex;flex-direction:${m.ldir===2?'column-reverse':'column'};align-items:center;gap:2px;z-index:${m.hi?6:(_show?4:2)}`,
           ball:`width:${_d}px;height:${_d}px;border-radius:50%;background:${_hist?'#fbfaf6':col};border:${_hist?'2px solid '+col:'2px solid #fbfaf6'};box-shadow:0 0 0 ${m.hi?'4px':'1px'} ${m.hi?'rgba(184,96,46,.25)':'rgba(33,29,23,.12)'}${_hist?';opacity:.9':''}`,
-          label:`${(_big&&m.lbl)?'':'display:none;'}font-size:${m.hi?'12.5px':'11px'};font-weight:${m.hi?'700':'600'};font-family:'Spectral',serif;color:${_hist?'#6b6356':'#211d17'};${_hist?'font-style:italic;':''}white-space:nowrap;background:rgba(251,250,246,.94);padding:0 5px;border-radius:5px;box-shadow:0 1px 3px rgba(33,29,23,.08)` };
+          label:`${_show?'':'display:none;'}font-size:${m.hi?'12.5px':'11px'};font-weight:${m.hi?'700':'600'};font-family:'Spectral',serif;color:${_hist?'#6b6356':'#211d17'};${_hist?'font-style:italic;':''}white-space:nowrap;background:rgba(251,250,246,.94);padding:0 5px;border-radius:5px;box-shadow:0 1px 3px rgba(33,29,23,.08)` };
       }),
       mapLegend:Object.entries(this.BRANCHCOLOR).map(([k,v])=>({label:k, hue:v})),
       mapInfo:(()=>{ const m=this.MAP.find(x=>x.code===S.mapSel); const eL={living:'',historical:'tarihsel · ölü dil',proto:'ata dil (kök)'}; return m?{has:true,name:m.name,branch:m.branch,speakers:m.speakers,note:m.note||'',vit:m.vit||'',era:(eL[m.era]||''),col:(this.BRANCHCOLOR[m.branch]||'#9a9082')}:{has:false,name:'',branch:'',speakers:'',note:'',vit:'',era:'',col:'#9a9082'}; })(),

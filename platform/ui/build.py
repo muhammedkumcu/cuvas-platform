@@ -222,35 +222,43 @@ def _spk_rank(label):
 
 
 def build_map(master):
-    # B3 — TÜM diller (master envanteri); B4 — açgözlü etiket-yerleştirme (çakışmayan önemli
-    # dillerde etiket; diğerleri etiketsiz ama tıklanabilir/hover-büyür) + era stili.
+    # B3 — TÜM diller (master); B4/ATLAS-zoom — ZOOM-KADEMELİ etiket eşiği (lz): her zoom seviyesinde
+    # açgözlü yerleşim (kutu/offset ~1/z, etiketler ekran-sabit). lz = etiketin göründüğü EN KÜÇÜK zoom.
+    # Atlas yakınlaştıkça noktalar ayrılır → daha çok etiket çakışmadan açılır. era stili + boyut.
     langs = [L for L in master if L.get("lat") is not None and L.get("lon") is not None]
-    # öncelik: canlı > tarihsel/proto, sonra konuşur sayısı (önemli diller etiket önceliği alır)
-    # chv (platform çekirdeği) en yüksek öncelik → ilk/belirgin yerleşir; sonra canlı>tarihsel, konuşur
     langs.sort(key=lambda L: ({"living": 2}.get(L["era"], 1),
                               1e9 if L["iso"] == "chv" else _spk_rank(L.get("speakers", ""))), reverse=True)
-    placed = []  # yerleştirilmiş etiket kutuları: (cx, cy, yarı-genişlik, yarı-yükseklik)
+    pos = {L["iso"]: project(L["lon"], L["lat"]) for L in langs}
+    Z_LEVELS = [1.0, 1.5, 2.0, 2.6, 3.4]
+    label_at = {L["iso"]: (0, 0) for L in langs}   # iso → (lz, ldir); lz=0 → en yüksek zoomda bile sığmadı
+    for z in Z_LEVELS:
+        placed = []
+        for L in langs:
+            iso = L["iso"]; x, y = pos[iso]
+            # z=1'de SEYREK overview (büyük kutu → yalnız önemli diller), yakınlaştıkça (kutu ~1/z) açılır
+            hw, hh = (0.9 + 0.52 * len(L["name"])) / z, 3.2 / z
+            for cand, off in ((1, 3.0 / z), (2, -3.0 / z)):       # 1=alt, 2=üst
+                cy = y + off
+                if cy - hh < 1 or cy + hh > 99:
+                    continue
+                if all(not (abs(x - px) < (hw + phw) and abs(cy - py) < (hh + phh)) for px, py, phw, phh in placed):
+                    placed.append((x, cy, hw, hh))
+                    if label_at[iso][0] == 0:
+                        label_at[iso] = (z, cand)
+                    break
     rows = []
     for L in langs:
-        x, y = project(L["lon"], L["lat"])
-        name = L["name"]
-        # etiket-kutuları BÜYÜK ATLAS kanvasına göre (geniş sayfa → küçük kutu → daha çok etiket sığar)
-        hw, hh = 0.4 + 0.26 * len(name), 1.7   # etiket yarı-genişlik (x≈%) / yarı-yükseklik (y)
-        lbl = 0
-        for cand, cy in ((1, y + 3.0), (2, y - 3.0)):   # 1=alt, 2=üst
-            if cy - hh < 2 or cy + hh > 98:
-                continue
-            if all(not (abs(x - px) < (hw + phw) and abs(cy - py) < (hh + phh)) for px, py, phw, phh in placed):
-                placed.append((x, cy, hw, hh)); lbl = cand; break
+        iso = L["iso"]; x, y = pos[iso]
+        lz, ldir = label_at[iso]
         rank = _spk_rank(L.get("speakers", ""))
-        sz = 3 if (L["era"] == "living" and rank >= 1e6) else (2 if L["era"] == "living" else 1)  # 3 büyük/2 orta/1 küçük-tarihsel
-        parts = [f"name:{json.dumps(name, ensure_ascii=False)}", f"code:{json.dumps(L['iso'])}",
+        sz = 3 if (L["era"] == "living" and rank >= 1e6) else (2 if L["era"] == "living" else 1)
+        parts = [f"name:{json.dumps(L['name'], ensure_ascii=False)}", f"code:{json.dumps(iso)}",
                  f"branch:{json.dumps(L['branch'], ensure_ascii=False)}", f"x:{x}", f"y:{y}",
                  f"speakers:{json.dumps(L.get('speakers',''), ensure_ascii=False)}",
                  f"note:{json.dumps(L.get('note',''), ensure_ascii=False)}",
                  f"vit:{json.dumps(L.get('vitality',''), ensure_ascii=False)}",
-                 f"era:{json.dumps(L['era'])}", f"lbl:{lbl}", f"sz:{sz}"]
-        if L["iso"] == "chv":
+                 f"era:{json.dumps(L['era'])}", f"lz:{lz}", f"ldir:{ldir}", f"sz:{sz}"]
+        if iso == "chv":
             parts.append("hi:true")
         rows.append("    {" + ", ".join(parts) + "},")
     return "MAP = [\n" + "\n".join(rows) + "\n  ];"
@@ -482,14 +490,15 @@ def main():
     b34 = [
         ("        const col = this.BRANCHCOLOR[m.branch];",
          "        const col = this.BRANCHCOLOR[m.branch] || '#9a9082';\n"
-         "        const _hist = m.era && m.era!=='living', _big = this.state.screen==='atlas';\n"
-         "        const _d = m.hi?(_big?22:18):(_big?(m.sz===3?18:(m.sz===2?13:10)):(m.sz===3?14:(m.sz===2?11:8)));"),
-        ("display:flex;flex-direction:${m.below?'column-reverse':'column'};align-items:center;gap:4px;z-index:${m.hi?3:2}",
-         "display:flex;flex-direction:${m.lbl===2?'column-reverse':'column'};align-items:center;gap:2px;z-index:${m.hi?5:(m.lbl?3:2)}"),
+         "        const _hist = m.era && m.era!=='living', _big = this.state.screen==='atlas', _z = (this.state.atlasZoom||1);\n"
+         "        const _cs = _big ? (1/_z) : 1;\n"   # zoom-wrapper'a karşı ekran-sabit (nokta+etiket büyümez, AYRILIR)
+         "        const _d = m.hi?18:(m.sz===3?14:(m.sz===2?11:8)), _show = _big && m.lz>0 && _z>=m.lz;"),
+        ("transform:translate(-50%,-50%);display:flex;flex-direction:${m.below?'column-reverse':'column'};align-items:center;gap:4px;z-index:${m.hi?3:2}",
+         "transform:translate(-50%,-50%) scale(${_cs});display:flex;flex-direction:${m.ldir===2?'column-reverse':'column'};align-items:center;gap:2px;z-index:${m.hi?6:(_show?4:2)}"),
         ("ball:`width:${m.hi?18:13}px;height:${m.hi?18:13}px;border-radius:50%;background:${col};border:2px solid #fbfaf6;box-shadow:0 0 0 ${m.hi?'4px':'1px'} ${m.hi?'rgba(184,96,46,.25)':'rgba(33,29,23,.12)'}`,",
          "ball:`width:${_d}px;height:${_d}px;border-radius:50%;background:${_hist?'#fbfaf6':col};border:${_hist?'2px solid '+col:'2px solid #fbfaf6'};box-shadow:0 0 0 ${m.hi?'4px':'1px'} ${m.hi?'rgba(184,96,46,.25)':'rgba(33,29,23,.12)'}${_hist?';opacity:.9':''}`,"),
         ("label:`font-size:${m.hi?'13px':'12px'};font-weight:${m.hi?'700':'500'};font-family:'Spectral',serif;color:#211d17;white-space:nowrap;background:rgba(251,250,246,.85);padding:1px 6px;border-radius:5px` };",
-         "label:`${(_big&&m.lbl)?'':'display:none;'}font-size:${m.hi?'12.5px':'11px'};font-weight:${m.hi?'700':'600'};font-family:'Spectral',serif;color:${_hist?'#6b6356':'#211d17'};${_hist?'font-style:italic;':''}white-space:nowrap;background:rgba(251,250,246,.94);padding:0 5px;border-radius:5px;box-shadow:0 1px 3px rgba(33,29,23,.08)` };"),
+         "label:`${_show?'':'display:none;'}font-size:${m.hi?'12.5px':'11px'};font-weight:${m.hi?'700':'600'};font-family:'Spectral',serif;color:${_hist?'#6b6356':'#211d17'};${_hist?'font-style:italic;':''}white-space:nowrap;background:rgba(251,250,246,.94);padding:0 5px;border-radius:5px;box-shadow:0 1px 3px rgba(33,29,23,.08)` };"),
     ]
     for old, new in b34:
         if old in html:
@@ -551,7 +560,7 @@ def main():
     natlas = 0
     atlas_dots = (
         '            <sc-for list="{{ mapNodes }}" as="n" hint-placeholder-count="8">\n'
-        '              <div onClick="{{ n.go }}" style="cursor:pointer;transition:transform .14s ease;{{ n.dotStyle }}" style-hover="z-index:40;transform:translate(-50%,-50%) scale(1.4)">\n'
+        '              <div onClick="{{ n.go }}" style="cursor:pointer;transition:transform .14s ease;{{ n.dotStyle }}" style-hover="z-index:40">\n'
         '                <span style="{{ n.ball }}"></span>\n'
         '                <span style="{{ n.label }}">{{ n.name }}</span>\n'
         '              </div>\n'
@@ -560,7 +569,20 @@ def main():
         '        <div style="display:flex;gap:15px;flex-wrap:wrap;margin-top:14px;padding:0 2px;align-items:center">\n'
         '          <sc-for list="{{ mapLegend }}" as="l"><span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:11px;height:11px;border-radius:50%;background:{{ l.hue }}"></span>{{ l.label }} kolu</span></sc-for>\n'
         '          <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:10px;height:10px;border-radius:50%;background:#fbfaf6;border:2px solid #9a9082"></span>tarihsel · ölü dil</span>\n'
+        '          <span style="font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;margin-left:auto">yakınlaştıkça daha çok isim açılır</span>\n'
         '        </div>')
+    # bölge odak düğmeleri (zoom + pan preset) + zoom +/− kontrolleri
+    region_row = (
+        '        <div style="display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 0;align-items:center">\n'
+        '          <span style="font-size:11px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;letter-spacing:.5px;margin-right:2px">ODAK:</span>\n'
+        '          <sc-for list="{{ atlasRegions }}" as="r"><button onClick="{{ r.go }}" style="{{ r.style }}">{{ r.label }}</button></sc-for>\n'
+        '        </div>')
+    zoom_ctrl = (
+        '          <div style="position:absolute;right:12px;bottom:12px;z-index:20;display:flex;flex-direction:column;gap:5px">\n'
+        '            <button onClick="{{ atlasZoomIn }}" style="cursor:pointer;width:34px;height:34px;border-radius:9px;border:1px solid rgba(33,29,23,.18);background:#fff;font-size:19px;font-weight:600;color:#211d17;box-shadow:0 2px 8px rgba(33,29,23,.16);line-height:1">+</button>\n'
+        '            <button onClick="{{ atlasZoomOut }}" style="cursor:pointer;width:34px;height:34px;border-radius:9px;border:1px solid rgba(33,29,23,.18);background:#fff;font-size:21px;font-weight:600;color:#211d17;box-shadow:0 2px 8px rgba(33,29,23,.16);line-height:1">−</button>\n'
+        '          </div>\n'
+        '          <div style="position:absolute;left:12px;bottom:12px;z-index:20;font-size:11px;color:#5f574b;background:rgba(251,250,246,.9);border-radius:8px;padding:3px 9px;font-family:\'IBM Plex Mono\',monospace">{{ atlasZoomPct }}</div>')
     ATLAS = (
         '      <!-- ===================== ATLAS (büyük harita) ===================== -->\n'
         '      <sc-if value="{{ isAtlas }}" hint-placeholder-val="{{ false }}">\n'
@@ -570,11 +592,15 @@ def main():
         '          <h2 style="font-family:\'Spectral\',serif;font-weight:600;font-size:34px;margin:0">Dil Atlası — tüm Türk dilleri</h2>\n'
         '          <button onClick="{{ goCompareMap }}" style="cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.18);border-radius:9px;padding:8px 14px;font-size:13px;font-family:inherit;color:#211d17">← Karşılaştır</button>\n'
         '        </div>\n'
-        '        <p style="font-size:14.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 4px">Tüm Türk dilleri, lehçeleri ve tarihsel formları gerçek coğrafyada — denizler, dağlar, nehirler ve bilinen yer şekilleriyle. Bir dile tıkla, bilgisi açılır. <b>Tarihsel/ölü diller</b> içi boş halka + italik gösterilir.</p>\n'
+        '        <p style="font-size:14.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 4px">Tüm Türk dilleri, lehçeleri ve tarihsel formları gerçek coğrafyada — denizler, dağlar, nehirler ve bilinen yer şekilleriyle. Bir bölgeye odaklan ya da <b>yakınlaştır</b> (+/−); yaklaştıkça isimler çakışmadan açılır. <b>Tarihsel/ölü diller</b> içi boş halka + italik.</p>\n'
+        + region_row + '\n'
         '        <div style="position:relative;width:100%;aspect-ratio:1.62;background:#ece5d5;border:1px solid rgba(33,29,23,.12);border-radius:18px;overflow:hidden;margin-top:10px">\n'
+        '          <div style="{{ atlasWrapStyle }}">\n'
         '            ' + build_map_bg() + '\n'
         '            ' + atlas_feature_labels() + '\n'
         + atlas_dots + '\n'
+        '          </div>\n'
+        + zoom_ctrl + '\n'
         '        </div>\n'
         + atlas_legend + '\n'
         + map_card + '\n'
@@ -587,7 +613,14 @@ def main():
     html = html.replace(
         "      goCognate:()=>this.setState({screen:'cognate'}),",
         "      goCognate:()=>this.setState({screen:'cognate'}),\n"
-        "      isAtlas:S.screen==='atlas', goAtlas:()=>this.setState({screen:'atlas'}), goCompareMap:()=>this.setState({screen:'compare', compareTab:'map'}),", 1)
+        "      isAtlas:S.screen==='atlas', goAtlas:()=>this.setState({screen:'atlas'}), goCompareMap:()=>this.setState({screen:'compare', compareTab:'map'}),\n"
+        "      atlasWrapStyle:(()=>{ const z=S.atlasZoom||1, cx=S.atlasCx||50, cy=S.atlasCy||45; return `position:absolute;inset:0;transform-origin:0 0;transition:transform .3s ease;transform:scale(${z}) translate(${(50/z-cx).toFixed(2)}%, ${(50/z-cy).toFixed(2)}%)`; })(),\n"
+        "      atlasZoomPct:'%'+Math.round((S.atlasZoom||1)*100),\n"
+        "      atlasZoomIn:()=>this.setState(s=>({atlasZoom:Math.min(4,Math.round((((s.atlasZoom||1))+0.5)*10)/10)})),\n"
+        "      atlasZoomOut:()=>this.setState(s=>({atlasZoom:Math.max(1,Math.round((((s.atlasZoom||1))-0.5)*10)/10)})),\n"
+        "      atlasRegions:[['Tüm dünya',1,50,45],['Anadolu–Kafkas',2.7,15,49],['İdil-Ural',2.7,23,26],['Orta Asya',2.4,37,45],['Batı Sibirya',2.3,53,28],['Doğu (Saha)',2.0,72,13]].map(rr=>{ const sel=Math.abs((S.atlasZoom||1)-rr[1])<0.05 && Math.abs((S.atlasCx||50)-rr[2])<0.6; return { label:rr[0], go:()=>this.setState({atlasZoom:rr[1],atlasCx:rr[2],atlasCy:rr[3]}), style:`cursor:pointer;border:1px solid ${sel?'#211d17':'rgba(33,29,23,.16)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#5f574b'};border-radius:14px;padding:5px 12px;font-size:12px;font-family:'IBM Plex Sans',sans-serif;font-weight:${sel?600:500}` }; }),", 1)
+    # atlas state alanları
+    html = html.replace("    compareTab: 'rows',", "    compareTab: 'rows', atlasZoom:1, atlasCx:50, atlasCy:45,", 1)
     natlas += 1 if "isAtlas:S.screen==='atlas'" in html else 0
     # nav: KEŞFET'e "Harita" (Dil Profilleri'nden sonra)
     if "{id:'profile', label:'Dil Profilleri'}," in html:

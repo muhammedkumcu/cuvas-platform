@@ -234,9 +234,10 @@ def build_map(master):
     for L in langs:
         x, y = project(L["lon"], L["lat"])
         name = L["name"]
-        hw, hh = 0.6 + 0.5 * len(name), 3.0   # etiket yarı-genişlik (x≈%) / yarı-yükseklik (y)
+        # etiket-kutuları BÜYÜK ATLAS kanvasına göre (geniş sayfa → küçük kutu → daha çok etiket sığar)
+        hw, hh = 0.4 + 0.26 * len(name), 1.7   # etiket yarı-genişlik (x≈%) / yarı-yükseklik (y)
         lbl = 0
-        for cand, cy in ((1, y + 4.6), (2, y - 4.6)):   # 1=alt, 2=üst
+        for cand, cy in ((1, y + 3.0), (2, y - 3.0)):   # 1=alt, 2=üst
             if cy - hh < 2 or cy + hh > 98:
                 continue
             if all(not (abs(x - px) < (hw + phw) and abs(cy - py) < (hh + phh)) for px, py, phw, phh in placed):
@@ -293,6 +294,14 @@ def build_map_bg():
             t = (i + 0.5) / n
             cx = x1 + (x2 - x1) * t; cy = y1 + (y2 - y1) * t
             peaks.append(f"M {cx-0.9:.1f} {cy+0.4:.1f} L {cx:.1f} {cy-1.5:.1f} L {cx+0.9:.1f} {cy+0.4:.1f}")
+    # büyük nehirler (yer şekilleri): İdil/Volga, Amu Derya, Sir Derya — ince mavi polilinler
+    rivers = [[(57, 57), (53, 55.5), (49, 53), (47.5, 50), (47, 47)],   # İdil (Volga) → Hazar
+              [(73, 38), (68, 38.5), (64, 40), (61, 42), (59.8, 43.5)],  # Amu Derya → Aral
+              [(71, 41), (67, 43), (64, 44.5), (62, 45.5)]]              # Sir Derya → Aral
+    riv_svg = []
+    for pts in rivers:
+        d = "M " + " L ".join(f"{_pj(lo,la)[0]} {_pj(lo,la)[1]}" for lo, la in pts)
+        riv_svg.append(f'<path d="{d}" fill="none" stroke="#9fb9c2" stroke-width="0.7" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" opacity="0.7"/>')
     grat = []
     for lon in (40, 60, 80, 100, 120):
         x, _ = _pj(lon, 45); grat.append(f'<line x1="{x}" y1="0" x2="{x}" y2="100"/>')
@@ -306,9 +315,41 @@ def build_map_bg():
             '<rect x="0" y="0" width="100" height="100" fill="url(#mSea)"></rect>'
             f'<path d="{land}" fill="url(#mLand)" stroke="#c2b393" stroke-width="0.6" vector-effect="non-scaling-stroke"></path>'
             + '<g stroke="rgba(33,29,23,.07)" stroke-width="0.5" vector-effect="non-scaling-stroke">' + "".join(grat) + '</g>'
+            + "".join(riv_svg)
             + "".join(sea_svg)
             + f'<path d="{" ".join(peaks)}" fill="none" stroke="#b7a378" stroke-width="0.7" stroke-linejoin="round" vector-effect="non-scaling-stroke" opacity="0.85"></path>'
             + '</svg>')
+
+
+# Atlas (büyük harita) için zengin coğrafya etiketleri — HTML span'leri (projeksiyon %'sinde konum).
+# Denizler/dağlar/nehirler/boğaz + bölgeler; "İstanbul Boğazı ve bilinen yer şekilleri" (kullanıcı).
+def atlas_feature_labels():
+    seas = [(34, 43, "Karadeniz"), (51.5, 39, "Hazar Denizi"), (59.5, 45.6, "Aral G."),
+            (27, 33.5, "Akdeniz"), (74, 46.3, "Balkaş G."), (108, 53.5, "Baykal G."), (77, 42.6, "Issık G.")]
+    mts = [(45.5, 43.3, "Kafkaslar"), (80, 41.5, "Tien Şan"), (89, 50, "Altay Dağları"),
+           (60, 57.5, "Ural Dağları"), (72.5, 37.5, "Pamir")]
+    rivers = [(50, 51.5, "İdil"), (63, 41, "Amu Derya")]
+    marks = [(28.8, 41.2, "İstanbul Boğazı")]
+    regions = [(33, 38.5, "ANADOLU"), (52, 56, "İDİL-URAL"), (69, 44.5, "TURAN"), (96, 60, "SİBİRYA")]
+    out = []
+    sty = ("position:absolute;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;"
+           "font-family:'Spectral',serif;letter-spacing:.2px")
+    for lo, la, nm in seas:
+        x, y = _pj(lo, la)
+        out.append(f'<span style="{sty};left:{x}%;top:{y}%;font-style:italic;font-size:11px;color:#6f8e9b">{nm}</span>')
+    for lo, la, nm in rivers:
+        x, y = _pj(lo, la)
+        out.append(f'<span style="{sty};left:{x}%;top:{y}%;font-style:italic;font-size:10px;color:#8aa6b0">{nm}</span>')
+    for lo, la, nm in mts:
+        x, y = _pj(lo, la)
+        out.append(f'<span style="{sty};left:{x}%;top:{y}%;font-size:10.5px;color:#9a7d4e">▲ {nm}</span>')
+    for lo, la, nm in marks:
+        x, y = _pj(lo, la)
+        out.append(f'<span style="{sty};left:{x}%;top:{y}%;font-size:10px;color:#b8602e;font-weight:600">◦ {nm}</span>')
+    for lo, la, nm in regions:
+        x, y = _pj(lo, la)
+        out.append(f'<span style="{sty};left:{x}%;top:{y}%;font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:2px;color:rgba(122,110,90,.6)">{nm}</span>')
+    return "\n            ".join(out)
 
 
 def main():
@@ -441,13 +482,14 @@ def main():
     b34 = [
         ("        const col = this.BRANCHCOLOR[m.branch];",
          "        const col = this.BRANCHCOLOR[m.branch] || '#9a9082';\n"
-         "        const _hist = m.era && m.era!=='living', _d = m.hi?19:(m.sz===3?16:(m.sz===2?12:9));"),
+         "        const _hist = m.era && m.era!=='living', _big = this.state.screen==='atlas';\n"
+         "        const _d = m.hi?(_big?22:18):(_big?(m.sz===3?18:(m.sz===2?13:10)):(m.sz===3?14:(m.sz===2?11:8)));"),
         ("display:flex;flex-direction:${m.below?'column-reverse':'column'};align-items:center;gap:4px;z-index:${m.hi?3:2}",
-         "display:flex;flex-direction:${m.lbl===2?'column-reverse':'column'};align-items:center;gap:3px;z-index:${m.hi?5:(m.lbl?3:2)}"),
+         "display:flex;flex-direction:${m.lbl===2?'column-reverse':'column'};align-items:center;gap:2px;z-index:${m.hi?5:(m.lbl?3:2)}"),
         ("ball:`width:${m.hi?18:13}px;height:${m.hi?18:13}px;border-radius:50%;background:${col};border:2px solid #fbfaf6;box-shadow:0 0 0 ${m.hi?'4px':'1px'} ${m.hi?'rgba(184,96,46,.25)':'rgba(33,29,23,.12)'}`,",
          "ball:`width:${_d}px;height:${_d}px;border-radius:50%;background:${_hist?'#fbfaf6':col};border:${_hist?'2px solid '+col:'2px solid #fbfaf6'};box-shadow:0 0 0 ${m.hi?'4px':'1px'} ${m.hi?'rgba(184,96,46,.25)':'rgba(33,29,23,.12)'}${_hist?';opacity:.9':''}`,"),
         ("label:`font-size:${m.hi?'13px':'12px'};font-weight:${m.hi?'700':'500'};font-family:'Spectral',serif;color:#211d17;white-space:nowrap;background:rgba(251,250,246,.85);padding:1px 6px;border-radius:5px` };",
-         "label:`${m.lbl?'':'display:none;'}font-size:${m.hi?'13px':'11.5px'};font-weight:${m.hi?'700':'500'};font-family:'Spectral',serif;color:${_hist?'#6b6356':'#211d17'};${_hist?'font-style:italic;':''}white-space:nowrap;background:rgba(251,250,246,.92);padding:1px 6px;border-radius:5px` };"),
+         "label:`${(_big&&m.lbl)?'':'display:none;'}font-size:${m.hi?'12.5px':'11px'};font-weight:${m.hi?'700':'600'};font-family:'Spectral',serif;color:${_hist?'#6b6356':'#211d17'};${_hist?'font-style:italic;':''}white-space:nowrap;background:rgba(251,250,246,.94);padding:0 5px;border-radius:5px;box-shadow:0 1px 3px rgba(33,29,23,.08)` };"),
     ]
     for old, new in b34:
         if old in html:
@@ -503,7 +545,64 @@ def main():
     # intro ipucu
     html = html.replace(
         "Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur.",
-        "Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur. Bir dile tıkla — bilgisi aşağıda açılır.", 1)
+        "Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur. Aşağıda küçük bir önizleme; <b>“Büyük atlas”</b> ile tam haritada keşfet.", 1)
+
+    # ── ATLAS (büyük harita SAYFASI) — Karşılaştır'daki önizleme tıklanınca açılır ──
+    natlas = 0
+    atlas_dots = (
+        '            <sc-for list="{{ mapNodes }}" as="n" hint-placeholder-count="8">\n'
+        '              <div onClick="{{ n.go }}" style="cursor:pointer;transition:transform .14s ease;{{ n.dotStyle }}" style-hover="z-index:40;transform:translate(-50%,-50%) scale(1.4)">\n'
+        '                <span style="{{ n.ball }}"></span>\n'
+        '                <span style="{{ n.label }}">{{ n.name }}</span>\n'
+        '              </div>\n'
+        '            </sc-for>')
+    atlas_legend = (
+        '        <div style="display:flex;gap:15px;flex-wrap:wrap;margin-top:14px;padding:0 2px;align-items:center">\n'
+        '          <sc-for list="{{ mapLegend }}" as="l"><span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:11px;height:11px;border-radius:50%;background:{{ l.hue }}"></span>{{ l.label }} kolu</span></sc-for>\n'
+        '          <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:10px;height:10px;border-radius:50%;background:#fbfaf6;border:2px solid #9a9082"></span>tarihsel · ölü dil</span>\n'
+        '        </div>')
+    ATLAS = (
+        '      <!-- ===================== ATLAS (büyük harita) ===================== -->\n'
+        '      <sc-if value="{{ isAtlas }}" hint-placeholder-val="{{ false }}">\n'
+        '      <section style="max-width:1340px;margin:0 auto;padding:26px 34px 70px">\n'
+        '        <div style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">TÜRK DÜNYASI DİL ATLASI</div>\n'
+        '        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin:6px 0 2px">\n'
+        '          <h2 style="font-family:\'Spectral\',serif;font-weight:600;font-size:34px;margin:0">Dil Atlası — tüm Türk dilleri</h2>\n'
+        '          <button onClick="{{ goCompareMap }}" style="cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.18);border-radius:9px;padding:8px 14px;font-size:13px;font-family:inherit;color:#211d17">← Karşılaştır</button>\n'
+        '        </div>\n'
+        '        <p style="font-size:14.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 4px">Tüm Türk dilleri, lehçeleri ve tarihsel formları gerçek coğrafyada — denizler, dağlar, nehirler ve bilinen yer şekilleriyle. Bir dile tıkla, bilgisi açılır. <b>Tarihsel/ölü diller</b> içi boş halka + italik gösterilir.</p>\n'
+        '        <div style="position:relative;width:100%;aspect-ratio:1.62;background:#ece5d5;border:1px solid rgba(33,29,23,.12);border-radius:18px;overflow:hidden;margin-top:10px">\n'
+        '            ' + build_map_bg() + '\n'
+        '            ' + atlas_feature_labels() + '\n'
+        + atlas_dots + '\n'
+        '        </div>\n'
+        + atlas_legend + '\n'
+        + map_card + '\n'
+        '      </section>\n'
+        '      </sc-if>\n')
+    ogren_anchor = "      <!-- ===================== OGREN ===================== -->"
+    if ogren_anchor in html:
+        html = html.replace(ogren_anchor, ATLAS + ogren_anchor, 1); natlas += 1
+    # renderVals: isAtlas + go handler'ları (goCognate komşuluğuna)
+    html = html.replace(
+        "      goCognate:()=>this.setState({screen:'cognate'}),",
+        "      goCognate:()=>this.setState({screen:'cognate'}),\n"
+        "      isAtlas:S.screen==='atlas', goAtlas:()=>this.setState({screen:'atlas'}), goCompareMap:()=>this.setState({screen:'compare', compareTab:'map'}),", 1)
+    natlas += 1 if "isAtlas:S.screen==='atlas'" in html else 0
+    # nav: KEŞFET'e "Harita" (Dil Profilleri'nden sonra)
+    if "{id:'profile', label:'Dil Profilleri'}," in html:
+        html = html.replace("{id:'profile', label:'Dil Profilleri'},",
+                            "{id:'profile', label:'Dil Profilleri'},\n      {id:'atlas', label:'Harita'},", 1); natlas += 1
+    # Karşılaştır harita ÖNİZLEMESİ üzerine "Büyük atlas" overlay butonu (kullanıcı: üzerine basınca açılsın)
+    cmp_map_div = '<div style="position:relative;width:100%;aspect-ratio:1000/560;background:#ece5d5;border:1px solid rgba(33,29,23,.12);border-radius:18px;overflow:hidden">'
+    if cmp_map_div in html:
+        html = html.replace(cmp_map_div, cmp_map_div +
+            '\n          <button onClick="{{ goAtlas }}" style="position:absolute;top:10px;right:10px;z-index:15;cursor:pointer;background:#211d17;color:#f4f1ea;border:none;border-radius:9px;padding:8px 14px;font-size:12.5px;font-family:inherit;font-weight:600;box-shadow:0 3px 12px rgba(33,29,23,.3)">⛶ Büyük atlas →</button>', 1)
+        natlas += 1
+    # breadcrumb etiketi (üst bar)
+    html = html.replace("research:'/ araştırmacı', cognate:'/ kognat', sources:'/ kaynaklar' }",
+                        "research:'/ araştırmacı', cognate:'/ kognat', sources:'/ kaynaklar', atlas:'/ harita' }", 1)
+    print(f"  ATLAS büyük harita sayfası (ekran+handler+nav+önizleme CTA): {natlas}/4")
     print(f"  Harita inline kart (1.3): mapInfo+kart={nmapcard}")
     print(f"  A4a/B2 harita arka planı (SVG+konteyner+4 bölge+deniz etiketleri): {na4}/7 yama")
     print(f"  B3/B4 harita TÜM diller ({len(master)}) + açgözlü etiket + era stili: mapNodes={nb34}/4 yama")

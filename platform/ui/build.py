@@ -413,6 +413,63 @@ def main():
     html = html.replace(
         "profileSel:{...sel, vc:this.vitColor(sel.vit), branchColor:this.BRANCHCOLOR[sel.branch]||'#5f574b'},",
         "profileSel:{...sel, deep:(this.DEEPPROF&&this.DEEPPROF[sel.code])||[], vc:this.vitColor(sel.vit), branchColor:this.BRANCHCOLOR[sel.branch]||'#5f574b'},", 1)
+
+    # ── Dil Profilleri 14 → 47: master'dan 33 YENİ dili EKLE (14'ün zengin pipeline'ına dokunma) ──
+    PROF14_ISO = {"tur", "azj", "tuk", "kaz", "kir", "uig", "sah", "tyv", "kjh", "tat", "bak", "chv", "cjs", "klj"}
+    REGION_TR = {
+        "gag": "Moldova (Gagavuzya)", "bgx": "Balkanlar (Bulgaristan/Yunanistan)", "azb": "İran (Güney Azerbaycan)",
+        "kmz": "İran (Horasan)", "qxq": "İran (Fars)", "slr": "Çinghay/Gansu (ÇHC)", "crh": "Kırım; Orta Asya sürgün",
+        "uum": "Ukrayna (Azak); Gürcistan", "kaa": "Karakalpakistan (Özbekistan)", "krc": "Karaçay-Çerkes/Kabardey (RF)",
+        "kum": "Dağıstan (RF)", "nog": "Dağıstan/Stavropol (RF)", "kdr": "Litvanya, Kırım (Karaim)",
+        "jct": "Kırım (Kırımçak)", "sty": "Batı Sibirya (Tümen, RF)", "alt": "Altay Cumhuriyeti (RF)",
+        "xzm": "Harezm (tarihî bölge)", "qwm": "Karadeniz kuzeyi (tarihî)", "uzn": "Özbekistan",
+        "uzs": "Afganistan (Güney Özbek)", "aib": "Sincan (ÇHC) — Eynu", "ili": "Sincan/Kazakistan (İli vadisi)",
+        "oui": "Turfan/Tarım (tarihî)", "xqa": "Kaşgar/Balasagun (tarihî)", "chg": "Maveraünnehir (tarihî)",
+        "dlg": "Taymır (RF) — Dolgan", "kim": "İrkutsk/Buryatya (RF) — Tofa", "atv": "Altay (RF, kuzey)",
+        "clw": "Tomsk (RF) — Çulım", "ybe": "Çinghay/Gansu (ÇHC) — Sarı Uygur", "xbo": "İdil-Bulgar (tarihî)",
+        "zkz": "Hazar Kağanlığı (tarihî)", "otk": "Orhun vadisi (tarihî, Moğolistan)"}
+    JOSHI33 = {"uzn": "3 · orta"}   # Joshi 2020 Özbekçe=3; diğer canlılar düşük-kaynak, tarihseller —
+    EG_VIT = {"0": 6, "1": 6, "2": 6, "3": 5, "4": 4, "5": 4, "6a": 3, "6b": 2, "7": 1, "8a": 0, "8b": 0, "9": 0, "10": 0}
+    EG_TR = {"0": "uluslararası", "1": "ulusal", "2": "bölgesel", "3": "bölgesel", "4": "eğitimsel", "5": "gelişen",
+             "6a": "güçlü", "6b": "tehlikede", "7": "değişen", "8a": "ölmekte", "8b": "ölmekte", "9": "uykuda", "10": "ölü"}
+    AES_V = {"Safe": 6, "Vulnerable": 4, "Threatened": 3, "Definitelyendangered": 2,
+             "Severelyendangered": 1, "Criticallyendangered": 0, "Extinct": 0}
+
+    def _vit_egids(L):
+        if L["era"] != "living":
+            return 0, "tarihî · ölü dil"
+        parts = [re.sub(r"\s+", "", p) for p in (L.get("vitality") or "").split("/")]
+        eg = parts[1] if len(parts) > 1 else ""
+        vit = EG_VIT.get(eg)
+        if vit is None:
+            vit = AES_V.get(parts[0] if parts else "", 3)
+        lab = EG_TR.get(eg, (parts[0].lower() if parts else ""))
+        return vit, (f"{eg} · {lab}" if eg else (lab or "—"))
+
+    new_rows = []
+    for L in master:
+        iso = L["iso"]
+        if iso in PROF14_ISO or L.get("lat") is None:
+            continue
+        vit, egids = _vit_egids(L)
+        region = REGION_TR.get(iso, "—")
+        joshi = JOSHI33.get(iso, "—" if L["era"] != "living" else "0–1 · çok düşük")
+        if L.get("note"):
+            note = L["note"]
+        elif L["era"] != "living":
+            note = f"Tarihsel/ölü {L['branch']} dili; {region}."
+        else:
+            note = f"{L['branch']} kolu; {region}."
+        entry = {"code": ("culw" if iso == "clw" else iso), "name": L["name"], "branch": L["branch"],
+                 "speakers": (L.get("speakers") or "—"), "egids": egids, "vit": vit,
+                 "script": (re.sub(r"\s+", "", (L.get("script") or "").split("(")[0]) or "—"),
+                 "region": region, "note": note, "joshi": joshi}
+        new_rows.append("    " + json.dumps(entry, ensure_ascii=False) + ",")
+    prof_anchor = "  ];\n\n  // ---- HISTORY timeline ----"
+    nprof33 = 0
+    if prof_anchor in html:
+        html = html.replace(prof_anchor, "\n".join(new_rows) + "\n" + prof_anchor, 1); nprof33 = len(new_rows)
+    print(f"  Dil Profilleri 14->{14 + nprof33} (master'dan +{nprof33} yeni dil)")
     # Derin bölümler ARTIK iki-sütun gridin ALTINDA, TAM GENİŞLİKTE (sağ özet kutusu küçük/dengeli kalsın).
     # 2 sütunlu kart ızgarası → "Tarih"ten itibaren genişçe okunur (kullanıcı UI tutarlılık notu).
     deep_markup = (

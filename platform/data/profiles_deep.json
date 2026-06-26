@@ -385,6 +385,78 @@
     "label": "Dijital güç",
     "body": "Joshi Sınıf 1; Türkiye Türkçesinin gücünden yararlandığı için Apertium'da çok başarılı — crh-tur FST çeviricisi 'trunk' (olgun/üretim) seviyesinde. TUMLU'da analiz edilen 9 Türk dili arasında. (Platformda 'Oğuz-Kıpçak hibridi' etiketlenmeli.)"
    }
+  ],
+  "gag": [
+   {
+    "label": "Tarih",
+    "body": "Köken: 11-12. yy Karadeniz kuzey bozkırlarından Balkanlar'a inen Peçenek/Kuman/Oğuz boyları. İSTİSNA: İslam yerine Bizans/Bulgar etkisiyle Ortodoks Hristiyanlığı benimsediler. 19. yy Rus politikalarıyla Besarabya'ya göç. Kiril→Latin (1993)."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Kökleri Anadolu ağızlarına yakın ama Slav/Romen ADSTRATIYLA yapısal evrim: sözcük sonu ötümsüzleşme YOK (arap→arab), açık /ä/, Slavca /ts/; -Iyor şimdiki zaman yok. ★ Balkan Sprachbund: SOV→SVO esnedi, mastar kaybı + 'ki'-benzeri yan tümce. Sözcüğün ~%30'u Slav/Romen."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "En yakın akraba Anadolu/Türkiye Türkçesi; fakat Balkan Dil Birliği (Slav/Romen) ile yapısal yakınsama yaşadı. Rusça ile yoğun ikidillilik yeni nesle aktarımı tehdit ediyor."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Joshi Sınıf 0-1 (çok düşük kaynaklı). apertium-gag prototip (~3.143 kök, ~%78 kapsama); büyük UD ağaç bankası yok. ★ SVO kayması + mastar kaybı, Türkiye Türkçesi parser'larının doğrudan aktarımını İMKANSIZ kılar."
+   }
+  ],
+  "slr": [
+   {
+    "label": "Tarih",
+    "body": "14. yy Yuan döneminde Semerkant'tan Çin'in kuzeybatısına göç eden Oğuz/Salur boyları; İpek Yolu'nda Han Çinli, Hui ve Amdo Tibetli topluluklarla yüzyıllarca temas. Doğu Oğuz çekirdeği üzerine ağır Çin/Tibet katmanı. Çinghay/Gansu, Xunhua."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "★ Ünlü uyumunu TAMAMEN kaybetti (Çince/Tibetçe baskısı); ünsüz kümeleri için ünlü türemesi (gahawa). ★ Tibetçeden EVİDENSİYALLİK (kanıtsallık) — egoforik ekler. SOV korunur ama paradigmalar basitleşti. Standart yazım yok (Pinyin/Hanzi gayriresmi)."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Çin içinde Doğu Oğuz dil adacığı; en güçlü temas Çince + Amdo Tibetçe (teknoloji sözcükleri Çince, coğrafya/doğa Tibetçe). Diğer Türk dillerinden coğrafi olarak kopuk."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Net Joshi Sınıf 0 (Left-Behind). Apertium FST yok, UD yok, HuggingFace'te ~10'dan az. Standart alfabe yokluğu + yoğun Mandarin-Salarca code-switching veri madenciliğini neredeyse imkansız kılar."
+   }
+  ],
+  "kmz": [
+   {
+    "label": "Tarih",
+    "body": "11. yy Selçuklu Oğuz boyları iskeleti attı, 18. yy Afşar hakimiyetiyle pekişti. Uzun süre 'Güney Azerbaycan ağzı' sanıldı; Heyat ve Doerfer çalışmalarıyla bağımsız dil + Oğuzyanın doğu-batı geçiş halkası olarak literatüre girdi. İran kuzeydoğusu (Bojnurd, Quchan)."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Türkmence↔Azerbaycanca GEÇİŞ formu; Oğuz uzun ünlülerini korur. ★ Ünlü yuvarlaklaşması: /u/,/i/,/oː/ sonrası /ɑ/→[ɒ] (Farsçaya benzer) — ama -lAr çoğul ekine etki etmez. Genitif/datif tipik Oğuz; Farsçadan ki-cümleleri."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Filogenetik en yakın akraba Türkmence (aynı doğu dalı); Azerbaycanca ile geçişken; Farsça areal temas. (Hatalı biçimde 'Azerbaycan ağzı' etiketlenmemeli — bağımsız dil.)"
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Net Joshi Sınıf 0; Apertium FST, UD ya da geniş derlem YOK — tek dijital iz Wikimedia Incubator (Wp/kmz). Sözlü edebiyat (bahşı müziği) ağırlıklı → yazılı veri kıtlığı, STT modellerine muhtaç."
+   }
+  ],
+  "azb": [
+   {
+    "label": "Tarih",
+    "body": "Azerbaycanca makrodilinin (aze) güney standardı — İran (Doğu/Batı Azerbaycan, Erdebil). Safevi/Selçuklu mirası; Kuzey'den (azj) ayrı, İran yönetimi altında Farsça etkisinde gelişti. Arap-Fars alfabesini sürdürür; resmî statü yok (EGIDS 3)."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Merkez Oğuz; ayırt edici açık ə /æ/ fonemi yaygın. Farsçadan yoğun sözcük ve sözdizimi kopyalama; güney diyalektlerde SOV + Farsça bağlaç/ki-yapıları. Hâl/iyelik sistemi Ortak Oğuz karakterli."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Kuzey Azerbaycanca (azj) ile aynı makrodil ama ayrı standart + alfabe (Latin↔Arap). Farsça yoğun adstrat. ~15M+ konuşurla İran'ın en büyük Türk dili topluluğu."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Kuzey Azerbaycanca'nın dijital gücünden uzak: resmî statü + standart yazım yokluğu + Arap-Fars alfabesi görünürlüğü kısıtlar. Joshi düşük; Kuzey'in (azj) kaynakları alfabe farkı nedeniyle doğrudan transfer edilemez."
+   }
   ]
  }
 }

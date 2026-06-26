@@ -39,7 +39,7 @@
 - `18-genisletilmis-kognat-leksikal.prompt.md` — Leipzig-Jakarta+Swadesh, **kategorize** (A1 kelime-seçiciyi besler).
 
 ### B2 · Sonuçlar gelince işlenecek modüller
-- **Dil Profilleri:** 14 → tüm diller (profiles.json + profiles_deep + profiles_tts genişlet; deepsearch 9 zaten ~30 dil içeriyor — önce ONLARI işle, sonra 12-16 ile derinleştir).
+- **Dil Profilleri:** 🔄 **BASE 14 → 47 ✅** (master'dan; ad/kol/konuşur/egids/vit/script/region/joshi/note — sourced özet; yeni 33 dil gezilebilir, ÖZET-only). **Kalan:** derin bölümler (Tarih/Yapı/İlişkiler/Dijital/TTS) 14 → 47 (deepsearch 9 ~30 dil + 12-16 kol-derin → DEEPPROF/tts genişlet). *(Not: profil selektörü 47'de uzun liste — A1-tarzı kategori/arama ileride.)*
 - **Kognat Ağı:** 14 kavram × 7 dil → çok kavram × tüm diller (Savelyev 254 kavram + deepsearch 18). A1 kelime-seçici şart.
 - **Ses denklikleri:** Çuvaş-merkezli → tüm kol-çiftleri (deepsearch 17).
 - **Uzaklık:** Savelyev 32 dil matrisini tam aç (şu an 10).

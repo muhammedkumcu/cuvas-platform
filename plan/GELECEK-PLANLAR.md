@@ -30,7 +30,7 @@
 
 ### ✅ YAPILDI (26 Haz)
 - **B0 · Master envanteri `languages.master.json` (★ temel):** ds11 (pdfplumber tablo) + Glottolog çapraz-kontrol → **47 dil/lehçe/tarihsel** (39 canlı+7 tarihsel+1 proto). Koordinat: canlı→Glottolog, tarihsel→ds11. `platform/etl/build_master.py`.
-- **Harita ✅ tüm 47 dile açıldı:** gerçek çizim harita (`build_map_bg()` v2: kıyılar/iç denizler/Basra/dağ sıraları/ızgara/deniz etiketleri) + açgözlü etiket-yerleştirme (çakışma çözüldü) + era stili (tarihsel ayrı) + inline kart (vitalite+era). **Kullanıcı isteği karşılandı: gerçek harita + etiket çakışma çözümü.**
+- **Harita + ATLAS ✅ tüm 47 dile açıldı:** gerçek çizim harita (`build_map_bg()` v3: kıyılar/iç denizler/Basra/dağ sıraları/**nehirler**/ızgara) + açgözlü etiket-yerleştirme (çakışma çözüldü) + era stili + inline kart (vitalite+era). **ATLAS sayfası** (kullanıcı: "sığmıyor → önizleme + tıkla→büyük sayfa"): Karşılaştır'da küçük önizleme (dots-only) + "Büyük atlas" butonu/nav → ayrı büyük sayfa; zengin adlandırılmış coğrafya (İstanbul Boğazı, denizler, dağlar, nehirler, Turan/Sibirya bölgeleri). **Kullanıcı istekleri karşılandı.**
 
 ### B1 · Deepsearch promptları/çıktıları (11 ✅ işlendi; 12-18 elde, çıkarım sırada)
 - `arastirma/11-tum-turk-dilleri-envanter.prompt.md` — TAM dil/lehçe listesi + ISO/Glottocode/kol/koordinat/canlılık (ölçek TEMELİ).

@@ -295,6 +295,96 @@
     "label": "Dijital güç",
     "body": "Özbekçe makrodili Joshi Sınıf 3 olsa da Güney varyantı kurumsal destekten yoksun (EGIDS 2, Afganistan eyalet dili). Dijital kaynaklar Kuzey Özbekçe'ye kıyasla çok kısıtlı."
    }
+  ],
+  "kaa": [
+   {
+    "label": "Tarih",
+    "body": "Altın Orda + Nogay Orda'nın dağılışıyla güneye inen yarı-göçebe Kıpçak boyları; coğrafi izolasyon ve Özbeklerle (Karluk) temasla ayrı edebi kimlik. Kiril→Latin (1990'lar, Özbekistan dil reformuyla paralel)."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Fonoloji ve morfotaktik Kazakça ile adeta 'ikiz': ünlü uyumuna bağlı 12 varyantlı çoğul eki (-lar/-dar/-tar) birebir aynı şemada işler. Onu ayıran: Özbekçeden (Karluk) yüksek oranda kelime/kalıp kopyalaması. SOV, sondan eklemeli."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Kazakça ve Nogayca ile pratik olarak TAM karşılıklı anlaşılabilirlik; eğitim/devlette ikidillilik nedeniyle Özbekçe ile çok yoğun bölgesel (areal) temas. En büyük tehdit: Aral Gölü ekolojik krizi + Özbekçe asimilasyonu."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Joshi Sınıf 1 — ciddi 'veri açlığı'. apertium kaz-kaa 'incubator' (5.408 gövde); Kazakça ile aynı morfosentaks → NLP modül transferi çok kolay. TUMLU benchmark'ında ölçülmeye başlandı; TurkicNLP tokenizasyon/transliterasyon."
+   }
+  ],
+  "krc": [
+   {
+    "label": "Tarih",
+    "body": "Altın Orda sonrası Kuman-Kıpçak boylarının Kafkas dağlarına çekilmesi; İrani Alanlar (Oset ataları) + yerli Kafkas halklarıyla yüzyıllarca birlikte yaşamla etnogenez. 1930'larda standartlaştı/yazıya döküldü. Pers-Arap→Kiril."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Kıpçak omurgası + GÜÇLÜ Kafkas (Osetçe/Kabardeyce) fonolojik substratı: standart Türkçede zayıf olan küçük dil (uvular) ünsüzleri /q/, /χ/, /ʁ/ belirgin. Dudak uyumu var ama Kazakça/Kırgızca kadar katı değil; çoğul -la/-le."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Filogenetik en yakın akraba Kumukça (karşılıklı anlaşılabilirlik ~%80). Sözcük dağarcığı İrani ve Kafkasyalı (Çerkes) komşulardan yoğun leksikal kopyalama içerir."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Joshi Sınıf 0 (en iyi 1 alt-bandı). Apertium'da çeviri çifti, HF'de olgun model ya da UD ağaç bankası YOK — veri kıtlığı en yüksek dillerden. (Kafkas substratı modellenmezse morfolojik analiz hataları doğar.)"
+   }
+  ],
+  "kum": [
+   {
+    "label": "Tarih",
+    "body": "Çarlık öncesi yüzyıllarda TÜM Kuzey Kafkasya'nın pazar ve diplomasi ortak dili (lingua franca) — Tolstoy'un eserlerinde Kafkasya halkları Kumukça üzerinden anlaşır. Hazar'ın batı kıyısı, Dağıstan. Arap→Kiril."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Karaçay-Balkarca ile temel gramer/fonolojiyi paylaşır; Dağıstan yerel dillerinden (Avarca, Dargice) spesifik kültürel alıntılar onu ayırır. Ünlü uyumu standart Kıpçak kurallarına sadık, çoğul eki standart."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Karaçay-Balkarca ve Kırım Tatarcasının Çöl (bozkır) lehçesi ile tarihsel-dilbilimsel süreklilik; Dağıstan Kafkas dillerinin bölgesel etkisini taşır."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Tarihsel lingua franca olmasına rağmen modern çağda Joshi Sınıf 0'a hapsolmuş. apertium kaz-kum yalnız 561 kelimelik terk edilmiş 'incubator' demosu; LLM/etiketli korpus yok, yalnız TurkicNLP alt-seviye tokenizasyon."
+   }
+  ],
+  "nog": [
+   {
+    "label": "Tarih",
+    "body": "14. yy Altın Orda emiri Edige'nin Nogay Orda'sının torunları. 18-19. yy Rus İmparatorluğu çatışmaları + zorunlu göçler demografiyi parçaladı (Osmanlı'ya göçen milyonlarca Nogay asimile oldu) → dil büyük zafiyete uğradı."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Kıpçak'ın en SAF ve arkaik özelliklerini muhafaza eder; Kazakça ve Karakalpakça ile adeta aynı dilin varyantları. Ortak Türkçe /ş/→/s/, /ç/→/ş/ (ağaç→ağaş) karakteristiktir; yüksek varyasyonlu asimilasyon matrisi bozulmamış."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Kazakça ile akrabalık karşılıklı anlaşılabilirliği pratikte TAM kılar (en yakın kardeşi). Kafkas dillerinden çok, Rusçanın baskın asimilasyonu altında; dağınık demografi aktarımı kırsal dışında kesti."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Net Joshi Sınıf 0 örneği; dijital ayak izi yok denecek kadar az. apertium nog-kaz yalnız 9 stem iskeleti; derin öğrenme çağının tamamen dışında. (Kazakça kural motorları minör ayarlamayla zero-shot transfer adayı.)"
+   }
+  ],
+  "crh": [
+   {
+    "label": "Tarih",
+    "body": "Kırım Hanlığı'nda Kıpçak ve Oğuz dil alanlarının tam kesişiminde şekillendi; Codex Cumanicus dilin atası sayılır. 19. yy Gaspıralı'nın Tercüman gazetesi (Osmanlıyla harmanlayıp ortak edebi dil hedefi). 1944 Sürgün ekosistemi parçaladı."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Diller-arası KÖPRÜ; 3 diyalekt: Yalıboyu (Güney, neredeyse saf Oğuz=Türkiye Türkçesi), Çöl (Kuzey, standart Kıpçak=Nogayca/Kumukça), Orta Yol (ikisinin füzyonu — modern edebi dil). Melez morfofonoloji: Kıpçak sertliği + Oğuz ötümlülüğü."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Türkiye Türkçesiyle karşılıklı anlaşılabilirliği EN YÜKSEK Kıpçak dili — bir konuşur aynı anda hem İstanbullu hem Kumuk ile iletişim kurabilir. (Filogeni Kıpçak-Kuman, ama güçlü Oğuz tabakası = geçişken/transitional.)"
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Joshi Sınıf 1; Türkiye Türkçesinin gücünden yararlandığı için Apertium'da çok başarılı — crh-tur FST çeviricisi 'trunk' (olgun/üretim) seviyesinde. TUMLU'da analiz edilen 9 Türk dili arasında. (Platformda 'Oğuz-Kıpçak hibridi' etiketlenmeli.)"
+   }
   ]
  }
 }

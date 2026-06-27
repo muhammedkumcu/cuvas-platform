@@ -40,11 +40,12 @@
 
 ### B2 · Sonuçlar gelince işlenecek modüller
 - **Dil Profilleri:** **BASE 14 → 47 ✅** + **DERİN bölümler 14 → 39 ✅** (ds9/14/16 _profil_*.txt'ten faithful+atıflı 4 bölüm). Eklenen 25: Özbekçe/G.Özbekçe/Eynu/İli (Karluk) · 5 Kıpçak (Karakalpak/Karaçay-Balkar/Kumuk/Nogay/Kırım Tatar) · 4 Oğuz (Gagavuz/Salar/Horasan/G.Azerbaycan) · 4 Sibirya (alt/atv/Dolgan/Sarı Uygur) · **8 TARİHSEL** (İdil Bulgar/Hazar/Çağatay/Karahanlı/Harezm/Orhun/Eski Uygur/Codex Cumanicus). **Kalan derin = 8 küçük lehçe/kriptolekt** (Kaşkay/Balkan Gagavuz/Sibirya Tatar/Tofa/Urum/Karay/Kırımçak/Çulım) — **dedicated kaynak yok → dürüstçe ÖZET-only.** TTS 14→47 ayrı. *(Selektör 47'de uzun — A1-tarzı kategori/arama ileride.)*
-- **Kognat Ağı:** 14 kavram × 7 dil → çok kavram × tüm diller (Savelyev 254 kavram + deepsearch 18). A1 kelime-seçici şart.
-- **Ses denklikleri:** Çuvaş-merkezli → tüm kol-çiftleri (deepsearch 17).
-- **Uzaklık:** Savelyev 32 dil matrisini tam aç (şu an 10).
-- **Harita:** ✅ 14 → 47 dil (master envanteri; gerçek çizim harita + açgözlü etiket declutter + era stili). *(Profiller ölçeklenince inline kart notları ds12-16'dan zenginleştirilebilir.)*
-- **Ekosistem:** deepsearch 7+10 ~25 dil işlendi; yeni dillerde HF arama hub'ı + bulunanlar.
+- **Kognat Ağı:** ⏳ **SIRADAKİ-1** — 14 kavram × 7 dil → çok kavram × tüm diller (Savelyev 254 kavram + deepsearch 18 kategorize). A1 kelime-seçici HAZIR; `COG_CONC`/`COG_CAT`/`COG_DISP` genişlet.
+- **Ses denklikleri:** ⏳ **SIRADAKİ-1** (kognatla birlikte) — Çuvaş-merkezli → tüm kol-çiftleri (deepsearch 17 izogloss tabloları).
+- **Uzaklık:** ✅ 10 → 32 dil (Savelyev tam leksikal/filogenetik matris; `DIST_ROWS`, koordinat master'dan, LANGVEC 32; tipolojik WALS 23). *(Anlaşılabilirlik/Lindsay kısmi — genişletilebilir.)*
+- **Harita:** ✅ 14 → 47 dil + Atlas/zoom (master; gerçek çizim harita + açgözlü etiket declutter + era stili). *(Profiller ölçeklenince inline kart notları zenginleştirilebilir.)*
+- **TTS profil bölümü:** ⏳ SIRADAKİ-2 — `profiles_tts.json` 14 → 47 (ds6 + ekosistem).
+- **Ekosistem:** ⏳ SIRADAKİ-3 — deepsearch 7+10 ~25 dil işlendi; yeni dillerde HF arama hub'ı + bulunanlar.
 
 ---
 

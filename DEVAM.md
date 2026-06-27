@@ -7,19 +7,28 @@
 
 ## 0) ŞU AN NEREDE KALDIK — TEK BAKIŞ
 
-### ★★ GÜNCEL DURUM (25 Haz) — ÖNCE BUNU OKU
-**DEEPSEARCH-BAĞIMSIZ DİKEY MVP NEREDEYSE TAM BİTTİ.** Tüm fazlar yapıldı, Claude_Preview'da doğrulandı, commit+push'lu:
-- **Faz 1:** 1.1 füzyon ek-ayrışması ✅ (chv ek-sayı %75.3→%93.2, segment_eval doğrulamalı, regresyonsuz; kalan px+hâl portmanteau bilinçli korunur) · 1.2 ses denklikleri kanıt-destekli ✅ · 1.3 harita inline-kart ✅ · 1.4 Hakkında ✅.
-- **Faz 2:** 2.1 Seslendirme(TTS/ASR) ✅ · 2.2 **Ekosistem sayfası** ✅ (kategori-sekmeli, link+metrik launchpad; ds7+10) · 2.5 kollar açıklayıcı (altı kol + Bayes soy ağacı + geçişken diller notu) ✅ · 2.6 derin profiller (14 dil×5 bölüm) ✅ · 2.7 KAYNAKLAR ✅.
-- **Faz 3.1:** Çuvaşça "Dilin Kalbi" anlatı sayfası ✅.
-- **Deepsearch 5-10 İŞLENDİ.** Kol etiketleri çapraz-kontrol: veri zaten doğru (CrimeanTatar→Kıpçak, Salar→Oğuz, SarygYugur→Sibirya).
-- **SAYFALAR (sol menü):** KEŞFET (Ana Sayfa·Dil Profilleri·**Harita/Atlas**·Tarih&Köken·**Çuvaşça Kalbi**·**Hakkında**) · ANALİZ (Morfoloji·Paradigma·Kognat·Karşılaştır·Uzaklık) · ÖĞREN (Çuvaşça Atölyesi) · ARAŞTIR (Araştırmacı Merkezi·**Ekosistem**·Kaynaklar).
+### ★★ GÜNCEL DURUM (27 Haz) — ÖNCE BUNU OKU (compact-sonrası giriş noktası)
+**DİKEY MVP ✅ + BÖLÜM A (UI cilası) ✅ + BÖLÜM B (yatay ölçek) DEVAM EDİYOR.** Hepsi Claude_Preview'da doğrulandı, ayrı commit'lerle push'lu, tree temiz. **Felsefe: §4.5 (UYDURMA YOK) — DEĞİŞMEZ.** Sıralı plan detayı: `plan/GELECEK-PLANLAR.md`.
 
-**★ SIRADAKİ MAKRO-FAZ = YATAY ÖLÇEK** (tüm Türk dilleri + lehçeleri). **Sıralı plan: `plan/GELECEK-PLANLAR.md`** →
-- **A) Yatay ölçek öncesi UI cilası (kullanıcı notları) — ✅ TAMAMLANDI (26 Haz, A1–A6 hepsi, Claude_Preview doğrulamalı, ayrı commit'ler):** A1 kognat kelime-seçici kategorili+aranabilir ✅ (`COG_CAT`, ds18 ile genişler) · A2 Karşılaştır başlığı sekmeye-duyarlı ✅ (kelime yalnız dizilim'de) · A3 landing katmanlı kapsam şeridi VERİDEN + footer "6 KOL·32 DİL" düzeltildi ✅ · A4 harita projeksiyon-hizalı arka plan (`build_map_bg()`, iç denizler gerçek lat/lon) + hover-büyütme + etiket kademe ✅ · A5 Uzaklık radar kutusu kompakt + OKUMA sağ sütuna ✅ · A6 Kaynaklar 4 kategori grubu ✅. **(Detay sonuç özeti: GELECEK-PLANLAR Bölüm A.)**
-- **B) Yatay ölçek (★ DEVAM EDİYOR):** deepsearch 11-18 çıktıları geldi (`arastirma/11..18*.pdf`). **B1 ✅ master envanteri** `languages.master.json` (47 dil/lehçe/tarihsel; ds11 + Glottolog çapraz-kontrol; `platform/etl/build_master.py`). **HARİTA + ATLAS ✅ tüm 47 dile açıldı** (gerçek çizim harita `build_map_bg()` v3 — kıyılar/denizler/dağlar/nehirler/İstanbul Boğazı; açgözlü etiket-yerleştirme = çakışma çözümü; era stili). **ATLAS SAYFASI + ZOOM:** Karşılaştır'da küçük önizleme (dots-only) + "Büyük atlas" butonu/nav → ayrı büyük sayfa (`isAtlas`, 47 dil, zengin adlandırılmış coğrafya). **ZOOM/PAN** (uç-dil sıkışma sorunu çözümü): zoom-kademeli etiket eşiği `lz` (z=1 seyrek→yakınlaştıkça çakışmadan açılır) + counter-scale (ekran-sabit, ayrılır) + 6 ODAK düğmesi + zoom +/−. `mapNodes` ekran-duyarlı. İnline kart vitalite+era. **Dil Profilleri BASE 14→47 ✅ + DERİN 14→39 ✅** (ds9/14/16'dan faithful+atıflı; +25 dil: Karluk/Kıpçak/Oğuz/Sibirya batch'leri + **8 tarihsel dil** [Orhun/Çağatay/Karahanlı/Eski Uygur/İdil Bulgar/Hazar/Harezm/Codex Cumanicus]). Kalan 8 = küçük lehçe/kriptolekt (dedicated kaynaksız → özet-only, dürüst). **SIRADAKİ:** TTS 14→47 · **Kognat+Ses denklikleri** (ds17/18) · **Uzaklık** (Savelyev 32) · A1 `COG_CONC` genişlet · ekosistem. ⚠ **pdfplumber tablo çıkarımı** = `arastirma` venv (`/c/Users/.../turkmence-guncelleme/.venv/Lib/site-packages` + Python311).
-- **C) Altyapı:** gerçek ses motoru (Piper/MMS/eSpeak WASM+FastAPI) · morfolojik üretim arayüzü · ekosistem HfApi-CRON.
-- **D) EN SON:** çocuk eğitim portalı + Saha/Şor "Dilin Kalbi" şablonu.
+**DİKEY MVP ✅ (deepsearch-bağımsız, arka plan):** Faz 1 (füzyon ek-ayrışması chv %75.3→%93.2 · ses denklikleri kanıtlı · harita inline-kart · Hakkında) · Faz 2 (Seslendirme · **Ekosistem sayfası** · kollar+Bayes ağacı · derin profiller · KAYNAKLAR) · Faz 3.1 (Çuvaşça "Dilin Kalbi"). Deepsearch 5-10 işlendi.
+
+**BÖLÜM A — yatay ölçek öncesi UI cilası ✅ (A1-A6, 26 Haz):** A1 kognat kelime-seçici kategorili+aranabilir · A2 Karşılaştır başlığı sekmeye-duyarlı · A3 landing kapsam şeridi VERİDEN + footer düzeltildi · A4 harita projeksiyon-hizalı arka plan + hover + etiket kademe · A5 Uzaklık radar kompakt + OKUMA sağa · A6 Kaynaklar 4 kategori. *(Detay: GELECEK-PLANLAR Bölüm A.)*
+
+**BÖLÜM B — YATAY ÖLÇEK (★ ŞU AN BURADAYIZ).** Deepsearch 11-18 çıktıları `arastirma/11..18*.pdf` (kullanıcı çalıştırdı). **YAPILANLAR (✅):**
+- **B0 · master envanteri** `platform/data/languages.master.json` (47 dil/lehçe/tarihsel; ds11 + Glottolog çapraz-kontrol; `platform/etl/build_master.py`). **★ Master = harita+profil+uzaklık'ın TEK kaynağı.**
+- **Harita + ATLAS + ZOOM ✅** tüm 47 dile açıldı: gerçek çizim harita (`build_map_bg()` v3 — kıyı/deniz/dağ/nehir/Boğaz; `atlas_feature_labels()`). Karşılaştır'da küçük önizleme (dots-only) + "Büyük atlas" → ayrı **Atlas sayfası** (`isAtlas`). **Zoom/pan** (uç-dil sıkışma çözümü): zoom-kademeli etiket eşiği `lz` + counter-scale + 6 ODAK düğmesi + zoom +/−. `mapNodes` ekran-duyarlı.
+- **Dil Profilleri ✅** BASE 14→47 (master'dan sourced özet) + **DERİN 14→39** (ds9/14/16'dan faithful+atıflı; tüm büyük canlı + **8 tarihsel** [Orhun/Çağatay/Karahanlı/Eski Uygur/İdil Bulgar/Hazar/Harezm/Codex Cumanicus]). Kalan 8 küçük lehçe/kriptolekt (Kaşkay/Balkan Gagavuz/Sibirya Tatar/Tofa/Urum/Karay/Kırımçak/Çulım) **dedicated kaynaksız → özet-only (dürüst)**.
+- **Uzaklık Gezgini ✅** 10→32 dil (Savelyev tam leksikal/filogenetik matris; `DIST_ROWS`; koordinat master'dan; LANGVEC 32).
+
+**⏳ SIRADAKİ (Bölüm B kalan — ÖNERİLEN SIRA):**
+1. **Kognat Ağı + Ses denklikleri** (platformun karşılaştırmalı-dilbilim çekirdeği): deepsearch **18** (kategorize kognat → `COG_CONC`/`COG_CAT` genişlet, A1 seçici HAZIR) + deepsearch **17** (tüm kol-çifti ses denklikleri → ses denklikleri Çuvaş-ötesine). *(ds17/18 PDF'leri `arastirma/`'da, pdfplumber/pdfminer ile çıkar.)*
+2. **TTS profil bölümü 14→47** (`profiles_tts.json`; ds6 + ekosistem verisi).
+3. **Ekosistem** yeni dillerde HF arama hub'ı (ds7/10 ~25 işlendi).
+4. **Dil Profilleri kalan 8 küçük lehçe** derin (dedicated kaynak çıkarsa) + **selektör A1-tarzı kategori/arama** (47'de uzun liste).
+- Sonra **Bölüm C (altyapı):** gerçek ses motoru (Piper/MMS/eSpeak+FastAPI) · morfolojik üretim arayüzü · ekosistem HfApi-CRON.
+- **Bölüm D — EN SON:** çocuk eğitim portalı + Saha/Şor "Dilin Kalbi" şablonu.
+
+**⚠ TEKNİK:** pdfplumber/pdfminer tablo+metin çıkarımı = `arastirma` venv (`/c/Users/Tombulteke/Desktop/turkmence-guncelleme/.venv/Lib/site-packages` PYTHONPATH + `C:\Users\Tombulteke\AppData\Local\Programs\Python\Python311\python.exe`). Çıkarılan `_*.txt`/`_*.json` commit'li, PDF'ler gitignore. **Konsol cp1254 → print'te `→`/Kiril ÇÖKER**, `->` kullan ya da dosyaya yaz + Read. **Profil derin ekleme deseni:** ds9/14/16 `_profil_*.txt` oku → `profiles_deep.json["deep"][code]` = 4 bölüm (Tarih/Yapı & özgünlük/İlişkiler/Dijital güç, ~150-280 char, faithful+atıflı) → `python platform/ui/build.py` → Claude_Preview doğrula → commit.
 
 **KRİTİK HATIRLATMALAR (her zaman):** ① **UYDURMA YOK** — kaynak + test + doğruluk her şeyin önünde (§4.5 FELSEFE; kanıtla-iddia-etme, test sonucu paylaş). ② **Commit + push SIK** (kolay unutuluyor; her adımda). ③ **HARDCODED kısımlar önemli ve unutulur** (ör. Karşılaştır başlığı, ana sayfa dil sayısı) — değişikliklerde tara. ④ **`.dc.html` ELLE DÜZENLENMEZ → build.py.** ⑤ Backend için VM açık + uvicorn (§4.6 tuzağı). ⑥ Commit'lerde yalnız Muhammed Kumcu (Co-Authored-By YOK).
 

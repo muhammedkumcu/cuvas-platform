@@ -21,11 +21,13 @@
 - **Uzaklık Gezgini ✅** 10→32 dil (Savelyev tam leksikal/filogenetik matris; `DIST_ROWS`; koordinat master'dan; LANGVEC 32).
 - **Kognat Ağı + Ses denklikleri ✅** (ds17/18, 27 Haz). **Kognat 7→18 dil:** yeni `platform/data/cognates_deep.json` (11 kavram × 18 dil; her hücre yerel yazı/Latin/IPA/morfem/**kognat-ID**/ses-kuralı; `platform/etl/build_cognates_deep.py`). `build_cognates_deep` → 18-dilli radyal graf (cogid-tabanlı **boşluk tespiti**) + graf-altı "**Dil dil ses kuralı**" dökümü (kol-renkli, boşluk turuncu); A1 seçici 5 kategori otomatik. **Ses denklikleri 4 Çuvaş-merkezli kural → 7 kol-izoglosu** (`build_sound_laws`: rotasizm/lambdasizm/*h-/*-d-/*-G/*y-/ötümlüleşme; çok-kollu refleks + kanıt rozeti 36/29/14 **Savelyev verisinden**). Kognat→kural bağı korundu. *(Detay: GELISTIRME-GUNLUGU devam-14.)* **NOT:** Savelyev `cognates.json` (254 kavram·32 dil) hâlâ repoda — Kognat Ağı'nı bu 254'e açma seçeneği `GELECEK-PLANLAR`'da; ds18'in 11'i "derin", Savelyev 254'ü "geniş tarama" katmanı.
 - **TTS profil bölümü 14→39 ✅** (ds6, 27 Haz). `profiles_tts.json` +25 dil (`platform/etl/expand_tts_47.py`); tüm 39 derin profil "Seslendirme (TTS/ASR)" 5. bölümü taşır. **Uydurma yok:** gerçek açık model yalnız ds6'da adı geçenlerde (uzn/azb/crh/nog = MMS-TTS/eSpeak/wav2vec2); özel modeli olmayan yaşayan küçük diller → "açık model yok + yakın-dil ikamesi/eSpeak"; tarihsel/ölü diller → "seslendirme uygulanamaz". *(8 özet-only küçük lehçenin derin profili yok → TTS bölümü de yok; o yüzden tavan 39, 47 değil.)*
+- **Ekosistem "Dil dil keşif" + Dil Profilleri A1 selektör ✅** (27 Haz, tek patch). Ekosistem'e 9. sekme **"Dil dil keşif"** — her yaşayan master dili (39) için doğrudan HF arama hub'ı (model+veri; `HF_CODE` eşlemesi; yeni-küçük diller dahil; dürüst "arama" çerçevesi, iddia değil). Dil Profilleri 47-dil selektörüne **arama kutusu + kol kategori çipleri** (Tümü/6 kol sayaçlı; liste ayrı kaydırılır; h2 stale "14 dil"→dinamik).
 
-**⏳ SIRADAKİ (Bölüm B kalan — ÖNERİLEN SIRA):**
-1. **Ekosistem** yeni dillerde HF arama hub'ı (ds7/10 ~25 işlendi; `ecosystem.json`). Yeni master dilleri kategori altına en azından HF arama hub linkiyle ekle.
-2. **Dil Profilleri kalan 8 küçük lehçe** derin (dedicated kaynak çıkarsa) + **selektör A1-tarzı kategori/arama** (47'de uzun liste).
-3. *(Opsiyonel)* Kognat Ağı'nı Savelyev 254 kavrama aç (geniş tarama katmanı) — `cognates.json` zaten elimizde.
+**⏳ SIRADAKİ:**
+- **★ BÖLÜM B ESAS İTİBARİYLE BİTTİ.** Tek açık iş: **8 küçük lehçe DERİN profili** (Kaşkay/Balkan Gagavuz/Sibirya Tatar/Tofa/Urum/Karay/Kırımçak/Çulım) — **dedicated deepsearch kaynağı YOK → bloke** (uydurma yok; kaynak gelince eklenir). Base profil + harita + TTS "yok" durumu zaten var.
+- **Opsiyonel — KULLANICI ONAYI BEKLİYOR:** **Kognat Ağı'nı Savelyev 254 kavrama aç** (geniş tarama katmanı; `cognates.json` 254 kavram·32 dil elimizde). Ayrıntılı plan kullanıcıya sunuldu (27 Haz); onay gelince yapılır. ds18'in 11'i "derin", 254 "geniş" katman.
+- Sonra **Bölüm C (altyapı):** ① gerçek ses motoru (Piper/MMS/eSpeak + FastAPI Smart Router; "▷ Seslendir" şu an Web Speech'e düşüyor) · ② morfolojik **üretim** arayüzü (kök+öznitelik → yüzey) · ③ ekosistem HfApi-CRON (metrik otomatik tazeleme).
+- **Bölüm D — EN SON:** çocuk/öğrenci eğitim portalı + Saha/Şor "Dilin Kalbi" şablonu.
 - Sonra **Bölüm C (altyapı):** gerçek ses motoru (Piper/MMS/eSpeak+FastAPI) · morfolojik üretim arayüzü · ekosistem HfApi-CRON.
 - **Bölüm D — EN SON:** çocuk eğitim portalı + Saha/Şor "Dilin Kalbi" şablonu.
 

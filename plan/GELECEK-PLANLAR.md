@@ -45,7 +45,8 @@
 - **Uzaklık:** ✅ 10 → 32 dil (Savelyev tam leksikal/filogenetik matris; `DIST_ROWS`, koordinat master'dan, LANGVEC 32; tipolojik WALS 23). *(Anlaşılabilirlik/Lindsay kısmi — genişletilebilir.)*
 - **Harita:** ✅ 14 → 47 dil + Atlas/zoom (master; gerçek çizim harita + açgözlü etiket declutter + era stili). *(Profiller ölçeklenince inline kart notları zenginleştirilebilir.)*
 - **TTS profil bölümü:** ✅ 14 → **39 dil** (ds6). `profiles_tts.json` +25 (`expand_tts_47.py`); her derin profil "Seslendirme (TTS/ASR)" 5. bölümü taşır. Gerçek model uzn/azb/crh/nog; küçük yaşayan diller "yakın-dil ikamesi/eSpeak"; tarihsel diller "uygulanamaz". *(Tavan 39 = derin profil sayısı; 8 özet-only lehçenin TTS bölümü yok.)*
-- **Ekosistem:** ⏳ **SIRADAKİ-1** — deepsearch 7+10 ~25 dil işlendi; yeni master dillerinde HF arama hub'ı + bulunanlar.
+- **Ekosistem:** ✅ + yeni **"Dil dil keşif"** sekmesi (9. kategori) — 39 yaşayan dilin her biri için doğrudan HF arama hub'ı (model+veri; yeni/küçük diller dahil; dürüst "arama" çerçevesi). Küratörlü öne çıkanlar 8 kategoride.
+- **Dil Profilleri selektör:** ✅ A1-tarzı arama kutusu + kol kategori çipleri (47 dil uzun listesi süzülür). *(8 küçük lehçe DERİN profili dedicated kaynak olmadığından bloke — uydurma yok; base+TTS "yok" var.)*
 
 ---
 

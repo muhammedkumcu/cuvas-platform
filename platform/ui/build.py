@@ -1040,6 +1040,61 @@ def main():
         html = html.replace(sl_intro_old, sl_intro_new, 1); nsl += 1
     print(f"  ds17 Ses denklikleri 4->7 kol-izoglosu: {nsl}/4 yama (SOUND, builder, kart, giris)")
 
+    # ---- Bölüm B: Dil Profilleri selektörü A1-tarzı (47 dil → ara + kola göre süz) ----
+    npf = 0
+    # (1) state: profileQ + profileCat
+    if "profileSel: 'chv'," in html:
+        html = html.replace("profileSel: 'chv',", "profileSel: 'chv', profileQ:'', profileCat:'all',", 1); npf += 1
+    # (2) profileVals: filtre mantığı (arama + kol kategorisi) + kategori çipleri
+    pf_old = "    const cards = this.LANGPROFILE.map(l=>{\n      const sel = l.code===S.profileSel, vc = this.vitColor(l.vit);"
+    pf_new = (
+        "    const _pq=(S.profileQ||'').trim().toLocaleLowerCase('tr'), _pcat=S.profileCat||'all', _pn=(s)=>String(s||'').toLocaleLowerCase('tr');\n"
+        "    const _pbc={}; this.LANGPROFILE.forEach(l=>{ const b=l.branch||'?'; _pbc[b]=(_pbc[b]||0)+1; });\n"
+        "    const _pbl=Object.keys(_pbc).sort((a,b)=>a.localeCompare(b,'tr'));\n"
+        "    const _pmk=(key,label,nn)=>{ const s=_pcat===key; return {key,label:label+(nn!=null?' \\u00b7 '+nn:''),go:()=>this.setState({profileCat:key}),style:`cursor:pointer;border:1px solid ${s?'#d98b4a':'rgba(33,29,23,.16)'};background:${s?'#d98b4a':'#fff'};color:${s?'#211d17':'#5f574b'};border-radius:13px;padding:4px 11px;font-size:11.5px;font-family:'IBM Plex Mono',monospace;font-weight:${s?600:400}`}; };\n"
+        "    const profileCats=[_pmk('all','Tümü',this.LANGPROFILE.length)].concat(_pbl.map(b=>_pmk(b,b,_pbc[b])));\n"
+        "    const _pfilt=this.LANGPROFILE.filter(l=>{ if(_pcat!=='all'&&(l.branch||'?')!==_pcat) return false; if(_pq && _pn(l.name).indexOf(_pq)<0) return false; return true; });\n"
+        "    const cards = _pfilt.map(l=>{\n      const sel = l.code===S.profileSel, vc = this.vitColor(l.vit);")
+    if pf_old in html:
+        html = html.replace(pf_old, pf_new, 1); npf += 1
+    # (3) return'e yeni alanlar
+    pf_ret_old = "    return { profileCards:cards,"
+    pf_ret_new = ("    return { profileCards:cards, profileCats, profileTotal:this.LANGPROFILE.length,\n"
+                  "      profileEmpty:cards.length===0, profileQ:S.profileQ||'', onProfileInput:(e)=>this.setState({profileQ:e.target.value}),")
+    if pf_ret_old in html:
+        html = html.replace(pf_ret_old, pf_ret_new, 1); npf += 1
+    # (4) h2 stale "14 dil" → dinamik sayı + süzme ipucu
+    pf_h2_old = '>14 dil · soldan kenar rengi = canlılık</h2>'
+    pf_h2_new = '>{{ profileTotal }} dil · ara, kola göre süz · kenar = canlılık</h2>'
+    if pf_h2_old in html:
+        html = html.replace(pf_h2_old, pf_h2_new, 1); npf += 1
+    # (5) markup: liste üstüne arama kutusu + kol çipleri (sabit), liste ayrı kaydırılır
+    pf_mk_old = ('          <div style="display:flex;flex-direction:column;gap:8px;max-height:600px;overflow:auto;padding-right:4px">\n'
+                 '            <sc-for list="{{ profileCards }}" as="c" hint-placeholder-count="6">')
+    pf_mk_new = ('          <div style="display:flex;flex-direction:column;gap:11px">\n'
+                 '            <div style="display:flex;flex-direction:column;gap:9px">\n'
+                 '              <input value="{{ profileQ }}" onInput="{{ onProfileInput }}" placeholder="Dil ara — ör. Nogay, Saha…" style="width:100%;padding:8px 12px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:13.5px;font-family:inherit;color:#211d17;outline:none">\n'
+                 '              <div style="display:flex;gap:6px;flex-wrap:wrap">\n'
+                 '                <sc-for list="{{ profileCats }}" as="pc"><button onClick="{{ pc.go }}" style="{{ pc.style }}">{{ pc.label }}</button></sc-for>\n'
+                 '              </div>\n'
+                 '            </div>\n'
+                 '            <div style="display:flex;flex-direction:column;gap:8px;max-height:520px;overflow:auto;padding-right:4px">\n'
+                 '            <sc-for list="{{ profileCards }}" as="c" hint-placeholder-count="6">')
+    if pf_mk_old in html:
+        html = html.replace(pf_mk_old, pf_mk_new, 1); npf += 1
+    # (6) markup kapanış: ekstra wrapper div'i kapat + boş-durum
+    pf_close_old = ('            </sc-for>\n'
+                    '          </div>\n'
+                    '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:18px;padding:30px 32px">')
+    pf_close_new = ('            </sc-for>\n'
+                    '            <sc-if value="{{ profileEmpty }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;padding:8px 2px">Eşleşen dil yok — aramayı/kolu değiştir.</div></sc-if>\n'
+                    '            </div>\n'
+                    '          </div>\n'
+                    '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:18px;padding:30px 32px">')
+    if pf_close_old in html:
+        html = html.replace(pf_close_old, pf_close_new, 1); npf += 1
+    print(f"  Dil Profilleri selektör A1 (ara + kol süzme): {npf}/6 yama")
+
     # NOT: A2 (Karşılaştır başlık sekmeye-duyarlı) D-bloğunda compareHeadline tanımında yapılır (tek kaynak).
 
     # ---- A3: ana sayfa (landing) güncelliği — kapsam sayıları VERİDEN, footer düzelt ----
@@ -1959,6 +2014,28 @@ def main():
     #  Ayrı "Ekosistem" sayfası: kategori × dil × DOĞRUDAN bağlantı (launchpad). Nötr; olgunluk yargısı yok.
     # ============================================================
     eco = json.load(open(DATA / "ecosystem.json", encoding="utf-8"))
+    # ── Bölüm B: "Dil dil keşif" kategorisi — HER yaşayan master dili için doğrudan HF arama hub'ı ──
+    # (yeni/küçük diller dahil). DÜRÜST: bunlar ARAMA linki — sonuç sayısı dilin dijital varlığını yansıtır,
+    # iddia değil. HF kod eşlemesi: 639-1 olanlar kısa, diğerleri ISO 639-3 (HF facet'i çoğunu tanır).
+    HF_CODE = {"tur": "tr", "azj": "az", "aze": "az", "tuk": "tk", "kaz": "kk", "kir": "ky",
+               "uzn": "uz", "uzb": "uz", "uig": "ug", "tat": "tt", "bak": "ba", "chv": "cv"}
+    disc_langs = []
+    for L in sorted([m for m in master if m.get("era") == "living"], key=lambda m: (m["branch"], m["name"])):
+        hc = HF_CODE.get(L["iso"], L["iso"])
+        disc_langs.append({"name": f'{L["name"]} · {L["branch"]}', "links": [
+            {"label": "HF modeller", "url": f"https://huggingface.co/models?language={hc}&sort=trending", "note": hc},
+            {"label": "HF veri", "url": f"https://huggingface.co/datasets?language={hc}"},
+        ]})
+    eco["categories"].append({
+        "key": "discover", "title": "Dil dil keşif",
+        "desc": "Her yaşayan Türk dili için doğrudan HuggingFace arama girişi (model + veri). Sonuç sayısı "
+                "dilin dijital varlığını yansıtır — bazı küçük dillerde boş çıkabilir; bu da dürüst bir sinyaldir. "
+                "Küratörlü öne çıkanlar için diğer kategorilere bakın.",
+        "hubs": [{"label": "HF · tüm modeller (trend)", "url": "https://huggingface.co/models?sort=trending"},
+                 {"label": "HF · tüm veri setleri", "url": "https://huggingface.co/datasets"},
+                 {"label": "Mozilla Common Voice", "url": "https://commonvoice.mozilla.org/datasets"}],
+        "langs": disc_langs,
+    })
     def _chip(label, url, note=""):
         ns = f'<span style="color:#9a9082;font-weight:400"> · {note}</span>' if note else ''
         return (f'<a href="{url}" target="_blank" rel="noopener" '
@@ -2025,7 +2102,7 @@ def main():
                 "style:((S.ecoCat||'llm')===c.key?\"" + TAB_ACT + "\":\"" + TAB_INACT + "\")})), "
                 "eco_llm:(S.ecoCat||'llm')==='llm', eco_encoder:S.ecoCat==='encoder', eco_asr:S.ecoCat==='asr', "
                 "eco_tts:S.ecoCat==='tts', eco_data:S.ecoCat==='data', eco_bench:S.ecoCat==='bench', "
-                "eco_tools:S.ecoCat==='tools', eco_orgs:S.ecoCat==='orgs',")
+                "eco_tools:S.ecoCat==='tools', eco_orgs:S.ecoCat==='orgs', eco_discover:S.ecoCat==='discover',")
     html = html.replace("isResearch:S.screen==='research',", "isResearch:S.screen==='research', " + eco_vals, 1)
     html = html.replace("{mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph']},",
                         "{mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph']},\n    {mod:'Ekosistem', srcs:['hf','deepds','fst']},", 1)

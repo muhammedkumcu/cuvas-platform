@@ -601,6 +601,114 @@
     "label": "Dijital güç",
     "body": "Tarihsel/ölü ve dilbilimsel olarak tartışmalı — modern dijital varlık yok. Kanıt yalnız birkaç yazıt, unvan ve yer adı (Kiev Mektubu, Sarkel); bağımsız bir korpus oluşturulamaz."
    }
+  ],
+  "chg": [
+   {
+    "label": "Tarih",
+    "body": "15. yy'dan 20. yy başına kadar Orta Asya'nın edebi dili ve lingua francası (Timur/Babür imparatorlukları, Hive/Hokand/Buhara hanlıkları, Doğu Türkistan). Karahanlı→Harezm Türkçesinin doğrudan ardılı. Klasik zirve: Ali Şîr Nevâî, Muhâkemetü'l-Lugateyn. 1921'de modern Özbek/Uygur standardına bıraktı (ölü)."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Karluk iskeleti üzerine yoğun Farsça-Arapça örtü (klasik metinlerde alıntı oranı %60'ı aşar). ★ Oğuz ötümlüleşmesine KAPALI — arkaik söz başı t-/k- korunur (Oğuzca dağ→tağ, gel-→kel-). Ünlü uyumu var ama Arap yazımı (harekesiz) takibini zorlaştırır. Perso-Arap (Nastaliq)."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Modern Özbekçe ve Uygurcanın doğrudan atası. Karahanlı (Divânu Lugâti't-Türk, Kutadgu Bilig) + Harezm edebi geleneğinin varisi; Farsça ile asırlık prestij-dil ortaklığı (Nevâî bunu Farsçaya üstün göstermeye çalıştı)."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Tarihsel/ölü edebi dil (EGIDS 10). Modern NLP yok; korpus = asırlık el yazması edebiyat/tarih/bilim metinleri (Perso-Arap). Tarihsel-karşılaştırmalı çalışmalar ve StarLing etimolojik veritabanları için birincil kaynak."
+   }
+  ],
+  "xqa": [
+   {
+    "label": "Tarih",
+    "body": "11-13. yy Karahanlı Devleti'nin (Kaşgar/Balasagun) edebi dili — Karluk kolunun tarihsel merkezi ve İslami İLK büyük Türk edebi dili. Anıtsal eserler: Kaşgarlı Mahmud'un Dîvânu Lugâti't-Türk'ü (1074) ve Yusuf Has Hacib'in Kutadgu Bilig'i (1069)."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Eski Türkçeden devralınan arkaik fonoloji; söz başı t-/k- korunur. Arap alfabesinin Türkçeye uyarlanmasının ilk aşaması. Sözcük dağarcığı henüz büyük ölçüde öz-Türkçe (DLT'nin tanıklığıyla); Farsça-Arapça etki Harezm/Çağatay'a göre sınırlı."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Karluk edebi silsilesinin başı: Karahanlı → Harezm Türkçesi → Çağatayca → modern Özbekçe/Uygurca. DLT, dönemin tüm Türk lehçelerini (Oğuz, Kıpçak, Argu…) karşılaştırmalı kaydeden ilk Türk dilbilim eseridir."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Tarihsel/ölü dil. Modern dijital varlık yok; korpus = sınırlı ama paha biçilmez İslami-dönem el yazmaları (DLT, Kutadgu Bilig, Atebetü'l-Hakayık). Tarihsel Türkoloji için temel kaynak."
+   }
+  ],
+  "xzm": [
+   {
+    "label": "Tarih",
+    "body": "13-14. yy Harezm bölgesi (Aşağı Amu Derya) edebi Türkçesi — Karahanlı ile Çağatay arasındaki GEÇİŞ halkası. Altın Orda/Harezm sahasında Kıssasü'l-Enbiya, Muhabbetname gibi eserlerle gelişti."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Karışık/geçiş karakteri: Karluk edebi tabanı üzerine Oğuz ve özellikle Kıpçak ögeleri karışır (master'da Kıpçak/Karluk geçiş). Arap alfabesi; söz varlığında artan Farsça-Arapça katman Çağatay'ı hazırlar."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Karahanlı'nın varisi, Çağatayca'nın atası — Orta Asya İslami Türk edebi geleneğinin orta halkası. Altın Orda Kıpçak çevresiyle yoğun temas (Codex Cumanicus dönemiyle çağdaş)."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Tarihsel/ölü dil. Modern NLP/korpus yok; kaynak = 13-14. yy el yazması edebi metinler. Karahanlı→Çağatay evriminin dilbilimsel köprüsü olarak tarihsel dilbilimde incelenir."
+   }
+  ],
+  "otk": [
+   {
+    "label": "Tarih",
+    "body": "★ 8. yy Göktürk Kağanlığı'nın Orhun Yazıtları (Bilge Kağan, Kül Tigin, Tonyukuk) — Türk dilinin BİLİNEN EN ESKİ yazılı anıtları. Moğolistan, Orhun vadisi. Köktürk (runik) alfabesiyle yazıldı; ardından Yenisey ve Talas yazıtları."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Belgelenmiş en arkaik Türkçe evre — Proto-Türkçeye en yakın. Söz başı arkaik ünsüzler, *d sürtünmeli korunmuş; zengin hâl/çekim. Genel Türkçenin (z-dili) referans noktası; rotasizm/lambdasizm Oğur kolunda zaten ayrışmıştı."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "★ Genel Türkçenin (Common Turkic) KÖK düğümü — Oğuz/Kıpçak/Karluk/Sibirya kollarının ortak atası. (Oğur/Bulgar kolu çok daha erken ayrıldı.) Eski Uygurca bu evreyi izleyen dini-edebi devam."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Tarihsel/ölü ama EN çok çalışılan tarihsel Türk dili. Korpus = runik yazıtlar; dijitalleştirilmiş yazıt veritabanları (ör. Bitig) ve tarihsel-karşılaştırmalı Türkoloji için temel referans."
+   }
+  ],
+  "oui": [
+   {
+    "label": "Tarih",
+    "body": "8-13. yy Uygur Kağanlığı + sonrası Turfan/Tarım Uygur devletlerinin dili; Maniheist, Budist ve Hristiyan (Nasturi) dini çeviri edebiyatı zengindir. Soğd kökenli Eski Uygur alfabesi + runik. MS 840 kağanlık çöküşüyle Tarım/Gansu'ya dağıldı."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Eski Türkçe dönemi (Orhun Türkçesine yakın) ama dini-çeviri edebiyatıyla genişlemiş söz varlığı: Sanskritçe, Soğdca, Toharca, Çince katmanlar. Arkaik fonoloji/morfoloji; aglütinatif, SOV."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "★ YAYGIN YANILGI: Modern Uygurca'nın atası DEĞİL (o, Karahanlı→Çağatay/Karluk çizgisinden gelir). Eski Uygurcanın gerçek dilbilimsel mirasçısı Sibirya'daki Sarı Uygurca'dır (Batı Yugurca, Gansu)."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Tarihsel/ölü. Modern NLP yok; çok zengin el yazması korpus (Turfan metinleri — Berlin/Sankt-Peterburg koleksiyonları). Dini metin filolojisi ve tarihsel Türkoloji için paha biçilmez."
+   }
+  ],
+  "qwm": [
+   {
+    "label": "Tarih",
+    "body": "13-14. yy Kuman-Kıpçak Türkçesi — Karadeniz kuzeyi ve Altın Orda sahasının ortak dili. ★ Codex Cumanicus (İtalyan tüccarlar + Fransisken misyonerlerce ~1303 derlenen sözlük/metin) Orta Çağ Kıpçakçasının EN değerli kaynağıdır; Latin alfabesi."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Standart Orta Çağ Kıpçak fonolojisi/morfolojisi; Latin transkripsiyon ünlüleri gösterdiği için fonolojik değeri yüksektir. İtalyanca/Latince ve Farsça sözlük katmanları (ticaret + misyon bağlamı)."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "★ Modern Kıpçak dillerinin (özellikle Kırım Tatarcası) tarihsel atası/ortak kaynağı. Harezm Türkçesiyle çağdaş; Altın Orda Türk-İslam ekosisteminin batı (Hristiyan misyon) penceresi."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Tarihsel/ölü. Korpus = Codex Cumanicus el yazması (tek ana kaynak, Venedik Marciana). Tarihsel Kıpçak rekonstrüksiyonu ve Orta Çağ Türkçesi çalışmaları için birincil belge."
+   }
   ]
  }
 }

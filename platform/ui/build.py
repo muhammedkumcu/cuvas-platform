@@ -57,10 +57,28 @@ MAP_CARD = {
 
 
 # Uzaklık Gezgini: UI dil kodu -> veri anahtarları
-DIST_LEX = {"chv": "Chuvash", "tt": "Tatar", "bak": "Bashkir", "kk": "Kazakh", "kg": "Kirghiz",
-            "tr": "Turkish", "az": "Azeri", "tk": "Turkmen", "ug": "Uighur", "sah": "Yakut"}
-DIST_ISO = {"chv": "chv", "tt": "tat", "bak": "bak", "kk": "kaz", "kg": "kir",
-            "tr": "tur", "az": "azj", "tk": "tuk", "ug": "uig", "sah": "sah"}
+# Uzaklık Gezgini — Savelyev leksikal/filogenetik matrisi 32 dil; hepsi açılır (10→32 yatay ölçek).
+# (ui_code, Savelyev adı, iso[None=master'da yok→geo eksik], TR ad-yedek, kol)
+DIST_ROWS = [
+    ("chv", "Chuvash", "chv", "Çuvaşça", "Ogur"), ("tt", "Tatar", "tat", "Tatarca", "Kıpçak"),
+    ("bak", "Bashkir", "bak", "Başkurtça", "Kıpçak"), ("kk", "Kazakh", "kaz", "Kazakça", "Kıpçak"),
+    ("kg", "Kirghiz", "kir", "Kırgızca", "Kıpçak"), ("tr", "Turkish", "tur", "Türkçe", "Oğuz"),
+    ("az", "Azeri", "azj", "Azerbaycanca", "Oğuz"), ("tk", "Turkmen", "tuk", "Türkmence", "Oğuz"),
+    ("ug", "Uighur", "uig", "Uygurca", "Karluk"), ("sah", "Yakut", "sah", "Yakutça", "Sibirya"),
+    ("uzn", "Uzbek", "uzn", "Özbekçe", "Karluk"), ("gag", "Gagauz", "gag", "Gagavuzca", "Oğuz"),
+    ("crh", "CrimeanTatar", "crh", "Kırım Tatarcası", "Oğuz"), ("kaa", "KaraKalpak", "kaa", "Karakalpakça", "Kıpçak"),
+    ("krc", "KarachayBalkar", "krc", "Karaçay-Balkarca", "Kıpçak"), ("kum", "Kumyk", "kum", "Kumukça", "Kıpçak"),
+    ("nog", "Nogai", "nog", "Nogayca", "Kıpçak"), ("kdr", "Karaim", "kdr", "Karayca", "Kıpçak"),
+    ("klj", "Khalaj", "klj", "Halaçça", "Argu"), ("alt", "SouthAltai", "alt", "Altayca (Güney)", "Sibirya"),
+    ("atv", "NorthAltai", "atv", "Altayca (Kuzey)", "Sibirya"), ("kjh", "Khakas", "kjh", "Hakasça", "Sibirya"),
+    ("cjs", "Shor", "cjs", "Şorca", "Sibirya"), ("tyv", "Tuvan", "tyv", "Tuvaca", "Sibirya"),
+    ("dlg", "Dolgan", "dlg", "Dolganca", "Sibirya"), ("kim", "Tofa", "kim", "Tofaca", "Sibirya"),
+    ("culw", "MiddleChulym", "clw", "Çulımca", "Sibirya"), ("slr", "Salar", "slr", "Salarca", "Oğuz"),
+    ("ybe", "SarygYugur", "ybe", "Sarı Uygurca", "Sibirya"), ("oui", "OldUyghur", "oui", "Eski Uygurca", "Karluk"),
+    ("qwm", "CodexCumanicus", "qwm", "Codex Cumanicus", "Kıpçak"), ("baraba", "Baraba", None, "Baraba Tatarcası", "Kıpçak"),
+]
+DIST_LEX = {r[0]: r[1] for r in DIST_ROWS}
+DIST_ISO = {r[0]: (r[2] or "") for r in DIST_ROWS}
 
 
 def haversine(a, b):
@@ -70,10 +88,9 @@ def haversine(a, b):
     return 2 * 6371 * asin(sqrt(h))
 
 
-def build_distance(prof, lex, typ, cog, intel):
+def build_distance(mcoord, lex, typ, cog, intel):
     codes = list(DIST_LEX)
-    coords = {c: (prof[DIST_ISO[c]]["lat"], prof[DIST_ISO[c]]["lon"]) for c in codes
-              if prof.get(DIST_ISO[c]) and prof[DIST_ISO[c]].get("lat") is not None}
+    coords = {c: mcoord[DIST_ISO[c]] for c in codes if DIST_ISO.get(c) and DIST_ISO[c] in mcoord}
     # coğrafi: haversine, en büyük çiftle normalize
     geo_km = {a: {} for a in coords}
     mx = 1.0
@@ -698,7 +715,9 @@ def main():
     print(f"  B3/B4 harita TÜM diller ({len(master)}) + açgözlü etiket + era stili: mapNodes={nb34}/4 yama")
 
     # Uzaklık Gezgini ← gerçek matrisler: leksikal(Savelyev) + tipolojik(WALS) + coğrafi(koordinat)
-    real_dist = build_distance(prof, lex, typ, cog, intel)
+    # B yatay ölçek: 10 → 32 dil (Savelyev leksikal matrisinin tamamı). Koordinat master'dan.
+    mcoord = {L["iso"]: (L["lat"], L["lon"]) for L in master if L.get("lat") is not None and L.get("lon") is not None}
+    real_dist = build_distance(mcoord, lex, typ, cog, intel)
     if "REAL_DIST" not in html:
         html = html.replace("  KOKEN_API = '" + API + "';",
                             "  KOKEN_API = '" + API + "';\n  REAL_DIST = " + json.dumps(real_dist) + ";", 1)
@@ -708,6 +727,17 @@ def main():
                "    const val = (key)=>{ const m = {leks:'leks', tipo:'tipo', cogr:'geo', filo:'filo', anla:'anla'}[key]; const rv = m ? realv(m) : null; return rv!=null ? rv : Math.abs(base[key]-t[key]); };")
     ndist = 1 if old_val in html else 0
     html = html.replace(old_val, new_val, 1)
+    # LANGVEC 10 → 32 (master adı/kol + chv-satırı gerçek değerlerle yedek). REAL_DIST pairwise'i ezer.
+    chv_row = lambda key: real_dist.get(key, {}).get("chv", {})
+    lv_rows = []
+    for code, sav, iso, nm, branch in DIST_ROWS:
+        f = lambda key, d=0.5: round(chv_row(key).get(code, d), 3)
+        lv_rows.append("    %s: {name:%s, branch:%s, filo:%s, leks:%s, anla:%s, tipo:%s, cogr:%s}," % (
+            code, json.dumps(nm, ensure_ascii=False), json.dumps(branch, ensure_ascii=False),
+            f("filo"), f("leks"), f("anla"), f("tipo"), f("geo")))
+    new_langvec = "LANGVEC = {\n" + "\n".join(lv_rows) + "\n  };"
+    html, nlv = re.subn(r"LANGVEC = \{.*?\n  \};", lambda m: new_langvec, html, flags=re.DOTALL)
+    print(f"  Uzaklik 10->{len(DIST_ROWS)} dil (Savelyev tam matris): LANGVEC={nlv}, REAL_DIST mcoord")
 
     # Kognat Ağı ← gerçek kognat setleri (SavelyevTurkic)
     cog_obj, cog_default = build_cognates(cog)

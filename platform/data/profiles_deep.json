@@ -529,6 +529,42 @@
     "label": "Dijital güç",
     "body": "Sınıf 0/1 bandında sıkışık. apertium-ybe kuluçka (işlevsiz); Wikimedia Incubator (Wp/ybe) yeterli konuşur bulunamadığından atıl kaldı. Modern NLP ürünleri (LLM, ASR) sıfıra yakın."
    }
+  ],
+  "aib": [
+   {
+    "label": "Tarih",
+    "body": "Abdal halkı tarihsel göçebe (peripatetic) — seyyar satıcılık, şifacılık, sünnetçilik. Köy/vahalar arası dolaşırken baskın Uygur nüfusuyla ticarette niyet gizleme ihtiyacı → kriptolekt doğdu; ~125 yıldır istikrarlı (1898→Hayasi). Sincan, Taklamakan güney saçakları."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "★ 'Ortakyaşar karma dil': GRAMER tamamen Karluk/Uygur (SOV, ünlü uyumu, çekim ekleri birebir Uygurca) ama LEKSİKON (kökler) Farsça/İrani. Uygurca ek + Farsça kök (čov-çi 'marangoz') → Uygur yapıyı anlar, şifreyi (anlamı) çözemez."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Uygurca ile tamamen iç içe (interchangeability); leksikal değiştirme + anlamsal genişleme (säŋ 'taş'→gizlilik için 'yumurta/tuğla'). ★ Leksikon Farsça olsa da Glottolog/Johanson Eynu'yu Karluk TÜRK dili (kriptolekt) olarak kesin sınıflar."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Joshi Sınıf 0 (Left-Behind); hiçbir dil modeli, Apertium modülü ya da UD yok — veri yalnız saha dilbilimcilerinin PDF raporlarında. Kriptolekt doğası yazılı edebiyatı engeller. (Kullanım uyarısı: yalnız yetişkin erkekler.)"
+   }
+  ],
+  "ili": [
+   {
+    "label": "Tarih",
+    "body": "Kökenler Fergana Vadisi Türk boyları; 18-19. yy göçle İli Vadisi'ne (Sincan kuzeyi). Çağatay (Proto-Özbek-Uygur) + bozkır Kıpçak (Kazak) harmanı. Çin'de tanınmayan halk; 1982'de 120 konuşur → 2007'de 30 aile → bugün 100-300 yaşlı birey. Moribund (EGIDS 8a)."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Karluk koluna ait ama ★ arkaik Kıpçak SUBSTRATUMU ile melez. Karluk'ta zayıflayan ünlü uyumunu Kazakça gibi muhafazakâr korur; uvular /q/,/ʁ/. ★ Kıpçak ses evrimleri: çift ünsüz tekilleşmesi + sondan G→w (tağ→taw). Sözdizim (SOV) + ekler Karluk, ses değişimi Kıpçak."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Karluk ama karışık ilişki hiyerarşisi: yerel İli Uygurcasına sözdizim/leksikon çok yakın; yüzyıllık Kazak komşuluğundan yoğun morfolojik alıntı. Resmî alfabe/kimlik yok → konuşurlar Uygur ve Kazakçaya asimile oluyor."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Joshi Sınıf 0; hiçbir dijital kapasite, kaynak ya da algoritmik varlık yok. Belgeleme yalnız sınırlı saha çalışmalarında (Kiril/Latin transkripsiyon)."
+   }
   ]
  }
 }

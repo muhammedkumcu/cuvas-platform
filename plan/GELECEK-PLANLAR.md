@@ -39,7 +39,7 @@
 - `18-genisletilmis-kognat-leksikal.prompt.md` — Leipzig-Jakarta+Swadesh, **kategorize** (A1 kelime-seçiciyi besler).
 
 ### B2 · Sonuçlar gelince işlenecek modüller
-- **Dil Profilleri:** 🔄 **BASE 14 → 47 ✅** (master'dan; ad/kol/konuşur/egids/vit/script/region/joshi/note — sourced özet; yeni 33 dil gezilebilir, ÖZET-only). **Kalan:** derin bölümler (Tarih/Yapı/İlişkiler/Dijital/TTS) 14 → 47 (deepsearch 9 ~30 dil + 12-16 kol-derin → DEEPPROF/tts genişlet). *(Not: profil selektörü 47'de uzun liste — A1-tarzı kategori/arama ileride.)*
+- **Dil Profilleri:** 🔄 **BASE 14 → 47 ✅** (sourced özet). **DERİN bölümler 14 → 29 ✅** (ds9 _profil_*.txt'ten faithful+atıflı 4 bölüm: +Özbekçe/G.Özbekçe [Karluk] · +5 Kıpçak [Karakalpak/Karaçay-Balkar/Kumuk/Nogay/Kırım Tatar] · +4 Oğuz [Gagavuz/Salar/Horasan/G.Azerbaycan] · +4 Sibirya [alt/atv/Dolgan/Sarı Uygur]). **Kalan derin (~18):** tarihsel diller (Çağatay/Karahanlı/Orhun/İdil Bulgar/Hazar/Codex Cumanicus/Harezm/Eski Uygur — ds16/14) + birkaç küçük canlı (Eynu/İli/Urum [Karluk/Kıpçak kaynağında VAR], Kaşkay/Tofa/Sibirya Tatar/Karay/Kırımçak/Balkan Gagavuz [dedicated kaynak yok → özet-only]). TTS 14→47 ayrı. *(Selektör 47'de uzun — A1-tarzı kategori/arama ileride.)*
 - **Kognat Ağı:** 14 kavram × 7 dil → çok kavram × tüm diller (Savelyev 254 kavram + deepsearch 18). A1 kelime-seçici şart.
 - **Ses denklikleri:** Çuvaş-merkezli → tüm kol-çiftleri (deepsearch 17).
 - **Uzaklık:** Savelyev 32 dil matrisini tam aç (şu an 10).

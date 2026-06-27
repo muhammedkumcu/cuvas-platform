@@ -457,6 +457,78 @@
     "label": "Dijital güç",
     "body": "Kuzey Azerbaycanca'nın dijital gücünden uzak: resmî statü + standart yazım yokluğu + Arap-Fars alfabesi görünürlüğü kısıtlar. Joshi düşük; Kuzey'in (azj) kaynakları alfabe farkı nedeniyle doğrudan transfer edilemez."
    }
+  ],
+  "alt": [
+   {
+    "label": "Tarih",
+    "body": "Proto-Türkçe izleri + 13-15. yy Kıpçak (Kazak/Nogay) göçlerinden derin etki. Güney Altay (Altay proper, Telengit, Teleut) ile Kuzey Altay her zaman net karşılıklı anlaşılabilirlik sunmaz. 1928 Latin → 1938 Kiril (9 ek harf). Altay Cumhuriyeti (RF)."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "8 kısa + 8 uzun ünlü. ★ Proto-Türkçe -d- istikrarlı -j-'ye evrildi (adak→ajak). Güney Altayca Kıpçak'a özgü zamir çekimleri yansıtır; '-la' edatı komitatif (birliktelik) hâl ekine grameleşti. Sondan eklemeli, SOV."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Tipolojik KÖPRÜ — Sibirya (Kuzey) + Kıpçak (Güney) özelliklerini harmanlayan lehçe sürekliliği. Talat Tekin: Güney Altay Kırgızca/Kazakçaya yakın; Kuzey Altay ağızları Şorca/Hakasça ile Yenisey grubunda."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Joshi Sınıf 1–0 arası. apertium-alt deneysel depo var ama çalışan kural-tabanlı analizöre dönüşmedi (taslak). Makine çevirisi, açık sözlük ya da UD ağaç bankası henüz yok."
+   }
+  ],
+  "atv": [
+   {
+    "label": "Tarih",
+    "body": "Altay lehçe sürekliliğinin KUZEY kolu (Tuba, Kumandı, Çalkan/Kuu). Talat Tekin sınıflandırmasında Şorca/Hakasça ile Yenisey/Sibirya grubuna ait. UNESCO 'Ciddi Tehlikede' — eğitimde Rusça ve Standart Güney Altaycanın gerisinde."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Güney Altaycadan ayrılır: daha arkaik Sibirya çekim kuralları (ör. -tIŋ genitif ekinin kendine has kullanımları). Proto-Türkçe */ag/ öbeği lehçeye göre /u/, /aw/ veya /aʁ/ refleks verir; -d-→-j- paylaşılır."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Filogenetik olarak Yenisey/Sibirya grubu (Şorca/Hakasça'ya yakın), Güney Altayca'dan farklı; ikisi arasında her zaman net karşılıklı anlaşılabilirlik yok. Rusça asimilasyonu altında."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Joshi Sınıf 0; Standart Güney Altaycanın bile gerisinde, kendine ait işlevsel NLP kaynağı (FST/UD/LLM) yok. Veri kıtlığı en yüksek Sibirya varyantlarından."
+   }
+  ],
+  "dlg": [
+   {
+    "label": "Tarih",
+    "body": "Etnojenez: 17-19. yy Lena'dan Taymır'a göçen Yakutların, ren geyiği çobanı Tunguzlar (Evenki), Samoyetler ve Ruslarla kaynaşması. Sahacaya o kadar yakın ki Sovyet döneminde uzun süre Yakut lehçesi sanıldı; güçlü Evenki altkatmanı ayrı dil yaptı. Saha-Kiril temelli."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Sahacayı Tunguz etkisiyle yeniden yorumlar. ★ Yakutça s- → Dolganca h- (saxa→haka). Orta ünlüler çift ünlüye (diftonglaşma). 8 hâl ama Sahacanın KOMİTATİFİNİ kaybetti (→sosyatif türetim eki). Sınır kayması (kennitten→kennititten); 'tās'=taş + güney/doğu."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Sahaca (Yakutça) ile çok yakın (Kuzey Sibirya/Yakutik grup) + Evenki/Tunguz altkatman = melez kuzey temas dili. Globalleşmeyle gençlerde Rusça baskın → kesin tehlikede."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Joshi Sınıf 0; apertium-dlg yalnız deneysel taslak (kök eksikliği, kural yazılmamış). İşlevsel makine çevirisi, metin üretimi ya da LLM/ASR yok — akademi dışı dijital erişim imkânsız."
+   }
+  ],
+  "ybe": [
+   {
+    "label": "Tarih",
+    "body": "★ Adındaki benzerliğe rağmen Şincan'daki Karluk Modern Uygurca ile akraba DEĞİL. MS 840 Uygur Kağanlığı çöküşü sonrası Gansu'ya kaçıp Ganzhou Uygur Krallığı'nı kuran ASIL Eski Uygurların doğrudan torunları. Gansu/Sunan; standart yazı yok → 'Yok olmak üzere' (Moribund)."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "★ Eşsiz PREASPİRASYON (ön-soluklanma): ünlü sonrası ünsüzden önce hafif /h/ (otuz→oʰtɯs). Çince etkisiyle ötümlülük zıtlığı (p/b) → soluklu/soluksuz zıtlığa. Ünlü uyumu çöktü (yalnız ezbere). ★ Fiilde şahıs eki TAMAMEN kayboldu; Eski Türkçe 'anticipating counting' aktif. 6 hâl."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Sibirya/Yenisey grubuyla uzak akraba; ★ Eski Uygurcanın GERÇEK dilbilimsel mirasçısı (Modern Uygurca değil!). Aynı Yugur topluluğunda Doğu Yugurlar tamamen farklı bir Moğolik dil konuşur."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Sınıf 0/1 bandında sıkışık. apertium-ybe kuluçka (işlevsiz); Wikimedia Incubator (Wp/ybe) yeterli konuşur bulunamadığından atıl kaldı. Modern NLP ürünleri (LLM, ASR) sıfıra yakın."
+   }
   ]
  }
 }

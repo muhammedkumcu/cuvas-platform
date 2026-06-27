@@ -316,25 +316,23 @@
         <!-- TAB: ses denklikleri -->
         <sc-if value="{{ isCmpSound }}" hint-placeholder-val="{{ true }}">
         <div style="margin-top:24px">
-          <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:70ch;margin:0 0 14px">Çuvaşça, Türk dil ailesinin en erken ayrılan kolu (Ogur/Bulgar). Bu yüzden düzenli ses denklikleri taşır: bir Çuvaşça sesi, ortak Türkçedeki başka bir sese karşılık gelir. Bir kartı seç, harfler eşleşsin.</p>
+          <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:74ch;margin:0 0 14px">Türk dilleri ailesini kollara ayıran <strong>düzenli ses yasaları</strong> (izoglosslar). Her kart bir Proto-Türkçe fonemin farklı kollardaki refleksini ve örneklerini gösterir — Çuvaşça (Oğur) ile başlayıp tüm kol-çiftlerine açılır. Kaynak: Savelyev, Johanson, Tekin.</p>
           <button onClick="{{ goCognate }}" style="cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:8px 14px;font-size:13px;font-family:inherit;color:#2f6fb0;margin-bottom:18px">Bu denklikleri kognat ağında gör →</button>
           <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
             <sc-for list="{{ soundCards }}" as="s" hint-placeholder-count="4">
               <button onClick="{{ s.select }}" style="{{ s.cardStyle }}">
-                <div style="display:flex;align-items:center;gap:14px">
-                  <span style="font-family:'Spectral',serif;font-size:30px;font-weight:700;color:#2f6fb0">{{ s.cv }}</span>
-                  <span style="font-size:20px;color:#9a9082">↔</span>
-                  <span style="font-family:'Spectral',serif;font-size:30px;font-weight:700;color:#b86a2e">{{ s.ct }}</span>
-                  <span style="margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9a9082;letter-spacing:.5px;text-align:right">{{ s.name }}</span>
+                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                  <span style="font-family:'Spectral',serif;font-size:30px;font-weight:700;color:#2f6fb0">{{ s.proto }}</span>
+                  <span style="font-family:'Spectral',serif;font-size:18px;font-weight:600;color:#211d17">{{ s.name }}</span>
+                  <span style="{{ s.evidStyle }}">{{ s.evid }}</span>
                 </div>
-                <div style="margin-top:9px;font-size:10.5px;font-family:'IBM Plex Mono',monospace;color:#8a8073;line-height:1.5;text-align:left">{{ s.evidence }}</div>
-                <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">
-                  <sc-for list="{{ s.examples }}" as="e" hint-placeholder-count="2">
-                    <div style="display:flex;align-items:center;gap:10px;font-family:'Spectral',serif">
-                      <span style="font-size:17px;font-weight:600;color:#2f6fb0">{{ e.cv }}</span>
-                      <span style="font-size:13px;color:#9a9082;font-family:'IBM Plex Sans'">Çuv.</span>
-                      <span style="margin-left:auto;font-size:17px;font-weight:600;color:#b86a2e">{{ e.tr }}</span>
-                      <span style="font-size:13px;color:#9a9082;font-family:'IBM Plex Sans';width:54px;text-align:right">Tür.</span>
+                <div style="font-size:13px;color:#5f574b;margin-top:7px;line-height:1.5">{{ s.desc }}</div>
+                <div style="margin-top:13px;display:flex;flex-direction:column;gap:7px">
+                  <sc-for list="{{ s.reflexes }}" as="r" hint-placeholder-count="2">
+                    <div style="display:grid;grid-template-columns:148px 74px 1fr;gap:9px;align-items:baseline">
+                      <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-family:'IBM Plex Mono',monospace;color:#5f574b"><span style="width:8px;height:8px;border-radius:3px;background:{{ r.dotColor }};flex:none"></span>{{ r.branch }}</span>
+                      <span style="font-family:'Spectral',serif;font-size:19px;font-weight:700;color:#b86a2e">{{ r.val }}</span>
+                      <span style="font-family:'Spectral',serif;font-size:14px;color:#5f574b">{{ r.ex }}</span>
                     </div>
                   </sc-for>
                 </div>
@@ -1526,12 +1524,7 @@ class Component extends DCLogic {
     },
   };
 
-  SOUND = [
-    { cv:'r', ct:'z', name:'ROTASİZM', evidence:'SavelyevTurkic: 36 kognat seti bu kuralı doğrular (proto *ŕ → Çuv. r / Ortak Türkçe z)', examples:[{cv:'hĕr',tr:'kız'},{cv:'tăhăr',tr:'dokuz'},{cv:'văkăr',tr:'öküz'}] },
-    { cv:'l', ct:'ş', name:'LAMBDASİZM', evidence:'SavelyevTurkic: 29 kognat seti (proto *ĺ → Çuv. l / Ortak Türkçe ş)', examples:[{cv:'hĕl',tr:'kış'},{cv:'çul',tr:'taş'},{cv:'pilĕk',tr:'beş'}] },
-    { cv:'ҫ (ś)', ct:'y-', name:'BAŞ Y- > Ś', evidence:'SavelyevTurkic: 14 Çuvaşça–Türkçe çiftinde (söz başı j-/y- → ś-)', examples:[{cv:'śul',tr:'yıl'},{cv:'śĕr',tr:'yer'},{cv:'śын',tr:'yön/insan'}] },
-    { cv:'ă/ĕ', ct:'a/e', name:'ÜNLÜ İNDİRGEME', evidence:'Düzenli ses olayı: vurgusuz ünlüler Çuvaşçada ă / ĕ sesine iner', examples:[{cv:'vărman',tr:'orman'},{cv:'tăvattă',tr:'dört'}] },
-  ];
+  SOUND = [{"key": "rot", "proto": "*ŕ", "name": "Rotasizm", "evid": "Savelyev: 36 kognat", "desc": "Oğur ↔ Şaz makro-ayrımı — Türk dili tarihindeki en birincil izogloss.", "reflexes": [{"branch": "Çuvaşça (Oğur)", "val": "r", "ex": "тăхăр · хӗр · ҫӗр"}, {"branch": "Ortak Türkçe (Şaz)", "val": "z", "ex": "dokuz · kız · yüz"}]}, {"key": "lam", "proto": "*ĺ", "name": "Lambdasizm", "evid": "Savelyev: 29 kognat", "desc": "Rotasizmle paralel ikinci makro-izogloss (palatalize yanal *ĺ).", "reflexes": [{"branch": "Çuvaşça (Oğur)", "val": "l", "ex": "хӗл · чул · кӗмӗл"}, {"branch": "Ortak Türkçe", "val": "ş", "ex": "kış · taş · gümüş"}, {"branch": "Kıpçak · Sibirya", "val": "s", "ex": "qıs · tas (alt-refleks)"}]}, {"key": "h", "proto": "*h-", "name": "Söz başı *h- korunumu", "desc": "Argu (Halaçça) izolesini ayırır — Orhun'dan dahi eskicil katman (Doerfer).", "reflexes": [{"branch": "Halaçça (Argu)", "val": "h-", "ex": "hadaq · hirkäk · huzun"}, {"branch": "Diğer tüm kollar", "val": "Ø", "ex": "ayak · erkek · uzun"}]}, {"key": "d", "proto": "*-d-", "name": "Söz içi *-d- farklılaşması", "desc": "Genel Türkçe iç tasnifin turnusol kâğıdı (*adak 'ayak').", "reflexes": [{"branch": "Oğuz · Kıpçak · Karluk", "val": "y", "ex": "ayak / oyoq"}, {"branch": "Tuva · Halaç", "val": "d", "ex": "adaq / hadaq"}, {"branch": "Yakutça", "val": "t", "ex": "atax"}, {"branch": "Hakas · Şor", "val": "z", "ex": "azaq"}, {"branch": "Çuvaşça", "val": "r", "ex": "ura"}]}, {"key": "g", "proto": "*-G", "name": "Son ses *-G", "desc": "Hece-sonu damak ünsüzü — hece yapısını belirleyen kol ayrımı (*tāg 'dağ').", "reflexes": [{"branch": "Oğuz", "val": "ː / ğ", "ex": "dağ /dɑː/"}, {"branch": "Kıpçak", "val": "w", "ex": "taw · suw"}, {"branch": "Karluk", "val": "g / ğ", "ex": "tog'"}, {"branch": "Yakutça", "val": "Ø / diftong", "ex": "tıa · haya"}]}, {"key": "y", "proto": "*y-", "name": "Söz başı *y-", "evid": "Savelyev: 14 kognat (ś)", "desc": "y / c / j / ś / s — makro-grupları ayıran geniş ve kurallı yelpaze.", "reflexes": [{"branch": "Oğuz · Karluk", "val": "y", "ex": "yol · yıl"}, {"branch": "Kıpçak", "val": "j / c", "ex": "jol · col"}, {"branch": "Yakutça", "val": "s", "ex": "suol · sıl"}, {"branch": "Çuvaşça (Oğur)", "val": "ś", "ex": "ҫул (śul)"}]}, {"key": "voi", "proto": "*t- · *k-", "name": "Baş ses tonlulaşması", "desc": "Oğuz kolunu Kıpçak/Karluk/Sibirya'dan ayıran sistematik ötümlüleşme.", "reflexes": [{"branch": "Oğuz", "val": "d- / g-", "ex": "dağ · gök · gümüş"}, {"branch": "Kıpçak · Karluk · Sibirya", "val": "t- / k-", "ex": "taw · kök · kümüş"}]}];
 
   FAMILY = [
     {name:'Proto-Türkçe', note:'ana dil · kök ~MÖ 66 (Bayes: Savelyev & Robbeets 2020)', depth:0},
@@ -2052,8 +2045,11 @@ class Component extends DCLogic {
       morphemes: r.morphemes.map(([text,tag,type])=>({text,tag,cmpStyle:cmpBlock(type)})),
     }));
     const legend = Object.entries(this.TYPES).map(([k,v])=>({label:v.label, hue:this.hue(k)}));
+    const _scol = (b)=>{ const bc=this.BRANCHCOLOR; if(/Oğur|Çuvaş/.test(b))return bc['Ogur']; if(/Argu|Halaç/.test(b))return bc['Argu']||'#8a7a2e'; if(/Yakut|Sibirya|Hakas|Şor|Tuva/.test(b))return bc['Sibirya']; if(/Kıpçak/.test(b))return bc['Kıpçak']; if(/Karluk/.test(b))return bc['Karluk']; if(/Oğuz/.test(b))return bc['Oğuz']; return '#9a9082'; };
     const soundCards = this.SOUND.map((s,i)=>({
-      ...s,
+      proto:s.proto, name:s.name, desc:s.desc, evid:(s.evid||''),
+      evidStyle: s.evid ? "font-size:10.5px;font-family:'IBM Plex Mono',monospace;letter-spacing:.3px;color:#2f8a5b;background:rgba(47,138,91,.1);border-radius:6px;padding:2px 8px;margin-left:auto" : 'display:none',
+      reflexes: s.reflexes.map(r=>({ branch:r.branch, val:r.val, ex:r.ex, dotColor:_scol(r.branch) })),
       select:()=>this.setState({soundSel:i}),
       cardStyle:`cursor:pointer;text-align:left;background:${i===S.soundSel?'#fff':'#fbfaf6'};border:2px solid ${i===S.soundSel?'#d98b4a':'rgba(33,29,23,.1)'};border-radius:14px;padding:20px 22px;font-family:inherit;box-shadow:${i===S.soundSel?'0 8px 20px rgba(33,29,23,.08)':'none'};transition:all .15s`,
     }));

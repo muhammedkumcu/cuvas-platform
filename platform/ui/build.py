@@ -226,6 +226,61 @@ def build_cognates_deep(cogdeep):
     return out, first
 
 
+# ds17 — Türk dilleri kol-seviyesi ses izoglossları (faithful; Savelyev/Johanson/Tekin atıflı).
+# 4 Çuvaş-merkezli kuraldan → 7 kol-izoglosuna (Çuvaş-ötesi, çok-kollu refleksler). İlk iki kart
+# (rotasizm=0, lambdasizm=1) kognat goCompareSound bağlantısıyla uyumlu kalır.
+def build_sound_laws(ev=None):
+    # rot/lam/y kanıt sayıları Savelyev verisinden (sound_evidence) — veriden, hardcode değil; ds17'de de doğrulanır.
+    rot_n = ev["rot"][0] if ev else 36
+    lam_n = ev["lam"][0] if ev else 29
+    y_n = ev["y"][0] if ev else 14
+    return [
+        {"key": "rot", "proto": "*ŕ", "name": "Rotasizm", "evid": f"Savelyev: {rot_n} kognat",
+         "desc": "Oğur ↔ Şaz makro-ayrımı — Türk dili tarihindeki en birincil izogloss.",
+         "reflexes": [
+             {"branch": "Çuvaşça (Oğur)", "val": "r", "ex": "тăхăр · хӗр · ҫӗр"},
+             {"branch": "Ortak Türkçe (Şaz)", "val": "z", "ex": "dokuz · kız · yüz"}]},
+        {"key": "lam", "proto": "*ĺ", "name": "Lambdasizm", "evid": f"Savelyev: {lam_n} kognat",
+         "desc": "Rotasizmle paralel ikinci makro-izogloss (palatalize yanal *ĺ).",
+         "reflexes": [
+             {"branch": "Çuvaşça (Oğur)", "val": "l", "ex": "хӗл · чул · кӗмӗл"},
+             {"branch": "Ortak Türkçe", "val": "ş", "ex": "kış · taş · gümüş"},
+             {"branch": "Kıpçak · Sibirya", "val": "s", "ex": "qıs · tas (alt-refleks)"}]},
+        {"key": "h", "proto": "*h-", "name": "Söz başı *h- korunumu",
+         "desc": "Argu (Halaçça) izolesini ayırır — Orhun'dan dahi eskicil katman (Doerfer).",
+         "reflexes": [
+             {"branch": "Halaçça (Argu)", "val": "h-", "ex": "hadaq · hirkäk · huzun"},
+             {"branch": "Diğer tüm kollar", "val": "Ø", "ex": "ayak · erkek · uzun"}]},
+        {"key": "d", "proto": "*-d-", "name": "Söz içi *-d- farklılaşması",
+         "desc": "Genel Türkçe iç tasnifin turnusol kâğıdı (*adak 'ayak').",
+         "reflexes": [
+             {"branch": "Oğuz · Kıpçak · Karluk", "val": "y", "ex": "ayak / oyoq"},
+             {"branch": "Tuva · Halaç", "val": "d", "ex": "adaq / hadaq"},
+             {"branch": "Yakutça", "val": "t", "ex": "atax"},
+             {"branch": "Hakas · Şor", "val": "z", "ex": "azaq"},
+             {"branch": "Çuvaşça", "val": "r", "ex": "ura"}]},
+        {"key": "g", "proto": "*-G", "name": "Son ses *-G",
+         "desc": "Hece-sonu damak ünsüzü — hece yapısını belirleyen kol ayrımı (*tāg 'dağ').",
+         "reflexes": [
+             {"branch": "Oğuz", "val": "ː / ğ", "ex": "dağ /dɑː/"},
+             {"branch": "Kıpçak", "val": "w", "ex": "taw · suw"},
+             {"branch": "Karluk", "val": "g / ğ", "ex": "tog'"},
+             {"branch": "Yakutça", "val": "Ø / diftong", "ex": "tıa · haya"}]},
+        {"key": "y", "proto": "*y-", "name": "Söz başı *y-", "evid": f"Savelyev: {y_n} kognat (ś)",
+         "desc": "y / c / j / ś / s — makro-grupları ayıran geniş ve kurallı yelpaze.",
+         "reflexes": [
+             {"branch": "Oğuz · Karluk", "val": "y", "ex": "yol · yıl"},
+             {"branch": "Kıpçak", "val": "j / c", "ex": "jol · col"},
+             {"branch": "Yakutça", "val": "s", "ex": "suol · sıl"},
+             {"branch": "Çuvaşça (Oğur)", "val": "ś", "ex": "ҫул (śul)"}]},
+        {"key": "voi", "proto": "*t- · *k-", "name": "Baş ses tonlulaşması",
+         "desc": "Oğuz kolunu Kıpçak/Karluk/Sibirya'dan ayıran sistematik ötümlüleşme.",
+         "reflexes": [
+             {"branch": "Oğuz", "val": "d- / g-", "ex": "dağ · gök · gümüş"},
+             {"branch": "Kıpçak · Karluk · Sibirya", "val": "t- / k-", "ex": "taw · kök · kümüş"}]},
+    ]
+
+
 # (b) Ses denklikleri KANIT-DESTEKLİ: yerleşik kurallar (Türkoloji olgusu) + Savelyev kognat verisinden
 # PROTO-FONEM tabanlı kanıt sayısı. Proto *ŕ = rotasizm, *ĺ = lambdasizm (akademik-tanımlayıcı işaret).
 def sound_evidence(cog):
@@ -906,6 +961,84 @@ def main():
     if deep_mk_old in html:
         html = html.replace(deep_mk_old, deep_mk_new, 1); ndeep += 1
     print(f"  ds18 Kognat 18-dil + ses-kurali dokumu: {ndeep}/2 yama (geometri, tablo)")
+
+    # ---- ds17: Ses denklikleri 4 Çuvaş-merkezli kural → 7 kol-izoglosu (Çuvaş-ötesi) ----
+    nsl = 0
+    # (1) SOUND dizisini ds17 kol-izoglosslarıyla değiştir (rot/lam/y kanıt sayıları Savelyev verisinden)
+    sl = build_sound_laws(sound_evidence(cog))
+    new_sound = "  SOUND = " + json.dumps(sl, ensure_ascii=False) + ";"
+    html, c_sl = re.subn(r"  SOUND = \[.*?\n  \];", lambda m: new_sound, html, flags=re.DOTALL)
+    nsl += c_sl
+    # (2) soundCards builder: çok-kollu refleks + kol-renkli nokta + kanıt rozeti
+    sl_b_old = (
+        "    const soundCards = this.SOUND.map((s,i)=>({\n"
+        "      ...s,\n"
+        "      select:()=>this.setState({soundSel:i}),\n"
+        "      cardStyle:`cursor:pointer;text-align:left;background:${i===S.soundSel?'#fff':'#fbfaf6'};border:2px solid ${i===S.soundSel?'#d98b4a':'rgba(33,29,23,.1)'};border-radius:14px;padding:20px 22px;font-family:inherit;box-shadow:${i===S.soundSel?'0 8px 20px rgba(33,29,23,.08)':'none'};transition:all .15s`,\n"
+        "    }));")
+    sl_b_new = (
+        "    const _scol = (b)=>{ const bc=this.BRANCHCOLOR; if(/Oğur|Çuvaş/.test(b))return bc['Ogur']; if(/Argu|Halaç/.test(b))return bc['Argu']||'#8a7a2e'; if(/Yakut|Sibirya|Hakas|Şor|Tuva/.test(b))return bc['Sibirya']; if(/Kıpçak/.test(b))return bc['Kıpçak']; if(/Karluk/.test(b))return bc['Karluk']; if(/Oğuz/.test(b))return bc['Oğuz']; return '#9a9082'; };\n"
+        "    const soundCards = this.SOUND.map((s,i)=>({\n"
+        "      proto:s.proto, name:s.name, desc:s.desc, evid:(s.evid||''),\n"
+        "      evidStyle: s.evid ? \"font-size:10.5px;font-family:'IBM Plex Mono',monospace;letter-spacing:.3px;color:#2f8a5b;background:rgba(47,138,91,.1);border-radius:6px;padding:2px 8px;margin-left:auto\" : 'display:none',\n"
+        "      reflexes: s.reflexes.map(r=>({ branch:r.branch, val:r.val, ex:r.ex, dotColor:_scol(r.branch) })),\n"
+        "      select:()=>this.setState({soundSel:i}),\n"
+        "      cardStyle:`cursor:pointer;text-align:left;background:${i===S.soundSel?'#fff':'#fbfaf6'};border:2px solid ${i===S.soundSel?'#d98b4a':'rgba(33,29,23,.1)'};border-radius:14px;padding:20px 22px;font-family:inherit;box-shadow:${i===S.soundSel?'0 8px 20px rgba(33,29,23,.08)':'none'};transition:all .15s`,\n"
+        "    }));")
+    if sl_b_old in html:
+        html = html.replace(sl_b_old, sl_b_new, 1); nsl += 1
+    # (3) kart markup: cv↔ct ikili → proto + ad + kanıt + kol-refleks satırları
+    sl_mk_old = (
+        '              <button onClick="{{ s.select }}" style="{{ s.cardStyle }}">\n'
+        '                <div style="display:flex;align-items:center;gap:14px">\n'
+        '                  <span style="font-family:\'Spectral\',serif;font-size:30px;font-weight:700;color:#2f6fb0">{{ s.cv }}</span>\n'
+        '                  <span style="font-size:20px;color:#9a9082">↔</span>\n'
+        '                  <span style="font-family:\'Spectral\',serif;font-size:30px;font-weight:700;color:#b86a2e">{{ s.ct }}</span>\n'
+        '                  <span style="margin-left:auto;font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#9a9082;letter-spacing:.5px;text-align:right">{{ s.name }}</span>\n'
+        '                </div>\n'
+        '                <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px">\n'
+        '                  <sc-for list="{{ s.examples }}" as="e" hint-placeholder-count="2">\n'
+        '                    <div style="display:flex;align-items:center;gap:10px;font-family:\'Spectral\',serif">\n'
+        '                      <span style="font-size:17px;font-weight:600;color:#2f6fb0">{{ e.cv }}</span>\n'
+        '                      <span style="font-size:13px;color:#9a9082;font-family:\'IBM Plex Sans\'">Çuv.</span>\n'
+        '                      <span style="margin-left:auto;font-size:17px;font-weight:600;color:#b86a2e">{{ e.tr }}</span>\n'
+        '                      <span style="font-size:13px;color:#9a9082;font-family:\'IBM Plex Sans\';width:54px;text-align:right">Tür.</span>\n'
+        '                    </div>\n'
+        '                  </sc-for>\n'
+        '                </div>\n'
+        '              </button>')
+    sl_mk_new = (
+        '              <button onClick="{{ s.select }}" style="{{ s.cardStyle }}">\n'
+        '                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">\n'
+        '                  <span style="font-family:\'Spectral\',serif;font-size:30px;font-weight:700;color:#2f6fb0">{{ s.proto }}</span>\n'
+        '                  <span style="font-family:\'Spectral\',serif;font-size:18px;font-weight:600;color:#211d17">{{ s.name }}</span>\n'
+        '                  <span style="{{ s.evidStyle }}">{{ s.evid }}</span>\n'
+        '                </div>\n'
+        '                <div style="font-size:13px;color:#5f574b;margin-top:7px;line-height:1.5">{{ s.desc }}</div>\n'
+        '                <div style="margin-top:13px;display:flex;flex-direction:column;gap:7px">\n'
+        '                  <sc-for list="{{ s.reflexes }}" as="r" hint-placeholder-count="2">\n'
+        '                    <div style="display:grid;grid-template-columns:148px 74px 1fr;gap:9px;align-items:baseline">\n'
+        '                      <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-family:\'IBM Plex Mono\',monospace;color:#5f574b"><span style="width:8px;height:8px;border-radius:3px;background:{{ r.dotColor }};flex:none"></span>{{ r.branch }}</span>\n'
+        '                      <span style="font-family:\'Spectral\',serif;font-size:19px;font-weight:700;color:#b86a2e">{{ r.val }}</span>\n'
+        '                      <span style="font-family:\'Spectral\',serif;font-size:14px;color:#5f574b">{{ r.ex }}</span>\n'
+        '                    </div>\n'
+        '                  </sc-for>\n'
+        '                </div>\n'
+        '              </button>')
+    if sl_mk_old in html:
+        html = html.replace(sl_mk_old, sl_mk_new, 1); nsl += 1
+    # (4) giriş metni: Çuvaş-merkezli → kol-seviyesi izogloss çerçevesi
+    sl_intro_old = ('<p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:70ch;margin:0 0 14px">Çuvaşça, '
+                    'Türk dil ailesinin en erken ayrılan kolu (Ogur/Bulgar). Bu yüzden düzenli ses denklikleri '
+                    'taşır: bir Çuvaşça sesi, ortak Türkçedeki başka bir sese karşılık gelir. Bir kartı seç, '
+                    'harfler eşleşsin.</p>')
+    sl_intro_new = ('<p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:74ch;margin:0 0 14px">Türk '
+                    'dilleri ailesini kollara ayıran <strong>düzenli ses yasaları</strong> (izoglosslar). Her kart '
+                    'bir Proto-Türkçe fonemin farklı kollardaki refleksini ve örneklerini gösterir — Çuvaşça (Oğur) '
+                    'ile başlayıp tüm kol-çiftlerine açılır. Kaynak: Savelyev, Johanson, Tekin.</p>')
+    if sl_intro_old in html:
+        html = html.replace(sl_intro_old, sl_intro_new, 1); nsl += 1
+    print(f"  ds17 Ses denklikleri 4->7 kol-izoglosu: {nsl}/4 yama (SOUND, builder, kart, giris)")
 
     # NOT: A2 (Karşılaştır başlık sekmeye-duyarlı) D-bloğunda compareHeadline tanımında yapılır (tek kaynak).
 
@@ -1793,26 +1926,8 @@ def main():
     # ============================================================
     #  (b) SES DENKLİKLERİ KANIT-DESTEKLİ — yerleşik kurallar + Savelyev kognat verisinden kanıt sayısı
     # ============================================================
-    ev = sound_evidence(cog)
-    EVID = {
-        "ROTASİZM": "SavelyevTurkic: %d kognat seti bu kuralı doğrular (proto *ŕ → Çuv. r / Ortak Türkçe z)" % ev["rot"][0],
-        "LAMBDASİZM": "SavelyevTurkic: %d kognat seti (proto *ĺ → Çuv. l / Ortak Türkçe ş)" % ev["lam"][0],
-        "BAŞ Y- > Ś": "SavelyevTurkic: %d Çuvaşça–Türkçe çiftinde (söz başı j-/y- → ś-)" % ev["y"][0],
-        "ÜNLÜ İNDİRGEME": "Düzenli ses olayı: vurgusuz ünlüler Çuvaşçada ă / ĕ sesine iner",
-    }
-    nev = 0
-    for name, txt in EVID.items():
-        old = "name:'%s'," % name
-        if old in html:
-            html = html.replace(old, "name:'%s', evidence:'%s'," % (name, txt), 1); nev += 1
-    # kanıt satırı markup'ı (kart içinde, isim/cv-ct satırının altında)
-    html = html.replace(
-        '                  <span style="margin-left:auto;font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#9a9082;letter-spacing:.5px;text-align:right">{{ s.name }}</span>\n'
-        '                </div>',
-        '                  <span style="margin-left:auto;font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#9a9082;letter-spacing:.5px;text-align:right">{{ s.name }}</span>\n'
-        '                </div>\n'
-        '                <div style="margin-top:9px;font-size:10.5px;font-family:\'IBM Plex Mono\',monospace;color:#8a8073;line-height:1.5;text-align:left">{{ s.evidence }}</div>', 1)
-    print(f"  Ses denklikleri kanıt (Savelyev): rot={ev['rot'][0]} lam={ev['lam'][0]} y={ev['y'][0]}, enjekte={nev}/4")
+    # NOT: Ses denklikleri kanıt sayıları (rot/lam/y) artık ds17 SOUND kartlarına build_sound_laws(ev) ile
+    # gömülü (yukarıda). Eski 4-kart EVID enjeksiyonu kaldırıldı (yeni 7 kol-izoglosu kartı kullanılıyor).
     # (b) kognat→kural bağı: "ses denkliklerinde incele" seçili kognatın örneklediği kuralı VURGULAR
     html = html.replace(
         "      goCompareSound:()=>this.setState({screen:'compare', compareTab:'sound'}),",

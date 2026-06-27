@@ -2,7 +2,7 @@
 ### (Veri Provenance & Lisans Defteri)
 
 > **İlke (kullanıcı kararı):** Platformdaki HER veri **doğrudan bir kaynağa** dayanır. Kaynakları **locale çekeriz** (`sources/`, gitignored), **inceleriz**, veriyi oradan **çıkarırız** — uydurmayız. Gerçek veriyle değişene kadar UI'da **"⚠ örnek/illüstratif"** etiketi kalır. UI'daki `SOURCES` + `USAGE` kütüğü bu defterle **birebir** tutulur.
-> Güncelleme: **25 Haziran 2026** (deepsearch 5–9 işlendi; `bayes`/`hf`/`deepds` + `profiles_deep`/`profiles_tts`/`ecosystem` eklendi).
+> Güncelleme: **27 Haziran 2026** (deepsearch 5–18 işlendi; `cognates_deep.json` [ds18 Kognat 18-dil] + ses denklikleri 7 kol-izoglosu [ds17] eklendi).
 
 ## Durum lejantı
 `✅ çekildi` (locale indirildi+incelendi) · `⏳ bekliyor` · `🖥️ VM` (apertium, Linux'ta) · `📄 makale` (PDF) · `🔒 tescilli` (açık alternatif kullan)
@@ -26,7 +26,7 @@
 | `bayes` | **Savelyev & Robbeets 2020** + Johanson tasnifi | 📄 makale | akademik | `arastirma/8-*siniflandirma*.pdf` → `_siniflandirma.txt` | **✅ çekildi + çıkarıldı** | Tarih & Köken: altı kol açıklayıcı + Bayes soy ağacı (zaman derinliği ~MÖ 66 / ~MS 474). |
 | `hf` | **HuggingFace ekosistemi** | veri/araç | model bazında (CC/Apache/MIT…) | `arastirma/6,7-*.pdf` → `_tts_asr.txt`, `_llm_hf_ekosistem.txt` | **✅ çekildi + çıkarıldı** | Dil Profilleri (Seslendirme TTS/ASR), Araştırmacı Merkezi (ekosistem matrisi). |
 | `deepds` | **KÖKEN derin araştırmalar (deepsearch 5–10)** | sentez | (derleme; her kayıt kaynağına atıflı) | `arastirma/_*.txt` (5/5b/5c/6/7/8/9.1-9.5/10) | **✅ elde + işlendi** | Derin dil profilleri, seslendirme, ekosistem (+metrik, ds10), sınıflandırma. Çapraz-kontrol: Glottolog/Ethnologue/UNESCO + Wikipedia/Grokipedia/ACL/apertium-wiki/HF/GitHub. |
-| `deepds-yatay` | **Yatay ölçek deepsearch (11–18)** | sentez/prompt | — | `arastirma/11..18*.pdf` + `_envanter11.json`, `_profil_*.txt` (ds9 kol), `_profil14.txt` (Karluk), `_profil16_ogur_argu.txt` (Ogur-Argu), `_profil13.txt` (Kıpçak) | **🔄 11/12-16 İŞLENDİ** (ds9 + ds14/16 çıkarıldı); 17/18 elde (sıradaki) | **11 ✅ → `languages.master.json`** (47 dil). **12-16 ✅ → `profiles_deep.json` (39 dil derin profil)** + Uzaklık 32 dil + harita/atlas 47. **17 (ses denklikleri) + 18 (kognat) → SIRADAKİ** (Kognat Ağı + ses denklikleri tüm dillere; A1 seçici hazır). |
+| `deepds-yatay` | **Yatay ölçek deepsearch (11–18)** | sentez/prompt | — | `arastirma/11..18*.pdf` + `_envanter11.json`, `_profil_*.txt` (ds9 kol), `_profil14.txt`, `_profil16_ogur_argu.txt`, `_profil13.txt`, **`_kognat18.txt`/`_ses17.txt`** (ds17/18 faithful transcript) | **✅ 11–18 İŞLENDİ** | **11 ✅ → `languages.master.json`** (47 dil). **12-16 ✅ → `profiles_deep.json` (39 dil)** + Uzaklık 32 + harita/atlas 47. **18 ✅ → `cognates_deep.json`** (Kognat Ağı 7→18 dil, 11 kavram, kognat-ID+ses-kuralı). **17 ✅ → ses denklikleri 4→7 kol-izoglosu** (`build_sound_laws`, çok-kollu refleks, Savelyev kanıt 36/29/14). |
 
 ## Çıkarım kuralları
 1. **Çek → incele → çıkar.** Her kaynağı `sources/`'a indir, yapısını incele, UI veri-sözleşmesine (bkz. `platform/ui/README.md`) eşle.
@@ -42,7 +42,8 @@
 |---|---|---|---|
 | `languages.master.json` ★ | **47 dil/lehçe/tarihsel form** (39 canlı+7 tarihsel+1 proto): iso/glottocode/ad/kol/lat-lon/era/konuşur/canlılık/not. **Yatay ölçek temeli.** Koordinat/ad canlıda Glottolog (otorite), tarihselde ds11 (Glottolog yanlış). | **deepsearch 11 + Glottolog CLDF çapraz-kontrol** (`platform/etl/build_master.py`) | **Harita (47 dil, açgözlü etiket+era stili)**; sıradaki: profiller/kognat/uzaklık ölçeği |
 | `languages.geo.json` | 32 dil: glottocode/iso/lat-lon/kol (10 MVP işaretli) | SavelyevTurkic | (eski harita; master'a devrediliyor), dil kimliği |
-| `cognates.json` | 254 kavram → 905 kognat seti (üye diller+biçim+segment+kök) | SavelyevTurkic | Kognat Ağı (kognat boşlukları görünür: ör. "göz" *gȫrs vs Sibirya *Karak) |
+| `cognates.json` | 254 kavram → 905 kognat seti (üye diller+biçim+segment+kök) | SavelyevTurkic | (eski Kognat Ağı; ses denklikleri kanıt sayısı — `sound_evidence`: rot 36 / lam 29 / y 14) |
+| `cognates_deep.json` ★ | **11 kavram × 18 dil** (Vücut/Doğa/Sayılar/Eylem/Temel-Kültür): her hücre yerel yazı/Latin/IPA/morfem/**kognat-ID** (boşluk)/uygulanan ses kuralı | **deepsearch 18** (Savelyev 2020 + Cambridge Turkic + Wiktionary çapraz-atıf; `platform/etl/build_cognates_deep.py`) | **Kognat Ağı (18-dil radyal graf + "Dil dil ses kuralı" dökümü)**; A1 kategori seçici |
 | `distance.lexical.json` | 32×32 leksikostatistik mesafe (derin kognat paylaşımı) | SavelyevTurkic | Uzaklık Gezgini (leksikal eksen) |
 | `profiles.json` | 23 dil profili: kimlik/koordinat/ülke/kol + **AES canlılık** (EGIDS/UNESCO eşlemeli) | Glottolog | Dil Profilleri, Canlılık ısı-haritası |
 | `distance.typological.json` | 23×23 tipolojik mesafe (WALS özniteliklerinde farklılık; her hücre `shared` sayısı taşır) | WALS | Uzaklık Gezgini (tipolojik eksen) |

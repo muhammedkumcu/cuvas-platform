@@ -32,7 +32,7 @@
 - **B0 · Master envanteri `languages.master.json` (★ temel):** ds11 (pdfplumber tablo) + Glottolog çapraz-kontrol → **47 dil/lehçe/tarihsel** (39 canlı+7 tarihsel+1 proto). Koordinat: canlı→Glottolog, tarihsel→ds11. `platform/etl/build_master.py`.
 - **Harita + ATLAS ✅ tüm 47 dile açıldı:** gerçek çizim harita (`build_map_bg()` v3: kıyılar/iç denizler/Basra/dağ sıraları/**nehirler**/ızgara) + açgözlü etiket-yerleştirme (çakışma çözüldü) + era stili + inline kart (vitalite+era). **ATLAS sayfası** (kullanıcı: "sığmıyor → önizleme + tıkla→büyük sayfa"): Karşılaştır'da küçük önizleme (dots-only) + "Büyük atlas" butonu/nav → ayrı büyük sayfa; zengin adlandırılmış coğrafya (İstanbul Boğazı, denizler, dağlar, nehirler, Turan/Sibirya bölgeleri). **Kullanıcı istekleri karşılandı.**
 
-### B1 · Deepsearch promptları/çıktıları (11 ✅ işlendi; 12-18 elde, çıkarım sırada)
+### B1 · Deepsearch promptları/çıktıları (11–18 ✅ TÜMÜ İŞLENDİ)
 - `arastirma/11-tum-turk-dilleri-envanter.prompt.md` — TAM dil/lehçe listesi + ISO/Glottocode/kol/koordinat/canlılık (ölçek TEMELİ).
 - `12-oguz` · `13-kipcak` · `14-karluk` · `15-sibirya` · `16-ogur-argu` **-derin-profiller.prompt.md** — kol-bazlı DERİN profiller + lehçeler (her dil: kimlik/canlılık/koordinat/tarih/yapı/izogloss/**15 kognat anahtar kelime**/dijital).
 - `17-capraz-kol-ses-denklikleri.prompt.md` — tüm kol-çiftleri izogloss tabloları (ses denklikleri modülünü Çuvaş-ötesine taşı).
@@ -40,12 +40,12 @@
 
 ### B2 · Sonuçlar gelince işlenecek modüller
 - **Dil Profilleri:** **BASE 14 → 47 ✅** + **DERİN bölümler 14 → 39 ✅** (ds9/14/16 _profil_*.txt'ten faithful+atıflı 4 bölüm). Eklenen 25: Özbekçe/G.Özbekçe/Eynu/İli (Karluk) · 5 Kıpçak (Karakalpak/Karaçay-Balkar/Kumuk/Nogay/Kırım Tatar) · 4 Oğuz (Gagavuz/Salar/Horasan/G.Azerbaycan) · 4 Sibirya (alt/atv/Dolgan/Sarı Uygur) · **8 TARİHSEL** (İdil Bulgar/Hazar/Çağatay/Karahanlı/Harezm/Orhun/Eski Uygur/Codex Cumanicus). **Kalan derin = 8 küçük lehçe/kriptolekt** (Kaşkay/Balkan Gagavuz/Sibirya Tatar/Tofa/Urum/Karay/Kırımçak/Çulım) — **dedicated kaynak yok → dürüstçe ÖZET-only.** TTS 14→47 ayrı. *(Selektör 47'de uzun — A1-tarzı kategori/arama ileride.)*
-- **Kognat Ağı:** ⏳ **SIRADAKİ-1** — 14 kavram × 7 dil → çok kavram × tüm diller (Savelyev 254 kavram + deepsearch 18 kategorize). A1 kelime-seçici HAZIR; `COG_CONC`/`COG_CAT`/`COG_DISP` genişlet.
-- **Ses denklikleri:** ⏳ **SIRADAKİ-1** (kognatla birlikte) — Çuvaş-merkezli → tüm kol-çiftleri (deepsearch 17 izogloss tabloları).
+- **Kognat Ağı:** ✅ 7 → **18 dil** (ds18). `cognates_deep.json` (11 kavram × 18 dil; yerel yazı/Latin/IPA/morfem/**kognat-ID**/ses-kuralı). 18-dilli radyal graf + cogid boşluk tespiti + graf-altı "Dil dil ses kuralı" dökümü. A1 seçici 5 kategori (Vücut/Doğa/Sayılar/Eylem/Temel-Kültür) otomatik. *(254 kavrama tam ölçek ileride; ds18 11 tam-matrisli kavramla başladı.)*
+- **Ses denklikleri:** ✅ Çuvaş-merkezli 4 kural → **7 kol-izoglosu** (ds17). `build_sound_laws`: rotasizm/lambdasizm/*h-/*-d-/*-G/*y-/ötümlüleşme; çok-kollu refleks + kanıt rozeti (36/29/14 Savelyev'den). Kognat→kural bağı korundu. *(9 dil-çifti karşılaştırma tablosu ds17'de var — ileride ek sekme olabilir.)*
 - **Uzaklık:** ✅ 10 → 32 dil (Savelyev tam leksikal/filogenetik matris; `DIST_ROWS`, koordinat master'dan, LANGVEC 32; tipolojik WALS 23). *(Anlaşılabilirlik/Lindsay kısmi — genişletilebilir.)*
 - **Harita:** ✅ 14 → 47 dil + Atlas/zoom (master; gerçek çizim harita + açgözlü etiket declutter + era stili). *(Profiller ölçeklenince inline kart notları zenginleştirilebilir.)*
-- **TTS profil bölümü:** ⏳ SIRADAKİ-2 — `profiles_tts.json` 14 → 47 (ds6 + ekosistem).
-- **Ekosistem:** ⏳ SIRADAKİ-3 — deepsearch 7+10 ~25 dil işlendi; yeni dillerde HF arama hub'ı + bulunanlar.
+- **TTS profil bölümü:** ⏳ **SIRADAKİ-1** — `profiles_tts.json` 14 → 47 (ds6 `_tts_asr.txt` + ekosistem).
+- **Ekosistem:** ⏳ SIRADAKİ-2 — deepsearch 7+10 ~25 dil işlendi; yeni dillerde HF arama hub'ı + bulunanlar.
 
 ---
 

@@ -1,0 +1,1098 @@
+DEEP RESEARCH RAPORU: OĞUR VE 
+ARGU - İZOLE VE TARİHİ DERİN 
+PROFİLLER 
+
+Tarihsel Dilbilim ve Türk Dillerinin Laboratuvarı 
+
+Tarihsel ve karşılaştırmalı dilbilim çalışmalarında, bir dil ailesinin kökenine, ilk dallanmalarına ve 
+proto-formlarına (ana dil rekonstrüksiyonuna) inebilmek için o ailenin en erken izole olmuş, ana 
+gövdeden en radikal biçimde ayrılmış uç dallarının incelenmesi analitik bir zorunluluktur. Türk dil 
+ailesi bağlamında bu işlevi gören iki temel uç kol bulunmaktadır: Ailenin makro-kırılmasını temsil 
+eden, ana gövdeden en erken koptuğu kanıtlanmış olan Oğur (L-R) kolu ve Şaz (Ş-Z) veya Genel 
+Türkçe gövdesi içinde en arkaik özellikleri bir zaman kapsülü gibi koruyarak günümüze ulaştıran 
+Argu kolu. Bu iki kolun yaşayan yegâne temsilcileri olan Çuvaşça ve Halaçça, Proto-Türkçe (Ana 
+Türkçe) rekonstrüksiyon çalışmalarının en büyük laboratuvarıdır1. 
+Bu analiz, söz konusu iki izole dilin yatay eksende fonolojik, morfolojik, sözlüksel ve modern 
+çağdaki Doğal Dil İşleme (NLP) kapasitelerini de kapsayan egzozif bir profilini sunmaktadır. 
+Dilbilimsel veriler, salt betimsel bir yaklaşımla değil; rotasizm, lambdasizm, tersine morfotaktik ve 
+korunmuş birincil uzun ünlüler gibi anomalilerin Genel Türkçe teorilerini nasıl kökünden 
+sarstığına odaklanarak nedensellik bağlarıyla incelenmektedir. 
+Tarihi Oğur Dilleri: Avarlar, Hazarlar ve İdil Bulgarları 
+
+Modern Çuvaşçanın kökenlerini ve Oğur kolunun tarihsel coğrafyasını anlamak için, bu kolun 
+nesli tükenmiş olan tarihi temsilcilerinin (Avarca, Hazarca ve İdil Bulgarcası) siyasi ve dilbilimsel 
+profillerinin incelenmesi gerekmektedir. Oğur boyları, erken dönem Asya göçleriyle Batı Sibirya 
+ve Kazak bozkırlarından koparak İdil-Ural havzasına ve Karadeniz'in kuzeyine yerleşmişlerdir3. 
+Tarihi Oğur kolunun en erken temsilcilerinden biri olduğu düşünülen Avrasya Avarları (Pannonian 
+Avars), 6. ve 9. yüzyıllar arasında Orta ve Doğu Avrupa'da büyük bir göçebe imparatorluğu 
+kurmuşlardır4. Avarların konuştuğu dilin, Türk dil ailesinin Oğur koluna mensup olduğu, kısıtlı 
+epigrafik kalıntılar ve unvanlar üzerinden tahmin edilmektedir6. Avrasya Avarcası günümüzde 
+tamamen ölü bir dildir ve ardında yalnızca runik benzeri Karpat Havzası Rovas yazıtlarında 
+(Carpathian Basin Rovas) bazı izler bırakmıştır7. Ozora-Tótipuszta gümüş kabı gibi 7. yüzyıla 
+tarihlenen buluntularda yer alan ve Oğurcaya çevrildiğinde "10 [parça] sığar" anlamına gelen 
+ibareler, Avarların Oğur karakterini destekleyen epigrafik kanıtlardır8. 
+Oğur kolunun bir diğer devasa, ancak dilbilimsel olarak tartışmalı temsilcisi Hazarlardır. Hazar 
+Kağanlığı, 7. ve 10. yüzyıllar arasında İdil-Don havzasından Kafkaslara kadar uzanan Pax 
+Khazarica'yı (Hazar Barışı) kurarak Bizans ile Abbasi halifelikleri arasında tampon bir güç 
+oluşturmuştur9. Elit kesimi Museviliği benimseyen Hazarların başkenti Atil'dir11. Hazarca (ISO 
+639-3: zkz), günümüze çok az kelime bıraktığı için (örneğin Kiev Mektubu'ndaki runik 
+"OKHQURÜM" - okudum ibaresi) dilbilimsel sınıflandırması tartışmalı olsa da, yaygın akademik 
+
+kanaat bu dilin Oghuric (Oğur) dalına ait olduğu veya kağanlık içinde Oğurcanın bir lingua franca 
+(ortak dil) olarak kullanıldığı yönündedir11. Hazar diline dair bir diğer kalıntı, Bizans mühendisleri 
+ile ortaklaşa inşa edilen Sarkel (Ak Kale) kalesinin ismidir. "Sarkel" ismindeki "sar" (beyaz/sarı) ve 
+"kel" (kale/ev) yapısı, Oğur Türkçesi karakteristiği sergilemektedir9. 
+Oğur dalının günümüze en sağlam dilbilimsel kanıtları bırakan temsilcisi ise İdil Bulgarcasıdır (ISO 
+639-3: xbo). 9. ve 14. yüzyıllar arasında İdil ve Kama nehirlerinin kesiştiği bölgede hüküm süren 
+İdil Bulgar Hanlığı, Çuvaşların doğrudan atası kabul edilmektedir14. İdil Bulgarcasının şifreleri, 
+1863 yılında Hüseyin Feyzhanov'un (Khusain Faizkhanov) bölgedeki Arap harfli mezar taşlarını 
+çözümlemesiyle kırılmıştır16. Feyzhanov'dan önce Arapça zannedilip anlamsızca çevrilen "JIATI 
+JUR" ibaresinin, aslında Oğurca "Yedi Yüz" anlamına gelen bir tarihleme olduğu kanıtlanmıştır16. 
+Bu mezar taşlarında tespit edilen tuxïr (dokuz), vutur (otuz), xïrïx (kırk) gibi sayı sistemleri ve 
+-säm çoğul eki, İdil Bulgarcası ile Çuvaşça arasındaki kopmaz tarihsel ve genetik bağı şüpheye 
+yer bırakmayacak şekilde belgelemiştir14. 
+Çuvaşça Derin Profili: Dilin Çekirdeği 
+
+İdil Bulgar mirasının günümüzdeki tek canlı varisi olan Çuvaşça, Genel Türkçeden çok erken bir 
+dönemde ayrılarak Fin-Ugor dilleriyle iç içe, tamamen izole bir evrim çizgisi izlemiştir. Bu 
+izolasyon, dilin ilk bakışta Ural dillerine benzetilmesine yol açmış; ancak tarihsel dilbilimin 
+derinleşmesiyle Türk dil ailesinin en kıymetli yapıtaşı olduğu kanıtlanmıştır1. 
+
+Çuvaşça Kimlik ve Demografi 
+Parametreleri 
+
+Detaylı Veri 
+
+Dil Adı ve Kimliği 
+
+Çuvaşça (Chuvash, Чӑвашла) 
+
+ISO 639-3 Kodu 
+
+Glottocode 
+
+Coğrafi Koordinatlar 
+
+Yazı Sistemi 
+
+chv 
+
+chuv1255 
+
+İdil-Ural bölgesi (Yaklaşık 55° - 56° K enlemi, 
+46° - 48° D boylamı) 
+
+Kiril Alfabesi (Geçmişte Arap ve Runik 
+varyasyonlar) 
+
+Konuşur Sayısı (Düşüş Trendi) 
+
+~740.000 (2020 Rusya nüfus sayımı 
+verilerine göre hızlı düşüş) 
+
+Glottolog AES Statüsü 
+
+Threatened (Tehdit Altında) 
+
+EGIDS Seviyesi 
+
+5 ile 6b arası (Gelişmekte olan/Tehdit 
+altında) 
+
+UNESCO Canlılık Statüsü 
+
+Vulnerable (Hassas/Zarar Görebilir) 
+
+Fonolojik Özgünlük: Rotasizm ve Lambdasizm 
+
+Çuvaşçanın eşsizliği, Genel Türkçe ile arasına koyduğu keskin fonolojik duvarlardan kaynaklanır. 
+Ana Türkçe rekonstrüksiyonunun temelini oluşturan iki büyük ses yasası, Çuvaşça üzerinden 
+kanıtlanmaktadır. Proto-Türkçede yer alan ve Genel Türkçede sırasıyla /z/ ve /ş/ seslerine evrilen 
+birincil fonemlerin, Çuvaşçada /r/ ve /l/ seslerine evrildiği veya Proto-Altayca döneminden beri 
+bu şekilde korunduğu görülmektedir1. 
+
+Rotasizm (*z > r) kuralı uyarınca, Proto-Türkçe 
+
+ (dokuz) kelimesi İdil Bulgarcasında 
+
+tuxïr'a, modern Çuvaşçada ise tăhhăr'a evrilmiştir14. Benzer şekilde, 
+
+ (kız) kelimesi 
+
+Çuvaşçada hĕr biçimini almıştır19. Lambdasizm (*š > l) yasası ise, Proto-Türkçe 
+
+ (taş) 
+
+kelimesinin Çuvaşçada čul olmasına, 
+kelimesinin ise kĕmĕl biçimini almasına neden olmuştur20. 
+
+ (kış) kelimesinin hĕl olmasına, 
+
+ (gümüş) 
+
+Bu iki temel kuralın yanı sıra, sözbaşı 
+
+ değişimi de tipiktir. Proto-Türkçe 
+
+ (kara), 
+
+Çuvaşçada hura şeklini almış; 
+
+ (kırk) ise hĕrĕh olmuştur14. Bir diğer çarpıcı fonolojik evrim, 
+
+ palatalizasyonudur. Bu değişim sonucu 
+
+sözbaşı 
+ (yedi) ise 
+śiččĕ hâlini almıştır21. Çuvaşçanın ünlü sistemi de komşusu olduğu Çeremişçe (Mari dili) etkisiyle 
+daralmış, çok kısa boğumlanma süresine sahip ă ve ĕ gibi indirgenmiş (reduced) arkaik ünlüler 
+geliştirmiştir1. 
+Tersine Morfotaktik ve Atipik Çoğul 
+
+ (yılan) śĕlen, 
+
+̈ z-lar-ı̣
+
+̈ m-nan" yapıları böyledir. Oysa Çuvaşça, komşusu olduğu Ural dillerinin (özellikle Mari ve 
+
+Dünya üzerindeki Genel Türkçe kollarında isim çekim şablonu katı bir şekilde "Kök + Çoğul + 
+İyelik + Hâl" sırasını izler. Örneğin Türkiye Türkçesindeki "kız-lar-ım-dan" veya Tatarca 
+"ḳı̣
+Udmurt) baskısıyla "Tersine Morfotaktik" (Reverse Morphotactics) olarak bilinen olağanüstü bir 
+dizilim geliştirmiştir. Çuvaşçada çekim sırası "Kök + İyelik + Çoğul + Hâl" şeklindedir22. 
+Analiz edildiğinde, Çuvaşça χịr-ịm-sän-ǰän (хӗр-ӗм-сен-чен) kelimesi sırasıyla 
+"kız-benim-ler-den" (girl-POSS1SG-PL-ABL) morfemlerini taşır23. Generatif morfoloji 
+bağlamında Baker'ın Ayna İlkesi (Mirror Principle) üzerinden yapılan araştırmalar, bu tersine 
+dizilimin sözdizimsel başların (syntactic heads) dilsel temas baskısıyla post-sentaktik (sözdizim 
+sonrası) aşamada yer değiştirmesinden (metathesis) kaynaklandığını öne sürmektedir24. Ayrıca 
+Çuvaşça, Genel Türkçedeki standart -lAr çoğul ekinin aksine, kökeni bağımsız bir leksikal öğeye 
+
+dayanan ("sayın/her biri" kökünden veya Marice "šaməč" - kişi kelimesinden türediği düşünülen) 
+-sem / -sen çoğul ekini kullanır22. 
+Datif-Akuzatif Birleşmesi ve 1820 İncil Çevirisi 
+
+Modern Çuvaşçada belirtme hâli (akuzatif) ve yönelme hâli (datif) tamamen birleşerek 
+(syncretism) tek bir form olan -(n)A veya diyalektal -(j)A ekini yaratmıştır (Örn: man-a 
+'bana/beni')27. Yıllarca bu birleşmenin Proto-Oğur dönemine ait çok arkaik bir evrim olduğu 
+düşünülmüştür. Ancak dilbilimci Alexander Savelyev'in araştırmaları, 1820 yılında Viryal Çuvaş 
+diyalekti ile yazılmış olan ilk Matta İncili (Gospel of Matthew) çevirisinde, pre-standart 
+Çuvaşçada datif ve akuzatif ayrımlarının belirli morfemler etrafında hâlâ korunduğunu ortaya 
+koymuştur. Bu tarihsel keşif, hâl eklerindeki bu senkretizmin çok erken dönem bir anomaliden 
+ziyade, 19. yüzyıla kadar süren fonolojik ve paradigmatik aşınmalar (merger) sonucu oluşan 
+oldukça yakın dönemli bir olay olduğunu kanıtlayarak tarihsel morfoloji teorilerini yeniden 
+şekillendirmiştir28. 
+Dilin Kalbi: Çuvaş Mitolojisi ve Kültürel Kodlar 
+
+Çuvaşça salt bir morfoloji yığını değil, animistik ve Tengrist inançların, Ortodoks Hıristiyanlık ve 
+İslamiyet ile girdiği karmaşık senkretizmin canlı bir aynasıdır. Bu kültürel hazinenin günümüze 
+taşınması, 1928-1950 yılları arasında 17 cilt halinde yayımlanan ve 50.000 kelime içeren Nikolay 
+İvanoviç Aşmarin'in Thesaurus Linguae Tschuvaschorum (Çuvaş Dili Sözlüğü) adlı anıtsal eseriyle 
+mümkün olmuştur31. 
+Aşmarin'in derlemelerinde kayıtlı olan arkaik metinler, Çuvaş inanç sisteminin derinliğini sergiler. 
+Baş tanrı olan Tură'nın karşısında, İslamiyet'teki Azrail figürünün arkaik bir adaptasyonu olan 
+ölüm ve yeraltı tanrısı Esrel durur33. Aşmarin'in derlediği, ölünün arkasından düzenlenen 
+sonbahar birası eşliğindeki 'Yuba' (Yuğ) cenaze ziyafetlerinde, ölünün Tură ve Esrel ile girdiği 
+varoluşsal diyaloglar ("Conversation of the departed with Tura") büyüleyici bir lirik dille aktarılır33. 
+Bunun yanında, ev ve ocak tanrıçası Khertsurt (Hĕr-śurt), kötücül ruh Vuba (Obur), dışarıdan 
+hastalık getiren Ierekh (Yĕrĕh) ve su ruhu Şuv Anası (šïv Pülĕχśĕ amăšĕ) kültürün köşe 
+taşlarıdır33. Aşmarin sözlüğü, kan durdurma büyüleri (charm for the shedding of blood) ve yılan 
+duaları gibi okült metinleri de barındırarak Çuvaşçayı tarihsel bir dilbilim nesnesinden çıkarıp 
+devasa bir kültürel DNA bankasına dönüştürmüştür33. 
+Halaçça Derin Profili: Argu'nun Zaman Kapsülü 
+
+Oğur kolu ana dilden koptuktan sonra, Genel Türkçe kendi içinde evrilmeye devam etmiş; ancak 
+11. yüzyılda Kaşgarlı Mahmud'un Dīwān Lughāt al-Turk adlı eserinde "Argu" olarak adlandırdığı bir 
+grup, Oğuz, Kıpçak ve Karluk kollarından bağımsızlaşarak günümüz İran coğrafyasına doğru 
+yalıtılmış bir tarihsel sürece girmiştir35. Bu Argu kolunun yeryüzündeki tek varisi olan Halaçça, 
+Türk dili tarihi için olağanüstü keşiflerin merkezidir. 
+
+Halaçça Kimlik ve Demografi 
+Parametreleri 
+
+Detaylı Veri 
+
+Dil Adı ve Kimliği 
+
+Halaçça (Khalaj, ﺞﻠﺧ) 
+
+ISO 639-3 Kodu 
+
+Glottocode 
+
+Coğrafi Koordinatlar 
+
+Yazı Sistemi 
+
+Konuşur Sayısı 
+
+klj 
+
+khal1277 
+
+İran, Merkezi Eyaleti (Markazi Province), 
+Talxab, Mansurabad civarı (Yaklaşık 34.5° K, 
+50.2° D) 
+
+Standardize bir alfabe yok, yerel Arap-Fars 
+alfabesi varyasyonları. 
+
+Tahmini 20.000 - 40.000 arası (Şiddetli 
+asimilasyon) 
+
+UNESCO Canlılık Statüsü 
+
+Severely Endangered (Ciddi Anlamda 
+Tehlike Altında) 
+
+Doerfer'in Keşfi ve Dilin Bağımsızlığı 
+
+20. yüzyılın ortalarına kadar, Minorsky dâhil birçok dilbilimci Halaççayı, İran dağlarında Farsça 
+ve Güney Azerbaycan Türkçesinin yoğun etkisi altında kalıp yozlaşmış basit bir Oğuz 
+diyalekti olarak sınıflandırma hatasına düşmüştür36. Ancak Alman Türkolog Gerhard 
+Doerfer ve öğrencisi Semih Tezcan'ın 1968 yılında İran'ın Markazi köylerinde 
+gerçekleştirdikleri saha çalışmaları, Türkoloji tarihini değiştirmiştir. Doerfer'in yayımladığı 
+Khalaj Materials (1971), Wörterbuch des Chaladsch (1980) ve Folklore-Texte der 
+Chaladsch (1994) adlı eserler, Halaççanın bir Oğuz ağzı olmadığını; aksine Genel Türkçe 
+ağacında başlı başına bağımsız, arkaik bir dal olan Argu'nun ta kendisi olduğunu 
+kanıtlamıştır2. Daha önce öne sürülen ve Halaç isminin Eftalit (Akhun) veya İrani kökenlere 
+dayandığını iddia eden Josef Marquart hipotezleri, bu bulgularla dilbilimsel olarak 
+çürütülmüştür35. 
+
+Fonolojik Muhafaza: Uzun Ünlüler ve Arkaik Ünsüzler 
+
+Halaçça bir yenilik dili değil, bir muhafaza (retention) dilidir. Bu dili eşsiz kılan özellik, binlerce yıl 
+öncesinin Proto-Türkçe fonolojik haritasını günümüze taşımasıdır. 
+1851 yılında Otto von Böhtlingk'in Yakutça verilerine dayanarak ortaya attığı, ancak dilbilimciler 
+arasında uzun süre şüpheyle yaklaşılan "Proto-Türkçede birincil uzun ünlülerin varlığı" hipotezi, 
+Halaççanın keşfiyle kesin bir fiziksel kanıta kavuşmuştur38. Halaçça, Proto-Türkçede var olduğu 
+düşünülen üçlü ünlü uzunluğunu (tripartite vowel length: kısa, yarı-uzun, tam-uzun) fonolojik bir 
+
+ayırt edici özellik olarak koruyan dünyadaki tek Türk dilidir35. 
+
+●  Kısa Ünlü: hat (at)2. 
+●  Yarı-uzun Ünlü: bàş [baˑʃ] (baş)2. 
+●  Tam-uzun (diftonglaşmış) Ünlü: qán [qaːn] (kan) veya bi:eš ~ be:š (beş)2. 
+
+Halaççanın bir diğer sarsıcı özelliği, sözbaşı h- sesinin korunmasıdır. Proto-Türkçede, hatta 
+Proto-Altayca aşamasında var olduğu düşünülen sözbaşı ötümsüz patlamalı p- sesinin, zamanla 
+sürtünmeli h- formuna dönüşüp (p- > f- > h-) daha sonra Oğuz, Kıpçak ve Karluk kollarında 
+tamamen düştüğünü savunan teori (h- dropping), Halaçça tarafından doğrulanmaktadır2. 
+Günümüzde başka hiçbir Türk dili sözbaşında organik h- barındırmazken, Halaçça Proto-Türkçe 
+
+ (ev) için häv, 
+
+ (ayak) için ise hadaq demektedir2. 
+
+Ayrıca, Genel Türkçede söz içi -d- sesi zamanla zayıflayarak Oğuzcada -y-'ye (adak > ayak), 
+Kıpçakçada -v-'ye dönüşmüşken; Halaçça, Kaşgarlı Mahmud'un kaydettiği Argu dönemindeki 
+arkaik -d- sesini harfiyen muhafaza etmiştir. Hadaq (ayak) ve bo:d (boy/beden) sözcükleri, 
+dilbilimsel birer evrimsel fosildir2. 
+Bununla birlikte dil, izole yapısına rağmen çevresel baskılardan da nasibini almıştır. Sentaktik 
+olarak Farsçanın yoğun etkisiyle çok fonksiyonlu "ki/ke" bağlacını benimsemiş, Güney 
+Azerbaycan Türkçesinden de leksikal kopyalamalar almıştır. Fakat "bilä-" (kendi) gibi sadece bu 
+gruba özgü arkaik anaforik adılların korunması, dilin direnç mekanizmasının çalıştığını 
+göstermektedir43. 
+Kognat ve Sayı Sistemi Analizi (Oğur ↔ Argu Yatay 
+Karşılaştırması) 
+
+Türk dilinin genetik kodlarını haritalamak için Oğur (Çuvaşça/Bulgarca) ve Argu (Halaçça) kolları 
+arasındaki sistematik sapmaları incelemek elzemdir. Aşağıdaki tablolar, rotasizm/lambdasizm 
+evrimi ile arkaik muhafazakârlığı aynı eksende göstermektedir. 
+
+Sayı 
+
+Proto-Tü
+rkçe 
+
+İdil 
+Bulgarca
+sı (Tarihi 
+Oğur) 
+
+Çuvaşça 
+(Modern 
+Oğur) 
+
+Halaçça 
+(Argu) 
+
+Türkiye 
+Türkçesi 
+
+1 
+
+bīr (رﯨﺑ) 
+
+pĕr (пӗр) 
+
+bi:r 
+
+bir 
+
+Dilbilims
+el Teşhis 
+/ 
+Mekaniz
+ma 
+
+Çuvaşça
+da 
+sözbaşı 
+*b > p 
+tonsuzlaş
+ması14. 
+
+ 
+ 
+2 
+
+3 
+
+4 
+
+5 
+
+6 
+
+7 
+
+8 
+
+eki (کا) 
+
+ikkĕ 
+(иккӗ) 
+
+äkki 
+
+iki 
+
+več (جو) 
+
+viççĕ 
+(виççӗ) 
+
+üč 
+
+üç 
+
+Halaççad
+a 
+ikizleşme 
+ve 
+korunma. 
+
+Oğur 
+dalında 
+sözbaşı 
+protezi 
+(*v- 
+türemesi)
+14. 
+
+tüvet 
+(تاوُﺗ) 
+
+tăvattă 
+(тăваттă) 
+
+tört 
+
+dört 
+
+- 
+
+biyel (لﺎﯾﺑ) 
+
+pillĕk 
+(пиллӗк) 
+
+be:š 
+
+beş 
+
+altï ( ِطﻟَا) 
+
+ulttă 
+(улттӑ) 
+
+altı 
+
+altı 
+
+čyeti 
+(ِتﺎَﯨﺟ) 
+
+śiččĕ 
+(ҫиччӗ) 
+
+yėti 
+
+yedi 
+
+sekir (ڔِﻛَڛ) 
+
+sakkăr 
+(саккӑр) 
+
+säkːịz 
+
+sekiz 
+
+Oğurcad
+a 
+lambdasi
+zm (*ş > 
+l)14. 
+
+Çuvaşça
+da vokalik 
+yuvarlakl
+aşma. 
+
+Oğurcad
+a sözbaşı 
+*y > ś / č 
+palataliza
+syonu21. 
+
+*Rotasiz
+m (z > r): 
+İdil Bulg. 
+sekir ve 
+Çuv. 
+sakkăr21. 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+9 
+
+10 
+
+20 
+
+30 
+
+40 
+
+tuxïr 
+(ڔِﺧُط) 
+
+tăhhăr 
+(тӑххӑр) 
+
+toḳːụz 
+
+dokuz 
+
+van (ناو) 
+
+vunnă 
+(вуннӑ) 
+
+hō:n / uon 
+
+on 
+
+čiyirim 
+(مرِﯾِﺟ) 
+
+śirĕm 
+(ҫирӗм) 
+
+yigirmi 
+
+yirmi 
+
+vutur 
+(رطو) 
+
+vătăr 
+(вӑтӑр) 
+
+ottuz 
+
+otuz 
+
+xïrïx (حرﺣ) 
+
+hĕrĕh 
+(хӗрӗх) 
+
+qırq 
+
+kırk 
+
+100 
+
+čǖr (روُﺟ) 
+
+śĕr (ҫӗр) 
+
+yü:z 
+
+yüz 
+
+*Rotasiz
+m (z > r): 
+İdil Bulg. 
+tuxïr ve 
+Çuv. 
+tăhhăr14. 
+
+Oğurcad
+a v- 
+protezi, 
+Halaççad
+a izole h- 
+korunum
+u21. 
+
+Oğurcad
+a y > ś/č 
+evrimi14. 
+
+*Rotasiz
+m (z > r): 
+İdil Bulg. 
+vutur, 
+Çuv. 
+vătăr14. 
+
+Oğurcad
+a arkaik q 
+> x > h 
+zayıflama
+sı14. 
+
+*Rotasiz
+m (z > r): 
+İdil Bulg. 
+čǖr, Çuv. 
+śĕr14. 
+
+Bu karşılaştırma, Oğur dalının radikal ses dönüşümlerini ve Halaççanın ana dildeki uzunluk/sertlik 
+parametrelerini dondurduğunu açıkça göstermektedir. Seçili temel kognat kelimelerde bu 
+laboratuvar ortamı daha da belirginleşir: 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Anahtar 
+Kelime 
+
+Proto-Türk
+çe 
+
+Çuvaşça 
+(chv) 
+
+Halaçça 
+(klj) 
+
+Türkiye 
+Türkçesi 
+
+Dilbilimsel 
+Teşhis 
+
+Göz 
+
+kuś (куҫ) 
+
+köz 
+
+göz 
+
+El 
+
+ală (алӑ) 
+
+äl 
+
+el 
+
+Su 
+
+šyv (шыв) 
+
+suw 
+
+su 
+
+Yol 
+
+śul (ҫул) 
+
+yụ̄ ol 
+
+yol 
+
+Dağ 
+
+tu (ту) 
+
+tağ 
+
+dağ 
+
+Taş 
+
+čul (чул) 
+
+taš 
+
+taş 
+
+Oğurcada z 
+> ś 
+farklılaşması
+; Genel 
+Türkçede 
+köz/göz 
+sürekliliği45. 
+
+Temel 
+kavramın 
+tüm 
+dallarda 
+yüksek 
+muhafazası. 
+
+İdil 
+Bulgarcasın
+dan (šïv) 
+Çuvaşçaya 
+yapısal 
+aktarım21. 
+
+Çuvaşçada 
+y > ś, 
+Halaççada 
+diftonglaşm
+ış uzun ünlü 
+(ụ̄ o)21. 
+
+Çuvaşçada 
+monoftongl
+aşma (aw > 
+u). 
+
+*Lambdasiz
+m (š > l): 
+Çuvaşça 
+čul. 
+
+ 
+ 
+ 
+ 
+ 
+ 
+Kız 
+
+hĕr (хӗр) 
+
+qïz 
+
+kız 
+
+Kış 
+
+Yıl 
+
+hĕl (хӗл) 
+
+qïš 
+
+kış 
+
+śul (ҫул) 
+
+yïl 
+
+yıl 
+
+ / 
+
+Gümüş 
+
+kĕmĕl 
+(кӗмӗл) 
+
+kümüš 
+
+gümüş 
+
+Baş 
+
+puś (пуҫ) 
+
+bàş [baˑʃ] 
+
+baş 
+
+Kan 
+
+jun (юн) 
+
+qán [qaːn] 
+
+kan 
+
+Halaççada 
+muhafaza20. 
+
+*Rotasizm 
+(z > r): 
+Çuvaşçada 
+hĕr. Aynı 
+zamanda 
+sözbaşı q > 
+h evrimi19. 
+
+*Lambdasiz
+m (š > l): 
+Çuvaşçada 
+hĕl. 
+
+Oğurcada y 
+> ś değişimi 
+ve 
+lamdasizm 
+evreleri21. 
+
+*Lambdasiz
+m (š > l): 
+Çuvaşça 
+kĕmĕl20. 
+
+Halaççadaki 
+bàş, 
+yarı-uzun 
+(half-long) 
+ünlünün 
+ispatıdır2. 
+
+Halaççadaki 
+qán, 
+tam-uzun 
+(long) 
+ünlünün 
+akustik 
+ispatıdır2. 
+
+ 
+ 
+ 
+ 
+ 
+ 
+Ev 
+
+pürt / kil 
+
+häv 
+
+ev 
+
+Ayak 
+
+ura (ура) 
+
+hadaq 
+
+ayak 
+
+Halaççadaki 
+häv, 
+Proto-Türkç
+e sözbaşı h- 
+sesini 
+tartışmasız 
+kanıtlar42. 
+
+Halaçça h- 
+ve 
+intervokalik 
+-d- sesinin 
+eşzamanlı, 
+kusursuz 
+muhafazası2
+. 
+
+Dijital Yaşam Alanı ve Doğal Dil İşleme (NLP) Kapasitesi 
+
+Bir dilin 21. yüzyılda ayakta kalabilmesi, o dilin dijital veri tabanlarında ve Doğal Dil İşleme (NLP) 
+mimarilerinde ne kadar temsil edildiğine doğrudan bağlıdır. Pratik Joshi, Monojit Choudhury ve 
+Kalika Bali'nin 2020 yılında literatüre kazandırdığı 6 seviyeli NLP dil taksonomisi analizine göre, 
+dünya dillerinin büyük kısmı dijital teknolojilerin nimetlerinden dışlanmıştır. Bu haritada Çuvaşça 
+ve Halaçça, hayatta kalma mücadelesinin en uç noktalarında konumlanmaktadır48. 
+Joshi'nin taksonomisinde Çuvaşça, sınırlı dijital kaynağı (az sayıdaki Wikipedia makalesi, yerel 
+korpuslar) sayesinde "Scraping-Bys" (Güçlükle Geçinenler) olarak adlandırılan Class 1 
+kategorisinde kendisine kıl payı yer bulabilmiştir48. Bu kısıtlı ama var olan altyapı, açık kaynaklı 
+kural-tabanlı (rule-based) makine çevirisi platformu Apertium bünyesinde Çuvaşça morfolojik 
+analizörlerin (apertium-chv) geliştirilmesine olanak tanımıştır. Çuvaşçanın Kök+İyelik+Çoğul 
+şeklindeki karmaşık tersine morfotaktik yapısı, Apertium'un FST (Finite State Transducer) 
+kurallarıyla modellenerek Tatarca ve Türkçe ile çift yönlü çeviri mimarileri kurulmaya 
+çalışılmıştır51. 
+Yapay zeka devriminin Büyük Dil Modelleri (LLM) ayağında ise Çuvaşça için ender umut 
+ışıklarından biri Sberbank AI (ai-forever) tarafından piyasaya sürülen mGPT modelidir. 61 dil 
+üzerinde Wikipedia ve C4 Corpus kullanılarak eğitilen bu model, Çuvaşça için 1.3 milyar 
+parametreli özel bir ince-ayarlı (fine-tuned) varyant (mGPT-1.3B-chuvash) sunarak Rusya'daki 
+azınlık dilleri için ilk ciddi Transformer mimarisi adımını atmıştır54. HuggingFace platformunda yer 
+alan, Alex Antonov tarafından derlenmiş 1 milyon cümlelik chuvash_parallel veri seti, bu tür derin 
+öğrenme modellerinin beslendiği kritik bir kaynaktır56. Buna karşın, Çuvaşça için nitelikli bir 
+Metinden Sese (TTS) teknolojisi geliştirilememiş olup, mevcut Konuşma Tanıma (ASR) 
+sistemlerinde Kelime Hata Oranı (WER - Word Error Rate) %60 gibi endüstri standardının çok 
+uzağında bir seviyededir. 
+
+ 
+ 
+Halaçça ise Joshi'nin taksonomisinde, dijital olarak tamamen görünmez olan "The Left-Behinds" 
+(Geride Bırakılanlar) adlı Class 0 kategorisindedir48. Etiketlenmiş (labeled) veya etiketlenmemiş 
+(unlabeled) neredeyse hiçbir modern veri seti barındırmayan Halaçça, Apertium projesi 
+(apertium-klj) kapsamında kısıtlı sözlük entegrasyonu hedeflerine konu olsa da, işlevsel hiçbir 
+sentaktik çözümleyiciye veya sinir ağlarına dayalı (neural) NLP modeline sahip değildir57. Dilin 
+yazılı kültürden çok sözlü belleğe dayanması ve hızla asimile olması, dijital silinme sürecini 
+kaçınılmaz bir noktaya taşımaktadır. 
+Sonuç ve KÖKEN Değerlendirmesi 
+
+Çuvaşça ve Halaççanın analizi, tarihsel dilbilimde yalnızca morfolojik sapmaların listelenmesi 
+değil; binlerce yıl önce Asya steplerinde konuşulan ve bugün Ana Türkçe (Proto-Turkic) olarak 
+adlandırılan ilksel formun yeniden inşa edilmesi sürecidir. 
+Eğer Proto-Türkçenin neye benzediğini ve nasıl evrildiğini anlamak istiyorsak, modern Genel 
+Türkçe verileri (Türkiye Türkçesi, Kazakça, Özbekçe vd.) tek başına eksik bir tablo sunacaktır; zira 
+bu diller aynı kökten gelen ve benzer aşınmaları yaşamış yakın akrabalardır. 
+Çuvaşça, komşu Ural dillerinin baskısıyla içyapısını tersine morfotaktik gibi kompleks bir dizilimle 
+örseleyerek izole bir yola girmesine rağmen, özündeki rotasizm (z > r) ve lambdasizm (š > l) 
+yasalarını İdil Bulgarlarından bugüne taşıyan yegâne köprüdür. Çuvaşçanın yitirilmesi, Türk 
+dillerinin tarih öncesi dönemini aydınlatan en güçlü fenerin ve Oğur-Töles-Hun sürekliliğindeki 
+genetik damarın tamamen yok olması anlamına gelecektir. Öte yandan Halaçça, devasa bir 
+zaman okyanusunu aşarak "ayak" demek yerine inatla "hadaq" diyerek sözbaşı h- ve içses -d- 
+fonemlerini muhafaza etmiş, üçlü ünlü uzunluğuyla akustik bir mucize yaratmıştır. Doerfer'in 
+deyişiyle o, salt bir diyalekt değil, Argu mirasının dondurulmuş bir laboratuvarıdır. Bu iki uç kol, 
+Türk dil ailesinin yalnızca sınırlarını değil, tarihsel derinliğinin ve kökeninin sarsılmaz dilbilimsel 
+kanıtlarını temsil etmektedir. 
+
+Alıntılanan çalışmalar 
+
+1.  Chuvash and the Bulgharic languages, 
+
+https://iling-ran.ru/savelyev/2020_chuvash_and_the_bulgharic_languages.pdf 
+
+2.  Khalaj language - Wikipedia, https://en.wikipedia.org/wiki/Khalaj_language 
+3.  The peoples of the south Russian steppes, 
+
+https://resolve.cambridge.org/core/services/aop-cambridge-core/content/view/3
+B02B9C2796F9842C69344E15D724011/9781139054898c10_p256-284_CBO.pdf/p
+eoples_of_the_south_russian_steppes.pdf 
+
+4.  Avar Definition & Meaning - YourDictionary, https://www.yourdictionary.com/avar 
+5.  Meaning of AVAR and related words - OneLook, 
+
+https://www.onelook.com/?loc=dmapirel&w=avar 
+
+6.  Avar - Wiktionary, the free dictionary, https://en.wiktionary.org/wiki/Avar 
+7.  ISO/IEC JTC1/SC2/WG2 N4006 2011-05-19 - Unicode, 
+
+https://www.unicode.org/wg2/docs/n4006.pdf 
+
+8.  ISO/IEC JTC1/SC2/WG2 N4006 2011-01-21 - Unicode, 
+
+http://www.unicode.org/L2/L2011/11088-carpathian.pdf 
+
+9.  Research Thread: Khazars | Total War Center, 
+
+https://www.twcenter.net/threads/research-thread-khazars.180019/ 
+
+10. Khazars - Wikipedia, https://en.wikipedia.org/wiki/Khazars 
+11. Marot OF JEWISH KHAZARS - RootsWeb, 
+
+http://freepages.rootsweb.com/~otstott/family/ind1293.html 
+
+12. Khazar language - Wikipedia, https://en.wikipedia.org/wiki/Khazar_language 
+13. Kazarki — Grokipedia, https://grokipedia.com/page/kazarki 
+14. Volga Bulgaria - Wikipedia, https://en.wikipedia.org/wiki/Volga_Bulgaria 
+15. İdil Bulgarcası - Vikipedi, 
+
+https://tr.wikipedia.org/wiki/%C4%B0dil_Bulgarcas%C4%B1 
+
+16. Bulgarian epigraphic monuments - Wikipedia, 
+
+https://en.wikipedia.org/wiki/Bulgarian_epigraphic_monuments 
+
+17. Bulgar language - Wikipedia, https://en.wikipedia.org/wiki/Bulgar_language 
+18. List of unofficial Chuvash foreign names | Covntyl Wiki | Fandom, 
+
+https://covntyl.fandom.com/wiki/List_of_unofficial_Chuvash_foreign_names 
+
+19. Talat Tekin - Altayistik Makaleler 1 | PDF - Scribd, 
+
+https://www.scribd.com/document/720002653/Talat-Tekin-Altayistik-Makaleler-1 
+
+20. Klára Agyagási: Chuvash Historical Phonetics. An areal linguistic, 
+
+https://www.researchgate.net/publication/373019617_Review_Of_Klara_Agyagasi_
+Chuvash_Historical_Phonetics_An_areal_linguistic_study_With_an_appendix_on_t
+he_role_of_Proto-Mari_in_the_history_of_Chuvash_vocalism_Turcologica_Band_11
+7_Wiesbaden_Harrassowit 
+ﺔﻐﻟ
+ﺔﻓرﻌﻣﻟا
+, 
+https://www.marefa.org/%D9%84%D8%BA%D8%A9_%D8%A7%D9%84%D8%A8
+%D9%84%D8%BA%D8%A7%D8%B1 
+
+رﺎﻐﻠﺑﻟا
+
+ - 
+
+21. 
+
+22. Chuvash - The Language Gulper, https://languagesgulper.com/eng/Chuvash.html 
+23. Nominals: Noun Inflection (Chapter 22) - Turkic, 
+
+https://www.cambridge.org/core/books/turkic/nominals-noun-inflection/91C0CA
+8DFB839F7DC3F165A29F029776 
+
+24. Postsyntactic Reordering in the Mari Nominal Domain, 
+
+http://philippweisser.de/MariSuspAff.pdf 
+
+25. Postsyntactic Reordering in the Mari Nominal Domain, 
+
+https://philippweisser.de/MariReorder.pdf 
+
+26. Issues of comparative Uralic and Altaic Studies (3) : The Turkic, 
+
+https://helda.helsinki.fi/bitstreams/dec71530-f765-41c3-9e78-1769d5699934/dow
+nload 
+
+27. On the origin of the ethnonym Chuvash: main hypotheses and their, 
+
+https://www.researchgate.net/publication/400683986_On_the_origin_of_the_ethn
+onym_Chuvash_main_hypotheses_and_their_historical_interpretation 
+
+28. No 1 (40) 2021 SUMMARY Natalia A. Zevakhina, Daria V, 
+
+https://iling-ran.ru/library/ural-altaic/ua2021_40_summary_eng.pdf 
+
+29. Chuvash - Brill Reference Works, 
+
+https://referenceworks.brill.com/display/entries/ETLO/SIM-031965.xml 
+
+30. Ural-Altaic Studies - Институт языкознания РАН, 
+
+https://iling-ran.ru/library/ural-altaic/ua2021_40.pdf 
+
+31. FAMILY VALUES IN RUSSIAN AND CHUVASH PROVERBS AND, 
+
+ 
+https://www.ocerints.org/intcess22_e-publication/papers/Klara%20V.%20Pushkin
+a-1.pdf 
+
+32. TDK BELLETEN - DergiPark, https://dergipark.org.tr/tr/download/issue-file/44770 
+33. Gennady Aygi, An Anthology of Chuvash Poetry - duration press, 
+
+https://durationpress.com/wp-content/uploads/2017/11/Gennady-Aygi_Anthology
+-of-Chuvash-Poetry.pdf 
+
+34. 1. The Chuvash, https://austriaca.at/0xc1aa5572%200x0040028d.pdf 
+35. Khalaj people - Grokipedia, https://grokipedia.com/page/Khalaj_people 
+36. halaç türkçesinin ağızları ile güney azerbaycan türkçesinin kum, 
+
+https://tdkturkdunyasi.gov.tr/tam-metin-pdf/930/tur 
+
+37. Yarım Asırda Halaç Türkçesi Söz Varlığındaki Değişimler - DergiPark, 
+
+https://dergipark.org.tr/tr/download/article-file/3268986 
+
+38. ON THE REFLEXES OF PROTO-TURKIC VOWEL LENGTH IN THE, 
+
+https://ejournals.eu/pliki_artykulu_czasopisma/pelny_tekst/4223ff8b-e0fa-4d78-af
+18-f3aa3870ecbb/pobierz 
+
+39. turkic languages - Türk Dili Araştırmaları Yıllığı - Belleten, 
+
+https://tdkbelleten.gov.tr/tam-metin-pdf/289/eng 
+
+40. On *p- and Other Proto-Turkic Consonants - Sino-Platonic Papers, 
+
+https://sino-platonic.org/complete/spp325_proto_Turkic_consonants.pdf 
+
+41. Variety Khalaj - CLICS⁴, https://clics.clld.org/languages/3118 
+42. Sound Types (Chapter 12) - Turkic, 
+
+https://www.cambridge.org/core/books/turkic/sound-types/400FCAFE2048CB1F
+7BEC17790A711C16 
+
+43. Major and Minor Turkic Language Islands in Iran with a Special, 
+
+https://www.cambridge.org/core/journals/iranian-studies/article/major-and-minor
+-turkic-language-islands-in-iran-with-a-special-focus-on-khalaj/1B62C153F56E5
+77801A552BC39AC44FF 
+
+44. Diachrony: Consonants (Chapter 18) - Turkic, 
+
+https://www.cambridge.org/core/books/turkic/diachrony-consonants/CDC9EAE9
+04A78F66BF58530C84C0BC15 
+
+45. Turkic languages - Wikipedia, https://en.wikipedia.org/wiki/Turkic_languages 
+46. THE KHAZAR LANGUAGE by Marcel Erdal - Brill, 
+
+https://brill.com/downloadpdf/book/edcoll/9789047421450/Bej.9789004160422.i-
+460_007.pdf 
+
+47. On a Sound Change in Proto-Turkic - SciSpace, 
+
+https://scispace.com/pdf/on-a-sound-change-in-proto-turkic-2jxyo83y.pdf 
+
+48. Joshi Et Al. (2020) | PDF | Cognitive Science | Linguistics - Scribd, 
+https://www.scribd.com/document/1019091382/Joshi-Et-Al-2020 
+49. The State and Fate of Linguistic Diversity and Inclusion in the NLP, 
+
+https://aclanthology.org/2020.acl-main.560/ 
+
+50. The State and Fate of Linguistic Diversity and Inclusion in the NLP, 
+
+https://www.researchgate.net/publication/340805920_The_State_and_Fate_of_Lin
+guistic_Diversity_and_Inclusion_in_the_NLP_World 
+
+51. Turkic NLP — Toolkit for 24 Languages, https://turkic-nlp.github.io/ 
+52. Turkic languages - Apertium, https://wiki.apertium.org/wiki/Turkic_languages 
+
+53. apertium/apertium-chv: Apertium linguistic data for Chuvash · GitHub, 
+
+https://github.com/apertium/apertium-chv 
+54. ai-forever/mGPT-1.3B-chuvash - Hugging Face, 
+
+https://huggingface.co/ai-forever/mGPT-1.3B-chuvash 
+
+55. (PDF) mGPT: Few-Shot Learners Go Multilingual - ResearchGate, 
+
+https://www.researchgate.net/publication/377950360_mGPT_Few-Shot_Learners
+_Go_Multilingual 
+
+56. alexantonov/chuvash_parallel · Datasets at Hugging Face, 
+
+https://huggingface.co/datasets/alexantonov/chuvash_parallel 
+
+57. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv, 
+
+https://arxiv.org/html/2602.19174v4 
+
+58. LDL 2016 5th Workshop on Linked Data in Linguistics - LREC, 
+
+http://www.lrec-conf.org/proceedings/lrec2016/workshops/LREC2016Workshop-
+LDL2016_Proceedings.pdf 
+
+

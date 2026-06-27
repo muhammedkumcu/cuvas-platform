@@ -565,6 +565,42 @@
     "label": "Dijital güç",
     "body": "Joshi Sınıf 0; hiçbir dijital kapasite, kaynak ya da algoritmik varlık yok. Belgeleme yalnız sınırlı saha çalışmalarında (Kiril/Latin transkripsiyon)."
    }
+  ],
+  "xbo": [
+   {
+    "label": "Tarih",
+    "body": "9-14. yy İdil ve Kama nehirleri kesişiminde hüküm süren İdil Bulgar Hanlığı'nın dili — Çuvaşların DOĞRUDAN atası. Şifreleri 1863'te Hüseyin Feyzhanov'un Arap harfli mezar taşlarını çözmesiyle kırıldı: 'JIATI JUR' aslında Oğurca 'Yedi Yüz' (tarihleme)."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Oğur (L/R Türkçesi) kolu — Genel Türkçeden çok erken ayrılan 'aykırı' dal. Mezar taşı sayıları tuxïr (dokuz), vutur (otuz), xïrïx (kırk) + -säm çoğul eki, Çuvaşça ile genetik bağı kesin belgeler. Rotasizm/lambdasizm öncülü."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "★ Çuvaşçanın doğrudan atası; Oğur dalının günümüze en sağlam dilbilimsel kanıtını bırakan temsilcisi. İdil-Ural havzasında Kıpçak (Tatar) ve Fin-Ugor (Mari) topluluklarıyla temas."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Tarihsel/ölü dil — modern dijital varlık yok. Korpus = Arap harfli Bulgar mezar taşı yazıtları (epigrafik, 13-14. yy); Çuvaş tarihsel dilbilimi ve Oğur kolu rekonstrüksiyonu için birincil kaynak."
+   }
+  ],
+  "zkz": [
+   {
+    "label": "Tarih",
+    "body": "7-10. yy Hazar Kağanlığı'nın dili — İdil-Don havzasından Kafkaslara uzanan 'Pax Khazarica' (Bizans↔Abbasi tampon gücü). Elit kesim Museviliği benimsedi, başkent Atil. Günümüze çok az dilsel kalıntı bıraktı."
+   },
+   {
+    "label": "Yapı & özgünlük",
+    "body": "Dilbilimsel sınıflandırması TARTIŞMALI (az kanıt); yaygın akademik kanaat Oğur (Oghuric) dalı ya da kağanlıkta Oğurcanın lingua franca olduğu. Kalıntılar: Kiev Mektubu runik 'OKHQURÜM' (okudum); Sarkel (Ak Kale) = 'sar' (sarı/beyaz) + 'kel' Oğur karakteri."
+   },
+   {
+    "label": "İlişkiler",
+    "body": "Oğur kolu (tartışmalı) — İdil Bulgarcası/Çuvaşça ile aynı erken dal. Çok-etnili kağanlıkta İrani, Slav ve Bizans dünyalarıyla yoğun temas; Musevi elit + çoğul dinli yapı."
+   },
+   {
+    "label": "Dijital güç",
+    "body": "Tarihsel/ölü ve dilbilimsel olarak tartışmalı — modern dijital varlık yok. Kanıt yalnız birkaç yazıt, unvan ve yer adı (Kiev Mektubu, Sarkel); bağımsız bir korpus oluşturulamaz."
+   }
   ]
  }
 }

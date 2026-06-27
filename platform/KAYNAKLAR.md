@@ -49,7 +49,7 @@
 | `distance.typological.json` | 23×23 tipolojik mesafe (WALS özniteliklerinde farklılık; her hücre `shared` sayısı taşır) | WALS | Uzaklık Gezgini (tipolojik eksen) |
 | `features.wals.json` | dil → 192 WALS özniteliği (değer etiketleriyle) | WALS | Özellik Matrisi |
 | `profiles_deep.json` | **39 dil** × 4 bölüm derin profil (Tarih / Yapı-özgünlük / İlişkiler / Dijital güç), faithful+atıflı (tüm büyük canlı + 8 tarihsel dil) | deepsearch 9 (kol-profil) + 14 (Karluk) + 16 (Ogur-Argu) + 13 (Kıpçak) + Glottolog/Ethnologue/UNESCO çapraz-kontrol | Dil Profilleri (derin bölümler) |
-| `profiles_tts.json` | 14 dil × Seslendirme (TTS/ASR) durum (→ 47 sıradaki) | deepsearch 6 (`hf`/`deepds`) | Dil Profilleri (5. bölüm) |
+| `profiles_tts.json` | **14 → 39 dil** × Seslendirme (TTS/ASR) durum. Gerçek model uzn/azb/crh/nog (MMS-TTS/eSpeak/wav2vec2); küçük yaşayan diller "açık model yok + yakın-dil/eSpeak"; tarihsel diller "uygulanamaz" | deepsearch 6 (`_tts_asr.txt`; `platform/etl/expand_tts_47.py`) | Dil Profilleri (5. bölüm — tüm derin profillerde) |
 | `distance.lexical.json` (kullanım) | Uzaklık Gezgini **10 → 32 dil** açıldı (Savelyev tam leksikal/filogenetik matris; `build.py` DIST_ROWS, koordinat master'dan) | SavelyevTurkic | Uzaklık Gezgini |
 | `ecosystem.json` | **Ekosistem sayfası** — 8 kategori (LLM/Encoder/ASR/TTS/Veri/Benchmark/Araçlar/Org) × dil × **doğrudan bağlantı** (101 link: HF model/veri, GitHub, leaderboard, Zemberek/TRmorph/Apertium…). NÖTR launchpad, olgunluk yargısı yok | deepsearch 7 + **kendi web araştırması** (`hf`/`deepds`) | **Ekosistem** sayfası (ARAŞTIR) |
 

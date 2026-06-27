@@ -44,8 +44,8 @@
 - **Ses denklikleri:** ✅ Çuvaş-merkezli 4 kural → **7 kol-izoglosu** (ds17). `build_sound_laws`: rotasizm/lambdasizm/*h-/*-d-/*-G/*y-/ötümlüleşme; çok-kollu refleks + kanıt rozeti (36/29/14 Savelyev'den). Kognat→kural bağı korundu. *(9 dil-çifti karşılaştırma tablosu ds17'de var — ileride ek sekme olabilir.)*
 - **Uzaklık:** ✅ 10 → 32 dil (Savelyev tam leksikal/filogenetik matris; `DIST_ROWS`, koordinat master'dan, LANGVEC 32; tipolojik WALS 23). *(Anlaşılabilirlik/Lindsay kısmi — genişletilebilir.)*
 - **Harita:** ✅ 14 → 47 dil + Atlas/zoom (master; gerçek çizim harita + açgözlü etiket declutter + era stili). *(Profiller ölçeklenince inline kart notları zenginleştirilebilir.)*
-- **TTS profil bölümü:** ⏳ **SIRADAKİ-1** — `profiles_tts.json` 14 → 47 (ds6 `_tts_asr.txt` + ekosistem).
-- **Ekosistem:** ⏳ SIRADAKİ-2 — deepsearch 7+10 ~25 dil işlendi; yeni dillerde HF arama hub'ı + bulunanlar.
+- **TTS profil bölümü:** ✅ 14 → **39 dil** (ds6). `profiles_tts.json` +25 (`expand_tts_47.py`); her derin profil "Seslendirme (TTS/ASR)" 5. bölümü taşır. Gerçek model uzn/azb/crh/nog; küçük yaşayan diller "yakın-dil ikamesi/eSpeak"; tarihsel diller "uygulanamaz". *(Tavan 39 = derin profil sayısı; 8 özet-only lehçenin TTS bölümü yok.)*
+- **Ekosistem:** ⏳ **SIRADAKİ-1** — deepsearch 7+10 ~25 dil işlendi; yeni master dillerinde HF arama hub'ı + bulunanlar.
 
 ---
 

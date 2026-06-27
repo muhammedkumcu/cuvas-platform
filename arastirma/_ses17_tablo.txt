@@ -1,0 +1,132 @@
+
+--- SAYFA 2 TABLO 1 ---
+Proto-Türkçe (Fonem: *ŕ) | Oğur Kolu (Çuvaşça) | Şaz Kolu (Türkiye Türkçesi) | Diğer Şaz Kognatları (Kazakça, Özbekçe, vb.)
+*toquŕ (Dokuz) | тăхăр (tăhăr) | dokuz | toğız (Kz), toʻqqiz (Uz), toҕus (Yak)
+*k̄ïŕ (Kız) | хӗр (hĕr) | kız | qız (Az), qız (Kz), qiz (Uz), qïz (Khal)
+*yǖŕ (Yüz/100) | ҫӗр (śĕr) | yüz | jüz (Kz), yuz (Uz), süüs (Yak)
+*köŕ (Göz) | куҫ (kuś) [*İstisna, bkz. analiz] | göz | көз (Kz), koʻz (Uz), köz (Uyg)
+*semïŕ (Semiz) | самӑр (samăr) | semiz | semiz (Kz), semiz (Uz)
+
+--- SAYFA 3 TABLO 1 ---
+Proto-Türkçe (Fonem: *ĺ) | Oğur Kolu (Çuvaşça) | Şaz Kolu (Türkiye Türkçesi) | Diğer Şaz Kognatları (Kazakça, Özbekçe, vb.)
+*kïĺ (Kış) | хӗл (hĕl) | kış | qıs (Kz), qish (Uz), qïš (Khal)
+*tāĺ (Taş) | чул (çul) | taş | tas (Kz), tosh (Uz), taac (Yak)
+*baĺ (Baş) | пуҫ (puś) [*İstisna, morfolojik] | baş | bas (Kz), bosh (Uz), baːš (Khal)
+*kümüĺ (Gümüş) | кӗмӗл (kĕmĕl) | gümüş | күміс (Kz), kumush (Uz), kümüš (Khal)
+*yāĺ (Yaş / Gözyaşı) | ҫул (śul) | yaş | jas (Kz), yosh (Uz), saas (Yak)
+
+--- SAYFA 3 TABLO 2 ---
+Proto-Türkçe (Fonem: *h-) | Argu Kolu (Halaçça) | Ortak Türkçe (Türkiye) | Diğer Yansımalar (Kz, Uz, Yak, Chv)
+
+--- SAYFA 4 TABLO 1 ---
+*hadaq (Ayak) | hadaq | ayak | ayaq (Az), adaq (Tuv), atax (Yak), ura (Chv)
+*hirkäk (Erkek) | hirkäk | erkek | erkek (Kz), erkak (Uz), ar (Chv)
+*höl (Islak / Öl) | höl | öl / ıslak | öl (Kz), ho'l (Uz - Farsça etkisiyle ikincil h-)
+*huzun (Uzun) | huzun | uzun | uzın (Kz), uzun (Uz), vărăm (Chv)
+
+--- SAYFA 6 TABLO 1 ---
+Ortak Türkçe Biçim | Türkiye Türkçesi | Azerbaycan Türkçesi | Uygulanan Kural / İzogloss | IPA (Tr/Az)
+*k̄ïŕ (kız) | kız | qız | Söz başı kalın ünlü önünde *k- > q- [ɡ] sızıcılaşması | /kɯz/ - /ɡɯz/
+*kān (kan) | kan | qan | Kalın ünlü önünde *k- > q- [ɡ] tonlulaşması | /kɑn/ - /ɡɑn/
+*tāĺ (taş) | taş | daş | Söz başı *t- > d- tonlulaşması (Oğuz genel) | /tɑʃ/ - /dɑʃ/
+*yǖŕ (yüz) | yüz | üz | Yüksek-düz ön ünlü öncesi söz başı *y- > Ø düşmesi | /jyz/ - /yz/
+*yïl (yıl) | yıl | il | Yüksek-düz ön ünlü öncesi *y- > Ø düşmesi | /jɯl/ - /il/
+*toquŕ (dokuz) | dokuz | doqquz | Orta hece ikizleşmesi ve *k > q | /doˈquz/ - /doɡˈɡuz/
+*eb (ev) | ev | ev | İki dilde de *-b > -v sızıcılaşması | /æv/ - /æv/
+
+--- SAYFA 7 TABLO 1 ---
+Ortak Türkçe Biçim | Türkiye Türkçesi | Kazakça | Uygulanan Kural / İzogloss | IPA (Tr/Kz)
+*yol (yol) | yol | жол (jol) | Kıpçak söz başı *y- > j- sızıcılaşması | /jol/ - /ʒol/
+*tāg (dağ) | dağ | тау (taw) | Son ses *-G > -w dudaksıllaşmas ı ve *t- korunumu | /dɑː/ - /tɑw/
+*kïĺ (kış) | kış | қыс (qıs) | Kıpçak/Kazakç a söz sonu *ş > s dişsilleşmesi | /qɯʃ/ - /qəs/
+*baĺ (baş) | baş | бас (bas) | Kıpçak/Kazakç a söz sonu *ş > s dişsilleşmesi | /bɑʃ/ - /bɑs/
+*eb (ev) | ev | үй (üy) | Kök içi *b > y sızıcılaşması ve ünlü yuvarlaklaşmas ı | /æv/ - /ʉj/
+*elig (el) | el (organ/halk) | қол (qol) / ел (halk) | Anlam kayması (*el organ anlamını yitirir, qol gelir) | /æl/ - /qol/
+*kümüĺ (gümüş) | gümüş | күміс (kümis) | Söz sonu *ş > s değişimi | /ɟyˈmyʃ/ - /kʉˈmɪs/
+
+--- SAYFA 8 TABLO 1 ---
+Ortak Türkçe Biçim | Kazakça | Tatarça | Uygulanan Kural / İzogloss | IPA (Kz/Tat)
+*baĺ (baş) | бас (bas) | баш (baş) | Kazakça *ş > s dişsilleşmesi vs. Tatarca *ş korunumu | /bɑs/ - /bɑʃ/
+*yol (yol) | жол (jol) | юл (yul) | İdil-Ural ünlü daralması (*o > u) ve Kazakça *y > j | /ʒol/ - /jul/
+*toquŕ (dokuz) | тоғыз (toğız) | тугыз (tuğız) | Tatarçada *o > u ünlü kayması, Kazakçada *o korunum | /toˈʁəz/ - /tuˈʁɯz/
+*k̄ïŕ (kız) | қыз (qız) | кыз (kız) | Tatarçada uvular /q/ sesi yumuşayarak /k/'ye yaklaşır | /qəz/ - /qɯz/
+*eb (ev) | үй (üy) | өй (öy) | Tatarcada ünlü kayması (*ü > ö), *b > y gelişimi | /ʉj/ - /ɵj/
+*tāg (dağ) | тау (taw) | тау (taw) | Her iki dilde Kıpçakça *-G > | /tɑw/ - /tɑw/
+
+--- SAYFA 9 TABLO 1 ---
+ |  |  | -w dudaksıllaşmas ı | 
+*kïĺ (kış) | қыс (qıs) | кыш (qış) | Kazakça *ş > s vs. Tatarca *ş korunumu | /qəs/ - /qɯʃ/
+
+--- SAYFA 9 TABLO 2 ---
+Ortak Türkçe Biçim | Tatarça | Başkurtça | Uygulanan Kural / İzogloss | IPA (Tat/Bash)
+*k̄ïŕ (kız) | кыз (kız) | ҡыҙ (qıź) | *z > ð (ҙ) peltek diş-arası tonlu sızıcılaşma | /qɯz/ - /qɯð/
+*yǖŕ (yüz) | йөз (yöz) | йөҙ (yöź) | *z > ð (ҙ) diş-arası sızıcı kayması | /jøz/ - /jøð/
+*sub (su) | су (su) | һыу (hıw) | Söz başı *s > h gırtlaksıllaşmas ı ve dudak asimilasyonu | /su/ - /hɯw/
+*kïĺ (kış) | кыш (qış) | ҡыш (qış) | Başkurtçada uvular /q/ korunumu, *ş ortaktır | /qɯʃ/ - /qɯʃ/
+
+--- SAYFA 10 TABLO 1 ---
+*tāĺ (taş) | таш (taş) | таш (taş) | *ş sesi İdil-Kıpçak grubunda tamamen ortaktır | /tɑʃ/ - /tɑʃ/
+*toquŕ (dokuz) | тугыз (tuğız) | туғыҙ (tuğıź) | Son seste *z > ð (ҙ) peltekleşmesi | /tuˈʁɯz/ - /tuˈʁɯð/
+*eb (ev) | өй (öy) | өй (öy) | Kök *b > y sızıcılaşması her iki dilde aynıdır | /ɵj/ - /ɵj/
+
+--- SAYFA 10 TABLO 2 ---
+Ortak Türkçe Biçim | Türkiye Türkçesi | Özbekçe | Uygulanan Kural / İzogloss | IPA (Tr/Uz)
+*tāĺ (taş) | taş | tosh | *a > o kalın ünlünün dudaksıllaşmas ı (yuvarlaklaşma ) | /tɑʃ/ - /toʃ/
+*baĺ (baş) | baş | bosh | *a > o dudaksıllaşmas ı | /bɑʃ/ - /boʃ/
+*tāg (dağ) | dağ | tog' | *a > o değişimi, *-G > -g' (arka | /dɑː/ - /toʁ/
+
+--- SAYFA 11 TABLO 1 ---
+ |  |  | damak) sızıcı korunum | 
+*toquŕ (dokuz) | dokuz | to'qqiz | Oğuz *t > d tonlulaşması yok; Özbekçe *t- korur | /doˈquz/ - /tøqˈqiz/
+*yol (yol) | yol | yo'l | Yuvarlaklaşma varyasyonu / *y- korunumu | /jol/ - /jol/
+*kān (kan) | kan | qon | *a > o dudaksıllaşmas ı ve arka damak *k > q | /kɑn/ - /qon/
+*kïĺ (kış) | kış | qish | *k- > q- sızıcılaşması ve ünlü uyumu daralması | /qɯʃ/ - /qɯʃ/
+
+--- SAYFA 11 TABLO 2 ---
+Ortak Türkçe Biçim | Özbekçe | Uygurca | Uygulanan Kural / İzogloss | IPA (Uz/Uyg)
+*baĺ (baş) | bosh | bash | Uygurca asli *a'yı korur, Özbekçe yuvarlaklaştırır | /boʃ/ - /bɑʃ/
+*tāĺ (taş) | tosh | tash | Uygurca *a'yı | /toʃ/ - /tɑʃ/
+
+--- SAYFA 12 TABLO 1 ---
+ |  |  | korur, Özbekçe yuvarlaklaştırır | 
+*elig (el) | qo'l / el | qol / el | Kök fonemler Karluk grubunda ortaktır, *e korunur | /el/ - /el/
+*kümüĺ (gümüş) | kumush | kümüsh | Uygurcada ön-damak (ince) ünlü uyumu (ü) belirgindir | /kuˈmuʃ/ - /kyˈmyʃ/
+*eb (ev) | uy | öy | Uygurcada *eb > öw > öy şeklinde incelme/yuvarl aklaşma | /uj/ - /øj/
+*yǖŕ (yüz) | yuz | yüz | Uygurcada kalınlaşma olmaz, ince ünlü muhafaza edilir | /juz/ - /jyz/
+*k̄ïŕ (kız) | qiz | qiz | Her iki dilde de arka damak sızıcıları ve ünlü daralması | /qɯz/ - /qɯz/
+
+--- SAYFA 13 TABLO 1 ---
+Ortak Türkçe Biçim | Türkiye Türkçesi | Yakutça | Uygulanan Kural / İzogloss | IPA (Tr/Yak)
+*yïl (yıl) | yıl | сыл (sıl) | Sibirya koluna özgü söz başı *y > s sertleşmesi | /jɯl/ - /sɯl/
+*tāĺ (taş) | taş | таас (taas) | Asli uzun ünlü korunumu, *ş > s dişsilleşmesi | /tɑʃ/ - /tɑːs/
+*yol (yol) | yol | суол (suol) | *y > s değişimi ve uzun *o'nun diftonglaşması (uo) | /jol/ - /suol/
+*kān (kan) | kan | хаан (haan) | Söz başı *k > x (h) sızıcılaşması, asli uzun ünlü korunumu | /kɑn/ - /xɑːn/
+*yǖŕ (yüz) | yüz | сүүс (süüs) | *y > s sertleşmesi, asli uzun ünlü korunumu, *ŕ > s | /jyz/ - /syːs/
+*sub (su) | su | уу (uu) | Söz başı *s > h > Ø düşmesi, ünlü uzaması | /su/ - /uː/
+*eb (ev) | ev | дьиэ (jie) | Yabancı alıntı/Kök kayması (Ana Türkçe *eb kaybolmuştur) | ͡ɟʝe/ /æv/ - /
+
+--- SAYFA 14 TABLO 1 ---
+Ortak Türkçe Biçim | Türkiye Türkçesi | Çuvaşça | Uygulanan Kural / İzogloss | IPA (Tr/Chv)
+*toquŕ (dokuz) | dokuz | тăхăр (tăhăr) | Rotasizm (*ŕ > r), *q > h sızıcılaşması | /do'quz/ - /tə'xər/
+*kïĺ (kış) | kış | хӗл (hĕl) | Lambdasizm (*ĺ > l), *k > h sızıcılaşması | /qɯʃ/ - /xəl/
+*yol (yol) | yol | ҫул (śul) | Söz başı *y > ś (ç/s) affrikasyon ve damaksıllaşma | /jol/ - /ɕul/
+*kān (kan) | kan | юн (yun) | Ünlü kırılması (*ā > ja) ve dudak asimilasyonu (*ya > yu) | /kɑn/ - /jun/
+*tāg (dağ) | dağ | ту (tu) | Son ses damak ünsüzünün erimesi, *a > u daralması | /dɑː/ - /tu/
+*yǖŕ (yüz) | yüz | çӗр (śĕr) | Rotasizm (*ŕ > r), Söz başı *y > | /jyz/ - /ɕər/
+
+--- SAYFA 15 TABLO 1 ---
+ |  |  | ś affrikasyonu | 
+*kümüĺ (gümüş) | gümüş | кӗмӗл (kĕmĕl) | Lambdasizm (*ĺ > l) ve vokallerin merkezîleşmes i | /ɟyˈmyʃ/ - /kəˈməl/
+
+--- SAYFA 15 TABLO 2 ---
+Ortak Türkçe Biçim | Türkiye Türkçesi | Halaçça | Uygulanan Kural / İzogloss | IPA (Tr/Khal)
+*yol (yol) | yol | yoːl | Asli (Proto) ünlü uzunluğunun korunumu | /jol/ - /joːl/
+*tāg (dağ) | dağ | tāg | Asli ünlü uzunluğu korunum, *-G ötümsüz patlamalı korunum | /dɑː/ - /tɑːg/
+*baĺ (baş) | baş | baːš | Asli ünlü uzunluğunun korunumu | /bɑʃ/ - /bɑːʃ/
+*yǖŕ (yüz) | yüz | yü̂ z | Üç dereceli ünlü uzunluğunun | /jyz/ - /jyːz/
+
+--- SAYFA 16 TABLO 1 ---
+ |  |  | (sirkumfleks) belirtisi | 
+*k̄ïŕ (kız) | kız | qïz | Kıpçakvari *q sızıcılaşması ve arkaik kök muhafazası | /kɯz/ - /qɯz/
+*sub (su) | su | suː | Asli ünlü uzunluğunun korunumu | /su/ - /suː/
+*elig (el) | el | əl | Söz başı geniş ünlünün (ä) korunumu | /æl/ - /æl/

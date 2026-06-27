@@ -1,0 +1,643 @@
+
+===== SAYFA 1/19 =====
+Türk Dillerinde Karşılaştırmalı Tarihsel
+Ses Denklikleri ve İzogloss Tabloları:
+Kapsamlı Bir İnceleme
+1. Giriş ve Metodolojik Çerçeve
+Tarihsel-karşılaştırmalı dilbilim çalışmalarında Türk dilleri ailesi, yapısal şeffaflığı ve geniş bir
+coğrafyaya yayılan ancak kurallı ses değişimleri (izoglosslar) ile birbirine bağlanan kognat
+(kökteş) ağı sayesinde eşsiz bir laboratuvar sunmaktadır. Proto-Türkçe (Ana Türkçe) dönemi,
+yazılı belgelerle doğrudan takip edilemeyen ancak Altay dağları ile Güney Sibirya etrafında M.Ö.
+birinci binyılın sonlarından itibaren konuşulduğu farz edilen ortak bir ata dili temsil eder1. Bu ata
+dilin fonolojik ve morfolojik yapısı; başta Orhun Yazıtları, Eski Uygur metinleri ve Kaşgarlı
+Mahmud’un Dīwān Lughāt al-Turk adlı eseri olmak üzere tarihsel kaynakların, günümüz modern
+Türk dilleri ile sistematik bir biçimde karşılaştırılması yöntemiyle yeniden kurulabilmektedir1.
+Türk dillerinin genetik sınıflandırması, temelde bu dillerin Ana Türkçe fonemleri nasıl
+yansıttıklarına dayanan ses denkliklerine (isoglosses) göre yapılmaktadır. Klasik tasniflerde Türk
+dilleri iki ana makro-kola ayrılır: Çuvaşçanın tek yaşayan temsilcisi olduğu Oğur (Lir-Türkçesi
+veya Batı Eski Türkçesi) kolu ve diğer tüm Türk dillerini kapsayan Şaz (Ortak Türkçe) kolu4. Ortak
+Türkçe ise kendi içinde Oğuz (Güneybatı), Kıpçak (Kuzeybatı), Karluk (Güneydoğu), Sibirya
+(Kuzeydoğu) ve daha izole, eskicil özellikleri barındıran Argu (Halaçça) gibi alt gruplara
+ayrılmaktadır6.
+Bu raporun temel amacı, Türk dilleri ailesinin ana ayırıcı izoglosslarını yatay bir ölçekte, tüm
+büyük kol-çiftleri arasında göstermektir. Savelyev ve Johanson gibi önde gelen Türkologların
+ortaya koyduğu metodolojiler rehberliğinde, seçilen on beş temel kavram (göz, el, su, yol, dağ,
+taş, kız, dokuz, kış, yıl, gümüş, baş, kan, ev, yüz) üzerinden kurallı ses değişimleri, fonetik
+bağlamları ve tarihsel gelişim süreçleriyle birlikte incelenecektir.
+2. Ana Ayırıcı İzoglosslar (Kol Seviyesi)
+Tarihsel gelişim sürecinde farklı coğrafyalara göç eden Türk boyları, maruz kaldıkları diller arası
+etkileşimler (substratum ve adstratum etkileri) ile içsel fonolojik evrim yasaları gereği
+farklılaşmıştır. Türk dilleri ailesinin temel filogenetik ağacını oluşturan ve kolları kesin sınırlarla
+birbirinden ayıran başlıca ses yasaları aşağıda tanımlanmış, her bir kuralın hangi dilleri ayırdığı
+belirtilmiş ve akademik literatürdeki (özellikle Savelyev'in kognat veri seti) karşılıkları ile
+örneklendirilmiştir.
+2.1. Rotasizm (Ana Türkçe *ŕ > Çuvaşça r / Ortak Türkçe z)
+Türkoloji ve Altayistik araştırmalarının en köklü tartışmalarından biri olan r/z denkliği, Oğur ve Şaz
+kollarını birbirinden ayıran en birincil izoglosstur5. Ana Türkçe döneminde var olduğu düşünülen
+palatalize (damaksıllaşmış) titreşimli /*ŕ/ fonemi, Şaz Türkçesinde (Oğuz, Kıpçak, Karluk, Sibirya,
+===== SAYFA 2/19 =====
+Argu) bir sürtünmeli olan /z/ sesine dönüşürken; İdil Bulgarlarının mirası olan Çuvaşçada ve
+genel olarak eski Oğur kolunda /r/ olarak yansımıştır10. Alexander Savelyev'in kognat
+veritabanında, bu kuralı yatay ve dikey eksende kesin olarak kanıtlayan tam 36 adet rotasizm
+kognatı tespit edilmiştir11. Talat Tekin ve Ramstedt'in Altay dilleri teorisi çerçevesinde de bu
+dönüşüm, /*ŕ/ sesinin zamanla farklılaşan diyalektlerde iki ayrı artikülasyon noktasına kaymasıyla
+açıklanır10.
+Proto-Türkçe Oğur Kolu Şaz Kolu (Türkiye Diğer Şaz
+(Fonem: *ŕ) (Çuvaşça) Türkçesi) Kognatları
+(Kazakça,
+Özbekçe, vb.)
+*toquŕ (Dokuz) тăхăр (tăhăr) dokuz toğız (Kz), toʻqqiz
+(Uz), toҕus (Yak)
+*k̄ïŕ (Kız) хӗр (hĕr) kız qız (Az), qız (Kz), qiz
+(Uz), qïz (Khal)
+*yǖŕ (Yüz/100) ҫӗр (śĕr) yüz jüz (Kz), yuz (Uz),
+süüs (Yak)
+*köŕ (Göz) куҫ (kuś) [*İstisna, göz көз (Kz), koʻz (Uz),
+bkz. analiz] köz (Uyg)
+*semïŕ (Semiz) самӑр (samăr) semiz semiz (Kz), semiz
+(Uz)
+Yukarıdaki tabloda belirtilen "göz" (*köŕ) kelimesi, Çuvaşçada beklenen r yerine kuś (ҫ) şeklini
+almıştır. Ancak Yakutçadaki kөhүн- (görünmek) fiili ve tarihsel İdil Bulgarcası verileri
+incelendiğinde kökün aslında rotasizm kuralına tabi olduğu, Çuvaşçadaki bu spesifik yapının
+muhtemelen Tatarca alıntılamalardan veya içsel bir morfolojik asimilasyondan (*köŕ-si > kuś)
+kaynaklandığı kabul edilmektedir14.
+2.2. Lambdasizm (Ana Türkçe *ĺ > Çuvaşça l / Ortak Türkçe ş)
+Rotasizm ile paralel ilerleyen bir diğer makro-izogloss, palatalize yanal akıcı ünsüz olan /*ĺ/
+foneminin evrimidir. Bu ses, Oğur (Çuvaş) kolunda damaksıl olmayan /l/ sesine evrilirken, Şaz
+(Ortak Türkçe) kolunda geniş bir sızıcı olan /ş/ sesine (veya Kıpçak ile Sibirya dillerinde /s/'ye)
+dönüşmüştür11. Savelyev'in tarihsel dilbilim veritabanında, doğrudan Ana Türkçe köklerden
+türeyen ve bu kuralı tereddütsüz bir şekilde doğrulayan 29 adet lambdasizm kognatı
+listelenmektedir11. Bu ses değişiminin yönü (*ş > l mi yoksa *l > ş mi olduğu) uzun süre
+===== SAYFA 3/19 =====
+tartışılmışsa da, modern dilbilim her ikisinin de arkaik palatalize bir atadan geldiğini (*ĺ)
+öngörmektedir.
+Proto-Türkçe Oğur Kolu Şaz Kolu (Türkiye Diğer Şaz
+(Fonem: *ĺ) (Çuvaşça) Türkçesi) Kognatları
+(Kazakça,
+Özbekçe, vb.)
+*kïĺ (Kış) хӗл (hĕl) kış qıs (Kz), qish (Uz),
+qïš (Khal)
+*tāĺ (Taş) чул (çul) taş tas (Kz), tosh (Uz),
+taac (Yak)
+*baĺ (Baş) пуҫ (puś) [*İstisna, baş bas (Kz), bosh (Uz),
+morfolojik] baːš (Khal)
+*kümüĺ (Gümüş) кӗмӗл (kĕmĕl) gümüş күміс (Kz), kumush
+(Uz), kümüš (Khal)
+*yāĺ (Yaş / Gözyaşı) ҫул (śul) yaş jas (Kz), yosh (Uz),
+saas (Yak)
+Burada da *baĺ (baş) kelimesi Çuvaşçada pul yerine puś olarak görülmektedir. Araştırmacılar,
+bunun baĺč şeklinde, kelime sonunda bir patlamalı-sızıcı bileşeni barındıran daha kompleks bir
+proto-formdan geldiğini veya son seste daralma/erime yaşandığını ileri sürmektedir17. Ancak kış,
+taş ve gümüş gibi diğer tüm kavramlarda kural istisnasız çalışır.
+2.3. Söz Başı *h- Foneminin Korunumu
+Gerhard Doerfer'in 1960'lı yılların sonunda İran'da yaptığı saha araştırmalarıyla bilim dünyasına
+tanıttığı Halaçça, Türk dilleri tasnifinde sarsıcı bir etki yaratmıştır18. Doerfer ve S. Tezcan'ın
+çalışmaları, Halaççanın bir Azerbaycan Türkçesi ağzı değil, Argu grubunun günümüze ulaşan tek
+ardılı ve çok eskicil (arkaik) bir dil olduğunu kanıtlamıştır7. Bu dili diğer tüm Türk dillerinden ayıran
+en önemli izogloss, Ana Türkçede var olan ancak diğer tüm modern kolların (Oğuz, Kıpçak,
+Karluk, Sibirya, Oğur) kelime başında düşürdüğü /*h-/ foneminin sadece Halaççada korunmuş
+olmasıdır18.
+Proto-Türkçe Argu Kolu Ortak Türkçe Diğer Yansımalar
+(Fonem: *h-) (Halaçça) (Türkiye) (Kz, Uz, Yak, Chv)
+===== SAYFA 4/19 =====
+*hadaq (Ayak) hadaq ayak ayaq (Az), adaq
+(Tuv), atax (Yak), ura
+(Chv)
+*hirkäk (Erkek) hirkäk erkek erkek (Kz), erkak
+(Uz), ar (Chv)
+*höl (Islak / Öl) höl öl / ıslak öl (Kz), ho'l (Uz -
+Farsça etkisiyle
+ikincil h-)
+*huzun (Uzun) huzun uzun uzın (Kz), uzun (Uz),
+vărăm (Chv)
+Bu durum, Halaççanın Türk dillerinin ana gövdesinden, Orhun Abideleri'nin dilinden dahi önce
+koptuğunun en somut göstergesidir. Söz konusu h- sesi, Türkçeye sonradan girmiş ikincil bir
+türeme değil, bizzat dilin genetiğinde yer alan arkaik bir mirastır20.
+2.4. Söz İçi *-d- Foneminin Farklılaşması
+Ana Türkçedeki söz içi ve söz sonu -d- fonemi, lehçelerin dikey sınıflandırılmasında bir turnusol
+kâğıdı işlevi görür. Bu ses, Eski Türkçede (örneğin Orhun yazıtlarında adak biçiminde)
+korunmuşken, zamanla farklı kollarda sızıcılaşma (spirantization), akıcılaşma veya tamamen farklı
+patlamalılara kayma eğilimi göstermiştir6. Kuralın tanımlayıcı ekseni şu şekildedir:
+● Oğuz, Kıpçak ve Karluk: Bu ses sızıcılaşıp eriyerek damaksıl /y/ sesine dönüşmüştür
+(adak > ayak).
+● Sibirya (Hakasça): Dişsil-yuvarlak bir sızıcıya, /z/'ye evrilmiştir (azak).
+● Sibirya (Tuvaca) ve Argu (Halaçça): Eski Türkçe formu olan /d/'yi muhafaza etmişlerdir
+(adaq).
+● Sibirya (Yakutça): Sertleşerek ötümsüz /t/ sesine dönüşmüştür (atax).
+● Oğur (Çuvaşça): Kendine has bir gelişimle /r/ fonemine kaymıştır (ura).
+Bu bağlamda adak (ayak), kudug (kuyu), qadın (kayın) gibi kelimeler dillerin tarihsel göç ve
+dağılım yollarını saptamada mihenk taşı niteliğindedir.
+2.5. Son Ses *-G Fonemi (Dudaksıllaşma ve Tonlulaşma)
+Ana Türkçe hece sonu damak ünsüzü olan /-G/ (-g / *-ğ), dil grupları arasında yapısal hece
+değişikliklerine neden olan bir izoglosstur.
+● Oğuz Grubu: Kelime sonundaki ötümlü damak sızıcıları tamamen eriyerek önceki ünlünün
+uzamasına sebep olmuş veya /ğ/ olarak zayıf bir şekilde kalmıştır (Proto-Türkçe *tāg >
+Türkiye T. dağ /dɑː/).
+● Kıpçak Grubu: Kelime sonundaki damak sesi, ilerleyici bir asimilasyon ve dudaksıllaşma
+===== SAYFA 5/19 =====
+ile /w/ yarı ünlüsüne evrilmiştir. Bu durum Kıpçakçanın hece yapısını belirgin şekilde
+kapatmıştır (taw, suw).
+● Karluk Grubu: Arka damak patlamalı-sızıcı yapısını korumuş veya daha geriden
+boğumlanan bir sızıcıya dönüşmüştür (tog').
+● Sibirya (Yakutça): Sesin kaybolduğu veya diftonglaşmaya yol açtığı görülür (tıa veya
+haya).
+2.6. Söz Başı *y- Foneminin Gelişimi (y/c/j/ś/s)
+Proto-Türkçenin söz başı damaksıl yarı ünlüsü /*y-/, dillerin coğrafi dağılımına paralel olarak çok
+geniş ve kurallı bir değişim yelpazesi sunar. Savelyev'in veritabanında, yalnızca Çuvaşçaya özgü
+olan y- > ś- değişimi için 14 kesin kognat kayıtlıdır11. Bu fonem, makro-grupları ayıran kesin bir
+çizgidir:
+● Oğuz ve Karluk: Asli /y/ sesini korurlar (yol, yıl).
+● Kıpçak: Bu ses sızıcılaşarak veya patlamalı-sızıcı bir yapı kazanarak /j/ (jale'nin j'si) veya /c/
+sesine dönüşmüştür (Kazakça jol, Kırgızca col)24.
+● Sibirya (Yakutça): Tamamen sertleşerek dişsil sızıcı /s/ fonemine evrilmiştir (suol, sıl)5.
+● Oğur (Çuvaşça): Damaksıl sürtünmeli /ś/ (ҫ) hâlini almıştır (śul)11.
+2.7. Baş Ses Tonlulaşması (*t > d, *k > g)
+Oğuz kolunu Kıpçak, Karluk ve Sibirya'dan ayıran en keskin fonolojik özellik, kelime başında
+bulunan ötümsüz patlamalı /t/ ve /k/ seslerini sistematik olarak ötümlüleştirmesidir (voicing)2.
+Ana Türkçe tāg (dağ) formunun Türkiye ve Azerbaycan Türkçesinde dağ biçimini alırken
+Kazakça, Tatarca ve Özbekçede t- ile başlaması (taw, tog' vb.) bu kuralın sonucudur. Benzer
+şekilde, ince ünlülerden önce gelen k- sesi Oğuzcada g- sesine döner (kök > gök, kümüş >
+gümüş).
+3. Büyük Dil Çiftleri İçin Karşılaştırmalı Denklik
+Tabloları
+Aşağıdaki alt bölümlerde, yukarıda teorik çerçevesi çizilen kuralların seçilen 15 hedef kelime
+üzerinden yatay kol-çiftleri arasında nasıl yansıdığı ayrıntılı olarak tablolaştırılmış ve diller arası
+geçişlilikler analiz edilmiştir. Tablolar, her bir kuralın hangi IPA değeriyle sonuçlandığını gösteren
+yapılandırılmış veriler sunar.
+3.1. Türkçe ↔ Azerice (Oğuz Grubu İçi Dinamikler)
+Türkiye Türkçesi ve Azerbaycan Türkçesi aynı genetik kola (Batı Oğuz) mensup olmalarına
+rağmen, tarihsel süreçte Kafkasya ve İran coğrafyasındaki alt-katman (substratum) ve
+yan-katman (adstratum) dillerin etkisiyle belirgin fonolojik ayrılıklar geliştirmişlerdir7. Azerbaycan
+Türkçesinde kalın ünlülü kelimelerin başındaki *k- sesi, gırtlaktan boğumlanan ötümlü-sızıcı /q/
+[g] sesine evrilirken, Türkiye Türkçesinde damaksıl patlamalı /k/ korunmuştur. Diğer önemli bir
+ayrım, Azerbaycan Türkçesinde yüksek düz ünlülerden (i, ü) önce gelen söz başı *y- sesinin
+düşme eğiliminde olmasıdır27.
+===== SAYFA 6/19 =====
+Ortak Türkçe Türkiye Azerbaycan Uygulanan IPA (Tr/Az)
+Biçim Türkçesi Türkçesi Kural /
+İzogloss
+*k̄ïŕ (kız) kız qız Söz başı kalın /kɯz/ - /ɡɯz/
+ünlü önünde
+*k- > q- [ɡ]
+sızıcılaşması
+*kān (kan) kan qan Kalın ünlü /kɑn/ - /ɡɑn/
+önünde *k- >
+q- [ɡ]
+tonlulaşması
+*tāĺ (taş) taş daş Söz başı *t- > /tɑʃ/ - /dɑʃ/
+d- tonlulaşması
+(Oğuz genel)
+*yǖŕ (yüz) yüz üz Yüksek-düz ön /jyz/ - /yz/
+ünlü öncesi söz
+başı *y- > Ø
+düşmesi
+*yïl (yıl) yıl il Yüksek-düz ön /jɯl/ - /il/
+ünlü öncesi *y-
+> Ø düşmesi
+*toquŕ (dokuz) dokuz doqquz Orta hece /doˈquz/ -
+ikizleşmesi ve /doɡˈɡuz/
+*k > q
+*eb (ev) ev ev İki dilde de *-b /æv/ - /æv/
+> -v
+sızıcılaşması
+3.2. Türkçe ↔ Kazakça (Oğuz - Güney Kıpçak Ayrımı)
+Kazakça, engin Avrasya bozkırlarında gelişen Kıpçak dillerinin güney kanadını temsil eder. Türkçe
+(Oğuz) ile karşılaştırıldığında Bozkır diyalektolojisinin tüm katı kuralları açığa çıkar. Kazakçada
+kelime başı *y- sesinin sızıcı /j/ (jale'nin j'si) sesine dönüşmesi kuralı işler. İkinci büyük değişim,
+===== SAYFA 7/19 =====
+Kıpçakçanın alametifarikası olan *-G > -w dudaksıllaşmasıdır. Konsonantizmde ise Kazakça, Eski
+Türkçe /ş/ fonemini /s/ fonemine, /ç/ fonemini ise /ş/ fonemine kaydırarak tamamen farklı bir
+sızıcılar paradigması oluşturmuştur24.
+Ortak Türkçe Türkiye Kazakça Uygulanan IPA (Tr/Kz)
+Biçim Türkçesi Kural /
+İzogloss
+*yol (yol) yol жол (jol) Kıpçak söz başı /jol/ - /ʒol/
+*y- > j-
+sızıcılaşması
+*tāg (dağ) dağ тау (taw) Son ses *-G > /dɑː/ - /tɑw/
+-w
+dudaksıllaşmas
+ı ve *t-
+korunumu
+*kïĺ (kış) kış қыс (qıs) Kıpçak/Kazakç /qɯʃ/ - /qəs/
+a söz sonu *ş >
+s dişsilleşmesi
+*baĺ (baş) baş бас (bas) Kıpçak/Kazakç /bɑʃ/ - /bɑs/
+a söz sonu *ş >
+s dişsilleşmesi
+*eb (ev) ev үй (üy) Kök içi *b > y /æv/ - /ʉj/
+sızıcılaşması ve
+ünlü
+yuvarlaklaşmas
+ı
+*elig (el) el (organ/halk) қол (qol) / ел Anlam kayması /æl/ - /qol/
+(halk) (*el organ
+anlamını yitirir,
+qol gelir)
+*kümüĺ gümüş күміс (kümis) Söz sonu *ş > s /ɟyˈmyʃ/ -
+(gümüş) değişimi /kʉˈmɪs/
+===== SAYFA 8/19 =====
+3.3. Kazakça ↔ Tatarça (Güney Kıpçak - İdil Kıpçak Ayrımı)
+Kıpçak kolunun kendi içindeki bu yatay bölünme, İdil-Ural coğrafyasındaki diller arası temaslar
+sebebiyle ortaya çıkan devasa bir ünlü kayması (Volga-Kama Vowel Shift) ile karakterizedir.
+Tatarçada, Eski Türkçenin geniş ünlülerinin (a, o, ö, e) daraldığı (u, ü, i vb.), dar ünlülerin (ı, i, u, ü)
+ise genişlediği veya kısa bir nitelik kazandığı görülür29. Konsonantizm cephesinde ise
+Kazakçadaki *ş > s kayması Tatarçada görülmez; Tatarca özgün *ş sesini aynen koruyarak
+Kazakçadan ayrılır.
+Ortak Türkçe Kazakça Tatarça Uygulanan IPA (Kz/Tat)
+Biçim Kural /
+İzogloss
+*baĺ (baş) бас (bas) баш (baş) Kazakça *ş > s /bɑs/ - /bɑʃ/
+dişsilleşmesi
+vs. Tatarca *ş
+korunumu
+*yol (yol) жол (jol) юл (yul) İdil-Ural ünlü /ʒol/ - /jul/
+daralması (*o >
+u) ve Kazakça
+*y > j
+*toquŕ (dokuz) тоғыз (toğız) тугыз (tuğız) Tatarçada *o > /toˈʁəz/ -
+u ünlü kayması, /tuˈʁɯz/
+Kazakçada *o
+korunum
+*k̄ïŕ (kız) қыз (qız) кыз (kız) Tatarçada /qəz/ - /qɯz/
+uvular /q/ sesi
+yumuşayarak
+/k/'ye yaklaşır
+*eb (ev) үй (üy) өй (öy) Tatarcada ünlü /ʉj/ - /ɵj/
+kayması (*ü >
+ö), *b > y
+gelişimi
+*tāg (dağ) тау (taw) тау (taw) Her iki dilde /tɑw/ - /tɑw/
+Kıpçakça *-G >
+===== SAYFA 9/19 =====
+-w
+dudaksıllaşmas
+ı
+*kïĺ (kış) қыс (qıs) кыш (qış) Kazakça *ş > s /qəs/ - /qɯʃ/
+vs. Tatarca *ş
+korunumu
+3.4. Tatarça ↔ Başkurtça (İdil Kıpçak İçi Fonolojik Değişimler)
+Aynı coğrafyayı (Volga-Kama) paylaşan ve morfolojik olarak neredeyse ikiz kabul edilen iki
+kardeş dil olmalarına karşın Başkurtça, dünya dillerinde nadir görülen, özellikle de Türk dillerine
+son derece yabancı olan spesifik sürtünmeli fonemler geliştirmiştir. Ortak Türkçe (ve Tatarca)
+kelime başı ve sonu /s/ sesi Başkurtçada peltek diş-arası (interdental) /θ/ (ҫ) sesine; /z/ sesi ise
+ötümlü peltek diş-arası /ð/ (ҙ) sesine dönüşür. Bu durumun kökeninin yöredeki Fin-Ugor
+(Udmurt, Mari) substratlarına dayandığı düşünülmektedir. Ayrıca kelime başı *s- sesi
+Başkurtçada genellikle gırtlaksıl /h/ sesine dönüşür8.
+Ortak Türkçe Tatarça Başkurtça Uygulanan IPA (Tat/Bash)
+Biçim Kural /
+İzogloss
+*k̄ïŕ (kız) кыз (kız) ҡыҙ (qıź) *z > ð (ҙ) peltek /qɯz/ - /qɯð/
+diş-arası tonlu
+sızıcılaşma
+*yǖŕ (yüz) йөз (yöz) йөҙ (yöź) *z > ð (ҙ) /jøz/ - /jøð/
+diş-arası sızıcı
+kayması
+*sub (su) су (su) һыу (hıw) Söz başı *s > h /su/ - /hɯw/
+gırtlaksıllaşmas
+ı ve dudak
+asimilasyonu
+*kïĺ (kış) кыш (qış) ҡыш (qış) Başkurtçada /qɯʃ/ - /qɯʃ/
+uvular /q/
+korunumu, *ş
+ortaktır
+===== SAYFA 10/19 =====
+*tāĺ (taş) таш (taş) таш (taş) *ş sesi /tɑʃ/ - /tɑʃ/
+İdil-Kıpçak
+grubunda
+tamamen
+ortaktır
+*toquŕ (dokuz) тугыз (tuğız) туғыҙ (tuğıź) Son seste *z > /tuˈʁɯz/ -
+ð (ҙ) /tuˈʁɯð/
+peltekleşmesi
+*eb (ev) өй (öy) өй (öy) Kök *b > y /ɵj/ - /ɵj/
+sızıcılaşması
+her iki dilde
+aynıdır
+3.5. Türkçe ↔ Özbekçe (Oğuz - Karluk Farklılaşması)
+Karluk kolunun modern temsilcisi Özbekçe, Karluk dillerine özgü özelliklerin yanı sıra Orta
+Asya'da Tacikçe ile kurulan asırlık ortak yaşamın (Maveraünnehir Sprachbund) bir sonucu olarak
+derin bir Farsça alt-katman etkisi taşır. Türk dillerinin en karakteristik özelliği olan ünlü uyumu
+Özbekçede büyük oranda tahrip olmuştur. En belirgin kural, kalın /a/ ünlülerinin dudak
+asimilasyonuna uğrayarak yuvarlaklaşması ve /o/ (veya /ɒ/) sesine evrilmesidir25.
+Ortak Türkçe Türkiye Özbekçe Uygulanan IPA (Tr/Uz)
+Biçim Türkçesi Kural /
+İzogloss
+*tāĺ (taş) taş tosh *a > o kalın /tɑʃ/ - /toʃ/
+ünlünün
+dudaksıllaşmas
+ı
+(yuvarlaklaşma
+)
+*baĺ (baş) baş bosh *a > o /bɑʃ/ - /boʃ/
+dudaksıllaşmas
+ı
+*tāg (dağ) dağ tog' *a > o değişimi, /dɑː/ - /toʁ/
+*-G > -g' (arka
+===== SAYFA 11/19 =====
+damak) sızıcı
+korunum
+*toquŕ (dokuz) dokuz to'qqiz Oğuz *t > d /doˈquz/ -
+tonlulaşması /tøqˈqiz/
+yok; Özbekçe
+*t- korur
+*yol (yol) yol yo'l Yuvarlaklaşma /jol/ - /jol/
+varyasyonu /
+*y- korunumu
+*kān (kan) kan qon *a > o /kɑn/ - /qon/
+dudaksıllaşmas
+ı ve arka
+damak *k > q
+*kïĺ (kış) kış qish *k- > q- /qɯʃ/ - /qɯʃ/
+sızıcılaşması ve
+ünlü uyumu
+daralması
+3.6. Özbekçe ↔ Uygurca (Karluk Grubu İçi Süreçler)
+Aynı Karluk kökeninden (Çağatayca) gelmelerine rağmen Uygurca, Çin Türkistanı'nın (Tarım
+Havzası) farklı dilsel ikliminde Özbekçenin aksine /a/ ünlüsünün yuvarlaklaşması kuralını
+paylaşmaz. Ancak kendine özgü bir "i-umlaut" (ünlü incelmesi ve daralması) kuralı geliştirmiştir.
+Kelime içindeki vurgusuz hecelerde veya ekleşme sırasında geniş ünlüler sıklıkla /e/ veya /i/
+sesine daralır14.
+Ortak Türkçe Özbekçe Uygurca Uygulanan IPA (Uz/Uyg)
+Biçim Kural /
+İzogloss
+*baĺ (baş) bosh bash Uygurca asli /boʃ/ - /bɑʃ/
+*a'yı korur,
+Özbekçe
+yuvarlaklaştırır
+*tāĺ (taş) tosh tash Uygurca *a'yı /toʃ/ - /tɑʃ/
+===== SAYFA 12/19 =====
+korur, Özbekçe
+yuvarlaklaştırır
+*elig (el) qo'l / el qol / el Kök fonemler /el/ - /el/
+Karluk
+grubunda
+ortaktır, *e
+korunur
+*kümüĺ kumush kümüsh Uygurcada /kuˈmuʃ/ -
+(gümüş) ön-damak /kyˈmyʃ/
+(ince) ünlü
+uyumu (ü)
+belirgindir
+*eb (ev) uy öy Uygurcada *eb /uj/ - /øj/
+> öw > öy
+şeklinde
+incelme/yuvarl
+aklaşma
+*yǖŕ (yüz) yuz yüz Uygurcada /juz/ - /jyz/
+kalınlaşma
+olmaz, ince
+ünlü muhafaza
+edilir
+*k̄ïŕ (kız) qiz qiz Her iki dilde de /qɯz/ - /qɯz/
+arka damak
+sızıcıları ve ünlü
+daralması
+3.7. Türkçe ↔ Yakutça (Oğuz - Sibirya Derin Ayrımı)
+Sibirya'nın derinliklerinde (Lena Nehri havzası) Tunguzca, Evenkçe ve Moğolca konuşan halklarla
+çevrili bir izolasyon içinde gelişen Yakutça (Saha), Proto-Türkçe ilk yola çıkış devrinden kalma
+arkaik uzun ünlüleri günümüze dek muhafaza edebilmesiyle eşsiz bir konuma sahiptir. Bu uzun
+ünlüler sıklıkla kırılarak diftonglaşmıştır (*o > uo, *e > ie). Sesbilgisel olarak, kelime başı *y- > s- ye;
+*s- ise h- veya Ø (hiçlik) fonemine evrilmiş, arka damak *k- sesi güçlü bir gırtlak sızıcısına (x)
+dönüşmüştür13. Yakutça morfolojisinde Türk dillerine ait ana kökler kalsa da artikülasyon
+===== SAYFA 13/19 =====
+alışkanlıkları tamamen paleo-Sibirya özelliklerine bürünmüştür35.
+Ortak Türkçe Türkiye Yakutça Uygulanan IPA (Tr/Yak)
+Biçim Türkçesi Kural /
+İzogloss
+*yïl (yıl) yıl сыл (sıl) Sibirya koluna /jɯl/ - /sɯl/
+özgü söz başı
+*y > s
+sertleşmesi
+*tāĺ (taş) taş таас (taas) Asli uzun ünlü /tɑʃ/ - /tɑːs/
+korunumu, *ş >
+s dişsilleşmesi
+*yol (yol) yol суол (suol) *y > s değişimi /jol/ - /suol/
+ve uzun *o'nun
+diftonglaşması
+(uo)
+*kān (kan) kan хаан (haan) Söz başı *k > x /kɑn/ - /xɑːn/
+(h)
+sızıcılaşması,
+asli uzun ünlü
+korunumu
+*yǖŕ (yüz) yüz сүүс (süüs) *y > s /jyz/ - /syːs/
+sertleşmesi,
+asli uzun ünlü
+korunumu, *ŕ >
+s
+*sub (su) su уу (uu) Söz başı *s > h /su/ - /uː/
+> Ø düşmesi,
+ünlü uzaması
+*eb (ev) ev дьиэ (jie) Yabancı /æv/ - /
+͡ɟʝe/
+alıntı/Kök
+kayması (Ana
+Türkçe *eb
+kaybolmuştur)
+===== SAYFA 14/19 =====
+3.8. Türkçe ↔ Çuvaşça (Şaz - Oğur Makro Ayrımı)
+Çuvaşça, Volga (İdil) boylarında, erken dönem Ön-Bulgar (Oğur) lehçelerinin günümüze ulaşan
+yegâne mirasçısıdır5. Türk dilleri içindeki en aşırı ve marjinal dönüşümleri yaşamış olan bu dil,
+Fin-Ugor dilleri (Özellikle Mari ve Mordvin dilleri) ile girilen binyıllık derin simbiyotik yaşamın bir
+yansımasıdır5. Raporun başında belirtilen rotasizm (*ŕ > r) ve lambdasizmin (*ĺ > l) yanı sıra kelime
+başı ünlü kırılmaları (vowel breaking) ve palatalizasyonlar olağanüstü boyutlardadır (*ā > ja, *qa:n
+> yun vb.)5. Çuvaşçada söz başı *y- sesi tamamen damaksıl-dişyuvasıl sürtünmeli /ś/ (ç/s arası bir
+ses) fonemine kaymıştır11.
+Ortak Türkçe Türkiye Çuvaşça Uygulanan IPA (Tr/Chv)
+Biçim Türkçesi Kural /
+İzogloss
+*toquŕ (dokuz) dokuz тăхăр (tăhăr) Rotasizm (*ŕ > /do'quz/ -
+r), *q > h /tə'xər/
+sızıcılaşması
+*kïĺ (kış) kış хӗл (hĕl) Lambdasizm (*ĺ /qɯʃ/ - /xəl/
+> l), *k > h
+sızıcılaşması
+*yol (yol) yol ҫул (śul) Söz başı *y > ś /jol/ - /ɕul/
+(ç/s)
+affrikasyon ve
+damaksıllaşma
+*kān (kan) kan юн (yun) Ünlü kırılması /kɑn/ - /jun/
+(*ā > ja) ve
+dudak
+asimilasyonu
+(*ya > yu)
+*tāg (dağ) dağ ту (tu) Son ses damak /dɑː/ - /tu/
+ünsüzünün
+erimesi, *a > u
+daralması
+*yǖŕ (yüz) yüz çӗр (śĕr) Rotasizm (*ŕ > /jyz/ - /ɕər/
+r), Söz başı *y >
+===== SAYFA 15/19 =====
+ś affrikasyonu
+*kümüĺ gümüş кӗмӗл (kĕmĕl) Lambdasizm (*ĺ /ɟyˈmyʃ/ -
+(gümüş) > l) ve /kəˈməl/
+vokallerin
+merkezîleşmes
+i
+3.9. Türkçe ↔ Halaçça (Ortak Türkçe - Argu Eskicil Katmanı)
+Halaçça, İran'ın merkezi bölgelerinde (Kum ve Save civarı) yüzyıllar boyunca Farsça konuşan
+topluluklar arasında izole olmuş bir dil adacığıdır. Ancak bu izolasyon bir yozlaşmadan ziyade
+muazzam bir "korunma" (preservation) sağlamıştır7. Gerhard Doerfer'in çığır açan tespitlerine
+göre Halaçça, Proto-Türkçe dönemindeki üç dereceli ünlü uzunluklarını (*a kısa, *ā uzun, *â
+sirkumfleks/ikiz) aynen yansıtan dünyadaki tek yaşayan Türk dilidir18. Söz başı *h- korunumu ve
+arkaik dişsil *-d- sesleri onu Türkiye Türkçesinden olduğu kadar diğer tüm dillerden de ayırır.
+Ortak Türkçe Türkiye Halaçça Uygulanan IPA (Tr/Khal)
+Biçim Türkçesi Kural /
+İzogloss
+*yol (yol) yol yoːl Asli (Proto) /jol/ - /joːl/
+ünlü
+uzunluğunun
+korunumu
+*tāg (dağ) dağ tāg Asli ünlü /dɑː/ - /tɑːg/
+uzunluğu
+korunum, *-G
+ötümsüz
+patlamalı
+korunum
+*baĺ (baş) baş baːš Asli ünlü /bɑʃ/ - /bɑːʃ/
+uzunluğunun
+korunumu
+*yǖŕ (yüz) yüz yü̂ z Üç dereceli /jyz/ - /jyːz/
+ünlü
+uzunluğunun
+===== SAYFA 16/19 =====
+(sirkumfleks)
+belirtisi
+*k̄ïŕ (kız) kız qïz Kıpçakvari *q /kɯz/ - /qɯz/
+sızıcılaşması ve
+arkaik kök
+muhafazası
+*sub (su) su suː Asli ünlü /su/ - /suː/
+uzunluğunun
+korunumu
+*elig (el) el əl Söz başı geniş /æl/ - /æl/
+ünlünün (ä)
+korunumu
+4. Kognat Semantiği ve Kelime Bazlı İstisnai Durumlar
+Ses denklikleri incelenirken, bazı temel kavramların kollar arasında doğrudan ses yasalarına
+uymak yerine anlamsal kaymalar (semantic shift) yaşadığı veya tamamen farklı etimolojik
+köklerden (alıntılar) beslendiği görülmektedir. Savelyev'in veri setindeki kognatlar üzerinde
+yapılan dikey okumalarda şu istisnalar açıkça gözlemlenmektedir:
+● *El (elig): Türkiye, Azerbaycan ve Halaçça gibi dillerde anatomik "el" (hand) anlamını
+bütünüyle korurken, Kıpçak dillerinde (Kazak, Tatar, Başkurt) anatomik el için qol / ҡул
+kelimesi öne çıkmıştır. Bu dillerde el / il kelimesi anlam daralmasına uğrayarak anatomik
+bağlamdan çıkmış; "halk, ülke, memleket" (people/nation) anlamına gelmiştir13. Sibirya
+grubu üyesi Yakutçada ilii (el) ve Oğur kolundan Çuvaşçada ală anatomik organ anlamını
+arkaik formlarıyla korumayı başarmışlardır13.
+● *Ev (eb): Oğuz ve Kıpçak kollarında ev / üy / öy / uy biçimlerinde fonolojik kurallara
+(özellikle *b > v > y erimesi) uygun şekilde evrilerek yaşatılmıştır40. Ancak Çuvaşçada konut
+anlamındaki kelime Rusça ve çevre diller etkisiyle śurt (yurt kökünden evrilme) sözcüğüyle
+karşılanırken, orijinal *eb kökü yalnızca avlan- (ev-len-mek, "ev sahibi olmak") fiilinin
+kökünde fosil bir kalıntı olarak saklanmıştır11. Sibirya izolesi Yakutçada ise ev anlamında,
+kökeni Moğolca/Tunguzca temas alanlarına dayandığı düşünülen дьиэ (jie) kelimesi
+kullanılmaktadır, Proto-Türkçe *eb bu dilde konut anlamını yitirmiştir25.
+● *Göz (köŕ) ve Yakutça Bağlamı: Çuvaşçada rotasizm ihlali gibi görünen kuś istisnasından
+yukarıda bahsedilmişti. Yakutçada ise "göz" organı için genel geçer *köŕ kökünden türeyen
+bir kelime değil, *karak kökünden evrilen харах (haarah) kelimesi kullanılır11. Orijinal *köŕ
+kökü organ isminde kaybolmuş olsa da, Yakutça көһүн- (kөhün- / görünmek) eyleminde
+arkaik Proto-Türkçe kökün izleri şeffaf bir şekilde yaşamaktadır14.
+===== SAYFA 17/19 =====
+5. Sonuç
+Türk dilleri ailesi, Ural-Altay hipotezlerinin tartışıldığı ilk yıllardan modern filogenetik dilbilim
+araştırmalarına kadar her zaman kurala dayalı (rule-based) fonolojik evrim mekanizmalarının test
+edildiği en önemli dil ailelerinden biri olmuştur. Proto-Türkçe ana kökünün tarihsel göçler, coğrafi
+izolasyonlar ve sosyo-kültürel etkenler (Moğol, Fars, Slav ve Fin-Ugor temasları) sebebiyle
+oluşturduğu yatay çeşitlilik, bu dillerin makro-karşılaştırmalı analizini zorunlu kılmaktadır.
+Oğur (Çuvaş) dillerindeki rotasizm ve lambdasizm mekanizmaları ile y- > ś- dönüşümleri, Batı
+bozkırlarına gerçekleşen çok erken göçlerin ve Fin-Ugor dilleri ile binlerce yıl süren bir
+Sprachbund (dil birliği) etkileşiminin tartışılmaz kanıtlarını sunmaktadır7. Diğer taraftan,
+Halaççadaki h- sesinin mevcudiyeti ve arkaik uzun ünlü sisteminin korunması, bu kavmin çok
+eski bir tarihsel kesitte ana kütleden koparak izole olduğunu göstermektedir22. Güney Sibirya
+coğrafyasında Yakutların (Saha) asli uzun ünlüleri korumalarına rağmen, etraflarındaki
+paleo-Sibirya halklarının etkisiyle ünsüz iskeletlerini (consonant framework) köklü bir biçimde
+değiştirmeleri33, diller arası temasın ve alt-katman etkilerinin (substratum) dilin genetik
+şeffaflığını nasıl şekillendirebildiğinin çarpıcı bir başka örneğidir.
+Alexander Savelyev, Lars Johanson ve Talat Tekin gibi araştırmacıların ortaya koyduğu kapsamlı
+kognat veritabanları, Türk dillerindeki bu izoglossların rastgele birer ses değişimi değil;
+matematiksel bir kesinlikte çalışan, coğrafi ve tarihsel bir sürekliliği işaret eden fonolojik yasalar
+olduğunu kanıtlamaktadır. İncelenen on beş temel kavram ve dokuz büyük dil-çifti üzerinden
+kurulan bu matris, Türkoloji'nin tarihsel-karşılaştırmalı altyapısının eksiksiz bir topolojisini
+yansıtmaktadır.
+Alıntılanan çalışmalar
+1. Proto-Turkic language - Grokipedia,
+https://grokipedia.com/page/Proto-Turkic_language
+2. The Turkic Language Family (Chapter 3),
+https://www.cambridge.org/core/books/turkic/turkic-language-family/783EA334D
+9E40F3D10A3280AA17A1479
+3. Proto-Turkic Reconstruction Overview | PDF | Vowel | Syllable - Scribd,
+https://www.scribd.com/document/820759606/The-Reconstruction-of-Proto-Tur
+kic-and-the-Genealogical-Question-25-01-23-21-29-33
+4. Proto-Turkic language - Wikipedia,
+https://en.wikipedia.org/wiki/Proto-Turkic_language
+5. Chuvash language - Wikipedia, https://en.wikipedia.org/wiki/Chuvash_language
+6. Turkic languages - Wikipedia, https://en.wikipedia.org/wiki/Turkic_languages
+7. Türk dilleri - Vikipedi, https://tr.wikipedia.org/wiki/T%C3%BCrk_dilleri
+8. Bashkir language - Wikipedia, https://en.wikipedia.org/wiki/Bashkir_language
+9. Oghuric languages - Grokipedia, https://grokipedia.com/page/Oghuric_languages
+10. ORTA TÜRKÇE SÖZLÜKLERİNDE ZETASİZM / ROTASİZM,
+https://dergipark.org.tr/en/download/article-file/1551024
+11. Chuvash and the Bulgharic languages,
+https://iling-ran.ru/savelyev/2020_chuvash_and_the_bulgharic_languages.pdf
+===== SAYFA 18/19 =====
+12. Chuvash people - Grokipedia, https://grokipedia.com/page/Chuvash_people
+13. Reconstruction:Proto-Turkic/elig - Wiktionary, the free dictionary,
+https://en.wiktionary.org/wiki/Reconstruction:Proto-Turkic/elig
+14. Reconstruction:Proto-Turkic/köŕ - Wiktionary, the free dictionary,
+https://en.wiktionary.org/wiki/Reconstruction:Proto-Turkic/k%C3%B6%C5%95
+15. куҫ - Wiktionary, the free dictionary,
+https://en.wiktionary.org/wiki/%D0%BA%D1%83%D2%AB
+16. The Unity and Diversity of Altaic - Annual Reviews,
+https://www.annualreviews.org/doi/pdf/10.1146/annurev-linguistics-030521-04235
+6
+17. (cid:0) - Wiktionary, the free dictionary, https://en.wiktionary.org/wiki/%F0%90%B1%88
+18. ESKİ TÜRK YAZITLARINDA KELİME BAŞINDA /h-/ SESİ,
+https://tdkturkdunyasi.gov.tr/tam-metin-pdf/702/tur
+19. HALAÇLAR VE HALAÇÇA,
+https://turkoloji.cu.edu.tr/ESKI%20TURK%20DILI/mehmet_olmez_halaclar_ve_hala
+cca.pdf
+20. Eski Türkçe ile Halaçça Arasında Şaşırtıcı Bir Koşutluk,
+https://tdkbelleten.gov.tr/tam-metin-pdf/265/tur
+21. mina dolathi darabadi halaççada arkaik özellikler ... - DergiPark,
+https://dergipark.org.tr/en/download/article-file/967396
+22. Halaçlar - Vikipedi, https://tr.wikipedia.org/wiki/Hala%C3%A7lar
+23. Diachrony: Consonants (Chapter 18) - Turkic,
+https://www.cambridge.org/core/books/turkic/diachrony-consonants/CDC9EAE9
+04A78F66BF58530C84C0BC15
+24. Reconstruction:Proto-Turkic/yïl - Wiktionary, the free dictionary,
+https://en.wiktionary.org/wiki/Reconstruction:Proto-Turkic/y%C3%AFl
+25. unknown_url
+26. İran'daki Türk Dilleri*1 - DergiPark,
+https://dergipark.org.tr/en/download/article-file/54660
+27. Reconstruction:Proto-Turkic/yǖŕ - Wiktionary, the free dictionary,
+https://en.wiktionary.org/wiki/Reconstruction:Proto-Turkic/y%C7%96%C5%95
+28. yüz - Wiktionary, the free dictionary, https://en.wiktionary.org/wiki/y%C3%BCz
+29. زوﻛ - Wiktionary, the free dictionary,
+https://en.wiktionary.org/wiki/%D9%83%D9%88%D8%B2
+30. № 1 (81), 2017 Қаңтар-ақпан/January-February,
+https://rmebrk.kz/journals/4535/88806.pdf
+31. Bashkir alphabet — Grokipedia, https://grokipedia.com/page/Bashkir_alphabet
+32. Bashkir Translator | Polytranslator, https://www.polytranslator.com/bashkir/
+33. Yakut language - Wikipedia, https://en.wikipedia.org/wiki/Yakut_language
+34. Language contacts in the history of the Yakut language,
+https://www.researchgate.net/publication/330364008_Language_contacts_in_the
+_history_of_the_Yakut_language
+35. Are there similarities between Turkish and Yakut (Sakha) languages?,
+https://www.quora.com/Are-there-similarities-between-Turkish-and-Yakut-Sakha
+-languages
+===== SAYFA 19/19 =====
+36. Chuvash people - Wikipedia, https://en.wikipedia.org/wiki/Chuvash_people
+37. turkic languages - Türk Dili Araştırmaları Yıllığı - Belleten,
+https://tdkbelleten.gov.tr/tam-metin-pdf/289/eng
+38. (PDF) SAHA (YAKUT) TÜRKÇESİ GRAMERİ - Academia.edu,
+https://www.academia.edu/3530039/SAHA_YAKUT_T%C3%9CRK%C3%87ES%C4
+%B0_GRAMER%C4%B0
+39. Lexicon (Chapter 11) - Turkic,
+https://www.cambridge.org/core/books/turkic/lexicon/E9F27E9EADD6D6D86A391
+7E25ABE8334
+40. THE ETYMOLOGY OF THE TURKIC EV, EB, ÜJ ETC. 'HOUSE'1,
+https://ejournals.eu/pliki_artykulu_czasopisma/pelny_tekst/01934e99-e2b4-7014-
+a99f-911c134300a7/pobierz
+41. дьиэ-уот - Wiktionary, the free dictionary,
+https://en.wiktionary.org/wiki/%D0%B4%D1%8C%D0%B8%D1%8D-%D1%83%D0
+%BE%D1%82

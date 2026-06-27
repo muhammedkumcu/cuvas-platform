@@ -1,0 +1,280 @@
+
+--- SAYFA 3 TABLO 1 ---
+Dil | Yerel Yazı | Latin Transkri pt | IPA | Morfem Seg. | Kognat ID | Uygulan an Ses Kuralı
+Türkçe (Oğuz) | göz | göz | /ɟœz/ | göz | 1 | *k > g, *ŕ > z, *ȫ > ö
+Azerbay | göz | göz | /ɟœz/ | göz | 1 | *k > g, *ŕ
+
+--- SAYFA 4 TABLO 1 ---
+canca (Oğuz) |  |  |  |  |  | > z, *ȫ > ö
+Türkmen ce (Oğuz) | göz | göz | /gœːz/ | göːz | 1 | *k > g, *ŕ > z, *ȫ > öː (Uzun ünlü)
+Gagavuz ca (Oğuz) | göz | göz | /ɟœz/ | göz | 1 | *k > g, *ŕ > z, *ȫ > ö
+Kazakça (Kıpçak) | көз | köz | /kœz/ | köz | 1 | *ŕ > z, *ȫ > ö
+Kırgızca (Kıpçak) | көз | köz | /kœz/ | köz | 1 | *ŕ > z, *ȫ > ö
+Tatarca (Kıpçak) | күз | küz | /kyz/ | küz | 1 | *ŕ > z, *ȫ > ü
+Başkurtç a (Kıpçak) | күҙ | küź | /kyð/ | küź | 1 | *ŕ > z > ź (ð), *ȫ > ü
+Karakalp akça (Kıpçak) | ko'z | köz | /kœz/ | köz | 1 | *ŕ > z, *ȫ > ö
+Kırım Tatarcası (Kıp.) | köz | köz | /kœz/ | köz | 1 | *ŕ > z, *ȫ > ö
+Özbekçe (Karluk) | ko'z | ko'z | /kɒz/ | ko'z | 1 | *ŕ > z, *ȫ > o' (Yuvarlakl aşma)
+Uygurca | زۆﻛ | köz | /køz/ | köz | 1 | *ŕ > z, *ȫ
+
+--- SAYFA 5 TABLO 1 ---
+(Karluk) |  |  |  |  |  | > ö
+Çuvaşça (Oğur) | куҫ | kuś | /kuɕ/ | kuś | 1 | *ŕ > r > ś, *ȫ > u (Çuvaş rotasizmi istisnası)1 3
+Yakutça (Sibirya) | харах | xarax | /xarax/ | xara-x | 2 | Leksikal Yenilik (Boşluk; "siyahlık" kökünden )10
+Tuvaca (Sibirya) | карак | karak | /qaraq/ | kara-k | 2 | Leksikal Yenilik (Sibirya izoglosu)
+Hakasça (Sibirya) | харах | xarax | /xarax/ | xara-x | 2 | Leksikal Yenilik
+Şorca (Sibirya) | қарак | qaraq | /qaraq/ | qara-q | 2 | Leksikal Yenilik
+Halaçça (Argu) | kőz | kőz | /kœːz/ | kőːz | 1 | *ŕ > z, *ȫ > öː (Uzun ünlü)9
+
+--- SAYFA 5 TABLO 2 ---
+Dil | Yerel | Latin | IPA | Morfem | Kognat | Uygulan
+
+--- SAYFA 6 TABLO 1 ---
+ | Yazı | Transkri pt |  | Seg. | ID | an Ses Kuralı
+Türkçe | baş | baş | /baʃ/ | baş | 3 | *ĺ > ş
+Azerbay canca | baş | baş | /bɑʃ/ | baş | 3 | *ĺ > ş
+Türkmen ce | baş | baş | /baːʃ/ | baːş | 3 | *ĺ > ş, *a > aː (Uzun ünlü)
+Gagavuz ca | baş | baş | /bɑʃ/ | baş | 3 | *ĺ > ş
+Kazakça | бас | bas | /bɑs/ | bas | 3 | *ĺ > ş > s (Kıpçak sızıcılaş ması)22
+Kırgızca | баш | baş | /bɑʃ/ | baş | 3 | *ĺ > ş
+Tatarca | баш | baş | /baʃ/ | baş | 3 | *ĺ > ş
+Başkurtç a | баш | baş | /bɑʃ/ | baş | 3 | *ĺ > ş
+Karakalp akça | bas | bas | /bɑs/ | bas | 3 | *ĺ > ş > s [cite: 23]
+Kırım Tatarcası | baş | baş | /baʃ/ | baş | 3 | *ĺ > ş
+Özbekçe | bosh | bosh | /bɒʃ/ | bosh | 3 | *ĺ > ş, *a > o
+Uygurca | شﺎﺑ | bash | /bɑʃ/ | bash | 3 | *ĺ > ş
+
+--- SAYFA 7 TABLO 1 ---
+Çuvaşça | пуҫ | puś | /puɕ/ | puś | 3 | *b > p, *ĺ > l > ś (Oğur lambdasi zm sızıcılaş ması)13
+Yakutça | бас | bas | /bɑs/ | bas | 3 | *ĺ > ş > s [cite: 22]
+Tuvaca | баж- | bažı | /baʒi/ | baž-ı | 3 | *ĺ > ş > ž (İntervok alik ötümlüleş me)
+Hakasça | пас | pas | /pas/ | pas | 3 | *b > p, *ĺ > ş > s [cite: 24]
+Şorca | паш | paş | /paʃ/ | paş | 3 | *b > p, *ĺ > ş [cite: 24]
+Halaçça | baş | baş | /baˑʃ/ | baˑş | 3 | Yarı-uzun ünlü9
+
+--- SAYFA 7 TABLO 2 ---
+Dil | Yerel Yazı | Latin Transkri pt | IPA | Morfem Seg. | Kognat ID | Uygulan an Ses Kuralı
+Türkçe | kan | kan | /kan/ | kan | 4 | *q > k, *ā > a
+
+--- SAYFA 8 TABLO 1 ---
+Azerbay canca | qan | qan | /qɑn/ | qan | 4 | *ā > a
+Türkmen ce | gān | ga:n | /gɑːn/ | gaːn | 4 | *q > g, *ā > aː (Uzun ünlü)
+Gagavuz ca | kan | kan | /kɑn/ | kan | 4 | *q > k
+Kazakça | қан | qan | /qɑn/ | qan | 4 | *ā > a
+Kırgızca | кан | qan | /qɑn/ | qan | 4 | *q > q, *ā > a
+Tatarca | кан | qan | /qan/ | qan | 4 | *q > q
+Başkurtç a | ҡан | qan | /qɑn/ | qan | 4 | *q > q
+Karakalp akça | qan | qan | /qɑn/ | qan | 4 | *q > q
+Kırım Tatarcası | qan | qan | /qan/ | qan | 4 | *q > q
+Özbekçe | qon | qon | /qɒn/ | qon | 4 | *ā > o
+Uygurca | نﺎﻗ | qan | /qɑn/ | qan | 4 | *q > q
+Çuvaşça | юн | yun | /jun/ | yun | 4 | *q > y, *ā > u (Ağır fonetik evrim)
+Yakutça | хаан | xaan | /xaan/ | xaan | 4 | *q > x, *ā > aa (Uzun
+
+--- SAYFA 9 TABLO 1 ---
+ |  |  |  |  |  | ünlü)
+Tuvaca | хан | xan | /xan/ | xan | 4 | *q > x
+Hakasça | хан | xan | /xan/ | xan | 4 | *q > x
+Şorca | қан | qan | /qan/ | qan | 4 | *q > q
+Halaçça | qán | qán | /qaːn/ | qaːn | 4 | *ā > aː (Uzun ünlü)9
+
+--- SAYFA 9 TABLO 2 ---
+Dil | Yerel Yazı | Latin Transkri pt | IPA | Morfem Seg. | Kognat ID | Uygulan an Ses Kuralı
+Türkçe | ayak | ayak | /aˈjak/ | a-yak | 5 | *d > y (Oğuz lenisyonu )8
+Azerbay canca | ayaq | ayaq | /ɑˈjɑq/ | a-yaq | 5 | *d > y, *k > q
+Türkmen ce | aýak | aýak | /aˈjak/ | a-ýak | 5 | *d > ý
+Gagavuz ca | ayak | ayak | /ɑˈjɑk/ | a-yak | 5 | *d > y
+Kazakça | аяқ | ayaq | /ɑˈjɑq/ | a-yaq | 5 | *d > y
+
+--- SAYFA 10 TABLO 1 ---
+Kırgızca | аяк | ayak | /ɑˈjɑq/ | a-yak | 5 | *d > y
+Tatarca | аяк | ayak | /aˈjak/ | a-yak | 5 | *d > y
+Başkurtç a | аяҡ | ayaq | /ɑˈjɑq/ | a-yaq | 5 | *d > y
+Karakalp akça | ayaq | ayaq | /ɑˈjɑq/ | a-yaq | 5 | *d > y
+Kırım Tatarcası | ayaq | ayaq | /aˈjaq/ | a-yaq | 5 | *d > y
+Özbekçe | oyoq | oyoq | /ɒˈjɒq/ | o-yoq | 5 | *d > y, *a > o
+Uygurca | قﺎﯾﺎﺋ | ayaq | /aˈjaq/ | a-yaq | 5 | *d > y
+Çuvaşça | ура | ura | /uˈra/ | ura | 6 | Leksikal Yenilik (Boşluk; yeni kök gelişimi)
+Yakutça | атах | atax | /aˈtax/ | a-tax | 5 | *d > t (Sertleşm e), *k > x [cite: 8]
+Tuvaca | адак | adak | /aˈdaq/ | a-dak | 5 | *d korundu (Sibirya Arkaizmi) 8
+Hakasça | азах | azaq | /aˈzaq/ | a-zaq | 5 | *d > z
+Şorca | азақ | azaq | /aˈzaq/ | a-zaq | 5 | *d > z
+
+--- SAYFA 11 TABLO 1 ---
+Halaçça | hadaq | hadaq | /haˈdaq/ | hadaq | 5 | *p- > h- (Türeme/ Korunma) , *d korundu16
+
+--- SAYFA 11 TABLO 2 ---
+Dil | Yerel Yazı | Latin Transkri pt | IPA | Morfem Seg. | Kognat ID | Uygulan an Ses Kuralı
+Türkçe | taş | taş | /taʃ/ | taş | 7 | *t > t, *ā > a, *ĺ > ş
+Azerbay canca | daş | daş | /dɑʃ/ | daş | 7 | *t > d (Oğuz ötümlüleş mesi), *ĺ > ş
+Türkmen ce | daş | daş | /dɑːʃ/ | daːş | 7 | *t > d, *ā > aː (Uzun ünlü), *ĺ > ş
+Gagavuz ca | taş | taş | /tɑʃ/ | taş | 7 | *ĺ > ş
+Kazakça | тас | tas | /tɑs/ | tas | 7 | *ĺ > ş > s
+Kırgızca | таш | taş | /tɑʃ/ | taş | 7 | *ĺ > ş
+
+--- SAYFA 12 TABLO 1 ---
+Tatarca | таш | taş | /taʃ/ | taş | 7 | *ĺ > ş
+Başkurtç a | таш | taş | /tɑʃ/ | taş | 7 | *ĺ > ş [cite: 15]
+Karakalp akça | tas | tas | /tɑs/ | tas | 7 | *ĺ > ş > s [cite: 23]
+Kırım Tatarcası | taş | taş | /taʃ/ | taş | 7 | *ĺ > ş
+Özbekçe | tosh | tosh | /tɒʃ/ | tosh | 7 | *ĺ > ş, *ā > o
+Uygurca | شﺎﺗ | tash | /tɑʃ/ | tash | 7 | *ĺ > ş
+Çuvaşça | чул | čul | /͡tɕul/ | čul | 7 | *t > č (Palataliz asyon), *ā > u, *ĺ > l (Lambda sizm)15
+Yakutça | таас | taas | /taːs/ | taa-s | 7 | *ā > aa (Uzun ünlü), *ĺ > ş > s
+Tuvaca | даш | daş | /daʃ/ | daş | 7 | *t > d, *ĺ > ş [cite: 15]
+Hakasça | тас | tas | /tas/ | tas | 7 | *ĺ > ş > s
+Şorca | таш | taş | /taʃ/ | taş | 7 | *ĺ > ş
+Halaçça | tâaş | tâaş | /taːʃ/ | taːş | 7 | *ā > aː (Uzun ünlü), *ĺ >
+
+--- SAYFA 13 TABLO 1 ---
+ |  |  |  |  |  | ş [cite: 15]
+
+--- SAYFA 13 TABLO 2 ---
+Dil | Yerel Yazı | Latin Transkri pt | IPA | Morfem Seg. | Kognat ID | Uygulan an Ses Kuralı
+Türkçe | su | su | /su/ | su | 8 | *b > v > Ø
+Azerbay canca | su | su | /su/ | su | 8 | *b > v > Ø
+Türkmen ce | suw | suw | /suw/ | suw | 8 | *b > w
+Gagavuz ca | su | su | /su/ | su | 8 | *b > Ø
+Kazakça | су | sw | /sʊw/ | suw | 8 | *b > w
+Kırgızca | суу | suu | /suː/ | suu | 8 | *b > w > u (Uzama)
+Tatarca | су | su | /su/ | su | 8 | *b > Ø
+Başkurtç a | һыу | hïw | /hɯw/ | hïw | 8 | *s > h, *u > ï, *b > w
+
+--- SAYFA 14 TABLO 1 ---
+Karakalp akça | suw | suw | /sʊw/ | suw | 8 | *b > w [cite: 23]
+Kırım Tatarcası | suv | suv | /suv/ | suv | 8 | *b > v
+Özbekçe | suv | suv | /suv/ | suv | 8 | *b > v
+Uygurca | ۇﺳ | su | /su/ | su | 8 | *b > Ø
+Çuvaşça | шыв | šyv | /ʂɯʋ/ | šyv | 8 | *s > š, *u > y, *b > v
+Yakutça | уу | uu | /uː/ | uu | 8 | *s > Ø, *b > w > u (Sözcük başı s düşmesi)1 6
+Tuvaca | суг | sug | /suʁ/ | su-g | 8 | *b > g (Sibirya -g türemesi)
+Hakasça | суғ | suğ | /suʁ/ | su-ğ | 8 | *b > ğ
+Şorca | суғ | suğ | /suʁ/ | su-ğ | 8 | *b > ğ [cite: 27]
+Halaçça | suw | suw | /suw/ | suw | 8 | *b > w [cite: 16]
+
+--- SAYFA 14 TABLO 2 ---
+Dil | Yerel | Latin Transkri | IPA | Morfem | Kognat | Uygulan an Ses
+
+--- SAYFA 15 TABLO 1 ---
+ | Yazı | pt |  | Seg. | ID | Kuralı
+Türkçe | bir | bir | /bir/ | bir | 9 | *ī > i
+Azerbay canca | bir | bir | /bir/ | bir | 9 | *ī > i
+Türkmen ce | bir | bi:r | /biːr/ | biːr | 9 | *ī > iː (Uzun ünlü korunum u)
+Gagavuz ca | bir | bir | /bir/ | bir | 9 | *ī > i
+Kazakça | бір | bir | /bɪr/ | bir | 9 | *ī > i
+Kırgızca | бир | bir | /bir/ | bir | 9 | *ī > i
+Tatarca | бер | ber | /ber/ | ber | 9 | *ī > e
+Başkurtç a | бер | ber | /ber/ | ber | 9 | *ī > e
+Karakalp akça | bir | bir | /bɪr/ | bir | 9 | *ī > i
+Kırım Tatarcası | bir | bir | /bir/ | bir | 9 | *ī > i
+Özbekçe | bir | bir | /bir/ | bir | 9 | *ī > i
+Uygurca | رﯨﺑ | bir | /bir/ | bir | 9 | *ī > i
+Çuvaşça | пӗр | pĕr | /pɘr/ | pĕr | 9 | *b > p, *ī > ĕ
+
+--- SAYFA 16 TABLO 1 ---
+Yakutça | биир | biir | /biːr/ | biir | 9 | *ī > ii (Uzun ünlü)
+Tuvaca | бир | bir | /bir/ | bir | 9 | *ī > i
+Hakasça | пір | pir | /pir/ | pir | 9 | *b > p
+Şorca | пир | pir | /pir/ | pir | 9 | *b > p
+Halaçça | bi:r | bi:r | /biːr/ | biːr | 9 | *ī > iː (Uzun ünlü)
+
+--- SAYFA 16 TABLO 2 ---
+Dil | Yerel Yazı | Latin Transkri pt | IPA | Morfem Seg. | Kognat ID | Uygulan an Ses Kuralı
+Türkçe | iki | iki | /ici/ | iki | 10 | *ẹ > i, *kk > k
+Azerbay canca | iki | iki | /ici/ | iki | 10 | *ẹ > i, *kk > k
+Türkmen ce | iki | iki | /ici/ | iki | 10 | *ẹ > i, *kk > k
+Gagavuz ca | iki | iki | /ici/ | iki | 10 | *ẹ > i, *kk > k
+Kazakça | екі | eki | /jeci/ | eki | 10 | *ẹ > e
+
+--- SAYFA 17 TABLO 1 ---
+Kırgızca | эки | eki | /eci/ | eki | 10 | *ẹ > e
+Tatarca | ике | ike | /ice/ | ike | 10 | *ẹ > i, *i > e
+Başkurtç a | ике | ike | /ice/ | ike | 10 | *ẹ > i, *i > e
+Karakalp akça | eki | eki | /eci/ | eki | 10 | *ẹ > e
+Kırım Tatarcası | eki | eki | /eci/ | eki | 10 | *ẹ > e
+Özbekçe | ikki | ikki | /icci/ | ikki | 10 | İkizleşme (Geminati on) korundu
+Uygurca | ﻰﻛﻛﯨﺋ | ikki | /icci/ | ikki | 10 | İkizleşme korundu
+Çuvaşça | иккӗ | ikkĕ | /iccɘ/ | ikkĕ | 10 | *ẹ > i, *i > ĕ, İkizleşme korundu
+Yakutça | икки | ikki | /icci/ | ikki | 10 | *ẹ > i, İkizleşme korundu
+Tuvaca | ийи | iyi | /iji/ | iyi | 10 | *kk > y (Lenisyon )
+Hakasça | ікі | iki | /ici/ | iki | 10 | *ẹ > i
+Şorca | ийги | iygi | /ijgi/ | iygi | 10 | *kk > yg (Sibirya
+
+--- SAYFA 18 TABLO 1 ---
+ |  |  |  |  |  | yumuşam ası)
+Halaçça | äkki | äkki | /æcci/ | äkki | 10 | *ẹ > ä, İkizleşme korundu
+
+--- SAYFA 18 TABLO 2 ---
+Dil | Yerel Yazı | Latin Transkri pt | IPA | Morfem Seg. | Kognat ID | Uygulan an Ses Kuralı
+Türkçe | gel- | gel- | /ɟel/ | gel- | 11 | *k > g, *ẹ > e
+Azerbay canca | gəl- | gəl- | /ɟæl/ | gəl- | 11 | *k > g, *ẹ > ə
+Türkmen ce | gel- | gel- | /ɟel/ | gel- | 11 | *k > g, *ẹ > e
+Gagavuz ca | gel- | gel- | /ɟel/ | gel- | 11 | *k > g, *ẹ > e
+Kazakça | кел- | kel- | /cel/ | kel- | 11 | *ẹ > e
+Kırgızca | кел- | kel- | /cel/ | kel- | 11 | *ẹ > e
+Tatarca | кил- | kil- | /cil/ | kil- | 11 | *ẹ > i
+Başkurtç a | кил- | kil- | /cil/ | kil- | 11 | *ẹ > i
+
+--- SAYFA 19 TABLO 1 ---
+Karakalp akça | kel- | kel- | /cel/ | kel- | 11 | *ẹ > e
+Kırım Tatarcası | kel- | kel- | /cel/ | kel- | 11 | *ẹ > e
+Özbekçe | kel- | kel- | /cel/ | kel- | 11 | *ẹ > e
+Uygurca | لﮫﻛ- | kel- | /cæl/ | kel- | 11 | *ẹ > e (ä)
+Çuvaşça | кил- | kil- | /cil/ | kil- | 11 | *ẹ > i
+Yakutça | кэл- | käl- | /cæl/ | käl- | 11 | *ẹ > ä
+Tuvaca | кел- | kel- | /cel/ | kel- | 11 | *ẹ > e
+Hakasça | кил- | kil- | /cil/ | kil- | 11 | *ẹ > i
+Şorca | кел- | kel- | /cel/ | kel- | 11 | *ẹ > e
+Halaçça | käl- | käl- | /cæl/ | käl- | 11 | *ẹ > ä
+
+--- SAYFA 19 TABLO 2 ---
+Dil | Yerel Yazı | Latin Transkri pt | IPA | Morfem Seg. | Kognat ID | Uygulan an Ses Kuralı
+Türkçe | gümüş | gümüş | /ɟyˈmyʃ/ | gümüş | 12 | *k > g, *ĺ > ş
+
+--- SAYFA 20 TABLO 1 ---
+Azerbay canca | gümüş | gümüş | /ɟyˈmyʃ/ | gümüş | 12 | *k > g, *ĺ > ş
+Türkmen ce | kümüş | kümüş | /cyˈmyʃ/ | kümüş | 12 | *k korundu, *ĺ > ş
+Gagavuz ca | gümüş | gümüş | /ɟyˈmyʃ/ | gümüş | 12 | *k > g, *ĺ > ş
+Kazakça | күміс | kümis | /kyˈmɪs/ | kümis | 12 | *ĺ > ş > s, *ü > i [cite: 31]
+Kırgızca | күмүш | kümüş | /kyˈmyʃ/ | kümüş | 12 | *ĺ > ş
+Tatarca | көмеш | kömeş | /køˈmeʃ/ | kömeş | 12 | *ü > ö, *ĺ > ş
+Başkurtç a | көмөш | kömöş | /køˈmøʃ/ | kömöş | 12 | *ü > ö, *ĺ > ş
+Karakalp akça | gúmis | gúmis | /gyˈmɪs/ | gúmis | 12 | *k > g, *ĺ > s
+Kırım Tatarcası | kümüş | kümüş | /kyˈmyʃ/ | kümüş | 12 | *ĺ > ş
+Özbekçe | kumush | kumush | /kuˈmuʃ/ | kumush | 12 | *ü > u, *ĺ > ş
+Uygurca | شۈﻣۈﻛ | kümüsh | /kyˈmyʃ/ | kümüsh | 12 | *ĺ > ş
+Çuvaşça | кӗмӗл | kĕmĕl | /kɘˈmɘl/ | kĕmĕl | 12 | *ü > ĕ, *ĺ > l (Lambda sizm)28
+Yakutça | көмүс | kömüs | /køˈmys/ | kömüs | 12 | *ü > ö, *ĺ
+
+--- SAYFA 21 TABLO 1 ---
+ |  |  |  |  |  | > s
+Tuvaca | мөңгүн | möngün | /mœŋˈgy n/ | möngün | 13 | Alıntı/Bo şluk (Moğolca möngü alıntısı)30
+Hakasça | кӱмӱс | kümüs | /kyˈmys/ | kümüs | 12 | *ĺ > s
+Şorca | кӱмӱш | kümüş | /kyˈmyʃ/ | kümüş | 12 | *ĺ > ş
+Halaçça | kümüş | kümüş | /kyˈmyʃ/ | kümüş | 12 | *ĺ > ş
+
+--- SAYFA 21 TABLO 2 ---
+Dil | Yerel Yazı | Latin Transkri pt | IPA | Morfem Seg. | Kognat ID | Uygulan an Ses Kuralı
+Türkçe | ev | ev | /ev/ | ev | 14 | *b > v
+Azerbay canca | ev | ev | /ev/ | ev | 14 | *b > v
+Türkmen ce | öý | öý | /œj/ | öý | 14 | *e > ö, *b > ý
+Gagavuz ca | ev | ev | /ev/ | ev | 14 | *b > v
+Kazakça | үй | üy | /yj/ | üy | 14 | *e > ü, *b > y
+
+--- SAYFA 22 TABLO 1 ---
+Kırgızca | үй | üy | /yj/ | üy | 14 | *e > ü, *b > y
+Tatarca | өй | öy | /œj/ | öy | 14 | *e > ö, *b > y
+Başkurtç a | өй | öy | /œj/ | öy | 14 | *e > ö, *b > y
+Karakalp akça | úy | úy | /yj/ | úy | 14 | *e > ü, *b > y
+Kırım Tatarcası | ev | ev | /ev/ | ev | 14 | *b > v
+Özbekçe | uy | uy | /uj/ | uy | 14 | *e > u, *b > y
+Uygurca | يۆﺋ | öy | /œj/ | öy | 14 | *e > ö, *b > y
+Çuvaşça | пӳрт | pürt | /pyrt/ | pürt | 15 | Leksikal Yenilik (Ayrı bir PT kökü olan *bürk ile bağlantılı)
+Yakutça | дьиэ | jiä | /d͡ ʑiæ/ | jiä | 16 | Leksikal Yenilik/B oşluk
+Tuvaca | өг | ög | /œʁ/ | ög | 14 | *e > ö, *b > g (Sibirya gelişimi / Moğolca etkisi tartışmalı
+
+--- SAYFA 23 TABLO 1 ---
+ |  |  |  |  |  | )
+Hakasça | іб | ib | /ib/ | ib | 14 | *e > i, *b korundu
+Şorca | эп | ep | /ep/ | ep | 14 | *b > p
+Halaçça | häv | häv | /hæv/ | häv | 14 | *e > ä, *b > v, *p- > h- türemesi

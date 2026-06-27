@@ -195,6 +195,37 @@ def build_cognates(cog):
     return out, first
 
 
+def build_cognates_deep(cogdeep):
+    """ds18 → COGNATES (Kognat Ağı). 11 kavram × 18 dil; her düğüm: latin biçim + kol + ses kuralı +
+    yerel yazı + IPA + morfem + cogid. Boşluk (gap) = cogid baskın-cogid'den farklı (leksikal yenilik/alıntı).
+    ruleIdx → Ses denklikleri sekmesine bağlantı (proto-fonem tabanlı: *ŕ=rotasizm, *ĺ=lambdasizm)."""
+    from collections import Counter
+    out, first = {}, None
+    for c in cogdeep["concepts"]:
+        cells = c["cells"]
+        dom = Counter(cl["cogid"] for cl in cells).most_common(1)[0][0]
+        nodes, gaps = [], []
+        for cl in cells:
+            shift = cl["cogid"] != dom
+            nodes.append({"lang": cl["lang"], "word": cl["latin"], "branch": cl["branch"],
+                          "shift": shift, "native": cl["native"], "rule": cl["rule"],
+                          "ipa": cl["ipa"], "morph": cl["morph"], "cogid": cl["cogid"]})
+            if shift:
+                gaps.append(cl["lang"])
+        proto = c["proto"]
+        ridx = 0 if "ŕ" in proto else (1 if "ĺ" in proto else None)
+        cid = c.get("concepticon")
+        note = (f"Proto-Türkçe kök {proto}" + (f" · Concepticon {cid}." if cid else ".") + " " + c["note"]
+                + (f" Boşluk (kognat seti farklı): {', '.join(gaps)}." if gaps else
+                   " Tüm dillerde aynı kognat seti — boşluk yok."))
+        out[c["key"]] = {"gloss": c["gloss"], "gloss_en": c.get("gloss_en", ""), "proto": proto,
+                         "note": note, "nodes": nodes, "cat": c["cat"], "ruleIdx": ridx,
+                         "concepticon": cid}
+        if first is None:
+            first = c["key"]
+    return out, first
+
+
 # (b) Ses denklikleri KANIT-DESTEKLİ: yerleşik kurallar (Türkoloji olgusu) + Savelyev kognat verisinden
 # PROTO-FONEM tabanlı kanıt sayısı. Proto *ŕ = rotasizm, *ĺ = lambdasizm (akademik-tanımlayıcı işaret).
 def sound_evidence(cog):
@@ -384,6 +415,7 @@ def main():
     lex = json.load(open(DATA / "distance.lexical.json", encoding="utf-8"))["matrix"]
     typ = json.load(open(DATA / "distance.typological.json", encoding="utf-8"))["matrix"]
     cog = json.load(open(DATA / "cognates.json", encoding="utf-8"))
+    cogdeep = json.load(open(DATA / "cognates_deep.json", encoding="utf-8"))  # ds18 — 11 kavram × 18 dil (yatay ölçek)
     extra = json.load(open(DATA / "lang_extra.json", encoding="utf-8"))["languages"]
     intel = json.load(open(DATA / "intelligibility.json", encoding="utf-8"))["intel"]
 
@@ -739,8 +771,8 @@ def main():
     html, nlv = re.subn(r"LANGVEC = \{.*?\n  \};", lambda m: new_langvec, html, flags=re.DOTALL)
     print(f"  Uzaklik 10->{len(DIST_ROWS)} dil (Savelyev tam matris): LANGVEC={nlv}, REAL_DIST mcoord")
 
-    # Kognat Ağı ← gerçek kognat setleri (SavelyevTurkic)
-    cog_obj, cog_default = build_cognates(cog)
+    # Kognat Ağı ← ds18 genişletilmiş kognat veritabanı (11 kavram × 18 dil, faithful+atıflı)
+    cog_obj, cog_default = build_cognates_deep(cogdeep)
     new_cog = "COGNATES = " + json.dumps(cog_obj, ensure_ascii=False) + ";"
     html, ncog = re.subn(r"COGNATES = \{.*?\n  \};", lambda m: new_cog, html, flags=re.DOTALL)
     if cog_default:
@@ -778,7 +810,9 @@ def main():
     a1_ret_old = "    return { cognateKeys:keys, cognateGloss:c.gloss, cognateProto:c.proto, cognateNote:c.note, cognateNodes:nodes };"
     a1_ret_new = ("    return { cognateKeys:keys, cognateCats, cognateEmpty:keys.length===0, cognateQ:S.cognateQ||'',\n"
                   "      onCognateInput:(e)=>this.setState({cognateQ:e.target.value}),\n"
-                  "      cognateGloss:c.gloss, cognateProto:c.proto, cognateNote:c.note, cognateNodes:nodes };")
+                  "      cognateGloss:c.gloss, cognateProto:c.proto, cognateNote:c.note, cognateNodes:nodes,\n"
+                  "      cognateCells:cells, cognateGap:gaps, cognateCatName:(c.cat||''),\n"
+                  "      cognateConcepticon:(c.concepticon!=null?('Concepticon '+c.concepticon):'') };")
     if a1_ret_old in html:
         html = html.replace(a1_ret_old, a1_ret_new, 1); na1 += 1
     # (3) seçici markup: düz buton satırı → arama kutusu + kategori çipleri + filtrelenmiş kavramlar + boş-durum
@@ -798,6 +832,81 @@ def main():
         '        </div>')
     if a1_mk_old in html:
         html = html.replace(a1_mk_old, a1_mk_new, 1); na1 += 1
+    # ---- ds18: Kognat Ağı 7→18 dil + ses-kuralı dökümü (yatay ölçek) ----
+    # NOT: BRANCHCOLOR['Argu'] (Halaçça) ZATEN harita bölümünde eklendi (#8a7a2e) → burada tekrar eklenmez.
+    ndeep = 0
+    # (1) cognateVals düğüm geometrisi: 18 düğüm için yarıçap/boyut ölçekle + ses-kuralı tablo satırları (cells/gaps)
+    deep_geo_old = (
+        "    const n = c.nodes.length;\n"
+        "    const nodes = c.nodes.map((nd,i)=>{\n"
+        "      const a = (-90 + i*(360/n))*Math.PI/180;\n"
+        "      const xp = 50 + 37*Math.cos(a), yp = 50 + 37*Math.sin(a);\n"
+        "      const col = this.BRANCHCOLOR[nd.branch] || '#5f574b';\n"
+        "      return { lang:nd.lang, word:this.disp(nd.word, null, nd.lang==='Çuvaşça'?'chv':'gen'), branch:nd.branch, shift:!!nd.shift,\n"
+        "        xp:xp.toFixed(2), yp:yp.toFixed(2),\n"
+        "        edgeStroke: nd.shift ? '#d98b4a' : 'rgba(33,29,23,.22)',\n"
+        "        edgeWidth: nd.shift ? '2' : '1.3', edgeDash: nd.shift ? '5,4' : '0',\n"
+        "        nodeStyle:`position:absolute;left:${xp.toFixed(2)}%;top:${yp.toFixed(2)}%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:3px;background:${nd.shift?'#211d17':'#fff'};border:2px solid ${col};border-radius:12px;padding:8px 13px;min-width:62px;box-shadow:0 3px 10px rgba(33,29,23,.1);z-index:2`,\n"
+        "        wordStyle:`font-family:'Spectral',serif;font-size:20px;font-weight:700;color:${nd.shift?'#f4f1ea':'#211d17'}`,\n"
+        "        langStyle:`font-size:10px;font-family:'IBM Plex Mono',monospace;color:${nd.shift?'rgba(244,241,234,.6)':'#9a9082'}` };\n"
+        "    });")
+    deep_geo_new = (
+        "    const n = c.nodes.length;\n"
+        "    const _r = n>12 ? 41 : 37, _mw = n>12 ? 46 : 62, _pad = n>12 ? '5px 8px' : '8px 13px', _wf = n>12 ? 15 : 20;\n"
+        "    const nodes = c.nodes.map((nd,i)=>{\n"
+        "      const a = (-90 + i*(360/n))*Math.PI/180;\n"
+        "      const xp = 50 + _r*Math.cos(a), yp = 50 + _r*Math.sin(a);\n"
+        "      const col = this.BRANCHCOLOR[nd.branch] || '#7d6a55';\n"
+        "      return { lang:nd.lang, word:this.disp(nd.word, null, nd.lang==='Çuvaşça'?'chv':'gen'), branch:nd.branch, shift:!!nd.shift,\n"
+        "        xp:xp.toFixed(2), yp:yp.toFixed(2),\n"
+        "        edgeStroke: nd.shift ? '#d98b4a' : 'rgba(33,29,23,.22)',\n"
+        "        edgeWidth: nd.shift ? '2' : '1.3', edgeDash: nd.shift ? '5,4' : '0',\n"
+        "        nodeStyle:`position:absolute;left:${xp.toFixed(2)}%;top:${yp.toFixed(2)}%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;background:${nd.shift?'#211d17':'#fff'};border:2px solid ${col};border-radius:11px;padding:${_pad};min-width:${_mw}px;box-shadow:0 3px 10px rgba(33,29,23,.1);z-index:2`,\n"
+        "        wordStyle:`font-family:'Spectral',serif;font-size:${_wf}px;font-weight:700;color:${nd.shift?'#f4f1ea':'#211d17'}`,\n"
+        "        langStyle:`font-size:9px;font-family:'IBM Plex Mono',monospace;color:${nd.shift?'rgba(244,241,234,.6)':'#9a9082'}` };\n"
+        "    });\n"
+        "    const gaps = c.nodes.filter(nd=>nd.shift).map(nd=>nd.lang);\n"
+        "    const cells = c.nodes.map(nd=>{ const col=this.BRANCHCOLOR[nd.branch]||'#7d6a55';\n"
+        "      const fd = (nd.native && nd.native!==nd.word) ? (nd.native+' · '+nd.word) : nd.word;\n"
+        "      return { lang:nd.lang, branch:nd.branch, form:fd, rule:(nd.rule||''), shift:!!nd.shift, dotColor:col,\n"
+        "        rowStyle:`display:grid;grid-template-columns:132px minmax(96px,1fr) 1.4fr;gap:10px;align-items:baseline;padding:7px 12px;border-radius:9px;background:${nd.shift?'rgba(217,139,74,.10)':'#fbfaf6'};border:1px solid ${nd.shift?'rgba(217,139,74,.35)':'rgba(33,29,23,.07)'}`,\n"
+        "        langStyle:'font-family:\\'Spectral\\',serif;font-size:14.5px;font-weight:600;color:#211d17;display:flex;align-items:center;gap:7px',\n"
+        "        formStyle:'font-family:\\'Spectral\\',serif;font-size:15px;color:#211d17',\n"
+        "        ruleStyle:`font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:${nd.shift?'#b8602e':'#6b6358'}` };\n"
+        "    });")
+    if deep_geo_old in html:
+        html = html.replace(deep_geo_old, deep_geo_new, 1); ndeep += 1
+    # (2) markup: graf altına dil-dil ses-kuralı dökümü + kaynak satırını ds18'e güncelle
+    deep_mk_old = (
+        '            <div style="margin-top:14px;font-size:11px;color:rgba(244,241,234,.4);font-family:\'IBM Plex Mono\',monospace">Kaynak: SavelyevTurkic CLDF · CC BY 4.0</div>\n'
+        '          </div>\n'
+        '        </div>\n'
+        '      </section>')
+    deep_mk_new = (
+        '            <div style="margin-top:14px;font-size:11px;color:rgba(244,241,234,.4);font-family:\'IBM Plex Mono\',monospace">Kaynak: KÖKEN derin araştırma (ds18) · Savelyev 2020 + Cambridge Turkic + Wiktionary</div>\n'
+        '          </div>\n'
+        '        </div>\n'
+        '        <div style="margin-top:32px">\n'
+        '          <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px">\n'
+        '            <span style="font-family:\'Spectral\',serif;font-weight:600;font-size:21px;color:#211d17">Dil dil ses kuralı</span>\n'
+        '            <span style="font-size:12.5px;color:#9a9082">{{ cognateConcepticon }} · Proto {{ cognateProto }} · {{ cognateCatName }}</span>\n'
+        '          </div>\n'
+        '          <div style="display:flex;flex-direction:column;gap:5px">\n'
+        '            <sc-for list="{{ cognateCells }}" as="c" hint-placeholder-count="6">\n'
+        '              <div style="{{ c.rowStyle }}">\n'
+        '                <span style="{{ c.langStyle }}"><span style="width:8px;height:8px;border-radius:3px;background:{{ c.dotColor }};flex:none"></span>{{ c.lang }}</span>\n'
+        '                <span style="{{ c.formStyle }}">{{ c.form }}</span>\n'
+        '                <span style="{{ c.ruleStyle }}">{{ c.rule }}</span>\n'
+        '              </div>\n'
+        '            </sc-for>\n'
+        '          </div>\n'
+        '          <div style="margin-top:10px;font-size:12px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace">Turuncu satır = kognat boşluğu (farklı kök / alıntı). 18 dil · 6 kol · yerel yazı + ses kuralı.</div>\n'
+        '        </div>\n'
+        '      </section>')
+    if deep_mk_old in html:
+        html = html.replace(deep_mk_old, deep_mk_new, 1); ndeep += 1
+    print(f"  ds18 Kognat 18-dil + ses-kurali dokumu: {ndeep}/2 yama (geometri, tablo)")
+
     # NOT: A2 (Karşılaştır başlık sekmeye-duyarlı) D-bloğunda compareHeadline tanımında yapılır (tek kaynak).
 
     # ---- A3: ana sayfa (landing) güncelliği — kapsam sayıları VERİDEN, footer düzelt ----

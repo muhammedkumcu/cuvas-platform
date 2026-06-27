@@ -1095,6 +1095,72 @@ def main():
         html = html.replace(pf_close_old, pf_close_new, 1); npf += 1
     print(f"  Dil Profilleri selektör A1 (ara + kol süzme): {npf}/6 yama")
 
+    # ---- Kognat GENİŞ tarama (Savelyev 254) — Derin/Geniş toggle + lazy-fetch ----
+    # 937KB'lık broad veri index.html'e GÖMÜLMEZ → dist'e kopyalanır, "Geniş" moduna geçince fetch'lenir.
+    import shutil
+    shutil.copyfile(DATA / "cognates_broad.json", UI / "dist" / "cognates_broad.json")
+    nbr = 0
+    # (1) state: cognateMode + broadReady (cog_default enjeksiyonu boşluklu: "cognateQ: ''")
+    if "cognateKey: 'goz', cognateQ: '', cognateCat: 'all'," in html:
+        html = html.replace("cognateKey: 'goz', cognateQ: '', cognateCat: 'all',",
+                            "cognateKey: 'goz', cognateQ: '', cognateCat: 'all', cognateMode:'deep', broadReady:false,", 1); nbr += 1
+    # (2) ensureBroad metodu (lazy fetch) — cognateVals'tan hemen önce
+    if "  cognateVals(){" in html:
+        html = html.replace("  cognateVals(){",
+            "  ensureBroad(){ if(this._bl||this.COGNATES_BROAD) return; this._bl=true; "
+            "fetch('cognates_broad.json').then(r=>r.json()).then(d=>{ this.COGNATES_BROAD=d.cognates; this.BROAD_CATS=d.categories; this._bl=false; this.setState({broadReady:true}); })"
+            ".catch(()=>{ this._bl=false; this.setState({broadErr:true}); }); }\n\n  cognateVals(){", 1); nbr += 1
+    # (3) cognateVals açılışı: SRC seçimi + mod toggle vals + anahtar fallback + yükleniyor erken-çıkış
+    br_open_old = "    const S = this.state, c = this.COGNATES[S.cognateKey];\n    if (!c) return {};"
+    br_open_new = (
+        "    const S = this.state;\n"
+        "    const _broad = S.cognateMode==='broad';\n"
+        "    const SRC = _broad ? (this.COGNATES_BROAD||{}) : this.COGNATES;\n"
+        "    const _modeVals = { cognateBroad:_broad,\n"
+        "      goCogDeep:()=>this.setState({cognateMode:'deep',cognateCat:'all',cognateQ:'',cognateKey:'goz'}),\n"
+        "      goCogBroad:()=>{ this.ensureBroad(); this.setState({cognateMode:'broad',cognateCat:'all',cognateQ:''}); },\n"
+        "      cognateLoading:(_broad && !this.COGNATES_BROAD),\n"
+        "      cognateModeNote:(_broad ? 'Savelyev · akademik yazım · 254 kavram × ≤32 dil' : 'ds18 · yerel yazı + IPA + ses kuralı · 11 kavram × 18 dil'),\n"
+        "      cognateTableTitle:(_broad ? 'Dil dil biçim & segment' : 'Dil dil ses kuralı'),\n"
+        "      deepBtnStyle:'cursor:pointer;border-radius:9px;padding:6px 15px;font-size:12.5px;font-family:inherit;border:1.5px solid '+(!_broad?'#211d17':'rgba(33,29,23,.18)')+';background:'+(!_broad?'#211d17':'#fff')+';color:'+(!_broad?'#f4f1ea':'#5f574b'),\n"
+        "      broadBtnStyle:'cursor:pointer;border-radius:9px;padding:6px 15px;font-size:12.5px;font-family:inherit;border:1.5px solid '+(_broad?'#211d17':'rgba(33,29,23,.18)')+';background:'+(_broad?'#211d17':'#fff')+';color:'+(_broad?'#f4f1ea':'#5f574b') };\n"
+        "    let _ck = S.cognateKey; let c = SRC[_ck]; if(!c){ _ck = Object.keys(SRC)[0]; c = SRC[_ck]; }\n"
+        "    if (!c) return _modeVals;")
+    if br_open_old in html:
+        html = html.replace(br_open_old, br_open_new, 1); nbr += 1
+    # (4) A1 filtre/sayaç this.COGNATES → SRC (aktif kaynak), seçili anahtar _ck
+    for a, b in [("Object.entries(this.COGNATES).filter(([k,v])=>{", "Object.entries(SRC).filter(([k,v])=>{"),
+                 ("Object.values(this.COGNATES).forEach(v=>{", "Object.values(SRC).forEach(v=>{"),
+                 ("[_mkCat('all','Tümü',Object.keys(this.COGNATES).length)]", "[_mkCat('all','Tümü',Object.keys(SRC).length)]"),
+                 ("      const sel = k===S.cognateKey;\n      return { key:k, label:v.gloss, sel,", "      const sel = k===_ck;\n      return { key:k, label:v.gloss, sel,")]:
+        if a in html:
+            html = html.replace(a, b, 1); nbr += 1
+    # (5) return'e mod vals'ı kat
+    if "    return { cognateKeys:keys, cognateCats," in html:
+        html = html.replace("    return { cognateKeys:keys, cognateCats,",
+                            "    return { ..._modeVals, cognateKeys:keys, cognateCats,", 1); nbr += 1
+    # (6) markup: A1 kutusunun üstüne Derin/Geniş toggle + yükleniyor; tablo başlığı dinamik
+    br_tog_anchor = '        <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:14px;padding:16px 18px">\n          <input value="{{ cognateQ }}"'
+    br_tog_new = (
+        '        <div style="display:flex;align-items:center;gap:9px;margin-bottom:13px;flex-wrap:wrap">\n'
+        '          <button onClick="{{ goCogDeep }}" style="{{ deepBtnStyle }}">Derin · 11</button>\n'
+        '          <button onClick="{{ goCogBroad }}" style="{{ broadBtnStyle }}">Geniş · 254</button>\n'
+        '          <span style="font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace">{{ cognateModeNote }}</span>\n'
+        '        </div>\n'
+        '        <sc-if value="{{ cognateLoading }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;padding:14px 2px">Geniş kognat verisi (254 kavram) yükleniyor…</div></sc-if>\n'
+        + br_tog_anchor)
+    if br_tog_anchor in html:
+        html = html.replace(br_tog_anchor, br_tog_new, 1); nbr += 1
+    # tablo başlığı: sabit "Dil dil ses kuralı" → dinamik
+    if '>Dil dil ses kuralı</span>' in html:
+        html = html.replace('>Dil dil ses kuralı</span>', '>{{ cognateTableTitle }}</span>', 1); nbr += 1
+    # geometri: 3. kademe (n>24 → 32 düğüme kadar broad için daha geniş yarıçap/küçük düğüm)
+    geo3_old = "    const _r = n>12 ? 41 : 37, _mw = n>12 ? 46 : 62, _pad = n>12 ? '5px 8px' : '8px 13px', _wf = n>12 ? 15 : 20;"
+    geo3_new = "    const _r = n>24 ? 44 : n>12 ? 41 : 37, _mw = n>24 ? 38 : n>12 ? 46 : 62, _pad = n>12 ? '5px 8px' : '8px 13px', _wf = n>24 ? 13 : n>12 ? 15 : 20;"
+    if geo3_old in html:
+        html = html.replace(geo3_old, geo3_new, 1); nbr += 1
+    print(f"  Kognat GENİŞ (Savelyev 254) lazy-fetch + Derin/Geniş toggle: {nbr}/12 yama")
+
     # NOT: A2 (Karşılaştır başlık sekmeye-duyarlı) D-bloğunda compareHeadline tanımında yapılır (tek kaynak).
 
     # ---- A3: ana sayfa (landing) güncelliği — kapsam sayıları VERİDEN, footer düzelt ----

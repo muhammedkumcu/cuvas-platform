@@ -910,6 +910,12 @@
         <div style="background:#f3efe6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:15px 18px;margin:0 0 18px;font-size:13.5px;line-height:1.7;color:#3f3a32;max-width:74ch">Buradaki köktaşlar <strong>canlı analiz değildir</strong>; <strong>SavelyevTurkic CLDF</strong> veri setinden (905 kognat seti, 254 kavram) seçilmiş hazır karşılaştırmalı veridir. Yazdığınız herhangi bir kelimenin kognatı otomatik üretilmez — kognat tespiti ayrı bir iştir. Şu an 14 kavram gösteriliyor; daha fazlası <strong>yatay ölçek</strong> aşamasında eklenecek.</div>
         </sc-if>
 
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:13px;flex-wrap:wrap">
+          <button onClick="{{ goCogDeep }}" style="{{ deepBtnStyle }}">Derin · 11</button>
+          <button onClick="{{ goCogBroad }}" style="{{ broadBtnStyle }}">Geniş · 254</button>
+          <span style="font-size:11.5px;color:#9a9082;font-family:'IBM Plex Mono',monospace">{{ cognateModeNote }}</span>
+        </div>
+        <sc-if value="{{ cognateLoading }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:#9a9082;font-family:'IBM Plex Mono',monospace;padding:14px 2px">Geniş kognat verisi (254 kavram) yükleniyor…</div></sc-if>
         <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:14px;padding:16px 18px">
           <input value="{{ cognateQ }}" onInput="{{ onCognateInput }}" placeholder="Kavram ara — ör. göz, su, sayı…" style="width:100%;max-width:340px;padding:9px 13px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:14px;font-family:inherit;color:#211d17;outline:none">
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin:12px 0 10px">
@@ -946,7 +952,7 @@
         </div>
         <div style="margin-top:32px">
           <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px">
-            <span style="font-family:'Spectral',serif;font-weight:600;font-size:21px;color:#211d17">Dil dil ses kuralı</span>
+            <span style="font-family:'Spectral',serif;font-weight:600;font-size:21px;color:#211d17">{{ cognateTableTitle }}</span>
             <span style="font-size:12.5px;color:#9a9082">{{ cognateConcepticon }} · Proto {{ cognateProto }} · {{ cognateCatName }}</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:5px">
@@ -1333,7 +1339,7 @@ class Component extends DCLogic {
     distTarget: 'tt',       // distance explorer target lang
     paradigmRoot: 'hĕr',
     apiParadigm: {}, apiWord: null, searchLang: 'auto', paradigmFree: null, paradigmFreeQ: '', apiAllLangs: {}, apiMatchCodes: [], apiMatchLang: null, researchQ: '', researchApi: null, compareApi: null, compareQ: '', paradigmPos: 'noun', helpOpen: '',
-    cognateKey: 'goz', cognateQ: '', cognateCat: 'all',
+    cognateKey: 'goz', cognateQ: '', cognateCat: 'all', cognateMode:'deep', broadReady:false,
     profileSel: 'chv', profileQ:'', profileCat:'all',
     researchWord: 'oku',
     researchFmt: 'json',
@@ -2307,27 +2313,40 @@ class Component extends DCLogic {
   }
 
   // ---------- COGNATE NETWORK ----------
+  ensureBroad(){ if(this._bl||this.COGNATES_BROAD) return; this._bl=true; fetch('cognates_broad.json').then(r=>r.json()).then(d=>{ this.COGNATES_BROAD=d.cognates; this.BROAD_CATS=d.categories; this._bl=false; this.setState({broadReady:true}); }).catch(()=>{ this._bl=false; this.setState({broadErr:true}); }); }
+
   cognateVals(){
-    const S = this.state, c = this.COGNATES[S.cognateKey];
-    if (!c) return {};
+    const S = this.state;
+    const _broad = S.cognateMode==='broad';
+    const SRC = _broad ? (this.COGNATES_BROAD||{}) : this.COGNATES;
+    const _modeVals = { cognateBroad:_broad,
+      goCogDeep:()=>this.setState({cognateMode:'deep',cognateCat:'all',cognateQ:'',cognateKey:'goz'}),
+      goCogBroad:()=>{ this.ensureBroad(); this.setState({cognateMode:'broad',cognateCat:'all',cognateQ:''}); },
+      cognateLoading:(_broad && !this.COGNATES_BROAD),
+      cognateModeNote:(_broad ? 'Savelyev · akademik yazım · 254 kavram × ≤32 dil' : 'ds18 · yerel yazı + IPA + ses kuralı · 11 kavram × 18 dil'),
+      cognateTableTitle:(_broad ? 'Dil dil biçim & segment' : 'Dil dil ses kuralı'),
+      deepBtnStyle:'cursor:pointer;border-radius:9px;padding:6px 15px;font-size:12.5px;font-family:inherit;border:1.5px solid '+(!_broad?'#211d17':'rgba(33,29,23,.18)')+';background:'+(!_broad?'#211d17':'#fff')+';color:'+(!_broad?'#f4f1ea':'#5f574b'),
+      broadBtnStyle:'cursor:pointer;border-radius:9px;padding:6px 15px;font-size:12.5px;font-family:inherit;border:1.5px solid '+(_broad?'#211d17':'rgba(33,29,23,.18)')+';background:'+(_broad?'#211d17':'#fff')+';color:'+(_broad?'#f4f1ea':'#5f574b') };
+    let _ck = S.cognateKey; let c = SRC[_ck]; if(!c){ _ck = Object.keys(SRC)[0]; c = SRC[_ck]; }
+    if (!c) return _modeVals;
     const _cq = (S.cognateQ||'').trim().toLocaleLowerCase('tr'), _ccat = S.cognateCat||'all';
     const _norm = (s)=>String(s||'').toLocaleLowerCase('tr');
-    const _catCount = {}; Object.values(this.COGNATES).forEach(v=>{ const kk=v.cat||'Diğer'; _catCount[kk]=(_catCount[kk]||0)+1; });
+    const _catCount = {}; Object.values(SRC).forEach(v=>{ const kk=v.cat||'Diğer'; _catCount[kk]=(_catCount[kk]||0)+1; });
     const _catList = Object.keys(_catCount).sort((a,b)=>a.localeCompare(b,'tr'));
     const _mkCat = (key,label,nn)=>{ const sel=_ccat===key; return { key, label: label+(nn!=null?' · '+nn:''), go:()=>this.setState({cognateCat:key}),
       style:`cursor:pointer;border:1px solid ${sel?'#d98b4a':'rgba(33,29,23,.16)'};background:${sel?'#d98b4a':'#fff'};color:${sel?'#211d17':'#5f574b'};border-radius:14px;padding:5px 13px;font-size:12.5px;font-family:'IBM Plex Mono',monospace;font-weight:${sel?600:400}` }; };
-    const cognateCats = [_mkCat('all','Tümü',Object.keys(this.COGNATES).length)].concat(_catList.map(k=>_mkCat(k,k,_catCount[k])));
-    const keys = Object.entries(this.COGNATES).filter(([k,v])=>{
+    const cognateCats = [_mkCat('all','Tümü',Object.keys(SRC).length)].concat(_catList.map(k=>_mkCat(k,k,_catCount[k])));
+    const keys = Object.entries(SRC).filter(([k,v])=>{
       if (_ccat!=='all' && (v.cat||'Diğer')!==_ccat) return false;
       if (_cq && _norm(v.gloss).indexOf(_cq)<0 && _norm(k).indexOf(_cq)<0) return false;
       return true;
     }).map(([k,v])=>{
-      const sel = k===S.cognateKey;
+      const sel = k===_ck;
       return { key:k, label:v.gloss, sel, go:()=>this.setState({cognateKey:k}),
         style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:18px;padding:7px 16px;font-size:14px;font-family:'Spectral',serif;font-weight:600` };
     });
     const n = c.nodes.length;
-    const _r = n>12 ? 41 : 37, _mw = n>12 ? 46 : 62, _pad = n>12 ? '5px 8px' : '8px 13px', _wf = n>12 ? 15 : 20;
+    const _r = n>24 ? 44 : n>12 ? 41 : 37, _mw = n>24 ? 38 : n>12 ? 46 : 62, _pad = n>12 ? '5px 8px' : '8px 13px', _wf = n>24 ? 13 : n>12 ? 15 : 20;
     const nodes = c.nodes.map((nd,i)=>{
       const a = (-90 + i*(360/n))*Math.PI/180;
       const xp = 50 + _r*Math.cos(a), yp = 50 + _r*Math.sin(a);
@@ -2349,7 +2368,7 @@ class Component extends DCLogic {
         formStyle:'font-family:\'Spectral\',serif;font-size:15px;color:#211d17',
         ruleStyle:`font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:${nd.shift?'#b8602e':'#6b6358'}` };
     });
-    return { cognateKeys:keys, cognateCats, cognateEmpty:keys.length===0, cognateQ:S.cognateQ||'',
+    return { ..._modeVals, cognateKeys:keys, cognateCats, cognateEmpty:keys.length===0, cognateQ:S.cognateQ||'',
       onCognateInput:(e)=>this.setState({cognateQ:e.target.value}),
       cognateGloss:c.gloss, cognateProto:c.proto, cognateNote:c.note, cognateNodes:nodes,
       cognateCells:cells, cognateGap:gaps, cognateCatName:(c.cat||''),

@@ -672,16 +672,19 @@ def main():
     html = html.replace(
         "    joshi:  {label:'Joshi ve ark. 2020', detail:'dijital kaynak sınıfları (0–5)', lic:'akademik', kind:'literatür', url:'aclanthology.org'},",
         "    joshi:  {label:'Joshi ve ark. 2020', detail:'dijital kaynak sınıfları (0–5)', lic:'akademik', kind:'literatür', url:'aclanthology.org'},\n"
-        "    bayes:  {label:'Savelyev & Robbeets 2020', detail:'Bayes filogenetik — soy ağacı & zaman derinliği; Johanson altı kol tasnifi', lic:'akademik', kind:'literatür', url:'academic.oup.com/jole'},\n"
+        "    bayes:  {label:'Savelyev & Robbeets 2020', detail:'Bayes filogenetik — soy ağacı & zaman derinliği (JoLE, DOI:10.1093/jole/lzz010); Johanson altı kol tasnifi', lic:'akademik', kind:'literatür', url:'academic.oup.com/jole'},\n"
         "    hf:     {label:'HuggingFace ekosistemi', detail:'açık model/veri kartları (LLM · encoder · ASR/TTS · benchmark)', lic:'model bazında', kind:'veri', url:'huggingface.co'},\n"
-        "    deepds: {label:'KÖKEN derin araştırmalar', detail:'çapraz-kontrollü derleme (profiller · seslendirme · ekosistem · sınıflandırma)', lic:'derleme', kind:'sentez', url:'arastirma/'},")
-    # USAGE: yeni içerik katmanlarını ilgili modüllere bağla
+        # R6: "deepsearch/derin araştırma" KAYNAK DEĞİL → derlemelerin İÇİNDEKİ gerçek akademik kaynaklar (literatür):
+        "    turkic_phil:{label:'Türk dilleri tarihi & filolojisi', detail:'Tekin (1968, Orhun); Arat (1947, Kutadgu Bilig); Dankoff & Kelly (1982, Dîvânu Lugâti’t-Türk); Golden (1992; 2011); Róna-Tas (1999); Erdal (1991; 1993); Drimba (2000); Boeschoten (1998); Laitin (1998); Bacon (1966)', lic:'akademik', kind:'literatür', url:'—'},\n"
+        "    grammars:{label:'Çağdaş Türk dilleri gramerleri', detail:'Dolatkhah (Kaşkay); Csató (Karay); Schluessel (İli / Doğu Türki); Röhrborn (Eski Uygur sözlüğü); Grönbech (Kuman); Harrison (Tuva); Doerfer (Halaç / Argu)', lic:'akademik', kind:'literatür', url:'—'},\n"
+        "    endangerment:{label:'Tehlike & demografi', detail:'Ethnologue (Eberhard vd.); UNESCO Tehlikedeki Diller Atlası; Lewis & Simons (2010, EGIDS); Campbell vd. (ELCat)', lic:'akademik', kind:'literatür', url:'unesco.org'},")
+    # USAGE: yeni içerik katmanlarını ilgili modüllere bağla (gerçek kaynaklar; "deepsearch" YOK)
     html = html.replace("{mod:'Dil Profilleri', srcs:['glottolog','wiki','joshi']}",
-                        "{mod:'Dil Profilleri', srcs:['glottolog','wiki','joshi','hf','deepds']}")
+                        "{mod:'Dil Profilleri', srcs:['glottolog','ethnologue','wiki','joshi','hf','grammars','endangerment']}")
     html = html.replace("{mod:'Tarih & Köken', srcs:['kasgari','yunusbayev','glottolog']}",
-                        "{mod:'Tarih & Köken', srcs:['kasgari','glottolog','bayes','cldf','yunusbayev']}")
-    # NOT: hf/deepds → Ekosistem sayfasına bağlanır (USAGE 'Ekosistem' satırı eco bloğunda eklenir); Araştırmacı sade kalır.
-    print("  Faz 2.7 KAYNAKLAR: +bayes +hf +deepds; USAGE Profiller/Tarih güncellendi")
+                        "{mod:'Tarih & Köken', srcs:['kasgari','bayes','turkic_phil','glottolog','yunusbayev']}")
+    # NOT: hf → Ekosistem; profil demografi/tarih artık GERÇEK kaynaklara bağlı; Araştırmacı sade kalır.
+    print("  R6 KAYNAKLAR: +bayes(DOI) +hf +turkic_phil +grammars +endangerment; deepds(deepsearch) KALDIRILDI")
 
     # canlı API tabanı + paylaşılan canlı-analiz yardımcıları (tek dil + tüm diller ortak)
     if "KOKEN_API" not in html:
@@ -1446,7 +1449,7 @@ def main():
         html = html.replace(a6_mk_old, a6_mk_new, 1); na6 += 1
     # (4) intro metni: 'örnek/illüstratif' artık yok (F temizliği) → kategori + ölçek vurgulu güncel metin
     a6_intro_old = 'Akademik dürüstlük ilkesi: hiçbir veri kaynaksız değildir. Aşağıda her kaynak, lisansı ve <strong>hangi modüllerde kullanıldığı</strong> listelenir. “Örnek/illüstratif” işaretli alanlar, gerçek backend (Apertium + CLDF) bağlandığında değişecektir.'
-    a6_intro_new = 'Akademik dürüstlük ilkesi: hiçbir veri kaynaksız değildir. Kaynaklar <strong>kategoriye göre</strong> düzenlenir; her biri lisansı ve <strong>hangi modüllerde kullanıldığıyla</strong> listelenir. Yatay ölçekte bu kütük büyüdükçe yeni kaynaklar ilgili kategoriye eklenir.'
+    a6_intro_new = 'Akademik dürüstlük ilkesi: hiçbir veri kaynaksız değildir ve hiçbir derleme tek başına “kaynak” sayılmaz — her iddia, aşağıda <strong>adıyla anılan gerçek bir veri tabanı ya da akademik çalışmaya</strong> dayanır. Kaynaklar kategoriye göre düzenlenir (araçlar · veri setleri · akademik literatür); her biri lisansı ve hangi modüllerde kullanıldığıyla listelenir.'
     if a6_intro_old in html:
         html = html.replace(a6_intro_old, a6_intro_new, 1); na6 += 1
 
@@ -2447,7 +2450,7 @@ def main():
                 "eco_tools:S.ecoCat==='tools', eco_orgs:S.ecoCat==='orgs', eco_discover:S.ecoCat==='discover',")
     html = html.replace("isResearch:S.screen==='research',", "isResearch:S.screen==='research', " + eco_vals, 1)
     html = html.replace("{mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph']},",
-                        "{mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph']},\n    {mod:'Ekosistem', srcs:['hf','deepds','fst']},", 1)
+                        "{mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph']},\n    {mod:'Ekosistem', srcs:['hf','fst']},", 1)
     ncat = len(eco["categories"]); nlink = sum(len(l["links"]) for c in eco["categories"] for l in c["langs"]) + sum(len(c.get("hubs", [])) for c in eco["categories"])
     print(f"  Ekosistem SAYFASI (ds7+web): ekran={neco} nav={nnav} kategori={ncat} bağlantı={nlink}")
 

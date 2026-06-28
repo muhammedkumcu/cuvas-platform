@@ -1390,7 +1390,7 @@
       <section style="max-width:1000px;margin:0 auto;padding:34px 40px 70px">
         <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">KAYNAKLAR & LİSANSLAR</div>
         <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 6px">Her veri, kaynağı ve lisansıyla</h2>
-        <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:68ch;margin:0 0 22px">Akademik dürüstlük ilkesi: hiçbir veri kaynaksız değildir. Kaynaklar <strong>kategoriye göre</strong> düzenlenir; her biri lisansı ve <strong>hangi modüllerde kullanıldığıyla</strong> listelenir. Yatay ölçekte bu kütük büyüdükçe yeni kaynaklar ilgili kategoriye eklenir.</p>
+        <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:68ch;margin:0 0 22px">Akademik dürüstlük ilkesi: hiçbir veri kaynaksız değildir ve hiçbir derleme tek başına “kaynak” sayılmaz — her iddia, aşağıda <strong>adıyla anılan gerçek bir veri tabanı ya da akademik çalışmaya</strong> dayanır. Kaynaklar kategoriye göre düzenlenir (araçlar · veri setleri · akademik literatür); her biri lisansı ve hangi modüllerde kullanıldığıyla listelenir.</p>
         <div style="display:flex;flex-direction:column;gap:28px">
           <sc-for list="{{ sourceGroups }}" as="g" hint-placeholder-count="4">
             <div>
@@ -1802,9 +1802,11 @@ class Component extends DCLogic {
     wiki:{label:'Wikipedia', detail:'dil profili serbest-metni (çapraz-kontrollü)', lic:'CC BY-SA 4.0', kind:'veri', url:'wikipedia.org'},
     ethnologue:{label:'Ethnologue / EGIDS', detail:'canlılık & konuşur sayıları', lic:'tescilli', kind:'veri', url:'ethnologue.com'},
     joshi:  {label:'Joshi ve ark. 2020', detail:'dijital kaynak sınıfları (0–5)', lic:'akademik', kind:'literatür', url:'aclanthology.org'},
-    bayes:  {label:'Savelyev & Robbeets 2020', detail:'Bayes filogenetik — soy ağacı & zaman derinliği; Johanson altı kol tasnifi', lic:'akademik', kind:'literatür', url:'academic.oup.com/jole'},
+    bayes:  {label:'Savelyev & Robbeets 2020', detail:'Bayes filogenetik — soy ağacı & zaman derinliği (JoLE, DOI:10.1093/jole/lzz010); Johanson altı kol tasnifi', lic:'akademik', kind:'literatür', url:'academic.oup.com/jole'},
     hf:     {label:'HuggingFace ekosistemi', detail:'açık model/veri kartları (LLM · encoder · ASR/TTS · benchmark)', lic:'model bazında', kind:'veri', url:'huggingface.co'},
-    deepds: {label:'KÖKEN derin araştırmalar', detail:'çapraz-kontrollü derleme (profiller · seslendirme · ekosistem · sınıflandırma)', lic:'derleme', kind:'sentez', url:'arastirma/'},
+    turkic_phil:{label:'Türk dilleri tarihi & filolojisi', detail:'Tekin (1968, Orhun); Arat (1947, Kutadgu Bilig); Dankoff & Kelly (1982, Dîvânu Lugâti’t-Türk); Golden (1992; 2011); Róna-Tas (1999); Erdal (1991; 1993); Drimba (2000); Boeschoten (1998); Laitin (1998); Bacon (1966)', lic:'akademik', kind:'literatür', url:'—'},
+    grammars:{label:'Çağdaş Türk dilleri gramerleri', detail:'Dolatkhah (Kaşkay); Csató (Karay); Schluessel (İli / Doğu Türki); Röhrborn (Eski Uygur sözlüğü); Grönbech (Kuman); Harrison (Tuva); Doerfer (Halaç / Argu)', lic:'akademik', kind:'literatür', url:'—'},
+    endangerment:{label:'Tehlike & demografi', detail:'Ethnologue (Eberhard vd.); UNESCO Tehlikedeki Diller Atlası; Lewis & Simons (2010, EGIDS); Campbell vd. (ELCat)', lic:'akademik', kind:'literatür', url:'unesco.org'},
     yunusbayev:{label:'Yunusbayev ve ark. 2015', detail:'dil ≠ gen; popülasyon genetiği', lic:'akademik', kind:'literatür', url:'doi.org/10.1371/journal.pgen.1005068'},
     kasgari:{label:'Dîvânu Lugâti’t-Türk (~1075)', detail:'Kâşgarlı Mahmud · tarihsel atıf', lic:'kamu malı', kind:'literatür', url:'—'},
   };
@@ -1815,11 +1817,11 @@ class Component extends DCLogic {
     {mod:'Kognat Ağı', srcs:['cldf','nel']},
     {mod:'Karşılaştır', srcs:['cldf','glottolog']},
     {mod:'Uzaklık Gezgini', srcs:['cldf','wals','glottolog','lindsay']},
-    {mod:'Dil Profilleri', srcs:['glottolog','wiki','joshi','hf','deepds']},
-    {mod:'Tarih & Köken', srcs:['kasgari','glottolog','bayes','cldf','yunusbayev']},
+    {mod:'Dil Profilleri', srcs:['glottolog','ethnologue','wiki','joshi','hf','grammars','endangerment']},
+    {mod:'Tarih & Köken', srcs:['kasgari','bayes','turkic_phil','glottolog','yunusbayev']},
     {mod:'Çuvaşça Atölyesi', srcs:['fst','cldf']},
     {mod:'Araştırmacı Merkezi', srcs:['fst','ud','cldf','unimorph']},
-    {mod:'Ekosistem', srcs:['hf','deepds','fst']},
+    {mod:'Ekosistem', srcs:['hf','fst']},
   ];
 
   // navigation groups

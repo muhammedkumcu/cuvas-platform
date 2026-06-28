@@ -2937,14 +2937,17 @@ def main():
         "sah": (100.0, 97.1, "UM"), "bak": (99.6, 91.5, "UM"), "uzb": (100.0, 63.8, "UM"),
         "aze": (91.1, 10.5, "UM"),
     }
-    # KORPUS KAPSAMI (recall) — (kapsam%, farklı-lemma, kaynak). 29 Haz.
-    #   FLORES = flores_coverage.py (FLORES-200, 1012 cümle, CC-BY-SA) · HF = corpus_coverage.py (HF açık korpus).
-    #   Kalan 8 dil (chv/sah/gag/kaa/alt/krc/kum/tyv): Leipzig bu ortamdan bağlantı-bloke → None (kaynak _korpus21'de).
+    # KORPUS KAPSAMI (recall) — (kapsam%, korpusta-görülen-farklı-lemma, kaynak). 29 Haz. 20/20 dil ölçüldü.
+    #   FLORES = flores_coverage.py (FLORES-200, 1012 cümle) · diğerleri = corpus_coverage.py (HF açık / fineweb-2).
     COVER = {
         "tat": (94.3, 3371, "FLORES"), "kaz": (93.4, 3688, "FLORES"), "tur": (90.3, 3464, "FLORES"),
         "kir": (88.3, 2484, "FLORES"), "bak": (87.0, 3501, "FLORES"), "uig": (86.5, 3246, "FLORES"),
         "crh": (84.5, 2341, "FLORES"), "uzb": (81.2, 3235, "FLORES"), "tuk": (64.1, 1193, "FLORES"),
-        "aze": (35.1, 775, "FLORES"), "nog": (70.6, 986, "HF·Nogai-Unified"), "kjh": (28.6, 600, "HF·khakas-mono"),
+        "aze": (35.1, 775, "FLORES"),
+        "chv": (88.2, 12358, "HF·chuvash_mono"), "kum": (84.2, 4922, "fineweb-2"), "sah": (79.7, 28856, "fineweb-2"),
+        "kaa": (79.6, 7378, "HF·karakalpak"), "tyv": (79.1, 12006, "fineweb-2"), "nog": (70.6, 986, "HF·Nogai"),
+        "krc": (61.5, 11811, "fineweb-2"), "gag": (46.3, 14480, "fineweb-2"), "alt": (32.9, 252, "fineweb-2"),
+        "kjh": (28.6, 600, "HF·khakas"),
     }
     _POS = [("isim", "isim"), ("fiil", "fiil"), ("sıfat", "sıfat"), ("zarf", "zarf"), ("sayı", "sayı")]
 
@@ -3026,7 +3029,7 @@ def main():
         '          <div style="margin-bottom:7px"><b>Tutarlılık (②).</b> 20 dilde %92–95: motor ne ürettiyse onu tutarlı biçimde geri çözüyor. (Sahaca biraz düşük — zengin Sibirya morfolojisi, daha çok portmanto ek.)</div>\n'
         '          <div style="margin-bottom:7px"><b>Doğruluk (③).</b> Bağımsız insan-gold’a karşı — iki kaynak: <b>UniMorph</b> (paradigma tablosu) ve <b>UD</b> (gerçek cümle). Ölçülebilen her dilde <b>lemma %91–100</b>: FST bir kelimeyi tanıdığında <b>doğru</b> çözüyor. <i>tanıma%</i> ise sözlük büyüklüğüne bağlı, ayrı eksen (ör. Azerice sözlüğü küçük → az tanıyor ama tanıdığını doğru çözüyor). “Dış gold yok” olanlar düşük-kaynaklı dillerdir: onlar için henüz insan-anotasyonlu değerlendirme seti üretilmemiş — gerçek bir boşluk, gizlenmiyor.</div>\n'
         '          <div style="margin-bottom:7px"><b>Olgunluk (④).</b> Sözlük büyüklüğünden farklıdır: Sahaca “prototip” ama 41 bin köklü; tier morfotaktik kuralların cilasını, sözlük sütunu ise kelime hazinesini gösterir.</div>\n'
-        '          <div><b>Kapsam (⑤).</b> Gerçek metinde tanıma oranı (FLORES temiz çevirisi; Nogayca/Hakasça HF açık korpusu). Çoğu dil <b>%81–94</b> (Tatarca %94, Kazakça %93). Azerice %35 / Türkmence %64 — küçük sözlüğün sonucu (① ile birebir). <b>Hakasça çarpıcı:</b> 259 bin cümlelik gerçek korpus var ama FST yalnız <b>%28</b> tanıyor — çünkü sözlüğünde 546 isim/15 fiil; metin var, motor henüz işleyemiyor. <b>İşte projenin sebebi bu.</b> Kalan 8 dil (Çuvaşça/Sahaca + 6 düşük-kaynaklı) için Leipzig kaynağı bu ortamdan bağlantı-engelli — ayrı indirme oturumu, şimdilik boş, gizlenmiyor.</div>\n'
+        '          <div><b>Kapsam (⑤).</b> Gerçek metinde tanıma oranı — <b>20 dilin tamamı ölçüldü</b> (FLORES temiz çevirisi; düşük-kaynaklı diller HF açık korpus / fineweb-2). Çoğu dil <b>%80–94</b>; Çuvaşça (çekirdek) %88. En dipte <b>Altayca %33</b> ve <b>Hakasça %28</b>: gerçek metin var ama FST sözlüğü iskelet (Altayca 188 isim, Hakasça 15 fiil) — kelimelerin çoğunu tanıyamıyor. <b>İşte projenin sebebi tam burada görünür:</b> dil yaşıyor, dijital motoru henüz yetişemiyor. Düşük tanıma ① (küçük sözlük) ile birebir tutarlı, motorun değil sözlüğün eksikliği.</div>\n'
         '        </div>\n'
         '        <div style="margin-top:14px;font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;line-height:1.6">Kaynak: sözlük = <b>lexicon_count.py</b> (apertium .lexc, GPL-3.0) · tutarlılık = <b>segment_eval.py</b> · doğruluk = <b>unimorph_eval.py</b> (UniMorph 4.0) + <b>ud_eval.py</b> (UD treebank) · kapsam = <b>flores_coverage.py</b> (FLORES-200, CC-BY-SA) + <b>corpus_coverage.py</b> (HF açık korpus) · olgunluk = apertium/turkicnlp catalog · canlı Apertium FST. Ölçüm: 29 Haz 2026. Betikler depoda, tekrar-üretilebilir.</div>\n'
         '      </section>\n'

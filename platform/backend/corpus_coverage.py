@@ -9,7 +9,14 @@ Kaynaklar: nog = HF ansarzeinulla/Nogai-Unified-Corpus-v1 (CC-BY-NC) · kjh = HF
 import hfst, glob, os, re, sys, json
 sys.stdout.reconfigure(encoding="utf-8")
 BASE = os.path.expanduser("~/.turkicnlp/models")
-JOBS = {"nog": ("/root/cov_nog.txt", "HF Nogai-Unified"), "kjh": ("/root/cov_kjh.txt", "HF khakas-monolingual")}
+# /root/cov_<lang>.txt dosyalarını otomatik bul; kaynak etiketleri:
+SRC = {"nog": "HF·Nogai-Unified", "kjh": "HF·khakas-mono", "chv": "HF·chuvash_mono",
+       "kaa": "HF·karakalpak", "sah": "fineweb-2", "alt": "fineweb-2", "gag": "fineweb-2",
+       "kum": "fineweb-2", "krc": "fineweb-2", "tyv": "fineweb-2"}
+JOBS = {}
+for _f in __import__("glob").glob("/root/cov_*.txt"):
+    _l = os.path.basename(_f)[4:-4]
+    JOBS[_l] = (_f, SRC.get(_l, "HF"))
 
 
 def analyzer(lang):

@@ -764,7 +764,6 @@ def main():
         '        <div style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">TÜRK DÜNYASI DİL ATLASI</div>\n'
         '        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin:6px 0 2px">\n'
         '          <h2 style="font-family:\'Spectral\',serif;font-weight:600;font-size:36px;margin:0">Türk dilleri haritası</h2>\n'
-        '          <button onClick="{{ goCompareMap }}" style="cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.18);border-radius:9px;padding:8px 14px;font-size:13px;font-family:inherit;color:#211d17">← Karşılaştır</button>\n'
         '        </div>\n'
         '        <p style="font-size:14.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 4px">Türk dillerinin coğrafi dağılımı; denizler, dağlar ve nehirlerle birlikte. Üstten bir bölge seçin ya da +/− ile yakınlaştırıp haritayı sürükleyerek gezin. Ölü ve tarihsel diller içi boş halkayla, eğik yazıyla gösterilir.</p>\n'
         + region_row + '\n'
@@ -787,7 +786,7 @@ def main():
     if "  active(){ return this.WORDS[this.state.activeWordId]; }" in html:
         html = html.replace("  active(){ return this.WORDS[this.state.activeWordId]; }",
             "  atlasPanStart(e){ const z=(this.state.atlasZoom||1); if(z<=1.01)return; const t=e.currentTarget; this._pan={x:e.clientX,y:e.clientY,cx:(this.state.atlasCx||50),cy:(this.state.atlasCy||45),w:(t&&t.clientWidth)||800,h:(t&&t.clientHeight)||500}; }\n"
-            "  atlasPanMove(e){ if(!this._pan)return; const z=(this.state.atlasZoom||1); const dx=e.clientX-this._pan.x, dy=e.clientY-this._pan.y; const cx=Math.max(8,Math.min(92,this._pan.cx - dx*100/(this._pan.w*z))); const cy=Math.max(8,Math.min(92,this._pan.cy - dy*100/(this._pan.h*z))); this.setState({atlasCx:cx,atlasCy:cy}); }\n"
+            "  atlasPanMove(e){ if(!this._pan)return; const z=(this.state.atlasZoom||1); const lo=50/z, hi=100-50/z; const dx=e.clientX-this._pan.x, dy=e.clientY-this._pan.y; const cx=Math.max(lo,Math.min(hi,this._pan.cx - dx*100/(this._pan.w*z))); const cy=Math.max(lo,Math.min(hi,this._pan.cy - dy*100/(this._pan.h*z))); this.setState({atlasCx:cx,atlasCy:cy}); }\n"
             "  atlasPanEnd(){ this._pan=null; }\n"
             "  active(){ return this.WORDS[this.state.activeWordId]; }", 1); natlas += 1
     # renderVals: isAtlas + go handler'ları (goCognate komşuluğuna)
@@ -799,7 +798,7 @@ def main():
         "      atlasWrapStyle:(()=>{ const z=S.atlasZoom||1, cx=S.atlasCx||50, cy=S.atlasCy||45; return `position:absolute;inset:0;transform-origin:0 0;transition:transform .3s ease;transform:scale(${z}) translate(${(50/z-cx).toFixed(2)}%, ${(50/z-cy).toFixed(2)}%)`; })(),\n"
         "      atlasZoomPct:'%'+Math.round((S.atlasZoom||1)*100),\n"
         "      atlasZoomIn:()=>this.setState(s=>({atlasZoom:Math.min(4,Math.round((((s.atlasZoom||1))+0.5)*10)/10)})),\n"
-        "      atlasZoomOut:()=>this.setState(s=>({atlasZoom:Math.max(1,Math.round((((s.atlasZoom||1))-0.5)*10)/10)})),\n"
+        "      atlasZoomOut:()=>this.setState(s=>{ const z=Math.max(1,Math.round((((s.atlasZoom||1))-0.5)*10)/10); return z<=1 ? {atlasZoom:1, atlasCx:50, atlasCy:45} : {atlasZoom:z}; }),\n"
         "      atlasRegions:[['Tüm dünya',1,50,45],['Anadolu–Kafkas',2.7,15,49],['İdil-Ural',2.7,23,26],['Orta Asya',2.4,37,45],['Batı Sibirya',2.3,53,28],['Doğu (Saha)',2.0,72,13]].map(rr=>{ const sel=Math.abs((S.atlasZoom||1)-rr[1])<0.05 && Math.abs((S.atlasCx||50)-rr[2])<0.6; return { label:rr[0], go:()=>this.setState({atlasZoom:rr[1],atlasCx:rr[2],atlasCy:rr[3]}), style:`cursor:pointer;border:1px solid ${sel?'#211d17':'rgba(33,29,23,.16)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#5f574b'};border-radius:14px;padding:5px 12px;font-size:12px;font-family:'IBM Plex Sans',sans-serif;font-weight:${sel?600:500}` }; }),", 1)
     # atlas state alanları
     html = html.replace("    compareTab: 'rows',", "    compareTab: 'rows', atlasZoom:1, atlasCx:50, atlasCy:45,", 1)

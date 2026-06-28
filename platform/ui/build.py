@@ -691,7 +691,7 @@ def main():
         helper = (
             "class Component extends DCLogic {\n"
             "  KOKEN_API = '%s';\n"
-            "  LIVE_LN = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça'};\n"
+            "  LIVE_LN = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça',tuk:'Türkmence',crh:'Kırım Tatarca',gag:'Gagavuzca',kaa:'Karakalpakça',alt:'Altayca',kjh:'Hakasça',krc:'Karaçay-Balkar',kum:'Kumukça',nog:'Nogayca',tyv:'Tuvaca'};\n"
             "  apiWordFrom(lg, word, analyses){\n"
             "    const TT = {n:'kök',v:'kök',pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',fut:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};\n"
             "    const a = (analyses && analyses[0]) || null;\n"
@@ -1575,7 +1575,7 @@ def main():
         "    const freeRows = (isFree && posF==='noun' && hasNounF) ? F.rows.map(r=>({ caseLabel:r.case_tr, tag:(r.case||'').toUpperCase(), sg:cF(r.sg), pl:cF(r.pl), trSg:'', trPl:'' })) : null;\n"
         "    const verbBlocks = (isFree && posF==='verb' && hasVerbF) ? F.verb.map(b=>({ tense:b.tense, cells:b.cells.map(c=>({ person:c.person, surface:c.surface?this.disp(c.surface):'—' })) })) : null;\n"
         "    const posTabs = isFree ? [['noun','İsim çekimi',hasNounF],['verb','Fiil çekimi',hasVerbF]].filter(t=>t[2]).map(t=>({ label:t[1], go:()=>this.setState({paradigmPos:t[0]}), style:`cursor:pointer;border:none;border-radius:8px;padding:8px 15px;font-size:13px;font-weight:600;font-family:inherit;background:${posF===t[0]?'#211d17':'transparent'};color:${posF===t[0]?'#f4f1ea':'#5f574b'}` })) : [];\n"
-        "    const LNp = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça'};\n"
+        "    const LNp = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça',tuk:'Türkmence',crh:'Kırım Tatarca',gag:'Gagavuzca',kaa:'Karakalpakça',alt:'Altayca',kjh:'Hakasça',krc:'Karaçay-Balkar',kum:'Kumukça',nog:'Nogayca',tyv:'Tuvaca'};\n"
         "    return { paradigmRoots:roots, paradigmIsVerb:isVerb && !isFree, paradigmIsNoun: isFree ? (posF==='noun') : !isVerb, paradigmIsVerbView: isFree && posF==='verb', paradigmRows: freeRows||rows, paradigmVerbBlocks: verbBlocks||[], paradigmPosTabs: posTabs, paradigmHasPosTabs: posTabs.length>1,\n"
         "      paradigmTitle: isFree ? this.disp(F.lemma) : this.disp(p.root, p.rootLat),\n"
         "      paradigmGloss: isFree ? ('· '+F.langName) : `“${p.gloss}”`,\n"
@@ -1660,7 +1660,9 @@ def main():
     # ============================================================
     sel_langs = [("chv", "Çuvaşça"), ("tur", "Türkçe"), ("aze", "Azerice"), ("kaz", "Kazakça"),
                  ("kir", "Kırgızca"), ("uzb", "Özbekçe"), ("uig", "Uygurca"), ("tat", "Tatarca"),
-                 ("bak", "Başkurtça"), ("sah", "Yakutça")]
+                 ("bak", "Başkurtça"), ("sah", "Yakutça"), ("tuk", "Türkmence"), ("crh", "Kırım Tatarca"),
+                 ("gag", "Gagavuzca"), ("kaa", "Karakalpakça"), ("alt", "Altayca"), ("kjh", "Hakasça"),
+                 ("krc", "Karaçay-Balkar"), ("kum", "Kumukça"), ("nog", "Nogayca"), ("tyv", "Tuvaca")]
     langopts = '<option value="auto">Otomatik (dil algıla)</option>' + \
                "".join(f'<option value="{c}">{n}</option>' for c, n in sel_langs)
     SELBOX = ('<select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" '
@@ -2696,7 +2698,9 @@ def main():
     # ============================================================
     GEN_LANGS = [("chv", "Çuvaşça"), ("tur", "Türkçe"), ("tat", "Tatarca"), ("bak", "Başkurtça"),
                  ("kaz", "Kazakça"), ("kir", "Kırgızca"), ("uzb", "Özbekçe"), ("uig", "Uygurca"),
-                 ("aze", "Azerice"), ("sah", "Yakutça")]
+                 ("aze", "Azerice"), ("sah", "Yakutça"), ("tuk", "Türkmence"), ("crh", "Kırım Tatarca"),
+                 ("gag", "Gagavuzca"), ("kaa", "Karakalpakça"), ("alt", "Altayca"), ("kjh", "Hakasça"),
+                 ("krc", "Karaçay-Balkar"), ("kum", "Kumukça"), ("nog", "Nogayca"), ("tyv", "Tuvaca")]
     genlangopts = "".join('<option value="%s">%s</option>' % (c, n) for c, n in GEN_LANGS)
     INPG = ("padding:11px 14px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;"
             "font-size:15px;font-family:inherit;color:#211d17;outline:none")
@@ -2776,7 +2780,8 @@ def main():
         "    let queries, recipe;\n"
         "    if((S.genPos||'n')==='n'){\n"
         "      const num=S.genNum||'sg', px=S.genPx||'', cs=S.genCase||'nom';\n"
-        "      queries=[lemma+'<n>'+(num==='pl'?'<pl>':'')+(px?('<'+px+'>'):'')+'<'+cs+'>'];\n"
+        "      const base=lemma+'<n>'+(num==='pl'?'<pl>':'')+(px?('<'+px+'>'):'');\n"
+        "      queries=(cs==='nom')?[base+'<nom>', base]:[base+'<'+cs+'>'];\n"
         "      recipe=['isim',(num==='pl'?'çokluk':''),(px?PT[px]:''),CT[cs]].filter(Boolean).join(' · ');\n"
         "    } else {\n"
         "      const tn=S.genTense||'past', pr=S.genPerson||'p1', vn=S.genVNum||'sg';\n"

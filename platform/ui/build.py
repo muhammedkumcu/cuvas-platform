@@ -998,10 +998,30 @@ def main():
     if 'transform:translate(-50%,-50%);background:#d98b4a;color:#211d17;border-radius:50%;width:88px;height:88px;' in html:
         html = html.replace('transform:translate(-50%,-50%);background:#d98b4a;color:#211d17;border-radius:50%;width:88px;height:88px;',
                             'transform:translate(-50%,-50%);background:#d98b4a;color:#211d17;border-radius:50%;width:104px;height:104px;', 1); ndeep += 1
-    # graf sütununu üste hizala (büyük graf + kısa SES NOTU paneli dengeli dursun)
+    # graf + SES NOTU paneli aynı yükseklikte (stretch) — panel grafa uyacak şekilde uzar
     html = html.replace('grid-template-columns:1fr 290px;gap:24px;margin-top:22px;align-items:center',
-                        'grid-template-columns:1fr 280px;gap:24px;margin-top:22px;align-items:start', 1)
-    print(f"  ds18 Kognat: ses-kuralı dökümü + proto-fit + tablo başlık + GRAF büyütme (tek halka): {ndeep}/5 yama")
+                        'grid-template-columns:1fr 300px;gap:24px;margin-top:22px;align-items:stretch', 1)
+    # SES NOTU paneli: flex-kolon + içine "Nasıl okunur" açıklaması (boş kalmasın, graf yüksekliğine dolsun)
+    html = html.replace('<div style="background:#211d17;color:#f4f1ea;border-radius:16px;padding:24px">',
+                        '<div style="background:#211d17;color:#f4f1ea;border-radius:16px;padding:24px;display:flex;flex-direction:column">', 1)
+    # legend bloğunun ardına NASIL OKUNUR açıklaması (kullanıcı: açıklama görünür olsun + panel dolsun)
+    html = html.replace(
+        '              <span style="display:inline-flex;align-items:center;gap:9px;font-size:12.5px"><span style="width:22px;height:0;border-top:1.5px solid rgba(244,241,234,.4)"></span>doğrudan kökteş</span>\n'
+        '            </div>',
+        '              <span style="display:inline-flex;align-items:center;gap:9px;font-size:12.5px"><span style="width:22px;height:0;border-top:1.5px solid rgba(244,241,234,.4)"></span>doğrudan kökteş</span>\n'
+        '            </div>\n'
+        '            <div style="margin-top:16px;padding-top:15px;border-top:1px solid rgba(244,241,234,.14);font-size:13px;line-height:1.62;color:rgba(244,241,234,.86)">\n'
+        '              <div style="font-family:\'IBM Plex Mono\',monospace;font-size:10.5px;letter-spacing:1px;color:rgba(244,241,234,.5);margin-bottom:8px">NASIL OKUNUR</div>\n'
+        '              Ortadaki <b>Ana Türkçe kök</b>, çevresinde bu kökün bugünkü dillerdeki karşılıkları. <b style="color:#d98b4a">Turuncu kesik çizgi</b>, o dilin kavramı farklı bir kökten — yani <b>kognat boşluğundan</b> — karşıladığını gösterir. Bu kökteşler ve düzenli ses denklikleri, dillerin akrabalığını ortaya koyan <b>karşılaştırmalı yöntemin</b> temelidir.\n'
+        '            </div>', 1)
+    # "Ses denkliklerinde incele" butonu + kaynak alta itilsin (margin-top:auto)
+    html = html.replace(
+        '<button onClick="{{ goCompareSound }}" style="margin-top:18px;cursor:pointer;width:100%;background:#d98b4a;',
+        '<button onClick="{{ goCompareSound }}" style="margin-top:auto;cursor:pointer;width:100%;background:#d98b4a;', 1)
+    # Karşılaştır "Harita" sekmesi → doğrudan tam atlas ekranı (kullanıcı: tek ekran, önizleme yok)
+    html = html.replace('      label, go:()=>this.setState({compareTab:id}),',
+                        "      label, go:()=> id==='map' ? this.setState({screen:'atlas'}) : this.setState({compareTab:id}),", 1)
+    print(f"  ds18 Kognat: dokum + proto-fit + tablo baslik + GRAF buyutme + SES NOTU dolu + Harita-sekme->atlas: {ndeep}/5")
 
     # ---- ds17: Ses denklikleri 4 Çuvaş-merkezli kural → 7 kol-izoglosu (Çuvaş-ötesi) ----
     nsl = 0

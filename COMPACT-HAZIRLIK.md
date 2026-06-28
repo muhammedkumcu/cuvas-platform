@@ -40,20 +40,23 @@
 
 ## 4) ŞU AN NEREDE KALDIK (28 Haz)
 
-**★ TÜM İNCELEME (R1-R8 + R6b) BİTTİ.** İnceleme notlarından doğan tüm fazlar tamam, push'lu, tree temiz:
-R5b-2 (47-dil kaynaklı demografi) · R5b-3 (Tarih ds20 zenginleştirme) · R-AÇIKLAMA (10 sayfa,
-doğal copy, üst "nasıl çalışır?" butonları kaldırıldı) · R6 (Kaynaklar gerçek atıflar) ·
-R6b (Tam kaynakça 50 künye + tıklanır link) · R7 (analiz MD'leri) · R8 (bu dosya).
+**★ İNCELEME (R1-R8 + R6b) + C2 BİTTİ.** Hepsi push'lu, tree temiz.
+İnceleme: R5b-2 (47-dil kaynaklı demografi) · R5b-3 (Tarih ds20) · R-AÇIKLAMA (10 sayfa doğal copy) ·
+R6/R6b (gerçek atıflar + 50 künye) · R7 (analiz MD) · R8.
+**C2 (28 Haz, commit c33ef49): Morfolojik ÜRETEÇ** — analizin tersi (kök+öznitelik→`/generate`→yüzey+`/segment`
+morfem dökümü; isim her dilde, fiil tv→iv; üretilemeyende dürüst boş). **+ KRİTİK REGRESYON ONARILDI:**
+HERO akıllı-arama runSearch'i değiştirince runParadigm/runCompare/applySegment TANIMSIZ kalmıştı (Paradigma/
+Karşılaştır çöküyordu) → anchor'lar kararlı noktalara taşındı, hepsi düzeldi (Preview'da doğrulandı).
 
-**SIRADAKİ = asıl mühendislik (Bölüm C):**
-- **C1** gerçek ses motoru (Piper/MMS/eSpeak + FastAPI router; VM gerekir)
-- **C2** morfolojik üretim arayüzü (`/generate` backend'de var, UI yok)
+**SIRADAKİ = Bölüm C kalanı:**
+- **C1** gerçek ses motoru (Piper/MMS/eSpeak + FastAPI router; VM gerekir; en büyük lokma)
 - **C3** ekosistem HfApi-CRON (metrik tazeleme)
 - Sonra **Bölüm D** (eğitim portalı + Saha/Şor "Dilin Kalbi" şablonu).
 - İnce iyileştirmeler: `platform/inceleme/sayfa-sayfa-analiz.md` öncelik özetinde.
+- **NOT:** VM uvicorn 28 Haz'da temiz restart edildi, `/generate` host'tan canlı. Canlı doğrulama için açık kalmalı (§2/§4.6).
 
 ## 5) COMPACT SONRASI YAZILACAK RESUME PROMPTU
 
-> **DEVAM.md §0 ★★★'ı oku (önce `COMPACT-HAZIRLIK.md`'ye de bak). İNCELEME (R1-R8) bitti; Bölüm C'den
-> başlıyoruz — C1 (gerçek ses motoru) / C2 (morfolojik üretim arayüzü) / C3 (ekosistem CRON) içinden
-> hangisinden başlayacağımızı planla, dürüstçe anlat ve onayımla devam et.**
+> **DEVAM.md §0 ★★★'ı oku (önce `COMPACT-HAZIRLIK.md`'ye de bak). İNCELEME (R1-R8) + C2 (üreteç) bitti;
+> Bölüm C kalanından devam — C1 (gerçek ses motoru) / C3 (ekosistem CRON) içinden hangisinden
+> başlayacağımızı planla, dürüstçe anlat ve onayımla devam et. (C1 VM+TTS altyapısı gerektirir, daha büyük.)**

@@ -41,8 +41,9 @@
 ## 4) ŞU AN NEREDE KALDIK (28 Haz)
 
 **★ TÜM İNCELEME (R1-R8 + R6b) BİTTİ.** İnceleme notlarından doğan tüm fazlar tamam, push'lu, tree temiz:
-R5b-2 (47-dil kaynaklı demografi) · R5b-3 (Tarih ds20 zenginleştirme) · R-AÇIKLAMA (9 sayfa) ·
-R6 (Kaynaklar gerçek atıflar) · R6b (Tam kaynakça 50 künye + link) · R7 (analiz MD'leri) · R8 (bu dosya).
+R5b-2 (47-dil kaynaklı demografi) · R5b-3 (Tarih ds20 zenginleştirme) · R-AÇIKLAMA (10 sayfa,
+doğal copy, üst "nasıl çalışır?" butonları kaldırıldı) · R6 (Kaynaklar gerçek atıflar) ·
+R6b (Tam kaynakça 50 künye + tıklanır link) · R7 (analiz MD'leri) · R8 (bu dosya).
 
 **SIRADAKİ = asıl mühendislik (Bölüm C):**
 - **C1** gerçek ses motoru (Piper/MMS/eSpeak + FastAPI router; VM gerekir)

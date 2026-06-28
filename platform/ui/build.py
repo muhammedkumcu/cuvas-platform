@@ -692,6 +692,12 @@ def main():
             "class Component extends DCLogic {\n"
             "  KOKEN_API = '%s';\n"
             "  LIVE_LN = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça',tuk:'Türkmence',crh:'Kırım Tatarca',gag:'Gagavuzca',kaa:'Karakalpakça',alt:'Altayca',kjh:'Hakasça',krc:'Karaçay-Balkar',kum:'Kumukça',nog:'Nogayca',tyv:'Tuvaca'};\n"
+            # U1 — her dilin GEÇERLİ hâl envanteri (feature_probe.py, FST'den): Çuvaşça acc yok, Sahaca gen/loc yok…
+            "  FEATCASE = {tur:['nom','gen','dat','acc','loc','abl','ins'],aze:['nom','gen','dat','acc','loc','abl','ins'],kaz:['nom','gen','dat','acc','loc','abl','ins'],kir:['nom','gen','dat','acc','loc','abl'],uzb:['nom','gen','dat','acc','loc','abl'],uig:['nom','gen','dat','acc','loc','abl'],tat:['nom','gen','dat','acc','loc','abl'],bak:['nom','gen','dat','acc','loc','abl'],chv:['nom','gen','dat','loc','abl','ins'],sah:['nom','dat','acc','abl','ins'],tuk:['nom','gen','dat','acc','loc','abl'],crh:['nom','gen','dat','acc','loc','abl','ins'],gag:['nom','gen','dat','acc','loc','abl','ins'],kaa:['nom','gen','dat','acc','loc','abl','ins'],alt:['nom','gen','dat','acc','loc','abl','ins'],kjh:['nom','gen','dat','acc','loc','abl','ins'],krc:['nom','gen','dat','acc','loc','abl'],kum:['nom','gen','dat','acc','loc','abl'],nog:['nom','gen','dat','acc','loc','abl'],tyv:['nom','gen','dat','acc','loc','abl']};\n"
+            # G2 — kalite meta (Kalite & Kapsam sayfasından): [tier, round-trip%, kapsam% | null]
+            "  QMETA = {tur:['production',94.8,90.3],kaz:['production',95.2,93.4],tat:['production',95.2,94.3],aze:['stable',95.2,35.1],kir:['stable',95.2,88.3],uzb:['stable',95.2,81.2],bak:['beta',95.2,87.0],chv:['beta',94.4,null],crh:['beta',95.2,84.5],tuk:['beta',95.2,64.1],uig:['beta',94.2,86.5],sah:['prototype',92.6,null],alt:['prototype',94.1,null],gag:['prototype',95.2,null],kaa:['prototype',95.2,null],kjh:['prototype',95.0,28.6],krc:['prototype',95.2,null],kum:['prototype',95.2,null],nog:['prototype',95.2,70.6],tyv:['prototype',95.2,null]};\n"
+            "  QTIER = {production:['üretim','#3f8a5c'],stable:['kararlı','#2f7f8a'],beta:['beta','#c08a3a'],prototype:['prototip','#9a8f82']};\n"
+            "  qBadge(code){const m=this.QMETA[code]; if(!m)return null; const t=this.QTIER[m[0]]; return {tier:t[0], col:t[1], r:m[1], c:m[2], ln:(this.LIVE_LN[code]||code)};}\n"
             "  apiWordFrom(lg, word, analyses){\n"
             "    const TT = {n:'kök',v:'kök',pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',fut:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};\n"
             "    const a = (analyses && analyses[0]) || null;\n"
@@ -2829,7 +2835,11 @@ def main():
         "border-radius:9px;padding:8px 18px;font-size:13.5px;font-weight:600;font-family:inherit`})), "
         + CM("genNums", "[['sg','Tekil'],['pl','Çoğul']]", "genNum", "sg")
         + CM("genPxs", "[['','—'],['px1sg','+benim'],['px2sg','+senin'],['px3sp','+onun']]", "genPx", "")
-        + CM("genCases", "[['nom','Yalın'],['gen','İlgi'],['dat','Yönelme'],['acc','Belirtme'],['loc','Bulunma'],['abl','Ayrılma'],['ins','Araç']]", "genCase", "nom")
+        + ("genCases:[['nom','Yalın'],['gen','İlgi'],['dat','Yönelme'],['acc','Belirtme'],['loc','Bulunma'],['abl','Ayrılma'],['ins','Araç']]"
+           ".map(o=>{var ok=(this.FEATCASE[S.genLang||'chv']||[]).indexOf(o[0])>=0; var sel=((S.genCase||'nom')===o[0]); "
+           "return {label:o[1], go:()=>this.setState({genCase:o[0]}), title:(ok?'':'bu dilde bu hâl yok'), "
+           "style:`cursor:${ok?'pointer':'not-allowed'};opacity:${ok?1:.3};border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.16)'};"
+           "background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:9px;padding:7px 13px;font-size:12.5px;font-family:inherit`};}), ")
         + CM("genTenses", "[['pres','Şimdiki/geniş'],['ifi','Görülen geçmiş'],['past','Geçmiş'],['fut','Gelecek'],['aor','Geniş'],['cond','Şart']]", "genTense", "past")
         + CM("genPersons", "[['p1','1. kişi'],['p2','2. kişi'],['p3','3. kişi']]", "genPerson", "p1")
         + CM("genVNums", "[['sg','Tekil'],['pl','Çoğul']]", "genVNum", "sg")
@@ -3034,6 +3044,40 @@ def main():
     if "isAbout:S.screen==='about'," in html:
         html = html.replace("isAbout:S.screen==='about',", "isAbout:S.screen==='about', isQuality:S.screen==='quality',", 1); ng1v = 1
     print(f"  G1 KALITE & KAPSAM sayfasi: ekran={ng1} nav={ng1nav} renderVals={ng1v} ({len(QUALITY_DATA)} dil)")
+
+    # ============================================================
+    #  G2 (mini kalite rozeti → Kalite & Kapsam) + U2 (round-trip köprüsü: Üreteç sonucu → Analiz)
+    # ============================================================
+    g2v = ("isQuality:S.screen==='quality', goQuality:()=>this.setState({screen:'quality'}), "
+           "qbUretec:this.qBadge(S.genLang||'chv'), "
+           "qbActive:(()=>{var lg=S.screen==='generate'?(S.genLang||'chv'):(S.screen==='paradigm'?((S.paradigmFree&&S.paradigmFree.lang)||''):(S.apiMatchLang||((S.searchLang&&S.searchLang!=='auto')?S.searchLang:''))); return lg?this.qBadge(lg):null;})(), "
+           "analyzeGenForm:()=>{const r=S.genResult; if(r&&r.form){this.setState({query:r.form,searchLang:S.genLang||'chv'}); setTimeout(()=>this.runAnalyze(),0);}}, ")
+    ng2v = 0
+    if "isQuality:S.screen==='quality'," in html:
+        html = html.replace("isQuality:S.screen==='quality',", g2v, 1); ng2v += 1
+
+    def _qchip(field):
+        return ('<sc-if value="{{ ' + field + ' }}" hint-placeholder-val="{{ false }}">'
+                '<button onClick="{{ goQuality }}" title="Bu motorun olculmus kalitesi" '
+                'style="cursor:pointer;display:inline-flex;align-items:center;gap:7px;background:#fbfaf6;border:1px solid rgba(33,29,23,.14);'
+                'border-radius:20px;padding:6px 13px;font-size:11.5px;font-family:inherit;color:#5f574b">'
+                "<span style=\"font-family:'IBM Plex Mono',monospace;color:#9a9082;font-size:10px;letter-spacing:.5px\">KALİTE</span> "
+                '{{ ' + field + '.tier }} · round-trip %{{ ' + field + '.r }} <span style="color:#d98b4a">↗ Kalite &amp; Kapsam</span></button></sc-if>')
+    # SELBOX yanına rozet (Analiz/Paradigma/Karşılaştır hepsi SELBOX kullanır)
+    nchip = html.count(SELBOX)
+    if nchip:
+        html = html.replace(SELBOX, SELBOX + "\n          " + _qchip("qbActive"))
+    # Üreteç: round-trip butonu (result card, genQuery'den sonra)
+    gq = "<div style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(244,241,234,.45)\">{{ genQuery }}</div>\n"
+    nrt = 0
+    if gq in html:
+        html = html.replace(gq, gq + '          <button onClick="{{ analyzeGenForm }}" style="cursor:pointer;margin-top:14px;background:rgba(244,241,234,.12);color:#f4f1ea;border:1px solid rgba(244,241,234,.28);border-radius:9px;padding:8px 16px;font-size:13px;font-family:inherit">↻ Bu biçimi analiz et</button>\n', 1); nrt = 1
+    # Üreteç: kalite rozeti (intro'dan sonra)
+    gi = "doğru yüzey biçimini senin için kursun.</p>\n"
+    nub = 0
+    if gi in html:
+        html = html.replace(gi, gi + '        <div style="margin-top:12px">' + _qchip("qbUretec") + '</div>\n', 1); nub = 1
+    print(f"  G2 rozet (SELBOX={nchip}) + U2 round-trip (uretec={nrt}) + rozet(uretec={nub}) + renderVals={ng2v}")
 
     # ── R-AÇIKLAMA: her sayfaya "Bu sayfa ne anlatıyor?" bölümü (Kognat'taki desenin aynısı) ──
     # nedir / neyi gösterir / neden önemli + kaynak satırı. Doğal Türkçe; ekranın <section> kapanışından önce girer.

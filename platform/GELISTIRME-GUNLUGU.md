@@ -260,6 +260,19 @@ Bug + dil-kapsamı + **ölçüm** üçlüsü. Felsefe: 3 eksen AYRI (tutarlılı
 
 **G1 (gösterim):** "Kalite & Kapsam" sayfası (ARAŞTIR navı) — 20 dil × 3 eksen tablo (tutarlılık round-trip / doğruluk UniMorph / olgunluk tier) + renkli tier rozetleri + dürüst boşluk notları + kaynak/tarih/betik. Araştırmacının "bu ciddi mi" sorusuna doğrudan kaynaklı cevap. *(commit'ler: B1=0d92be3, E2=4800da1, E4=a0ab150, E5=3292f8e, T1=d744c77, ds21=cf8fc43, G1=9044c06.)* **SIRADAKİ:** T4 (Leipzig/CV koştur → kapsam% + lemma alt-sınır) · T2 (UD) · G2 (mini rozet) · U1/U2 (üreteç-dinamik+çapraz-link).
 
+## EK-OTURUM (29 Haz, devam-23) — Kalite & Kapsam DERİNLEŞTİRME: kesin sözlük + UD + FLORES + 5-eksen G1
+Kullanıcı titizlik istedi ("galiba/belirsiz/yıldız akademik platformda olmamalı; yazı-uyumsuz ikna etmiyor"). Hepsi çözüldü.
+
+**T3 yeniden (KESİN):** `lexicon_count.py` POS-adlı-lexicon yöntemi yalnız chv-tipini sayıyordu; kaz/uzb "yapı farklı", bak fiil=69K artefakt. **Continuation-sınıfı yöntemine** geçildi (her stem girişinin gittiği N1/V-TV/A1/ADV/NUM sınıfı → POS): hem chv hem giella UNIFORM. Ağırlık-toleranslı regex; eşlenmeyen sınıflar raporlanır (kesinlik). 20 dil **türüne göre** kesin: tur 28.6K isim/4.2K fiil, kaz 15.3K/4.9K, uzb 21.7K/6.6K, bak 58.5K/20.4K (69K artefakt çözüldü), Altayca 188 isim/44 fiil, Hakasça 15 fiil. Windows checkout veremiyor (büyük repo) → VM'de (Linux) klonla+say.
+
+**T2 (UD ikinci gold):** `ud_eval.py` — UD treebank gerçek-cümle doğruluğu. **uig UD Arap yazısında → UniMorph Latin↔Arap "yazı uyumsuz" ÇÖZÜLDÜ:** uig %97.4 lemma/%99.7 tanıma; kaz %99/%92; tur %97/%81. UniMorph (paradigma) + UD (cümle) = iki bağımsız gold.
+
+**tat çeviri denemesi (dürüst kanıt):** `tat_translit_test.py` — UniMorph tat Latin→Kiril çeviri + analiz: taninanlarda lemma %98 (tutarlı) ama tanıma %31 (çeviri+OOV karışık=kirli) → **sayı KOYULMADI**; "dış gold yok" ama artık kanıtlı.
+
+**T4 (FLORES kapsam):** `flores_coverage.py` — FLORES-200 (1012 sıfır-gürültü cümle), VM'de FST doğrudan (HTTP yok, hızlı). 10 dil kapsam(recall): **tat %94.3 (Cyrillic FLORES → tat çözüldü)**, kaz %93, tur %90, bak %87, uig %86, crh %85, uzb %81; **aze %35/tuk %64** (küçük sözlükle birebir tutarlı) + **farklı-lemma** (korpus-temelli kök sayısı). Diğer 10 dil FLORES'te yok → Leipzig/HF sıradaki.
+
+**G1 5-EKSEN elden geçirme:** Sözlük (tıkla-aç native `<details>` tam POS dökümü, tablo bozulmaz) · Tutarlılık · Doğruluk (UniMorph+UD; "lemma=kökü doğru buldu mu / tanıma=kelimeyi tanıdı mı" TANIMI eksen kutusunda) · Olgunluk · Kapsam (FLORES). "Bu tabloyu nasıl okumalı?" 5-maddeli açıklama. 1180px, 5 sütun. **Çerçeve:** doğruluk gold'a, kapsam korpusa karşı; düşük sayı çoğu zaman sözlük olgunluğu, motor hatası değil. **GELECEK-PLANLAR'a:** OOV→CC0, tam-etiket doğruluk (T5), apertium katkı, paper (ne+ne zaman). *(commit'ler: T1=d744c77, E5=3292f8e, ds21=cf8fc43, G1=9044c06, beab50e[T2/T3-redo], d8f9685[G1-overhaul], 95d97b0[T4], 40a7ecd[kapsam-sütun], 57df40a[tat].)* **SIRADAKİ:** G2 mini rozet · U1 üreteç dile-duyarlı · U2 çapraz-link.
+
 ## Sıradaki / açık işler — bkz `plan/GELECEK-PLANLAR.md` (sıralı: A UI-öncesi · B yatay ölçek · C altyapı · D eğitim portalı)
 1. **YATAY ÖLÇEK (★ SIRADAKİ):** UI cilası (Bölüm A) **✅ bitti** (26 Haz). Deepsearch 11-18 çıktıları geldi (`arastirma/11..18*.pdf`) → locale çek (pdfminer→`_*.txt`), çapraz-kontrol, tüm modülleri tüm dillere aç (A1 taksonomi+COG_CONC genişlet, profiller 14→tüm, harita/uzaklık/ses-denklikleri/ekosistem ölçekle).
 2. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.

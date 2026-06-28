@@ -38,13 +38,18 @@
 - **E5 ✅** round-trip eval 20 dile (`segment_eval.py` + nom-retry + seed havuzları): **19 dil align %100, yeniden-üretim %92.6–95.2**; Türkmen align %0 = metrik artefaktı (bare-nom → cumulative/fallback; yeniden-üretim yine %95.2). commit 3292f8e.
 - **T1 ✅** UniMorph dış-gold DOĞRULUK harness (`unimorph_eval.py`, N=1500, tag-eşlemesiz lemma+tanıma metriği). **Sonuç (kararlı, N=400≈N=1500):** lemma-doğruluk sah/uzb **100** · bak 99.6 · kaz 99.7 · tur 96.4 · aze 91.1 — **FST çözdüğünde DOĞRU**; tanıma% lexicon+yazı-bağlı (sah 97/bak 92/kaz 80/tur 63/uzb 64/aze 11). Boşluk: chv UniMorph yok, tat/uig yazı uyumsuz, kir/uig gold yalnız fiil. commit d744c77.
 - **T4-prompt ✅ + ÇIKTI GELDİ:** `arastirma/21-korpus-kaynak-haritasi.prompt.md` → kullanıcı çalıştırdı → `_korpus21.txt` (26 sf). **Plan:** Leipzig 10K omurga (eşit-boyut recall, CC-BY) + Common Voice CC0 (OOV açık katkı) + 6 kıtlık dili FLORES-200 (1012 cümle sıfır-gürültü) + apertium repo metinleri. Her dil için en iyi korpus matrisi var. commit cf8fc43.
-- **G1 ✅** "Kalite & Kapsam" sayfası (ARAŞTIR navı): 20 dil × **3 EKSEN AYRI** (Tutarlılık/Doğruluk/Olgunluk) tablo + renkli tier rozetleri + dürüst boşluk notları ("gold yok"/"yazı uyumsuz") + kaynak/tarih/betik. commit 9044c06. Preview doğrulandı.
+- **G1 ✅ + ELDEN GEÇİRİLDİ** "Kalite & Kapsam" sayfası (ARAŞTIR navı): 20 dil × **5 EKSEN** (Sözlük·Tutarlılık·Doğruluk·Olgunluk·Kapsam). commit 9044c06 → d8f9685 → 40a7ecd.
+- **T3 ✅ (yeniden, KESİN)** `lexicon_count.py` **continuation-sınıfı** yöntemi (N1/V-TV/A1/ADV/NUM): hem chv-tipi hem kaz/uzb **giella** yapısını UNIFORM sayar → 20 dil **türüne göre** kök sayısı (isim/fiil/sıfat/zarf/özel ad/sayı), artefakt yok ("yapı farklı"/bak-69K çözüldü). G1'de **tıkla-aç `<details>`** tam POS dökümü (tablo bozulmaz). Uçurum: tur 37.6K içerik kökü → Altayca **282**, Hakasça 15 fiil. commit beab50e/d8f9685.
+- **T2 ✅** UD treebank GERÇEK-CÜMLE doğruluğu (`ud_eval.py`): **uig UD-Arap ile "yazı uyumsuz" ÇÖZÜLDÜ** (%97.4 lemma · %99.7 tanıma); kaz %99/%92, tur %97/%81. G1 doğruluk = **çift gold** (UniMorph paradigma + UD cümle). commit beab50e.
+- **T4 ✅ (kısmi)** korpus KAPSAMI (`flores_coverage.py`, FLORES-200 1012 cümle, VM'de FST doğrudan): **10 dil** — tat **%94.3** (Cyrillic FLORES → tat çözüldü!), kaz %93, tur %90, bak %87, uig %86; aze %35/tuk %64 (küçük sözlükle tutarlı) + **farklı-lemma** (korpus-temelli T3 alt-sınırı). G1'e KAPSAM 5. sütun. Diğer 10 dil (chv/sah/düşük-kaynaklı) FLORES'te yok → Leipzig/HF sıradaki. commit 95d97b0/40a7ecd.
+- **G1 tanım/açıklama ✅:** lemma/tanıma TANIMI eksen kutusunda; "Bu tabloyu nasıl okumalı?" detaylı; tat çevirisi DENENDİ (lemma %98/tanıma %31 kirli → sayı koyulmadı, kanıt commit'li `tat_translit_test.py`).
 
-**⏳ SIRADAKİ (morfoloji planı devam) — BURADAN DEVAM:**
-- **T4** korpus kapsamı: `_korpus21.txt` planına göre Leipzig 10K (eşit-boyut recall) + Common Voice CC0 indir/koştur → her dil **kapsam (recall) %** + **T3'e bağlı**: tanınan farklı lemma sayısı (alt-sınır; apertium lexc lemma-sayımı heterojen-format ayrı iş, uydurma yok). G1'e "kapsam" sütunu ekle.
-- **T2** UD KAPSAM (recall) — yerel 3 dil (tur/kaz/uig) + indirilebilir.
-- **G2** sayfa-içi mini rozetler (Analiz/Paradigma/Üreteç) → G1'e link.
-- **U:** **U1** Üreteç dile-duyarlı seçenekler (E3'ten; nom-retry başladı) · **U2** Analiz↔Üreteç↔Paradigma çapraz-link + round-trip köprüsü.
+**⏳ SIRADAKİ (morfoloji planı son adımlar) — BURADAN DEVAM:**
+- **G2** sayfa-içi mini kalite rozetleri (Analiz/Paradigma/Üreteç → G1'e link; QMETA tier+round-trip+kapsam).
+- **U1** Üreteç dile-duyarlı seçenekler (E3: her dilin FST'den geçerli hâl/iyelik/zaman envanteri; nom-retry başladı).
+- **U2** Analiz↔Üreteç↔Paradigma çapraz-link + round-trip köprüsü (Üreteç sonucu→"bu biçimi analiz et").
+- **T4 kalanı** (opsiyonel): chv + 9 düşük-kaynaklı dil için Leipzig 10K / HF (adeshkin-kjh, nog-Unified, crh-QIRIM) → kapsam tamamla.
+- **GELECEK-PLANLAR'a eklendi:** OOV→CC0 açık veri (T4 Common Voice) · tam-etiket doğruluğu (T5) · apertium'a geri katkı · paper (20 FST birleşik değerlendirme).
 - **ÇERÇEVE (felsefe, paradokssuz):** 3 eksen AYRI — Tutarlılık (round-trip, FST-oracle) ≠ Doğruluk (UniMorph/UD insan-gold) ≠ Kapsam (korpus recall). "FST bilmiyor"=kapsam boşluğu, hata değil; prototype FST düşük skor=olgunluk, bizim hatamız değil. Her metrik = commit'li betik + tarih + kaynak. Diller-özelinde test (yazı: uig Arap; hâl envanteri farklı; UniMorph etiketi dile-özel). Apertium-ham vs bizim-API gelişim metriği → GELECEK-PLANLAR (paper, sonra).
 - **★ BÖLÜM C kalanı (morfoloji planından SONRA):** C1 gerçek ses motoru (Piper/MMS/eSpeak+FastAPI; VM; en büyük lokma) · C3 Ekosistem HfApi-CRON.
 - **BÖLÜM D — EN SON:** çocuk/öğrenci eğitim portalı (Çuvaşça Atölyesi gerçek içerik) + Saha/Şor "Dilin Kalbi" şablonu.

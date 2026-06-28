@@ -50,6 +50,19 @@
 
 ---
 
+## ★ İNCELEME NOTLARI (kullanıcı, 28 Haz) — UI cila + içerik fazları
+Kullanıcı ayrıntılı sayfa-sayfa inceleme yaptı. İşlenenler ve sıralı kalan:
+- **R1-R4 ✅ (28 Haz):** net metin/UI düzeltmeleri · ana sayfa HERO + akıllı arama · konuşur-yılı kaldırma · **Harita** (tek boyut, ölü diller gri çerçevesiz nokta, sürükle-pan, Büyük-atlas butonu kaldırıldı, temiz başlık) · **Kognat** (alfabetik, büyük graf+merkez, ≤26 düğüm tek halka [deep 0 çakışma], broad 2-halka, proto-fit, tablo başlıkları, "Bu sayfa ne anlatıyor?" açıklaması) · **Karşılaştır** (gereksiz kaynak kaldırıldı, soy ağacı "nasıl okunur") · **Uzaklık** (taban/karşılaştırılan yan yana kaydırmalı).
+- **★ R-AÇIKLAMA (yeni faz):** **HER SAYFAYA** "bu nedir / neyi gösterir / neden önemli" kaynaklı açıklama bölümü (meraklı öğrenenler için). Kognat'ta örnek/desen yapıldı (28 Haz); kalan: Harita, Profiller, Tarih, Karşılaştır, Uzaklık, Ekosistem, Analiz, Paradigma, Çuvaşça Kalbi. Her biri kaynaklarımızdan, uydurmasız.
+- **R5a ✅:** 2 deepsearch promptu (19 az-belgeli diller + 20 tarih). **Sonuçlar geldi** (`19/20*.pdf`).
+- **⏳ R5b:** içerik zenginleştirme — ds19/ds20'yi işle (ölü diller derin profil, zaman çizelgesi, ses-yasası detay) + tüm PDF/verilerde yazılmamış detayları çıkar, plan sun.
+- **⏳ R6:** Kaynaklar overhaul — "deepsearch" yerine **gerçek kaynaklar** (her ds PDF'inin içindeki atıflar); Kaynaklar sayfasını katmanlı genişlet.
+- **⏳ R7:** analiz MD'leri — inceleme-yöntemi.md (kullanıcı tarzı) + sayfa-sayfa analiz (Morfoloji/Paradigma dahil, kullanıcının bakmadıkları).
+- **⏳ R8 (en son):** tüm MD + DEVAM.md dikkatli güncelleme + compact-sonrası resume promptu.
+- **Bekleyen kararlar:** isim/domain (ertelendi; müsait .com: kokence/getkoken/kokenatlas/sazlir/lirturk).
+
+---
+
 ## BÖLÜM C — ALTYAPI (ayrı mühendislik fazları)
 - **C1 · Gerçek ses motoru (TTS/ASR):** "▷ Seslendir" şu an tarayıcı Web Speech'e düşüyor. Deepsearch 6'nın önerdiği **Dinamik Hibrit Yönlendirme**: tr/kaz → sunucu Piper (ONNX); uzb/uig/sah → HF Inference API (MMS-TTS, ön-işlem Latin→Kiril/num2words); chv/bak → tarayıcı eSpeak NG (WASM). FastAPI router. ASR telaffuz kontrolü yalnız tr/kaz (Whisper).
 - **C2 · Morfolojik ÜRETİM (kullanıcı notu):** Üretim ucu (`/generate`) var ama UI'da öne çıkmıyor; tam bir "kök + etiket → form üret" arayüzü gelecek planı.

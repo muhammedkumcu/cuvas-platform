@@ -387,14 +387,24 @@ def build_map_bg():
     land = (f"M -5 -5 L 105 -5 L 105 {_pj(148,60)[1]} " + seg(EAST) + seg(SOUTH)
             + f"L -5 {_pj(20,41)[1]} L -5 -5 Z")
     # iç denizler/göller: (boylam, enlem, boylam_açıklık°, enlem_açıklık°)
+    # +İstanbul Boğazı (su), +Ege/Akdeniz, +Kızıldeniz (güneydeki kanal/deniz) — kullanıcı isteği
     seas = [(34.5, 43.2, 13.0, 4.6), (50.5, 41.7, 7.0, 10.6), (59.5, 45.0, 3.2, 2.8),
-            (76.0, 45.7, 6.6, 1.4), (107.0, 53.6, 2.2, 4.4), (51.0, 28.7, 6.5, 3.0)]  # +Basra Körfezi
+            (76.0, 45.7, 6.6, 1.4), (107.0, 53.6, 2.2, 4.4), (51.0, 28.7, 6.5, 3.0),
+            (28.9, 41.0, 1.8, 3.0), (25.0, 37.8, 5.6, 5.2), (36.5, 22.0, 2.6, 15.0)]
     sea_svg = []
     for lon, lat, ws, hs in seas:
         cx, cy = _pj(lon, lat)
         rx, ry = round(ws / 2 * 0.7517, 2), round(hs / 2 * 1.6949, 2)
         sea_svg.append(f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" fill="url(#mSea)" '
                        f'stroke="#a6bdbf" stroke-width="0.7" vector-effect="non-scaling-stroke"/>')
+    # adalar (kara, suyun üstüne çizilir): Kıbrıs
+    islands = [(33.4, 35.0, 2.4, 1.3)]
+    isl_svg = []
+    for lon, lat, ws, hs in islands:
+        cx, cy = _pj(lon, lat)
+        rx, ry = round(ws / 2 * 0.7517, 2), round(hs / 2 * 1.6949, 2)
+        isl_svg.append(f'<ellipse cx="{cx}" cy="{cy}" rx="{rx}" ry="{ry}" fill="url(#mLand)" '
+                       f'stroke="#c2b393" stroke-width="0.6" vector-effect="non-scaling-stroke"/>')
     # önemli dağ sıraları (gerçek konum): (boylam1,enlem1, boylam2,enlem2, tepe-sayısı)
     ranges = [(40, 43.5, 48, 42, 3), (59, 52, 60.5, 61, 4), (72, 42, 84, 42.5, 5),
               (85, 49, 92, 51, 3), (67, 37, 75, 38, 3), (80, 35.5, 94, 36, 4)]
@@ -428,6 +438,7 @@ def build_map_bg():
             + '<g stroke="rgba(33,29,23,.07)" stroke-width="0.5" vector-effect="non-scaling-stroke">' + "".join(grat) + '</g>'
             + "".join(riv_svg)
             + "".join(sea_svg)
+            + "".join(isl_svg)
             + f'<path d="{" ".join(peaks)}" fill="none" stroke="#b7a378" stroke-width="0.7" stroke-linejoin="round" vector-effect="non-scaling-stroke" opacity="0.85"></path>'
             + '</svg>')
 
@@ -998,29 +1009,15 @@ def main():
     if 'transform:translate(-50%,-50%);background:#d98b4a;color:#211d17;border-radius:50%;width:88px;height:88px;' in html:
         html = html.replace('transform:translate(-50%,-50%);background:#d98b4a;color:#211d17;border-radius:50%;width:88px;height:88px;',
                             'transform:translate(-50%,-50%);background:#d98b4a;color:#211d17;border-radius:50%;width:104px;height:104px;', 1); ndeep += 1
-    # graf + SES NOTU paneli aynı yükseklikte (stretch) — panel grafa uyacak şekilde uzar
+    # SES NOTU paneli doğal yükseklikte (align-items:start) — NASIL OKUNUR açıklaması panelden ÇIKARILDI,
+    # kullanıcı isteğiyle üstteki "nasıl çalışır?" yardımına taşındı (aşağıda helpblk'e eklendi).
     html = html.replace('grid-template-columns:1fr 290px;gap:24px;margin-top:22px;align-items:center',
-                        'grid-template-columns:1fr 300px;gap:24px;margin-top:22px;align-items:stretch', 1)
-    # SES NOTU paneli: flex-kolon + içine "Nasıl okunur" açıklaması (boş kalmasın, graf yüksekliğine dolsun)
-    html = html.replace('<div style="background:#211d17;color:#f4f1ea;border-radius:16px;padding:24px">',
-                        '<div style="background:#211d17;color:#f4f1ea;border-radius:16px;padding:24px;display:flex;flex-direction:column">', 1)
-    # legend bloğunun ardına NASIL OKUNUR açıklaması (kullanıcı: açıklama görünür olsun + panel dolsun)
-    html = html.replace(
-        '              <span style="display:inline-flex;align-items:center;gap:9px;font-size:12.5px"><span style="width:22px;height:0;border-top:1.5px solid rgba(244,241,234,.4)"></span>doğrudan kökteş</span>\n'
-        '            </div>',
-        '              <span style="display:inline-flex;align-items:center;gap:9px;font-size:12.5px"><span style="width:22px;height:0;border-top:1.5px solid rgba(244,241,234,.4)"></span>doğrudan kökteş</span>\n'
-        '            </div>\n'
-        '            <div style="margin-top:16px;padding-top:15px;border-top:1px solid rgba(244,241,234,.14);font-size:13px;line-height:1.62;color:rgba(244,241,234,.86)">\n'
-        '              <div style="font-family:\'IBM Plex Mono\',monospace;font-size:10.5px;letter-spacing:1px;color:rgba(244,241,234,.5);margin-bottom:8px">NASIL OKUNUR</div>\n'
-        '              Ortadaki <b>Ana Türkçe kök</b>, çevresinde bu kökün bugünkü dillerdeki karşılıkları. <b style="color:#d98b4a">Turuncu kesik çizgi</b>, o dilin kavramı farklı bir kökten — yani <b>kognat boşluğundan</b> — karşıladığını gösterir. Bu kökteşler ve düzenli ses denklikleri, dillerin akrabalığını ortaya koyan <b>karşılaştırmalı yöntemin</b> temelidir.\n'
-        '            </div>', 1)
-    # "Ses denkliklerinde incele" butonu + kaynak alta itilsin (margin-top:auto)
-    html = html.replace(
-        '<button onClick="{{ goCompareSound }}" style="margin-top:18px;cursor:pointer;width:100%;background:#d98b4a;',
-        '<button onClick="{{ goCompareSound }}" style="margin-top:auto;cursor:pointer;width:100%;background:#d98b4a;', 1)
-    # Karşılaştır "Harita" sekmesi → doğrudan tam atlas ekranı (kullanıcı: tek ekran, önizleme yok)
-    html = html.replace('      label, go:()=>this.setState({compareTab:id}),',
-                        "      label, go:()=> id==='map' ? this.setState({screen:'atlas'}) : this.setState({compareTab:id}),", 1)
+                        'grid-template-columns:1fr 300px;gap:24px;margin-top:22px;align-items:start', 1)
+    # Karşılaştır harita SEKMESİ KALDIRILDI + atlas "← Karşılaştır" → Dizilim sekmesi (eski harita önizlemesi öldürüldü).
+    html = html.replace("    const compareTabs = [['rows','Dizilim'],['sound','Ses denklikleri'],['tree','Soy ağacı'],['map','Harita']]",
+                        "    const compareTabs = [['rows','Dizilim'],['sound','Ses denklikleri'],['tree','Soy ağacı']]", 1)
+    html = html.replace("goCompareMap:()=>this.setState({screen:'compare', compareTab:'map'}),",
+                        "goCompareMap:()=>this.setState({screen:'compare', compareTab:'rows'}),", 1)
     print(f"  ds18 Kognat: dokum + proto-fit + tablo baslik + GRAF buyutme + SES NOTU dolu + Harita-sekme->atlas: {ndeep}/5")
 
     # ---- ds17: Ses denklikleri 4 Çuvaş-merkezli kural → 7 kol-izoglosu (Çuvaş-ötesi) ----
@@ -1904,7 +1901,7 @@ def main():
     dfix2.append(("help cognate",
         '<p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:64ch;margin:0 0 12px">Ortak bir atadan gelen biçimler. Turuncu kesik çizgi, o dilde düzenli bir <strong>ses değişimi</strong> olduğunu gösterir — kök aynı, görünüş farklı.</p>',
         '<p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:64ch;margin:0 0 12px">Ortak bir atadan gelen biçimler. Turuncu kesik çizgi, o dilde düzenli bir <strong>ses değişimi</strong> olduğunu gösterir — kök aynı, görünüş farklı.</p>\n'
-        + helpblk('cognate', 'Buradaki köktaşlar <strong>canlı analiz değildir</strong>; <strong>SavelyevTurkic CLDF</strong> veri setinden (905 kognat seti, 254 kavram) seçilmiş hazır karşılaştırmalı veridir. Yazdığınız herhangi bir kelimenin kognatı otomatik üretilmez — kognat tespiti ayrı bir iştir. Şu an 14 kavram gösteriliyor; daha fazlası <strong>yatay ölçek</strong> aşamasında eklenecek.')))
+        + helpblk('cognate', '<strong>Nasıl okunur:</strong> Ortadaki daire, dilbilimcilerin yeniden kurduğu <strong>Ana Türkçe kök</strong>; çevresinde bu kökün bugünkü dillerdeki karşılıkları. Düz çizgi doğrudan kökteşi, <strong style="color:#b8602e">turuncu kesik çizgi</strong> ise o dilin kavramı farklı bir kökten — yani <strong>kognat boşluğundan</strong> — karşıladığını gösterir. <strong>Derin</strong> sekmesi 11 kavramı yerel yazı/IPA/ses kuralıyla, <strong>Geniş</strong> sekmesi Savelyev’in 254 kavramını gösterir. Bunlar küratörlü karşılaştırmalı veridir (canlı analiz değil); yazdığınız kelimenin kognatı otomatik üretilmez.')))
     dfix2.append(("help compare",
         '<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:8px">',
         helpblk('compare', 'Yazdığınız kelime, tüm MVP dillerinde Apertium ile <strong>anlık çözümlenir</strong> (/analyze_all) ve kök+ek dizilimi diller arası yan yana getirilir. “Ses denklikleri” sekmesi ise Çuvaşça↔Ortak Türkçe <strong>düzenli ses değişimlerini</strong> (küratörlü) gösterir.')

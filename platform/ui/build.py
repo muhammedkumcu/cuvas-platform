@@ -498,12 +498,15 @@ def main():
             changed.append(f"{code}/{iso}: egids='{egids}' vit={vit}")
 
     # Dil profili serbest-metin zenginleştirmesi ← lang_extra.json (Wikipedia, çapraz-kontrollü)
+    # Konuşur sayısındaki (YYYY) sayım yılları KALDIRILIR — master'daki 33 dilde yıl yok; tutarlılık için
+    # tümünden çıkarılır (rakamlar zaten "~" tahmin). Kaynaklı+yıllı zenginleştirme sonraki deepsearch'le gelir.
     nenrich = 0
     for code, e in extra.items():
         for field in ("speakers", "script", "note"):
             if field in e:
+                val = re.sub(r"\s*\([^)]*\d{4}[^)]*\)", "", e[field]).strip() if field == "speakers" else e[field]
                 pat = re.compile(r"(\{code:'" + re.escape(code) + r"',[^\n]*?" + field + r":)'[^']*'")
-                html, n = pat.subn(lambda m, v=e[field]: m.group(1) + json.dumps(v, ensure_ascii=False), html, count=1)
+                html, n = pat.subn(lambda m, v=val: m.group(1) + json.dumps(v, ensure_ascii=False), html, count=1)
                 nenrich += n
     # Derin dil profilleri (deepsearch 9.1–9.5) → DEEPPROF; profil ekranında bölümlü gösterilir
     deep = json.load(open(DATA / "profiles_deep.json", encoding="utf-8"))["deep"]
@@ -1064,7 +1067,7 @@ def main():
         html = html.replace(pf_ret_old, pf_ret_new, 1); npf += 1
     # (4) h2 stale "14 dil" → dinamik sayı + süzme ipucu
     pf_h2_old = '>14 dil · soldan kenar rengi = canlılık</h2>'
-    pf_h2_new = '>{{ profileTotal }} dil ve lehçe · ad ya da kola göre filtrele</h2>'
+    pf_h2_new = '>Türk dilleri ve canlılık durumları</h2>'
     if pf_h2_old in html:
         html = html.replace(pf_h2_old, pf_h2_new, 1); npf += 1
     # (5) markup: liste üstüne arama kutusu + kol çipleri (sabit), liste ayrı kaydırılır
@@ -1159,6 +1162,78 @@ def main():
     if geo3_old in html:
         html = html.replace(geo3_old, geo3_new, 1); nbr += 1
     print(f"  Kognat GENİŞ (Savelyev 254) lazy-fetch + Derin/Geniş toggle: {nbr}/12 yama")
+
+    # ---- Ana sayfa hero: akıllı arama (dil→profil, kavram→kognat, kelime→analiz) + hızlı eylemler ----
+    nhome = 0
+    # (1) runSearch'i akıllı yönlendiriciye çevir (eskiden yalnız 5 küratörlü kelimeyi buluyordu)
+    rs_old = ("  runSearch(){\n"
+              "    const q = (this.state.query||'').trim().toLowerCase();\n"
+              "    if (!q) return;\n"
+              "    for (const id in this.WORDS){ const w = this.WORDS[id];\n"
+              "      if ([w.gloss, w.surface, w.translit].some(s=>String(s).toLowerCase().includes(q))){\n"
+              "        this.setState({ screen:'analiz', activeWordId:id, selMorphIdx:0, stripCount:0 }); return; } }\n"
+              "  }")
+    rs_new = ("  runSearch(){\n"
+              "    const raw=(this.state.query||'').trim(); if(!raw) return; const n=s=>String(s||'').toLocaleLowerCase('tr'); const q=n(raw);\n"
+              "    const lp=(this.LANGPROFILE||[]); const lm=lp.find(l=>n(l.name)===q)||(q.length>=3&&lp.find(l=>n(l.name).startsWith(q)));\n"
+              "    if(lm){ this.setState({screen:'profile', profileSel:lm.code, profileQ:'', profileCat:'all'}); return; }\n"
+              "    const ce=Object.entries(this.COGNATES||{}); const cm=ce.find(([k,v])=>n(v.gloss)===q)||(q.length>=3&&ce.find(([k,v])=>n(v.gloss).startsWith(q)));\n"
+              "    if(cm){ this.setState({screen:'cognate', cognateMode:'deep', cognateKey:cm[0], cognateCat:'all', cognateQ:''}); return; }\n"
+              "    for(const id in this.WORDS){ const w=this.WORDS[id]; if([w.gloss,w.surface,w.translit].some(s=>n(s).includes(q))){ this.setState({screen:'analiz', activeWordId:id, selMorphIdx:0, stripCount:0}); return; } }\n"
+              "    this.setState({screen:'analiz'});\n"
+              "  }")
+    if rs_old in html:
+        html = html.replace(rs_old, rs_new, 1); nhome += 1
+    # (2) bağlam çubuğu arama placeholder'ı: kapsamı yansıt
+    if 'placeholder="Kelime ara, Enter’a bas — örn. okuduk, ormanda, kızlar…"' in html:
+        html = html.replace('placeholder="Kelime ara, Enter’a bas — örn. okuduk, ormanda, kızlar…"',
+                            'placeholder="Dil, kavram ya da kelime ara — Çuvaşça · göz · okuduk"', 1); nhome += 1
+    # (3) ana sayfaya belirgin hero arama + hızlı-eylem çipleri (giriş metninden sonra)
+    chip = ("cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:20px;"
+            "padding:8px 15px;font-size:13.5px;font-family:inherit;color:#211d17")
+    hero_anchor = ('        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px">\n'
+                   '          <sc-for list="{{ homeCards }}" as="c" hint-placeholder-count="3">')
+    hero_block = (
+        '        <div style="margin-top:32px;max-width:580px">\n'
+        '          <div style="position:relative">\n'
+        '            <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Dil, kavram ya da kelime ara — Çuvaşça · göz · okuduk" style="width:100%;padding:15px 16px 15px 48px;border:1.5px solid rgba(33,29,23,.18);border-radius:14px;background:#fff;font-size:16px;font-family:inherit;color:#211d17;outline:none;box-shadow:0 2px 12px rgba(33,29,23,.05)">\n'
+        '            <span style="position:absolute;left:18px;top:50%;transform:translateY(-50%);color:#9a9082;font-size:18px">⌕</span>\n'
+        '          </div>\n'
+        '          <div style="margin-top:13px;display:flex;gap:8px;flex-wrap:wrap">\n'
+        f'            <button onClick="{{{{ goHomeAnaliz }}}}" style="{chip}">Kelime çözümle</button>\n'
+        f'            <button onClick="{{{{ goHomeCompare }}}}" style="{chip}">Dilleri karşılaştır</button>\n'
+        f'            <button onClick="{{{{ goHomeProfile }}}}" style="{chip}">Dil profilleri</button>\n'
+        f'            <button onClick="{{{{ goHomeAtlas }}}}" style="{chip}">Harita</button>\n'
+        '          </div>\n'
+        '        </div>\n\n'
+        + hero_anchor)
+    if hero_anchor in html:
+        html = html.replace(hero_anchor, hero_block, 1); nhome += 1
+    # (4) "ÖRNEK SÖZCÜK" bloğunu kaldır → yerine sade öne-çıkan yönlendirme (Dilin Kalbi)
+    ornek_old = (
+        '        <div style="margin-top:46px;display:flex;gap:14px;align-items:center;flex-wrap:wrap">\n'
+        '          <span style="font-size:12.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace">ÖRNEK SÖZCÜK:</span>\n'
+        '          <sc-for list="{{ wordChips }}" as="w" hint-placeholder-count="3">\n'
+        '            <button onClick="{{ w.goAnaliz }}" style="cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.14);border-radius:20px;padding:8px 16px;font-size:14px;font-family:\'Spectral\',serif;font-weight:500;color:#211d17">{{ w.surface }} <span style="color:#9a9082;font-family:\'IBM Plex Sans\';font-size:12px">· {{ w.gloss }}</span></button>\n'
+        '          </sc-for>\n'
+        '        </div>')
+    ornek_new = (
+        '        <button onClick="{{ goHomeHeart }}" style="margin-top:42px;cursor:pointer;display:flex;align-items:center;gap:14px;background:#211d17;border:none;border-radius:14px;padding:18px 22px;text-align:left;width:100%;max-width:580px">\n'
+        '          <span style="font-size:26px">❧</span>\n'
+        '          <span style="display:flex;flex-direction:column;gap:3px">\n'
+        '            <span style="font-family:\'Spectral\',serif;font-size:17px;font-weight:600;color:#f4f1ea">Nereden başlamalı? Çuvaşça — Dilin Kalbi</span>\n'
+        '            <span style="font-size:13px;color:rgba(244,241,234,.6)">Türk dil ailesinin en erken ayrılan kolu; Ana Türkçeyi okumanın anahtarı.</span>\n'
+        '          </span>\n'
+        '          <span style="margin-left:auto;color:#d98b4a;font-size:15px">→</span>\n'
+        '        </button>')
+    if ornek_old in html:
+        html = html.replace(ornek_old, ornek_new, 1); nhome += 1
+    # (5) hızlı-eylem + öne-çıkan handler'ları renderVals'a kat
+    if "      homeCards,\n" in html:
+        html = html.replace("      homeCards,\n",
+                            "      homeCards, goHomeAnaliz:this.go('analiz'), goHomeCompare:this.go('compare'), "
+                            "goHomeProfile:this.go('profile'), goHomeAtlas:this.go('atlas'), goHomeHeart:this.go('heart'),\n", 1); nhome += 1
+    print(f"  Ana sayfa hero (akıllı arama + hızlı eylem + öne-çıkan): {nhome}/5 yama")
 
     # NOT: A2 (Karşılaştır başlık sekmeye-duyarlı) D-bloğunda compareHeadline tanımında yapılır (tek kaynak).
 

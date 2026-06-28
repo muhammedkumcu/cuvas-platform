@@ -2927,12 +2927,14 @@ def main():
         "sah": (100.0, 97.1, "UM"), "bak": (99.6, 91.5, "UM"), "uzb": (100.0, 63.8, "UM"),
         "aze": (91.1, 10.5, "UM"),
     }
-    # KORPUS KAPSAMI (recall) — flores_coverage.py, FLORES-200 devtest (1012 cümle), 29 Haz. (kapsam%, farklı-lemma)
-    #   FLORES-200'de 10 Türk dili var; geri kalan 10 (chv/sah/gag/kaa/alt/kjh/krc/kum/nog/tyv) yok → None.
+    # KORPUS KAPSAMI (recall) — (kapsam%, farklı-lemma, kaynak). 29 Haz.
+    #   FLORES = flores_coverage.py (FLORES-200, 1012 cümle, CC-BY-SA) · HF = corpus_coverage.py (HF açık korpus).
+    #   Kalan 8 dil (chv/sah/gag/kaa/alt/krc/kum/tyv): Leipzig bu ortamdan bağlantı-bloke → None (kaynak _korpus21'de).
     COVER = {
-        "tat": (94.3, 3371), "kaz": (93.4, 3688), "tur": (90.3, 3464), "kir": (88.3, 2484),
-        "bak": (87.0, 3501), "uig": (86.5, 3246), "crh": (84.5, 2341), "uzb": (81.2, 3235),
-        "tuk": (64.1, 1193), "aze": (35.1, 775),
+        "tat": (94.3, 3371, "FLORES"), "kaz": (93.4, 3688, "FLORES"), "tur": (90.3, 3464, "FLORES"),
+        "kir": (88.3, 2484, "FLORES"), "bak": (87.0, 3501, "FLORES"), "uig": (86.5, 3246, "FLORES"),
+        "crh": (84.5, 2341, "FLORES"), "uzb": (81.2, 3235, "FLORES"), "tuk": (64.1, 1193, "FLORES"),
+        "aze": (35.1, 775, "FLORES"), "nog": (70.6, 986, "HF·Nogai-Unified"), "kjh": (28.6, 600, "HF·khakas-mono"),
     }
     _POS = [("isim", "isim"), ("fiil", "fiil"), ("sıfat", "sıfat"), ("zarf", "zarf"), ("sayı", "sayı")]
 
@@ -2965,9 +2967,10 @@ def main():
             cov = COVER.get(code)
             if cov:
                 covcell = (f'<b style="color:#211d17">{cov[0]:.0f}%</b> '
-                           f'<span style="color:#9a9082;font-size:12px">· {_k(cov[1])} lemma</span>')
+                           f'<span style="color:#9a9082;font-size:12px">· {_k(cov[1])} lemma</span>'
+                           f'<br><span style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:#b09a7a">{cov[2]}</span>')
             else:
-                covcell = '<span style="color:#b3a99c;font-size:12.5px">— FLORES’te yok</span>'
+                covcell = '<span style="color:#b3a99c;font-size:12.5px">— korpus indirme sıradaki</span>'
             out += (
                 '<tr style="border-top:1px solid rgba(33,29,23,.07);vertical-align:top">'
                 f'<td style="padding:11px 14px"><span style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;color:#211d17">{name}</span> '
@@ -3001,7 +3004,7 @@ def main():
         "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">SÖZLÜK<br><span style=\"opacity:.6\">kök sayısı</span></th>"
         "            <th style=\"text-align:center;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">TUTARLILIK<br><span style=\"opacity:.6\">round-trip</span></th>"
         "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">DOĞRULUK<br><span style=\"opacity:.6\">UniMorph + UD gold</span></th>"
-        "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">KAPSAM<br><span style=\"opacity:.6\">FLORES gerçek metin</span></th>"
+        "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">KAPSAM<br><span style=\"opacity:.6\">gerçek metin recall</span></th>"
         '          </tr></thead>\n'
         '          <tbody>' + _q_rows() + '</tbody>\n'
         '        </table>\n'
@@ -3013,9 +3016,9 @@ def main():
         '          <div style="margin-bottom:7px"><b>Tutarlılık (②).</b> 20 dilde %92–95: motor ne ürettiyse onu tutarlı biçimde geri çözüyor. (Sahaca biraz düşük — zengin Sibirya morfolojisi, daha çok portmanto ek.)</div>\n'
         '          <div style="margin-bottom:7px"><b>Doğruluk (③).</b> Bağımsız insan-gold’a karşı — iki kaynak: <b>UniMorph</b> (paradigma tablosu) ve <b>UD</b> (gerçek cümle). Ölçülebilen her dilde <b>lemma %91–100</b>: FST bir kelimeyi tanıdığında <b>doğru</b> çözüyor. <i>tanıma%</i> ise sözlük büyüklüğüne bağlı, ayrı eksen (ör. Azerice sözlüğü küçük → az tanıyor ama tanıdığını doğru çözüyor). “Dış gold yok” olanlar düşük-kaynaklı dillerdir: onlar için henüz insan-anotasyonlu değerlendirme seti üretilmemiş — gerçek bir boşluk, gizlenmiyor.</div>\n'
         '          <div style="margin-bottom:7px"><b>Olgunluk (④).</b> Sözlük büyüklüğünden farklıdır: Sahaca “prototip” ama 41 bin köklü; tier morfotaktik kuralların cilasını, sözlük sütunu ise kelime hazinesini gösterir.</div>\n'
-        '          <div><b>Kapsam (⑤).</b> FLORES’in temiz çevirisinde tanıma oranı: çoğu dil <b>%81–94</b> (Tatarca %94, Kazakça %93). Azerice %35 / Türkmence %64 — küçük sözlüğün doğrudan sonucu (① ile birebir tutarlı: az kök → az tanıma). FLORES’te yalnız 10 Türk dili var; Çuvaşça + 9 düşük-kaynaklı dil için korpus (Leipzig/HF) sıradaki ölçüm — onlar şimdilik boş, gizlenmiyor.</div>\n'
+        '          <div><b>Kapsam (⑤).</b> Gerçek metinde tanıma oranı (FLORES temiz çevirisi; Nogayca/Hakasça HF açık korpusu). Çoğu dil <b>%81–94</b> (Tatarca %94, Kazakça %93). Azerice %35 / Türkmence %64 — küçük sözlüğün sonucu (① ile birebir). <b>Hakasça çarpıcı:</b> 259 bin cümlelik gerçek korpus var ama FST yalnız <b>%28</b> tanıyor — çünkü sözlüğünde 546 isim/15 fiil; metin var, motor henüz işleyemiyor. <b>İşte projenin sebebi bu.</b> Kalan 8 dil (Çuvaşça/Sahaca + 6 düşük-kaynaklı) için Leipzig kaynağı bu ortamdan bağlantı-engelli — ayrı indirme oturumu, şimdilik boş, gizlenmiyor.</div>\n'
         '        </div>\n'
-        '        <div style="margin-top:14px;font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;line-height:1.6">Kaynak: sözlük = <b>lexicon_count.py</b> (apertium .lexc, GPL-3.0) · tutarlılık = <b>segment_eval.py</b> · doğruluk = <b>unimorph_eval.py</b> (UniMorph 4.0) + <b>ud_eval.py</b> (UD treebank) · kapsam = <b>flores_coverage.py</b> (FLORES-200, CC-BY-SA) · olgunluk = apertium/turkicnlp catalog · canlı Apertium FST. Ölçüm: 29 Haz 2026. Betikler depoda, tekrar-üretilebilir.</div>\n'
+        '        <div style="margin-top:14px;font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;line-height:1.6">Kaynak: sözlük = <b>lexicon_count.py</b> (apertium .lexc, GPL-3.0) · tutarlılık = <b>segment_eval.py</b> · doğruluk = <b>unimorph_eval.py</b> (UniMorph 4.0) + <b>ud_eval.py</b> (UD treebank) · kapsam = <b>flores_coverage.py</b> (FLORES-200, CC-BY-SA) + <b>corpus_coverage.py</b> (HF açık korpus) · olgunluk = apertium/turkicnlp catalog · canlı Apertium FST. Ölçüm: 29 Haz 2026. Betikler depoda, tekrar-üretilebilir.</div>\n'
         '      </section>\n'
         '      </sc-if>\n')
     g1_anchor = "      <!-- ===================== TARİH & KÖKEN ===================== -->"

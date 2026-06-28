@@ -1057,7 +1057,7 @@ def main():
     sl_intro_new = ('<p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:74ch;margin:0 0 14px">Türk '
                     'dilleri ailesini kollara ayıran <strong>düzenli ses yasaları</strong> (izoglosslar). Her kart '
                     'bir Proto-Türkçe fonemin farklı kollardaki refleksini ve örneklerini gösterir — Çuvaşça (Oğur) '
-                    'ile başlayıp tüm kol-çiftlerine açılır. Kaynak: Savelyev, Johanson, Tekin.</p>')
+                    'ile başlayıp tüm kol-çiftlerine açılır.</p>')
     if sl_intro_old in html:
         html = html.replace(sl_intro_old, sl_intro_new, 1); nsl += 1
     print(f"  ds17 Ses denklikleri 4->7 kol-izoglosu: {nsl}/4 yama (SOUND, builder, kart, giris)")
@@ -2075,6 +2075,60 @@ def main():
         "  ];")
     nfam = 1 if old_family in html else 0
     html = html.replace(old_family, new_family, 1)
+    # Soy ağacına "nasıl okunur" alt-başlığı (kullanıcı: ne neye bağlı anlaşılmıyor)
+    html = html.replace(
+        '<div style="font-family:\'Spectral\',serif;font-weight:600;font-size:20px;margin-bottom:18px">Soy ağacı</div>',
+        '<div style="font-family:\'Spectral\',serif;font-weight:600;font-size:20px;margin-bottom:4px">Soy ağacı</div>\n'
+        '            <div style="font-size:12.5px;color:#5f574b;margin-bottom:16px;line-height:1.5;max-width:60ch">Soldan sağa okunur: en solda ortak ata, sağa gidildikçe daha geç ayrılan kollar. Girinti bir dalın hangi koldan türediğini gösterir. <span style="color:#9a9082">(Savelyev &amp; Robbeets 2020 Bayes ağacı)</span></div>', 1)
+
+    # ---- R4 Uzaklık seçici: TABAN + KARŞILAŞTIRILAN dili YAN YANA kaydırmalı liste (tek format) ----
+    nud = 0
+    # (1) distLangOptions (taban) → distLangs ile aynı liste-buton formatı (nokta + ad)
+    dlo_old = ("    const distLangOptions = Object.entries(this.LANGVEC).map(([code,d])=>{\n"
+               "      const sel = code===S.distBase;\n"
+               "      return { code, name:d.name, go:()=>pickBase(code),\n"
+               "        style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:16px;padding:6px 12px;font-size:12.5px;font-family:inherit` };\n"
+               "    });")
+    dlo_new = ("    const distLangOptions = Object.entries(this.LANGVEC).map(([code,d])=>{\n"
+               "      const sel = code===S.distBase; const col = this.BRANCHCOLOR[d.branch] || '#5f574b';\n"
+               "      return { code, name:d.name, branch:d.branch, go:()=>pickBase(code),\n"
+               "        style:`cursor:pointer;display:flex;align-items:center;gap:9px;text-align:left;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.12)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:10px;padding:8px 12px;font-size:13px;font-family:inherit`,\n"
+               "        dot:`width:9px;height:9px;border-radius:50%;background:${col};flex-shrink:0` };\n"
+               "    });")
+    if dlo_old in html:
+        html = html.replace(dlo_old, dlo_new, 1); nud += 1
+    # (2) dış grid genişliği: 248px → 380px (iki liste yan yana sığsın)
+    if 'grid-template-columns:248px 1fr;gap:30px;margin-top:26px;align-items:start' in html:
+        html = html.replace('grid-template-columns:248px 1fr;gap:30px;margin-top:26px;align-items:start',
+                            'grid-template-columns:380px 1fr;gap:26px;margin-top:26px;align-items:start', 1); nud += 1
+    # (3) sol sütun: dikey yığın → iki YAN YANA kaydırmalı liste (aynı format, ~10 dil görünür)
+    dsel_old = ('          <div style="display:flex;flex-direction:column;gap:7px">\n'
+                '            <div style="font-size:11px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;letter-spacing:.5px;margin-bottom:3px">TABAN DİL</div>\n'
+                '            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">\n'
+                '              <sc-for list="{{ distLangOptions }}" as="o" hint-placeholder-count="9"><button onClick="{{ o.go }}" style="{{ o.style }}">{{ o.name }}</button></sc-for>\n'
+                '            </div>\n'
+                '            <div style="font-size:11px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;letter-spacing:.5px;margin-bottom:3px">KARŞILAŞTIRILAN DİL</div>\n'
+                '            <sc-for list="{{ distLangs }}" as="l" hint-placeholder-count="5">\n'
+                '              <button onClick="{{ l.go }}" style="{{ l.style }}"><span style="{{ l.dot }}"></span>{{ l.name }}<span style="{{ l.branchStyle }}">{{ l.branch }}</span></button>\n'
+                '            </sc-for>\n'
+                '          </div>')
+    dsel_new = ('          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">\n'
+                '            <div>\n'
+                '              <div style="font-size:11px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;letter-spacing:.5px;margin-bottom:7px">TABAN DİL</div>\n'
+                '              <div style="display:flex;flex-direction:column;gap:5px;max-height:404px;overflow-y:auto;padding-right:4px">\n'
+                '                <sc-for list="{{ distLangOptions }}" as="o" hint-placeholder-count="9"><button onClick="{{ o.go }}" style="{{ o.style }}"><span style="{{ o.dot }}"></span>{{ o.name }}</button></sc-for>\n'
+                '              </div>\n'
+                '            </div>\n'
+                '            <div>\n'
+                '              <div style="font-size:11px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;letter-spacing:.5px;margin-bottom:7px">KARŞILAŞTIRILAN DİL</div>\n'
+                '              <div style="display:flex;flex-direction:column;gap:5px;max-height:404px;overflow-y:auto;padding-right:4px">\n'
+                '                <sc-for list="{{ distLangs }}" as="l" hint-placeholder-count="5"><button onClick="{{ l.go }}" style="{{ l.style }}"><span style="{{ l.dot }}"></span>{{ l.name }}</button></sc-for>\n'
+                '              </div>\n'
+                '            </div>\n'
+                '          </div>')
+    if dsel_old in html:
+        html = html.replace(dsel_old, dsel_new, 1); nud += 1
+    print(f"  R4 Uzaklık seçici yan yana kaydırmalı: {nud}/3 yama")
     # Kullanıcı geri bildirimi: "Tarih & Köken" en altındaki kara "ırk/gen" kutusu gereksiz → kaldır
     html, nbox = re.subn(
         r'\s*<div style="margin-top:14px;background:#211d17;color:#f4f1ea;border-radius:18px;padding:28px 32px">.*?</div>\s*(</section>)',

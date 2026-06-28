@@ -1,0 +1,980 @@
+
+===== SAYFA 1/28 =====
+Tarihsel ve Az Belgeli Türk Dilleri: Derin
+Profil ve Dijital Canlılık Analizi
+Giriş ve Çerçeve
+Türk dilleri ailesi, Doğu Avrupa'dan Sibirya'ya, Kafkaslardan Çin'in içlerine kadar uzanan devasa
+bir coğrafyada yaklaşık 200 milyon konuşuru bulunan, dünyanın en geniş ve köklü dil
+ailelerinden biridir1. Tipolojik açıdan sondan eklemeli yapı (agglutination), ünlü uyumu,
+gramatikal cinsiyetin bulunmayışı ve evrensel olarak Özne-Nesne-Yüklem (SOV) sözdizimi ile
+karakterize edilen bu diller, tarihsel süreçte muazzam bir diyalekt sürekliliği ve karşılıklı
+anlaşılabilirlik sergilemektedir1. Ancak bu devasa dil ailesi, konuşur sayısı ve teknolojik
+entegrasyon bakımından son derece asimetrik bir dağılıma sahiptir. On milyonlarca konuşuru
+bulunan Türkiye Türkçesi, Özbekçe ve Azerbaycan Türkçesi gibi diller dijital çağda varlıklarını
+güçlü bir şekilde sürdürürken, Sibirya ve Çin'in yalıtılmış bölgelerinde veya Doğu Avrupa'da
+asimilasyon baskısı altındaki pek çok Türk dili, yok olma tehlikesiyle karşı karşıyadır1.
+Dil belgeleme (language documentation) ve hesaplamalı dilbilim (NLP) perspektifinden
+bakıldığında, dillerin yaşamsal durumları Genişletilmiş Kuşaklararası Bozulma Ölçeği (EGIDS) ve
+UNESCO Tehlikedeki Diller Atlası metrikleriyle derecelendirilmektedir4. Dijital güç ve doğal dil
+işleme kapasitesi ise Joshi vd. (2020) tarafından literatüre kazandırılan "Scraping-By" (Zar Zor
+Tutunanlar) ve "Left-Behind" (Geride Kalanlar) gibi taksonomik sınıflarla analiz edilmektedir6.
+Günümüzde TurkicNLP gibi açık kaynaklı inisiyatifler, yirmi dört farklı Türk dili için ortak bir
+makine öğrenimi ve kural tabanlı morfoloji hattı kurmaya çalışsa da, az belgeli dillerin dijital
+uçurumu aşması halen çok güçtür2. KÖKEN platformunun "Araştırmacı ve Öğrenci" kitlesine
+yönelik hazırlanan bu kapsamlı rapor, platformda eksik veya zayıf olan on beş hedef dilin
+akademik kaynaklara ve tarihsel verilere dayalı derin profillerini sunmakta, ardından kırk yedi dili
+kapsayan güncel bir demografik ve yaşamsal durum dökümü yapmaktadır.
+Bölüm 1: Yaşayan Ancak Az Belgeli Türk Dilleri
+Bu bölümde, günümüzde halen kısıtlı sayıda konuşuru bulunan ancak nesiller arası aktarımın
+kesintiye uğraması nedeniyle ciddi tehlike altında olan yedi öncelikli dil ile Çulımca ve İli Türki
+varyantları derinlemesine incelenmiştir.
+Balkan Gagavuzcası [bgx]
+Özellik Veri
+Kol Oğuz (Batı Oğuz)
+Bölge / Konuşulduğu Yer Türkiye (Edirne civarı), Yunanistan,
+===== SAYFA 2/28 =====
+Bulgaristan (Deliorman), Kuzey Makedonya11
+Konuşur Sayısı 331.000 (2022 Tahmini, Campbell vd.)5
+Canlılık (EGIDS) 7 Shifting [Kaynak: Glottolog AES /
+Campbell vd. 2022]12
+Yazı Sistemi Latin (Bölgesel olarak kısıtlı kullanım)11
+Tarihsel Gelişim ve Köken: Balkan Gagavuzcası (Rumeli Türkçesi), on birinci yüzyılda Bizans
+döneminde Balkanlar'a göç eden ve Ortodoks Hristiyanlığı benimseyen Peçenek ve Kuman gibi
+Oğuz-Kıpçak dilli boyların mirasçısıdır14. Zamanla Anadolu'dan Balkanlar'a yerleşen Osmanlı idari
+ve askeri unsurlarının lehçeleriyle harmanlanarak çok kültürlü Osmanlı garnizon şehirlerinde bir
+koiné (ortak dil) olarak şekillenmiştir14. Bu tarihsel melezlenme, Balkan Gagavuzcasını İslami Türk
+nüfuslardan kültürel olarak ayırırken, edebi standart Gagavuzcadan da bağımsız bir gelişim
+çizgisine itmiştir.
+Yapı ve Özgünlük: Dil, Proto-Türkçeden miras kalan sondan eklemeli morfoloji ve ünlü uyumu
+gibi temel Oğuz şemsiyesi özelliklerini muhafaza eder14. Ancak Balkan Gagavuzcasını fonolojik
+olarak özgün kılan en temel izogloslardan biri, kelime başındaki ötümsüz gırtlak sızıcılarının
+düşmesidir (örneğin hazır kelimesinin azır şekline dönüşmesi). Bunun yanı sıra batı
+varyantlarında damaksıl ünlülerin (ö ve ü) artdamaksıllaşarak ɵ veya ʉ formuna kayması (örneğin
+gün kelimesinin gʉn olarak telaffuz edilmesi) dikkate değer fonolojik deviasyonlardır14.
+İlişkiler ve Dil Temasları: En yakın akrabaları standart Gagavuzca ve Türkiye Türkçesidir;
+aralarında yüksek bir karşılıklı anlaşılabilirlik mevcuttur11. Ne var ki, yüzyıllar boyunca Balkan
+dilleriyle (Slavca ve Yunanca) iç içe yaşaması, Balkan Gagavuzcasında ciddi bir altkatman
+(substrat) etkisi yaratmıştır. Özellikle sözdizimsel kopyalamalar ve Balkan dil birliğine
+(Sprachbund) has leksikal alıntılar, bu dili standart Oğuz varyantlarından kesin çizgilerle ayırır11.
+Dijital Güç ve NLP Durumu: Joshi taksonomisine göre Balkan Gagavuzcası tam anlamıyla
+"Left-Behind" (Geride Kalan) diller sınıfındadır6. Hugging Face üzerinde bu dile ait hiçbir tek dilli
+veri seti veya model bulunmamaktadır16. Apertium platformunda kural tabanlı bir çeviri veya
+morfolojik analizörü yoktur ve standart dijital korpuslardan yoksundur5. Doğal dil işleme
+bağlamında dijital kaynak yok denecek kadar zayıftır.
+Kaşkayca [qxq]
+Özellik Veri
+Kol Oğuz (Güney Oğuz)
+Bölge / Konuşulduğu Yer İran (Fars, İsfahan, Buşehr, Çaharmahal ve
+===== SAYFA 3/28 =====
+Bahtiyari eyaletleri)17
+Konuşur Sayısı 1.000.000 (2021 Tahmini, Ethnologue)17
+Canlılık (EGIDS) 6a Vigorous [Kaynak: Glottolog /
+Ethnologue]19
+Yazı Sistemi Pers-Arap (Nastaliq ağırlıklı gayriresmi
+kullanım)17
+Tarihsel Gelişim ve Köken: Kaşkayca, kökleri on birinci yüzyıldaki Selçuklu göçlerine dayanan
+ve ağırlıklı olarak İran'ın güneyindeki Zagros Dağları çevresinde yarı göçebe pastoral bir yaşam
+süren Kaşkay boy konfederasyonunun konuştuğu Güney Oğuz dilidir17. Uzun yıllar salt sözlü bir
+dil olarak kalan Kaşkayca, destanlar, halk masalları ve göçebe gelenekleri üzerinden nesilden
+nesile aktarılmış; Farsça konuşan hegemonik bir devlet yapısı içinde izole bir Oğuz adası olarak
+hayatta kalmıştır20.
+Yapı ve Özgünlük: Fonolojik yapısı genel Türk ünlü uyumunu barındırsa da, yoğun Farsça
+temasından ötürü ciddi sapmalar sergiler. Ünsüz envanterinde yer alan uvular duraklar (/q/ ve
+/ɢ/) diğer bazı Oğuz lehçelerinden ayrışmasını sağlar17. Sentaktik düzeyde ise analitik nedensellik
+yapıları (qoy- ve ver- fiilleriyle yapılan ettirgenlik), modalite ifadelerinde Farsça şablonlara
+öykünen zarf kullanımları ve iyelik ekinin tamlayan durumunda düşmesi gibi morfosentaktik
+kopyalamalar Kaşkaycayı son derece özgün bir melez yapı haline getirir21.
+İlişkiler ve Dil Temasları: Genetik sınıflandırmada en yakın akrabası Azerbaycan Türkçesidir ve
+çoğu zaman onun bir diyalekti olarak da nitelendirilir; ancak Şeşbeyli gibi boyların lehçeleri
+Anadolu Türkçesine daha yakın özellikler taşır17. Yüzyıllardır süregelen yoğun ve kesintisiz dil
+teması neticesinde Farsça ve Arapçadan masif leksikal alıntılar yapılmış, Farsça ezafe (tamlama)
+yapısı kısıtlı oranda dilin sözdizimine entegre olmuştur20.
+Dijital Güç ve NLP Durumu: Joshi sınıflandırmasında "Scraping-By" (Zar Zor Tutunan) bir dil
+konumundadır6. S. Dolatkhah tarafından derlenen corpus tabanlı dilbilgisi eseri sayesinde
+metinleri dijital analiz süreçlerine girmeye başlamıştır22. Hugging Face platformunda
+Helsinki-NLP'nin çok dilli (opus-mt) çeviri modelleri arasında qxq koduyla yer bulmakta ve
+deneysel otomatik konuşma tanıma (ASR) modellerinde kısıtlı temsiliyete sahip olmaktadır23.
+Urumca [uum]
+Özellik Veri
+Kol Kıpçak (Batı Kıpçak / Kıpçak-Kuman alt
+grubu)25
+===== SAYFA 4/28 =====
+Bölge / Konuşulduğu Yer Ukrayna (Azak bölgesi, Mariupol),
+Gürcistan25
+Konuşur Sayısı 190.000 etnik nüfus (2000 Tahmini,
+Ethnologue). Aktif konuşur çok azdır.25
+Canlılık (EGIDS) 8a/8b [Kaynak: UNESCO: Definitely
+Endangered / ELP: Endangered]25
+Yazı Sistemi Tarihsel olarak Yunan, 1920'lerde Latin,
+günümüzde Kiril25
+Tarihsel Gelişim ve Köken: Urumlar, köken olarak Anadolu'nun kuzeydoğusundaki (Trabzon,
+Kars, Erzurum) Pontus Rumlarının Osmanlı yönetimi altında zamanla Türkçe konuşmaya başlayıp
+Ortodoks inançlarını koruyan topluluklardır26. On sekizinci yüzyılda II. Katerina döneminde
+Kırım'dan Ukrayna'nın Azak bölgesine (özellikle Mariupol çevresine) sürülmeleriyle dil, izole bir
+ortamda Kıpçakça unsurlarla yoğrularak bugünkü halini almıştır26.
+Yapı ve Özgünlük: Urumcanın fonolojisinde en dikkat çekici unsur, Türk dillerinde kelime
+başında bulunmayan /r/ ünsüzü için uygulanan ünlü türemesidir (protez); "Rum" isminden
+türeyen "Urum" adlandırması bizzat bu kuralın sonucudur25. Dil, arkaik Kıpçakça ekleri korurken,
+ünlü uyumunda ciddi deviasyonlar ve sızıcılaşma (/k/ yerine /h/ kullanımı) gibi özellikler sergiler.
+İkinci çoğul şahıs eklerinde görülen -sis/-siz asimilasyonları morfolojik bir yeniliktir26.
+İlişkiler ve Dil Temasları: Urumca genetik olarak Kırım Tatarcasının bir etno-diyalekti veya çok
+yakın akrabası olarak değerlendirilmektedir25. Kırım Tatarcasının yanı sıra erken dönem Kafkasya
+Oğuz ağızlarının özelliklerini de barındırır. İslami kavramlar dilde kısıtlı kalmış, Hristiyanlık terimleri
+Yunancadan (örneğin Noel için hristugin) kopyalanmıştır. Modern çağda ise yoğun Rusça baskısı
+(Russification) leksikal yapıyı domine etmiştir26.
+Dijital Güç ve NLP Durumu: NLP alanında "Scraping-By" kategorisine dâhildir6. Skopteteas vd.
+tarafından oluşturulan "Urum DoReCo" projesi sayesinde fonesel hizalanmış metin ve ses
+korpusları TLA arşivlerinde dijitalleşmiştir25. Kural tabanlı makine çevirisi platformu Apertium
+üzerinde morfolojik dönüştürücüler ve analiz araçları mevcuttur; ayrıca kod-değişimli
+(code-switched) konuşma verileri üzerinde ASR (otomatik konuşma tanıma) çalışmaları
+yürütülmektedir28.
+Karayca (Karaim) [kdr]
+Özellik Veri
+Kol Kıpçak (Batı Kıpçak)32
+===== SAYFA 5/28 =====
+Bölge / Konuşulduğu Yer Litvanya (Trakai), Polonya, Ukrayna (Kırım,
+Lutsk, Haliç)32
+Konuşur Sayısı ~50 aktif konuşur (2006 Tahmini,
+Kocaoğlu)33
+Canlılık (EGIDS) 8b Nearly Extinct [Kaynak: UNESCO:
+Critically endangered / Glottolog]34
+Yazı Sistemi Tarihsel olarak İbrani, günümüzde
+Litvanya-Lehçe temelli Latin ve Kiril32
+Tarihsel Gelişim ve Köken: Karayca, on üçüncü ve on dördüncü yüzyıllarda Kırım'dan Doğu
+Avrupa'ya (özellikle bugünkü Litvanya'nın Trakai bölgesi ile Polonya ve Ukrayna'ya) yerleşen,
+Karaizm (Musevilik) inancına mensup Türk boylarının dilidir33. Codex Cumanicus döneminin
+Kıpçakçasına dayanan bu dil, Musevi kutsal metinlerinin Türkçeye İbrani alfabesiyle çevrilmesi
+geleneği sayesinde oldukça zengin ve belgelenmiş bir yazılı tarihe sahiptir36.
+Yapı ve Özgünlük: Karaycanın bilhassa Kuzeybatı (Trakai) diyalekti, Türk dillerinin vazgeçilmezi
+olan ünlü uyumunu büyük ölçüde yitirerek, bunun yerine Slav dillerinin etkisiyle bir "ünsüz
+uyumu" (consonant harmony / palatalization) geliştirmiştir32. Bu kurala göre, bir kelimedeki
+ünsüzler ya tamamen damaksıllaşmış (palatalize) ya da tamamen damaksıllaşmamış olmak
+zorundadır. Frikative ünsüzler (/f/ ve /χ/) ise bu uyumun dışındadır39.
+İlişkiler ve Dil Temasları: Kırım Tatarcası ve Kıpçak dilleri ile aynı genetik dalda yer alan Karayca,
+din eksenli olarak İbranice sözdiziminden yoğun kopyalamalar almıştır36. Ancak asıl yıkıcı temas
+Slav dilleriyledir. Lehçe, Ukraynaca ve Rusça ile yüzlerce yıl süren bir arada yaşama
+(bilingualism), Karaycada mazurzenie gibi Slav fonolojik özelliklerinin ve morfosentaktik
+yapılarının doğrudan dilin omurgasına yerleşmesine yol açmıştır38.
+Dijital Güç ve NLP Durumu: Dijital alanda "Scraping-By" kategorisinde değerlendirilebilir6.
+Hugging Face kütüphanesinde çok düşük kaynaklı diller için Johns Hopkins Üniversitesi
+tarafından geliştirilen mmBERT-small/base gibi maskeli dil modellerinde (Fill-Mask) temsil
+edilmektedir42. GlotLID sınıflandırma sistemlerinde tanınmasına rağmen Apertium veya Stanza
+gibi araçlarda yapılandırılmış bir morfolojik analizörü yoktur5.
+Kırımçak [jct]
+Özellik Veri
+Kol Kıpçak (Batı Kıpçak / Kırım)35
+Bölge / Konuşulduğu Yer Kırım (Tarihsel), İsrail, Türkiye43
+===== SAYFA 6/28 =====
+Konuşur Sayısı ~200 (2007 Tahmini, Ethnologue)18
+Canlılık (EGIDS) 8b Nearly Extinct [Kaynak: UNESCO:
+Critically endangered / Glottolog]35
+Yazı Sistemi Tarihsel olarak İbrani, 1930'larda Latin
+(Yañalif), günümüzde Kiril43
+Tarihsel Gelişim ve Köken: Kırımçak dili, Kırım yarımadasına Avrupa'dan ve Asya'dan farklı
+dönemlerde göç eden Sefarad ve Aşkenaz kökenli Rabban Yahudilerinin, on beşinci yüzyıldan
+itibaren bölgenin lingua francası olan Kırım Tatarcasını benimsemesiyle doğmuş bir
+etno-diyalekttir4. 1930'larda Sovyet döneminde Latin harfleriyle (Yañalif) standartlaştırılmaya
+çalışılmışsa da, İkinci Dünya Savaşı sırasındaki Holokost (Nazilerin Kırım işgali) ve sonrasındaki
+Sovyet sürgünleri nedeniyle nüfusun büyük kısmı yok olmuş, dil nesiller arası aktarımını
+yitirmiştir4.
+Yapı ve Özgünlük: Diğer Kıpçak varyantlarının aksine Kırımçakta yalnızca beş kısa ünlüden
+oluşan daraltılmış bir vokal sistemi bulunur43. Dile has en büyük sapma, ön-arka dudaksıl ünlü
+ayrımının (o/ö ve u/ü zıtlığının) tamamen kaybolmuş olmasıdır. Ayrıca, Karayların geleneksel
+İbranice telaffuzundan farklı bir entegrasyon tekniği kullanarak, İbranice sözcükleri kendine has
+Kıpçak/Oğuz karma fonolojisiyle telaffuz ederler43.
+İlişkiler ve Dil Temasları: Kırım Tatarcasının Orta diyalekti ile aşırı derecede geçişkenliğe
+sahiptir. İbranice, Kırımçak sözvarlığının yaklaşık %5'ini oluşturur ve günlük yaşam ile dini ritüeller
+etrafında kümelenmiştir43. Eski edebi metinlerinde yüksek üslup (lofty style) yaratmak için
+Arapça ve Farsça kopyalamalar görülürken, modern metinlerde yoğun bir Rusça substratı ve
+morfolojik asimilasyonu hakimdir43.
+Dijital Güç ve NLP Durumu: Tam anlamıyla "Left-Behind" sınıfına giren bu dilin dijital dünyada
+neredeyse hiçbir izi yoktur6. Hugging Face üzerinde yalnızca Frank535/JCT adlı 38 satırlık
+görsel/metin tabanlı son derece sığ bir veri seti mevcuttur45. Ne Apertium tabanlı bir morfoloji
+analizörü ne de NLLB gibi devasa çok dilli çeviri modellerinde bir karşılığı bulunur5.
+Sibirya Tatarcası [sty]
+Özellik Veri
+Kol Kıpçak (Kuzey Kıpçak)46
+Bölge / Konuşulduğu Yer Rusya (Batı Sibirya; Tümen, Omsk, Tomsk,
+Kemerovo)46
+Konuşur Sayısı 100.000 (2019 Tahmini, Ethnologue)18
+===== SAYFA 7/28 =====
+Canlılık (EGIDS) 6b Threatened [Kaynak: UNESCO: Definitely
+endangered / Glottolog]18
+Yazı Sistemi Tarihsel olarak Arap, 1920'lerde Latin,
+günümüzde 2000'de güncellenen Kiril47
+Tarihsel Gelişim ve Köken: Sibirya Tatarcası, on birinci ve on dördüncü yüzyıllar arasında Moğol
+istilaları ve Altın Orda'nın parçalanması sürecinde Deşt-i Kıpçak steplerindeki kabilelerin (Kanglı,
+Karaberkliler vb.) hareketleri sonucunda şekillenmiş kadim bir Türk dilidir47. Uzun süre İdil (Volga)
+Tatarcasının bir diyalekti sanılmışsa da, gerek sözcük dağarcığı gerekse tarihsel gelişimi
+açısından başlı başına bağımsız bir Kuzey Kıpçak dalı olarak kabul edilmektedir46.
+Yapı ve Özgünlük: İdil Tatarcasından leksikal ve fonolojik deviasyonlarla ayrışır.
+Proto-Türkçedeki kelime başı b- sesinin bazı sözcüklerde düşmesi, standart Türk dillerindeki /ç/
+sesinin [ts] olarak, /c/ sesinin ise [j] olarak telaffuz edilmesi ayırt edici özellikleridir47. Ünlü uyumu
+kurallarında doğu Türk dillerine özgü farklılıklar taşır ve /su/ kelimesini /sıu/ şeklinde
+diftonglaştırarak kullanması tipiktir47.
+İlişkiler ve Dil Temasları: Kendi içinde Tobol-İrtiş, Baraba ve Tom olmak üzere üç ana diyalekt
+sürekliliğine bölünmüştür46. Baraba ve Tom diyalektleri Kırgız-Kıpçak özelliklerine daha yakınken,
+Tobol-İrtiş grubu Kıpçak-Nogay koluna daha çok benzer. On altıncı yüzyıldan itibaren Rusların
+Sibirya'ya yayılmasıyla birlikte Rusçadan çok ağır bir sözcük ve yapısal kopyalama akınına
+uğramış, ayrıca Altay, Hakas ve Şor gibi Sibirya Türk dilleriyle de areal substrat temasları
+yaşamıştır46.
+Dijital Güç ve NLP Durumu: Sibirya Tatarcası, dijital hayatta "Scraping-By" kategorisinde
+mücadele vermektedir6. Hugging Face platformunda, Qwen2.5 tabanlı deneme adaptörleri
+(andreas-sty) ve "libero-sty" adıyla anılan zaman serisi/EEG verisetleri barındırır50. Açık kaynaklı
+TurkicNLP kütüphanesinde temel tokenizasyon ve ISO kodu bazında bir takım temel kurallar
+tanımlanmış olsa da, Apertium veya Stanza üzerinde derinlemesine morfolojik analizi ve ağaç
+bankası henüz tam anlamıyla yapılandırılamamıştır10.
+Tofaca (Tofalar) [kim]
+Özellik Veri
+Kol Sibirya (Tayga Sayan Türkçesi)12
+Bölge / Konuşulduğu Yer Rusya (Doğu Sibirya, İrkutsk Oblastı;
+Nerkha, Gutara)13
+Konuşur Sayısı ~40 aktif konuşur (2007 Tahmini,
+ELP/Ethnologue)13
+===== SAYFA 8/28 =====
+Canlılık (EGIDS) 8b Nearly Extinct [Kaynak: UNESCO:
+Critically endangered / Glottolog]13
+Yazı Sistemi Gayriresmi olarak Rus Kiril alfabesi
+(standartlaşmamış)53
+Tarihsel Gelişim ve Köken: Önceleri Karagas olarak da bilinen Tofaca, Sibirya'nın Sayan
+dağlarında izole bir biçimde ren geyiği çobanlığı ve avcılık-toplayıcılık yaparak yaşayan yerli Tofa
+halkının dilidir13. Proto-Sibirya Türk dillerinin Sayan alt grubundan Tuvaca ile birlikte erken bir
+evrede koparak kendi coğrafi yalıtılmışlığı içinde evrimleşmiş, doğaya dair müthiş bir ekolojik
+bilgi birikimini nesilden nesile aktarmıştır53. Bugün maalesef terminal (son) nesil konuşurlara
+hapsolmuş, yeni nesillere aktarımı tamamen durmuştur53.
+Yapı ve Özgünlük: Tofaca morfolojik olarak Proto-Türkçe köklerine oldukça sadıktır. Sekizli kısa
+ünlü sistemini ve uzun ünlü zıtlıklarını barındırır. Dilin en eşsiz yanı, hem damaksıl (backness) hem
+de dudaksıl (rounding) uyum kurallarını köklerden eklere kadar kusursuza yakın iki boyutlu bir
+şekilde (double vowel harmony) işlemesidir53. Ayrıca taiga ekosistemindeki bitkiler, ren geyiği
+anatomisi ve avcılık üzerine dünyada eşi olmayan arkaik kelime köklerini korumuştur (örneğin
+ayların adlarının o ay yapılan av faaliyetine göre isimlendirilmesi gibi)53.
+İlişkiler ve Dil Temasları: Genetik olarak Tuvaca ve Dukha (Duhaca) ile doğrudan akrabadır13.
+Geçmişte Moğol dilleri ve yok olmuş Yenisey/Samoyed dilleriyle yoğun altkatman (substrat)
+alışverişlerinde bulunmuştur. Ancak yirminci yüzyıldaki agresif Sovyet iskanı politikalarıyla birlikte
+bu dillerin tamamı Rusçanın hegemonik etkisi altında asimile olmuştur53.
+Dijital Güç ve NLP Durumu: Joshi'nin taksonomisine göre trajik bir biçimde "Left-Behind"
+(Geride Bırakılan) dillerdendir6. David Harrison ve Gregory Anderson'ın yürüttüğü ses/video
+belgeleme (documentation) projeleri olmasaydı dijital hiçbir verisi bulunmayacaktı53. Apertium
+veya Hugging Face platformlarında Tofaca (kim) için doğal dil işleme modeli, korpusu ya da
+makine çevirisi aracı kesinlikle bulunmamaktadır5.
+Çulımca [clw]
+Özellik Veri
+Kol Sibirya (Güney Sibirya / Yenisey grubu)58
+Bölge / Konuşulduğu Yer Rusya (Batı Sibirya; Tomsk, Krasnoyarsk,
+Çulım nehri havzası)58
+Konuşur Sayısı 44 (2010 Rus Nüfus Sayımı)5
+Canlılık (EGIDS) 8b Nearly Extinct [Kaynak: UNESCO:
+===== SAYFA 9/28 =====
+Critically endangered / ELP]58
+Yazı Sistemi Kiril (1990'larda akademisyenler tarafından
+tasarlanan ortografi)59
+Tarihsel Gelişim ve Köken: Çulımca, Sibirya'nın ücra ormanlarında balıkçılık ve toplayıcılık
+yapan, aslen Yenisey, Ob-Ugor ve Samoyed halklarının Türkleşmesi (linguistic assimilation)
+neticesinde ortaya çıkmış otokton bir dildir60. Yirminci yüzyılın ortalarında Sovyet hükümetinin
+Çulım çocuklarını yatılı okullara zorla gönderip anadillerini yasaklaması ve dillerinin itibarını
+düşürmesi (devalorization) sonucu ölüm döşeğine gelmiştir. 1959'dan sonra uzun bir süre nüfus
+sayımlarında ayrı bir halk olarak dahi kabul edilmemişlerdir58.
+Yapı ve Özgünlük: Çulımca, coğrafi yalıtılmışlığına rağmen Orta Çulım (Ös) ve Aşağı Çulım
+(neredeyse ölü) olmak üzere iki keskin diyalekte bölünmüştür59. Orta Çulım diyalektinde
+Türkçedeki ž seslerinin z'ye (kiži ↔ kizi) ve č seslerinin š/s'ye (çäl ↔ šäl) dönüşmesi belirgin ses
+olaylarıdır59. Dil, Yenisey dillerinden kalan güçlü altkatman yapıları ile Kıpçak leksikal birimlerinin
+Sibirya fonolojisiyle harmanlandığı eşsiz bir laboratuvar gibidir60.
+İlişkiler ve Dil Temasları: Şor, Hakas ve Altay dilleriyle doğrudan genetik bağa sahiptir60.
+Leipzig-Jakarta sözcük listesine dayanan bazı çalışmalarda temel kelime dağarcığının yüksek
+oranda Kıpçak özelliklerini koruduğu görülür60. Hem Rusça tarafından yutulmuş hem de tarih
+boyunca İdil/Tatar boylarının etkisi altında Tatarlaşmaya (Tatar-ized) maruz kalmıştır60.
+Dijital Güç ve NLP Durumu: NLP ekosisteminde Çulımca bir "Left-Behind" dilidir6. 2008 yapımı
+"The Linguists" belgeseli sırasında Harrison ve Anderson'ın yaptığı kısıtlı dijital kayıtlar ve Tomsk
+Devlet Pedagoji Üniversitesi arşivlerindeki Lemskaya'nın derlemeleri dışında hiçbir dijital korpusu
+yoktur58. Kural tabanlı morfoloji (Apertium) veya sinirsel dil modeli (Hugging Face) inşası için
+gerekli temel veriden bütünüyle yoksundur5.
+İli Türki [ili]
+Özellik Veri
+Kol Karluk (Doğu Karluk / Güneydoğu)64
+Bölge / Konuşulduğu Yer Çin (Sincan Uygur Özerk Bölgesi, İli Vadisi),
+Kazakistan64
+Konuşur Sayısı ~120 (1982 Tahmini, Hahn), ~30 Aile (2007
+Tahmini, Salminen)64
+Canlılık (EGIDS) 8a Moribund [Kaynak: UNESCO: Critically
+endangered / Glottolog]64
+===== SAYFA 10/28 =====
+Yazı Sistemi Resmî bir alfabesi yoktur.18
+Tarihsel Gelişim ve Köken: İli Türkleri, on dokuzuncu yüzyılda Tarım Havzası ve Özbekistan'ın
+Fergana Vadisi'nden (muhtemelen Dungan İsyanı gibi karmaşalardan kaçarak) Kuzey Sincan'daki
+İli Vadisi'ne göçmüş küçük bir topluluktur64. Çin devleti tarafından bağımsız bir etnik grup olarak
+tanınmayan ve resmi kayıtlarda Kazak ya da Uygur olarak asimile edilen bu halk, dillerini yalnızca
+kırsal köylerde ve yaşlı nesiller arasında sözlü olarak yaşatabilmiştir64.
+Yapı ve Özgünlük: Karluk şemsiyesi altında bulunmasına rağmen, İli Türki'yi özel kılan şey güçlü
+bir Kıpçak altkatmanına sahip olmasıdır. Örneğin, kelime ortası ve sonundaki arkaik *G ünsüzü,
+yuvarlak ünlülerden sonra önce w'ye dönüşmüş, ardından tamamen erimiştir (örneğin dağ >
+taw, sarığ > sarıq). Benzer şekilde standart Karluk varyantlarında eriyen ikiz ünsüzleri (örneğin
+sekkiz) muhafaza etmesi, dilin izole yapısından kaynaklı bir muhafazakarlıktır (Zhao & Hahn
+1989)64.
+İlişkiler ve Dil Temasları: Genetik olarak modern Uygurca (özellikle İli diyalekti) ve Özbekçeye
+en yakın akrabadır65. Çevresini saran Kazak (Kıpçak) dilli nüfus ve egemen Uygur kültürü
+nedeniyle yoğun bir leksikal baskı altındadır. Bu baskı, genç neslin dillerini tamamen terk edip
+Uygurca ve Kazakçaya geçmesine sebep olmuştur64.
+Dijital Güç ve NLP Durumu: Dijital uçurumun en dibinde, "Left-Behind" sınıfında yer alır6. Yazılı
+bir edebi geleneği olmadığı için internette herhangi bir metin verisi, Apertium tabanlı morfolojik
+çözümleyici veya Hugging Face platformunda taranmış bir yapay zeka/çeviri modeli
+bulunmamaktadır5.
+Bölüm 2: Tarihsel ve Ölü Türk Dilleri
+KÖKEN platformunda tarihsel köklerin analizi için kritik öneme sahip olan ve Orta Asya'dan Doğu
+Avrupa'ya uzanan dilsel evrimin yapıtaşlarını oluşturan sekiz ölü dilin derinleştirilmiş profilleri
+aşağıda sunulmaktadır.
+Eski Türkçe (Orhun / Göktürk) [otk]
+Özellik Veri
+Kol Şaz-Türkçesi (Doğu Eski Türkçe / Ortak
+Türkçe Ata)70
+Dönem ve Bölge 7. – 10. Yüzyıllar / Moğolistan, Doğu
+Türkistan, Yenisey70
+Konuşur Sayısı Kaynak Yok (Ölü dil)70
+Canlılık (EGIDS) 10 Extinct [Kaynak: Glottolog /
+Ethnologue]67
+===== SAYFA 11/28 =====
+Yazı Sistemi Eski Türk Runik Yazısı (Orhun ve Yenisey
+alfabeleri)70
+Tarihsel Gelişim ve Köken: Türk dilinin gramer ve sözvarlığı açısından doğrudan takip edilebilen
+ilk standart ve edebi formudur. İkinci Göktürk ve erken Uygur Kağanlıkları döneminde dikilen
+bengü taşlar (Kül Tigin, Bilge Kağan) sayesinde günümüze ulaşmıştır. 1893 yılında Vilhelm
+Thomsen tarafından çözülerek Türkolojinin temel taşı haline gelmiştir70.
+Yapı ve Özgünlük: Modern Türk dillerine kıyasla oldukça katı fonotaktik kurallara sahiptir;
+örneğin kelime başında yalnızca /b, t, k, s/ (nadir durumlarda ç, y, l) ünsüzleri bulunabilir70.
+Modern dillerde eriyen /d/ ve damaksıl /ñ/ fonemleri (örneğin adaq, qoyñ) kelime içinde ve
+sonunda sapasağlam korunmuştur. İsim çekiminde -gU gibi kollektif sayı ekleri ve lokatif ekinin
+(-dA) aynı zamanda ablatif (ayrılma) durumunu da karşılaması tipik arkaik özelliklerdir (Erdal
+2004)70.
+İlişkiler ve Dil Temasları: Çuvaşça (Oğur kolu) hariç günümüzdeki bütün modern Türk dillerinin
+(Şaz kolunun) doğrudan ve ortak edebi atasıdır. Yalnızca devlet idaresi, askerlik ve kısıtlı ticari
+konularda Çince ve Soğdcadan alıntılar barındırır, geri kalanı itibarıyla oldukça saf bir yapıdadır
+(Johanson 2021)70.
+Dijital Güç ve NLP Durumu: Ölü bir dil olmasına rağmen filolojik çabalarla dijitalleşmektedir.
+Universal Dependencies (UD) projesi kapsamında Orhun yazıtlarının ağaç bankası (Treebank)
+oluşturulmuş, sözdizimsel bağımlılıkları etiketlenmiştir71. Ayrıca TurkicNLP (Hakimov, 2026)
+kütüphanesinde Runik-Latin çift yönlü transliterasyonu ve temel tokenizasyon özellikleri
+yapılandırılmıştır2.
+Eski Uygurca [oui]
+Özellik Veri
+Kol Karluk-Uygur (Doğu Eski Türkçe)75
+Dönem ve Bölge 8. – 14. Yüzyıllar / Tarım Havzası, Turfan,
+Kansu Koridoru75
+Konuşur Sayısı Kaynak Yok (Ölü dil)75
+Canlılık (EGIDS) 10 Extinct [Kaynak: Glottolog /
+Ethnologue]67
+Yazı Sistemi Soğd temelli Eski Uygur alfabesi, Brahmi,
+Maniheist ve Süryani yazıları70
+Tarihsel Gelişim ve Köken: Göktürk Kağanlığı'nın yıkılmasının ardından Ötüken'den Turfan ve
+Tarım havzasına göç eden Uygurların, yerleşik hayata geçmeleriyle ivme kazanan ve yüzyıllar
+===== SAYFA 12/28 =====
+boyunca muazzam bir çeviri edebiyatı üreten klasik yazı dilidir. Budizm, Maniheizm ve Nasturi
+Hristiyanlık etrafında şekillenen zengin bir literatüre sahiptir72.
+Yapı ve Özgünlük: Göktürk Runik metinlerindeki sentaktik katılıktan ayrılarak çok daha esnek,
+felsefi ve soyut kavramları karşılayabilen bir morfosentaks geliştirmiştir. İkilemelerin yoğun
+kullanımı (bilip katıp, yäk içgäk) ve yardımcı fiillerle kurulan karmaşık analitik eylem yapıları
+dönemin edebi ustalığını gösterir (Röhrborn 1977-1998)77.
+İlişkiler ve Dil Temasları: Karahanlıcanın sözdizimsel altyapısını hazırlar. Budizm ve Maniheizm
+üzerinden Sanskritçe, Toharca, Soğdca ve Çinceden inanılmaz boyutlarda leksikal ve kavramsal
+kopyalamalar yapılmıştır (örneğin bakçan veya toyın gibi terimler)75.
+Dijital Güç ve NLP Durumu: Akademik dijitalleşme açısından güçlüdür. J. Wilkens ve Röhrborn
+tarafından hazırlanan kapsamlı sözlükler dijital tabanlara aktarılmaktadır. Ancak metinlerin
+heterojen alfabe kullanımı nedeniyle makine öğrenmesi (Neural Morph) ve standart Hugging
+Face modellerine entegrasyonu son derece zordur75.
+Karahanlı Türkçesi [xqa]
+Özellik Veri
+Kol Karluk (Hakaniye Türkçesi)74
+Dönem ve Bölge 11. – 13. Yüzyıllar / Maveraünnehir, Kaşgar,
+Tarım Havzası, Balasagun80
+Konuşur Sayısı Kaynak Yok (Ölü dil)80
+Canlılık (EGIDS) 10 Extinct [Kaynak: Glottolog /
+Ethnologue]67
+Yazı Sistemi Arap alfabesi (Uygur ortografisinden izler
+taşıyarak uyarlanmış)80
+Tarihsel Gelişim ve Köken: Türk topluluklarının İslami kültür dairesine girmesiyle birlikte
+Maveraünnehir ve Kaşgar merkezli olarak Karahanlı Devleti himayesinde doğan ilk standart
+edebi dildir. Kâşgarlı Mahmud'un Araplara Türkçeyi öğretmek için yazdığı muazzam sözlük
+"Dîvânu Lugâti't-Türk" (1072) ve Yusuf Has Hacib'in siyasetnamesi "Kutadgu Bilig" bu dilin
+başyapıtlarıdır80.
+Yapı ve Özgünlük: Eski Uygurcanın temel dilbilgisel morfolojisini muhafaza etmekle birlikte,
+İslami kavramları ifade edecek yeni sentaktik yapılar geliştirmiştir. Kâşgarlı Mahmud'un
+analizlerine göre, bu diyalektte Arapçada bulunmayan ötümlü dudak-diş sızıcılarını (/v/) temsil
+etmek için özel bir üç noktalı "fa" (ڤ) harfi icat edilmiştir (Ercilasun 2014)80.
+İlişkiler ve Dil Temasları: Karluk boylarının (Çiğil, Yağma) diyalektleri etrafında şekillenmiş ve
+Arapça ile Farsçanın masif adstrat baskısıyla yüzleşmiştir. Türk şiirinin Fars aruz vezniyle ilk defa
+===== SAYFA 13/28 =====
+melezlendiği, hem arkaik Türk unsurlarının hem de Semitik din terminolojisinin sentezlendiği
+tarihi bir kesişim noktasıdır80.
+Dijital Güç ve NLP Durumu: Filolojik metin transkripsiyonları (örneğin TDK veritabanları)
+açısından zengin olsa da, xqa ISO koduyla doğrudan eğitilmiş açık kaynaklı büyük dil modelleri
+(LLM) veya Apertium/Stanza entegrasyonu dijital platformlarda bulunmamaktadır10.
+Harezm Türkçesi [xzm]
+Özellik Veri
+Kol Kıpçak-Karluk geçiş evresi (Oğuz temaslı)86
+Dönem ve Bölge 13. – 14. Yüzyıllar / Harezm, Maveraünnehir,
+Altın Orda sınırları86
+Konuşur Sayısı Kaynak Yok (Ölü dil)86
+Canlılık (EGIDS) 10 Extinct [Kaynak: Glottolog /
+Ethnologue]67
+Yazı Sistemi Arap alfabesi81
+Tarihsel Gelişim ve Köken: Moğol istilaları ve Altın Orda'nın kültürel hegemonyası altında,
+Harezm bölgesinde bir araya gelen Karluk, Kıpçak ve Oğuz kabilelerinin harmanlanmasıyla
+oluşmuş bir Orta Türkçe koiné (geçiş) dildir. "Nehcü'l-Ferâdîs", "Kısasü'l-Enbiyâ" ve
+"Muînü'l-Mürîd" gibi dini-didaktik metinlerle kendini var etmiştir86.
+Yapı ve Özgünlük: Bu dili geçiş evresi kılan en önemli özellik metinlerdeki heterojen (karışık)
+ektir; aynı metinde Kıpçakça ve Oğuzca ekler yan yana bulunabilir. Tarihsel fonolojisinde Eski
+Türkçe damaksıl /d/ ~ /ð/ sesinin /z/ veya /z'/ fonemine dönüşmesi (adak > azak) Harezm
+metinlerini özel kılan karakteristik bir ses değişimidir (Kurtulmuş 2025)86.
+İlişkiler ve Dil Temasları: Karahanlıcanın edebi mirasını devralarak Çağataycaya zemin
+hazırlamıştır. Suvar ve Yemek boylarının diyalektleriyle temas etmiş, Farsçanın yoğun edebi
+kopyalamalarını da bünyesinde barındırmıştır86.
+Dijital Güç ve NLP Durumu: Modern NLP dünyasında "Left-Behind" durumundadır. Akademik
+çevriyazı (transliteration) projeleri dışında dijital bir morfoloji motoruna sahip değildir. Metinleri
+sadece spesifik corpus çalışmalarında (Tugantel vb.) kısıtlı referanslar olarak
+taranabilmektedir86.
+Codex Cumanicus Kıpçakçası [qwm]
+===== SAYFA 14/28 =====
+Özellik Veri
+Kol Kıpçak (Kuzeybatı Kıpçak / Kuman)91
+Dönem ve Bölge 13. yy sonu – 14. yy başı / Deşt-i Kıpçak,
+Karadeniz Kuzeyi, Kırım (Solhat)92
+Konuşur Sayısı Kaynak Yok (Ölü dil)91
+Canlılık (EGIDS) 10 Extinct [Kaynak: Glottolog /
+Ethnologue]67
+Yazı Sistemi Latin alfabesi (Gotik, İtalyan ve Alman
+misyoner el yazıları)83
+Tarihsel Gelişim ve Köken: Codex Cumanicus Kıpçakçası, İpek Yolu ticaretini domine eden
+Cenevizli ve Venedikli tüccarlar ile Hristiyanlığı yaymak isteyen Fransisken misyonerlerinin
+iletişim kurmak amacıyla derledikleri çok dilli bir el yazması (sözlük/gramer) üzerinden
+günümüze ulaşmıştır. Kuman-Kıpçak konfederasyonunun lingua francasını yansıtır83.
+Yapı ve Özgünlük: Yazı sistemi olarak Arap alfabesi yerine doğrudan Latin alfabesinin
+kullanılması, dönemin ünlü (vokal) değerlerinin fonetik olarak muazzam bir doğrulukla
+saptanmasını sağlamıştır. Kelime ortasındaki *ğ ünsüzünün sızıcılaşarak v'ye dönmesi (oğul >
+ovul) gibi klasik Kuzeybatı Kıpçak özelliklerini ilk kez belgeler83.
+İlişkiler ve Dil Temasları: Kırım Tatarcası, Karayca ve Urumcanın doğrudan atası konumundadır.
+Codex'in çok dilli yapısı, Kumanların aynı anda Farsça, Latince, İtalyanca ve Moğolca konuşan
+ticari bir adstrat (komşu dil) ortamında yaşadıklarını net bir şekilde gösterir83.
+Dijital Güç ve NLP Durumu: Kuun ve K. Grönbech'in endekslemeleri dijital filolojik taramalarda
+kullanılsa da, makine çevirisi, ağaç bankası (Treebank) veya herhangi bir Apertium/HF modeli
+söz konusu değildir83.
+İdil Bulgarcası [xbo]
+Özellik Veri
+Kol Oğur (Lir-Türkçesi)95
+Dönem ve Bölge 9. – 14. Yüzyıllar / İdil (Volga) Havzası, Kuzey
+Kafkasya95
+Konuşur Sayısı Kaynak Yok (Ölü dil)96
+===== SAYFA 15/28 =====
+Canlılık (EGIDS) 10 Extinct [Kaynak: Glottolog /
+Ethnologue]97
+Yazı Sistemi Arap alfabesi (büyük oranda mezar taşları)
+ve kısmi Türk Runik yazısı96
+Tarihsel Gelişim ve Köken: İdil (Volga) Bulgar Devleti'nin resmi dili olan bu yapı, on üçüncü ve
+on dördüncü yüzyıllardaki kitabelerden, sikkelenmiş paralardan ve İbn Fazlan gibi Arap
+seyyahların raporlarından tespit edilebilen ölü bir dildir. Altın Orda egemenliğinin ardından
+Kıpçak Tatarcanın asimilasyonu ile yerini Tatarcaya bırakmış, ancak Çuvaşçaya evrilerek mirasını
+yaşatmıştır95.
+Yapı ve Özgünlük: Türk dil ailesinde Şaz (Ortak Türkçe) şemsiyesinden radikal bir fonolojik
+deviasyonla ayrılan Oğur (Lir) grubunun klasik örneğidir. Rhotacism (z > r) ve lambdacism (ş > l)
+en kritik izoglosudur; örneğin Şaz grubundaki sekiz veya yedi yüz kelimeleri, İdil Bulgarcasında
+sekir ve jeti yir olarak mezar taşlarına kazınmıştır1.
+İlişkiler ve Dil Temasları: Modern Çuvaşçanın tek ve edebi atasıdır. Bölgedeki Fin-Ugor (Ural)
+ve Slav dilleriyle, ayrıca yerini aldığı Kıpçak diyalektleriyle güçlü tarihsel temasları ve substrat
+ilişkisi vardır15.
+Dijital Güç ve NLP Durumu: Talat Tekin'in (1988) İdil Bulgar kitabeleri okumaları dışında dijital bir
+NLP varlığı söz konusu değildir. "Left-Behind" statüsündedir95.
+Hazarca [zkz]
+Özellik Veri
+Kol Oğur veya Şaz (Sınıflandırması halen
+tartışmalı)100
+Dönem ve Bölge 7. – 10. Yüzyıllar / Hazar Denizi çevresi,
+Kafkasya, Doğu Avrupa100
+Konuşur Sayısı Kaynak Yok (Ölü dil)100
+Canlılık (EGIDS) 10 Extinct [Kaynak: Glottolog /
+Ethnologue]101
+Yazı Sistemi Eski Türk Runik yazısı (Kısa epigrafik), İbrani
+alfabesi (Elit zümre)100
+Tarihsel Gelişim ve Köken: Orta Çağ'da Kafkaslar ve Doğu Avrupa'da hüküm süren ve elitleri
+Museviliği benimseyen Hazar Kağanlığı'nın dilidir. Asya steplerinden Avrupa'ya uzanan ticaret
+yollarında "lingua franca" olarak kullanılmışsa da, on üçüncü yüzyıla gelindiğinde Kıpçak dilleri
+===== SAYFA 16/28 =====
+içinde tamamen asimile olup yok olmuştur100.
+Yapı ve Özgünlük: Dünya üzerinde en az belge bırakmış dillerden biridir; günümüze yalnızca iki
+isim, birkaç unvan (Kağan, Tudun, Şad) ve Kiev Mektubu (Kievan Letter) üzerinde bulunan
+"HWQWRWM" (Okudum / Oqurüm) kelimesi ulaşmıştır. Bu tek fiil kökündeki "q-r-m" yapısı, dilin
+Oğur mu (d>r değişimi) yoksa Şaz mı (Ortak Türkçe) olduğu yönündeki filolojik tartışmaların
+merkezindedir (Erdal 2007)100.
+İlişkiler ve Dil Temasları: Çok dilli ve çok dinli (polyglot/polyethnic) Hazar Devleti'nde Slav, İrani,
+Kafkas ve İbrani dilleriyle bir arada var olmuş, özellikle elit düzeyde Musevi kültüründen dini ve
+politik substrat almıştır100.
+Dijital Güç ve NLP Durumu: Literatürü olmayan, sadece epigrafik ve spekülatif bir ölü dil
+olduğu için dijital gücü veya doğal dil işleme (NLP) varlığı bulunmamaktadır100.
+Çağatayca [chg]
+Özellik Veri
+Kol Karluk (Güneydoğu Türkçesi / Geç Dönem
+Orta Asya)110
+Dönem ve Bölge 15. – 20. Yüzyıllar (1921'e dek) /
+Maveraünnehir, Fergana, Doğu Türkistan,
+Hindistan (Babür İmparatorluğu)110
+Konuşur Sayısı Kaynak Yok (Modern Uygurca ve
+Özbekçeye evrilmiştir)110
+Canlılık (EGIDS) 10 Extinct [Kaynak: Glottolog /
+Ethnologue]67
+Yazı Sistemi Arap alfabesi (Özellikle Nastaliq hat sanatı
+ile)110
+Tarihsel Gelişim ve Köken: Karahanlı ve Harezm dillerinin edebi mirasını devralan Çağatayca,
+Timur ve Babür imparatorlukları saraylarında standartlaşmış, Ali Şir Nevai'nin eserleriyle Hint
+altkıtasından Çin'e kadar uzanan bir coğrafyada yüzyıllarca prestij dili (lingua franca) olarak
+kullanılmış muazzam bir edebi dildir (Schluessel 2018)110.
+Yapı ve Özgünlük: Temel Karluk omurgası üzerine oturmasına karşın, ünlü uyumu kurallarında
+zayıflamalar görülür. Metinlerinde şairlerin aruza uymak için ünlüleri keyfi olarak değiştirmesi,
+Kıpçak ve Oğuz diyalektlerinden eklerin rastgele kullanılması (heterojen yapı) dönemin
+karakteristiğidir110.
+İlişkiler ve Dil Temasları: Modern Özbekçe ve Yeni Uygurcanın edebi ve genetik doğrudan
+atasıdır. Farsça (Hint-İran edebiyatı) ve Arapça ile girdiği entelektüel yarış, dilin sözvarlığına ve
+===== SAYFA 17/28 =====
+sözdizimine inanılmaz boyutlarda adstrat (komşu dil kopyalaması) yığılmasına neden
+olmuştur110.
+Dijital Güç ve NLP Durumu: Joshi'ye göre "Scraping-By" statüsündedir6. Özbekistan ve
+Çin'deki yoğun akademik çalışmalar sayesinde el yazmaları hızla dijitalleşmekte (OCR projeleri)
+olsa da, Hugging Face üzerinde doğrudan Çağataycaya (chg) adanmış açık kaynaklı sinirsel
+çeviri modelleri (NLLB, mBART) henüz yeterli olgunluğa erişmemiştir9.
+Bölüm 3: Türk Dilleri Küresel Canlılık ve Konuşur
+Demografisi Tablosu (47 Dil)
+Platformdaki dil profillerini istatistiksel açıdan sağlamlaştırmak ve tahmini sayıları akademik
+kaynaklı hale getirmek üzere hazırlanan bu kapsamlı tablo, Lewis & Simons (2010), Ethnologue,
+UNESCO Tehlikedeki Diller Atlası ve Glottolog metrikleri çapraz referans alınarak
+oluşturulmuştur.
+Dil ISO 639-3 Kol Konuşur Canlılık
+Sayısı (Yıl, (EGIDS /
+Kaynak) UNESCO)
+Türkçe tur Oğuz 83.000.000 1 National /
+(2019, Normal
+Ethnologue)18
+Özbekçe uzb Karluk 32.000.000 1 National /
+(2019, Normal
+Ethnologue)18
+Azerice aze Oğuz 30.000.000 1 National /
+(2019, Normal
+Ethnologue)18
+Kazakça kaz Kıpçak 19.000.000 1 National /
+(2019, Normal
+Ethnologue)18
+Uygurca uig Karluk 13.000.000 2 Provincial /
+(2019, Normal
+Ethnologue)18
+Türkmence tuk Oğuz 7.000.000 1 National /
+(2019, Normal
+Ethnologue)18
+===== SAYFA 18/28 =====
+Tatarca tat Kıpçak 5.500.000 2 Provincial /
+(2019, Normal
+Ethnologue)18
+Kırgızca kir Kıpçak 5.000.000 1 National /
+(2019, Normal
+Ethnologue)18
+Başkurtça bak Kıpçak 1.500.000 2 Provincial /
+(2019, Vulnerable
+Ethnologue)18
+Çuvaşça chv Oğur 1.200.000 2 Provincial /
+(2019, Vulnerable
+Ethnologue)18
+Kaşkayca qxq Oğuz 1.000.000 6a Vigorous /
+(2021, Normal
+Ethnologue)17
+Horasan - Oğuz 1.000.000 6b Threatened
+Türkçesi (2019, / Vulnerable
+Ethnologue)18
+Karakalpakça kaa Kıpçak 650.000 (2019, 2 Provincial /
+Ethnologue)18 Normal
+Kırım crh Kıpçak 600.000 6b Threatened
+Tatarcası (2019, / Severely end.
+Ethnologue)18
+Kumukça kum Kıpçak 450.000 (2019, 5 Developing /
+Ethnologue)18 Vulnerable
+Karaçay-Balk krc Kıpçak 400.000 5 Developing /
+arca (2019, Vulnerable
+Ethnologue)18
+Yakutça sah Sibirya 400.000 2 Provincial /
+(Saha) (2019, Vulnerable
+Ethnologue)18
+===== SAYFA 19/28 =====
+Balkan bgx Oğuz 331.000 7 Shifting /
+Gagavuzcası (Tahmin 2022, Threatened
+Campbell)5
+Tuvaca tyv Sibirya 300.000 (2019, 2 Provincial /
+Ethnologue)18 Vulnerable
+Urumca uum Kıpçak 190.000 (Etnik; 8a-8b /
+2000, Definitely end.
+Ethnologue)18
+Gagavuzca gag Oğuz 150.000 (2019, 3 Trade /
+Ethnologue)18 Critically end.
+Sibirya sty Kıpçak 100.000 (2019, 6b Threatened
+Tatarcası Ethnologue)18 / Definitely
+end.
+Nogayca nog Kıpçak 100.000 (2019, 5 Developing /
+Ethnologue)18 Definitely end.
+Salarca slr Oğuz 70.000 (2019, 6b Threatened
+Ethnologue)18 / Vulnerable
+Dobruca - Kıpçak 70.000 (2019, 6b Threatened
+Tatarcası Ethnologue)18 / Severely end.
+Altayca alt Sibirya 60.000 (2019, 2 Provincial /
+Ethnologue)18 Severely end.
+Hakasça kjh Sibirya 50.000 (2019, 2 Provincial /
+Ethnologue)18 Definitely end.
+Halaçça klj Argu 20.000 (2019, 6b Threatened
+Ethnologue)18 / Vulnerable
+Eynuca (Äynu) aib Karluk 6.000 (2019, 6b Threatened
+Ethnologue)18 / Critically end.
+===== SAYFA 20/28 =====
+Sarı Uygurca ybe Sibirya 5.000 (2019, 8a Moribund /
+(Batı) Ethnologue)18 Severely end.
+Şorca cjs Sibirya 3.000 (2019, 6b Threatened
+Ethnologue)18 / Severely end.
+Soyot - Sibirya 2.769 (Tahmin, Awakening /
+Rusya Critically end.
+İstatistiği)13
+Teleütçe - Sibirya 2.650 (Tahmin, 8a Moribund /
+Rusya Severely end.
+İstatistiği)117
+Telengitçe - Sibirya 2.399 (Tahmin, 8a Moribund /
+Rusya Severely end.
+İstatistiği)116
+Tubalarca - Sibirya 1.565 (Tahmin, 8a Moribund /
+Rusya Severely end.
+İstatistiği)117
+Dolganca dlg Sibirya 1.000 (2019, 6b Threatened
+Ethnologue)18 / Definitely
+end.
+Çelkanca - Sibirya 855 (Tahmin, 8a Moribund /
+Rusya Severely end.
+İstatistiği)117
+Kırımçak jct Kıpçak 200 (2007, 8b Nearly
+Ethnologue)18 extinct /
+Critically end.
+İli Türki ili Karluk ~120 (1982, 8a Moribund /
+Hahn/Salminen Severely end.
+)64
+Tofaca kim Sibirya ~40 (2007, 8b Nearly
+ELP/Ethnologu extinct /
+e)13 Critically end.
+===== SAYFA 21/28 =====
+Karayca kdr Kıpçak ~50 (2006, 8b Nearly
+(Karaim) Kocaoğlu/Ethn extinct /
+ologue)18 Critically end.
+Çulımca clw Sibirya 44 (2010, Rus 8b Nearly
+Nüfus Sayımı)18 extinct /
+Critically end.
+Eski Türkçe otk Şaz Ata Kaynak Yok 10 Extinct
+(Ölü dil)70
+Eski Uygurca oui Karluk Kaynak Yok 10 Extinct
+(Ölü dil)75
+Karahanlı xqa Karluk Kaynak Yok 10 Extinct
+(Ölü dil)80
+Harezm xzm Geçiş Kaynak Yok 10 Extinct
+(Ölü dil)86
+Codex qwm Kıpçak Kaynak Yok 10 Extinct
+Cumanicus (Ölü dil)91
+İdil Bulgarcası xbo Oğur Kaynak Yok 10 Extinct
+(Ölü dil)95
+Hazarca zkz Oğur/Şaz Kaynak Yok 10 Extinct
+(Ölü dil)100
+Çağatayca chg Karluk Kaynak Yok 10 Extinct
+(Ölü dil)110
+Analitik Sentez ve Öngörüler
+Tablodan elde edilen veriler ışığında, Türk dilleri konuşur nüfusu açısından son derece radikal bir
+güç dağılımı (power-law distribution) sergilemektedir. Türkçe, Özbekçe ve Azerbaycan Türkçesi
+gibi ulusal diller (EGIDS 1) yüz milyonlarca konuşur ile dünyada ağırlık merkezi oluştururken18,
+Sibirya ve Çin sınırlarındaki yalıtılmış varyantların nüfusları kritik eşik olan 10.000 konuşurun çok
+altına inmiştir18. Bu durum, asimilasyon, çok dillilik baskısı, dillerin itibarsızlaştırılması
+(devalorization) ve hegemonik dillerin (Rusça, Çince) kırsal bölgelerdeki yayılımının doğrudan bir
+neticesidir58.
+Özellikle "EGIDS 8a (Moribund)" ve "8b (Nearly Extinct)" seviyesine düşmüş olan Çulımca, İli
+===== SAYFA 22/28 =====
+Türki, Tofaca, Kırımçak ve Karayca gibi diller, terminal neslin kaybıyla birlikte tamamen yok olma
+riski taşımaktadır33. Doğal dil işleme ve dijital varlık taksonomisinde bu dillerin büyük bir
+çoğunluğu, hiçbir veri setine (korpus) veya kural tabanlı morfoloji aracına sahip olmayan
+"Left-Behind" sınıfına girmektedir6. Açık kaynaklı NLP mimarilerinin (TurkicNLP, Apertium) dahi
+ancak nispeten daha büyük alt dilleri kapsayabildiği (Sibirya Tatarcası, Urumca vb. -
+"Scraping-By") günümüzde, bu dillerin yaşatılması salt filolojik bir arşiv meselesi değil, aynı
+zamanda dijital teknolojinin kapsayıcılık sorunudur2. KÖKEN gibi akademik platformların tarihsel
+ölü dillerle (Eski Türkçe, Çağatayca vs.) eş zamanlı olarak bu marjinal dilleri etiketleyip dijital
+ortama aktarması, kaybolmakta olan tipolojik varyasyonların korunması adına paha biçilmez bir
+adım teşkil edecektir.
+Alıntılanan çalışmalar
+1. Turkic languages - Wikipedia, https://en.wikipedia.org/wiki/Turkic_languages
+2. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv,
+https://arxiv.org/pdf/2602.19174
+3. Bayesian phylolinguistics infers the internal structure and the time-depth of the
+Turkic language family - Oxford Academic,
+https://academic.oup.com/jole/article/5/1/39/5736268
+4. Endangered Languages in the 21st Century - OAPEN Library,
+https://library.oapen.org/bitstream/handle/20.500.12657/61360/1/9781000835458.
+pdf
+5. Turkic languages - Apertium, https://wiki.apertium.org/wiki/Turkic_languages
+6. Linguistic Diversity in NLP: A Call to Action | PDF | Data - Scribd,
+https://www.scribd.com/document/850419882/Joshi-the-State-and-Fate-of-Ling
+uistic-Diversity-and-Inclusion-in-the-NLP-World
+7. arXiv:2010.12174v1 [cs.CL] 23 Oct 2020, https://arxiv.org/pdf/2010.12174
+8. AI-based automatic transcription for Naija: A comparative performance analysis
+of four systems,
+http://www.naijastudies.com/journals/Rafaela%20TOSIN%20and%20Christian%2
+0MAIR%20-%20AI-based%20automatic%20transcription%20for%20Naija%20&
+%20A%20comparative%20performance%20analysis%20of%20four%20systems.
+pdf
+9. (PDF) TurkicNLP: An NLP Toolkit for Turkic Languages - ResearchGate,
+https://www.researchgate.net/publication/401133169_TurkicNLP_An_NLP_Toolkit_f
+or_Turkic_Languages
+10. turkic-nlp/turkicnlp: NLP Toolkit for Turkic Languages - GitHub,
+https://github.com/turkic-nlp/turkicnlp
+11. Balkan Turkish language - Wikipedia,
+https://en.wikipedia.org/wiki/Balkan_Turkish_language
+12. Rumelian Turkish - Glottolog 5.3,
+https://glottolog.org/resource/languoid/id/balk1254
+13. cataloguing the world's endangered languages - dokumen.pub,
+https://dokumen.pub/download/cataloguing-the-worlds-endangered-languages-
+===== SAYFA 23/28 =====
+1138922080-9781138922082.html
+14. Balkan Gagauz language - Grokipedia,
+https://grokipedia.com/page/Balkan_Gagauz_language
+15. Turkic Languages - Central Asia - Noesis Felsefe Atölyesi,
+https://azizyardimli.com/ottoman/DT_CKM_2018-19_orta_asya_00_turkic_languag
+es.html
+16. Languages - Hugging Face, https://huggingface.co/languages
+17. Qashqai language - Wikipedia, https://en.wikipedia.org/wiki/Qashqai_language
+18. List of Turkic languages - Wikipedia,
+https://en.wikipedia.org/wiki/List_of_Turkic_languages
+19. Qashqa'i - Glottolog 5.3, https://glottolog.org/resource/languoid/id/qash1240
+20. Qashqai language - Grokipedia, https://grokipedia.com/page/Qashqai_language
+21. Syntactic Changes In Qashqai Turkic Due To Contact With Persian,
+https://lrr.modares.ac.ir/article_7349_en.html?lang=en
+22. Qashqai Turkic: A Comprehensive Corpus-based Grammar - Sohrab Dolatkhah -
+Google Books,
+https://books.google.com/books/about/Qashqai_Turkic_A_Comprehensive_Corpu
+s_ba.html?id=7ssgywEACAAJ
+23. Models in QXQ - Hugging Face, https://huggingface.co/models?language=qxq
+24. Helsinki-NLP/opus-mt-tc-bible-big-mul-mul - Hugging Face,
+https://huggingface.co/Helsinki-NLP/opus-mt-tc-bible-big-mul-mul
+25. Urum language - Wikipedia, https://en.wikipedia.org/wiki/Urum_language
+26. Urum language - Grokipedia, https://grokipedia.com/page/Urum_language
+27. Urum Language (UUM) – L1 & L2 Speakers, Status, Map, Endangered Level &
+Official Use, https://www.ethnologue.com/language/uum/
+28. Urum - LING073, https://wikis.swarthmore.edu/ling073/Urum
+29. Kipchak Urum - Glottolog 5.3, https://glottolog.org/resource/languoid/id/urum1249
+30. Language Urum - DoReCo, https://doreco.huma-num.fr/languages/urum1249
+31. Automatic Phone Alignment of Code-switched Urum–Russian Field Data - ACL
+Anthology, https://aclanthology.org/2025.fieldmatters-1.1/
+32. Karaim language - Wikipedia, https://en.wikipedia.org/wiki/Karaim_language
+33. Foreign lexical items in the lexicon of the Karaim language,
+https://pressto.amu.edu.pl/index.php/yplm/article/download/52940/42898/131018
+34. LITHUANIAN KARAIM LİTVANYA KARAYCASI Éva Ágnes Csató UPPSALA
+UNIVERSITY - DergiPark, https://dergipark.org.tr/en/download/article-file/305296
+35. Krymchak - Glottolog 5.3, https://glottolog.org/resource/languoid/id/krym1236
+36. DEBATED ISSUES IN KARAIM HEBREW ORTHOGRAPHY* - Repository of the
+Academy's Library,
+https://real.mtak.hu/27546/1/Olach_Debated%20issues%20in%20Karaim%20Heb
+rew%20orthography%20-%20final%20corrected.pdf
+37. Position of Karaim among the Turkic Languages - SciSpace,
+https://scispace.com/pdf/position-of-karaim-among-the-turkic-languages-1hbr2
+ukktz.pdf
+38. INTRODUCTION.THE KARAIM LANGUAGE IN USE - Vilnius University Press,
+https://www.journals.vu.lt/proceedings/en/article/download/35744/33975/93309
+===== SAYFA 24/28 =====
+39. (PDF) A historical phonology of Western Karaim. The evolution of consonant
+harmony in the north-western dialect - ResearchGate,
+https://www.researchgate.net/publication/281235940_A_historical_phonology_of_
+Western_Karaim_The_evolution_of_consonant_harmony_in_the_north-western_di
+alect
+40. Consonant Harmony: Long-Distance Interaction in Phonology - eScholarship.org,
+https://escholarship.org/content/qt2qs7r1mw/qt2qs7r1mw.pdf?v=lg
+41. Karaim, Slavic Influence on,
+https://referenceworks.brill.com/display/entries/ESLO/COM-039764.xml
+42. Models in KDR - Hugging Face, https://huggingface.co/models?language=kdr
+43. Krymchak language - Wikipedia, https://en.wikipedia.org/wiki/Krymchak_language
+44. Krymchak Language Overview | PDF | Crimea - Scribd,
+https://www.scribd.com/document/211868962/Krymchak-Language
+45. Frank535/JCT · Datasets at Hugging Face,
+https://huggingface.co/datasets/Frank535/JCT
+46. Siberian Tatar language - Wikipedia,
+https://en.wikipedia.org/wiki/Siberian_Tatar_language
+47. Siberian Tatar language - Grokipedia,
+https://grokipedia.com/page/Siberian_Tatar_language
+48. Siberian Tatar language and alphabet - Omniglot,
+https://www.omniglot.com/writing/siberiantatar.htm
+49. Russian and Siberian-Tatar language contacts in middle of XX century -
+ResearchGate,
+https://www.researchgate.net/publication/328235443_Russian_and_Siberian-Tatar
+_language_contacts_in_middle_of_XX_century
+50. StyTJU/libero-sty-future-01 · Datasets at Hugging Face,
+https://huggingface.co/datasets/StyTJU/libero-sty-future-01
+51. special_tokens_map.json · andreas-sty/31OctoberQWEN2_5Adapter at main,
+https://huggingface.co/andreas-sty/31OctoberQWEN2_5Adapter/blob/main/speci
+al_tokens_map.json
+52. MultimodalHugs: Enabling Sign Language Processing in Hugging Face - arXiv,
+https://arxiv.org/html/2509.09729v1
+53. Tofa language - Grokipedia, https://grokipedia.com/page/Tofa_language
+54. Scientific and technical review of the traditional knowledge indicators and their
+suggested links with the headline, component a - Convention on Biological
+Diversity,
+https://www.cbd.int/doc/c/283e/eb7c/6a953a1e098b6c46e0f3be8d/sbstta-26-inf-
+11-en.pdf
+55. Языковое многообразие России и возможности его сохранения - Институт
+языкознания РАН,
+https://iling-ran.ru/library/revitalization/gruzdeva_et_al_language_diversity_2023.p
+df
+56. (PDF) Reflections on linguistic fieldwork in Mexico and Central America -
+Academia.edu,
+https://www.academia.edu/38639502/Reflections_on_linguistic_fieldwork_in_Mex
+===== SAYFA 25/28 =====
+ico_and_Central_America
+57. Junu Kim - starmpcc's activity - Hugging Face,
+https://huggingface.co/starmpcc/activity/papers
+58. Chulym language - Alchetron, The Free Social Encyclopedia,
+https://alchetron.com/Chulym-language
+59. Ös - Turkic Database at Elegant Lexicon,
+https://turkic.elegantlexicon.com/lx.php?lx=mch
+60. Chulym language - Wikipedia, https://en.wikipedia.org/wiki/Chulym_language
+61. Ös (Chulym) | Living Tongues Institute for Endangered Languages,
+https://livingtongues.org/os-chulym/
+62. Chapter 8 Chulym Turkic in: Clause Linkage in the Languages of the Ob-Yenisei
+Area - Brill, https://brill.com/display/book/9789004684775/BP000009.xml
+63. “BURYING IN LOGS” − A PHILOLOGICAL COMMENTARY ON A LOWER CHULYM
+TEXT RECORDED BY A.P. DUĹ ZON - Biblioteka Nauki,
+https://bibliotekanauki.pl/articles/62070541.pdf
+64. Ili Turks - Grokipedia, https://grokipedia.com/page/ili_turks
+65. Ili Turki language - Grokipedia, https://grokipedia.com/page/Ili_Turki_language
+66. Ili Turki language - Wikipedia, https://en.wikipedia.org/wiki/Ili_Turki_language
+67. Ili Turki - Glottolog 5.3, https://glottolog.org/resource/languoid/id/ilit1241
+68. Tuerke in China people group profile - Joshua Project,
+https://joshuaproject.net/people_groups/12210/CH
+69. Karluk languages - Grokipedia, https://grokipedia.com/page/Karluk_languages
+70. Old Turkic - Wikipedia, https://en.wikipedia.org/wiki/Old_Turkic
+71. Universal Dependencies for Old Turkish - ACL Anthology,
+https://aclanthology.org/2021.udw-1.11.pdf
+72. DİL VE KÜLTÜR İNCELEMELERİ: ESKİ TÜRKÇE HRİSTİYAN METİNLERİ* - DergiPark,
+https://dergipark.org.tr/en/download/article-file/389446
+73. A Grammar of Old Turkic | PDF | Clause | Consonant - Scribd,
+https://www.scribd.com/doc/111238787/A-Grammar-of-Old-Turkic
+74. ON THE RELATIONSHIP BETWEEN OLD TURKIC AND OTTOMAN TURKISH,
+https://www.ayk.gov.tr/wp-content/uploads/2015/01/ODA-Juten-ON-THE-RELATI
+ONSHIP-BETWEEN-OLD-TURKIC-AND-OTTOMAN-TURKISH.pdf
+75. “Useless” seems to be the hardest word Two Sogdian loanwords in Old Uyghur
+Jens WILKENS - Bitig Türkoloji Araştırmaları Dergisi,
+https://bitig.ogu.edu.tr/Storage/bitig/Uploads/1.-JENS-WILKENS-MAKALE-PRINT1.
+pdf
+76. Old Uyghur Script - Brill Reference Works,
+https://referenceworks.brill.com/display/entries/ETLO/SIM-032216.xml
+77. GAZİANTEP UNIVERSITY JOURNAL OF SOCIAL SCIENCES Eski Uygurca Tıp
+Metinlerine İlişkin Birkaç Fragman1 - DergiPark,
+https://dergipark.org.tr/en/download/article-file/3563909
+78. A Ritual of Buddhism in Old Uyghur: Bakçan Olur- - Istanbul University Press,
+https://iupress.istanbul.edu.tr/en/journal/tuded/article/eski-uygurcada-budizme-ai
+t-bir-rituel-bakcan-olur
+79. Old Uyghur kat- 'to understand' Verb - Istanbul University Press,
+===== SAYFA 26/28 =====
+https://iupress.istanbul.edu.tr/en/journal/tuded/article/eski-uygurca-kat-kad-anla
+mak-fiili
+80. Karakhanid language - Grokipedia,
+https://grokipedia.com/page/Karakhanid_language
+81. ON THE ISSUE OF TRANSCRIPTION IN HISTORICAL TURKIC TEXT STUDIES IN
+CENTRAL ASIA* ORTA ASYA TARİHİ TÜRKÇE METİN ARAŞTIRMALA - DergiPark,
+https://dergipark.org.tr/en/download/article-file/2982503
+82. Ulusal Tez Merkezi | Anasayfa,
+https://tez.yok.gov.tr/UlusalTezMerkezi/tezDetay.jsp?id=jmTcpXph9rx-3KDjX1OQe
+w&no=gtbD5PALnVdRgki3ndpAyQ
+83. Divânu Lügati't-Türk and the Codex Cumanicus: Cornerstones of Medieval Turkic
+Language,
+https://www.motleyturkey.com/initial-written-footsteps-divanu-lugatit-turk-code
+x-cumanicus/
+84. “ÜÇ NOKTALI FE” HARFİNİN SES KARŞILIĞI Oğuzların /w/ Karahanlıların /v/ Ünsüzü
+Kullanımı, https://tdkbelleten.gov.tr/tam-metin-pdf/982/tur
+85. Karahanlı Türkçesi Metinlerinde Manihaist ve Budist Çevreye Ait Bazı Sözcükler -
+İstanbul Üniversitesi,
+https://cdn.istanbul.edu.tr/file/JTA6CLJ8T5/953DF990CC79463480DD222CBBD0B
+3AA
+86. Harezm Türkçesi Metinlerinde Görülen Eski Türkçe /-d, -d-/ > /-z - DergiPark,
+https://dergipark.org.tr/en/download/article-file/4306359
+87. Harezm Türkçesi Metinlerinde Görülen Eski Türkçe /-d, -d-/ > /-z, - z-/ Ses
+Değişimi Üzerine - Istanbul University Press,
+http://iupress.istanbul.edu.tr/journal/tuded/article/harezm-turkcesi-metinlerinde-g
+orulen-eski-turkce-d-d-z-z-ses-degisimi-uzerine?id=1523702
+88. TE314 Khorezmian Turkic Language - Information Package | Course Catalog -
+Çukurova Üniversitesi, https://eobs.cu.edu.tr/En/Course/Information/621414
+89. Harezm Türkçesi Metinlerinde Görülen Eski Türkçe /-d, -d-/ > /-z, - z-/ Ses
+Değişimi Üzerine, https://dergipark.org.tr/en/pub/iutded/article/1571563
+90. T.C. BARTIN ÜNİVERSİTESİ LİSANSÜSTÜ EĞİTİM ENSTİTÜSÜ TÜRK DİLİ VE
+EDEBİYATI ANABİLİM DALI SÖZDİZİMSEL İŞ,
+https://acikerisim.bartin.edu.tr/bitstreams/39fb72a5-f8f0-4737-abc4-af1e04f351c
+0/download
+91. The Lexical and Semantic Analysis of Zamakshari's Dictionary “Muqaddimat Al-
+Adab” and its Relation to the,
+https://www.ijscl.com/article_708394_bd384084c7a89061ffcced25d7ecfac1.pdf
+92. Codex Cumanicus | KÜRE Encyclopedia,
+https://kureansiklopedi.com/en/detay/codex-cumanicus-2b0e2
+93. Cuman language - Grokipedia, https://grokipedia.com/page/Cuman_language
+94. Cumans - Wikipedia, https://en.wikipedia.org/wiki/Cumans
+95. Journal of Turkic Civilization Studies - DergiPark,
+https://dergipark.org.tr/tr/download/article-file/5726169
+96. (DOC) BG hist Bulgar language - Academia.edu,
+https://www.academia.edu/31144545/BG_hist_Bulgar_language
+===== SAYFA 27/28 =====
+97. Wiktionary:Beer parlour/2025/January,
+https://en.wiktionary.org/wiki/Wiktionary:Beer_parlour/2025/January
+98. ürk Dili Tari - Turuz,
+https://turuz.com/storage/Language/2020/2463-Turk_Dili_Tarixi-Ali_Akar-2005-32
+6s.pdf
+99. Kökler: Yay Çeken Kavimlerin Şafağı I [1] 9786254081668, 9786254081651 -
+dokumen.pub,
+https://dokumen.pub/kkler-yay-eken-kavimlerin-afa-i-1-9786254081668-9786254
+081651.html
+100. Khazar language - Wikipedia, https://en.wikipedia.org/wiki/Khazar_language
+101. Khazar language - Wikidata, https://www.wikidata.org/wiki/Q1067986
+102. Hazar Kağanlığı - Vikipedi,
+https://tr.wikipedia.org/wiki/Hazar_Ka%C4%9Fanl%C4%B1%C4%9F%C4%B1
+103. Hazarca - Vikipedi, https://tr.wikipedia.org/wiki/Hazarca
+104. Category:Khazar language - Wiktionary, the free dictionary,
+https://en.wiktionary.org/wiki/Category:Khazar_language
+105. File:Kievian letter (cropped).png - Wikimedia Commons,
+https://commons.wikimedia.org/wiki/File:Kievian_letter_(cropped).png
+106. Khazars - Outline of Turks: The Western Turks - TransAnatolie Tour,
+https://www.transanatolie.com/english/Turkey/Turks/WesternTurks/khazars.htm
+107. The Kievan Letter, a Hebrew letter recommendation written by a
+representative of Kyiv's Jewish community around 930. Someone also wrote in
+Khazar Turkic "I have read it" at the end. The letter ended up in Egypt. Translation
+in comments. (1367x2200) : r/ArtefactPorn - Reddit,
+https://www.reddit.com/r/ArtefactPorn/comments/1ceig4n/the_kievan_letter_a_he
+brew_letter_recommendation/
+108. Are Chuvash people the remaining descendants of the On Oghurs, Khazars,
+Volga Bulgars or the Attila Huns? : r/Tiele - Reddit,
+https://www.reddit.com/r/Tiele/comments/v72n81/are_chuvash_people_the_remai
+ning_descendants_of/
+109. Hosszu Gabor - Khazar Rovash - TurkicWorld,
+http://s155239215.onlinehome.us/turkic/14Khazars/HosszuGKhazarRuneWritingsE
+n.htm
+110. Chagatai language - Wikipedia,
+https://en.wikipedia.org/wiki/Chagatai_language
+111. Uzbek language - Wikipedia, https://en.wikipedia.org/wiki/Uzbek_language
+112. A Grammar of Chagatay | PDF - Scribd,
+https://www.scribd.com/document/336532558/A-Grammar-of-Chagatay
+113. (PDF) Schluessel, Eric (2018). An Introduction to Chaghatay: A Graded
+Textbook for Reading Central Asian Sources - ResearchGate,
+https://www.researchgate.net/publication/342348353_Schluessel_Eric_2018_An_I
+ntroduction_to_Chaghatay_A_Graded_Textbook_for_Reading_Central_Asian_Sour
+ces
+114. An Introduction to Chaghatay: A Graded Textbook for Reading Central Asian
+Sources - Digital Collections,
+===== SAYFA 28/28 =====
+https://quod.lib.umich.edu/m/maize/images/mpub10110094.pdf
+115. chaghatay language is the bridge between old turkic and modern - DergiPark,
+https://dergipark.org.tr/en/download/article-file/319161
+116. Mehmet AKKUŞ1 - DergiPark,
+https://dergipark.org.tr/tr/download/article-file/1089277
+117. Linguistic and Cultural Diversity in Cyberspace,
+http://mcbs.ru/files/2015/hmao_2015/yak_mling_2015.pdf
+118. Top 15 Most Spoken Languages In The World In 2025 - Mondly,
+https://www.mondly.com/blog/most-spoken-languages-in-the-world/
+119. written by Yasemin Oral, Murat Topçu, Neşe Kaya, Ömer Eren, Melike Üzüm,
+Ioanna Sitaridou, Metin Bağrıaçık, İlyas Arslan - Laz Enstitüsü,
+https://www.lazenstitu.com/wp-content/uploads/2024/10/Endangered-language-i
+n-turkey-for-web.pdf
+120. Language and the new media -language spread in the digital age -
+ResearchGate,
+https://www.researchgate.net/publication/403843679_Language_and_the_new_m
+edia_-language_spread_in_the_digital_age

@@ -1,714 +1,840 @@
 {
- "_meta": {
-  "source": "Deepsearch 9.1–9.5 (kol-bazlı derin profiller: Oğuz/Kıpçak/Karluk/Sibirya/Oğur-Argu) — Glottolog, Ethnologue, UNESCO + Wikipedia/Grokipedia/ACL/apertium-wiki/HF ile çapraz-kontrol",
-  "license": "derleme metin; kaynaklar atıflıdır (akademik özet)",
-  "accessed": "2026-06-25",
-  "module": "Dil Profilleri — derin profil (tarih / yapı-özgünlük / ilişkiler / dijital güç)",
-  "note": "Her dil için ORTAK ŞABLON (deepsearch 9). Sayılar ve iddialar deepsearch metninden; tartışmalı/çelişkili noktalar düzeltildi (Joshi sınıfı build.py JOSHI ile hizalandı). Uydurma yok; kaynakta olmayan eklenmedi.",
-  "status": "14/14 dil"
- },
- "deep": {
-  "tr": [
-   {
-    "label": "Tarih",
-    "body": "11. yüzyılda Selçuklu göçleriyle Anadolu'ya gelen Eski Anadolu Türkçesinden evrildi. Osmanlı döneminde Arapça-Farsçadan yoğun sözcük ve tamlama aldı; 1928 Harf Devrimi (Latin) ve eşzamanlı Dil Devrimi (özleşme) modern standardı kurdu."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "8 ünlü, 21 ünsüz. Büyük ve küçük ünlü uyumu son derece sıkı işler; söz sonu ötümsüzleşme (kitab→kitap) Arapça alıntılarda bile uygulanır. -Iyor şimdiki zaman ve -mIş öğrenilen geçmiş özgün eklerdir. Sondan eklemeli, SOV, başı-sonda."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Batı Oğuz alt grubunun en yaygın üyesi (~85 milyon). Gagavuzca ve Azerice ile yüksek karşılıklı anlaşılabilirlik; Türk dilleri için transfer öğrenmede merkez/pivot dildir."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "En güçlü Türk dili — Joshi Sınıf 4 (yüksek kaynak). UD ağaç bankaları: UD_Turkish-BOUN (9.761 cümle), IMST (5.635), TueCL. apertium-tur 17.221+ kök, üretim seviyesi; TRmorph; HuggingFace'te çok sayıda BERT/RoBERTa/LLM."
-   }
-  ],
-  "az": [
-   {
-    "label": "Tarih",
-    "body": "Selçuklu mirası üzerine 16. yüzyıl Safevi döneminde Şah İsmail (Hatai) ve Fuzûlî ile edebi kimlik kazandı. Kuzey (Azerbaycan) Sovyet sonrası Latin'e geçti ve Rusçadan adstrat aldı; Güney (İran) Arap-Fars alfabesi ile Farsça kopyaları sürdürür."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Türkçeye çok yakın; en ayırt edici özelliği açık /æ/ (ə) ünlüsünün yaygın, ayırt edici bir fonem olmasıdır. Hâl ve iyelik Ortak Oğuz karakterinde; SOV (güneyde Farsça etkisiyle bağlaçlı esneklik)."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Merkez Oğuz; makrodil — Kuzey (azj) ve Güney (azb) standartlarına ayrılır. En yakın akrabaları Türkçe ve Horasan Türkçesi; yüksek karşılıklı anlaşılabilirlik."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 2-3 (orta). apertium-tur-aze hazırlık (~8.194 kök); NLLB-200 ve Glot500 temel modellerinde yer alır; UD_Azerbaijani-TueCL. İki alfabenin (Latin/Arap) eşzamanlı kullanımı transliterasyon maliyeti yaratır."
-   }
-  ],
-  "tk": [
-   {
-    "label": "Tarih",
-    "body": "Oğuz boylarının Karakum çevresindeki göçebe kültüründe şekillendi; uzun süre Çağatay edebi etkisinde kaldı. 18. yüzyılda Mahtumkulu Firaki ile edebi standardını kurdu. Bugün Latin yazısı (önce Arap, sonra Kiril)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Ana Türkçe'nin birincil uzun ünlülerini korur — uzunluk anlamı değiştirir (fonemik). En özgün özelliği /s/, /z/ seslerinin dişlerarası peltek /θ/, /ð/ olarak gerçekleşmesidir; Türk dünyasında benzeri yalnız Başkurtça'da görülür. SOV, sondan eklemeli."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Doğu Oğuz; en yakın akrabası İran'daki Horasan Türkçesi; Özbekçe (Karluk) ile areal sözcük alışverişi."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Yüksek konuşur (7-8M), düşük dijital varlık — Joshi Sınıf 1. apertium-tuk yalnız ~2.988 kök; apertium-tuk-tur kreş (~3.387); NLLB-200 destekler; tkWaC web korpusu; UD_Turkmen-TUD (gümüş standart)."
-   }
-  ],
-  "kk": [
-   {
-    "label": "Tarih",
-    "body": "15. yüzyıl Kazak Hanlığı ile belirginleşti; Çağatay etkisinden sonra 19. yüzyılda Abay Kunanbayoğlu edebi kimliği, Ahmet Baytursunov ise sesçil dilbilimsel standardı kurdu. Kiril→Latin geçişi sürüyor (Çin'de Töte/Arap)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Katı ünlü uyumu; morfem sınırlarında agresif ünsüz asimilasyonu çoğul ekini 12 varyanta çıkarır (-lar/ler, -dar/der, -tar/ter). Morfotaktik zincir Kök+Yapım+Çoğul+İyelik+Hâl (mektep+ter+i+nde 'okullarında'). SOV."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Kıpçak-Nogay; Karakalpakça ile neredeyse tam, Kırgızca ile yüksek anlaşılabilirlik. Rusçadan yoğun leksikal kopya (çekim yapısı bozulmadan)."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi 1→3 'yükselen yıldız'. apertium kaz-tat üretim (%88.7 kapsama, 36.595 kök); ISSAI'nin Sherkala-Chat 8B (LLaMA-3.1, 45.3B token), KAZ-LLM, KazNERD; UD_Kazakh-KTB; TurkicNLP üretim seviyesi destek."
-   }
-  ],
-  "kg": [
-   {
-    "label": "Tarih",
-    "body": "Kökleri Güney Sibirya Yenisey vadisine uzanır; Tanrı Dağları'na göçüp Kıpçak boylarıyla kaynaştı. Dünyanın en uzun destanı Manas, dilin tarihsel sözlüğü ve gramerinin baş taşıyıcısıdır. Kiril (Çin'de Arap)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "8 ünlü. En ayırt edici özelliği katı DUDAK UYUMU: ekler yuvarlak köklerde yuvarlaklaşır — çoğul -lor/-lör/-dor/-dör/-tor/-tör (kol+dor 'eller', küz+dör 'güzler'). Dörtlü nezaket zamiri (sen/siz/siler/sizder)."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Kazakça ile uzun areal komşuluk ikisini yakınlaştırdı; Altayca/Yenisey substratı arkaik Kıpçak formlarından ayırır."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 1. apertium kaz-kir hazırlık (~%85.8 kapsama); AkylAI ve KyrgyzBERT yerel modelleri; UD_Turkish-TueCL içinde paralel Kırgızca veri. Kazakça'nın niceliksel gerisinde."
-   }
-  ],
-  "tt": [
-   {
-    "label": "Tarih",
-    "body": "İdil (Volga) Bulgarları ve Altın Orda'nın doğrudan kültürel mirasçısı. Eski Tatarca yüzyıllarca Rusya Müslüman Türkleri arasında lingua franca oldu; Kul Gali'nin 13. yüzyıl Kıssa-i Yusuf'u temel anıttır. Modern standart 19. yüzyılda Kayyum Nasıri ve Mercani ile. Kiril (1939)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "En devrimsel özelliği tarihsel ünlü kaymasıdır: yüksek ünlüler kısalıp merkezileşir, orta ünlüler daralıp yükselir (et→it, söz→süz, kol→kul, kül→köl). Çoğul -lar/-ler büyük ölçüde korunmuş (agresif asimilasyon yok)."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Kıpçak-Bulgar; Başkurtça ile %90+ anlaşılabilirlik; Çuvaşça ile asırlık komşuluk İdil-Ural dil birliğini doğurdu. Rusça ile kelime içi kod-değiştirme yaygın."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 1. apertium kaz-tat üretim (55.702 kök, %87), tat-bak %97.3; mGPT/mBERT/NLLB-200 kapsamında; NMCTT ağaç bankası kelime-içi kod-değiştirmeyi etiketler. RF'de eğitim baskısı altında."
-   }
-  ],
-  "bak": [
-   {
-    "label": "Tarih",
-    "body": "Etnik kimlik İbn Fadlan'a (10. yüzyıl) dek uzanır; yazı dili yüzyıllarca Çağatay/İdil Türkiçesiydi. Sovyet 'her halka ayrı standart' politikasıyla 1920'lerde Tatarca'dan ayrışan doğu-güney ağızları temel alınarak standartlaştı. Kiril (9 özel harf: Ғ Ҙ Ҡ Ң Ө Ҫ Ү Һ Ə)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Radikal ünsüz kaymalarıyla benzersiz: söz/morfem başı /s/→/h/ (süz→hüź, su→hıw); /s/ ve /z/→peltek /θ/ (Ҫ), /ð/ (Ҙ) (küz→küź); /ç/→/s/ (ağaç→ağas). Ayrıca Tatarca ile aynı tarihsel ünlü kayması."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Kıpçak-Bulgar; Tatarca ile yazıda neredeyse tam anlaşılabilirlik, sözlü peltek/gırtlaksı sesler (h, θ, ð) algı bariyeri."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 1. apertium tat-bak %97.3, 57.710 kök — ses kuralları sistematik olduğu için. LLM verisi kısıtlı (yalnız mGPT gibi makro projeler); UD henüz olgunlaşmamış."
-   }
-  ],
-  "ug": [
-   {
-    "label": "Tarih",
-    "body": "Modern Uygurca, Eski Uygurca'nın değil Karahanlı (Kaşgarlı)→Çağatay→Karluk çizgisinin varisidir; 'Uygurca' adı 1922 Sovyet ve 1934 Sincan kararıyla 'Türki' yerine konuldu. Arap (UEY) yazısı. (Eski Uygurca'nın gerçek mirasçısı Sibirya'daki Batı Yugurca'dır.)"
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "8 ünlü, 24 ünsüz; Özbekçe'nin aksine ünlü uyumu aktiftir. Arap kökenli alfabe reformu tüm ünlüleri zorunlu yazdırır — OCR/makine çevirisinde büyük avantaj. SOV, sondan eklemeli."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Karluk doğu kanadı; Özbekçe ile ~%70 temel kelime ortaklığı; Farsça-Arapça, son yüzyılda Çinceden yoğun alıntı. İzole Lopnor diyalekti kritik tehlikede."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 1 (zar zor). apertium-uig 17.585 kök, ~%54.2 tanıma; UD_Uyghur-UDT (~40K token); ASR güçlü (CommonVoice 119s, M2ASR 136s). Telif ve politik bariyerler metin verisini kısıtlar."
-   }
-  ],
-  "chv": [
-   {
-    "label": "Tarih",
-    "body": "İdil (Volga) Bulgarcasının yaşayan mirasçısı. Bulgar-Çuvaş sürekliliği Hüseyin Feyzhanov'un 1863 epigrafi çalışmasıyla (Bulgar mezar taşlarındaki 'Çuvaş anahtarı') kanıtlandı; N. İ. Aşmarin'in 17 ciltlik Thesaurus'u (1928-1950) dilin anıtsal sözlüğüdür. Kiril (Ӑ Ӗ Ҫ Ӳ)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Oğur kolunu ayıran rotasizm (*z→r: tăhăr 'dokuz') ve lambdasizm (*š→l: hĕl 'kış'); ayrıca q→x (hura 'kara'), söz başı y→ś (śul 'yol'); indirgenmiş ünlüler ă/ĕ ve sıradışı vurgu. Morfotaktik TERStir: Kök+İyelik+Çoğul+Hâl (xĕr-ĕm-sen-čen 'kızlarımdan'); çoğul -sem/-sam; Dative-Accusative tek ekte birleşir — Mari/Fin-Ugor Sprachbund izi."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Oğur (Bulgar) kolunun TEK yaşayan üyesi; diğer Türk dilleriyle anlaşılabilirlik sıfıra yakın. Tatarca ve Mari ile asırlık İdil-Ural areal birliği."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 1. apertium-chv İyelik+Çoğul anomalisini başarıyla modeller; chv-tat, chv-tur, chv-rus çeviri çiftleri var. Dative-Accusative birleşmesi UD etiketlemesinde teorik zorluk yaratır. Konuşur 10 yılda ~1,04M→740K düştü."
-   }
-  ],
-  "sah": [
-   {
-    "label": "Tarih",
-    "body": "13-15. yüzyılda Moğol baskısıyla Baykal'dan Lena havzasına göçen Türklerden doğdu; Tunguz (Evenki) ile yoğun temas Ortak Türkçe'den dramatik kopuşa yol açtı. Otto von Böhtlingk'in 1851 grameriyle akademik standart kazandı. Kiril (1938, 5 özel harf: Ҕ Ҥ Ө Һ Ү)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "8 kısa + 8 uzun ünlü + 4 diftong; uzun ünlüler korunmuş. Söz başı s→h→Ø; morfem sınırında katı benzeşme (at→appıt 'atımız'). En radikal sapma: Genitif ve Lokatif hâllerini TAMAMEN yitirip Tunguzcadan Partitif ve Komitatif hâlleri almasıdır."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Kuzey Sibirya (Yakutik); en yakın akrabası Dolganca. Moğolca-Tunguzca areal etki söz varlığında ağır, çekirdek dilbilgisi Türkçe kaldı."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Sibirya'nın en güçlüsü — Joshi Sınıf 1-2. apertium-sah 11.531 kök, ~%89.6 kapsama; UD_Yakut-YKTDT; HuggingFace'te MMS tabanlı Yakut-ASR ve yerel LLM'ler. Paralel korpus eksikliği derin öğrenmeyi sınırlar."
-   }
-  ],
-  "tyv": [
-   {
-    "label": "Tarih",
-    "body": "Sayan dağlarında Eski Uygur ve Oğuz unsurlarından şekillendi; yüzyıllarca Moğol idaresinde kaldı. 1928 Latin, 1943 Kiril. Kızıl'da gençlerde Rusça etkisi artsa da kırsalda aktarım canlı."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Dünyada eşine az rastlanır 'alçak ton/gıcırtılı' (kargyraa) ünlü sistemi: at 'isim' ile àt 'at (hayvan)' yalnız ton farkıyla ayrılır; ünlüler kısa/uzun/alçak-tonlu olmak üzere üçe ayrılır. Katı ünlü + dudak uyumu; höömey gırtlak şarkısı geleneği."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Sibirya, Sayan alt-grubu; Moğolca ile asimetrik temas (Moğolca yapım ekleri). Moğolistan ve Çin'de azınlık toplulukları."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 1. apertium-tyv Sayan grubunun en olgun modülü: 11.695 kök, korpuslarda %88.9-95.5 kapsama. Modern LLM/üretken YZ verisi eksik."
-   }
-  ],
-  "kjh": [
-   {
-    "label": "Tarih",
-    "body": "Yenisey Kırgızları'nın torunları; çeşitli boyların (Sagay, Kaça, Koybal, Beltir, Kızıl) birleşmesiyle oluştu. Kökleri 7. yüzyıl Yenisey runik yazıtlarına uzanır; M. Castrén'in 1840'lar saha çalışmasıyla belgelendi. Kiril."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "En radikal özelliği ş/ç/j seslerinin ıslıklı sibilantlara (s/z) dönüşmesidir (şyrbek→sÿrbek 'tavşan'). Standart 6 Türkçe hâle ek olarak Direktif/Allatif, Ekvatif ve Circumstantial gibi eklerle TOPLAM 10 hâl geliştirmiştir. Katı SOV."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Sibirya, Yenisey alt-grubu (Şorca ile birlikte). Rusçadan leksikal etki; Arapça-Farsça kopya yok denecek kadar az."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 1, kesinlikle tehlikede. apertium-kjh Tuvaca/Sahaca olgunluğuna ulaşamadı; Hakasça-Rusça-İngilizce e-sözlük var ama tam NLP hattına entegre değil. LLM verisi yok."
-   }
-  ],
-  "shor": [
-   {
-    "label": "Tarih",
-    "body": "Tarihöncesinde Ket ve Ob-Ugor (Ural/Yenisey) halklarıyla yoğun temas/asimilasyon; sonra Moğol ve Rus etkisi. İki lehçeye ayrılır: Mrassu (-d-→-z-, azaq) ve Kondoma (-d-→-y-). Asimilasyon dili yalnız yaşlı nesle sıkıştırdı."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "16 ünlü (8 kısa, 8 uzun); dudak uyumu Mrassu'da korunmuş, Kondoma'da bozulmuş. Edatların gövdeye ekleşmesiyle yeni hâl ekleri üretir; ulaç/zarf-fiil yoğun çok-yüklemli birleşik cümleler (PPC)."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Sibirya, Yenisey alt-grubu (Hakasça'ya yakın). Ket/Ob-Ugor substratı belirgin."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 0 (geride kalan). apertium-cjs yalnız taslak; açık korpus yok — analizör, makine çevirisi, TTS/ASR üretilemedi. UNESCO: ciddi tehlikede."
-   }
-  ],
-  "clw": [
-   {
-    "label": "Tarih",
-    "body": "Kaşgarlı Mahmud'un 11. yüzyılda kaydettiği 'Argu' boyunun organik devamı (olumsuzluk 'dag' sözcüğü hâlâ yaşar). Bir 'yaşayan fosil' olarak Gerhard Doerfer'in 1968 keşfi ve 1971 'Khalaj Materials' eseriyle bağımsız kol olarak tescillendi. Standart yazısı yok (Arap/Latin transkripsiyon)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Ana Türkçe söz başı *h-'yi korur (hadaq 'ayak' ile Oğuz ayaq); *-d-'yi *d→y değişimine uğratmaz; birincil uzun ünlüler ve diftonglar canlıdır. Çuvaşça'nın aksine morfotaktik KLASİKtir (Kök+Çoğul+İyelik+Hâl); 8 hâl, Dative ile Accusative kesin ayrı."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Argu kolunun TEK temsilcisi; İran'da Farsça ve Azerice baskısında üç dilli yaşam. Türkolojinin 'arkaik müzesi'."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 0. apertium-klj kuluçka aşamasında, yeterli kaynak yok; yalnızca sıfır-atışlı (zero-shot) paradigma verisi. Çocuklara aktarım ~%5; tehlikede."
-   }
-  ],
-  "uzn": [
-   {
-    "label": "Tarih",
-    "body": "Çağatayca'nın (Karahanlı→Harezm→Çağatay) doğrudan varisi. Tarihsel 'Özbek' etnonimi aslında Kıpçak-kökenli (Kazakça-benzeri) bir dile atıftı; yerel 'Türki', Sovyet dil politikası + Batılı adlandırmayla 'Özbekçe' oldu. Alfabe serüveni: Arap→Kiril→Latin (1993 başladı, 2023 resmî zorunlu)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Türk dillerinde İSTİSNA: yüzyıllık Fars/Tacik teması, standart Kuzey Özbekçe'de ünlü uyumunu büyük ölçüde YOK etti (6 ünlü: a,e,i,o,u,oʻ). SOV, sondan eklemeli, cinsiyetsiz; 6 hâl; isim öbeğinde sayı uyumu zorunlu değil. compound:lvc 'hafif fiil' yapıları (UD)."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Diyalekt sürekliliği; Kuzey Özbekçe gramerde Kıpçak+Oğuz izleri + yoğun Farsça altkatman → karmaşık yapı. Güney Özbekçe (Afganistan) izolasyonla ayrı gelişti (Türkmence teması). Sibirya dilleri hariç, en kolay anlaşılan Türk varyantlarından biri sayılır."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 3 (Yükselen Yıldız) — bölgede Türkçe/Kazakça ardından. apertium-uzb gelişmiş (analiz+üretim+CG; Kiril/Latin .dix otomatik geçiş betiği). UD_Uzbek-UT (5.850 token) + UzUDT (7.582, %90+ güvenilir). Devlet destekli; dezavantaj: web verisi çift-alfabe arasında bölünmüş."
-   }
-  ],
-  "uzs": [
-   {
-    "label": "Tarih",
-    "body": "Özbekçe makrodilinin (ISO uzb) güney kolu — Afganistan kuzeyi (Faryab, Cüzcan, Sar-i Pol). Çağatay mirasını paylaşır; Kuzey Özbekçe'den siyasi sınır ve coğrafi izolasyonla yüzyıllar boyu ayrı gelişti."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Oğuz (Türkmen) substratumu + bağımsız ses gelişimi → Kuzey Özbekçe'den farklı sözcüksel/fonolojik özellikler. Ünlü uyumu zayıflaması paylaşılır; sondan eklemeli, SOV."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Komşu Türkmence ile yoğun temas; Kuzey Özbekçe ile diyalekt sürekliliği ama yüzyıllık izolasyon farklı bir varyant doğurdu. Afganistan'da topluluk dili olarak canlı."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Özbekçe makrodili Joshi Sınıf 3 olsa da Güney varyantı kurumsal destekten yoksun (EGIDS 2, Afganistan eyalet dili). Dijital kaynaklar Kuzey Özbekçe'ye kıyasla çok kısıtlı."
-   }
-  ],
-  "kaa": [
-   {
-    "label": "Tarih",
-    "body": "Altın Orda + Nogay Orda'nın dağılışıyla güneye inen yarı-göçebe Kıpçak boyları; coğrafi izolasyon ve Özbeklerle (Karluk) temasla ayrı edebi kimlik. Kiril→Latin (1990'lar, Özbekistan dil reformuyla paralel)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Fonoloji ve morfotaktik Kazakça ile adeta 'ikiz': ünlü uyumuna bağlı 12 varyantlı çoğul eki (-lar/-dar/-tar) birebir aynı şemada işler. Onu ayıran: Özbekçeden (Karluk) yüksek oranda kelime/kalıp kopyalaması. SOV, sondan eklemeli."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Kazakça ve Nogayca ile pratik olarak TAM karşılıklı anlaşılabilirlik; eğitim/devlette ikidillilik nedeniyle Özbekçe ile çok yoğun bölgesel (areal) temas. En büyük tehdit: Aral Gölü ekolojik krizi + Özbekçe asimilasyonu."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 1 — ciddi 'veri açlığı'. apertium kaz-kaa 'incubator' (5.408 gövde); Kazakça ile aynı morfosentaks → NLP modül transferi çok kolay. TUMLU benchmark'ında ölçülmeye başlandı; TurkicNLP tokenizasyon/transliterasyon."
-   }
-  ],
-  "krc": [
-   {
-    "label": "Tarih",
-    "body": "Altın Orda sonrası Kuman-Kıpçak boylarının Kafkas dağlarına çekilmesi; İrani Alanlar (Oset ataları) + yerli Kafkas halklarıyla yüzyıllarca birlikte yaşamla etnogenez. 1930'larda standartlaştı/yazıya döküldü. Pers-Arap→Kiril."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Kıpçak omurgası + GÜÇLÜ Kafkas (Osetçe/Kabardeyce) fonolojik substratı: standart Türkçede zayıf olan küçük dil (uvular) ünsüzleri /q/, /χ/, /ʁ/ belirgin. Dudak uyumu var ama Kazakça/Kırgızca kadar katı değil; çoğul -la/-le."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Filogenetik en yakın akraba Kumukça (karşılıklı anlaşılabilirlik ~%80). Sözcük dağarcığı İrani ve Kafkasyalı (Çerkes) komşulardan yoğun leksikal kopyalama içerir."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 0 (en iyi 1 alt-bandı). Apertium'da çeviri çifti, HF'de olgun model ya da UD ağaç bankası YOK — veri kıtlığı en yüksek dillerden. (Kafkas substratı modellenmezse morfolojik analiz hataları doğar.)"
-   }
-  ],
-  "kum": [
-   {
-    "label": "Tarih",
-    "body": "Çarlık öncesi yüzyıllarda TÜM Kuzey Kafkasya'nın pazar ve diplomasi ortak dili (lingua franca) — Tolstoy'un eserlerinde Kafkasya halkları Kumukça üzerinden anlaşır. Hazar'ın batı kıyısı, Dağıstan. Arap→Kiril."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Karaçay-Balkarca ile temel gramer/fonolojiyi paylaşır; Dağıstan yerel dillerinden (Avarca, Dargice) spesifik kültürel alıntılar onu ayırır. Ünlü uyumu standart Kıpçak kurallarına sadık, çoğul eki standart."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Karaçay-Balkarca ve Kırım Tatarcasının Çöl (bozkır) lehçesi ile tarihsel-dilbilimsel süreklilik; Dağıstan Kafkas dillerinin bölgesel etkisini taşır."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Tarihsel lingua franca olmasına rağmen modern çağda Joshi Sınıf 0'a hapsolmuş. apertium kaz-kum yalnız 561 kelimelik terk edilmiş 'incubator' demosu; LLM/etiketli korpus yok, yalnız TurkicNLP alt-seviye tokenizasyon."
-   }
-  ],
-  "nog": [
-   {
-    "label": "Tarih",
-    "body": "14. yy Altın Orda emiri Edige'nin Nogay Orda'sının torunları. 18-19. yy Rus İmparatorluğu çatışmaları + zorunlu göçler demografiyi parçaladı (Osmanlı'ya göçen milyonlarca Nogay asimile oldu) → dil büyük zafiyete uğradı."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Kıpçak'ın en SAF ve arkaik özelliklerini muhafaza eder; Kazakça ve Karakalpakça ile adeta aynı dilin varyantları. Ortak Türkçe /ş/→/s/, /ç/→/ş/ (ağaç→ağaş) karakteristiktir; yüksek varyasyonlu asimilasyon matrisi bozulmamış."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Kazakça ile akrabalık karşılıklı anlaşılabilirliği pratikte TAM kılar (en yakın kardeşi). Kafkas dillerinden çok, Rusçanın baskın asimilasyonu altında; dağınık demografi aktarımı kırsal dışında kesti."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Net Joshi Sınıf 0 örneği; dijital ayak izi yok denecek kadar az. apertium nog-kaz yalnız 9 stem iskeleti; derin öğrenme çağının tamamen dışında. (Kazakça kural motorları minör ayarlamayla zero-shot transfer adayı.)"
-   }
-  ],
-  "crh": [
-   {
-    "label": "Tarih",
-    "body": "Kırım Hanlığı'nda Kıpçak ve Oğuz dil alanlarının tam kesişiminde şekillendi; Codex Cumanicus dilin atası sayılır. 19. yy Gaspıralı'nın Tercüman gazetesi (Osmanlıyla harmanlayıp ortak edebi dil hedefi). 1944 Sürgün ekosistemi parçaladı."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Diller-arası KÖPRÜ; 3 diyalekt: Yalıboyu (Güney, neredeyse saf Oğuz=Türkiye Türkçesi), Çöl (Kuzey, standart Kıpçak=Nogayca/Kumukça), Orta Yol (ikisinin füzyonu — modern edebi dil). Melez morfofonoloji: Kıpçak sertliği + Oğuz ötümlülüğü."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Türkiye Türkçesiyle karşılıklı anlaşılabilirliği EN YÜKSEK Kıpçak dili — bir konuşur aynı anda hem İstanbullu hem Kumuk ile iletişim kurabilir. (Filogeni Kıpçak-Kuman, ama güçlü Oğuz tabakası = geçişken/transitional.)"
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 1; Türkiye Türkçesinin gücünden yararlandığı için Apertium'da çok başarılı — crh-tur FST çeviricisi 'trunk' (olgun/üretim) seviyesinde. TUMLU'da analiz edilen 9 Türk dili arasında. (Platformda 'Oğuz-Kıpçak hibridi' etiketlenmeli.)"
-   }
-  ],
-  "gag": [
-   {
-    "label": "Tarih",
-    "body": "Köken: 11-12. yy Karadeniz kuzey bozkırlarından Balkanlar'a inen Peçenek/Kuman/Oğuz boyları. İSTİSNA: İslam yerine Bizans/Bulgar etkisiyle Ortodoks Hristiyanlığı benimsediler. 19. yy Rus politikalarıyla Besarabya'ya göç. Kiril→Latin (1993)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Kökleri Anadolu ağızlarına yakın ama Slav/Romen ADSTRATIYLA yapısal evrim: sözcük sonu ötümsüzleşme YOK (arap→arab), açık /ä/, Slavca /ts/; -Iyor şimdiki zaman yok. ★ Balkan Sprachbund: SOV→SVO esnedi, mastar kaybı + 'ki'-benzeri yan tümce. Sözcüğün ~%30'u Slav/Romen."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "En yakın akraba Anadolu/Türkiye Türkçesi; fakat Balkan Dil Birliği (Slav/Romen) ile yapısal yakınsama yaşadı. Rusça ile yoğun ikidillilik yeni nesle aktarımı tehdit ediyor."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 0-1 (çok düşük kaynaklı). apertium-gag prototip (~3.143 kök, ~%78 kapsama); büyük UD ağaç bankası yok. ★ SVO kayması + mastar kaybı, Türkiye Türkçesi parser'larının doğrudan aktarımını İMKANSIZ kılar."
-   }
-  ],
-  "slr": [
-   {
-    "label": "Tarih",
-    "body": "14. yy Yuan döneminde Semerkant'tan Çin'in kuzeybatısına göç eden Oğuz/Salur boyları; İpek Yolu'nda Han Çinli, Hui ve Amdo Tibetli topluluklarla yüzyıllarca temas. Doğu Oğuz çekirdeği üzerine ağır Çin/Tibet katmanı. Çinghay/Gansu, Xunhua."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "★ Ünlü uyumunu TAMAMEN kaybetti (Çince/Tibetçe baskısı); ünsüz kümeleri için ünlü türemesi (gahawa). ★ Tibetçeden EVİDENSİYALLİK (kanıtsallık) — egoforik ekler. SOV korunur ama paradigmalar basitleşti. Standart yazım yok (Pinyin/Hanzi gayriresmi)."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Çin içinde Doğu Oğuz dil adacığı; en güçlü temas Çince + Amdo Tibetçe (teknoloji sözcükleri Çince, coğrafya/doğa Tibetçe). Diğer Türk dillerinden coğrafi olarak kopuk."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Net Joshi Sınıf 0 (Left-Behind). Apertium FST yok, UD yok, HuggingFace'te ~10'dan az. Standart alfabe yokluğu + yoğun Mandarin-Salarca code-switching veri madenciliğini neredeyse imkansız kılar."
-   }
-  ],
-  "kmz": [
-   {
-    "label": "Tarih",
-    "body": "11. yy Selçuklu Oğuz boyları iskeleti attı, 18. yy Afşar hakimiyetiyle pekişti. Uzun süre 'Güney Azerbaycan ağzı' sanıldı; Heyat ve Doerfer çalışmalarıyla bağımsız dil + Oğuzyanın doğu-batı geçiş halkası olarak literatüre girdi. İran kuzeydoğusu (Bojnurd, Quchan)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Türkmence↔Azerbaycanca GEÇİŞ formu; Oğuz uzun ünlülerini korur. ★ Ünlü yuvarlaklaşması: /u/,/i/,/oː/ sonrası /ɑ/→[ɒ] (Farsçaya benzer) — ama -lAr çoğul ekine etki etmez. Genitif/datif tipik Oğuz; Farsçadan ki-cümleleri."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Filogenetik en yakın akraba Türkmence (aynı doğu dalı); Azerbaycanca ile geçişken; Farsça areal temas. (Hatalı biçimde 'Azerbaycan ağzı' etiketlenmemeli — bağımsız dil.)"
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Net Joshi Sınıf 0; Apertium FST, UD ya da geniş derlem YOK — tek dijital iz Wikimedia Incubator (Wp/kmz). Sözlü edebiyat (bahşı müziği) ağırlıklı → yazılı veri kıtlığı, STT modellerine muhtaç."
-   }
-  ],
-  "azb": [
-   {
-    "label": "Tarih",
-    "body": "Azerbaycanca makrodilinin (aze) güney standardı — İran (Doğu/Batı Azerbaycan, Erdebil). Safevi/Selçuklu mirası; Kuzey'den (azj) ayrı, İran yönetimi altında Farsça etkisinde gelişti. Arap-Fars alfabesini sürdürür; resmî statü yok (EGIDS 3)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Merkez Oğuz; ayırt edici açık ə /æ/ fonemi yaygın. Farsçadan yoğun sözcük ve sözdizimi kopyalama; güney diyalektlerde SOV + Farsça bağlaç/ki-yapıları. Hâl/iyelik sistemi Ortak Oğuz karakterli."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Kuzey Azerbaycanca (azj) ile aynı makrodil ama ayrı standart + alfabe (Latin↔Arap). Farsça yoğun adstrat. ~15M+ konuşurla İran'ın en büyük Türk dili topluluğu."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Kuzey Azerbaycanca'nın dijital gücünden uzak: resmî statü + standart yazım yokluğu + Arap-Fars alfabesi görünürlüğü kısıtlar. Joshi düşük; Kuzey'in (azj) kaynakları alfabe farkı nedeniyle doğrudan transfer edilemez."
-   }
-  ],
-  "alt": [
-   {
-    "label": "Tarih",
-    "body": "Proto-Türkçe izleri + 13-15. yy Kıpçak (Kazak/Nogay) göçlerinden derin etki. Güney Altay (Altay proper, Telengit, Teleut) ile Kuzey Altay her zaman net karşılıklı anlaşılabilirlik sunmaz. 1928 Latin → 1938 Kiril (9 ek harf). Altay Cumhuriyeti (RF)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "8 kısa + 8 uzun ünlü. ★ Proto-Türkçe -d- istikrarlı -j-'ye evrildi (adak→ajak). Güney Altayca Kıpçak'a özgü zamir çekimleri yansıtır; '-la' edatı komitatif (birliktelik) hâl ekine grameleşti. Sondan eklemeli, SOV."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Tipolojik KÖPRÜ — Sibirya (Kuzey) + Kıpçak (Güney) özelliklerini harmanlayan lehçe sürekliliği. Talat Tekin: Güney Altay Kırgızca/Kazakçaya yakın; Kuzey Altay ağızları Şorca/Hakasça ile Yenisey grubunda."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 1–0 arası. apertium-alt deneysel depo var ama çalışan kural-tabanlı analizöre dönüşmedi (taslak). Makine çevirisi, açık sözlük ya da UD ağaç bankası henüz yok."
-   }
-  ],
-  "atv": [
-   {
-    "label": "Tarih",
-    "body": "Altay lehçe sürekliliğinin KUZEY kolu (Tuba, Kumandı, Çalkan/Kuu). Talat Tekin sınıflandırmasında Şorca/Hakasça ile Yenisey/Sibirya grubuna ait. UNESCO 'Ciddi Tehlikede' — eğitimde Rusça ve Standart Güney Altaycanın gerisinde."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Güney Altaycadan ayrılır: daha arkaik Sibirya çekim kuralları (ör. -tIŋ genitif ekinin kendine has kullanımları). Proto-Türkçe */ag/ öbeği lehçeye göre /u/, /aw/ veya /aʁ/ refleks verir; -d-→-j- paylaşılır."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Filogenetik olarak Yenisey/Sibirya grubu (Şorca/Hakasça'ya yakın), Güney Altayca'dan farklı; ikisi arasında her zaman net karşılıklı anlaşılabilirlik yok. Rusça asimilasyonu altında."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 0; Standart Güney Altaycanın bile gerisinde, kendine ait işlevsel NLP kaynağı (FST/UD/LLM) yok. Veri kıtlığı en yüksek Sibirya varyantlarından."
-   }
-  ],
-  "dlg": [
-   {
-    "label": "Tarih",
-    "body": "Etnojenez: 17-19. yy Lena'dan Taymır'a göçen Yakutların, ren geyiği çobanı Tunguzlar (Evenki), Samoyetler ve Ruslarla kaynaşması. Sahacaya o kadar yakın ki Sovyet döneminde uzun süre Yakut lehçesi sanıldı; güçlü Evenki altkatmanı ayrı dil yaptı. Saha-Kiril temelli."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Sahacayı Tunguz etkisiyle yeniden yorumlar. ★ Yakutça s- → Dolganca h- (saxa→haka). Orta ünlüler çift ünlüye (diftonglaşma). 8 hâl ama Sahacanın KOMİTATİFİNİ kaybetti (→sosyatif türetim eki). Sınır kayması (kennitten→kennititten); 'tās'=taş + güney/doğu."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Sahaca (Yakutça) ile çok yakın (Kuzey Sibirya/Yakutik grup) + Evenki/Tunguz altkatman = melez kuzey temas dili. Globalleşmeyle gençlerde Rusça baskın → kesin tehlikede."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 0; apertium-dlg yalnız deneysel taslak (kök eksikliği, kural yazılmamış). İşlevsel makine çevirisi, metin üretimi ya da LLM/ASR yok — akademi dışı dijital erişim imkânsız."
-   }
-  ],
-  "ybe": [
-   {
-    "label": "Tarih",
-    "body": "★ Adındaki benzerliğe rağmen Şincan'daki Karluk Modern Uygurca ile akraba DEĞİL. MS 840 Uygur Kağanlığı çöküşü sonrası Gansu'ya kaçıp Ganzhou Uygur Krallığı'nı kuran ASIL Eski Uygurların doğrudan torunları. Gansu/Sunan; standart yazı yok → 'Yok olmak üzere' (Moribund)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "★ Eşsiz PREASPİRASYON (ön-soluklanma): ünlü sonrası ünsüzden önce hafif /h/ (otuz→oʰtɯs). Çince etkisiyle ötümlülük zıtlığı (p/b) → soluklu/soluksuz zıtlığa. Ünlü uyumu çöktü (yalnız ezbere). ★ Fiilde şahıs eki TAMAMEN kayboldu; Eski Türkçe 'anticipating counting' aktif. 6 hâl."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Sibirya/Yenisey grubuyla uzak akraba; ★ Eski Uygurcanın GERÇEK dilbilimsel mirasçısı (Modern Uygurca değil!). Aynı Yugur topluluğunda Doğu Yugurlar tamamen farklı bir Moğolik dil konuşur."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Sınıf 0/1 bandında sıkışık. apertium-ybe kuluçka (işlevsiz); Wikimedia Incubator (Wp/ybe) yeterli konuşur bulunamadığından atıl kaldı. Modern NLP ürünleri (LLM, ASR) sıfıra yakın."
-   }
-  ],
-  "aib": [
-   {
-    "label": "Tarih",
-    "body": "Abdal halkı tarihsel göçebe (peripatetic) — seyyar satıcılık, şifacılık, sünnetçilik. Köy/vahalar arası dolaşırken baskın Uygur nüfusuyla ticarette niyet gizleme ihtiyacı → kriptolekt doğdu; ~125 yıldır istikrarlı (1898→Hayasi). Sincan, Taklamakan güney saçakları."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "★ 'Ortakyaşar karma dil': GRAMER tamamen Karluk/Uygur (SOV, ünlü uyumu, çekim ekleri birebir Uygurca) ama LEKSİKON (kökler) Farsça/İrani. Uygurca ek + Farsça kök (čov-çi 'marangoz') → Uygur yapıyı anlar, şifreyi (anlamı) çözemez."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Uygurca ile tamamen iç içe (interchangeability); leksikal değiştirme + anlamsal genişleme (säŋ 'taş'→gizlilik için 'yumurta/tuğla'). ★ Leksikon Farsça olsa da Glottolog/Johanson Eynu'yu Karluk TÜRK dili (kriptolekt) olarak kesin sınıflar."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 0 (Left-Behind); hiçbir dil modeli, Apertium modülü ya da UD yok — veri yalnız saha dilbilimcilerinin PDF raporlarında. Kriptolekt doğası yazılı edebiyatı engeller. (Kullanım uyarısı: yalnız yetişkin erkekler.)"
-   }
-  ],
-  "ili": [
-   {
-    "label": "Tarih",
-    "body": "Kökenler Fergana Vadisi Türk boyları; 18-19. yy göçle İli Vadisi'ne (Sincan kuzeyi). Çağatay (Proto-Özbek-Uygur) + bozkır Kıpçak (Kazak) harmanı. Çin'de tanınmayan halk; 1982'de 120 konuşur → 2007'de 30 aile → bugün 100-300 yaşlı birey. Moribund (EGIDS 8a)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Karluk koluna ait ama ★ arkaik Kıpçak SUBSTRATUMU ile melez. Karluk'ta zayıflayan ünlü uyumunu Kazakça gibi muhafazakâr korur; uvular /q/,/ʁ/. ★ Kıpçak ses evrimleri: çift ünsüz tekilleşmesi + sondan G→w (tağ→taw). Sözdizim (SOV) + ekler Karluk, ses değişimi Kıpçak."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Karluk ama karışık ilişki hiyerarşisi: yerel İli Uygurcasına sözdizim/leksikon çok yakın; yüzyıllık Kazak komşuluğundan yoğun morfolojik alıntı. Resmî alfabe/kimlik yok → konuşurlar Uygur ve Kazakçaya asimile oluyor."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Joshi Sınıf 0; hiçbir dijital kapasite, kaynak ya da algoritmik varlık yok. Belgeleme yalnız sınırlı saha çalışmalarında (Kiril/Latin transkripsiyon)."
-   }
-  ],
-  "xbo": [
-   {
-    "label": "Tarih",
-    "body": "9-14. yy İdil ve Kama nehirleri kesişiminde hüküm süren İdil Bulgar Hanlığı'nın dili — Çuvaşların DOĞRUDAN atası. Şifreleri 1863'te Hüseyin Feyzhanov'un Arap harfli mezar taşlarını çözmesiyle kırıldı: 'JIATI JUR' aslında Oğurca 'Yedi Yüz' (tarihleme)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Oğur (L/R Türkçesi) kolu — Genel Türkçeden çok erken ayrılan 'aykırı' dal. Mezar taşı sayıları tuxïr (dokuz), vutur (otuz), xïrïx (kırk) + -säm çoğul eki, Çuvaşça ile genetik bağı kesin belgeler. Rotasizm/lambdasizm öncülü."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "★ Çuvaşçanın doğrudan atası; Oğur dalının günümüze en sağlam dilbilimsel kanıtını bırakan temsilcisi. İdil-Ural havzasında Kıpçak (Tatar) ve Fin-Ugor (Mari) topluluklarıyla temas."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Tarihsel/ölü dil — modern dijital varlık yok. Korpus = Arap harfli Bulgar mezar taşı yazıtları (epigrafik, 13-14. yy); Çuvaş tarihsel dilbilimi ve Oğur kolu rekonstrüksiyonu için birincil kaynak."
-   }
-  ],
-  "zkz": [
-   {
-    "label": "Tarih",
-    "body": "7-10. yy Hazar Kağanlığı'nın dili — İdil-Don havzasından Kafkaslara uzanan 'Pax Khazarica' (Bizans↔Abbasi tampon gücü). Elit kesim Museviliği benimsedi, başkent Atil. Günümüze çok az dilsel kalıntı bıraktı."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Dilbilimsel sınıflandırması TARTIŞMALI (az kanıt); yaygın akademik kanaat Oğur (Oghuric) dalı ya da kağanlıkta Oğurcanın lingua franca olduğu. Kalıntılar: Kiev Mektubu runik 'OKHQURÜM' (okudum); Sarkel (Ak Kale) = 'sar' (sarı/beyaz) + 'kel' Oğur karakteri."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Oğur kolu (tartışmalı) — İdil Bulgarcası/Çuvaşça ile aynı erken dal. Çok-etnili kağanlıkta İrani, Slav ve Bizans dünyalarıyla yoğun temas; Musevi elit + çoğul dinli yapı."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Tarihsel/ölü ve dilbilimsel olarak tartışmalı — modern dijital varlık yok. Kanıt yalnız birkaç yazıt, unvan ve yer adı (Kiev Mektubu, Sarkel); bağımsız bir korpus oluşturulamaz."
-   }
-  ],
-  "chg": [
-   {
-    "label": "Tarih",
-    "body": "15. yy'dan 20. yy başına kadar Orta Asya'nın edebi dili ve lingua francası (Timur/Babür imparatorlukları, Hive/Hokand/Buhara hanlıkları, Doğu Türkistan). Karahanlı→Harezm Türkçesinin doğrudan ardılı. Klasik zirve: Ali Şîr Nevâî, Muhâkemetü'l-Lugateyn. 1921'de modern Özbek/Uygur standardına bıraktı (ölü)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Karluk iskeleti üzerine yoğun Farsça-Arapça örtü (klasik metinlerde alıntı oranı %60'ı aşar). ★ Oğuz ötümlüleşmesine KAPALI — arkaik söz başı t-/k- korunur (Oğuzca dağ→tağ, gel-→kel-). Ünlü uyumu var ama Arap yazımı (harekesiz) takibini zorlaştırır. Perso-Arap (Nastaliq)."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Modern Özbekçe ve Uygurcanın doğrudan atası. Karahanlı (Divânu Lugâti't-Türk, Kutadgu Bilig) + Harezm edebi geleneğinin varisi; Farsça ile asırlık prestij-dil ortaklığı (Nevâî bunu Farsçaya üstün göstermeye çalıştı)."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Tarihsel/ölü edebi dil (EGIDS 10). Modern NLP yok; korpus = asırlık el yazması edebiyat/tarih/bilim metinleri (Perso-Arap). Tarihsel-karşılaştırmalı çalışmalar ve StarLing etimolojik veritabanları için birincil kaynak."
-   }
-  ],
-  "xqa": [
-   {
-    "label": "Tarih",
-    "body": "11-13. yy Karahanlı Devleti'nin (Kaşgar/Balasagun) edebi dili — Karluk kolunun tarihsel merkezi ve İslami İLK büyük Türk edebi dili. Anıtsal eserler: Kaşgarlı Mahmud'un Dîvânu Lugâti't-Türk'ü (1074) ve Yusuf Has Hacib'in Kutadgu Bilig'i (1069)."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Eski Türkçeden devralınan arkaik fonoloji; söz başı t-/k- korunur. Arap alfabesinin Türkçeye uyarlanmasının ilk aşaması. Sözcük dağarcığı henüz büyük ölçüde öz-Türkçe (DLT'nin tanıklığıyla); Farsça-Arapça etki Harezm/Çağatay'a göre sınırlı."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Karluk edebi silsilesinin başı: Karahanlı → Harezm Türkçesi → Çağatayca → modern Özbekçe/Uygurca. DLT, dönemin tüm Türk lehçelerini (Oğuz, Kıpçak, Argu…) karşılaştırmalı kaydeden ilk Türk dilbilim eseridir."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Tarihsel/ölü dil. Modern dijital varlık yok; korpus = sınırlı ama paha biçilmez İslami-dönem el yazmaları (DLT, Kutadgu Bilig, Atebetü'l-Hakayık). Tarihsel Türkoloji için temel kaynak."
-   }
-  ],
-  "xzm": [
-   {
-    "label": "Tarih",
-    "body": "13-14. yy Harezm bölgesi (Aşağı Amu Derya) edebi Türkçesi — Karahanlı ile Çağatay arasındaki GEÇİŞ halkası. Altın Orda/Harezm sahasında Kıssasü'l-Enbiya, Muhabbetname gibi eserlerle gelişti."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Karışık/geçiş karakteri: Karluk edebi tabanı üzerine Oğuz ve özellikle Kıpçak ögeleri karışır (master'da Kıpçak/Karluk geçiş). Arap alfabesi; söz varlığında artan Farsça-Arapça katman Çağatay'ı hazırlar."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "Karahanlı'nın varisi, Çağatayca'nın atası — Orta Asya İslami Türk edebi geleneğinin orta halkası. Altın Orda Kıpçak çevresiyle yoğun temas (Codex Cumanicus dönemiyle çağdaş)."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Tarihsel/ölü dil. Modern NLP/korpus yok; kaynak = 13-14. yy el yazması edebi metinler. Karahanlı→Çağatay evriminin dilbilimsel köprüsü olarak tarihsel dilbilimde incelenir."
-   }
-  ],
-  "otk": [
-   {
-    "label": "Tarih",
-    "body": "★ 8. yy Göktürk Kağanlığı'nın Orhun Yazıtları (Bilge Kağan, Kül Tigin, Tonyukuk) — Türk dilinin BİLİNEN EN ESKİ yazılı anıtları. Moğolistan, Orhun vadisi. Köktürk (runik) alfabesiyle yazıldı; ardından Yenisey ve Talas yazıtları."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Belgelenmiş en arkaik Türkçe evre — Proto-Türkçeye en yakın. Söz başı arkaik ünsüzler, *d sürtünmeli korunmuş; zengin hâl/çekim. Genel Türkçenin (z-dili) referans noktası; rotasizm/lambdasizm Oğur kolunda zaten ayrışmıştı."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "★ Genel Türkçenin (Common Turkic) KÖK düğümü — Oğuz/Kıpçak/Karluk/Sibirya kollarının ortak atası. (Oğur/Bulgar kolu çok daha erken ayrıldı.) Eski Uygurca bu evreyi izleyen dini-edebi devam."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Tarihsel/ölü ama EN çok çalışılan tarihsel Türk dili. Korpus = runik yazıtlar; dijitalleştirilmiş yazıt veritabanları (ör. Bitig) ve tarihsel-karşılaştırmalı Türkoloji için temel referans."
-   }
-  ],
-  "oui": [
-   {
-    "label": "Tarih",
-    "body": "8-13. yy Uygur Kağanlığı + sonrası Turfan/Tarım Uygur devletlerinin dili; Maniheist, Budist ve Hristiyan (Nasturi) dini çeviri edebiyatı zengindir. Soğd kökenli Eski Uygur alfabesi + runik. MS 840 kağanlık çöküşüyle Tarım/Gansu'ya dağıldı."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Eski Türkçe dönemi (Orhun Türkçesine yakın) ama dini-çeviri edebiyatıyla genişlemiş söz varlığı: Sanskritçe, Soğdca, Toharca, Çince katmanlar. Arkaik fonoloji/morfoloji; aglütinatif, SOV."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "★ YAYGIN YANILGI: Modern Uygurca'nın atası DEĞİL (o, Karahanlı→Çağatay/Karluk çizgisinden gelir). Eski Uygurcanın gerçek dilbilimsel mirasçısı Sibirya'daki Sarı Uygurca'dır (Batı Yugurca, Gansu)."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Tarihsel/ölü. Modern NLP yok; çok zengin el yazması korpus (Turfan metinleri — Berlin/Sankt-Peterburg koleksiyonları). Dini metin filolojisi ve tarihsel Türkoloji için paha biçilmez."
-   }
-  ],
-  "qwm": [
-   {
-    "label": "Tarih",
-    "body": "13-14. yy Kuman-Kıpçak Türkçesi — Karadeniz kuzeyi ve Altın Orda sahasının ortak dili. ★ Codex Cumanicus (İtalyan tüccarlar + Fransisken misyonerlerce ~1303 derlenen sözlük/metin) Orta Çağ Kıpçakçasının EN değerli kaynağıdır; Latin alfabesi."
-   },
-   {
-    "label": "Yapı & özgünlük",
-    "body": "Standart Orta Çağ Kıpçak fonolojisi/morfolojisi; Latin transkripsiyon ünlüleri gösterdiği için fonolojik değeri yüksektir. İtalyanca/Latince ve Farsça sözlük katmanları (ticaret + misyon bağlamı)."
-   },
-   {
-    "label": "İlişkiler",
-    "body": "★ Modern Kıpçak dillerinin (özellikle Kırım Tatarcası) tarihsel atası/ortak kaynağı. Harezm Türkçesiyle çağdaş; Altın Orda Türk-İslam ekosisteminin batı (Hristiyan misyon) penceresi."
-   },
-   {
-    "label": "Dijital güç",
-    "body": "Tarihsel/ölü. Korpus = Codex Cumanicus el yazması (tek ana kaynak, Venedik Marciana). Tarihsel Kıpçak rekonstrüksiyonu ve Orta Çağ Türkçesi çalışmaları için birincil belge."
-   }
-  ]
- }
+  "_meta": {
+    "source": "Deepsearch 9.1–9.5 (kol-bazlı derin profiller: Oğuz/Kıpçak/Karluk/Sibirya/Oğur-Argu) — Glottolog, Ethnologue, UNESCO + Wikipedia/Grokipedia/ACL/apertium-wiki/HF ile çapraz-kontrol | +ds19 (Az Belgeli/Tarihsel Diller): 9 yaşayan lehçe + 8 tarihsel, gerçek kaynaklı (Erdal/Tekin/Dolatkhah/Csató/Schluessel/Ercilasun/Röhrborn/Grönbech/Harrison + Glottolog/Ethnologue/UNESCO/Apertium/HF).",
+    "license": "derleme metin; kaynaklar atıflıdır (akademik özet)",
+    "accessed": "2026-06-25",
+    "module": "Dil Profilleri — derin profil (tarih / yapı-özgünlük / ilişkiler / dijital güç)",
+    "note": "Her dil için ORTAK ŞABLON (deepsearch 9). Sayılar ve iddialar deepsearch metninden; tartışmalı/çelişkili noktalar düzeltildi (Joshi sınıfı build.py JOSHI ile hizalandı). Uydurma yok; kaynakta olmayan eklenmedi.",
+    "status": "14/14 dil"
+  },
+  "deep": {
+    "tr": [
+      {
+        "label": "Tarih",
+        "body": "11. yüzyılda Selçuklu göçleriyle Anadolu'ya gelen Eski Anadolu Türkçesinden evrildi. Osmanlı döneminde Arapça-Farsçadan yoğun sözcük ve tamlama aldı; 1928 Harf Devrimi (Latin) ve eşzamanlı Dil Devrimi (özleşme) modern standardı kurdu."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "8 ünlü, 21 ünsüz. Büyük ve küçük ünlü uyumu son derece sıkı işler; söz sonu ötümsüzleşme (kitab→kitap) Arapça alıntılarda bile uygulanır. -Iyor şimdiki zaman ve -mIş öğrenilen geçmiş özgün eklerdir. Sondan eklemeli, SOV, başı-sonda."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Batı Oğuz alt grubunun en yaygın üyesi (~85 milyon). Gagavuzca ve Azerice ile yüksek karşılıklı anlaşılabilirlik; Türk dilleri için transfer öğrenmede merkez/pivot dildir."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "En güçlü Türk dili — Joshi Sınıf 4 (yüksek kaynak). UD ağaç bankaları: UD_Turkish-BOUN (9.761 cümle), IMST (5.635), TueCL. apertium-tur 17.221+ kök, üretim seviyesi; TRmorph; HuggingFace'te çok sayıda BERT/RoBERTa/LLM."
+      }
+    ],
+    "az": [
+      {
+        "label": "Tarih",
+        "body": "Selçuklu mirası üzerine 16. yüzyıl Safevi döneminde Şah İsmail (Hatai) ve Fuzûlî ile edebi kimlik kazandı. Kuzey (Azerbaycan) Sovyet sonrası Latin'e geçti ve Rusçadan adstrat aldı; Güney (İran) Arap-Fars alfabesi ile Farsça kopyaları sürdürür."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Türkçeye çok yakın; en ayırt edici özelliği açık /æ/ (ə) ünlüsünün yaygın, ayırt edici bir fonem olmasıdır. Hâl ve iyelik Ortak Oğuz karakterinde; SOV (güneyde Farsça etkisiyle bağlaçlı esneklik)."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Merkez Oğuz; makrodil — Kuzey (azj) ve Güney (azb) standartlarına ayrılır. En yakın akrabaları Türkçe ve Horasan Türkçesi; yüksek karşılıklı anlaşılabilirlik."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 2-3 (orta). apertium-tur-aze hazırlık (~8.194 kök); NLLB-200 ve Glot500 temel modellerinde yer alır; UD_Azerbaijani-TueCL. İki alfabenin (Latin/Arap) eşzamanlı kullanımı transliterasyon maliyeti yaratır."
+      }
+    ],
+    "tk": [
+      {
+        "label": "Tarih",
+        "body": "Oğuz boylarının Karakum çevresindeki göçebe kültüründe şekillendi; uzun süre Çağatay edebi etkisinde kaldı. 18. yüzyılda Mahtumkulu Firaki ile edebi standardını kurdu. Bugün Latin yazısı (önce Arap, sonra Kiril)."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Ana Türkçe'nin birincil uzun ünlülerini korur — uzunluk anlamı değiştirir (fonemik). En özgün özelliği /s/, /z/ seslerinin dişlerarası peltek /θ/, /ð/ olarak gerçekleşmesidir; Türk dünyasında benzeri yalnız Başkurtça'da görülür. SOV, sondan eklemeli."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Doğu Oğuz; en yakın akrabası İran'daki Horasan Türkçesi; Özbekçe (Karluk) ile areal sözcük alışverişi."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Yüksek konuşur (7-8M), düşük dijital varlık — Joshi Sınıf 1. apertium-tuk yalnız ~2.988 kök; apertium-tuk-tur kreş (~3.387); NLLB-200 destekler; tkWaC web korpusu; UD_Turkmen-TUD (gümüş standart)."
+      }
+    ],
+    "kk": [
+      {
+        "label": "Tarih",
+        "body": "15. yüzyıl Kazak Hanlığı ile belirginleşti; Çağatay etkisinden sonra 19. yüzyılda Abay Kunanbayoğlu edebi kimliği, Ahmet Baytursunov ise sesçil dilbilimsel standardı kurdu. Kiril→Latin geçişi sürüyor (Çin'de Töte/Arap)."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Katı ünlü uyumu; morfem sınırlarında agresif ünsüz asimilasyonu çoğul ekini 12 varyanta çıkarır (-lar/ler, -dar/der, -tar/ter). Morfotaktik zincir Kök+Yapım+Çoğul+İyelik+Hâl (mektep+ter+i+nde 'okullarında'). SOV."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Kıpçak-Nogay; Karakalpakça ile neredeyse tam, Kırgızca ile yüksek anlaşılabilirlik. Rusçadan yoğun leksikal kopya (çekim yapısı bozulmadan)."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi 1→3 'yükselen yıldız'. apertium kaz-tat üretim (%88.7 kapsama, 36.595 kök); ISSAI'nin Sherkala-Chat 8B (LLaMA-3.1, 45.3B token), KAZ-LLM, KazNERD; UD_Kazakh-KTB; TurkicNLP üretim seviyesi destek."
+      }
+    ],
+    "kg": [
+      {
+        "label": "Tarih",
+        "body": "Kökleri Güney Sibirya Yenisey vadisine uzanır; Tanrı Dağları'na göçüp Kıpçak boylarıyla kaynaştı. Dünyanın en uzun destanı Manas, dilin tarihsel sözlüğü ve gramerinin baş taşıyıcısıdır. Kiril (Çin'de Arap)."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "8 ünlü. En ayırt edici özelliği katı DUDAK UYUMU: ekler yuvarlak köklerde yuvarlaklaşır — çoğul -lor/-lör/-dor/-dör/-tor/-tör (kol+dor 'eller', küz+dör 'güzler'). Dörtlü nezaket zamiri (sen/siz/siler/sizder)."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Kazakça ile uzun areal komşuluk ikisini yakınlaştırdı; Altayca/Yenisey substratı arkaik Kıpçak formlarından ayırır."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 1. apertium kaz-kir hazırlık (~%85.8 kapsama); AkylAI ve KyrgyzBERT yerel modelleri; UD_Turkish-TueCL içinde paralel Kırgızca veri. Kazakça'nın niceliksel gerisinde."
+      }
+    ],
+    "tt": [
+      {
+        "label": "Tarih",
+        "body": "İdil (Volga) Bulgarları ve Altın Orda'nın doğrudan kültürel mirasçısı. Eski Tatarca yüzyıllarca Rusya Müslüman Türkleri arasında lingua franca oldu; Kul Gali'nin 13. yüzyıl Kıssa-i Yusuf'u temel anıttır. Modern standart 19. yüzyılda Kayyum Nasıri ve Mercani ile. Kiril (1939)."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "En devrimsel özelliği tarihsel ünlü kaymasıdır: yüksek ünlüler kısalıp merkezileşir, orta ünlüler daralıp yükselir (et→it, söz→süz, kol→kul, kül→köl). Çoğul -lar/-ler büyük ölçüde korunmuş (agresif asimilasyon yok)."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Kıpçak-Bulgar; Başkurtça ile %90+ anlaşılabilirlik; Çuvaşça ile asırlık komşuluk İdil-Ural dil birliğini doğurdu. Rusça ile kelime içi kod-değiştirme yaygın."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 1. apertium kaz-tat üretim (55.702 kök, %87), tat-bak %97.3; mGPT/mBERT/NLLB-200 kapsamında; NMCTT ağaç bankası kelime-içi kod-değiştirmeyi etiketler. RF'de eğitim baskısı altında."
+      }
+    ],
+    "bak": [
+      {
+        "label": "Tarih",
+        "body": "Etnik kimlik İbn Fadlan'a (10. yüzyıl) dek uzanır; yazı dili yüzyıllarca Çağatay/İdil Türkiçesiydi. Sovyet 'her halka ayrı standart' politikasıyla 1920'lerde Tatarca'dan ayrışan doğu-güney ağızları temel alınarak standartlaştı. Kiril (9 özel harf: Ғ Ҙ Ҡ Ң Ө Ҫ Ү Һ Ə)."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Radikal ünsüz kaymalarıyla benzersiz: söz/morfem başı /s/→/h/ (süz→hüź, su→hıw); /s/ ve /z/→peltek /θ/ (Ҫ), /ð/ (Ҙ) (küz→küź); /ç/→/s/ (ağaç→ağas). Ayrıca Tatarca ile aynı tarihsel ünlü kayması."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Kıpçak-Bulgar; Tatarca ile yazıda neredeyse tam anlaşılabilirlik, sözlü peltek/gırtlaksı sesler (h, θ, ð) algı bariyeri."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 1. apertium tat-bak %97.3, 57.710 kök — ses kuralları sistematik olduğu için. LLM verisi kısıtlı (yalnız mGPT gibi makro projeler); UD henüz olgunlaşmamış."
+      }
+    ],
+    "ug": [
+      {
+        "label": "Tarih",
+        "body": "Modern Uygurca, Eski Uygurca'nın değil Karahanlı (Kaşgarlı)→Çağatay→Karluk çizgisinin varisidir; 'Uygurca' adı 1922 Sovyet ve 1934 Sincan kararıyla 'Türki' yerine konuldu. Arap (UEY) yazısı. (Eski Uygurca'nın gerçek mirasçısı Sibirya'daki Batı Yugurca'dır.)"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "8 ünlü, 24 ünsüz; Özbekçe'nin aksine ünlü uyumu aktiftir. Arap kökenli alfabe reformu tüm ünlüleri zorunlu yazdırır — OCR/makine çevirisinde büyük avantaj. SOV, sondan eklemeli."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Karluk doğu kanadı; Özbekçe ile ~%70 temel kelime ortaklığı; Farsça-Arapça, son yüzyılda Çinceden yoğun alıntı. İzole Lopnor diyalekti kritik tehlikede."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 1 (zar zor). apertium-uig 17.585 kök, ~%54.2 tanıma; UD_Uyghur-UDT (~40K token); ASR güçlü (CommonVoice 119s, M2ASR 136s). Telif ve politik bariyerler metin verisini kısıtlar."
+      }
+    ],
+    "chv": [
+      {
+        "label": "Tarih",
+        "body": "İdil (Volga) Bulgarcasının yaşayan mirasçısı. Bulgar-Çuvaş sürekliliği Hüseyin Feyzhanov'un 1863 epigrafi çalışmasıyla (Bulgar mezar taşlarındaki 'Çuvaş anahtarı') kanıtlandı; N. İ. Aşmarin'in 17 ciltlik Thesaurus'u (1928-1950) dilin anıtsal sözlüğüdür. Kiril (Ӑ Ӗ Ҫ Ӳ)."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Oğur kolunu ayıran rotasizm (*z→r: tăhăr 'dokuz') ve lambdasizm (*š→l: hĕl 'kış'); ayrıca q→x (hura 'kara'), söz başı y→ś (śul 'yol'); indirgenmiş ünlüler ă/ĕ ve sıradışı vurgu. Morfotaktik TERStir: Kök+İyelik+Çoğul+Hâl (xĕr-ĕm-sen-čen 'kızlarımdan'); çoğul -sem/-sam; Dative-Accusative tek ekte birleşir — Mari/Fin-Ugor Sprachbund izi."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Oğur (Bulgar) kolunun TEK yaşayan üyesi; diğer Türk dilleriyle anlaşılabilirlik sıfıra yakın. Tatarca ve Mari ile asırlık İdil-Ural areal birliği."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 1. apertium-chv İyelik+Çoğul anomalisini başarıyla modeller; chv-tat, chv-tur, chv-rus çeviri çiftleri var. Dative-Accusative birleşmesi UD etiketlemesinde teorik zorluk yaratır. Konuşur 10 yılda ~1,04M→740K düştü."
+      }
+    ],
+    "sah": [
+      {
+        "label": "Tarih",
+        "body": "13-15. yüzyılda Moğol baskısıyla Baykal'dan Lena havzasına göçen Türklerden doğdu; Tunguz (Evenki) ile yoğun temas Ortak Türkçe'den dramatik kopuşa yol açtı. Otto von Böhtlingk'in 1851 grameriyle akademik standart kazandı. Kiril (1938, 5 özel harf: Ҕ Ҥ Ө Һ Ү)."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "8 kısa + 8 uzun ünlü + 4 diftong; uzun ünlüler korunmuş. Söz başı s→h→Ø; morfem sınırında katı benzeşme (at→appıt 'atımız'). En radikal sapma: Genitif ve Lokatif hâllerini TAMAMEN yitirip Tunguzcadan Partitif ve Komitatif hâlleri almasıdır."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Kuzey Sibirya (Yakutik); en yakın akrabası Dolganca. Moğolca-Tunguzca areal etki söz varlığında ağır, çekirdek dilbilgisi Türkçe kaldı."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Sibirya'nın en güçlüsü — Joshi Sınıf 1-2. apertium-sah 11.531 kök, ~%89.6 kapsama; UD_Yakut-YKTDT; HuggingFace'te MMS tabanlı Yakut-ASR ve yerel LLM'ler. Paralel korpus eksikliği derin öğrenmeyi sınırlar."
+      }
+    ],
+    "tyv": [
+      {
+        "label": "Tarih",
+        "body": "Sayan dağlarında Eski Uygur ve Oğuz unsurlarından şekillendi; yüzyıllarca Moğol idaresinde kaldı. 1928 Latin, 1943 Kiril. Kızıl'da gençlerde Rusça etkisi artsa da kırsalda aktarım canlı."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Dünyada eşine az rastlanır 'alçak ton/gıcırtılı' (kargyraa) ünlü sistemi: at 'isim' ile àt 'at (hayvan)' yalnız ton farkıyla ayrılır; ünlüler kısa/uzun/alçak-tonlu olmak üzere üçe ayrılır. Katı ünlü + dudak uyumu; höömey gırtlak şarkısı geleneği."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Sibirya, Sayan alt-grubu; Moğolca ile asimetrik temas (Moğolca yapım ekleri). Moğolistan ve Çin'de azınlık toplulukları."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 1. apertium-tyv Sayan grubunun en olgun modülü: 11.695 kök, korpuslarda %88.9-95.5 kapsama. Modern LLM/üretken YZ verisi eksik."
+      }
+    ],
+    "kjh": [
+      {
+        "label": "Tarih",
+        "body": "Yenisey Kırgızları'nın torunları; çeşitli boyların (Sagay, Kaça, Koybal, Beltir, Kızıl) birleşmesiyle oluştu. Kökleri 7. yüzyıl Yenisey runik yazıtlarına uzanır; M. Castrén'in 1840'lar saha çalışmasıyla belgelendi. Kiril."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "En radikal özelliği ş/ç/j seslerinin ıslıklı sibilantlara (s/z) dönüşmesidir (şyrbek→sÿrbek 'tavşan'). Standart 6 Türkçe hâle ek olarak Direktif/Allatif, Ekvatif ve Circumstantial gibi eklerle TOPLAM 10 hâl geliştirmiştir. Katı SOV."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Sibirya, Yenisey alt-grubu (Şorca ile birlikte). Rusçadan leksikal etki; Arapça-Farsça kopya yok denecek kadar az."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 1, kesinlikle tehlikede. apertium-kjh Tuvaca/Sahaca olgunluğuna ulaşamadı; Hakasça-Rusça-İngilizce e-sözlük var ama tam NLP hattına entegre değil. LLM verisi yok."
+      }
+    ],
+    "shor": [
+      {
+        "label": "Tarih",
+        "body": "Tarihöncesinde Ket ve Ob-Ugor (Ural/Yenisey) halklarıyla yoğun temas/asimilasyon; sonra Moğol ve Rus etkisi. İki lehçeye ayrılır: Mrassu (-d-→-z-, azaq) ve Kondoma (-d-→-y-). Asimilasyon dili yalnız yaşlı nesle sıkıştırdı."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "16 ünlü (8 kısa, 8 uzun); dudak uyumu Mrassu'da korunmuş, Kondoma'da bozulmuş. Edatların gövdeye ekleşmesiyle yeni hâl ekleri üretir; ulaç/zarf-fiil yoğun çok-yüklemli birleşik cümleler (PPC)."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Sibirya, Yenisey alt-grubu (Hakasça'ya yakın). Ket/Ob-Ugor substratı belirgin."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 0 (geride kalan). apertium-cjs yalnız taslak; açık korpus yok — analizör, makine çevirisi, TTS/ASR üretilemedi. UNESCO: ciddi tehlikede."
+      }
+    ],
+    "clw": [
+      {
+        "label": "Tarih",
+        "body": "Sibirya ormanlarında balıkçılık/toplayıcılıkla yaşayan Yenisey/Ob-Ugor/Samoyed halklarının Türkleşmesiyle doğan otokton dil. Sovyet yatılı okulları + dil yasağı + itibarsızlaştırma ile ölüm döşeğine geldi; 1959 sonrası ayrı halk sayılmadı. [Glottolog; ELP]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Orta Çulım (Ös) ve Aşağı Çulım (neredeyse ölü) diyalektleri. Orta Çulım'da ž→z (kiži→kizi), č→š/s (çäl→šäl) belirgin ses olaylarıdır. Yenisey substratı + Kıpçak leksiği Sibirya fonolojisinde harmanlanır. [Glottolog/Lemskaya]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Şor, Hakas ve Altay ile doğrudan genetik bağ. Temel söz dağarcığı yüksek oranda Kıpçak özelliği korur (Leipzig-Jakarta). Hem Rusça yutması hem tarihsel Tatarlaşma baskısı altında. [Glottolog]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi 'Left-Behind'. 'The Linguists' (2008) kayıtları ve Tomsk arşivlerindeki Lemskaya derlemeleri dışında korpus yok; Apertium/HF için temel veriden yoksun. [ELP; Tomsk DPÜ]"
+      }
+    ],
+    "uzn": [
+      {
+        "label": "Tarih",
+        "body": "Çağatayca'nın (Karahanlı→Harezm→Çağatay) doğrudan varisi. Tarihsel 'Özbek' etnonimi aslında Kıpçak-kökenli (Kazakça-benzeri) bir dile atıftı; yerel 'Türki', Sovyet dil politikası + Batılı adlandırmayla 'Özbekçe' oldu. Alfabe serüveni: Arap→Kiril→Latin (1993 başladı, 2023 resmî zorunlu)."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Türk dillerinde İSTİSNA: yüzyıllık Fars/Tacik teması, standart Kuzey Özbekçe'de ünlü uyumunu büyük ölçüde YOK etti (6 ünlü: a,e,i,o,u,oʻ). SOV, sondan eklemeli, cinsiyetsiz; 6 hâl; isim öbeğinde sayı uyumu zorunlu değil. compound:lvc 'hafif fiil' yapıları (UD)."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Diyalekt sürekliliği; Kuzey Özbekçe gramerde Kıpçak+Oğuz izleri + yoğun Farsça altkatman → karmaşık yapı. Güney Özbekçe (Afganistan) izolasyonla ayrı gelişti (Türkmence teması). Sibirya dilleri hariç, en kolay anlaşılan Türk varyantlarından biri sayılır."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 3 (Yükselen Yıldız) — bölgede Türkçe/Kazakça ardından. apertium-uzb gelişmiş (analiz+üretim+CG; Kiril/Latin .dix otomatik geçiş betiği). UD_Uzbek-UT (5.850 token) + UzUDT (7.582, %90+ güvenilir). Devlet destekli; dezavantaj: web verisi çift-alfabe arasında bölünmüş."
+      }
+    ],
+    "uzs": [
+      {
+        "label": "Tarih",
+        "body": "Özbekçe makrodilinin (ISO uzb) güney kolu — Afganistan kuzeyi (Faryab, Cüzcan, Sar-i Pol). Çağatay mirasını paylaşır; Kuzey Özbekçe'den siyasi sınır ve coğrafi izolasyonla yüzyıllar boyu ayrı gelişti."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Oğuz (Türkmen) substratumu + bağımsız ses gelişimi → Kuzey Özbekçe'den farklı sözcüksel/fonolojik özellikler. Ünlü uyumu zayıflaması paylaşılır; sondan eklemeli, SOV."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Komşu Türkmence ile yoğun temas; Kuzey Özbekçe ile diyalekt sürekliliği ama yüzyıllık izolasyon farklı bir varyant doğurdu. Afganistan'da topluluk dili olarak canlı."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Özbekçe makrodili Joshi Sınıf 3 olsa da Güney varyantı kurumsal destekten yoksun (EGIDS 2, Afganistan eyalet dili). Dijital kaynaklar Kuzey Özbekçe'ye kıyasla çok kısıtlı."
+      }
+    ],
+    "kaa": [
+      {
+        "label": "Tarih",
+        "body": "Altın Orda + Nogay Orda'nın dağılışıyla güneye inen yarı-göçebe Kıpçak boyları; coğrafi izolasyon ve Özbeklerle (Karluk) temasla ayrı edebi kimlik. Kiril→Latin (1990'lar, Özbekistan dil reformuyla paralel)."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Fonoloji ve morfotaktik Kazakça ile adeta 'ikiz': ünlü uyumuna bağlı 12 varyantlı çoğul eki (-lar/-dar/-tar) birebir aynı şemada işler. Onu ayıran: Özbekçeden (Karluk) yüksek oranda kelime/kalıp kopyalaması. SOV, sondan eklemeli."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Kazakça ve Nogayca ile pratik olarak TAM karşılıklı anlaşılabilirlik; eğitim/devlette ikidillilik nedeniyle Özbekçe ile çok yoğun bölgesel (areal) temas. En büyük tehdit: Aral Gölü ekolojik krizi + Özbekçe asimilasyonu."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 1 — ciddi 'veri açlığı'. apertium kaz-kaa 'incubator' (5.408 gövde); Kazakça ile aynı morfosentaks → NLP modül transferi çok kolay. TUMLU benchmark'ında ölçülmeye başlandı; TurkicNLP tokenizasyon/transliterasyon."
+      }
+    ],
+    "krc": [
+      {
+        "label": "Tarih",
+        "body": "Altın Orda sonrası Kuman-Kıpçak boylarının Kafkas dağlarına çekilmesi; İrani Alanlar (Oset ataları) + yerli Kafkas halklarıyla yüzyıllarca birlikte yaşamla etnogenez. 1930'larda standartlaştı/yazıya döküldü. Pers-Arap→Kiril."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Kıpçak omurgası + GÜÇLÜ Kafkas (Osetçe/Kabardeyce) fonolojik substratı: standart Türkçede zayıf olan küçük dil (uvular) ünsüzleri /q/, /χ/, /ʁ/ belirgin. Dudak uyumu var ama Kazakça/Kırgızca kadar katı değil; çoğul -la/-le."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Filogenetik en yakın akraba Kumukça (karşılıklı anlaşılabilirlik ~%80). Sözcük dağarcığı İrani ve Kafkasyalı (Çerkes) komşulardan yoğun leksikal kopyalama içerir."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 0 (en iyi 1 alt-bandı). Apertium'da çeviri çifti, HF'de olgun model ya da UD ağaç bankası YOK — veri kıtlığı en yüksek dillerden. (Kafkas substratı modellenmezse morfolojik analiz hataları doğar.)"
+      }
+    ],
+    "kum": [
+      {
+        "label": "Tarih",
+        "body": "Çarlık öncesi yüzyıllarda TÜM Kuzey Kafkasya'nın pazar ve diplomasi ortak dili (lingua franca) — Tolstoy'un eserlerinde Kafkasya halkları Kumukça üzerinden anlaşır. Hazar'ın batı kıyısı, Dağıstan. Arap→Kiril."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Karaçay-Balkarca ile temel gramer/fonolojiyi paylaşır; Dağıstan yerel dillerinden (Avarca, Dargice) spesifik kültürel alıntılar onu ayırır. Ünlü uyumu standart Kıpçak kurallarına sadık, çoğul eki standart."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Karaçay-Balkarca ve Kırım Tatarcasının Çöl (bozkır) lehçesi ile tarihsel-dilbilimsel süreklilik; Dağıstan Kafkas dillerinin bölgesel etkisini taşır."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Tarihsel lingua franca olmasına rağmen modern çağda Joshi Sınıf 0'a hapsolmuş. apertium kaz-kum yalnız 561 kelimelik terk edilmiş 'incubator' demosu; LLM/etiketli korpus yok, yalnız TurkicNLP alt-seviye tokenizasyon."
+      }
+    ],
+    "nog": [
+      {
+        "label": "Tarih",
+        "body": "14. yy Altın Orda emiri Edige'nin Nogay Orda'sının torunları. 18-19. yy Rus İmparatorluğu çatışmaları + zorunlu göçler demografiyi parçaladı (Osmanlı'ya göçen milyonlarca Nogay asimile oldu) → dil büyük zafiyete uğradı."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Kıpçak'ın en SAF ve arkaik özelliklerini muhafaza eder; Kazakça ve Karakalpakça ile adeta aynı dilin varyantları. Ortak Türkçe /ş/→/s/, /ç/→/ş/ (ağaç→ağaş) karakteristiktir; yüksek varyasyonlu asimilasyon matrisi bozulmamış."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Kazakça ile akrabalık karşılıklı anlaşılabilirliği pratikte TAM kılar (en yakın kardeşi). Kafkas dillerinden çok, Rusçanın baskın asimilasyonu altında; dağınık demografi aktarımı kırsal dışında kesti."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Net Joshi Sınıf 0 örneği; dijital ayak izi yok denecek kadar az. apertium nog-kaz yalnız 9 stem iskeleti; derin öğrenme çağının tamamen dışında. (Kazakça kural motorları minör ayarlamayla zero-shot transfer adayı.)"
+      }
+    ],
+    "crh": [
+      {
+        "label": "Tarih",
+        "body": "Kırım Hanlığı'nda Kıpçak ve Oğuz dil alanlarının tam kesişiminde şekillendi; Codex Cumanicus dilin atası sayılır. 19. yy Gaspıralı'nın Tercüman gazetesi (Osmanlıyla harmanlayıp ortak edebi dil hedefi). 1944 Sürgün ekosistemi parçaladı."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Diller-arası KÖPRÜ; 3 diyalekt: Yalıboyu (Güney, neredeyse saf Oğuz=Türkiye Türkçesi), Çöl (Kuzey, standart Kıpçak=Nogayca/Kumukça), Orta Yol (ikisinin füzyonu — modern edebi dil). Melez morfofonoloji: Kıpçak sertliği + Oğuz ötümlülüğü."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Türkiye Türkçesiyle karşılıklı anlaşılabilirliği EN YÜKSEK Kıpçak dili — bir konuşur aynı anda hem İstanbullu hem Kumuk ile iletişim kurabilir. (Filogeni Kıpçak-Kuman, ama güçlü Oğuz tabakası = geçişken/transitional.)"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 1; Türkiye Türkçesinin gücünden yararlandığı için Apertium'da çok başarılı — crh-tur FST çeviricisi 'trunk' (olgun/üretim) seviyesinde. TUMLU'da analiz edilen 9 Türk dili arasında. (Platformda 'Oğuz-Kıpçak hibridi' etiketlenmeli.)"
+      }
+    ],
+    "gag": [
+      {
+        "label": "Tarih",
+        "body": "Köken: 11-12. yy Karadeniz kuzey bozkırlarından Balkanlar'a inen Peçenek/Kuman/Oğuz boyları. İSTİSNA: İslam yerine Bizans/Bulgar etkisiyle Ortodoks Hristiyanlığı benimsediler. 19. yy Rus politikalarıyla Besarabya'ya göç. Kiril→Latin (1993)."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Kökleri Anadolu ağızlarına yakın ama Slav/Romen ADSTRATIYLA yapısal evrim: sözcük sonu ötümsüzleşme YOK (arap→arab), açık /ä/, Slavca /ts/; -Iyor şimdiki zaman yok. ★ Balkan Sprachbund: SOV→SVO esnedi, mastar kaybı + 'ki'-benzeri yan tümce. Sözcüğün ~%30'u Slav/Romen."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "En yakın akraba Anadolu/Türkiye Türkçesi; fakat Balkan Dil Birliği (Slav/Romen) ile yapısal yakınsama yaşadı. Rusça ile yoğun ikidillilik yeni nesle aktarımı tehdit ediyor."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 0-1 (çok düşük kaynaklı). apertium-gag prototip (~3.143 kök, ~%78 kapsama); büyük UD ağaç bankası yok. ★ SVO kayması + mastar kaybı, Türkiye Türkçesi parser'larının doğrudan aktarımını İMKANSIZ kılar."
+      }
+    ],
+    "slr": [
+      {
+        "label": "Tarih",
+        "body": "14. yy Yuan döneminde Semerkant'tan Çin'in kuzeybatısına göç eden Oğuz/Salur boyları; İpek Yolu'nda Han Çinli, Hui ve Amdo Tibetli topluluklarla yüzyıllarca temas. Doğu Oğuz çekirdeği üzerine ağır Çin/Tibet katmanı. Çinghay/Gansu, Xunhua."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "★ Ünlü uyumunu TAMAMEN kaybetti (Çince/Tibetçe baskısı); ünsüz kümeleri için ünlü türemesi (gahawa). ★ Tibetçeden EVİDENSİYALLİK (kanıtsallık) — egoforik ekler. SOV korunur ama paradigmalar basitleşti. Standart yazım yok (Pinyin/Hanzi gayriresmi)."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Çin içinde Doğu Oğuz dil adacığı; en güçlü temas Çince + Amdo Tibetçe (teknoloji sözcükleri Çince, coğrafya/doğa Tibetçe). Diğer Türk dillerinden coğrafi olarak kopuk."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Net Joshi Sınıf 0 (Left-Behind). Apertium FST yok, UD yok, HuggingFace'te ~10'dan az. Standart alfabe yokluğu + yoğun Mandarin-Salarca code-switching veri madenciliğini neredeyse imkansız kılar."
+      }
+    ],
+    "kmz": [
+      {
+        "label": "Tarih",
+        "body": "11. yy Selçuklu Oğuz boyları iskeleti attı, 18. yy Afşar hakimiyetiyle pekişti. Uzun süre 'Güney Azerbaycan ağzı' sanıldı; Heyat ve Doerfer çalışmalarıyla bağımsız dil + Oğuzyanın doğu-batı geçiş halkası olarak literatüre girdi. İran kuzeydoğusu (Bojnurd, Quchan)."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Türkmence↔Azerbaycanca GEÇİŞ formu; Oğuz uzun ünlülerini korur. ★ Ünlü yuvarlaklaşması: /u/,/i/,/oː/ sonrası /ɑ/→[ɒ] (Farsçaya benzer) — ama -lAr çoğul ekine etki etmez. Genitif/datif tipik Oğuz; Farsçadan ki-cümleleri."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Filogenetik en yakın akraba Türkmence (aynı doğu dalı); Azerbaycanca ile geçişken; Farsça areal temas. (Hatalı biçimde 'Azerbaycan ağzı' etiketlenmemeli — bağımsız dil.)"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Net Joshi Sınıf 0; Apertium FST, UD ya da geniş derlem YOK — tek dijital iz Wikimedia Incubator (Wp/kmz). Sözlü edebiyat (bahşı müziği) ağırlıklı → yazılı veri kıtlığı, STT modellerine muhtaç."
+      }
+    ],
+    "azb": [
+      {
+        "label": "Tarih",
+        "body": "Azerbaycanca makrodilinin (aze) güney standardı — İran (Doğu/Batı Azerbaycan, Erdebil). Safevi/Selçuklu mirası; Kuzey'den (azj) ayrı, İran yönetimi altında Farsça etkisinde gelişti. Arap-Fars alfabesini sürdürür; resmî statü yok (EGIDS 3)."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Merkez Oğuz; ayırt edici açık ə /æ/ fonemi yaygın. Farsçadan yoğun sözcük ve sözdizimi kopyalama; güney diyalektlerde SOV + Farsça bağlaç/ki-yapıları. Hâl/iyelik sistemi Ortak Oğuz karakterli."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Kuzey Azerbaycanca (azj) ile aynı makrodil ama ayrı standart + alfabe (Latin↔Arap). Farsça yoğun adstrat. ~15M+ konuşurla İran'ın en büyük Türk dili topluluğu."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Kuzey Azerbaycanca'nın dijital gücünden uzak: resmî statü + standart yazım yokluğu + Arap-Fars alfabesi görünürlüğü kısıtlar. Joshi düşük; Kuzey'in (azj) kaynakları alfabe farkı nedeniyle doğrudan transfer edilemez."
+      }
+    ],
+    "alt": [
+      {
+        "label": "Tarih",
+        "body": "Proto-Türkçe izleri + 13-15. yy Kıpçak (Kazak/Nogay) göçlerinden derin etki. Güney Altay (Altay proper, Telengit, Teleut) ile Kuzey Altay her zaman net karşılıklı anlaşılabilirlik sunmaz. 1928 Latin → 1938 Kiril (9 ek harf). Altay Cumhuriyeti (RF)."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "8 kısa + 8 uzun ünlü. ★ Proto-Türkçe -d- istikrarlı -j-'ye evrildi (adak→ajak). Güney Altayca Kıpçak'a özgü zamir çekimleri yansıtır; '-la' edatı komitatif (birliktelik) hâl ekine grameleşti. Sondan eklemeli, SOV."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Tipolojik KÖPRÜ — Sibirya (Kuzey) + Kıpçak (Güney) özelliklerini harmanlayan lehçe sürekliliği. Talat Tekin: Güney Altay Kırgızca/Kazakçaya yakın; Kuzey Altay ağızları Şorca/Hakasça ile Yenisey grubunda."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 1–0 arası. apertium-alt deneysel depo var ama çalışan kural-tabanlı analizöre dönüşmedi (taslak). Makine çevirisi, açık sözlük ya da UD ağaç bankası henüz yok."
+      }
+    ],
+    "atv": [
+      {
+        "label": "Tarih",
+        "body": "Altay lehçe sürekliliğinin KUZEY kolu (Tuba, Kumandı, Çalkan/Kuu). Talat Tekin sınıflandırmasında Şorca/Hakasça ile Yenisey/Sibirya grubuna ait. UNESCO 'Ciddi Tehlikede' — eğitimde Rusça ve Standart Güney Altaycanın gerisinde."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Güney Altaycadan ayrılır: daha arkaik Sibirya çekim kuralları (ör. -tIŋ genitif ekinin kendine has kullanımları). Proto-Türkçe */ag/ öbeği lehçeye göre /u/, /aw/ veya /aʁ/ refleks verir; -d-→-j- paylaşılır."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Filogenetik olarak Yenisey/Sibirya grubu (Şorca/Hakasça'ya yakın), Güney Altayca'dan farklı; ikisi arasında her zaman net karşılıklı anlaşılabilirlik yok. Rusça asimilasyonu altında."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 0; Standart Güney Altaycanın bile gerisinde, kendine ait işlevsel NLP kaynağı (FST/UD/LLM) yok. Veri kıtlığı en yüksek Sibirya varyantlarından."
+      }
+    ],
+    "dlg": [
+      {
+        "label": "Tarih",
+        "body": "Etnojenez: 17-19. yy Lena'dan Taymır'a göçen Yakutların, ren geyiği çobanı Tunguzlar (Evenki), Samoyetler ve Ruslarla kaynaşması. Sahacaya o kadar yakın ki Sovyet döneminde uzun süre Yakut lehçesi sanıldı; güçlü Evenki altkatmanı ayrı dil yaptı. Saha-Kiril temelli."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Sahacayı Tunguz etkisiyle yeniden yorumlar. ★ Yakutça s- → Dolganca h- (saxa→haka). Orta ünlüler çift ünlüye (diftonglaşma). 8 hâl ama Sahacanın KOMİTATİFİNİ kaybetti (→sosyatif türetim eki). Sınır kayması (kennitten→kennititten); 'tās'=taş + güney/doğu."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Sahaca (Yakutça) ile çok yakın (Kuzey Sibirya/Yakutik grup) + Evenki/Tunguz altkatman = melez kuzey temas dili. Globalleşmeyle gençlerde Rusça baskın → kesin tehlikede."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 0; apertium-dlg yalnız deneysel taslak (kök eksikliği, kural yazılmamış). İşlevsel makine çevirisi, metin üretimi ya da LLM/ASR yok — akademi dışı dijital erişim imkânsız."
+      }
+    ],
+    "ybe": [
+      {
+        "label": "Tarih",
+        "body": "★ Adındaki benzerliğe rağmen Şincan'daki Karluk Modern Uygurca ile akraba DEĞİL. MS 840 Uygur Kağanlığı çöküşü sonrası Gansu'ya kaçıp Ganzhou Uygur Krallığı'nı kuran ASIL Eski Uygurların doğrudan torunları. Gansu/Sunan; standart yazı yok → 'Yok olmak üzere' (Moribund)."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "★ Eşsiz PREASPİRASYON (ön-soluklanma): ünlü sonrası ünsüzden önce hafif /h/ (otuz→oʰtɯs). Çince etkisiyle ötümlülük zıtlığı (p/b) → soluklu/soluksuz zıtlığa. Ünlü uyumu çöktü (yalnız ezbere). ★ Fiilde şahıs eki TAMAMEN kayboldu; Eski Türkçe 'anticipating counting' aktif. 6 hâl."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Sibirya/Yenisey grubuyla uzak akraba; ★ Eski Uygurcanın GERÇEK dilbilimsel mirasçısı (Modern Uygurca değil!). Aynı Yugur topluluğunda Doğu Yugurlar tamamen farklı bir Moğolik dil konuşur."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Sınıf 0/1 bandında sıkışık. apertium-ybe kuluçka (işlevsiz); Wikimedia Incubator (Wp/ybe) yeterli konuşur bulunamadığından atıl kaldı. Modern NLP ürünleri (LLM, ASR) sıfıra yakın."
+      }
+    ],
+    "aib": [
+      {
+        "label": "Tarih",
+        "body": "Abdal halkı tarihsel göçebe (peripatetic) — seyyar satıcılık, şifacılık, sünnetçilik. Köy/vahalar arası dolaşırken baskın Uygur nüfusuyla ticarette niyet gizleme ihtiyacı → kriptolekt doğdu; ~125 yıldır istikrarlı (1898→Hayasi). Sincan, Taklamakan güney saçakları."
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "★ 'Ortakyaşar karma dil': GRAMER tamamen Karluk/Uygur (SOV, ünlü uyumu, çekim ekleri birebir Uygurca) ama LEKSİKON (kökler) Farsça/İrani. Uygurca ek + Farsça kök (čov-çi 'marangoz') → Uygur yapıyı anlar, şifreyi (anlamı) çözemez."
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Uygurca ile tamamen iç içe (interchangeability); leksikal değiştirme + anlamsal genişleme (säŋ 'taş'→gizlilik için 'yumurta/tuğla'). ★ Leksikon Farsça olsa da Glottolog/Johanson Eynu'yu Karluk TÜRK dili (kriptolekt) olarak kesin sınıflar."
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi Sınıf 0 (Left-Behind); hiçbir dil modeli, Apertium modülü ya da UD yok — veri yalnız saha dilbilimcilerinin PDF raporlarında. Kriptolekt doğası yazılı edebiyatı engeller. (Kullanım uyarısı: yalnız yetişkin erkekler.)"
+      }
+    ],
+    "ili": [
+      {
+        "label": "Tarih",
+        "body": "19. yy'da Tarım/Fergana'dan (muhtemelen Dungan İsyanı'ndan kaçarak) Kuzey Sincan İli Vadisi'ne göçen küçük topluluk. Çin'de bağımsız etnik grup sayılmaz, Kazak/Uygur olarak asimile edilir; dil yalnız kırsalda yaşlı nesilde sözlü yaşar. [Glottolog/Hahn]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Karluk şemsiyesinde ama güçlü Kıpçak substratlı: arkaik *G yuvarlak ünlüden sonra w'ye dönüp eridi (dağ→taw, sarığ→sarıq); ikiz ünsüzleri (sekkiz) korur — izole muhafazakârlık. [Zhao & Hahn 1989]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "En yakın akraba modern Uygurca (İli diyalekti) ve Özbekçe. Çevredeki Kazak (Kıpçak) + egemen Uygur kültürü ağır leksik baskı yaratır; genç nesil Uygurca/Kazakçaya geçmiştir. [Glottolog]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi 'Left-Behind', dijital uçurumun dibinde. Yazılı edebî gelenek yok; internette metin verisi, Apertium çözümleyici veya HF modeli bulunmaz. [Apertium; HF]"
+      }
+    ],
+    "xbo": [
+      {
+        "label": "Tarih",
+        "body": "İdil (Volga) Bulgar Devleti'nin resmî dili (9.-14. yy); kitabeler, sikkeler ve İbn Fazlan raporlarından bilinir. Altın Orda sonrası Kıpçak Tatarcaya asimile oldu ama Çuvaşçaya evrilerek mirasını sürdürdü. [Tekin 1988]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Şaz şemsiyesinden radikal sapan Oğur (Lir) grubunun klasik örneği. Rotasizm (z>r) ve lambdasizm (ş>l) kritik izoglosu: 'sekiz' ve 'yedi yüz', mezar taşlarına 'sekir' ve 'jeti yir' olarak kazınmıştır. [Tekin 1988]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Modern Çuvaşçanın tek ve edebî atası. Fin-Ugor (Ural) ve Slav dilleriyle, yerini aldığı Kıpçak diyalektleriyle güçlü tarihsel temas ve substrat ilişkisi vardır. [Erdal]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Talat Tekin'in (1988) İdil Bulgar kitabe okumaları dışında dijital bir NLP varlığı söz konusu değildir; 'Left-Behind' statüsünde. [Tekin 1988]"
+      }
+    ],
+    "zkz": [
+      {
+        "label": "Tarih",
+        "body": "Ortaçağ'da Kafkaslar/Doğu Avrupa'da hüküm süren, elitleri Museviliği benimseyen Hazar Kağanlığı'nın dili (7.-10. yy). Ticaret yollarında lingua franca; 13. yy'da Kıpçak dilleri içinde asimile olup yok oldu. [Erdal 2007]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Dünyada en az belge bırakan dillerden: iki isim, birkaç unvan (Kağan, Tudun, Şad) ve Kiev Mektubu'ndaki 'HWQWRWM' (okudum). Bu tek kök, dilin Oğur mu Şaz mı olduğu tartışmasının tam merkezindedir. [Erdal 2007]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Çok dilli/çok dinli Hazar Devleti'nde Slav, İrani, Kafkas ve İbrani dilleriyle bir arada var oldu; özellikle elit düzeyde Musevi kültüründen dinî/politik substrat aldı. [Glottolog]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Literatürü olmayan, yalnız epigrafik ve spekülatif bir ölü dil olduğu için dijital gücü veya doğal dil işleme (NLP) varlığı bulunmamaktadır. [Glottolog]"
+      }
+    ],
+    "chg": [
+      {
+        "label": "Tarih",
+        "body": "Karahanlı/Harezm mirasını alan, Timur ve Babür saraylarında standartlaşan, Ali Şir Nevâî'yle Hint altkıtasından Çin'e uzanan coğrafyada prestij dili olan muazzam edebî dil (15.-20. yy, 1921'e dek). [Schluessel 2018]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Karluk omurgası üzerine oturur ama ünlü uyumunda zayıflama görülür. Şairlerin aruza uymak için ünlüleri keyfî değiştirmesi, Kıpçak/Oğuz eklerinin karışık (heterojen) kullanımı dönem karakteristiğidir. [Schluessel 2018]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Modern Özbekçe ve Yeni Uygurcanın doğrudan edebî/genetik atası. Farsça (Hint-İran edebiyatı) ve Arapça ile entelektüel yarış, söz varlığına ve sözdizimine devasa adstrat yığdı. [Schluessel]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi 'Scraping-By'. Özbekistan/Çin'de el yazması dijitalleşmesi (OCR) hızlı; ama chg koduna adanmış açık sinirsel çeviri modelleri (NLLB, mBART) henüz yeterli olgunluğa erişmedi. [HF]"
+      }
+    ],
+    "xqa": [
+      {
+        "label": "Tarih",
+        "body": "Türklerin İslam dairesine girmesiyle Maveraünnehir/Kaşgar merkezli doğan ilk standart İslamî edebî dil (11.-13. yy). Kâşgarlı Mahmud'un Dîvânu Lugâti't-Türk'ü (1072) ve Yusuf Has Hâcib'in Kutadgu Bilig'i başyapıtlarıdır. [Ercilasun 2014]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Eski Uygurca morfolojisini korur, İslamî kavramlara yeni yapılar ekler. Kâşgarlı'ya göre Arapçada bulunmayan ötümlü dudak-diş /v/ için üç noktalı özel bir 'fa' (ڤ) harfi icat edilmiştir. [Ercilasun 2014]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Karluk boylarının (Çiğil, Yağma) diyalektleri etrafında; Arapça-Farsça masif adstrat. Türk şiirinin Fars aruzuyla ilk melezlendiği, arkaik Türk + Semitik din terminolojisi sentezidir. [Ercilasun]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Filolojik transkripsiyon (TDK veritabanları) zengindir; ama xqa koduyla doğrudan eğitilmiş açık LLM veya Apertium/Stanza entegrasyonu dijital platformlarda yoktur. [TDK; Apertium]"
+      }
+    ],
+    "xzm": [
+      {
+        "label": "Tarih",
+        "body": "Moğol istilaları ve Altın Orda hegemonyasında Harezm'de Karluk/Kıpçak/Oğuz kabilelerinin harmanlanmasıyla doğan bir Orta Türkçe koiné (13.-14. yy). Nehcü'l-Ferâdîs, Kısasü'l-Enbiyâ gibi dinî-didaktik metinlerle var oldu. [Kurtulmuş 2025]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Geçiş evresinin işareti heterojen eklerdir: aynı metinde Kıpçakça ve Oğuzca ekler yan yana bulunabilir. Eski Türkçe /d/~/ð/ sesinin /z/'ye dönüşü (adak→azak) karakteristik ses değişimidir. [Kurtulmuş 2025]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Karahanlıcanın edebî mirasını alıp Çağataycaya zemin hazırlar. Suvar/Yemek boy diyalektleriyle temas etmiş, Farsçanın yoğun edebî kopyalarını barındırır. [DergiPark]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi 'Left-Behind'. Akademik çevriyazı dışında dijital morfoloji motoru yok; metinler yalnız spesifik corpus çalışmalarında (Tugantel vb.) kısıtlı referanslar olarak taranır. [DergiPark]"
+      }
+    ],
+    "otk": [
+      {
+        "label": "Tarih",
+        "body": "Türkçenin gramer/söz varlığı doğrudan izlenebilen ilk standart edebî formu. II. Göktürk ve erken Uygur kağanlıklarının bengü taşları (Kül Tigin, Bilge Kağan) ile ulaştı; 1893'te Thomsen çözdü ve Türkolojinin temel taşı oldu. [Erdal 2004; Johanson 2021]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Katı fonotaktik: söz başı yalnız /b,t,k,s/ (nadiren ç,y,l). Modern dillerde eriyen /d/ ve damaksıl /ñ/ (adaq, qoyñ) korunur. -gU kollektif sayı eki, lokatif -dA'nın aynı anda ablatif görevi arkaik özelliklerdir. [Erdal 2004]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Çuvaşça (Oğur) hariç tüm modern Türk dillerinin (Şaz kolu) ortak edebî atası. Yalnız idare/askerlik/ticarette Çince ve Soğdcadan alıntı; geri kalanı oldukça saftır. [Johanson 2021]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Ölü ama dijitalleşiyor: Universal Dependencies'te Orhun ağaçbankası (sözdizim etiketli); TurkicNLP'de Runik-Latin çift yönlü transliterasyon + tokenizasyon. [UD; TurkicNLP]"
+      }
+    ],
+    "oui": [
+      {
+        "label": "Tarih",
+        "body": "Göktürk yıkılışı sonrası Ötüken'den Turfan/Tarım'a göçen Uygurların yerleşik hayatla ürettiği klasik yazı dili (8.-14. yy). Budizm, Maniheizm ve Nasturi Hristiyanlık etrafında muazzam bir çeviri edebiyatı bıraktı. [Röhrborn]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Runik metinlerin sentaktik katılığından ayrılıp soyut/felsefi kavramlara esnek bir morfosentaks geliştirdi; yoğun ikilemeler (bilip katıp) ve yardımcı fiilli karmaşık analitik eylemler. [Röhrborn 1977-1998]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Karahanlıcanın sözdizimsel altyapısını hazırlar. Budizm/Maniheizm üzerinden Sanskritçe, Toharca, Soğdca ve Çinceden devasa leksik/kavramsal kopyalama (bakçan, toyın). [Wilkens]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Akademik dijitalleşme güçlü (Wilkens/Röhrborn sözlükleri dijital tabanlara aktarılıyor); ama heterojen alfabe (Soğd/Brahmi/Maniheist) makine öğrenmesi ve standart HF entegrasyonunu çok zorlaştırır. [HF]"
+      }
+    ],
+    "qwm": [
+      {
+        "label": "Tarih",
+        "body": "İpek Yolu'nda Cenevizli/Venedikli tüccarlar ve Fransisken misyonerlerin derlediği çok dilli el yazması (sözlük/gramer) üzerinden ulaşan Kuman-Kıpçak lingua francası (13. yy sonu-14. yy başı). [Grönbech]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Arap yerine Latin alfabesinin kullanımı, dönemin ünlü değerlerini fonetik muazzam bir doğrulukla saptadı. Söz ortası *ğ'nin v'ye sızıcılaşması (oğul→ovul) gibi Kuzeybatı Kıpçak özelliklerini ilk kez belgeler. [Grönbech]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Kırım Tatarcası, Karayca ve Urumcanın doğrudan atası konumunda. Çok dilli yapısı, Kumanların Farsça/Latince/İtalyanca/Moğolca adstrat ortamında yaşadığını net gösterir. [Kuun]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Kuun ve Grönbech endekslemeleri dijital filolojik taramalarda kullanılır; ama makine çevirisi, ağaçbank (Treebank) veya herhangi bir Apertium/HF modeli söz konusu değildir. [filolojik]"
+      }
+    ],
+    "bgx": [
+      {
+        "label": "Tarih",
+        "body": "11. yy'da Balkanlar'a göçüp Ortodoks Hristiyanlığı benimseyen Peçenek-Kuman boylarının mirasçısı. Osmanlı garnizon şehirlerinde bir koiné (ortak dil) olarak şekillendi; edebî Gagavuzcadan bağımsız gelişti. [Balkan Turkish, Wikipedia; Grokipedia]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Oğuz şemsiyesini (eklemeli yapı, ünlü uyumu) korur; ama söz başı ötümsüz gırtlak sızıcısının düşmesi (hazır→azır) ve batı varyantlarında ö/ü'nün artdamaksıllaşması (gün→gʉn) özgün izoglosslarıdır. [Grokipedia]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "En yakın akrabası standart Gagavuzca ve Türkiye Türkçesi (yüksek anlaşılırlık). Yüzyıllarca Slavca/Yunanca temasıyla ağır Balkan Sprachbund substratı: sözdizim kopyaları ve areal alıntılar. [Wikipedia]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi taksonomisinde 'Left-Behind'. HuggingFace'te tek dilli veri/model yok; Apertium morfolojik analizörü yok; standart dijital korpuslardan yoksun. [HF; Apertium]"
+      }
+    ],
+    "qxq": [
+      {
+        "label": "Tarih",
+        "body": "Kökleri 11. yy Selçuklu göçlerine dayanan, Zagros çevresinde yarı göçebe Kaşkay konfederasyonunun Güney Oğuz dili. Uzun süre salt sözlü kaldı; Farsça konuşan devlet içinde izole bir Oğuz adası olarak yaşadı. [Qashqai, Wikipedia; Grokipedia]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Türk ünlü uyumunu taşır ama yoğun Farsça temasıyla sapar; uvular /q/ ve /ɢ/ ayırt edici. Analitik ettirgenlik (qoy-/ver-), Farsça şablonlu modalite ve iyelik düşmesi morfosentaktik kopyalardır. [Lrr.modares; Dolatkhah]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Genetik en yakın akraba Azerbaycan Türkçesi (çoğu kez diyalekti sayılır); Şeşbeyli gibi boylar Anadolu Türkçesine yakındır. Farsça/Arapçadan masif alıntı + kısıtlı ezafe (tamlama) yapısı. [Wikipedia]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi 'Scraping-By'. Dolatkhah'ın corpus-tabanlı dilbilgisi (2016) dijital analizi başlattı; HF'te Helsinki-NLP opus-mt çok-dilli modelinde qxq kodu + deneysel ASR temsili var. [Dolatkhah; HF]"
+      }
+    ],
+    "uum": [
+      {
+        "label": "Tarih",
+        "body": "Kökeni KD Anadolu'nun (Trabzon/Kars) Türkçe konuşmaya başlayıp Ortodoksluğu koruyan Pontus Rumları. 18. yy'da II. Katerina döneminde Kırım'dan Azak'a (Mariupol) sürülünce dil Kıpçakça unsurlarla izole gelişti. [Urum, Wikipedia; Ethnologue]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Söz başı /r/ için ünlü türemesi (protez): 'Rum'→'Urum' adı bizzat bu kuraldan doğar. Arkaik Kıpçak ekleri + ünlü uyumu sapmaları + /k/→/h/ sızıcılaşması; 2. çoğul -sis/-siz asimilasyonu yeniliktir. [Glottolog]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Kırım Tatarcasının etno-diyalekti / çok yakın akrabası; erken Kafkasya Oğuz ağız izleri. Hristiyanlık terimleri Yunancadan (Noel→hristugin); modern çağda ağır Rusça baskısı. [Wikipedia]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi 'Scraping-By'. Skopteteas'ın 'Urum DoReCo' projesi fonetik-hizalı ses/metin korpusu (TLA arşivi); Apertium'da morfolojik dönüştürücü + kod-değişimli ASR çalışmaları. [DoReCo; Apertium; ACL 2025]"
+      }
+    ],
+    "kdr": [
+      {
+        "label": "Tarih",
+        "body": "13.-14. yy'da Kırım'dan Litvanya (Trakai), Polonya ve Ukrayna'ya yerleşen Karaizm (Musevilik) inançlı Türk boylarının dili. Codex Cumanicus Kıpçakçasına dayanır; İbrani alfabesiyle kutsal metin çevirisi geleneği zengin yazılı tarih bıraktı. [Karaim, Wikipedia; Csató/DergiPark]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Kuzeybatı (Trakai) diyalekti ünlü uyumunu büyük ölçüde yitirip yerine Slav etkili bir 'ünsüz uyumu' (palatalizasyon) geliştirdi: kelimedeki ünsüzler ya tümüyle damaksıl ya değil olmak zorundadır. [Csató]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Kırım Tatarcası/Kıpçak dalında; din ekseninde İbranice sözdizim kopyaları. Asıl yıkıcı temas Slavca: Lehçe/Ukraynaca/Rusça ile uzun aradalık, fonoloji ve morfosentaksı dilin omurgasına işledi. [pressto.amu; Vilnius UP]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi 'Scraping-By'. HF'te düşük-kaynaklı mmBERT (Fill-Mask) temsili; GlotLID tanır ama Apertium/Stanza'da yapılandırılmış morfolojik analizörü yok. [HF mmBERT; GlotLID]"
+      }
+    ],
+    "jct": [
+      {
+        "label": "Tarih",
+        "body": "Kırım'a göçen Sefarad/Aşkenaz kökenli Rabban Yahudilerinin 15. yy'dan Kırım Tatarcasını benimsemesiyle doğan etno-diyalekt. 1930'larda Latin (Yañalif) ile standartlaştırıldı; Holokost ve Sovyet sürgünleriyle nüfus yok oldu, aktarım kesildi. [Krymchak, Glottolog]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Diğer Kıpçak varyantlarının aksine yalnızca beş kısa ünlü; en büyük sapma ön-arka dudaksıl ünlü ayrımının (o/ö, u/ü) tümden kaybıdır. İbranice sözcükler özgün Kıpçak/Oğuz karma fonolojisiyle telaffuz edilir. [Wikipedia]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Kırım Tatarcasının Orta diyalektiyle aşırı geçişken. İbranice söz varlığının ~%5'i (din/günlük); eski metinlerde Arapça/Farsça yüksek üslup, modern metinlerde ağır Rusça substratı. [Glottolog]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi 'Left-Behind'; dijital izi neredeyse yok. HF'te yalnız ~38 satırlık çok sığ bir veri seti (Frank535/JCT); ne Apertium morfolojisi ne NLLB karşılığı var. [HF; Apertium]"
+      }
+    ],
+    "sty": [
+      {
+        "label": "Tarih",
+        "body": "11.-14. yy Moğol istilaları ve Altın Orda'nın parçalanmasında Deşt-i Kıpçak kabilelerinin (Kanglı vb.) hareketiyle şekillenen kadim dil. Uzun süre İdil Tatarcasının diyalekti sanıldı; bağımsız bir Kuzey Kıpçak dalı kabul edilir. [Wikipedia; Glottolog]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "İdil Tatarcasından leksik/fonolojik sapma: söz başı b- düşmesi, /ç/→[ts], /c/→[j]; su→sıu diftonglaşması ve doğu Türk ünlü uyumu farkları tipiktir. [Wikipedia]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Üç diyalekt sürekliliği: Tobol-İrtiş, Baraba, Tom. Baraba/Tom Kırgız-Kıpçak'a, Tobol-İrtiş Kıpçak-Nogay'a yakın. 16. yy'dan ağır Rusça kopyalama + Altay/Hakas/Şor areal substratı. [Glottolog]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi 'Scraping-By'. HF'te Qwen2.5 deneme adaptörleri (andreas-sty) ve veri setleri; TurkicNLP'de temel tokenizasyon var ama Apertium/Stanza derin morfoloji + ağaçbank henüz yok. [HF; TurkicNLP]"
+      }
+    ],
+    "kim": [
+      {
+        "label": "Tarih",
+        "body": "Önceleri Karagas denen, Sayan dağlarında ren geyiği çobanlığı/avcılıkla yaşayan Tofa halkının dili. Proto-Sibirya Sayan alt grubundan Tuvaca ile erken koptu, coğrafi yalıtımda evrildi; bugün terminal nesle hapsoldu. [Glottolog; ELP]"
+      },
+      {
+        "label": "Yapı & özgünlük",
+        "body": "Proto-Türkçe köklere sadık; sekizli kısa + uzun ünlü zıtlığı. En eşsiz yanı hem damaksıl hem dudaksıl uyumu kökten eke iki boyutlu (double vowel harmony) işletmesidir; tayga/avcılık üzerine arkaik kökler. [ELP/Harrison]"
+      },
+      {
+        "label": "İlişkiler",
+        "body": "Tuvaca ve Dukha ile doğrudan akraba. Geçmişte Moğolca ve yok olmuş Yenisey/Samoyed dilleriyle substrat; 20. yy Sovyet iskânıyla Rusça hegemonyası altında asimile. [Glottolog]"
+      },
+      {
+        "label": "Dijital güç",
+        "body": "Joshi 'Left-Behind'. Harrison & Anderson'ın belgeleme projeleri olmasa dijital verisi olmayacaktı; Apertium/HF'te model, korpus veya çeviri aracı yok. [Living Tongues; HF]"
+      }
+    ]
+  }
 }

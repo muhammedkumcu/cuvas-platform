@@ -656,13 +656,13 @@ def main():
          "        const col = this.BRANCHCOLOR[m.branch] || '#9a9082';\n"
          "        const _hist = m.era && m.era!=='living', _big = this.state.screen==='atlas', _z = (this.state.atlasZoom||1);\n"
          "        const _cs = _big ? (1/_z) : 1;\n"   # zoom-wrapper'a karşı ekran-sabit (nokta+etiket büyümez, AYRILIR)
-         "        const _d = m.hi?18:(m.sz===3?14:(m.sz===2?11:8)), _show = _big && m.lz>0 && _z>=m.lz;"),
+         "        const _d = m.hi?10:9, _show = _big && m.lz>0 && _z>=m.lz;"),   # TEK boyut (konuşur-bazlı kademe kaldırıldı); yalnız Çuvaşça bir tık büyük
         ("transform:translate(-50%,-50%);display:flex;flex-direction:${m.below?'column-reverse':'column'};align-items:center;gap:4px;z-index:${m.hi?3:2}",
          "transform:translate(-50%,-50%) scale(${_cs});display:flex;flex-direction:${m.ldir===2?'column-reverse':'column'};align-items:center;gap:2px;z-index:${m.hi?6:(_show?4:2)}"),
         ("ball:`width:${m.hi?18:13}px;height:${m.hi?18:13}px;border-radius:50%;background:${col};border:2px solid #fbfaf6;box-shadow:0 0 0 ${m.hi?'4px':'1px'} ${m.hi?'rgba(184,96,46,.25)':'rgba(33,29,23,.12)'}`,",
-         "ball:`width:${_d}px;height:${_d}px;border-radius:50%;background:${_hist?'#fbfaf6':col};border:${_hist?'2px solid '+col:'2px solid #fbfaf6'};box-shadow:0 0 0 ${m.hi?'4px':'1px'} ${m.hi?'rgba(184,96,46,.25)':'rgba(33,29,23,.12)'}${_hist?';opacity:.9':''}`,"),
+         "ball:`width:${_d}px;height:${_d}px;border-radius:50%;background:${_hist?'#fbfaf6':col};border:2px solid ${_hist?col:'#fbfaf6'};box-shadow:0 0 0 ${m.hi?'3px':'1px'} ${m.hi?'rgba(184,96,46,.30)':'rgba(33,29,23,.14)'}`,"),
         ("label:`font-size:${m.hi?'13px':'12px'};font-weight:${m.hi?'700':'500'};font-family:'Spectral',serif;color:#211d17;white-space:nowrap;background:rgba(251,250,246,.85);padding:1px 6px;border-radius:5px` };",
-         "label:`${_show?'':'display:none;'}font-size:${m.hi?'12.5px':'11px'};font-weight:${m.hi?'700':'600'};font-family:'Spectral',serif;color:${_hist?'#6b6356':'#211d17'};${_hist?'font-style:italic;':''}white-space:nowrap;background:rgba(251,250,246,.94);padding:0 5px;border-radius:5px;box-shadow:0 1px 3px rgba(33,29,23,.08)` };"),
+         "label:`${_show?'':'display:none;'}font-size:11px;font-weight:${m.hi?'600':'500'};font-family:'Spectral',serif;color:${_hist?'#6f665a':'#211d17'};${_hist?'font-style:italic;':''}white-space:nowrap;background:rgba(251,250,246,.94);padding:0 5px;border-radius:5px;box-shadow:0 1px 3px rgba(33,29,23,.08)` };"),
     ]
     for old, new in b34:
         if old in html:
@@ -755,9 +755,9 @@ def main():
         '          <h2 style="font-family:\'Spectral\',serif;font-weight:600;font-size:36px;margin:0">Türk dilleri haritası</h2>\n'
         '          <button onClick="{{ goCompareMap }}" style="cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.18);border-radius:9px;padding:8px 14px;font-size:13px;font-family:inherit;color:#211d17">← Karşılaştır</button>\n'
         '        </div>\n'
-        '        <p style="font-size:14.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 4px">Tüm Türk dilleri, lehçeleri ve tarihsel formları gerçek coğrafyada — denizler, dağlar, nehirler ve bilinen yer şekilleriyle. Bir bölgeye odaklan ya da <b>yakınlaştır</b> (+/−); yaklaştıkça isimler çakışmadan açılır. <b>Tarihsel/ölü diller</b> içi boş halka + italik.</p>\n'
+        '        <p style="font-size:14.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 4px">Türk dillerinin coğrafi dağılımı; denizler, dağlar ve nehirlerle birlikte. Üstten bir bölge seçin ya da +/− ile yakınlaştırıp haritayı sürükleyerek gezin. Ölü ve tarihsel diller içi boş halkayla, eğik yazıyla gösterilir.</p>\n'
         + region_row + '\n'
-        '        <div style="position:relative;width:100%;aspect-ratio:1.62;background:#ece5d5;border:1px solid rgba(33,29,23,.12);border-radius:18px;overflow:hidden;margin-top:10px">\n'
+        '        <div onMouseDown="{{ atlasDown }}" onMouseMove="{{ atlasMove }}" onMouseUp="{{ atlasUp }}" onMouseLeave="{{ atlasUp }}" style="position:relative;width:100%;aspect-ratio:1.62;background:#ece5d5;border:1px solid rgba(33,29,23,.12);border-radius:18px;overflow:hidden;margin-top:10px;cursor:{{ atlasCursor }};user-select:none">\n'
         '          <div style="{{ atlasWrapStyle }}">\n'
         '            ' + build_map_bg() + '\n'
         '            ' + atlas_feature_labels() + '\n'
@@ -772,11 +772,19 @@ def main():
     ogren_anchor = "      <!-- ===================== OGREN ===================== -->"
     if ogren_anchor in html:
         html = html.replace(ogren_anchor, ATLAS + ogren_anchor, 1); natlas += 1
+    # mouse sürükle-pan: atlas yakınlaştırıldığında haritayı gezmek için (atlasCx/atlasCy güncellenir)
+    if "  active(){ return this.WORDS[this.state.activeWordId]; }" in html:
+        html = html.replace("  active(){ return this.WORDS[this.state.activeWordId]; }",
+            "  atlasPanStart(e){ const z=(this.state.atlasZoom||1); if(z<=1.01)return; const t=e.currentTarget; this._pan={x:e.clientX,y:e.clientY,cx:(this.state.atlasCx||50),cy:(this.state.atlasCy||45),w:(t&&t.clientWidth)||800,h:(t&&t.clientHeight)||500}; }\n"
+            "  atlasPanMove(e){ if(!this._pan)return; const z=(this.state.atlasZoom||1); const dx=e.clientX-this._pan.x, dy=e.clientY-this._pan.y; const cx=Math.max(8,Math.min(92,this._pan.cx - dx*100/(this._pan.w*z))); const cy=Math.max(8,Math.min(92,this._pan.cy - dy*100/(this._pan.h*z))); this.setState({atlasCx:cx,atlasCy:cy}); }\n"
+            "  atlasPanEnd(){ this._pan=null; }\n"
+            "  active(){ return this.WORDS[this.state.activeWordId]; }", 1); natlas += 1
     # renderVals: isAtlas + go handler'ları (goCognate komşuluğuna)
     html = html.replace(
         "      goCognate:()=>this.setState({screen:'cognate'}),",
         "      goCognate:()=>this.setState({screen:'cognate'}),\n"
         "      isAtlas:S.screen==='atlas', goAtlas:()=>this.setState({screen:'atlas'}), goCompareMap:()=>this.setState({screen:'compare', compareTab:'map'}),\n"
+        "      atlasDown:(e)=>this.atlasPanStart(e), atlasMove:(e)=>this.atlasPanMove(e), atlasUp:()=>this.atlasPanEnd(), atlasCursor:((S.atlasZoom||1)>1.01?'grab':'default'),\n"
         "      atlasWrapStyle:(()=>{ const z=S.atlasZoom||1, cx=S.atlasCx||50, cy=S.atlasCy||45; return `position:absolute;inset:0;transform-origin:0 0;transition:transform .3s ease;transform:scale(${z}) translate(${(50/z-cx).toFixed(2)}%, ${(50/z-cy).toFixed(2)}%)`; })(),\n"
         "      atlasZoomPct:'%'+Math.round((S.atlasZoom||1)*100),\n"
         "      atlasZoomIn:()=>this.setState(s=>({atlasZoom:Math.min(4,Math.round((((s.atlasZoom||1))+0.5)*10)/10)})),\n"

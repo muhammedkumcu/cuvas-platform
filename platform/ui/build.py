@@ -2073,31 +2073,35 @@ def main():
     #  6 kol (Johanson; Savelyev & Robbeets 2020 Bayes filogenetiğiyle doğrulandı) — her kol
     #  pedagojik tanım + ayırt edici izogloss + örnek. + Soy ağacı = Bayes Max-Credibility Tree.
     # ============================================================
+    # ds20 (_tarih20.txt sf8-11) — her kol için DETAYLI izoglosslar + üye diller + kaynaklı örnekler.
     KOLLAR = [
         ("Oğur (Bulgar)", "İdil-Ural · ilk ayrılan (~MÖ 66)", "#b8602e",
-         "Aileden en erken kopan kol. Tek yaşayan dili Çuvaşça; Fin-Ugor ve Rusça ile iç içe geçtiği için diğer Türk dillerinden en uzağı.",
-         [("Rotasizm *z &gt; r", "tokkuz → tăhăr “dokuz”"),
-          ("Lambdasizm *š &gt; l", "kïš → hĕl “kış”")]),
-        ("Argu (Halaç)", "İran · izole zaman kapsülü", "#8a7a2e",
-         "Göktürkçe dönemi seslerini bir zaman kapsülü gibi koruyan izole dil. Tek üye Halaçça (İran, Markazi).",
-         [("Söz başı *h- korunur", "*hadaq → hadaq “ayak”"),
-          ("Söz içi *-d- korunur", "Orhun arkaik d’li biçimleri")]),
-        ("Sibirya (Kuzeydoğu)", "Sibirya · Kuzey + Güney", "oklch(0.52 0.13 235)",
-         "Moğol ve Tunguz komşulukla şekillenen kuzey dilleri. Kuzey (Yakut, Dolgan ~MS 474) ile Güney (Tuva, Hakas, Altay) ayrı dallardır.",
-         [("*-d- ayrışır", "ayak → atah · adak · azax"),
-          ("Söz başı *y- &gt; s", "yol → suol (Yakut)")]),
-        ("Karluk (Güneydoğu)", "Orta Asya · İpek Yolu", "oklch(0.5 0.13 295)",
-         "Semerkant–Buhara–Kaşgar şehir dilleri; Farsça-Arapça etkili, Çağataycanın mirasçısı. Özbekçe, Uygurca.",
-         [("*-G korunur", "dağlık → tağlıq"),
-          ("Ünlü uyumu zayıflar", "güzel → gözal (Özbek)")]),
-        ("Kıpçak (Kuzeybatı)", "Bozkır · geniş yayılım", "oklch(0.5 0.13 150)",
-         "Karadeniz kuzeyinden Orta Asya bozkırlarına uzanan göçebe kol. Kazak, Tatar, Kırgız, Başkurt, Karakalpak, Nogay, Kumuk gibi geniş bir grup.",
-         [("*-G &gt; -w", "dağlı → tawlı"),
-          ("Söz başı *y- &gt; c/j", "yol → col / jol")]),
-        ("Oğuz (Güneybatı)", "Anadolu–Kafkas–Balkan", "oklch(0.55 0.13 35)",
-         "En çok konuşulan ve birbirini en rahat anlayan kol. Türkçe, Azerice, Türkmence, Gagavuzca.",
-         [("Baş ses tonlulaşması *t&gt;d, *k&gt;g", "tağ → dağ, kök → gök"),
-          ("Sonek *-G düşer", "kalgan → kalan")]),
+         "Aileden en erken kopan ve en farklı kol; tek yaşayan dili <b>Çuvaşça</b>. İdil Bulgarları, Hazarlar ve muhtemelen erken Avrupa Hunlarıyla bağlantılı. Ortak Türkçeyle karşılıklı anlaşmayı imkânsız kılan radikal ses yasaları taşır.",
+         [("Rotasizm *z &gt; r", "*tokkuz → tăhăr “dokuz” · *kïz → hĕr “kız”"),
+          ("Lambdasizm *š &gt; l", "*kïš → hĕl “kış” · *beš → pilĕk “beş”"),
+          ("Sonses *d &gt; r", "adak → ura “ayak”")]),
+        ("Argu (Halaç)", "İran · arkaik zaman kapsülü", "#8a7a2e",
+         "Kaşgarlı Mahmud'un kaydettiği Argu diyalektinin son kalıntısı; tek üye <b>Halaçça</b> (İran, Markazi). Önce Oğuz sanılmış, G. Doerfer arkaik ve bağımsız bir uç (periferal) kol olduğunu kanıtlamıştır.",
+         [("Söz başı *h- korunur", "*hadaq → hadaq “ayak” · höl- “ölmek”"),
+          ("Asli uzun ünlü korunur", "a:t “ad” ≠ hat “at” — uzunluk anlamı ayırır")]),
+        ("Sibirya (Kuzeydoğu)", "Sibirya · Kuzey (Yakut) + Güney", "oklch(0.52 0.13 235)",
+         "Kuzey (<b>Yakutça, Dolganca</b> — ~MS 474 erken izole) ile Güney Sibirya (<b>Tuva, Hakas, Altay</b>) ayrı dallardır. Yakutçada devasa Tunguzca kopya ve ikincil diftonglar; güney dilleri areal etkilerle şekillenmiştir.",
+         [("İç/son *-d- korunur veya sertleşir", "adak → ataχ (Yakut) · adak (Tuva) · azaχ (Hakas)"),
+          ("Uvular *q korunur", "batıda eriyen arka /q/ burada sağlam")]),
+        ("Karluk (Güneydoğu)", "Orta Asya · İpek Yolu kentleri", "oklch(0.5 0.13 295)",
+         "Çağataycanın mirasçısı modern <b>Özbekçe</b> ve <b>Uygurca</b>. Semerkant–Buhara–Kaşgar kentli sentezinin, bin yıllık İslam-İran temasının fonetik aşınmalarını taşır.",
+         [("Önses/sonses *-G korunur", "qal-ğan “kalan” · tağ-lıq “dağlık”"),
+          ("Ünlü uyumu zayıflar (Fars etkisi)", "on → oʻn · ata → ota (Özbek)")]),
+        ("Kıpçak (Kuzeybatı)", "Deşt-i Kıpçak · geniş bozkır", "oklch(0.5 0.13 150)",
+         "Karadeniz kuzeyinden Orta Asya'ya uzanan göçebe kol: <b>Kazak, Kırgız, Tatar, Başkurt, Karakalpak, Nogay, Kumuk</b>. Geniş yayılım radikal ünlü/ünsüz benzeşme kuralları doğurmuştur.",
+         [("Dudaksıllaşma ğ/g &gt; w", "tağ → taw (Kzk/Tat) · too (Kırg) · ağır → awır"),
+          ("Söz başı *y- &gt; c/j", "yol → jol / col"),
+          ("Kuzey Kıpçak ünlü kayması", "süt → söt · biz → bĕz (Tatar/Başkurt)")]),
+        ("Oğuz (Güneybatı)", "Anadolu–Kafkas–İran–Balkan", "oklch(0.55 0.13 35)",
+         "En çok konuşulan ve birbirini en rahat anlayan kol: <b>Türkçe, Azerice, Türkmence, Kaşkayca, Gagavuzca</b>. Selçuklu göçleriyle batıya yayılıp ortak yenilikler geliştirmiştir.",
+         [("Önses ötümlüleşmesi *t-&gt;d, *k-&gt;g", "*til → dil · *köz → göz"),
+          ("Artdamak aşınması (lenition)", "-GAn → -An/-yAn (kalan/gelen) · -lIG → -lI (dağlı)"),
+          ("İç ses *-d- &gt; y", "adak → ayak")]),
     ]
     def _kol_card(name, region, color, desc, rules):
         rr = ""
@@ -2126,10 +2130,71 @@ def main():
         """              <div><b style="color:#211d17">Sarı Uygurca</b> — adı yanıltıcıdır: Sincan'daki Karluk Uygurcasıyla akraba <b>değil</b>; arkaik bir <b>Güney Sibirya</b> (Yenisey) dilidir.</div>\n"""
         """            </div>\n"""
         """          </div>\n"""
+        """          <div style="margin-top:14px;font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace">Kaynaklar: Johanson (2021) altı-kol tasnifi · Savelyev &amp; Robbeets (2020) Bayes doğrulaması · Doerfer (Argu) · Kaşgarlı Mahmud, DLT.</div>\n"""
+        """        </div>\n""")
+    # ds20 — Bayesçi filogeni açıklama bloğu: veri seti + 3 anahtar ayrışma düğümü (tarih + %95 güven aralığı).
+    bayes_block = (
+        """        <div style="background:#211d17;color:#f4f1ea;border-radius:16px;padding:24px 26px;margin:6px 0 26px">\n"""
+        """          <div style="font-family:'Spectral',serif;font-weight:600;font-size:22px;margin-bottom:6px">Kökler ve zaman derinliği</div>\n"""
+        """          <p style="font-size:13.5px;line-height:1.65;color:rgba(244,241,234,.82);max-width:80ch;margin:0 0 16px">Soy ağacının arkasındaki sayılar, Savelyev &amp; Robbeets'in (2020) hesaplamalı <b>Bayesçi filogeni</b> çalışmasından gelir. <b>254 temel kavram</b> (Leipzig-Jakarta + Jena listeleri), <b>32 Türk varyetesi</b>, toplam <b>8.360 sözcük</b> ve <b>905 eşasıllı (kognat) kümesi</b> üzerinden ailenin yaşı ve dallanması modellenmiştir. Üç anahtar ayrışma:</p>\n"""
+        """          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">\n"""
+        + "".join(
+            f"""            <div style="background:rgba(244,241,234,.06);border:1px solid rgba(244,241,234,.12);border-left:3px solid {c};border-radius:11px;padding:13px 15px">\n"""
+            f"""              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.4px;color:{c}">{date}</div>\n"""
+            f"""              <div style="font-family:'Spectral',serif;font-size:16px;font-weight:600;margin:3px 0 5px">{title}</div>\n"""
+            f"""              <div style="font-size:12px;line-height:1.5;color:rgba(244,241,234,.7)">{desc}</div>\n"""
+            f"""              <div style="font-size:10px;color:rgba(244,241,234,.4);font-family:'IBM Plex Mono',monospace;margin-top:7px">%95 GA: {ci}</div>\n"""
+            f"""            </div>\n"""
+            for date, title, desc, ci, c in [
+                ("~MÖ 66", "Oğur ↔ Ortak Türkçe", "İlk ve en derin bölünme: Çuvaşçanın atası Oğur kolu, diğer tüm dillerin atası Ortak (Şaz) Türkçeden ayrılır.", "MÖ 755 – MS 483", "#b8602e"),
+                ("~MS 474", "Kuzey Sibirya kopuşu", "Ortak gövdeden ayrılan ilk dal: Yakutça ve Dolgancanın atası Kuzey Sibirya kolu.", "MÖ 7 – MS 809", "#2f6f9b"),
+                ("~MS 650", "Eski Türkçenin konumu", "Orhun ve Eski Uygur metinlerinin dili, ana gövdenin doğrudan atası değil; ondan ayrılmış bağımsız bir dal.", "MS 427 – 804", "#3f8a86"),
+            ]) +
+        """          </div>\n"""
+        """          <p style="font-size:12px;line-height:1.6;color:rgba(244,241,234,.6);max-width:80ch;margin:15px 0 0">Oğuz, Kıpçak ve Karluk gibi modern kolların ayrışma tarihleri <b>şaşırtıcı derecede sığ</b> çıkar. Savelyev &amp; Robbeets bunu göçebe yaşamın getirdiği <b>diyalekt sürekliliğine</b> bağlar: sürekli göçler ve boyların iç içe geçmesi, dilbilimsel yeniliklerin birden çok kola eşzamanlı yayılmasına yol açmış, keskin sınırları silmiştir.</p>\n"""
+        """          <div style="margin-top:13px;font-size:11px;color:rgba(244,241,234,.4);font-family:'IBM Plex Mono',monospace">Savelyev &amp; Robbeets (2020), Journal of Language Evolution · DOI: 10.1093/jole/lzz010</div>\n"""
         """        </div>\n""")
     hist_anchor = """        <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 18px">Proto-Türkçeden bugüne</h2>\n"""
     nkol = 1 if hist_anchor in html else 0
-    html = html.replace(hist_anchor, hist_anchor + kollar_card, 1)
+    html = html.replace(hist_anchor, hist_anchor + bayes_block + kollar_card, 1)
+
+    # ds20 zaman çizelgesi: HISTORY 9 → 15 KAYNAKLI satır (her satır academic atıflı) + kronolojik renk
+    # gradyanı (kullanıcı: "renkler karmaşık" → tip-bazlı 3 renk yerine zaman-fazlı tutarlı gradyan).
+    HIST15 = [
+        ("~MÖ 1.binyıl sonu", "Proto-Türkçe — Ana Yurt", "Altay-Sayan dağları ve Güney Sibirya çevresinde konuşulan, henüz kollara ayrılmamış kök dil. Tarım, metalürji ve hayvancılık terimlerinin ortaklığı bu yaşamı kanıtlar.", "kok", "Savelyev & Robbeets (2020)"),
+        ("~MÖ 66 · GA MÖ 755–MS 483", "Oğur ↔ Ortak Türkçe birincil ayrımı", "Proto-Türkçeden ilk büyük kopuş. Rotasizm (*z→r) ve lambdasizm (*š→l) gibi derin ses değişimlerinin başladığı, Xiongnu (Hun) hareketleriyle batıya kayan grupları işaret eder.", "goc", "Savelyev & Robbeets (2020)"),
+        ("~MS 5.–6. yy", "Hun, Avar ve Oğur göçleri", "Kutrigur, Onogur ve erken Bulgar boylarının Karadeniz kuzeyine yerleşmesi. Slav dillerine erken tarım ve devlet terminolojisi kopyalanmıştır (Hun-Avar dili akademide tartışmalı).", "goc", "Golden (1992); Róna-Tas (1999)"),
+        ("MS 5.–6. yy", "Kuzey Sibirya kolunun izolasyonu", "Yenisey/Baykal havzasından Lena Nehri'ne göç eden Yakut/Dolgan atalarının ana gövdeden ayrılması. Tunguzca ve Paleosibirya altkatman etkileri bu dönemde başlar.", "goc", "Johanson (2021)"),
+        ("MS 680–10. yy", "İdil Bulgar ve Hazar Kağanlığı", "Kuzeye, İdil havzasına göçen Bulgarlar ve Hazar Kağanlığında Oğurcaya yakın bir dil. Arap harfli mezar taşları modern Çuvaşçanın köklerini belgeleyen nadir Oğur metinleridir.", "goc", "Erdal (1993); Golden (2011)"),
+        ("MS 732–735", "Orhun Yazıtları", "II. Göktürk Kağanlığında Kül Tegin ve Bilge Kağan adına dikilen runik anıtlar. Ortak Türkçenin morfolojisini ve söz dağarcığını eksiksiz sergileyen ilk edebi kaynaklar.", "klasik", "Tekin (1968)"),
+        ("MS 9.–10. yy", "Eski Uygur metinleri", "Tarım Havzasına yerleşen Uygurların Soğd kaynaklı alfabeyle ürettiği Maniheist ve Budist metinler. Göçebe kültürden yerleşik şehir hayatına geçişin linguistik kanıtı.", "klasik", "Johanson & Csató (1998)"),
+        ("1069–1070", "Kutadgu Bilig — Yusuf Has Hacip", "Karahanlı Devletinde yazılan ilk büyük İslami Türk siyasetnamesi. Hakaniye (Karluk) Türkçesinin bir edebiyat ve devlet dili olarak yetkinliğini kanıtlar.", "klasik", "Arat (1947)"),
+        ("1072–1074", "Dîvânu Lugâti't-Türk — Kaşgarlı Mahmud", "Araplara Türkçe öğretmek için Bağdat'ta yazılan ansiklopedik sözlük. Oğuz/Kıpçak/Argu farklarını haritalandıran ilk filolojik diyalektoloji — bu platformun tarihsel atası.", "klasik", "Dankoff & Kelly (1982)"),
+        ("11. yy ve sonrası", "Oğuz göçleri ve batıya ilerleyiş", "Selçuklu akınlarıyla Oğuz boylarının İran, Anadolu ve Balkanlar'a kitlesel yerleşimi. Modern Türkiye, Azerbaycan ve Türkmenistan dillerinin coğrafi tabanı.", "ortacag", "Johanson (2021)"),
+        ("~1303", "Codex Cumanicus", "Kırım'da İtalyan ve Almanlarca hazırlanan Latince-Farsça-Kıpçakça sözlük ve metinler. Altın Orda'da Kıpçakçanın lingua franca olduğunun belgesidir.", "ortacag", "Drimba (2000)"),
+        ("15.–16. yy", "Çağatay edebî dili", "Timur Rönesansıyla yükselen, Ali Şir Nevai ile zirveye ulaşan standart Karluk yazım dili. Modern Özbekçe ve Uygurcanın klasik atası.", "ortacag", "Boeschoten (1998)"),
+        ("1926–1938", "Sovyet Latinizasyonu (Yañalif)", "1926 Bakü Kurultayı sonrası Arap harflerinden Latin kökenli Yañalif'e geçiş. İslami bağları koparmayı hedeflerken okuryazarlığı hızlandırmış ve dilleri standartlaştırmıştır.", "modern", "Laitin (1998)"),
+        ("1938–1940", "Zorunlu Kirilizasyon", "Stalin döneminde Türkiye ile Latin bağını kesmek ve Ruslaştırmayı hızlandırmak için tüm dillerin hızla Kiril alfabelerine geçirilmesi. Diyalektler arası yapay duvarlar örmüştür.", "modern", "Bacon (1966)"),
+        ("20.–21. yy", "Dil kaybı ve tehlike", "Sibirya (Tofa, Çulım) ve Doğu Avrupa'da (Karayca, Kırımçakça) asimilasyon ve kentleşmeyle dillerin son konuşucularını kaybetmesi.", "bugun", "Johanson (2021)"),
+    ]
+    new_hist = ("  HISTORY = [\n"
+                + "".join("    " + json.dumps({"era": e, "title": t, "desc": d, "kind": k, "src": s}, ensure_ascii=False) + ",\n"
+                          for e, t, d, k, s in HIST15)
+                + "  ];")
+    html, nhist = re.subn(r"  HISTORY = \[.*?\];", lambda m: new_hist, html, count=1, flags=re.S)
+    # historyRows: tip-bazlı 3 renk → zaman-fazlı kronolojik gradyan + faz etiketi + kaynak passthrough
+    hr_old = ("historyRows:this.HISTORY.map(h=>({...h, dot:({dil:'#2f6fb0',yazı:'#d98b4a',eser:'#2f8a5b'})[h.kind]||'#9a9082', kindLabel:h.kind.toUpperCase()})),")
+    hr_new = ("historyRows:this.HISTORY.map(h=>({...h, "
+              "dot:({kok:'#6f5b7e',goc:'#b8602e',klasik:'#2f6f9b',ortacag:'#3f8a86',modern:'#7a8f4a',bugun:'#c0492f'})[h.kind]||'#9a9082', "
+              "kindLabel:({kok:'KÖK',goc:'ERKEN GÖÇ',klasik:'KLASİK',ortacag:'ORTA ÇAĞ',modern:'MODERN',bugun:'BUGÜN'})[h.kind]||''})),")
+    nhr = 1 if hr_old in html else 0
+    html = html.replace(hr_old, hr_new, 1)
+    # timeline satırına KAYNAK (academic atıf) alt-satırı
+    tl_old = '<div style="font-size:14px;line-height:1.6;color:#5f574b;max-width:64ch">{{ h.desc }}</div>'
+    tl_new = (tl_old + '\n              <div style="font-size:11px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;margin-top:5px">{{ h.src }}</div>')
+    ntl = 1 if tl_old in html else 0
+    html = html.replace(tl_old, tl_new, 1)
+    print(f"  R5b-3 Tarih zenginlestirme (ds20): bayes_blok=1 kol_detay={len(KOLLAR)} timeline={nhist}x{len(HIST15)}satir historyRows={nhr} kaynak_satiri={ntl}")
 
     old_family = (
         "  FAMILY = [\n"

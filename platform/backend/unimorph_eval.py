@@ -15,7 +15,7 @@ import json, urllib.request, sys, os, random
 sys.stdout.reconfigure(encoding="utf-8")
 API = "http://127.0.0.1:8000"
 ROOT = os.path.join(os.path.dirname(__file__), "..", "..", "sources")
-N = 400          # dil başına örnek isim biçimi
+N = 1500         # dil başına örnek isim biçimi (yüksek örneklem — istatistiksel geçerlilik)
 random.seed(42)  # tekrar-üretilebilir
 
 # UniMorph'u sources/<lang>/<lang>'da olan + FST'si olan diller

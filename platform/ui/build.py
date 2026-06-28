@@ -2927,6 +2927,13 @@ def main():
         "sah": (100.0, 97.1, "UM"), "bak": (99.6, 91.5, "UM"), "uzb": (100.0, 63.8, "UM"),
         "aze": (91.1, 10.5, "UM"),
     }
+    # KORPUS KAPSAMI (recall) — flores_coverage.py, FLORES-200 devtest (1012 cümle), 29 Haz. (kapsam%, farklı-lemma)
+    #   FLORES-200'de 10 Türk dili var; geri kalan 10 (chv/sah/gag/kaa/alt/kjh/krc/kum/nog/tyv) yok → None.
+    COVER = {
+        "tat": (94.3, 3371), "kaz": (93.4, 3688), "tur": (90.3, 3464), "kir": (88.3, 2484),
+        "bak": (87.0, 3501), "uig": (86.5, 3246), "crh": (84.5, 2341), "uzb": (81.2, 3235),
+        "tuk": (64.1, 1193), "aze": (35.1, 775),
+    }
     _POS = [("isim", "isim"), ("fiil", "fiil"), ("sıfat", "sıfat"), ("zarf", "zarf"), ("sayı", "sayı")]
 
     def _k(n):
@@ -2955,6 +2962,12 @@ def main():
                            f'<br><span style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:#b09a7a">{srclbl}</span>')
             else:
                 acccell = '<span style="color:#b3a99c;font-size:12.5px">— dış gold yok</span>'
+            cov = COVER.get(code)
+            if cov:
+                covcell = (f'<b style="color:#211d17">{cov[0]:.0f}%</b> '
+                           f'<span style="color:#9a9082;font-size:12px">· {_k(cov[1])} lemma</span>')
+            else:
+                covcell = '<span style="color:#b3a99c;font-size:12.5px">— FLORES’te yok</span>'
             out += (
                 '<tr style="border-top:1px solid rgba(33,29,23,.07);vertical-align:top">'
                 f'<td style="padding:11px 14px"><span style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;color:#211d17">{name}</span> '
@@ -2962,12 +2975,13 @@ def main():
                 f'<td style="padding:11px 14px">{lxcell}</td>'
                 f'<td style="padding:11px 14px;text-align:center"><span style="font-family:\'Spectral\',serif;font-weight:600;font-size:17px;color:#3f8a5c">{recon:.1f}%</span></td>'
                 f'<td style="padding:11px 14px">{acccell}</td>'
+                f'<td style="padding:11px 14px">{covcell}</td>'
                 '</tr>')
         return out
 
     G1_SCREEN = (
         '      <sc-if value="{{ isQuality }}" hint-placeholder-val="{{ false }}">\n'
-        '      <section style="max-width:1000px;margin:0 auto;padding:34px 40px 70px">\n'
+        '      <section style="max-width:1180px;margin:0 auto;padding:34px 40px 70px">\n'
         "        <div style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a\">KALİTE & KAPSAM</div>\n"
         "        <h2 style=\"font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 8px\">Morfoloji ne kadar iyi çalışıyor?</h2>\n"
         '        <p style="font-size:15px;line-height:1.7;color:#5f574b;max-width:80ch;margin:0 0 6px">20 Türk dilinde analiz/üretim/paradigma motorunun ölçülmüş başarısı. İddia değil <b>ölçüm</b>: her sayı, çalıştırılabilir bir betikten ve canlı FST\'den gelir. Üç ekseni <b>ayrı</b> tutarız.</p>\n'
@@ -2977,6 +2991,7 @@ def main():
         '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:14px 16px"><div style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;margin-bottom:4px">② Tutarlılık <span style="font-weight:400;color:#9a9082;font-size:12.5px">— round-trip</span></div><div style="font-size:12.5px;line-height:1.5;color:#5f574b">Üret→çöz→üret aynı sonucu veriyor mu. FST’nin kendi içinde tutarlılığı (doğruluk değil).</div></div>\n'
         '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:14px 16px"><div style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;margin-bottom:4px">③ Doğruluk <span style="font-weight:400;color:#9a9082;font-size:12.5px">— dış gold</span></div><div style="font-size:12.5px;line-height:1.5;color:#5f574b">İnsan-küratörlü gold’a karşı (<b>UniMorph</b> paradigma + <b>UD</b> gerçek cümle). <b>lemma%</b> = kökü doğru buldu mu; <b>tanıma%</b> = kelimeyi hiç tanıdı mı (kapsam). İki ayrı şey.</div></div>\n'
         '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:14px 16px"><div style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;margin-bottom:4px">④ Olgunluk <span style="font-weight:400;color:#9a9082;font-size:12.5px">— FST seviyesi</span></div><div style="font-size:12.5px;line-height:1.5;color:#5f574b">Apertium’un dil için geliştirme düzeyi (üretim/kararlı/beta/prototip). Prototipte düşük sayı = sözlük olgunluğu, motor hatası değil.</div></div>\n'
+        '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:14px 16px;grid-column:1/-1"><div style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;margin-bottom:4px">⑤ Kapsam <span style="font-weight:400;color:#9a9082;font-size:12.5px">— korpus recall</span></div><div style="font-size:12.5px;line-height:1.5;color:#5f574b">Gerçek metindeki (FLORES, 1012 sıfır-gürültü cümle) kelimelerin yüzde kaçı tanınıyor. <b>Doğruluk gold’a, kapsam korpusa karşıdır</b> — biri “doğru mu?”, öteki “ne kadarını görüyor?”. Yanındaki “lemma” = o metinde görülen farklı kök sayısı (sözlüğün kullanımdaki yansıması).</div></div>\n'
         '        </div>\n'
         # tablo
         '        <div style="margin-top:20px;background:#fff;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">\n'
@@ -2986,6 +3001,7 @@ def main():
         "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">SÖZLÜK<br><span style=\"opacity:.6\">kök sayısı</span></th>"
         "            <th style=\"text-align:center;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">TUTARLILIK<br><span style=\"opacity:.6\">round-trip</span></th>"
         "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">DOĞRULUK<br><span style=\"opacity:.6\">UniMorph + UD gold</span></th>"
+        "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">KAPSAM<br><span style=\"opacity:.6\">FLORES gerçek metin</span></th>"
         '          </tr></thead>\n'
         '          <tbody>' + _q_rows() + '</tbody>\n'
         '        </table>\n'
@@ -2996,9 +3012,10 @@ def main():
         '          <div style="margin-bottom:7px"><b>Sözlük (①).</b> Kökler morfolojinin yakıtıdır; sayı arttıkça FST daha çok kelimeyi hem çözer hem üretir. Uçurum çarpıcı: Türkçe <b>37 bin</b> içerik kökü → Altayca yalnız <b>282</b>, Hakasça’da <b>15 fiil</b>. Bu, motorun değil <b>sözlüğün</b> eksikliğidir — ve projenin neden var olduğunu gösterir. Üstüne tıkla, türlere göre dökümü gör.</div>\n'
         '          <div style="margin-bottom:7px"><b>Tutarlılık (②).</b> 20 dilde %92–95: motor ne ürettiyse onu tutarlı biçimde geri çözüyor. (Sahaca biraz düşük — zengin Sibirya morfolojisi, daha çok portmanto ek.)</div>\n'
         '          <div style="margin-bottom:7px"><b>Doğruluk (③).</b> Bağımsız insan-gold’a karşı — iki kaynak: <b>UniMorph</b> (paradigma tablosu) ve <b>UD</b> (gerçek cümle). Ölçülebilen her dilde <b>lemma %91–100</b>: FST bir kelimeyi tanıdığında <b>doğru</b> çözüyor. <i>tanıma%</i> ise sözlük büyüklüğüne bağlı, ayrı eksen (ör. Azerice sözlüğü küçük → az tanıyor ama tanıdığını doğru çözüyor). “Dış gold yok” olanlar düşük-kaynaklı dillerdir: onlar için henüz insan-anotasyonlu değerlendirme seti üretilmemiş — gerçek bir boşluk, gizlenmiyor.</div>\n'
-        '          <div><b>Olgunluk (④).</b> Sözlük büyüklüğünden farklıdır: Sahaca “prototip” ama 41 bin köklü; tier morfotaktik kuralların cilasını, sözlük sütunu ise kelime hazinesini gösterir.</div>\n'
+        '          <div style="margin-bottom:7px"><b>Olgunluk (④).</b> Sözlük büyüklüğünden farklıdır: Sahaca “prototip” ama 41 bin köklü; tier morfotaktik kuralların cilasını, sözlük sütunu ise kelime hazinesini gösterir.</div>\n'
+        '          <div><b>Kapsam (⑤).</b> FLORES’in temiz çevirisinde tanıma oranı: çoğu dil <b>%81–94</b> (Tatarca %94, Kazakça %93). Azerice %35 / Türkmence %64 — küçük sözlüğün doğrudan sonucu (① ile birebir tutarlı: az kök → az tanıma). FLORES’te yalnız 10 Türk dili var; Çuvaşça + 9 düşük-kaynaklı dil için korpus (Leipzig/HF) sıradaki ölçüm — onlar şimdilik boş, gizlenmiyor.</div>\n'
         '        </div>\n'
-        '        <div style="margin-top:14px;font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;line-height:1.6">Kaynak: sözlük = <b>lexicon_count.py</b> (apertium .lexc continuation-sınıfı, GPL-3.0) · tutarlılık = <b>segment_eval.py</b> · doğruluk = <b>unimorph_eval.py</b> (UniMorph 4.0) + <b>ud_eval.py</b> (Universal Dependencies treebank, gerçek cümle) · olgunluk = apertium/turkicnlp catalog · canlı Apertium FST. Ölçüm: 29 Haz 2026. Betikler depoda, tekrar-üretilebilir.</div>\n'
+        '        <div style="margin-top:14px;font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;line-height:1.6">Kaynak: sözlük = <b>lexicon_count.py</b> (apertium .lexc, GPL-3.0) · tutarlılık = <b>segment_eval.py</b> · doğruluk = <b>unimorph_eval.py</b> (UniMorph 4.0) + <b>ud_eval.py</b> (UD treebank) · kapsam = <b>flores_coverage.py</b> (FLORES-200, CC-BY-SA) · olgunluk = apertium/turkicnlp catalog · canlı Apertium FST. Ölçüm: 29 Haz 2026. Betikler depoda, tekrar-üretilebilir.</div>\n'
         '      </section>\n'
         '      </sc-if>\n')
     g1_anchor = "      <!-- ===================== TARİH & KÖKEN ===================== -->"

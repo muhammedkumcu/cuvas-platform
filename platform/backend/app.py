@@ -22,12 +22,26 @@ BASE = os.path.expanduser("~/.turkicnlp/models")
 SOURCE = {"source": "Apertium FST", "license": "GPL-3.0", "via": "turkicnlp"}
 
 LANG_INFO = {
+    # İlk 10 (MVP) + 10 yeni = 20 dil (turkicnlp catalog'da apertium morph backend'i olan TÜM Türk dilleri).
     "tur": ("Türkçe", "Latn"), "aze": ("Azerbaycanca", "Latn"), "kaz": ("Kazakça", "Cyrl"),
     "kir": ("Kırgızca", "Cyrl"), "uzb": ("Özbekçe", "Latn"), "uig": ("Uygurca", "Arab"),
     "tat": ("Tatarca", "Cyrl"), "bak": ("Başkurtça", "Cyrl"), "chv": ("Çuvaşça", "Cyrl"),
     "sah": ("Sahaca (Yakut)", "Cyrl"),
+    "tuk": ("Türkmence", "Latn"), "crh": ("Kırım Tatarcası", "Latn"), "gag": ("Gagavuzca", "Latn"),
+    "kaa": ("Karakalpakça", "Latn"), "alt": ("Altayca", "Cyrl"), "kjh": ("Hakasça", "Cyrl"),
+    "krc": ("Karaçay-Balkarca", "Cyrl"), "kum": ("Kumukça", "Cyrl"), "nog": ("Nogayca", "Cyrl"),
+    "tyv": ("Tuvaca", "Cyrl"),
 }
 LANGS = list(LANG_INFO)
+
+# apertium FST olgunluk seviyesi (turkicnlp catalog.json'dan; dürüst kalite göstergesi — UI'da rozet).
+QUALITY = {
+    "tur": "production", "kaz": "production", "tat": "production",
+    "aze": "stable", "kir": "stable", "uzb": "stable",
+    "bak": "beta", "chv": "beta", "crh": "beta", "tuk": "beta", "uig": "beta",
+    "alt": "prototype", "gag": "prototype", "kaa": "prototype", "kjh": "prototype",
+    "krc": "prototype", "kum": "prototype", "nog": "prototype", "sah": "prototype", "tyv": "prototype",
+}
 
 # isim çekimi paradigması için ortak apertium etiket şablonu (üretip tutanlar gösterilir)
 CASES = ["nom", "gen", "dat", "acc", "loc", "abl", "ins"]
@@ -523,7 +537,7 @@ def languages():
     out = []
     for c in LANGS:
         name, script = LANG_INFO[c]
-        out.append({"code": c, "name": name, "script": script,
+        out.append({"code": c, "name": name, "script": script, "quality": QUALITY.get(c, "?"),
                     "analyzer": bool(_find(c, "automorf")), "generator": bool(_find(c, "autogen"))})
     return {"languages": out, "_source": SOURCE}
 

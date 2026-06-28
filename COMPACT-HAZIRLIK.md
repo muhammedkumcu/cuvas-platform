@@ -50,13 +50,13 @@ Karşılaştır çöküyordu) → anchor'lar kararlı noktalara taşındı, heps
 
 **★★ MORFOLOJİ ODAĞI (28-29 Haz, kullanıcı kararı: C1/C3'ten ÖNCE) — TAMAMLANDI.** "en güçlü yerimiz; ölç+genişlet+göster." Plan E/T/G/U (todolist #16-29) BİTTİ:
 - **Dil kapsamı 10→20** (B1 bug + E1/E2/E4): tüm apertium Türk dilleri Analiz+Üreteç+Paradigma'da canlı.
-- **Ölçüm (T):** E5 round-trip (align %100, recon %92-95) · T1 UniMorph doğruluk (lemma %91-100) · T2 UD ikinci gold (uig "yazı uyumsuz" çözüldü) · T3 sözlük kök sayısı türüne göre (continuation-sınıfı, 20 dil kesin) · T4 korpus kapsamı (FLORES 10 dil + HF nog/kjh = 12/20; kalan 8 Leipzig-bloke).
-- **Gösterim (G):** G1 "Kalite & Kapsam" 5-eksen sayfası (Sözlük tıkla-aç POS dökümü · Tutarlılık · Doğruluk UniMorph+UD · Olgunluk · Kapsam) + G2 sayfa-içi mini rozetler.
+- **Ölçüm (T):** E5 round-trip (align %100, recon %92-95) · T1 UniMorph doğruluk (lemma %91-100) · T2 UD ikinci gold (uig "yazı uyumsuz" çözüldü) · T3 sözlük kök sayısı türüne göre (continuation-sınıfı, 20 dil kesin) · **T4 korpus kapsamı 20/20** (FLORES 10 + HF/fineweb-2 10; chv %88, sah %80, alt %33/kjh %29 = dijital yoksulluk).
+- **Gösterim (G):** G1 "Kalite & Kapsam" 5-eksen sayfası (Sözlük tıkla-aç POS dökümü · Tutarlılık · Doğruluk UniMorph+UD · Olgunluk · Kapsam 20/20) + G2 sayfa-içi mini rozetler.
 - **Entegrasyon (U):** U1 Üreteç dile-duyarlı hâller (Çuvaşça acc yok → soluk) · U2 round-trip köprüsü (Üreteç→"bu biçimi analiz et").
-- **DERS/uyarı:** ① VM uvicorn flaky olabilir (10054 connection reset → `bash /root/koken_api/start.sh` ile restart, §4.6). ② Leipzig bu ortamdan bağlantı-bloke. ③ Büyük korpus/parquet host'ta (pyarrow var) indir → scp → VM'de FST-direct ölç (HTTP'den hızlı).
+- **DERS/uyarı:** ① VM uvicorn flaky olabilir (10054 connection reset → `bash /root/koken_api/start.sh` ile restart, §4.6). ② **Leipzig bu ortamdan bloke (host timeout/VM refused) → korpus için HF/fineweb-2 kullan** (1000+ dil; düşük-kaynaklılar dahil). ③ Büyük korpus/parquet host'ta (pyarrow var) indir → scp → VM'de FST-direct ölç (HTTP'den hızlı; uvicorn'u yormaz).
 
 **SIRADAKİ:**
-- **T4 kalanı (opsiyonel):** chv/sah/gag/kaa/alt/krc/kum/tyv kapsam — Leipzig başka ortam/VPN gerektirir.
+- **Kullanıcı siteyi kendi test edip sayfa-sayfa yorum yapacak** → geri bildirim bekle.
 - **★ BÖLÜM C:** C1 gerçek ses motoru (Piper/MMS/eSpeak+FastAPI; VM; en büyük lokma) · C3 Ekosistem HfApi-CRON. **Bölüm D — EN SON** (eğitim portalı + Saha/Şor "Dilin Kalbi" şablonu).
 - **GELECEK-PLANLAR'da (ne+ne zaman):** OOV→CC0 açık veri · tam-etiket doğruluğu (T5) · apertium'a geri katkı · paper (20 FST birleşik değerlendirme).
 - **ÇERÇEVE (DEĞİŞMEZ):** 3 eksen AYRI (tutarlılık≠doğruluk≠kapsam); prototip FST düşük skor=olgunluk, hata değil; her metrik commit'li betik+tarih+kaynak; boşluk gizlenmez işaretlenir.

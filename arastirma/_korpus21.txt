@@ -1,0 +1,940 @@
+
+===== SAYFA 1/26 =====
+DEEP RESEARCH — Türk Dilleri Metin
+Korpusu Kaynak Haritası ve Kapsam
+Ölçümü Analizi
+Giriş ve Metodolojik Çerçeve
+Doğal Dil İşleme (NLP) çalışmalarında ve özellikle morfolojik analiz sistemlerinin (Finite-State
+Transducers - FST) geliştirilmesinde, sistemin kelime dağarcığı (lexicon) kapsamını ve kural
+tabanlı üretim tutarlılığını ölçebilmek, sahadaki başarının yegane göstergesidir. Apertium gibi
+sonlu durum makineleri üzerine inşa edilen sistemler, aglutinatif (sondan eklemeli) yapıdaki Türk
+dillerinin analizinde yüksek doğruluk oranlarına ulaşabilse de, bu sistemlerin dış dünyadaki
+metinler üzerindeki geri çağırma (recall) ve kapsam (coverage) performansları büyük ölçüde
+test edilen metin korpusunun kalitesine bağlıdır1.
+Açık dil kaynakları ekosisteminde, 20 farklı Türk dilinin tamamı için homojen bir veri havuzu
+bulunmamaktadır. KÖKEN projesinin "Kalite ve Kapsam" metriği için ihtiyaç duyulan eşit boyutlu
+(equal-size), sıfır-gürültülü (zero-noise) ve yeniden dağıtılabilir (CC0/CC-BY) veri setleri, dillerin
+dijital ayak izine göre muazzam farklılıklar göstermektedir. Gürültülü web taramalarından elde
+edilen OSCAR veya mC4 gibi veri setleri, yüksek hacimlerine rağmen içerdikleri optik karakter
+tanıma (OCR) hataları, yanlış dil tanımlamaları (Language ID fail) ve baskın dillerin (Rusça, Çince,
+İngilizce) yol açtığı kod karışımı (code-mixing) nedeniyle morfolojik analizcilerin gerçek
+performansını suni olarak düşük göstermektedir3. Kapsam ölçümünde hedeflenen temel
+mekanizma; analizcinin metin üzerindeki tanınmayan kelime (Out-Of-Vocabulary - OOV) oranını
+saptamak ve bu kelimeleri açık kaynak topluluklarına (örneğin Mozilla Common Voice) entegre
+etmektir.
+Bu kapsamlı araştırma raporu, 14 büyük/orta ölçekli Türk dili ile dijital yok olma tehlikesi altındaki
+6 düşük kaynaklı (low-resource) Türk dili için mevcut metin korpuslarını akademik bir
+perspektifle haritalandırmaktadır. Rapor, her bir dil için morfolojik testlerde kullanılabilecek
+kaynakları, bu kaynakların boyutlarını, lisans durumlarını ve Apertium FST'lerinin ölçümünde nasıl
+konumlandırılacaklarını derinlemesine incelemektedir.
+FST Kapsam Testlerinde Kullanılacak Küresel
+Veritabanlarının Anatomisi
+Her bir dilin özel korpuslarına inmeden önce, yirmi dilin büyük bir kısmını ortak bir düzlemde
+kesen ve diller arası "eşit boyutlu" (standard tier) karşılaştırmaya olanak tanıyan küresel veri
+sağlayıcılarının mekanizmalarının ve kısıtlılıklarının anlaşılması elzemdir.
+Leipzig Corpora Collection (LCC), Leipzig Üniversitesi tarafından uzun yıllardır yürütülen ve çok
+dilli korpus dilbiliminin küresel altın standartlarından birini temsil eden devasa bir açık erişim
+inisiyatifidir5. Sistemin en büyük avantajı, web ve haber sitelerinden otomatik olarak toplanan
+metinleri 10 bin (10K), 30 bin (30K), 100 bin (100K), 300 bin (300K) ve 1 milyon (1M) cümlelik
+===== SAYFA 2/26 =====
+sabit katmanlar halinde (standard-size tiers) sunmasıdır7. KÖKEN platformunda 20 dilin kapsam
+ölçümünün adil bir biçimde, aynı kelime/cümle hacminde karşılaştırılabilmesi için LCC'nin "10K"
+veya "30K" katmanları birincil omurgayı oluşturmaktadır8. Metinlerin CC-BY 4.0 lisansıyla
+sunulması, ölçüm sonuçlarının atıf yapılarak özgürce yayımlanmasına olanak tanırken, orijinal
+metnin modifiye edilerek dağıtılmasını kısıtlamaktadır.
+Mozilla Common Voice (CV) projesi, özünde bir konuşma tanıma (ASR) ve ses veri seti derleme
+operasyonu olmasına karşın, projenin metodolojisi gereği sisteme yüklenen tüm metin
+transkriptleri %100 kamu malı (CC0 - Public Domain) statüsündedir9. Apertium projesi
+kapsamında test edilen metinlerden çıkan OOV (bilinmeyen kelime) listelerinin yasal risk
+taşımadan halka arz edilebilmesi ve yeni dil modellerinin eğitilebilmesi için CV transkriptleri
+emsalsiz bir kaynaktır11. Özellikle Başkurtça, Tatarca, Özbekçe ve Sahaca gibi dillerde aktif
+toplulukların bulunması, bu platformu morfolojik sözlüklerin (lexicon) organik olarak
+büyütülebilmesi için ideal bir laboratuvara dönüştürmektedir12.
+Düşük kaynaklı dillerde (özellikle Altayca, Hakasça, vb.) karşılaşılan en büyük engel olan gürültü
+problemine karşı Meta AI tarafından geliştirilen NLLB-200 (No Language Left Behind) ve
+FLORES-200 çeviri değerlendirme veri setleri kritik bir çözüm sunmaktadır13. FLORES-200,
+İngilizce Wikipedia üzerinden özenle seçilmiş 1.012 cümlenin, profesyonel insan çevirmenler
+tarafından 200 dile çevrilmesiyle oluşturulmuştur. Bu 1.012 cümlelik set, içerdiği sıfır gürültü
+oranı ve tamamen standartlaşmış imlası ile, web tarama korpuslarının FST'leri haksız yere
+cezalandırdığı senaryolarda "gerçek morfolojik kapasiteyi" ölçmek için paha biçilemez bir
+doğrulama (ground-truth) aracıdır16.
+Büyük ve Orta Ölçekli Türk Dilleri İçin Korpus
+Envanteri (14 Dil)
+Bu bölümde, doğal dil işleme literatüründe görece daha geniş yer bulan, Apertium morfolojik
+sözlükleri ileri seviyede olan ve internet üzerinde geniş bir metin üretimi bulunan 14 dilin korpus
+varlıkları detaylandırılmaktadır.
+Türkçe (tur)
+Türkçe, makine çevirisi, dil modelleri ve geleneksel korpus dilbilimi açısından Türk dilleri ailesinin
+en olgun ekosistemine sahiptir15. TNC (Turkish National Corpus) ve TS Corpus gibi devasa,
+dengeli derlemler mevcut olsa da, bunların büyük kısmı web arayüzü ile kısıtlanmış veya özel
+lisans anlaşmalarına tabidir. Doğrudan komut satırından geçirilecek ve OOV analizi yapılacak
+açık ölçümler için Leipzig Haber derlemleri (1 milyon cümlenin üzerinde) ve Mozilla Common
+Voice'un 218 saati aşan (186.000'den fazla tümce) kitle kaynaklı transkriptleri kullanılmalıdır19.
+Common Voice, günlük konuşma dili, arka plan gürültüsü varyasyonları ve resmi olmayan
+metinlerin morfolojik analiz testini yapmak için ideal bir ortam sağlar.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+en
+===== SAYFA 3/26 =====
+ıcı Dağıtı
+m
+tur Leipzi Haber 1M+ Latin CC-BY worts 10K, Çok
+g / Web cümle 4.0 chatz. 30K, Yükse
+Corpo (Evet, uni-lei 100K, k
+ra atıfla) pzig.d 300K, (Temiz
+Collec e 1M )
+tion
+tur Mozill Konuş ≈186K Latin CC0 comm Yok Yükse
+a ma-tr cümle (Sınırsı onvoic k
+Com anskri z e.mozi
+mon pti dağıtı lla.org
+Voice m)
+(CV)
+tur TS Denge 491M+ Latin Akade tscorp Yok Yükse
+Corpu li Token mik us.co k
+s sözleş m
+Projec me
+t
+tur METU Denge 1.7M Latin Akade Erişim Yok Çok
+Turkis li Token mik e Yükse
+h sözleş kapalı k
+Corpu me / Özel
+s
+tur TTC-3 Haber 3,600 Latin CC-BY huggi Yok Yükse
+600 metin ngfac k
+e.co/d
+ataset
+s
+Azerbaycanca (aze / azj)
+Kuzey ve Güney Azerbaycanca olarak fonetik ve coğrafi açılardan ayrışan dilin, Apertium
+altyapısında Kuzey (Latin) varyantı daha aktiftir. Azerbaycanca için akademik derlemler
+genellikle OSCAR tabanlı sızıntılar içerirken, saf ve eşit boyutlu ölçüm bağlamında Leipzig
+===== SAYFA 4/26 =====
+Corpora Collection'ın haber katmanları birincildir21. Ayrıca, FLORES-200 veri setinin "azj" (North
+Azerbaijani) uzantılı dilimi, %100 temiz insan çevirisi olarak analizcinin temel doğruluk oranını
+saptamak için doğrudan işleme alınmalıdır21.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+m
+aze Leipzi Haber 1M+ Latin CC-BY worts 10K, Yükse
+g / Web cümle 4.0 chatz. 30K, k
+Corpo (Evet, uni-lei 100K,
+ra atıfla) pzig.d 300K,
+Collec e 1M
+tion
+aze Mozill Konuş 37.48 Latin CC0 comm Yok Orta
+a ma-tr MB (Sınırsı onvoic
+Com anskri metin z e.mozi
+mon pti dağıtı lla.org
+Voice m)
+azj FLORE Çeviri 1,012 Latin CC-BY huggi Yok Çok
+S-200 (Devte cümle -SA ngfac Yükse
+(North st) 4.0 e.co/d k
+Aze) (Dağıtı ataset
+labilir) s
+Kazakça (kaz)
+Orta Asya'daki Türk dilleri arasında dijital dönüşümü en agresif şekilde yürüten Kazakça, 2021
+yılında resmi olarak kabul edilen Latin alfabesi geçiş süreci nedeniyle korpuslarında ikili bir yapı
+barındırmaktadır22. Devlet kurumları, üniversiteler (Nazarbayev Üniversitesi) ve bağımsız
+araştırmacılar (Stukenov vd.) tarafından derlenen devasa veri setleri bulunmaktadır. Stukenov
+tarafından geliştirilen SozKZ Corpus Clean v3, 18 farklı kamu kaynağından (haberler, edebiyat,
+web) derlenmiş, gereksiz verilerden arındırılmış ve dil modeli eğitimi için optimize edilmiş 10-100
+milyon token arası devasa bir kaynaktır24. Kiril tabanlı değerlendirmeler için Almaty Corpus of
+Kazakh ve Kazakh National Corpus (31 Milyon token) morfolojik olarak etiketlenmiş, yüksek
+değerli referanslardır26.
+===== SAYFA 5/26 =====
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+m
+kaz SozKZ Haber 10M-1 Kiril / Telifli huggi Yok Çok
+Corpu / Edebî 00M Latin kayna ngfac Yükse
+s / Web Token klar e.co/d k
+Clean (Ölçü ataset
+v3 m ok) s
+kaz Leipzi Haber 1M+ Kiril CC-BY worts 10K, Yükse
+g / Web cümle 4.0 chatz. 30K, k
+Corpo (Evet, uni-lei 100K,
+ra atıfla) pzig.d 300K,
+Collec e 1M
+tion
+kaz Kazak Denge 31M Kiril Araştır klc.kz Yok Yükse
+h li Token ma k
+Nation
+al
+Corpu
+s
+kaz Almat Web 2M Kiril Araştır web-c Yok Yükse
+y Token ma orpora k
+Corpu .net
+s of
+Kazak
+h
+Kırgızca (kir)
+Kırgızca doğal dil işleme araştırmalarında, özellikle internet tabanlı derlemlerde (OSCAR, mC4,
+CulturaX) ciddi bir dil tespiti (Language ID) problemi yaşanmaktadır. Ortak kelime haznesinin
+genişliği nedeniyle otomatik toplanan Kırgızca derlemlerinin büyük bir kısmı yanlış sınıflandırılmış
+Kazakça metinlerden oluşmaktadır3. Bu durum Apertium Kırgızca analizcisinin OSCAR üzerinde
+===== SAYFA 6/26 =====
+hatalı şekilde başarısız görünmesine yol açabilir. Bu nedenle FST testleri için mutlak suretle insan
+onaylı veya özenle filtrelenmiş veriler gereklidir. LoResLM 2026 kapsamında yayımlanan KyrText,
+Yüksek Mahkeme ve Adalet Bakanlığı arşivlerini de içeren 680.5 milyon kelimelik gürültüsüz,
+muazzam bir kaynaktır3. Ayrıca, Kasieva vd. tarafından hazırlanan 1.2 milyon kelimelik Kırgız
+Edebiyat Korpusu, doğrudan Apertium araçlarıyla tokenleştirilip POS etiketleri basıldığı için
+platformla %100 uyumludur28.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+m
+kir KyrTex Haber/ 680.5 Kiril Araştır arxiv.o Yok Çok
+t Hukuk M ma rg/abs Yükse
+(LoRes /Wiki Token (Ölçü /2602. k
+LM) m ok) 19174
+kir Kasiev Edebî 1,205, Kiril CLARI hdl.ha Yok Çok
+a 888 N-D / ndle.n Yükse
+Kyrgyz Token Ücrets et/112 k
+Corpu iz 34/1-2
+s 735
+kir Leipzi Haber 1M+ Kiril CC-BY worts 10K, Yükse
+g cümle 4.0 chatz. 30K, k
+Corpo (Evet, uni-lei 100K,
+ra atıfla) pzig.d 300K
+Collec e
+tion
+kir Mozill Konuş 6.5 Kiril CC0 comm Yok Orta-
+a ma-tr Saat (Sınırsı onvoic Yükse
+Com anskri z e.mozi k
+mon pti dağıtı lla.org
+Voice m)
+Özbekçe (uzb)
+Özbekçenin 1995 yılında resmi olarak Latin alfabesine geçiş yapmasına rağmen, pratikte Kiril
+===== SAYFA 7/26 =====
+alfabesinin kullanımının sürmesi veri setlerinde dualite yaratmaktadır14. UzBERT, TahrirchiBERT
+gibi büyük dil modellerinin gelişimine paralel olarak metin kaynakları hızla artmaktadır1. FST
+kapsam testlerinde hem Latin hem Kiril modüllerini test edebilmek için Uzbek National Corpus
+ana referanstır30. Ek olarak, Povey vd. tarafından hazırlanan 60 saatlik FeruzaSpeech okuma
+derlemi, temiz Latin imlası sunmaktadır31.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+m
+uzb Uzbek Denge Büyük Kiril / Araştır uzbek Yok Yükse
+Nation li Boyutl Latin ma corpu k
+al u s.uz
+Corpu
+s
+uzb Leipzi Haber 1M+ Kiril / CC-BY worts 10K, Yükse
+g / Web cümle Latin 4.0 chatz. 30K, k
+Corpo (Evet, uni-lei 100K,
+ra atıfla) pzig.d 300K,
+Collec e 1M
+tion
+uzb Mozill Konuş 94+ Latin CC0 comm Yok Yükse
+a ma-tr Saat (Sınırsı onvoic k
+Com anskri z e.mozi
+mon pti dağıtı lla.org
+Voice m)
+uzb Feruza Konuş 60 Latin CC-BY arxiv.o Yok Yükse
+Speec ma-tr Saat rg/abs k
+h anskri okuma /2410.
+Corpu pti 00035
+s
+Uygurca (uig)
+Uygurca metin işleme, büyük ölçüde Arap harfli Uygur alfabesi (UEY) ve Latin harfli Uygur
+===== SAYFA 8/26 =====
+alfabesi (ULY) arasındaki geçişlerle karakterizedir22. En yüksek kaliteli, editöryal süreçten geçmiş
+ve sıfır-gürültülü metin kaynağı eBible inisiyatifinin sunduğu Muqeddes Kalam (Uygur İncili)
+çevirisidir32. Bu metin hem Arap hem de Latin versiyonlarında CC-BY-SA 4.0 lisansıyla
+sunulmakta olup, içerdiği morfolojik zenginlik ve tipografik standart sayesinde Apertium
+FST'lerinin ölçümü için kusursuz bir zemin hazırlar32.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+m
+uig Muqe Dinî ≈800K Arap / CC-BY ebible. Yok Çok
+ddes Token Latin -SA org Yükse
+Kalam 4.0 k
+(eBible (Dağıtı
+) labilir)
+uig Leipzi Haber 100K+ Arap CC-BY worts 10K, Orta-
+g cümle (UEY) 4.0 chatz. 30K, Yükse
+Corpo (Evet, uni-lei 100K k
+ra atıfla) pzig.d
+Collec e
+tion
+uig FLORE Çeviri 1,012 Arap CC-BY huggi Yok Çok
+S-200 (Devte cümle (UEY) -SA ngfac Yükse
+(uig_A st) 4.0 e.co/d k
+rab) (Dağıtı ataset
+labilir) s
+Tatarca (tat)
+Kazan Federal Üniversitesi ve Tataristan Bilimler Akademisi Uygulamalı Semiyotik Enstitüsü'nün
+ortak projesi olan "Tugan Tel" (Tatar Ulusal Korpusu), Türk dilleri arasında en iyi yapılandırılmış,
+PC-KIMMO modülü ile iki seviyeli morfolojik analizden geçirilmiş 180 milyon kelimelik devasa bir
+dilbilimsel hazinedir35. Tatarca morfotaktiğinin FST üzerinde ne derece başarılı olduğunu ölçecek
+en yetkin kaynak bu derlemin sosyo-politik alt kümesidir37. Ek olarak Tatarca, Common Voice
+projesinde de istikrarlı bir gönüllü veri akışına sahiptir.
+===== SAYFA 9/26 =====
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+m
+tat Tugan Haber/ 180M Kiril Araştır tugant Yok Çok
+Tel Edebî/ Token ma el.tata Yükse
+(Tatar Hukuk r k
+Corpu
+s)
+tat Leipzi Haber 1M+ Kiril CC-BY worts 10K, Yükse
+g / Web cümle 4.0 chatz. 30K, k
+Corpo (Evet, uni-lei 100K,
+ra atıfla) pzig.d 300K,
+Collec e 1M
+tion
+tat Mozill Konuş 29 Kiril CC0 comm Yok Orta
+a ma-tr Saat (Sınırsı onvoic
+Com anskri z e.mozi
+mon pti dağıtı lla.org
+Voice m)
+Başkurtça (bak)
+Başkurtça, şaşırtıcı bir biçimde açık kaynak konuşma ve metin topluluklarında (özellikle Mozilla
+Common Voice) büyük dilleri geride bırakan bir ivmeye sahiptir. CV üzerinde onaylanmış 265
+saati aşan ses ve karşılık gelen transkript, tamamen CC0 lisanslı bir veri havuzu
+oluşturmaktadır1. Buna ek olarak, 1.8 milyon kelimelik özel "Başkurt Şiir Korpusu", 101 farklı şairin
+eserlerini barındıran, dilin daha arkaik ve kural-dışı morfolojik sınırlarını FST ile test etmek
+isteyenler için eşsiz bir meydan okuma sağlar26.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+===== SAYFA 10/26 =====
+m
+bak Mozill Konuş 265 Kiril CC0 comm Yok Yükse
+a ma-tr Saat (Sınırsı onvoic k
+Com anskri (5.1 z e.mozi
+mon pti GB) dağıtı lla.org
+Voice m)
+bak Bashki Şiir / 1.8M Kiril Araştır web-c Yok Yükse
+r Edebî Token ma orpora k
+Poetic .net/b
+Corpu ashcor
+s pus
+bak Leipzi Haber 100K+ Kiril CC-BY worts 10K, Yükse
+g / Web cümle 4.0 chatz. 30K, k
+Corpo (Evet, uni-lei 100K
+ra atıfla) pzig.d
+Collec e
+tion
+Çuvaşça (chv) & Sahaca / Yakutça (sah)
+Oğur grubu temsilcisi Çuvaşça ve Sibirya Türk dillerinden Sahaca, Türk dillerinin ana gramatikal
+akımından ciddi biçimde sapmalar gösterir. Sahaca için UniMorph şemasını temel alan özel FST
+uyarlamaları geliştirilmiştir39. Bu iki dilde ulusal, kapsamlı bir yazılı metin derlemi inisiyatifi çok
+kısıtlıdır. Dolayısıyla FST kapsam testlerinin omurgasını Leipzig'in 100K'lık haber katmanları ile
+FLORES-200 çevirileri oluşturmalıdır6.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+m
+chv Leipzi Haber 100K+ Kiril CC-BY worts 10K, Yükse
+g / Web cümle 4.0 chatz. 30K, k
+Corpo (Evet, uni-lei 100K
+ra atıfla) pzig.d
+===== SAYFA 11/26 =====
+Collec e
+tion
+chv FLORE Çeviri 1,012 Kiril CC-BY huggi Yok Çok
+S-200 (Devte cümle -SA ngfac Yükse
+st) 4.0 e.co/d k
+(Dağıtı ataset
+labilir) s
+sah Leipzi Haber 100K+ Kiril CC-BY worts 10K, Yükse
+g / Web cümle 4.0 chatz. 30K, k
+Corpo (Evet, uni-lei 100K
+ra atıfla) pzig.d
+Collec e
+tion
+sah Mozill Konuş 6 Saat Kiril CC0 comm Yok Orta
+a ma-tr (Sınırsı onvoic
+Com anskri z e.mozi
+mon pti dağıtı lla.org
+Voice m)
+Türkmence (tuk)
+Türkmencenin bağımsızlık sonrası Latin alfabesine geçişi ve bu geçişte yaşanan revizyonlar,
+dijital metinlerde standartlaşma sorunları doğurmuştur. FST değerlendirmelerinde tuk_Latn
+(Türkmence Latin) etiketiyle yayımlanan FLORES-200 veri seti, insan onayı ve morfolojik
+tutarlılığıyla en net referans noktasıdır13. Kapsam ölçümü için Leipzig Corpora'daki 100K Latin
+alfabesi verileri kullanılabilir.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+m
+tuk FLORE Çeviri 1,012 Latin CC-BY huggi Yok Çok
+S-200 (Devte cümle -SA ngfac Yükse
+(tuk_L st) 4.0 e.co/d k
+(Dağıtı ataset
+===== SAYFA 12/26 =====
+atn) labilir) s
+tuk Leipzi Haber 100K- Latin CC-BY worts 10K, Yükse
+g / Web 300K 4.0 chatz. 30K, k
+Corpo cümle (Evet, uni-lei 100K
+ra atıfla) pzig.d
+Collec e
+tion
+Kırım Tatarcası (crh)
+Ukraynaca ve Rusça ile coğrafi etkileşimi güçlü olan Kırım Tatarcası, çok dilli paralel metinler
+konusunda zengindir. QIRIM grubu tarafından HuggingFace'te paylaşılan crh-parallel-corpora,
+genel edebiyat ve kitaplardan derlenmiş, 100 bin ile 1 milyon arası cümle içeren oldukça
+kapsamlı bir veri setidir40.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+m
+crh QIRIM Çeviri 100K- Kiril / CC-BY huggi Yok Çok
+paralle / Edebî 1M Latin 4.0 ngfac Yükse
+l cümle (Dağıtı e.co/d k
+corpor labilir) ataset
+a s
+crh Leipzi Haber 10K-1 Kiril / CC-BY worts 10K, Orta-
+g / Web 00K Latin 4.0 chatz. 30K Yükse
+Corpo cümle (Evet, uni-lei k
+ra atıfla) pzig.d
+Collec e
+tion
+Gagavuzca (gag)
+Moldova'da konuşulan ve Oğuz dil grubuna mensup olan Gagavuzca, tarihsel olarak Ortodoks
+Hristiyan kültürünün yoğun etkisi altındadır. Bu etki, Gagavuzcanın yazılı kaynaklarının da yönünü
+===== SAYFA 13/26 =====
+belirlemiştir. Bu dildeki en kapsamlı, kurallı ve imla açısından sıfır hataya yakın olan korpus, eBible
+projesi kapsamında sunulan Gagauz New Testament (Yeni Ahit) çevirileridir41. Bu metinler FST
+değerlendirmeleri için mükemmel bir morfolojik yoğunluk sunar.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+m
+gag eBible Dinî ≈200K Latin / CC-BY ebible. Yok Çok
+(Gaga Token Kiril -SA org Yükse
+uz NT) 4.0 k
+(Dağıtı
+labilir)
+gag FLORE Çeviri 1,012 Latin CC-BY huggi Yok Çok
+S-200 (Devte cümle -SA ngfac Yükse
+st) 4.0 e.co/d k
+(Dağıtı ataset
+labilir) s
+gag Leipzi Web ≈10K Latin CC-BY worts 10K Orta
+g cümle 4.0 chatz.
+Corpo (Evet, uni-lei
+ra atıfla) pzig.d
+Collec e
+tion
+Karakalpakça (kaa)
+Açık Dil Veri Girişimi (OLDI) kapsamında yürütülen çalışmalar, Karakalpakça makine çevirisi ve dil
+modellemesini ciddi biçimde ivmelendirmiştir. Bu proje dahilinde yayımlanan FLORES+ devtest
+çevirisi, son Latin harf inkılabı standartlarına tam uyumludur16. Mendeley ve Zenodo üzerinde
+yayımlanan "Karakalpak Speech Corpus" içindeki transkripsiyonlar da CC-BY 4.0 lisansıyla
+sunulan son derece değerli okuma metinleridir31.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+en
+===== SAYFA 14/26 =====
+ıcı Dağıtı
+m
+kaa OLDI Çeviri 1,012 Latin CC-BY oldi.or Yok Çok
+FLORE (Devte cümle (Yeni) -SA g/card Yükse
+S+ st) 4.0 s/flore k
+devtes (Dağıtı s/kaa_
+t lır) Latn
+kaa Karaka Konuş 50 Latin CC-BY zenod Yok Çok
+lpak ma-tr Saat (Yeni) 4.0 o.org/r Yükse
+Speec ans. (WAV+ (Dağıtı ecord k
+h Txt) labilir) s/1907
+Corpu 9670
+s
+kaa Kaa Çeviri 100K Latin CC-BY huggi Yok Yükse
+Paralle / Kitap cümle 4.0 ngfac k
+l (Dağıtı e.co/d
+Corpo labilir) ataset
+ra s
+(OLDI)
+★ DÜŞÜK KAYNAKLI 6 DİL: Derinlemesine Korpus
+Envanteri ve Kriz Çözümleri
+Bu bölüm, Apertium ekosisteminin en zayıf halkası olan, dijital mevcudiyeti tehlike altındaki 6
+Türk dilinin (Altayca, Hakasça, Karaçay-Balkarca, Kumukça, Nogayca, Tuvaca) verilerini
+hedeflemektedir. Bu gruptaki temel zorluk boyut eksikliği değil, veri kirliliğidir. OSCAR gibi
+küresel ağ derlemlerinde, bu dillerin yoğun Rusça kod-karışımı (code-mixing) veya alfabe
+hataları barındırdığı görülmektedir3. FST analizcisi bu kirli metinlerle test edildiğinde "Analiz
+Edilemedi" oranı (OOV), dilin morfolojisinin zayıflığından değil, doğrudan veri kirliliğinden dolayı
+yüksek çıkmaktadır. Bu 6 dilde kapsam testleri sentetik veriler, temizlenmiş GitHub repoları veya
+Leipzig 10K katmanı gibi kontrollü ortamlar üzerinden icra edilmelidir.
+Altayca (alt)
+Altay coğrafyası, Sibirya Rünik yazıtları ve Orhun yazıtlarının tarihsel keşifleriyle zengin bir
+corpus barındırsa da45, modern doğal dil işleme sistemlerinin (Apertium) testi çağdaş ve
+standart Kiril metinleri gerektirir46. Dijital olarak kitle kaynaklı geniş bir ulusal metin derlemi
+(bulunamadı / çok kısıtlı) olmadığı için, makine çevirisi için profesyonel çevirmenlerce
+===== SAYFA 15/26 =====
+hazırlanmış FLORES-200 seti ve Apertium'un kendi bünyesindeki test verileri yegane saf test
+kaynaklarıdır15.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+m
+alt FLORE Çeviri 1,012 Kiril CC-BY huggi Yok Çok
+S-200 (Devte cümle -SA ngfac Yükse
+(alt_Cy st) 4.0 e.co/d k
+rl) (Dağıtı ataset
+labilir) s
+alt Leipzi Haber 10K-3 Kiril CC-BY worts 10K, Orta
+g / Wiki 0K 4.0 chatz. 30K (Gürül
+Corpo cümle (Evet, uni-lei tülü)
+ra atıfla) pzig.d
+Collec e
+tion
+alt aperti Test/S Sınırlı Kiril GPL github Yok Yükse
+um-alt özlük 3.0 .com/a k
+test (Dağıtı pertiu
+corpu labilir) m
+s
+Hakasça (kjh)
+Hakasça, bu kısıtlı 6 dil arasında sürpriz bir şekilde en şanslı olanıdır. Araştırmacı Adeshkin
+tarafından yayımlanan ve ince işçilikle derlenmiş HuggingFace veri setleri
+(khakas-monolingual-corpus ve khakas-russian-parallel-corpus) bu dili FST testleri için eşsiz bir
+düzleme taşımaktadır47. Toplamda yüz binlerce temiz cümleden oluşan bu koleksiyon, Hakasça
+analizcisinin yetkinliğini test etmek için Leipzig'in ötesinde devasa bir imkan sunar.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+===== SAYFA 16/26 =====
+m
+kjh adesh Haber 259,0 Kiril CC-BY huggi Yok Çok
+kin/kh / 00 4.0 ngfac Yükse
+akas- Edebiy cümle (Dağıtı e.co/a k
+monoli at labilir) deshki
+ngual n
+kjh adesh Çeviri 159,00 Kiril CC-BY huggi Yok Çok
+kin/kh 0 4.0 ngfac Yükse
+akas-r cümle (Dağıtı e.co/d k
+ussian labilir) ataset
+-par. s
+kjh Leipzi Haber 10K-3 Kiril CC-BY worts 10K, Orta-
+g 0K 4.0 chatz. 30K Yükse
+Corpo cümle (Evet, uni-lei k
+ra atıfla) pzig.d
+Collec e
+tion
+Karaçay-Balkarca (krc)
+Apertium deposundaki apertium-krc verisi haricinde, makro boyutlu temiz bir Karaçay-Balkar
+verisine doğrudan ulaşım bulunmamaktadır (bulunamadı / çok kısıtlı)48. Dil, Meta'nın
+NLLB/FLORES listesinde veya yaygın eBible inisiyatiflerinde temsil edilmemektedir15. Bu nedenle,
+Apertium FST'sinin geri çağırma (Recall) testi doğrudan Leipzig 10K derlemi üzerinde
+koşturulmak zorundadır.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+m
+krc Leipzi Haber 10K-3 Kiril CC-BY worts 10K, Orta
+g / Web 0K 4.0 chatz. 30K
+Corpo cümle (Evet, uni-lei
+ra atıfla) pzig.d
+===== SAYFA 17/26 =====
+Collec e
+tion
+krc aperti Sözlük Sınırlı Kiril GPL github Yok Yükse
+um-kr / Test (<5K) 3.0 .com/a k
+c test (Dağıtı pertiu (Editor
+data labilir) m/ape yal)
+rtium-
+krc
+Kumukça (kum)
+Rusya Federasyonu Dağıstan coğrafyasında konuşulan Kumukça, NLLB listesinde
+bulunmamakla birlikte, köklü bir edebi ve folklorik geleneğe sahiptir49. Gyula Németh tarafından
+derlenen tarihi atasözleri ve halk şiirleri akademik olarak çok temiz bir sözcük havuzu sunsa da
+hacmen dardır50. Sayısal olarak FST testi yapabilmek için elde yine Leipzig 10K/30K web
+taraması kalmaktadır.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+m
+kum Leipzi Haber 10K-3 Kiril CC-BY worts 10K, Orta
+g 0K 4.0 chatz. 30K
+Corpo cümle (Evet, uni-lei
+ra atıfla) pzig.d
+Collec e
+tion
+kum Selecti Folklor 372 Kiril Telifli dergip Yok Çok
+ons / Şiir atasöz (Sade ark.or Yükse
+from ü ce g.tr k
+Kumyk Test)
+Folk.
+kum aperti Test Sınırlı Kiril GPL github Yok Yükse
+um-ku 3.0 .com/a k
+===== SAYFA 18/26 =====
+m (Dağıtı pertiu
+github labilir) m/ape
+data rtium-
+kum
+Nogayca (nog)
+Nogayca için dikkate değer en büyük gelişme HuggingFace platformunda araştırmacı
+ansarzeinulla tarafından paylaşılan Nogai-Unified-Corpus-v1 isimli veri setidir51. Haber, roman ve
+wiki metinlerinden derlenerek JSONL ve Parquet formatlarında temizlenmiş bu 35.6 MB'lık veri
+seti, binlerce cümleden oluşan benzersiz bir hazinedir. Eski Kiril/Latin metinleri üzerine yapılan
+OCR veri setleri de bulunsa da hata oranının yüksekliği nedeniyle OOV testleri Unified Corpus
+üzerinden yürütülmelidir53.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+m
+nog Nogai Haber/ ≈35.6 Kiril CC-BY huggi Yok Çok
+-Unifie Roma MB -NC ngfac Yükse
+d-Cor n/Wiki 4.0 e.co/a k
+pus-v1 (Ölç+ nsarze
+(HF) Atıf) inulla
+nog Leipzi Haber 10K Kiril CC-BY worts 10K Orta
+g / Web cümle 4.0 chatz.
+Corpo (Evet, uni-lei
+ra atıfla) pzig.d
+Collec e
+tion
+nog old-no Tarihî Bilinmi Kiril / Açık huggi Yok Düşük
+gay-tu OCR yor Latin Veri ngfac (OCR
+rkish- e.co/fa hatala
+ocr tihbur rı)
+akkara
+goz
+===== SAYFA 19/26 =====
+Tuvaca (tyv)
+Sibirya Türk dillerinden olan Tuvaca için en temiz makro kaynak, NLLB modellerini bu dile
+uyarlamak için (fine-tuning) derlenmiş olan 50,000 satırlık Rusça-Tuvaca paralel sözlük/kısa
+metin setidir54. Bununla birlikte Apertium repolarındaki apertium-tyv içindeki test metinleri
+morfotaktik doğrulamalar için altın standarttır55.
+Dil Korpu Tür Boyut Yazı Lisans Erişim Stand Kalite
+s adı / siste + URL'i art-b notu
+sağlay mi Yenid oyut
+ıcı en
+Dağıtı
+m
+tyv Rus-Ty Çeviri 50,00 Kiril Akade drive.g Yok Orta
+v / 0 satır mik oogle. (Tam
+Paralle Sözcü com tümce
+l (50K) k az)
+tyv Leipzi Haber 10K-3 Kiril CC-BY worts 10K, Orta
+g / Web 0K 4.0 chatz. 30K
+Corpo cümle (Evet, uni-lei
+ra atıfla) pzig.d
+Collec e
+tion
+tyv aperti Sözlük Sınırlı Kiril GPL github Yok Çok
+um-ty / 3.0 .com/a Yükse
+v Gram (Dağıtı pertiu k
+/texts er labilir) m/ape
+dizini rtium-
+tyv
+20 Dil İçin Açık Veri ve Kapsam Karşılaştırma Matrisi
+(Özet)
+Aşağıdaki matris, Apertium'un KÖKEN platformunda "Kalite & Kapsam" arayüzünü beslemek
+adına; diller arası adil bir radar grafiği çizilmesi ve CC0 açık veri katkısı sağlanması için her dilde
+kullanılacak en iyi tek standart referans korpusu özetlemektedir.
+===== SAYFA 20/26 =====
+Dil Kodu Kapsam Testi Boyutu Lisans Türü KÖKEN
+İçin En İyi Projesi
+Standart Kullanım Planı
+Korpus /
+Dağıtılabilirlik
+tur Leipzig 1M+ Cümle CC-BY 4.0 100K
+(tur_news) katmanında
+ölçüm. OOV
+verisi CV
+üzerinden CC0
+olarak beslenir.
+aze Leipzig 1M+ Cümle CC-BY 4.0 100K
+(aze_news) katmanında
+ölçüm. OOV
+verisi CV
+üzerinden CC0
+olarak beslenir.
+kaz SozKZ Corpus 10M+ Token Akademik Eşit-boyut
+Clean v3 testinden
+ziyade FST'nin
+maksimum
+sınırlarını
+ölçmek için.
+kir KyrText / 680M / 1.2M Akademik/CC- Temiz morfoloji
+Kasieva Kırgız Tok BY ölçümü.
+Korpusu OSCAR verisi
+kod karışımı
+nedeniyle
+reddedilmeli.
+uzb Uzbek National Büyük Boyut Akademik Latin/Kiril
+Corpus dönüşüm
+testleri.
+uig Muqeddes 800K Token CC-BY-SA 4.0 %100
+Kalam (Uyghur sıfır-gürültü
+===== SAYFA 21/26 =====
+eBible) ölçümü.
+Çıktılar kaynak
+gösterilerek
+dağıtılabilir.
+tat Tugan Tel 180M Token Akademik PC-KIMMO ile
+(Socio-political doğrulanmış
+subcorpus) FST recall
+eşleştirmesi.
+bak Bashkir Poetic 1.8M Tok / 265 Araştırma / CV
+Corpus / H CC0 transkriptleri ile
+Common kapsam
+Voice ölçümü ve
+OOV
+sonuçlarının
+serbest
+dağıtımı.
+chv Leipzig 100K Cümle CC-BY 4.0 Standart 100K
+(chv_news) katmanında
+morfolojik
+yeterlilik
+saptaması.
+sah Leipzig 100K Cümle CC-BY 4.0 Sibirya kolu
+(sah_news) UniMorph
+doğruluk testi
+için birincil
+metin havuzu.
+tuk FLORES-200 1,012 Cümle CC-BY-SA 4.0 Latin imla
+(tuk_Latn) kirliliğini aşmak
+için mutlak
+insan referans
+seti.
+crh QIRIM / 100K-1M CC-BY 4.0 Devtest
+crh-parallel-co Cümle kapsamında
+rpora genel edebi
+===== SAYFA 22/26 =====
+metin
+üzerinden
+morfolojik
+ölçüm.
+gag eBible (Gagauz 200K / 1,012 CC-BY-SA 4.0 Rusça kirliliğini
+NT) / ekarte eden
+FLORES-200 sıfır-gürültü
+ölçümü.
+kaa Karakalpak 50 Saat CC-BY 4.0 Yeni Latin
+Speech (WAV+Txt) revizyonuna
+Corpus uygun güncel
+Transcripts FST lexicon
+eşleştirmesi.
+alt FLORES-200 1,012 Cümle CC-BY-SA 4.0 İnternet
+(alt_Cyrl) kirliliğinden
+arındırılmış saf
+geri çağırma
+(recall) seti.
+kjh adeshkin/khak 259K Cümle CC-BY 4.0 Düşük kaynaklı
+as-monolingua gruptaki en
+l-corpus büyük serbest
+havuz testi.
+krc Leipzig 10K Cümle CC-BY 4.0 Alternatif
+(krc_news) olmadığı için
+doğrudan 10K
+katmanı
+üzerinden
+ölçüm.
+kum Leipzig 10K Cümle CC-BY 4.0 Edebi metinler
+(kum_news) haricinde
+yegane makro
+veri ölçüm
+zemini.
+===== SAYFA 23/26 =====
+nog Nogai-Unified- ~100K Cümle CC-BY-NC 4.0 Sızdırılmış
+Corpus-v1 verilerden
+temizlenen
+metinlerle FST
+lexicon testi.
+tyv Leipzig 10K / 50K CC-BY 4.0 FST kurallarının
+(tyv_news) / Cümle genel amaçlı
+Rus-Tyv web verisi
+Parallel üzerindeki
+performansı.
+Sonuç ve KÖKEN Kalite & Kapsam Metrikleri İçin Eylem
+Planı
+Apertium tabanlı morfolojik analizcilerin Türk Dilleri ailesindeki kapsam ve sözcük tanıma
+performanslarını, dürüst ve manipülasyondan uzak bir biçimde KÖKEN platformuna yansıtmak
+amacıyla üç ayaklı, sistematik bir veri işleme ve test mimarisinin kurgulanması tavsiye
+edilmektedir. Analiz edilen bu 20 dilin korpus çeşitliliğindeki devasa asimetriler, her dile aynı web
+taramasını uygulamayı imkansızlaştırmıştır.
+Birinci aşamada, eşit-boyut (equal-size) karşılaştırma hedefi doğrultusunda Leipzig Corpora
+Collection (LCC) evrensel omurga olarak benimsenmelidir. Yirmi dilin en az 18'inde (Gagavuzca
+ve diğer küçük azınlık dillerinde kısıtlı olsa da) LCC'nin "10K" sabit katmanları mevcuttur. Dillerin
+kendi aralarındaki analitik başarı grafikleri (radar chart veya bar plot) çizilirken, her FST'ye tam
+olarak Leipzig 10.000 cümlelik haber seti beslenmelidir. Bu, kelime haznesi hacminden bağımsız
+olarak FST'nin genel haber dilini ne kadar kapsadığının standart metrik (Recall = Analiz edilen
+token / Toplam token) karşılığını verecektir.
+İkinci aşama, açık veri katkısı ve CC0 (kamu malı) stratejisini içerir. Projenin temel amacı,
+Apertium analizcilerinin metinden çıkaramadığı (OOV) kök ve kelimeleri yakalayarak açık
+sözlüklere (Wiktionary veya Apertium Lexicon) geri kazandırmaktır. Bu verilerin hiçbir hukuki
+engele takılmadan dağıtılabilmesi için FST, Mozilla Common Voice'un %100 CC0 lisanslı
+transkript metinleri üzerinde koşturulmalıdır. Başkurtça, Özbekçe, Tatarca ve Türkçe gibi CV
+üzerinde ciddi ağırlığa sahip dillerin OOV sonuçları doğrudan GitHub veya HuggingFace
+üzerinde CC0 etiketiyle KÖKEN veri çıktısı olarak yayımlanabilir.
+Üçüncü ve en hassas aşama, Altayca, Hakasça, Karaçay-Balkarca, Kumukça, Nogayca ve
+Tuvaca'dan oluşan kritik altılı grubun (Düşük Kaynaklı Diller) idaresidir. Rapor boyunca
+vurgulandığı üzere, bu dillerin makro web verileri (OSCAR) ciddi dil kirliliği ve kod karışımı
+içermektedir. Bu altılı grubun FST kapasitelerini değerlendirmek için Leipzig web taramaları bile
+bazen yanıltıcı sonuçlar verebilir. Dolayısıyla, bu dillerdeki kapsam ölçümü kesinlikle Meta'nın
+FLORES-200 projesindeki profesyonel, insan onaylı, sıfır gürültülü 1.012 cümlelik test setlerine
+===== SAYFA 24/26 =====
+kaydırılmalıdır. Eksik dillerde ise (Karaçay-Balkarca, Kumukça) doğrudan Apertium depolarının
+içindeki editoryal texts klasörleri kullanılarak FST'nin temel doğruluğu teyit edilmelidir. Bu izole
+ölçüm yöntemi, analizcilerin yetersiz kelime dağarcıkları ile internetteki kirli veri sorununu
+birbirinden net bir biçimde ayıracak ve KÖKEN platformuna eklenecek metriklerin akademik
+dürüstlüğünü maksimize edecektir.
+Alıntılanan çalışmalar
+1. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv,
+https://arxiv.org/html/2602.19174v2
+2. (PDF) TurkicNLP: An NLP Toolkit for Turkic Languages - ResearchGate,
+https://www.researchgate.net/publication/401133169_TurkicNLP_An_NLP_Toolkit_f
+or_Turkic_Languages
+3. KyrText: A Multi-Domain Large-Scale Corpus for Kyrgyz Language - ACL
+Anthology, https://aclanthology.org/2026.loreslm-1.39.pdf
+4. Introducing UberText 2.0: A Corpus of Modern Ukrainian at Scale - ACL
+Anthology, https://aclanthology.org/2023.unlp-1.1.pdf
+5. The Leipzig Corpora Collection,
+https://www.inf.uni-hamburg.de/en/inst/ab/lt/people/chris-biemann/publications/2
+007-biemannetal-corpling07.pdf
+6. Building Large Monolingual Dictionaries at the Leipzig Corpora Collection: From
+100 to 200 Languages - LREC,
+http://www.lrec-conf.org/proceedings/lrec2012/pdf/327_Paper.pdf
+7. Python scripts for downloading Leipzig Corpora Languages - Gist - GitHub,
+https://gist.github.com/derlin/917a64e6412de6c503f3f52e0878f919
+8. 3 Million German Sentences - Kaggle,
+https://www.kaggle.com/datasets/rtatman/3-million-german-sentences
+9. [1912.06670] Common Voice: A Massively-Multilingual Speech Corpus - ar5iv -
+arXiv, https://ar5iv.labs.arxiv.org/html/1912.06670
+10. Common Voice | Mozilla Data Collective,
+https://mozilladatacollective.com/organization/cmfh0j9o10006ns07jq45h7xk
+11. Mozilla Common Voice corpus Turkish data set features (Özden, 2021) -
+ResearchGate,
+https://www.researchgate.net/figure/Mozilla-Common-Voice-corpus-Turkish-dat
+a-set-features-Oezden-2021_tbl1_382104527
+12. Multilingual end-to-end ASR for low-resource Turkic languages with common
+alphabets - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC11180099/
+13. CSE-Guided Linguistically Constrained Morphological Segmentation for Turkmen
+- MDPI, https://www.mdpi.com/2078-2489/17/6/594
+14. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv,
+https://arxiv.org/html/2602.19174v3
+15. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv,
+https://arxiv.org/html/2602.19174v4
+16. Open Language Data Initiative: Advancing Low-Resource Machine Translation for
+Karakalpak - ACL Anthology, https://aclanthology.org/2024.wmt-1.48/
+===== SAYFA 25/26 =====
+17. Dataset card for Karakalpak - Open Language Data Initiative,
+https://oldi.org/cards/flores/kaa_Latn
+18. Resources for Turkish natural language processing: A critical survey - PMC,
+https://pmc.ncbi.nlm.nih.gov/articles/PMC9417072/
+19. The Best Turkish Language Datasets for NLP and Speech - Twine,
+https://www.twine.net/blog/turkish-language-datasets/
+20. Multilingual Speech Recognition for Turkic Languages - MDPI,
+https://www.mdpi.com/2078-2489/14/2/74
+21. openlanguagedata/flores_plus · Datasets at Hugging Face,
+https://huggingface.co/datasets/openlanguagedata/flores_plus
+22. TurkicNLP: An NLP Toolkit for Turkic Languages - arXiv,
+https://arxiv.org/html/2602.19174v5
+23. turkic-nlp/turkicnlp: NLP Toolkit for Turkic Languages - GitHub,
+https://github.com/turkic-nlp/turkicnlp
+24. stukenov/sozkz-corpus-clean-v3 · Datasets at Hugging Face,
+https://huggingface.co/datasets/stukenov/sozkz-corpus-clean-v3
+25. Datasets - Hugging Face, https://huggingface.co/datasets?other=kazakh
+26. Corpora and Tools :: Home page, http://web-corpora.net/?l=en
+27. On The Principles Of Creating An Electronic Linguistic Database Of Translation
+Units In Literary Texts Within Corpus Linguistics - Academia One,
+https://academiaone.org/index.php/2/article/download/1535/1263/2841
+28. (PDF) A new Kyrgyz corpus: sampling, compilation, annotation - Academia.edu,
+https://www.academia.edu/97340093/A_new_Kyrgyz_corpus_sampling_compilati
+on_annotation
+29. A new Kyrgyz corpus: sampling, compilation, annotation,
+https://www.zfs.uni-hamburg.de/dgfs2020/programm/abstracts/dgfs2020-clp-ka
+sieva.pdf
+30. Uzbek National Corpus, https://uzbekcorpus.uz/enVer
+31. KARAKALPAK SPEECH CORPUS: THE FIRST BENCHMARK DATASET FOR
+AUTOMATIC SPEECH RECOGNITION - Zenodo,
+https://zenodo.org/records/19079670
+32. قﯨزﭔﯾ ﻰﮕﻧﮫﯾ) مﻻﺎﻛ سﭔددﭔﻗۇﻣ) - eBible.org, https://ebible.org/find/details.php?id=uigara
+33. Muqeddes Kalam (latin yéziq) - eBible.org,
+https://ebible.org/bible/details.php?id=uiglat
+34. قﯨزﭔﯾ ﻰﮕﻧﮫﯾ) مﻻﺎﻛ سﭔددﭔﻗۇﻣ) PDF - eBible.org, https://ebible.org/pdf/uigara/
+35. «Tugan Tel» Tatar National Corpus, https://tugantel.tatar/?lang=en
+36. National Corpus of the Tatar Language “Tugan tel”: Grammatical Annotation and
+Implementation - ResearchGate,
+https://www.researchgate.net/publication/275239252_National_Corpus_of_the_Tat
+ar_Language_Tugan_tel_Grammatical_Annotation_and_Implementation
+37. A Neural Network Approach to Morphological Disambiguation Based on the LSTM
+Architecture in the National Corpus of the Tatar Language - CEUR-WS.org,
+https://ceur-ws.org/Vol-2303/short1.pdf
+38. Bashkir Poetic Corpus,
+http://web-corpora.net/bashcorpus/search/?interface_language=en
+===== SAYFA 26/26 =====
+39. SIGMORPHON 2021 Shared Task on Morphological Reinflection: Generalization
+Across Languages - ACL Anthology,
+https://aclanthology.org/2021.sigmorphon-1.25.pdf
+40. QIRIM/crh-parallel-corpora · Datasets at Hugging Face,
+https://huggingface.co/datasets/QIRIM/crh-parallel-corpora
+41. Monah Kosmas Ayoz San-Franţiskal THE TRANSLATION BÜÜNKÜ GAGAUZ DİLİ H
+h Kosmas Șarț Franţiskalı İoanın adına ma - DergiPark,
+https://dergipark.org.tr/tr/download/article-file/305230
+42. Eni Baalantı - Apps on Google Play,
+https://play.google.com/store/apps/details?id=org.ibt.gagauz.newtestament.sab
+43. Karakalpak Speech Corpus - Mendeley Data,
+https://data.mendeley.com/datasets/2th8jvft8f
+44. oscar-corpus/community-oscar · Datasets at Hugging Face,
+https://huggingface.co/datasets/oscar-corpus/community-oscar
+45. AN OLD TURKIC INSCRIPTION FOUND IN THE VICINITY OF THE VILLAGE
+JABOGAN OF THE REPUBLIC ALTAI - Türk Dil Kurumu,
+https://tdk.gov.tr/wp-content/uploads/2016/12/03Irina%20NEVSKAYA.pdf
+46. Virtual Herbarium ALTB (South-Siberian Botanical Garden) - GBIF,
+https://www.gbif.org/dataset/2dda31ff-f776-452f-9a4b-d5229f6e3494
+47. adeshkin/Hy-MT2-1.8B-kjh-ru-lora - Hugging Face,
+https://huggingface.co/adeshkin/Hy-MT2-1.8B-kjh-ru-lora
+48. apertium-krc.krc.lexc - GitHub,
+https://github.com/apertium/apertium-krc/blob/master/apertium-krc.krc.lexc
+49. Kumyk language - Grokipedia, https://grokipedia.com/page/Kumyk_language
+50. Ç1. Kumuk halk şiirinden seçmeler1 - DergiPark,
+https://dergipark.org.tr/en/download/article-file/3876933
+51. ansarzeinulla/Nogai-Unified-Corpus-v1 at main - Hugging Face,
+https://huggingface.co/datasets/ansarzeinulla/Nogai-Unified-Corpus-v1/tree/main
+52. ansarzeinulla/Nogai-Unified-Corpus-v1 at refs/convert/parquet - Hugging Face,
+https://huggingface.co/datasets/ansarzeinulla/Nogai-Unified-Corpus-v1/tree/refs
+%2Fconvert%2Fparquet/default
+53. fatihburakkaragoz/old-nogay-turkish-ocr-corpus · Datasets at,
+https://huggingface.co/datasets/fatihburakkaragoz/old-nogay-turkish-ocr-corpus
+54. How to fine-tune a NLLB-200 model for translating a new language - David Dale -
+Medium,
+https://cointegrated.medium.com/how-to-fine-tune-a-nllb-200-model-for-transl
+ating-a-new-language-a37fc706b865
+55. apertium/apertium-tyv: Apertium linguistic data for Tuvinian - GitHub,
+https://github.com/apertium/apertium-tyv

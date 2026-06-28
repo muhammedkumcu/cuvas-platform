@@ -2916,6 +2916,21 @@ def main():
     ]
     TIER_COL = {"production": "#3f8a5c", "stable": "#2f7f8a", "beta": "#c08a3a", "prototype": "#9a8f82"}
     TIER_TR = {"production": "üretim", "stable": "kararlı", "beta": "beta", "prototype": "prototip"}
+    # T3 — apertium .lexc KÖK sayıları (türüne göre), lexicon_count.py, 28 Haz. (isim, fiil, içerik-toplam, not)
+    #   None = giella yapısı (Root İngilizce POS'a dallanmıyor) → bu yöntemle sayılamadı (dürüst).
+    #   "*" = olağandışı büyük otomatik listeler (bak: ABBR 135K + oto-fiil) → toplam şişkin.
+    LEXICON = {
+        "tur": (28751, 3842, 37295, ""), "aze": (5335, 721, 7954, ""), "kaz": None,
+        "kir": (4877, 1340, 8135, ""), "uzb": None, "uig": (1216, 410, 1735, ""),
+        "tat": (27128, 2057, 32440, ""), "bak": (13860, 69116, 86050, "*"), "chv": (11511, 8172, 25906, ""),
+        "sah": (16743, 12647, 40874, ""), "tuk": (1881, 145, 2804, ""), "crh": (6335, 1121, 9278, ""),
+        "gag": (1908, 410, 2851, ""), "kaa": (2367, 1541, 5024, ""), "alt": (146, 44, 222, ""),
+        "kjh": (546, 8, 592, ""), "krc": (3581, 340, 5856, ""), "kum": (2620, 423, 3421, ""),
+        "nog": (651, 165, 1079, ""), "tyv": (4217, 1400, 7442, ""),
+    }
+
+    def _k(n):
+        return (f"{n/1000:.1f}K" if n >= 1000 else str(n))
 
     def _q_rows():
         out = ""
@@ -2928,10 +2943,18 @@ def main():
                           f'<span style="color:#9a9082;font-size:12px">lemma · {um[1]:.0f}% tanıma</span>')
             else:
                 umcell = f'<span style="color:#b3a99c;font-size:12.5px">— {um}</span>'
+            lx = LEXICON.get(code)
+            if lx is None:
+                lxcell = '<span style="color:#b3a99c;font-size:12.5px">— yapı farklı (giella)</span>'
+            else:
+                isim, fiil, tot, star = lx
+                lxcell = (f'<b style="color:#211d17">{_k(tot)}{star}</b> '
+                          f'<span style="color:#9a9082;font-size:12px">kök · {_k(isim)} isim · {_k(fiil)} fiil</span>')
             out += (
                 '<tr style="border-top:1px solid rgba(33,29,23,.07)">'
                 f'<td style="padding:11px 14px"><span style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;color:#211d17">{name}</span> '
                 f'<span style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#9a9082">{code}</span><br>{badge}</td>'
+                f'<td style="padding:11px 14px">{lxcell}</td>'
                 f'<td style="padding:11px 14px;text-align:center"><span style="font-family:\'Spectral\',serif;font-weight:600;font-size:17px;color:#3f8a5c">{recon:.1f}%</span></td>'
                 f'<td style="padding:11px 14px">{umcell}</td>'
                 '</tr>')
@@ -2954,6 +2977,7 @@ def main():
         '        <table style="width:100%;border-collapse:collapse;font-family:inherit">\n'
         '          <thead><tr style="background:#211d17;color:#f4f1ea">'
         "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">DİL · OLGUNLUK</th>"
+        "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">SÖZLÜK<br><span style=\"opacity:.6\">kök sayısı</span></th>"
         "            <th style=\"text-align:center;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">TUTARLILIK<br><span style=\"opacity:.6\">round-trip</span></th>"
         "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">DOĞRULUK<br><span style=\"opacity:.6\">UniMorph gold</span></th>"
         '          </tr></thead>\n'
@@ -2962,9 +2986,9 @@ def main():
         '        </div>\n'
         # dürüstlük notları
         '        <div style="margin-top:16px;background:#fbf3ea;border:1px solid rgba(217,139,74,.3);border-radius:12px;padding:15px 18px;font-size:13px;line-height:1.6;color:#6b4f33">\n'
-        '          <b>Dürüst okuma.</b> <b>Tutarlılık</b> 20 dilde %92–95 (yüzey ekleri geri yapıştırınca biçim aynı). <b>Doğruluk</b> yalnız UniMorph gold\'u olan + yazısı uyuşan dillerde ölçülebildi; oralarda lemma doğruluğu <b>%91–100</b> — yani <b>FST çözdüğünde doğru çözüyor</b>. <b>Tanıma%</b> (kapsam) sözlük büyüklüğü ve yazı uyumuyla sınırlı (ayrı eksen). Çuvaşça\'da UniMorph yok; Tatarca/Uygurca UniMorph farklı yazıda; bunlar dürüstçe işaretli. <b>Korpus kapsamı (Leipzig/Common Voice)</b> sıradaki ölçüm.\n'
+        '          <b>Dürüst okuma.</b> <b>Sözlük</b> kökleri morfolojinin yakıtıdır — aynı FST hem analizde hem üretimde bu kökleri kullanır, dolayısıyla kök sayısı kapsamın tavanını belirler. Türkçe ~37 bin köke karşı Altayca yalnız <b>222</b>: dijital zenginlik uçurumu tam burada görünür (prototip diller). <b>Tutarlılık</b> 20 dilde %92–95. <b>Doğruluk</b> yalnız UniMorph gold\'u olan + yazısı uyuşan dillerde ölçülebildi; oralarda lemma doğruluğu <b>%91–100</b> — <b>FST çözdüğünde doğru çözüyor</b>; tanıma% (kapsam) ise sözlük büyüklüğü+yazıyla sınırlı (ayrı eksen). Boşluklar gizlenmez: Kazakça/Özbekçe sözlüğü farklı yapıda (giella) sayılamadı; bak* olağandışı büyük otomatik liste içerir; Çuvaşça\'da UniMorph yok; Tatarca/Uygurca UniMorph farklı yazıda. <b>Korpus kapsamı (Leipzig/Common Voice)</b> sıradaki ölçüm.\n'
         '        </div>\n'
-        '        <div style="margin-top:14px;font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;line-height:1.6">Kaynak: round-trip = <b>segment_eval.py</b> · doğruluk = <b>unimorph_eval.py</b> (N=1500, UniMorph 4.0 insan-gold) · olgunluk = apertium/turkicnlp catalog · canlı Apertium FST (GPL-3.0). Ölçüm: 28 Haz 2026. Betikler depoda, tekrar-üretilebilir.</div>\n'
+        '        <div style="margin-top:14px;font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;line-height:1.6">Kaynak: sözlük = <b>lexicon_count.py</b> (apertium .lexc, GPL-3.0) · round-trip = <b>segment_eval.py</b> · doğruluk = <b>unimorph_eval.py</b> (N=1500, UniMorph 4.0 insan-gold) · olgunluk = apertium/turkicnlp catalog · canlı Apertium FST. Ölçüm: 28 Haz 2026. Betikler depoda, tekrar-üretilebilir.</div>\n'
         '      </section>\n'
         '      </sc-if>\n')
     g1_anchor = "      <!-- ===================== TARİH & KÖKEN ===================== -->"

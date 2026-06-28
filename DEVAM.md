@@ -8,9 +8,9 @@
 ## 0) ŞU AN NEREDE KALDIK — TEK BAKIŞ
 
 ### ★★★ EN GÜNCEL (28 Haz) — KULLANICI İNCELEME NOTLARI + R-FAZLARI (compact-sonrası ÖNCE BUNU OKU)
-**Bölüm B (yatay ölçek) içerik+UI bitti; kullanıcı AYRINTILI sayfa-sayfa inceleme yaptı → R1-R8 fazları.** Tümü Claude_Preview'da doğrulandı, ayrı commit'lerle push'lu, tree temiz. Felsefe §4.5 DEĞİŞMEZ. **Sıralı detay: `plan/GELECEK-PLANLAR.md` "★ İNCELEME NOTLARI" bölümü.**
+**Bölüm B (yatay ölçek) içerik+UI bitti; kullanıcı AYRINTILI sayfa-sayfa inceleme yaptı → R1-R8 fazları. ★ TÜM İNCELEME (R1-R8) TAMAMLANDI (28 Haz).** Tümü Claude_Preview'da doğrulandı, ayrı commit'lerle push'lu, tree temiz. Felsefe §4.5 DEĞİŞMEZ. **Sıralı detay: `plan/GELECEK-PLANLAR.md` "★ İNCELEME NOTLARI" bölümü.**
 
-**✅ YAPILDI (R1-R5b-3 + R-AÇIKLAMA, 27-28 Haz — TEK PATCH):**
+**✅ YAPILDI (R1-R8 — TÜM İNCELEME, 27-28 Haz):**
 - **R5b-2 ✅ · 47-dil KAYNAKLI demografi** (`platform/etl/apply_demographics_ds19.py` ← `_prof19.txt` Bölüm 3 tablosu): 44 dile temiz konuşur + yıl + kaynak + EGIDS + UNESCO (Ethnologue/UNESCO/Glottolog/Campbell/Rus sayımı). **chv istisna:** Ethnologue 2019 1.2M yerine 2020 Rusya sayımı L1 **740 bin** korundu (Dilin Kalbi anlatısıyla tutarlı). azb/uzs/atv tabloda yok→dokunulmadı. `vitality` (renk hattı) DEĞİŞMEDİ. build.py'de **SPKMETA** (profil-koduna göre) → profil liste+detay master'dan; KONUŞUR kutusuna "yıl·kaynak" altyazısı + UNESCO çipi; **lang_extra "speakers" override KALDIRILDI** (master tek kaynak).
 - **R5b-3 ✅ · Tarih & Köken ds20 ile zenginleştirildi** (`_tarih20.txt`): **Bayes filogeni açıklama bloğu** (254 kavram/32 varyete/8360 sözcük/905 kognat + 3 ayrışma düğümü tarih+%95 GA: Oğur~MÖ66, K.Sibirya~MS474, Eski Türkçe~MS650 + sığ-ayrışma/diyalekt sürekliliği; Savelyev&Robbeets 2020 JoLE DOI). 6 kol kartı **detaylı izogloss + üye dil + kaynaklı örnek**. Timeline **9→15 KAYNAKLI satır** (Tekin/Arat/Dankoff&Kelly/Drimba/Boeschoten/Laitin/Bacon/Golden/Erdal…) + **kronolojik renk gradyanı** (tip-renkleri kalktı → KÖK/ERKEN GÖÇ/KLASİK/ORTA ÇAĞ/MODERN/BUGÜN).
 - **R-AÇIKLAMA ✅ · 9 sayfa** (Harita/Profiller/Tarih/Karşılaştır/Uzaklık/Ekosistem/Analiz/Paradigma/Dilin Kalbi): her birine "Bu sayfa ne anlatıyor?" (nedir/nasıl okunur/neden önemli + kaynak) — Kognat deseniyle birebir, tek `_help_block` + sc-if/section regex (9/9). **R-AÇIKLAMA TAM bitti.**
@@ -20,13 +20,19 @@
 - **Karşılaştır:** gereksiz kaynak kaldırıldı · soy ağacı "nasıl okunur" açıklaması (FAMILY 14-düğüm Bayes). **Uzaklık:** taban/karşılaştırılan dil **yan yana, aynı format, ~10 görünür kaydırmalı**.
 - **R5a ✅:** 2 deepsearch promptu (`arastirma/19,20*.prompt.md`). **SONUÇLAR GELDİ → `arastirma/19-Türk Dilleri Derin Profil Araştırması.pdf` + `20-Türk Dilleri Tarihi Araştırması.pdf` → çıkarıldı: `_prof19.txt` (28 sf) + `_tarih20.txt` (14 sf).**
 - **R5b-1 ✅:** **ds19 → 17 derin profil** (`profiles_deep.json` 39→46; `platform/etl/build_profiles_ds19.py`): 7 YENİ yaşayan az-belgeli lehçe (bgx/qxq/uum/kdr/jct/sty/kim — derin profili YOKtu) + clw/ili + 8 tarihsel yenilendi. Faithful + **gerçek kaynaklı** (Erdal/Tekin/Dolatkhah/Csató/Schluessel/Ercilasun/Röhrborn/Grönbech/Harrison + Glottolog/Ethnologue/UNESCO). → "ölü diller bilgi yok" çözüldü.
+- **R6 ✅ · KAYNAKLAR overhaul:** UI'da **"deepsearch" kaynak olmaktan çıktı** — `deepds` ("KÖKEN derin araştırmalar / çapraz-kontrollü derleme") SOURCES'tan kaldırıldı; yerine derlemelerin İÇİNDEKİ **gerçek akademik kaynaklar** "Akademik literatür" katmanına eklendi: **turkic_phil** (Tekin/Arat/Dankoff&Kelly/Golden/Róna-Tas/Erdal/Drimba/Boeschoten/Laitin/Bacon), **grammars** (Dolatkhah/Csató/Schluessel/Röhrborn/Grönbech/Harrison/Doerfer), **endangerment** (Ethnologue/UNESCO/Lewis&Simons 2010 EGIDS/Campbell ELCat); bayes'e DOI. USAGE gerçek anahtarlara bağlandı. Sayfa 3 katman: Araçlar/Veri/Akademik literatür.
+- **R7 ✅ · ANALİZ MD'leri:** `platform/inceleme/inceleme-yontemi.md` (kullanıcı inceleme tarzı analizi + kör noktalar + 6-eksenli çerçeve önerisi) + `platform/inceleme/sayfa-sayfa-analiz.md` (14 sayfa ne-yapıyor/güçlü/zayıf/öneri; **Morfoloji Analiz + Paradigma Gezgini** kullanıcının bakmadıkları → kendim analiz ettim).
+- **R8 ✅ · MD + resume:** bu §0 + GELISTIRME-GUNLUGU (devam-19) + KAYNAKLAR + GELECEK-PLANLAR güncel; resume promptu en altta.
 - **R-AÇIKLAMA ✅ TAM:** Kognat deseni 9 sayfaya uygulandı (üstte ✅ YAPILDI'da).
 
-**⏳ SIRADAKİ (R-fazları, sıralı) — POST-COMPACT BURADAN DEVAM:**
-1. **R6 · KAYNAKLAR overhaul** → ⚠ kullanıcı net dedi: **"deepsearch" kaynak DEĞİL; o PDF'lerin içindeki GERÇEK kaynakları yaz** (her ds PDF'inin 'Alıntılanan çalışmalar' bölümü). Uygulama içi `SOURCES` + Kaynaklar sayfasını katmanlı genişlet (en önemliler üstte, kalan altta — GitHub/paper/HF/URL). **ds19/ds20 gerçek kaynak listeleri `_prof19.txt`/`_tarih20.txt` sonunda HAZIR** (Erdal/Tekin/Arat/Dankoff&Kelly/Drimba/Boeschoten/Laitin/Bacon/Golden/Róna-Tas/Johanson/Doerfer + Savelyev&Robbeets DOI:10.1093/jole/lzz010 + Glottolog/Ethnologue/UNESCO URL'leri).
-2. **R7 · ANALİZ MD'leri** → `inceleme-yontemi.md` (kullanıcının inceleme tarzını analiz et + geliştir) + sayfa-sayfa analiz MD (Morfoloji & Paradigma DAHİL — kullanıcının bakmadıkları; ben kendim bakıp analiz/plan yapacağım).
-3. **R8 · MD + resume** (her büyük adımda güncellenir).
-- **Bekleyen kararlar:** isim/domain (ertelendi; müsait .com: kokence/getkoken/kokenatlas/sazlir/lirturk). Kognat 254→tüm Savelyev (opsiyonel, Geniş modda zaten 254 var). Bölüm C (altyapı: ses motoru/üretim/HfApi-CRON) ve D (eğitim portalı) İNCELEME bitince.
+**⏳ SIRADAKİ (İNCELEME BİTTİ → asıl mühendislik) — POST-COMPACT BURADAN DEVAM:**
+- **★ BÖLÜM C (altyapı / gerçek mühendislik) — EN ÖNCELİKLİ:**
+  1. **C1 · Gerçek ses motoru:** "▷ Seslendir" şu an tarayıcı Web Speech'e düşüyor → ds6 Dinamik Hibrit Router (tr/kaz Piper ONNX · uzb/uig/sah MMS-TTS · chv/bak eSpeak NG WASM) + FastAPI Smart Router. *(VM gerekir.)*
+  2. **C2 · Morfolojik ÜRETİM arayüzü:** backend `/generate` var, UI panel yok → kök + öznitelik seç → yüzey biçim üret (analizin tersi).
+  3. **C3 · Ekosistem HfApi-CRON:** metrik (indirme/yıldız) otomatik tazeleme.
+- **BÖLÜM D — EN SON:** çocuk/öğrenci eğitim portalı (Çuvaşça Atölyesi gerçek içerik) + Saha/Şor "Dilin Kalbi" şablonu.
+- **İnce iyileştirmeler (R7 analizinden, opsiyonel):** harita inline kart + profil listesi rengini sourced EGIDS/UNESCO'ya tam bağla · Morfoloji/Paradigma cilası (çözülemeyen durum, lejant konumu, toggle etiketleri) · soy ağacı tek otorite (Tarih vs Karşılaştır) · erişilebilirlik + mobil turu.
+- **Bekleyen kararlar:** isim/domain (ertelendi; müsait .com: kokence/getkoken/kokenatlas/sazlir/lirturk). Kognat 254→tüm Savelyev (opsiyonel, Geniş modda zaten 254 var).
 
 ---
 

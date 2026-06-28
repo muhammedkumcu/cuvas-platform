@@ -56,9 +56,10 @@ Kullanıcı ayrıntılı sayfa-sayfa inceleme yaptı. İşlenenler ve sıralı k
 - **★ R-AÇIKLAMA ✅ (28 Haz):** 9 sayfaya "Bu sayfa ne anlatıyor?" (nedir/nasıl okunur/neden önemli + kaynak) eklendi — Harita, Profiller, Tarih, Karşılaştır, Uzaklık, Ekosistem, Analiz, Paradigma, Dilin Kalbi. Kognat deseniyle birebir, tek `_help_block` + sc-if/section regex (9/9). Doğal Türkçe, kaynaklı, uydurmasız.
 - **R5a ✅:** 2 deepsearch promptu (19 az-belgeli diller + 20 tarih). **Sonuçlar geldi** (`19/20*.pdf`).
 - **R5b ✅ (28 Haz):** **R5b-1** ds19 → 17 derin profil (profiles_deep 39→46). **R5b-2** ds19 Bölüm 3 = 47-dil KAYNAKLI demografi (konuşur/yıl/kaynak/EGIDS/UNESCO) → master tek kaynak (SPKMETA; chv=740bin/2020 korundu; lang_extra speakers override kalktı). **R5b-3** ds20 → Tarih sayfası: Bayes açıklama bloğu (254 kavram/905 kognat/3 düğüm+%95 GA) + 6 kol detaylı izogloss + 15-satır kaynaklı timeline + kronolojik renk gradyanı.
-- **⏳ R6:** Kaynaklar overhaul — "deepsearch" yerine **gerçek kaynaklar** (her ds PDF'inin içindeki atıflar); Kaynaklar sayfasını katmanlı genişlet.
-- **⏳ R7:** analiz MD'leri — inceleme-yöntemi.md (kullanıcı tarzı) + sayfa-sayfa analiz (Morfoloji/Paradigma dahil, kullanıcının bakmadıkları).
-- **⏳ R8 (en son):** tüm MD + DEVAM.md dikkatli güncelleme + compact-sonrası resume promptu.
+- **R6 ✅ (28 Haz):** Kaynaklar overhaul — UI'da "deepsearch" (`deepds`) kaynak olmaktan çıktı; gerçek akademik atıflar 3 katmanda (Araçlar/Veri/Akademik literatür): turkic_phil (Tekin/Arat/Dankoff&Kelly/Golden/Róna-Tas/Erdal/Drimba/Boeschoten/Laitin/Bacon), grammars (Dolatkhah/Csató/Schluessel/Röhrborn/Grönbech/Harrison/Doerfer), endangerment (Ethnologue/UNESCO/Lewis&Simons/Campbell); bayes+DOI.
+- **R7 ✅ (28 Haz):** `platform/inceleme/inceleme-yontemi.md` (kullanıcı tarzı analizi + 6-eksenli çerçeve) + `sayfa-sayfa-analiz.md` (14 sayfa; Morfoloji & Paradigma kendim analiz ettim).
+- **R8 ✅ (28 Haz):** tüm MD (DEVAM §0, GELISTIRME-GUNLUGU devam-19, KAYNAKLAR, bu dosya) güncel + resume promptu. **→ ★ TÜM İNCELEME (R1-R8) BİTTİ.**
+- **★ SIRADAKİ = Bölüm C (altyapı):** C1 gerçek ses motoru · C2 morfolojik üretim arayüzü · C3 ekosistem CRON. Sonra Bölüm D (eğitim portalı). Detay bu dosyanın altında.
 - **Bekleyen kararlar:** isim/domain (ertelendi; müsait .com: kokence/getkoken/kokenatlas/sazlir/lirturk).
 
 ---

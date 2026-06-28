@@ -1,0 +1,3 @@
+R5b-2 demografi uygulandi -> languages.master.json
+  uygulanan (tablodan): 44 dil
+  tabloda yok (dokunulmadi): ['azb', 'uzs', 'atv']

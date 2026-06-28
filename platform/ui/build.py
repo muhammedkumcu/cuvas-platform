@@ -509,13 +509,13 @@ def main():
             changed.append(f"{code}/{iso}: egids='{egids}' vit={vit}")
 
     # Dil profili serbest-metin zenginleştirmesi ← lang_extra.json (Wikipedia, çapraz-kontrollü)
-    # Konuşur sayısındaki (YYYY) sayım yılları KALDIRILIR — master'daki 33 dilde yıl yok; tutarlılık için
-    # tümünden çıkarılır (rakamlar zaten "~" tahmin). Kaynaklı+yıllı zenginleştirme sonraki deepsearch'le gelir.
+    # R5b-2: "speakers" ARTIK lang_extra'dan ALINMAZ — konuşur sayısı tek kaynak = languages.master.json
+    # (ds19 Bölüm 3 tablosu, kaynaklı + yıllı; SPKMETA üzerinden gösterilir). Yalnız script/note zenginleştirilir.
     nenrich = 0
     for code, e in extra.items():
-        for field in ("speakers", "script", "note"):
+        for field in ("script", "note"):
             if field in e:
-                val = re.sub(r"\s*\([^)]*\d{4}[^)]*\)", "", e[field]).strip() if field == "speakers" else e[field]
+                val = e[field]
                 pat = re.compile(r"(\{code:'" + re.escape(code) + r"',[^\n]*?" + field + r":)'[^']*'")
                 html, n = pat.subn(lambda m, v=val: m.group(1) + json.dumps(v, ensure_ascii=False), html, count=1)
                 nenrich += n
@@ -528,9 +528,33 @@ def main():
             deep[code].append({"label": "Seslendirme (TTS/ASR)", "body": body})
     html = html.replace("  LANGPROFILE = [",
                         "  DEEPPROF = " + json.dumps(deep, ensure_ascii=False) + ";\n  LANGPROFILE = [", 1)
+    # profileSel = seçili dilin detayı; DEEPPROF (bölümler) + SPKMETA (R5b-2: sourced konuşur/EGIDS/UNESCO)
     html = html.replace(
         "profileSel:{...sel, vc:this.vitColor(sel.vit), branchColor:this.BRANCHCOLOR[sel.branch]||'#5f574b'},",
-        "profileSel:{...sel, deep:(this.DEEPPROF&&this.DEEPPROF[sel.code])||[], vc:this.vitColor(sel.vit), branchColor:this.BRANCHCOLOR[sel.branch]||'#5f574b'},", 1)
+        "profileSel:(()=>{const _sm=(this.SPKMETA&&this.SPKMETA[sel.code])||{}; return {...sel, "
+        "deep:(this.DEEPPROF&&this.DEEPPROF[sel.code])||[], "
+        "speakers:(_sm.sp||sel.speakers), egids:(_sm.eg||sel.egids), "
+        "spkcap:(_sm.cap||''), unesco:(_sm.un||''), "
+        "vc:this.vitColor((_sm.vt!=null&&_sm.vt>=0)?_sm.vt:sel.vit), "
+        "branchColor:this.BRANCHCOLOR[sel.branch]||'#5f574b'};})(),", 1)
+
+    # R5b-2: profil liste kartı konuşur sayısı da SPKMETA'dan (master tek kaynak; 14 base + 33 yeni tutarlı)
+    html = html.replace(
+        "return { code:l.code, name:l.name, branch:l.branch, speakers:l.speakers, vc,",
+        "return { code:l.code, name:l.name, branch:l.branch, "
+        "speakers:((this.SPKMETA&&this.SPKMETA[l.code]&&this.SPKMETA[l.code].sp)||l.speakers), vc,", 1)
+    # R5b-2: KONUŞUR kutusuna "yıl · kaynak" altyazısı (kaynaklı; boşsa gizli)
+    html = html.replace(
+        "<div style=\"font-family:'Spectral',serif;font-size:18px;font-weight:600;margin-top:3px\">{{ profileSel.speakers }}</div></div>",
+        "<div style=\"font-family:'Spectral',serif;font-size:18px;font-weight:600;margin-top:3px\">{{ profileSel.speakers }}</div>"
+        "<sc-if value=\"{{ profileSel.spkcap }}\" hint-placeholder-val=\"{{ true }}\">"
+        "<div style=\"font-size:9.5px;color:#b0a89a;font-family:'IBM Plex Mono',monospace;margin-top:4px;letter-spacing:.2px\">{{ profileSel.spkcap }}</div></sc-if></div>", 1)
+    # R5b-2: EGIDS rozetinin altına UNESCO canlılık çipi (kaynaklı; boşsa gizli)
+    html = html.replace(
+        "<span style=\"width:9px;height:9px;border-radius:50%;background:{{ profileSel.vc }}\"></span>EGIDS {{ profileSel.egids }}</div>\n              </div>",
+        "<span style=\"width:9px;height:9px;border-radius:50%;background:{{ profileSel.vc }}\"></span>EGIDS {{ profileSel.egids }}</div>"
+        "<sc-if value=\"{{ profileSel.unesco }}\" hint-placeholder-val=\"{{ true }}\">"
+        "<div style=\"margin-top:7px;font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace\">UNESCO: {{ profileSel.unesco }}</div></sc-if>\n              </div>", 1)
 
     # ── Dil Profilleri 14 → 47: master'dan 33 YENİ dili EKLE (14'ün zengin pipeline'ına dokunma) ──
     PROF14_ISO = {"tur", "azj", "tuk", "kaz", "kir", "uig", "sah", "tyv", "kjh", "tat", "bak", "chv", "cjs", "klj"}
@@ -552,6 +576,30 @@ def main():
              "6a": "güçlü", "6b": "tehlikede", "7": "değişen", "8a": "ölmekte", "8b": "ölmekte", "9": "uykuda", "10": "ölü"}
     AES_V = {"Safe": 6, "Vulnerable": 4, "Threatened": 3, "Definitelyendangered": 2,
              "Severelyendangered": 1, "Criticallyendangered": 0, "Extinct": 0}
+
+    # ── R5b-2: 47-dil KAYNAKLI demografi (ds19 Bölüm 3 tablosu) → SPKMETA (profil-koduna göre) ──
+    # master TEK kaynak: konuşur + yıl + kaynak + EGIDS + UNESCO. Profil liste/detay BUradan okur;
+    # böylece 14 temel + 33 yeni dil tek noktadan, tutarlı ve kaynaklı gösterilir. (vitality renk hattı
+    # ZATEN ayrı; burada yalnız sourced görünüm üretilir — uydurma yok, hepsi tablodan.)
+    ISO2PROF = {v: k for k, v in CODE2ISO.items()}   # tur→tr, azj→az, … cjs→shor, klj→clw
+    def _profcode(iso):
+        if iso in ISO2PROF:
+            return ISO2PROF[iso]
+        return "culw" if iso == "clw" else iso   # yeni Çulımca kodu 'culw' (base 'clw'=Halaçça ile çakışmasın)
+    SPKMETA = {}
+    for L in master:
+        egc = (L.get("egids") or "").strip()
+        eg_key = re.split(r"[–-]", egc)[0] if egc else ""      # '8a–8b' → '8a'
+        vt = EG_VIT.get(eg_key)
+        eg_disp = (f"{egc} · {EG_TR.get(eg_key, '')}".rstrip(" ·")) if egc else ""
+        yr, src = (L.get("speakers_year") or ""), (L.get("speakers_source") or "")
+        cap = (f"{yr} · {src}" if (yr and src) else (yr or src))
+        SPKMETA[_profcode(L["iso"])] = {
+            "sp": (L.get("speakers") or "—"), "cap": cap, "eg": eg_disp,
+            "vt": (vt if vt is not None else -1), "un": (L.get("unesco") or ""),
+        }
+    html = html.replace("  LANGPROFILE = [",
+                        "  SPKMETA = " + json.dumps(SPKMETA, ensure_ascii=False) + ";\n  LANGPROFILE = [", 1)
 
     def _vit_egids(L):
         if L["era"] != "living":

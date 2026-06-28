@@ -243,6 +243,23 @@ Kullanıcı kararı: **"Morfoloji (analiz/paradigma/üreteç) en güçlü yerimi
 
 **TEST ÇERÇEVESİ (kullanıcıyla mutabık, paradokssuz):** 3 eksen AYRI raporlanır — **Tutarlılık** (round-trip, FST-oracle; "doğruluk" değil) ≠ **Doğruluk** (UniMorph/UD insan-gold; en güçlü, dili olanlarda) ≠ **Kapsam** (korpus recall). "FST bilmiyor"=kapsam boşluğu (hata değil); prototype FST düşük skor=olgunluk (bizim hatamız değil). Her metrik = commit'li betik + tarih + kaynak. **Diller-özelinde test** (yazı farkı: uig Arap; hâl envanteri farklı: sah ~8; UniMorph etiketi dile-özel). Korpus kaynağı: **Wikipedia DEĞİL** (kullanıcı) → resmi haber/akademik korpus, indirmeden önce kaynak araştır+sun. Apertium-ham vs bizim-API gelişim metriği → paper için GELECEK-PLANLAR (sonra). **SIRADAKİ:** E3 özellik envanteri · E5 round-trip 20 dil+fiil · T1 UniMorph doğruluk · T2 UD kapsam · T3 lexicon · T4 korpus · G1/G2 gösterim · U1/U2 üreteç-dinamik+çapraz-link. *(commit'ler: B1=0d92be3, E2=4800da1, E4=a0ab150.)*
 
+## EK-OTURUM (28 Haz, devam-22) — Morfoloji ölçüm çerçevesi: B1 + 20-dil + T1/E5 testleri + G1 gösterim
+Bug + dil-kapsamı + **ölçüm** üçlüsü. Felsefe: 3 eksen AYRI (tutarlılık≠doğruluk≠olgunluk); her sayı commit'li betik+canlı FST; uydurma yok; boşluk gizlenmez.
+
+**B1 (bug):** Analiz girişi akıllı-yönlendirici `runSearch`'e bağlıydı → "ev" (kognat gloss'u) Kognat'a atıyordu. Yeni `runAnalyze` (doğrudan /analyze) + onAnalyzeKey; hero `runSearch`'te kaldı.
+
+**E1/E2/E4 (10→20 dil):** turkicnlp catalog'da apertium morph backend'i olan tüm 20 Türk dili. 10 yeni FST indi; backend LANG_INFO+QUALITY tier, VM deploy; UI tüm seçiciler. **Per-dil nüans:** Türkmen yalın İŞARETSİZ → genel nom bare-retry (hardcode'suz). 20 dil analiz+üretim+paradigma canlı.
+
+**E5 (round-trip 20 dil):** `segment_eval.py` + nom-retry + seed havuzları → 19 dil align %100, yeniden-üretim %92.6–95.2; Türkmen align %0 = metrik artefaktı (bare-nom → cumulative/fallback; recon yine %95.2, kalite değil).
+
+**T1 (UniMorph dış-gold DOĞRULUK — kullanıcı önceliği):** `unimorph_eval.py` (N=1500, tag-eşlemesiz lemma+tanıma). **İÇGÖRÜ:** lemma-doğruluk %91–100 her uyumlu dilde (sah/uzb 100, bak 99.6, kaz 99.7, tur 96.4, aze 91.1) → **FST çözdüğünde doğru**; tanıma% (kapsam) lexicon+yazı-bağlı, ayrı eksen. N=400≈N=1500 → istatistiksel kararlı. Boşluk dürüst: chv UniMorph yok, tat/uig yazı uyumsuz, kir/uig gold yalnız fiil.
+
+**T4 (korpus, kullanıcı çalıştırdı):** ds21 → `_korpus21.txt` (26 sf). Leipzig 10K omurga (eşit-boyut recall, CC-BY) + Common Voice CC0 (OOV açık katkı; bak/uzb/tat/tur güçlü) + 6 kıtlık dili FLORES-200 (1012 cümle, sıfır-gürültü) + apertium repo metinleri. **Kullanıcı kuralı: Wikipedia birincil değil.** En iyi korpus matrisi 20 dil için hazır (kjh adeshkin 259K, nog Unified, crh QIRIM, kaz SozKZ, uig Muqeddes Kalam…).
+
+**T3 (lexicon — dürüst pivot):** apertium lexc'te POS-etiketi inline değil, stem'ler continuation-class'a gider → doğru lemma sayımı repo-özel parsing isteyen ayrı iş. **Uydurma sayı yok** → T4 korpus koşusunda "tanınan farklı lemma sayısı" (alt-sınır) olarak ölçülecek.
+
+**G1 (gösterim):** "Kalite & Kapsam" sayfası (ARAŞTIR navı) — 20 dil × 3 eksen tablo (tutarlılık round-trip / doğruluk UniMorph / olgunluk tier) + renkli tier rozetleri + dürüst boşluk notları + kaynak/tarih/betik. Araştırmacının "bu ciddi mi" sorusuna doğrudan kaynaklı cevap. *(commit'ler: B1=0d92be3, E2=4800da1, E4=a0ab150, E5=3292f8e, T1=d744c77, ds21=cf8fc43, G1=9044c06.)* **SIRADAKİ:** T4 (Leipzig/CV koştur → kapsam% + lemma alt-sınır) · T2 (UD) · G2 (mini rozet) · U1/U2 (üreteç-dinamik+çapraz-link).
+
 ## Sıradaki / açık işler — bkz `plan/GELECEK-PLANLAR.md` (sıralı: A UI-öncesi · B yatay ölçek · C altyapı · D eğitim portalı)
 1. **YATAY ÖLÇEK (★ SIRADAKİ):** UI cilası (Bölüm A) **✅ bitti** (26 Haz). Deepsearch 11-18 çıktıları geldi (`arastirma/11..18*.pdf`) → locale çek (pdfminer→`_*.txt`), çapraz-kontrol, tüm modülleri tüm dillere aç (A1 taksonomi+COG_CONC genişlet, profiller 14→tüm, harita/uzaklık/ses-denklikleri/ekosistem ölçekle).
 2. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.

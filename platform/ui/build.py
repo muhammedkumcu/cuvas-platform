@@ -1453,6 +1453,92 @@ def main():
     if a6_intro_old in html:
         html = html.replace(a6_intro_old, a6_intro_new, 1); na6 += 1
 
+    # ── R6b: TAM KAYNAKÇA — tüm deepsearch'lerde GERÇEKTEN yararlandığımız akademik kaynaklar +
+    # temel araç/model/veri tabanları, tam künye + tıklanır link, kategorili (atıf-şişirme YOK;
+    # yalnız içerik ürettiğimiz eserler). Künyeler ds6/ds7/ds8/ds11/ds17-20 + _research/_profil çıkarımlarından.
+    # her giriş: (künye_html, url|None)
+    BIBLIO = [
+        ("Filogeni, sınıflandırma & genetik", [
+            ("Savelyev, A. &amp; Robbeets, M. (2020). <i>Bayesian phylolinguistics infers the internal structure and the time-depth of the Turkic language family.</i> Journal of Language Evolution 5(1): 39–53.", "https://doi.org/10.1093/jole/lzz010"),
+            ("Robbeets, M., Janhunen, J., Savelyev, A. vd. (2020). <i>The homelands of the individual Transeurasian proto-languages.</i>", "https://academic.oup.com/book/26797"),
+            ("Johanson, L. &amp; Csató, É. Á. (eds.) (2022). <i>The Turkic Languages</i> (2. baskı). Routledge.", "https://www.routledge.com/The-Turkic-Languages/Johanson-Csato/p/book/9781138899094"),
+            ("Joshi, P. vd. (2020). <i>The State and Fate of Linguistic Diversity and Inclusion in the NLP World.</i> ACL 2020. (Joshi kaynak sınıfları 0–5)", "https://aclanthology.org/2020.acl-main.560"),
+            ("Yunusbayev, B. vd. (2015). <i>The Genetic Legacy of the Expansion of Turkic-Speaking Nomads across Eurasia.</i> PLoS Genetics 11(4): e1005068.", "https://doi.org/10.1371/journal.pgen.1005068"),
+        ]),
+        ("Tarih & filoloji", [
+            ("Tekin, T. (1968). <i>A Grammar of Orkhon Turkic.</i> Indiana University.", None),
+            ("Arat, R. R. (1947). <i>Kutadgu Bilig</i> (Yusuf Has Hâcib; metin neşri).", None),
+            ("Dankoff, R. &amp; Kelly, J. (1982–85). <i>Maḥmūd al-Kāšġarī: Compendium of the Turkic Dialects (Dīwān Luġāt at-Turk).</i> Harvard University.", None),
+            ("Golden, P. B. (1992). <i>An Introduction to the History of the Turkic Peoples.</i> Harrassowitz.", None),
+            ("Golden, P. B. (2011). <i>Central Asia in World History.</i> Oxford University Press.", None),
+            ("Róna-Tas, A. (1999). <i>Hungarians and Europe in the Early Middle Ages.</i> CEU Press.", None),
+            ("Erdal, M. (1991). <i>Old Turkic Word Formation.</i> Harrassowitz.", None),
+            ("Erdal, M. (1993). <i>Die Sprache der wolgabolgarischen Inschriften.</i> Harrassowitz. (İdil Bulgar / Oğur)", None),
+            ("Drimba, V. (2000). <i>Codex Comanicus.</i> Bucureşti.", None),
+            ("Boeschoten, H. &amp; Vandamme, M. (1998). “Chaghatay”, içinde <i>The Turkic Languages.</i> Routledge.", None),
+            ("Laitin, D. (1998). <i>Identity in Formation: The Russian-Speaking Populations in the Near Abroad.</i> Cornell UP. (Sovyet alfabe siyaseti)", None),
+            ("Bacon, E. (1966). <i>Central Asians under Russian Rule.</i> Cornell UP.", None),
+        ]),
+        ("Çağdaş Türk dilleri & gramerler", [
+            ("Dolatkhah, S. (2016). <i>Qashqai Turkic: A Comprehensive Corpus-based Grammar.</i> (Kaşkayca)", None),
+            ("Doerfer, G. (1988). <i>Grammatik des Chaladsch.</i> Harrassowitz. (Halaçça / Argu)", None),
+            ("Grönbech, K. (1942). <i>Komanisches Wörterbuch.</i> (Codex Cumanicus / Kuman)", None),
+            ("Röhrborn, K. (1977– ). <i>Uigurisches Wörterbuch.</i> (Eski Uygurca)", None),
+            ("Harrison, K. D. (2007). <i>When Languages Die.</i> Oxford UP. (Tuvaca / tehlikedeki diller)", None),
+            ("Schluessel, E. — Doğu Türki / İli Türkîsi ve Çağatay çalışmaları.", None),
+            ("Csató, É. Á. — Litvanya Karaycası (Karaim) çalışmaları.", None),
+            ("Ercilasun, A. B. (2004). <i>Başlangıçtan Yirminci Yüzyıla Türk Dili Tarihi.</i> Akçağ.", None),
+        ]),
+        ("Doğal dil işleme — araçlar & yöntemler", [
+            ("Apertium — açık kaynak kural-tabanlı MT + morfolojik FST'ler (GPL-3.0).", "https://apertium.org"),
+            ("Akın, A. A. &amp; Akın, M. D. (2007). <i>Zemberek, an open source NLP framework for Turkic languages.</i>", "https://github.com/ahmetaa/zemberek-nlp"),
+            ("Çöltekin, Ç. (2010). <i>A Freely Available Morphological Analyzer for Turkish</i> (TRmorph). LREC 2010.", "https://github.com/coltekin/TRmorph"),
+            ("TurkicNLP — <i>An NLP Toolkit for Turkic Languages</i> (arXiv:2602.19174).", "https://github.com/turkic-nlp/turkicnlp"),
+            ("Qi, P. vd. (2020). <i>Stanza: A Python NLP Toolkit for Many Human Languages.</i> ACL 2020 (System Demos).", "https://aclanthology.org/2020.acl-demos.14"),
+            ("Lindén, K. vd. — <i>HFST: Helsinki Finite-State Technology.</i>", "https://hfst.github.io"),
+            ("Needleman, S. B. &amp; Wunsch, C. D. (1970). <i>A general method applicable to the search for similarities in the amino acid sequence of two proteins.</i> J. Mol. Biol. 48(3): 443–453. (yüzey-bölümleme hizalaması)", "https://doi.org/10.1016/0022-2836(70)90057-4"),
+        ]),
+        ("Konuşma teknolojisi (TTS / ASR)", [
+            ("Pratap, V. vd. (2024). <i>Scaling Speech Technology to 1,000+ Languages</i> (Meta MMS). JMLR / arXiv:2305.13516.", "https://arxiv.org/abs/2305.13516"),
+            ("Radford, A. vd. (2023). <i>Robust Speech Recognition via Large-Scale Weak Supervision</i> (Whisper). arXiv:2212.04356.", "https://arxiv.org/abs/2212.04356"),
+            ("Baevski, A. vd. (2020). <i>wav2vec 2.0: A Framework for Self-Supervised Learning of Speech Representations.</i> NeurIPS / arXiv:2006.11477.", "https://arxiv.org/abs/2006.11477"),
+            ("eSpeak NG — açık kaynak formant-sentez TTS (tarayıcı WASM).", "https://github.com/espeak-ng/espeak-ng"),
+            ("Piper (Rhasspy) — yerel nöral TTS (ONNX).", "https://github.com/rhasspy/piper"),
+            ("Coqui TTS — XTTS / VITS nöral sentez.", "https://github.com/coqui-ai/TTS"),
+        ]),
+        ("Veri tabanları, korpuslar & canlılık ölçekleri", [
+            ("Savelyev, A. &amp; Robbeets, M. — <i>SavelyevTurkic</i> CLDF veri seti (32 dil · 254 kavram · 905 kognat). CC BY 4.0.", "https://github.com/lexibank/savelyevturkic"),
+            ("Hammarström, H. vd. — <i>Glottolog 5.</i> CC BY 4.0. (sınıflandırma · koordinat · AES canlılık)", "https://glottolog.org"),
+            ("Dryer, M. &amp; Haspelmath, M. (eds.) — <i>WALS — World Atlas of Language Structures.</i> CC BY 4.0.", "https://wals.info"),
+            ("Eberhard, Simons &amp; Fennig (eds.) — <i>Ethnologue: Languages of the World.</i> SIL International.", "https://www.ethnologue.com"),
+            ("UNESCO — <i>Atlas of the World’s Languages in Danger.</i>", "https://www.unesco.org/languages-atlas/"),
+            ("Lewis, M. P. &amp; Simons, G. F. (2010). <i>Assessing endangerment: Expanding Fishman’s GIDS</i> (EGIDS). Revue Roumaine de Linguistique 55(2).", None),
+            ("Campbell, L. vd. — <i>ELCat: Catalogue of Endangered Languages.</i>", "https://www.endangeredlanguages.com"),
+            ("Dellert, J. vd. — <i>NorthEuraLex</i> leksikal veritabanı. CC BY 4.0.", "https://northeuralex.org"),
+            ("<i>Universal Dependencies</i> — Türkçe/Türk dilleri ağaç bankaları. CC BY-SA 4.0.", "https://universaldependencies.org"),
+            ("<i>UniMorph</i> — morfolojik paradigma hizalaması. CC BY 4.0.", "https://unimorph.github.io"),
+        ]),
+    ]
+    def _biblio_entry(kunye, url):
+        link = (f' <a href="{url}" target="_blank" rel="noopener" style="color:#8a5cc0;text-decoration:none;font-family:\'IBM Plex Mono\',monospace;font-size:11px;white-space:nowrap">↗ {url.split("//")[-1].split("/")[0]}</a>' if url else "")
+        return (f'              <li style="font-size:13px;line-height:1.6;color:#3f3a32;margin-bottom:9px;padding-left:2px">{kunye}{link}</li>\n')
+    biblio_html = (
+        '        <div style="margin-top:40px;border-top:1px solid rgba(33,29,23,.12);padding-top:26px">\n'
+        '          <div style="font-family:\'Spectral\',serif;font-weight:600;font-size:26px;margin-bottom:4px">Tam kaynakça</div>\n'
+        '          <p style="font-size:14px;line-height:1.6;color:#5f574b;max-width:78ch;margin:0 0 22px">Platformun içeriğini (profiller, tarih, ses yasaları, demografi, morfoloji ve seslendirme) <strong>doğrudan dayandırdığımız</strong> akademik çalışmalar, temel araçlar ve veri tabanları. Yalnızca gerçekten yararlandığımız eserler listelenir.</p>\n')
+    for cat, items in BIBLIO:
+        biblio_html += (
+            f'          <div style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;letter-spacing:.6px;color:#8a5cc0;margin:20px 0 9px">{cat.upper()}</div>\n'
+            '          <ul style="list-style:none;margin:0;padding:0">\n'
+            + "".join(_biblio_entry(k, u) for k, u in items) +
+            '          </ul>\n')
+    biblio_html += '        </div>\n'
+    nbib = sum(len(items) for _, items in BIBLIO)
+    # isSources <section> kapanışından önce enjekte
+    src_pat = re.compile(r'(<sc-if value="\{\{ isSources \}\}"[^>]*>\s*<section[^>]*>)(.*?)(</section>)', re.S)
+    html, n_src = src_pat.subn(lambda m: m.group(1) + m.group(2) + biblio_html + m.group(3), html, count=1)
+    print(f"  R6b TAM KAYNAKCA: {n_src} blok, {nbib} kunye ({len(BIBLIO)} kategori), tiklanir link")
+
     # kopya/metin düzeltmeleri — yalnız NET redundant/teknik ifadeler (tasarımı bozmadan, minimal)
     copy_fix = {
         "14 dil · soldan kenar rengi = canlılık": "Türk dilleri ve canlılık durumları",

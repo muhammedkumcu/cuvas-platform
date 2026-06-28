@@ -1478,6 +1478,8 @@ def main():
             ("Boeschoten, H. &amp; Vandamme, M. (1998). “Chaghatay”, içinde <i>The Turkic Languages.</i> Routledge.", None),
             ("Laitin, D. (1998). <i>Identity in Formation: The Russian-Speaking Populations in the Near Abroad.</i> Cornell UP. (Sovyet alfabe siyaseti)", None),
             ("Bacon, E. (1966). <i>Central Asians under Russian Rule.</i> Cornell UP.", None),
+            ("Aşmarin, N. İ. (1928–1950). <i>Чӑваш сӑмахӗсен кӗнеки / Çuvaş dili sözlüğü</i> (17 cilt). (Dilin Kalbi)", None),
+            ("Feyzhanov, H. (1863). Bulgar kitabelerinin Çuvaşça okunması — “Çuvaş anahtarı”. (İdil Bulgarcası ↔ Çuvaşça kanıtı)", None),
         ]),
         ("Çağdaş Türk dilleri & gramerler", [
             ("Dolatkhah, S. (2016). <i>Qashqai Turkic: A Comprehensive Corpus-based Grammar.</i> (Kaşkayca)", None),
@@ -2743,7 +2745,7 @@ def main():
             "<b>Bu sayfa ne?</b> Bir kelimeyi yaz; sistem onu <b>morfolojik</b> olarak çözer: kökünü, eklerini ve her ekin dilbilgisel işlevini (çoğul, hâl, kişi…) canlı olarak gösterir.",
             "<b>Nasıl okunur?</b> Sonuç, kelimeyi gerçek yüzey eklerine böler (ör. <i>ev·ler·de</i>) ve ses olaylarını (ünsüz yumuşaması gibi) işaretler. “Otomatik” seçiliyse kelimenin hangi dil(ler)de geçtiğini de bulur.",
             "<b>Neden önemli?</b> Türk dilleri <b>eklemeli</b>dir: anlam, köke eklenen katmanlarla kurulur. Morfolojik analiz bu katmanları ayırarak hem öğrenmeyi hem de dil işlemeyi mümkün kılar.",
-        ], "Apertium sonlu-durum çevirici (FST) · canlı /analyze + /segment uçları"),
+        ], "Apertium sonlu-durum çevirici (FST, GPL-3.0) · yüzey bölümleme: Needleman–Wunsch hizalaması (1970) · canlı /analyze + /segment uçları"),
         "isParadigm": ([
             "<b>Bu sayfa ne?</b> Bir kökün <b>tüm çekim tablosu</b>: ismin hâl × sayı, fiilin zaman × kişi hücreleri canlı üretilir. Kökü yaz, dilini seç, tablo anında dolar.",
             "<b>Nasıl okunur?</b> Satır ve sütunlar dilbilgisel boyutları (hâl, sayı, kişi, zaman) gösterir; her hücre o kombinasyonun gerçek yüzey biçimidir. Tabloyu kopyalayıp kullanabilirsin.",

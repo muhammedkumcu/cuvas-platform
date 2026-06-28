@@ -48,15 +48,19 @@ morfem dökümü; isim her dilde, fiil tv→iv; üretilemeyende dürüst boş). 
 HERO akıllı-arama runSearch'i değiştirince runParadigm/runCompare/applySegment TANIMSIZ kalmıştı (Paradigma/
 Karşılaştır çöküyordu) → anchor'lar kararlı noktalara taşındı, hepsi düzeldi (Preview'da doğrulandı).
 
-**SIRADAKİ = Bölüm C kalanı:**
-- **C1** gerçek ses motoru (Piper/MMS/eSpeak + FastAPI router; VM gerekir; en büyük lokma)
-- **C3** ekosistem HfApi-CRON (metrik tazeleme)
-- Sonra **Bölüm D** (eğitim portalı + Saha/Şor "Dilin Kalbi" şablonu).
-- İnce iyileştirmeler: `platform/inceleme/sayfa-sayfa-analiz.md` öncelik özetinde.
-- **NOT:** VM uvicorn 28 Haz'da temiz restart edildi, `/generate` host'tan canlı. Canlı doğrulama için açık kalmalı (§2/§4.6).
+**★ MORFOLOJİ ODAĞI (28 Haz, kullanıcı kararı: C1/C3'ten ÖNCE):** "en güçlü yerimiz; ölç+genişlet+göster." Plan E/T/G/U (todolist #16-29). **YAPILDI:** B1 (Analiz "ev"→Kognat bug'ı; 0d92be3) · E1 (10 yeni FST indi → 20 dil) · E2 (backend 20 dil + QUALITY tier, VM deploy; 4800da1) · E4 (UI 20 dil + Türkmen nom bare-retry; a0ab150). **20 dil Analiz+Üreteç+Paradigma'da canlı.** Round-trip ölçüldü: align %100, yeniden-üretim ~%95.
+
+**SIRADAKİ = morfoloji planı devam:**
+- **E3** dil-bazlı özellik envanteri (FST'den) · **E5** round-trip eval 20 dil+fiil.
+- **T1** UniMorph DOĞRULUK (öncelik) · **T2** UD kapsam · **T3** lexicon · **T4** korpus *(kaynak Wikipedia DEĞİL → resmi haber/akademik; indirmeden önce kullanıcıya sun)*.
+- **G1** Kalite & Kapsam sayfası + **G2** mini rozetler · **U1** Üreteç dile-duyarlı + **U2** çapraz-link/round-trip köprüsü.
+- **ÇERÇEVE:** 3 eksen AYRI (tutarlılık≠doğruluk≠kapsam); prototype FST düşük=olgunluk değil hata değil; her metrik commit'li betik+tarih+kaynak; diller-özelinde test.
+- **SONRA Bölüm C:** C1 ses motoru (en büyük) · C3 Ekosistem CRON. **Bölüm D — EN SON.**
+- **NOT:** VM uvicorn canlı (20 dil FST), `/generate` host'tan çalışıyor; doğrulama için açık kalmalı (§2/§4.6). repo↔VM app.py md5 eşit tutulmalı (deploy: scp + start.sh).
 
 ## 5) COMPACT SONRASI YAZILACAK RESUME PROMPTU
 
-> **DEVAM.md §0 ★★★'ı oku (önce `COMPACT-HAZIRLIK.md`'ye de bak). İNCELEME (R1-R8) + C2 (üreteç) bitti;
-> Bölüm C kalanından devam — C1 (gerçek ses motoru) / C3 (ekosistem CRON) içinden hangisinden
-> başlayacağımızı planla, dürüstçe anlat ve onayımla devam et. (C1 VM+TTS altyapısı gerektirir, daha büyük.)**
+> **DEVAM.md §0 ★★★'ı oku (önce `COMPACT-HAZIRLIK.md`'ye de bak). İNCELEME + C2 + morfoloji-odağı B1/E1/E2/E4
+> (20 dile genişleme) bitti; morfoloji planından devam — E3/E5 (özellik envanteri + round-trip 20 dil),
+> sonra T1 (UniMorph doğruluk) / T2-T4 / G1-G2 / U1-U2. C1/C3 bunlardan SONRA. Önce DEVAM §0'daki YAPILDI'yı
+> oku, kaldığımız yeri özetle, plan öner, onayımla devam et.**

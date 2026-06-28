@@ -2,7 +2,7 @@
 ### (Veri Provenance & Lisans Defteri)
 
 > **İlke (kullanıcı kararı):** Platformdaki HER veri **doğrudan bir kaynağa** dayanır. Kaynakları **locale çekeriz** (`sources/`, gitignored), **inceleriz**, veriyi oradan **çıkarırız** — uydurmayız. Gerçek veriyle değişene kadar UI'da **"⚠ örnek/illüstratif"** etiketi kalır. UI'daki `SOURCES` + `USAGE` kütüğü bu defterle **birebir** tutulur.
-> Güncelleme: **28 Haziran 2026** (deepsearch 5–20 işlendi; **ds19 → 47-dil kaynaklı demografi master'a** [R5b-2] + **ds20 → Tarih sayfası Bayes açıklama + kaynaklı timeline** [R5b-3]; `bayes`/`tarih20` satırları + master demografi alanları eklendi).
+> Güncelleme: **28 Haziran 2026** (deepsearch 5–20 işlendi; **ds19 → 47-dil kaynaklı demografi master'a** [R5b-2] + **ds20 → Tarih sayfası Bayes açıklama + kaynaklı timeline** [R5b-3]; `bayes`/`tarih20` satırları + master demografi alanları eklendi). **R6b: Kaynaklar sayfasına "Tam kaynakça" — 50 künye / 6 kategori, tam künye + tıklanır link** (tüm deepsearch'lerde gerçekten yararlandığımız akademik kaynaklar/araçlar/modeller/veri tabanları; atıf-şişirme yok). **Compact-öncesi kontrol listesi: `COMPACT-HAZIRLIK.md`.**
 
 ## Durum lejantı
 `✅ çekildi` (locale indirildi+incelendi) · `⏳ bekliyor` · `🖥️ VM` (apertium, Linux'ta) · `📄 makale` (PDF) · `🔒 tescilli` (açık alternatif kullan)

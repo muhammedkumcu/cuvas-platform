@@ -1,13 +1,36 @@
 # DEVAM — Oturum Devir Notu (KÖKEN · Türk Dilleri Morfoloji Platformu)
 
 > **Compact sonrası / yeni oturumda İLK BUNU OKU.** Bu §0 = güncel tek-bakış. Sonra: §2 (VM erişimi), §3 (apertium), §4.5 (FELSEFE), §4.6 (HATALAR+ÇÖZÜMLER), §7 (konvansiyonlar).
-> **Güncelleme: 27 Haziran 2026.** Repo: github.com/muhammedkumcu/cuvas-platform (main, push'lu, temiz).
+> **Güncelleme: 28 Haziran 2026.** Repo: github.com/muhammedkumcu/cuvas-platform (main, push'lu, temiz).
 
 ---
 
 ## 0) ŞU AN NEREDE KALDIK — TEK BAKIŞ
 
-### ★★ GÜNCEL DURUM (27 Haz) — ÖNCE BUNU OKU (compact-sonrası giriş noktası)
+### ★★★ EN GÜNCEL (28 Haz) — KULLANICI İNCELEME NOTLARI + R-FAZLARI (compact-sonrası ÖNCE BUNU OKU)
+**Bölüm B (yatay ölçek) içerik+UI bitti; kullanıcı AYRINTILI sayfa-sayfa inceleme yaptı → R1-R8 fazları.** Tümü Claude_Preview'da doğrulandı, ayrı commit'lerle push'lu, tree temiz. Felsefe §4.5 DEĞİŞMEZ. **Sıralı detay: `plan/GELECEK-PLANLAR.md` "★ İNCELEME NOTLARI" bölümü.**
+
+**✅ YAPILDI (R1-R5b-1, 27-28 Haz):**
+- **R1-R4 (UI cila):** net metin/başlık düzeltmeleri (footer, "Türk dilleri haritası", Dilin Kalbi sidebar, Kıpçak cümlesi, 1.binyıl, Ekosistem ★/↓ metrikleri kaldırıldı) · **ana sayfa HERO + akıllı arama** (dil→profil, kavram→kognat, kelime→analiz) · **konuşur-yılları kaldırıldı** (R5b-2'de kaynaklı geri gelecek) · profil listesi canlılık-rengine sıralı + temiz başlık.
+- **Harita:** tek-boyut standardı (konuşur-kademe kalktı) · **ölü diller tek koyu gri çerçevesiz nokta** · bold/italik kakofonisi kalktı (yalnız ölü diller italik) · **mouse sürükle-pan** · "Büyük atlas" butonu kaldırıldı → **Karşılaştır harita SEKMESİ tamamen kaldırıldı** (3 tab) + atlas "←Karşılaştır"→Dizilim (eski önizleme öldürüldü) · Boğaz/Ege/Kızıldeniz su + Kıbrıs adası eklendi.
+- **Kognat:** alfabetik sıra · **büyük graf (600px) + büyük merkez (104px) + ≤26 düğüm TEK halka** (deep 18 = 0 çakışma; broad 32 = 2 halka, çakışma 39→10) · proto responsive · tablo sütun başlıkları (DİL/BİÇİM/...) + turuncu-satır açıklaması · "**Bu sayfa ne anlatıyor?**" en altta + **okuma kılavuzu üstteki "nasıl çalışır?"da** (SES NOTU panelinden taşındı).
+- **Karşılaştır:** gereksiz kaynak kaldırıldı · soy ağacı "nasıl okunur" açıklaması (FAMILY 14-düğüm Bayes). **Uzaklık:** taban/karşılaştırılan dil **yan yana, aynı format, ~10 görünür kaydırmalı**.
+- **R5a ✅:** 2 deepsearch promptu (`arastirma/19,20*.prompt.md`). **SONUÇLAR GELDİ → `arastirma/19-Türk Dilleri Derin Profil Araştırması.pdf` + `20-Türk Dilleri Tarihi Araştırması.pdf` → çıkarıldı: `_prof19.txt` (28 sf) + `_tarih20.txt` (14 sf).**
+- **R5b-1 ✅:** **ds19 → 17 derin profil** (`profiles_deep.json` 39→46; `platform/etl/build_profiles_ds19.py`): 7 YENİ yaşayan az-belgeli lehçe (bgx/qxq/uum/kdr/jct/sty/kim — derin profili YOKtu) + clw/ili + 8 tarihsel yenilendi. Faithful + **gerçek kaynaklı** (Erdal/Tekin/Dolatkhah/Csató/Schluessel/Ercilasun/Röhrborn/Grönbech/Harrison + Glottolog/Ethnologue/UNESCO). → "ölü diller bilgi yok" çözüldü.
+- **R-AÇIKLAMA başladı:** Kognat'a "Bu sayfa ne anlatıyor?" bölümü = HER SAYFAYA gelecek açıklama deseninin ilk örneği.
+
+**⏳ SIRADAKİ (R-fazları, sıralı) — POST-COMPACT BURADAN DEVAM:**
+1. **R5b-2 · 47-dil KAYNAKLI konuşur/yıl/EGIDS** → `_prof19.txt` SAYFA 17-21'deki **47-dil tablosu** (Dil·ISO·Kol·Konuşur[yıl,kaynak]·EGIDS/UNESCO). Master'a uniform işle: konuşur sayısı + yıl + kaynak (kullanıcının "yıl+kaynak" isteği; biz yılları kaldırmıştık → şimdi kaynaklı geri ekle). build.py'de lang_extra "speakers" override'ını kaldır → master tek kaynak; profil KONUŞUR kutusuna küçük "yıl·kaynak" altyazısı. *(iso eşleme: master azj=Azerice/aze, uzn=Özbekçe/uzb; tablo "aze"/"uzb" kullanıyor.)*
+2. **R5b-3 · ds20 (TARİH)** → `_tarih20.txt`: zengin zaman çizelgesi + 6 kol DETAYLI ses-yasası + Bayes filogeni açıklaması → Tarih & Köken sayfasını zenginleştir (kullanıcı: "çok özet, renkler karmaşık, daha detaylı"). FAMILY ağacı + timeline (dc.html) zaten var, ds20'den genişlet.
+3. **R-AÇIKLAMA · kalan sayfalar** → Harita, Profiller, Tarih, Karşılaştır, Uzaklık, Ekosistem, Analiz, Paradigma, Dilin Kalbi'ne "bu nedir/neyi gösterir/neden önemli" kaynaklı bölüm (Kognat'taki desen).
+4. **R6 · KAYNAKLAR overhaul** → ⚠ kullanıcı net dedi: **"deepsearch" kaynak DEĞİL; o PDF'lerin içindeki GERÇEK kaynakları yaz** (her ds PDF'inin 'Alıntılanan çalışmalar' bölümü). Uygulama içi `SOURCES` + Kaynaklar sayfasını katmanlı genişlet (en önemliler üstte, kalan altta — GitHub/paper/HF/URL).
+5. **R7 · ANALİZ MD'leri** → `inceleme-yontemi.md` (kullanıcının inceleme tarzını analiz et + geliştir) + sayfa-sayfa analiz MD (Morfoloji & Paradigma DAHİL — kullanıcının bakmadıkları; ben kendim bakıp analiz/plan yapacağım).
+6. **R8 · MD + resume** (bu adım kısmen yapıldı; her büyük adımda tekrar güncelle).
+- **Bekleyen kararlar:** isim/domain (ertelendi; müsait .com: kokence/getkoken/kokenatlas/sazlir/lirturk). Kognat 254→tüm Savelyev (opsiyonel, Geniş modda zaten 254 var). Bölüm C (altyapı: ses motoru/üretim/HfApi-CRON) ve D (eğitim portalı) İNCELEME bitince.
+
+---
+
+### ★★ GÜNCEL DURUM (27 Haz) — (alttaki kronoloji; güncel için yukarıdaki ★★★'a bak)
 **DİKEY MVP ✅ + BÖLÜM A (UI cilası) ✅ + BÖLÜM B (yatay ölçek) DEVAM EDİYOR.** Hepsi Claude_Preview'da doğrulandı, ayrı commit'lerle push'lu, tree temiz. **Felsefe: §4.5 (UYDURMA YOK) — DEĞİŞMEZ.** Sıralı plan detayı: `plan/GELECEK-PLANLAR.md`.
 
 **DİKEY MVP ✅ (deepsearch-bağımsız, arka plan):** Faz 1 (füzyon ek-ayrışması chv %75.3→%93.2 · ses denklikleri kanıtlı · harita inline-kart · Hakkında) · Faz 2 (Seslendirme · **Ekosistem sayfası** · kollar+Bayes ağacı · derin profiller · KAYNAKLAR) · Faz 3.1 (Çuvaşça "Dilin Kalbi"). Deepsearch 5-10 işlendi.

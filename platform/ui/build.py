@@ -660,7 +660,7 @@ def main():
         ("transform:translate(-50%,-50%);display:flex;flex-direction:${m.below?'column-reverse':'column'};align-items:center;gap:4px;z-index:${m.hi?3:2}",
          "transform:translate(-50%,-50%) scale(${_cs});display:flex;flex-direction:${m.ldir===2?'column-reverse':'column'};align-items:center;gap:2px;z-index:${m.hi?6:(_show?4:2)}"),
         ("ball:`width:${m.hi?18:13}px;height:${m.hi?18:13}px;border-radius:50%;background:${col};border:2px solid #fbfaf6;box-shadow:0 0 0 ${m.hi?'4px':'1px'} ${m.hi?'rgba(184,96,46,.25)':'rgba(33,29,23,.12)'}`,",
-         "ball:`width:${_d}px;height:${_d}px;border-radius:50%;background:${_hist?'#fbfaf6':col};border:2px solid ${_hist?col:'#fbfaf6'};box-shadow:0 0 0 ${m.hi?'3px':'1px'} ${m.hi?'rgba(184,96,46,.30)':'rgba(33,29,23,.14)'}`,"),
+         "ball:`width:${_d}px;height:${_d}px;border-radius:50%;background:${_hist?'#6f665a':col};border:2px solid #fbfaf6;box-shadow:0 0 0 ${m.hi?'3px':'1px'} ${m.hi?'rgba(184,96,46,.30)':'rgba(33,29,23,.14)'}`,"),   # ölü/tarihsel diller: tek koyu gri dolu nokta (kol rengi/çerçeve yok)
         ("label:`font-size:${m.hi?'13px':'12px'};font-weight:${m.hi?'700':'500'};font-family:'Spectral',serif;color:#211d17;white-space:nowrap;background:rgba(251,250,246,.85);padding:1px 6px;border-radius:5px` };",
          "label:`${_show?'':'display:none;'}font-size:11px;font-weight:${m.hi?'600':'500'};font-family:'Spectral',serif;color:${_hist?'#6f665a':'#211d17'};${_hist?'font-style:italic;':''}white-space:nowrap;background:rgba(251,250,246,.94);padding:0 5px;border-radius:5px;box-shadow:0 1px 3px rgba(33,29,23,.08)` };"),
     ]
@@ -718,7 +718,7 @@ def main():
     # intro ipucu
     html = html.replace(
         "Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur.",
-        "Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur. Aşağıda küçük bir önizleme; <b>“Büyük atlas”</b> ile tam haritada keşfet.", 1)
+        "Çuvaşça, İdil (Volga) boyunda, Ogur kolunun yaşayan tek temsilcisi olarak ayrı durur. Aşağıdaki haritaya tıklayarak tüm Türk dillerini etkileşimli atlasta keşfedebilirsin.", 1)
 
     # ── ATLAS (büyük harita SAYFASI) — Karşılaştır'daki önizleme tıklanınca açılır ──
     natlas = 0
@@ -732,7 +732,7 @@ def main():
     atlas_legend = (
         '        <div style="display:flex;gap:15px;flex-wrap:wrap;margin-top:14px;padding:0 2px;align-items:center">\n'
         '          <sc-for list="{{ mapLegend }}" as="l"><span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:11px;height:11px;border-radius:50%;background:{{ l.hue }}"></span>{{ l.label }} kolu</span></sc-for>\n'
-        '          <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:10px;height:10px;border-radius:50%;background:#fbfaf6;border:2px solid #9a9082"></span>tarihsel · ölü dil</span>\n'
+        '          <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:11px;height:11px;border-radius:50%;background:#6f665a"></span>tarihsel · ölü dil</span>\n'
         '        </div>')
     # bölge odak düğmeleri (zoom + pan preset) + zoom +/− kontrolleri
     region_row = (
@@ -797,12 +797,12 @@ def main():
     if "{id:'profile', label:'Dil Profilleri'}," in html:
         html = html.replace("{id:'profile', label:'Dil Profilleri'},",
                             "{id:'profile', label:'Dil Profilleri'},\n      {id:'atlas', label:'Harita'},", 1); natlas += 1
-    # Karşılaştır harita ÖNİZLEMESİ üzerine "Büyük atlas" overlay butonu (kullanıcı: üzerine basınca açılsın)
+    # Karşılaştır harita önizlemesi: tüm önizlemeyi tıklanabilir yap (Büyük atlas butonu kaldırıldı —
+    # kullanıcı: "büyük atlas yazısı gereksiz, doğrudan etkileşimli karşılasın"). Tam etkileşim Harita sayfasında.
     cmp_map_div = '<div style="position:relative;width:100%;aspect-ratio:1000/560;background:#ece5d5;border:1px solid rgba(33,29,23,.12);border-radius:18px;overflow:hidden">'
+    cmp_map_new = '<div onClick="{{ goAtlas }}" style="position:relative;width:100%;aspect-ratio:1000/560;background:#ece5d5;border:1px solid rgba(33,29,23,.12);border-radius:18px;overflow:hidden;cursor:pointer">'
     if cmp_map_div in html:
-        html = html.replace(cmp_map_div, cmp_map_div +
-            '\n          <button onClick="{{ goAtlas }}" style="position:absolute;top:10px;right:10px;z-index:15;cursor:pointer;background:#211d17;color:#f4f1ea;border:none;border-radius:9px;padding:8px 14px;font-size:12.5px;font-family:inherit;font-weight:600;box-shadow:0 3px 12px rgba(33,29,23,.3)">⛶ Büyük atlas →</button>', 1)
-        natlas += 1
+        html = html.replace(cmp_map_div, cmp_map_new, 1); natlas += 1
     # breadcrumb etiketi (üst bar)
     html = html.replace("research:'/ araştırmacı', cognate:'/ kognat', sources:'/ kaynaklar' }",
                         "research:'/ araştırmacı', cognate:'/ kognat', sources:'/ kaynaklar', atlas:'/ harita' }", 1)
@@ -920,7 +920,7 @@ def main():
     deep_geo_new = (
         "    const _ns = [...c.nodes].sort((a,b)=>String(a.lang).localeCompare(String(b.lang),'tr'));\n"
         "    const n = _ns.length;\n"
-        "    const _r0 = n>24 ? 33 : n>12 ? 37 : 36, _alt = n>24 ? 7.5 : n>16 ? 9 : (n>12 ? 6 : 0), _rm = n>24 ? 3 : 2;\n"   # çok düğümde 3 halka, azda 2 halka — komşular radyal kayar, çakışmaz
+        "    const _r0 = n>26 ? 42 : n>12 ? 42 : 38, _alt = n>26 ? 7 : 0, _rm = n>26 ? 2 : 1;\n"   # graf büyütüldü → ≤26 düğüm TEK halka (derin 18 dahil); 32 düğümde 2 halka
         "    const _mw = n>24 ? 24 : n>12 ? 44 : 60, _pad = n>24 ? '3px 6px' : n>12 ? '4px 7px' : '8px 13px', _wf = n>24 ? 12 : n>12 ? 15 : 20;\n"
         "    const nodes = _ns.map((nd,i)=>{\n"
         "      const a = (-90 + i*(360/n))*Math.PI/180;\n"
@@ -982,7 +982,17 @@ def main():
     if '<span style="font-family:\'Spectral\',serif;font-size:19px;font-weight:700">{{ cognateProto }}</span>' in html:
         html = html.replace('<span style="font-family:\'Spectral\',serif;font-size:19px;font-weight:700">{{ cognateProto }}</span>',
                             '<span style="{{ cognateProtoStyle }}">{{ cognateProto }}</span>', 1); ndeep += 1
-    print(f"  ds18 Kognat 18-dil + ses-kurali dokumu + proto-fit + tablo başlık: {ndeep}/3 yama")
+    # GRAF BÜYÜTÜLDÜ: kutular tek halkaya sığsın (kullanıcı önerisi) — konteyner 460→600, merkez bubble 88→104
+    if 'position:relative;width:100%;max-width:460px;aspect-ratio:1/1;margin:0 auto' in html:
+        html = html.replace('position:relative;width:100%;max-width:460px;aspect-ratio:1/1;margin:0 auto',
+                            'position:relative;width:100%;max-width:600px;aspect-ratio:1/1;margin:0 auto', 1); ndeep += 1
+    if 'transform:translate(-50%,-50%);background:#d98b4a;color:#211d17;border-radius:50%;width:88px;height:88px;' in html:
+        html = html.replace('transform:translate(-50%,-50%);background:#d98b4a;color:#211d17;border-radius:50%;width:88px;height:88px;',
+                            'transform:translate(-50%,-50%);background:#d98b4a;color:#211d17;border-radius:50%;width:104px;height:104px;', 1); ndeep += 1
+    # graf sütununu üste hizala (büyük graf + kısa SES NOTU paneli dengeli dursun)
+    html = html.replace('grid-template-columns:1fr 290px;gap:24px;margin-top:22px;align-items:center',
+                        'grid-template-columns:1fr 280px;gap:24px;margin-top:22px;align-items:start', 1)
+    print(f"  ds18 Kognat: ses-kuralı dökümü + proto-fit + tablo başlık + GRAF büyütme (tek halka): {ndeep}/5 yama")
 
     # ---- ds17: Ses denklikleri 4 Çuvaş-merkezli kural → 7 kol-izoglosu (Çuvaş-ötesi) ----
     nsl = 0

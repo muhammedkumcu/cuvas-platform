@@ -752,7 +752,7 @@ def main():
         '      <section style="max-width:1340px;margin:0 auto;padding:26px 34px 70px">\n'
         '        <div style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">TÜRK DÜNYASI DİL ATLASI</div>\n'
         '        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin:6px 0 2px">\n'
-        '          <h2 style="font-family:\'Spectral\',serif;font-weight:600;font-size:34px;margin:0">Dil Atlası — tüm Türk dilleri</h2>\n'
+        '          <h2 style="font-family:\'Spectral\',serif;font-weight:600;font-size:36px;margin:0">Türk dilleri haritası</h2>\n'
         '          <button onClick="{{ goCompareMap }}" style="cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.18);border-radius:9px;padding:8px 14px;font-size:13px;font-family:inherit;color:#211d17">← Karşılaştır</button>\n'
         '        </div>\n'
         '        <p style="font-size:14.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 4px">Tüm Türk dilleri, lehçeleri ve tarihsel formları gerçek coğrafyada — denizler, dağlar, nehirler ve bilinen yer şekilleriyle. Bir bölgeye odaklan ya da <b>yakınlaştır</b> (+/−); yaklaştıkça isimler çakışmadan açılır. <b>Tarihsel/ölü diller</b> içi boş halka + italik.</p>\n'
@@ -1234,6 +1234,8 @@ def main():
                             "      homeCards, goHomeAnaliz:this.go('analiz'), goHomeCompare:this.go('compare'), "
                             "goHomeProfile:this.go('profile'), goHomeAtlas:this.go('atlas'), goHomeHeart:this.go('heart'),\n", 1); nhome += 1
     print(f"  Ana sayfa hero (akıllı arama + hızlı eylem + öne-çıkan): {nhome}/5 yama")
+    # küçük metin: "~MÖ 1.binyıl" → boşluklu ("1. binyıl" doğru kullanım = birinci binyıl)
+    html = html.replace("~MÖ 1.binyıl", "~MÖ 1. binyıl")
 
     # NOT: A2 (Karşılaştır başlık sekmeye-duyarlı) D-bloğunda compareHeadline tanımında yapılır (tek kaynak).
 

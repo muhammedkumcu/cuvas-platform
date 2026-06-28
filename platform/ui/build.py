@@ -876,6 +876,8 @@ def main():
     a1_ret_new = ("    return { cognateKeys:keys, cognateCats, cognateEmpty:keys.length===0, cognateQ:S.cognateQ||'',\n"
                   "      onCognateInput:(e)=>this.setState({cognateQ:e.target.value}),\n"
                   "      cognateGloss:c.gloss, cognateProto:c.proto, cognateNote:c.note, cognateNodes:nodes,\n"
+                  "      cognateProtoStyle:(\"font-family:'Spectral',serif;font-weight:700;line-height:1.05;text-align:center;color:#211d17;font-size:\"+((c.proto||'').length>11?'11px':(c.proto||'').length>6?'15px':'18px')),\n"
+                  "      cognateCol3:(S.cognateMode==='broad'?'Segment':'Ses kuralı'),\n"
                   "      cognateCells:cells, cognateGap:gaps, cognateCatName:(c.cat||''),\n"
                   "      cognateConcepticon:(c.concepticon!=null?('Concepticon '+c.concepticon):'') };")
     if a1_ret_old in html:
@@ -916,10 +918,13 @@ def main():
         "        langStyle:`font-size:10px;font-family:'IBM Plex Mono',monospace;color:${nd.shift?'rgba(244,241,234,.6)':'#9a9082'}` };\n"
         "    });")
     deep_geo_new = (
-        "    const n = c.nodes.length;\n"
-        "    const _r = n>12 ? 41 : 37, _mw = n>12 ? 46 : 62, _pad = n>12 ? '5px 8px' : '8px 13px', _wf = n>12 ? 15 : 20;\n"
-        "    const nodes = c.nodes.map((nd,i)=>{\n"
+        "    const _ns = [...c.nodes].sort((a,b)=>String(a.lang).localeCompare(String(b.lang),'tr'));\n"
+        "    const n = _ns.length;\n"
+        "    const _r0 = n>24 ? 33 : n>12 ? 37 : 36, _alt = n>24 ? 7.5 : n>16 ? 9 : (n>12 ? 6 : 0), _rm = n>24 ? 3 : 2;\n"   # çok düğümde 3 halka, azda 2 halka — komşular radyal kayar, çakışmaz
+        "    const _mw = n>24 ? 24 : n>12 ? 44 : 60, _pad = n>24 ? '3px 6px' : n>12 ? '4px 7px' : '8px 13px', _wf = n>24 ? 12 : n>12 ? 15 : 20;\n"
+        "    const nodes = _ns.map((nd,i)=>{\n"
         "      const a = (-90 + i*(360/n))*Math.PI/180;\n"
+        "      const _r = _r0 + (i%_rm)*_alt;\n"
         "      const xp = 50 + _r*Math.cos(a), yp = 50 + _r*Math.sin(a);\n"
         "      const col = this.BRANCHCOLOR[nd.branch] || '#7d6a55';\n"
         "      return { lang:nd.lang, word:this.disp(nd.word, null, nd.lang==='Çuvaşça'?'chv':'gen'), branch:nd.branch, shift:!!nd.shift,\n"
@@ -928,10 +933,10 @@ def main():
         "        edgeWidth: nd.shift ? '2' : '1.3', edgeDash: nd.shift ? '5,4' : '0',\n"
         "        nodeStyle:`position:absolute;left:${xp.toFixed(2)}%;top:${yp.toFixed(2)}%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;background:${nd.shift?'#211d17':'#fff'};border:2px solid ${col};border-radius:11px;padding:${_pad};min-width:${_mw}px;box-shadow:0 3px 10px rgba(33,29,23,.1);z-index:2`,\n"
         "        wordStyle:`font-family:'Spectral',serif;font-size:${_wf}px;font-weight:700;color:${nd.shift?'#f4f1ea':'#211d17'}`,\n"
-        "        langStyle:`font-size:9px;font-family:'IBM Plex Mono',monospace;color:${nd.shift?'rgba(244,241,234,.6)':'#9a9082'}` };\n"
+        "        langStyle:`font-size:${n>24?'7px':'9px'};font-family:'IBM Plex Mono',monospace;color:${nd.shift?'rgba(244,241,234,.6)':'#9a9082'};white-space:nowrap` };\n"
         "    });\n"
-        "    const gaps = c.nodes.filter(nd=>nd.shift).map(nd=>nd.lang);\n"
-        "    const cells = c.nodes.map(nd=>{ const col=this.BRANCHCOLOR[nd.branch]||'#7d6a55';\n"
+        "    const gaps = _ns.filter(nd=>nd.shift).map(nd=>nd.lang);\n"
+        "    const cells = _ns.map(nd=>{ const col=this.BRANCHCOLOR[nd.branch]||'#7d6a55';\n"
         "      const fd = (nd.native && nd.native!==nd.word) ? (nd.native+' · '+nd.word) : nd.word;\n"
         "      return { lang:nd.lang, branch:nd.branch, form:fd, rule:(nd.rule||''), shift:!!nd.shift, dotColor:col,\n"
         "        rowStyle:`display:grid;grid-template-columns:132px minmax(96px,1fr) 1.4fr;gap:10px;align-items:baseline;padding:7px 12px;border-radius:9px;background:${nd.shift?'rgba(217,139,74,.10)':'#fbfaf6'};border:1px solid ${nd.shift?'rgba(217,139,74,.35)':'rgba(33,29,23,.07)'}`,\n"
@@ -956,6 +961,9 @@ def main():
         '            <span style="font-family:\'Spectral\',serif;font-weight:600;font-size:21px;color:#211d17">Dil dil ses kuralı</span>\n'
         '            <span style="font-size:12.5px;color:#9a9082">{{ cognateConcepticon }} · Proto {{ cognateProto }} · {{ cognateCatName }}</span>\n'
         '          </div>\n'
+        '          <div style="display:grid;grid-template-columns:132px minmax(96px,1fr) 1.4fr;gap:10px;padding:0 12px 7px;font-family:\'IBM Plex Mono\',monospace;font-size:10.5px;letter-spacing:.8px;color:#9a9082;border-bottom:1px solid rgba(33,29,23,.08);margin-bottom:6px">\n'
+        '            <span>DİL</span><span>BİÇİM</span><span>{{ cognateCol3 }}</span>\n'
+        '          </div>\n'
         '          <div style="display:flex;flex-direction:column;gap:5px">\n'
         '            <sc-for list="{{ cognateCells }}" as="c" hint-placeholder-count="6">\n'
         '              <div style="{{ c.rowStyle }}">\n'
@@ -965,12 +973,16 @@ def main():
         '              </div>\n'
         '            </sc-for>\n'
         '          </div>\n'
-        '          <div style="margin-top:10px;font-size:12px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace">Turuncu satır = kognat boşluğu (farklı kök / alıntı). 18 dil · 6 kol · yerel yazı + ses kuralı.</div>\n'
+        '          <div style="margin-top:10px;font-size:12px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace"><b style="color:#b8602e">Turuncu satır</b> = kognat boşluğu: o dil bu kavramı farklı bir kökten (ya da alıntıdan) karşılar — yani ortak atadan gelmez.</div>\n'
         '        </div>\n'
         '      </section>')
     if deep_mk_old in html:
         html = html.replace(deep_mk_old, deep_mk_new, 1); ndeep += 1
-    print(f"  ds18 Kognat 18-dil + ses-kurali dokumu: {ndeep}/2 yama (geometri, tablo)")
+    # proto-fonem bubble: uzun protolar (ör. *baĺč / *baš, *kümüĺ) daireye sığsın diye responsive font
+    if '<span style="font-family:\'Spectral\',serif;font-size:19px;font-weight:700">{{ cognateProto }}</span>' in html:
+        html = html.replace('<span style="font-family:\'Spectral\',serif;font-size:19px;font-weight:700">{{ cognateProto }}</span>',
+                            '<span style="{{ cognateProtoStyle }}">{{ cognateProto }}</span>', 1); ndeep += 1
+    print(f"  ds18 Kognat 18-dil + ses-kurali dokumu + proto-fit + tablo başlık: {ndeep}/3 yama")
 
     # ---- ds17: Ses denklikleri 4 Çuvaş-merkezli kural → 7 kol-izoglosu (Çuvaş-ötesi) ----
     nsl = 0
@@ -1164,12 +1176,8 @@ def main():
     # tablo başlığı: sabit "Dil dil ses kuralı" → dinamik
     if '>Dil dil ses kuralı</span>' in html:
         html = html.replace('>Dil dil ses kuralı</span>', '>{{ cognateTableTitle }}</span>', 1); nbr += 1
-    # geometri: 3. kademe (n>24 → 32 düğüme kadar broad için daha geniş yarıçap/küçük düğüm)
-    geo3_old = "    const _r = n>12 ? 41 : 37, _mw = n>12 ? 46 : 62, _pad = n>12 ? '5px 8px' : '8px 13px', _wf = n>12 ? 15 : 20;"
-    geo3_new = "    const _r = n>24 ? 44 : n>12 ? 41 : 37, _mw = n>24 ? 38 : n>12 ? 46 : 62, _pad = n>12 ? '5px 8px' : '8px 13px', _wf = n>24 ? 13 : n>12 ? 15 : 20;"
-    if geo3_old in html:
-        html = html.replace(geo3_old, geo3_new, 1); nbr += 1
-    print(f"  Kognat GENİŞ (Savelyev 254) lazy-fetch + Derin/Geniş toggle: {nbr}/12 yama")
+    # NOT: geometri kademeleri (n>24/n>12) + alternatif yarıçap artık deep_geo_new'de (R4) — ayrı geo3 yaması yok.
+    print(f"  Kognat GENİŞ (Savelyev 254) lazy-fetch + Derin/Geniş toggle: {nbr}/11 yama")
 
     # ---- Ana sayfa hero: akıllı arama (dil→profil, kavram→kognat, kelime→analiz) + hızlı eylemler ----
     nhome = 0

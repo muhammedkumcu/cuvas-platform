@@ -928,7 +928,7 @@
             </svg>
             <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#d98b4a;color:#211d17;border-radius:50%;width:88px;height:88px;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3;box-shadow:0 4px 16px rgba(217,139,74,.4)">
               <span style="font-size:9px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px">ANA TÜRKÇE</span>
-              <span style="font-family:'Spectral',serif;font-size:19px;font-weight:700">{{ cognateProto }}</span>
+              <span style="{{ cognateProtoStyle }}">{{ cognateProto }}</span>
             </div>
             <sc-for list="{{ cognateNodes }}" as="n">
               <div style="{{ n.nodeStyle }}"><span style="{{ n.wordStyle }}">{{ n.word }}</span><span style="{{ n.langStyle }}">{{ n.lang }}</span></div>
@@ -950,6 +950,9 @@
             <span style="font-family:'Spectral',serif;font-weight:600;font-size:21px;color:#211d17">{{ cognateTableTitle }}</span>
             <span style="font-size:12.5px;color:#9a9082">{{ cognateConcepticon }} · Proto {{ cognateProto }} · {{ cognateCatName }}</span>
           </div>
+          <div style="display:grid;grid-template-columns:132px minmax(96px,1fr) 1.4fr;gap:10px;padding:0 12px 7px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.8px;color:#9a9082;border-bottom:1px solid rgba(33,29,23,.08);margin-bottom:6px">
+            <span>DİL</span><span>BİÇİM</span><span>{{ cognateCol3 }}</span>
+          </div>
           <div style="display:flex;flex-direction:column;gap:5px">
             <sc-for list="{{ cognateCells }}" as="c" hint-placeholder-count="6">
               <div style="{{ c.rowStyle }}">
@@ -959,7 +962,7 @@
               </div>
             </sc-for>
           </div>
-          <div style="margin-top:10px;font-size:12px;color:#9a9082;font-family:'IBM Plex Mono',monospace">Turuncu satır = kognat boşluğu (farklı kök / alıntı). 18 dil · 6 kol · yerel yazı + ses kuralı.</div>
+          <div style="margin-top:10px;font-size:12px;color:#9a9082;font-family:'IBM Plex Mono',monospace"><b style="color:#b8602e">Turuncu satır</b> = kognat boşluğu: o dil bu kavramı farklı bir kökten (ya da alıntıdan) karşılar — yani ortak atadan gelmez.</div>
         </div>
       </section>
       </sc-if>
@@ -2303,10 +2306,13 @@ class Component extends DCLogic {
       return { key:k, label:v.gloss, sel, go:()=>this.setState({cognateKey:k}),
         style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:18px;padding:7px 16px;font-size:14px;font-family:'Spectral',serif;font-weight:600` };
     });
-    const n = c.nodes.length;
-    const _r = n>24 ? 44 : n>12 ? 41 : 37, _mw = n>24 ? 38 : n>12 ? 46 : 62, _pad = n>12 ? '5px 8px' : '8px 13px', _wf = n>24 ? 13 : n>12 ? 15 : 20;
-    const nodes = c.nodes.map((nd,i)=>{
+    const _ns = [...c.nodes].sort((a,b)=>String(a.lang).localeCompare(String(b.lang),'tr'));
+    const n = _ns.length;
+    const _r0 = n>24 ? 33 : n>12 ? 37 : 36, _alt = n>24 ? 7.5 : n>16 ? 9 : (n>12 ? 6 : 0), _rm = n>24 ? 3 : 2;
+    const _mw = n>24 ? 24 : n>12 ? 44 : 60, _pad = n>24 ? '3px 6px' : n>12 ? '4px 7px' : '8px 13px', _wf = n>24 ? 12 : n>12 ? 15 : 20;
+    const nodes = _ns.map((nd,i)=>{
       const a = (-90 + i*(360/n))*Math.PI/180;
+      const _r = _r0 + (i%_rm)*_alt;
       const xp = 50 + _r*Math.cos(a), yp = 50 + _r*Math.sin(a);
       const col = this.BRANCHCOLOR[nd.branch] || '#7d6a55';
       return { lang:nd.lang, word:this.disp(nd.word, null, nd.lang==='Çuvaşça'?'chv':'gen'), branch:nd.branch, shift:!!nd.shift,
@@ -2315,10 +2321,10 @@ class Component extends DCLogic {
         edgeWidth: nd.shift ? '2' : '1.3', edgeDash: nd.shift ? '5,4' : '0',
         nodeStyle:`position:absolute;left:${xp.toFixed(2)}%;top:${yp.toFixed(2)}%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;background:${nd.shift?'#211d17':'#fff'};border:2px solid ${col};border-radius:11px;padding:${_pad};min-width:${_mw}px;box-shadow:0 3px 10px rgba(33,29,23,.1);z-index:2`,
         wordStyle:`font-family:'Spectral',serif;font-size:${_wf}px;font-weight:700;color:${nd.shift?'#f4f1ea':'#211d17'}`,
-        langStyle:`font-size:9px;font-family:'IBM Plex Mono',monospace;color:${nd.shift?'rgba(244,241,234,.6)':'#9a9082'}` };
+        langStyle:`font-size:${n>24?'7px':'9px'};font-family:'IBM Plex Mono',monospace;color:${nd.shift?'rgba(244,241,234,.6)':'#9a9082'};white-space:nowrap` };
     });
-    const gaps = c.nodes.filter(nd=>nd.shift).map(nd=>nd.lang);
-    const cells = c.nodes.map(nd=>{ const col=this.BRANCHCOLOR[nd.branch]||'#7d6a55';
+    const gaps = _ns.filter(nd=>nd.shift).map(nd=>nd.lang);
+    const cells = _ns.map(nd=>{ const col=this.BRANCHCOLOR[nd.branch]||'#7d6a55';
       const fd = (nd.native && nd.native!==nd.word) ? (nd.native+' · '+nd.word) : nd.word;
       return { lang:nd.lang, branch:nd.branch, form:fd, rule:(nd.rule||''), shift:!!nd.shift, dotColor:col,
         rowStyle:`display:grid;grid-template-columns:132px minmax(96px,1fr) 1.4fr;gap:10px;align-items:baseline;padding:7px 12px;border-radius:9px;background:${nd.shift?'rgba(217,139,74,.10)':'#fbfaf6'};border:1px solid ${nd.shift?'rgba(217,139,74,.35)':'rgba(33,29,23,.07)'}`,
@@ -2329,6 +2335,8 @@ class Component extends DCLogic {
     return { ..._modeVals, cognateKeys:keys, cognateCats, cognateEmpty:keys.length===0, cognateQ:S.cognateQ||'',
       onCognateInput:(e)=>this.setState({cognateQ:e.target.value}),
       cognateGloss:c.gloss, cognateProto:c.proto, cognateNote:c.note, cognateNodes:nodes,
+      cognateProtoStyle:("font-family:'Spectral',serif;font-weight:700;line-height:1.05;text-align:center;color:#211d17;font-size:"+((c.proto||'').length>11?'11px':(c.proto||'').length>6?'15px':'18px')),
+      cognateCol3:(S.cognateMode==='broad'?'Segment':'Ses kuralı'),
       cognateCells:cells, cognateGap:gaps, cognateCatName:(c.cat||''),
       cognateConcepticon:(c.concepticon!=null?('Concepticon '+c.concepticon):'') };
   }

@@ -2886,6 +2886,101 @@ def main():
                             "if(s==='analiz' && (this.state.query||'').trim()) this.runAnalyze();", 1); nb1 += 1
     print(f"  B1 Analiz girisi dogrudan analize (runAnalyze): {nb1}/4 yama")
 
+    # ============================================================
+    #  G1 — "KALİTE & KAPSAM" sayfası (morfoloji ölçümleri; dürüst, kaynaklı, eksen-ayrımlı)
+    #  Veri: platform/backend/segment_eval.py (round-trip, 28 Haz) + unimorph_eval.py (UniMorph doğruluk,
+    #  N=1500, 28 Haz) — canlı VM'e karşı. 3 EKSEN AYRI: tutarlılık ≠ doğruluk ≠ olgunluk. Uydurma yok.
+    # ============================================================
+    # code, ad, tier, round-trip yeniden-üretim%, UniMorph (lemma%,tanıma%) | yoksa sebep
+    QUALITY_DATA = [
+        ("tur", "Türkçe", "production", 94.8, (96.4, 63.1)),
+        ("kaz", "Kazakça", "production", 95.2, (99.7, 80.1)),
+        ("tat", "Tatarca", "production", 95.2, "UniMorph Latin ↔ FST Kiril (yazı uyumsuz)"),
+        ("aze", "Azerbaycanca", "stable", 95.2, (91.1, 10.5)),
+        ("kir", "Kırgızca", "stable", 95.2, "UniMorph yalnız fiil (isim gold yok)"),
+        ("uzb", "Özbekçe", "stable", 95.2, (100.0, 63.8)),
+        ("bak", "Başkurtça", "beta", 95.2, (99.6, 91.5)),
+        ("chv", "Çuvaşça", "beta", 94.4, "UniMorph yok (dış gold yok)"),
+        ("crh", "Kırım Tatarcası", "beta", 95.2, "UniMorph yok"),
+        ("tuk", "Türkmence", "beta", 95.2, "UniMorph yok"),
+        ("uig", "Uygurca", "beta", 94.2, "UniMorph Latin ↔ FST Arap (yazı uyumsuz)"),
+        ("sah", "Sahaca (Yakut)", "prototype", 92.6, (100.0, 97.1)),
+        ("alt", "Altayca", "prototype", 94.1, "UniMorph yok"),
+        ("gag", "Gagavuzca", "prototype", 95.2, "UniMorph yok"),
+        ("kaa", "Karakalpakça", "prototype", 95.2, "UniMorph yok"),
+        ("kjh", "Hakasça", "prototype", 95.0, "UniMorph yok"),
+        ("krc", "Karaçay-Balkar", "prototype", 95.2, "UniMorph yok"),
+        ("kum", "Kumukça", "prototype", 95.2, "UniMorph yok"),
+        ("nog", "Nogayca", "prototype", 95.2, "UniMorph yok"),
+        ("tyv", "Tuvaca", "prototype", 95.2, "UniMorph yok"),
+    ]
+    TIER_COL = {"production": "#3f8a5c", "stable": "#2f7f8a", "beta": "#c08a3a", "prototype": "#9a8f82"}
+    TIER_TR = {"production": "üretim", "stable": "kararlı", "beta": "beta", "prototype": "prototip"}
+
+    def _q_rows():
+        out = ""
+        for code, name, tier, recon, um in QUALITY_DATA:
+            tcol = TIER_COL[tier]
+            badge = (f'<span style="display:inline-block;font-family:\'IBM Plex Mono\',monospace;font-size:10px;'
+                     f'letter-spacing:.5px;color:#fff;background:{tcol};border-radius:5px;padding:2px 7px">{TIER_TR[tier]}</span>')
+            if isinstance(um, tuple):
+                umcell = (f'<b style="color:#211d17">{um[0]:.0f}%</b> '
+                          f'<span style="color:#9a9082;font-size:12px">lemma · {um[1]:.0f}% tanıma</span>')
+            else:
+                umcell = f'<span style="color:#b3a99c;font-size:12.5px">— {um}</span>'
+            out += (
+                '<tr style="border-top:1px solid rgba(33,29,23,.07)">'
+                f'<td style="padding:11px 14px"><span style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;color:#211d17">{name}</span> '
+                f'<span style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#9a9082">{code}</span><br>{badge}</td>'
+                f'<td style="padding:11px 14px;text-align:center"><span style="font-family:\'Spectral\',serif;font-weight:600;font-size:17px;color:#3f8a5c">{recon:.1f}%</span></td>'
+                f'<td style="padding:11px 14px">{umcell}</td>'
+                '</tr>')
+        return out
+
+    G1_SCREEN = (
+        '      <sc-if value="{{ isQuality }}" hint-placeholder-val="{{ false }}">\n'
+        '      <section style="max-width:1000px;margin:0 auto;padding:34px 40px 70px">\n'
+        "        <div style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a\">KALİTE & KAPSAM</div>\n"
+        "        <h2 style=\"font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 8px\">Morfoloji ne kadar iyi çalışıyor?</h2>\n"
+        '        <p style="font-size:15px;line-height:1.7;color:#5f574b;max-width:80ch;margin:0 0 6px">20 Türk dilinde analiz/üretim/paradigma motorunun ölçülmüş başarısı. İddia değil <b>ölçüm</b>: her sayı, çalıştırılabilir bir betikten ve canlı FST\'den gelir. Üç ekseni <b>ayrı</b> tutarız.</p>\n'
+        # 3 eksen açıklama kutusu
+        '        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 8px">\n'
+        '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:14px 16px"><div style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;margin-bottom:4px">Tutarlılık</div><div style="font-size:12.5px;line-height:1.5;color:#5f574b">Üret→çöz→üret aynı sonucu veriyor mu (round-trip). FST\'nin kendi içinde tutarlılığı.</div></div>\n'
+        '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:14px 16px"><div style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;margin-bottom:4px">Doğruluk</div><div style="font-size:12.5px;line-height:1.5;color:#5f574b">İnsan-küratörlü <b>UniMorph</b> gold\'una karşı: çözüm doğru mu (lemmatizasyon). Bağımsız, döngüsel değil.</div></div>\n'
+        '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:14px 16px"><div style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;margin-bottom:4px">Olgunluk</div><div style="font-size:12.5px;line-height:1.5;color:#5f574b">Apertium FST kalite seviyesi (üretim/kararlı/beta/prototip). Prototip düşük kapsam = olgunluk, hata değil.</div></div>\n'
+        '        </div>\n'
+        # tablo
+        '        <div style="margin-top:20px;background:#fff;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">\n'
+        '        <table style="width:100%;border-collapse:collapse;font-family:inherit">\n'
+        '          <thead><tr style="background:#211d17;color:#f4f1ea">'
+        "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">DİL · OLGUNLUK</th>"
+        "            <th style=\"text-align:center;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">TUTARLILIK<br><span style=\"opacity:.6\">round-trip</span></th>"
+        "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">DOĞRULUK<br><span style=\"opacity:.6\">UniMorph gold</span></th>"
+        '          </tr></thead>\n'
+        '          <tbody>' + _q_rows() + '</tbody>\n'
+        '        </table>\n'
+        '        </div>\n'
+        # dürüstlük notları
+        '        <div style="margin-top:16px;background:#fbf3ea;border:1px solid rgba(217,139,74,.3);border-radius:12px;padding:15px 18px;font-size:13px;line-height:1.6;color:#6b4f33">\n'
+        '          <b>Dürüst okuma.</b> <b>Tutarlılık</b> 20 dilde %92–95 (yüzey ekleri geri yapıştırınca biçim aynı). <b>Doğruluk</b> yalnız UniMorph gold\'u olan + yazısı uyuşan dillerde ölçülebildi; oralarda lemma doğruluğu <b>%91–100</b> — yani <b>FST çözdüğünde doğru çözüyor</b>. <b>Tanıma%</b> (kapsam) sözlük büyüklüğü ve yazı uyumuyla sınırlı (ayrı eksen). Çuvaşça\'da UniMorph yok; Tatarca/Uygurca UniMorph farklı yazıda; bunlar dürüstçe işaretli. <b>Korpus kapsamı (Leipzig/Common Voice)</b> sıradaki ölçüm.\n'
+        '        </div>\n'
+        '        <div style="margin-top:14px;font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;line-height:1.6">Kaynak: round-trip = <b>segment_eval.py</b> · doğruluk = <b>unimorph_eval.py</b> (N=1500, UniMorph 4.0 insan-gold) · olgunluk = apertium/turkicnlp catalog · canlı Apertium FST (GPL-3.0). Ölçüm: 28 Haz 2026. Betikler depoda, tekrar-üretilebilir.</div>\n'
+        '      </section>\n'
+        '      </sc-if>\n')
+    g1_anchor = "      <!-- ===================== TARİH & KÖKEN ===================== -->"
+    ng1 = 1 if g1_anchor in html else 0
+    html = html.replace(g1_anchor, G1_SCREEN + "\n" + g1_anchor, 1)
+    # nav (ARAŞTIR grubu, Ekosistem'den sonra)
+    ng1nav = 0
+    if "      {id:'eco', label:'Ekosistem'},\n" in html:
+        html = html.replace("      {id:'eco', label:'Ekosistem'},\n",
+                            "      {id:'eco', label:'Ekosistem'},\n      {id:'quality', label:'Kalite & Kapsam'},\n", 1); ng1nav = 1
+    # renderVals
+    ng1v = 0
+    if "isAbout:S.screen==='about'," in html:
+        html = html.replace("isAbout:S.screen==='about',", "isAbout:S.screen==='about', isQuality:S.screen==='quality',", 1); ng1v = 1
+    print(f"  G1 KALITE & KAPSAM sayfasi: ekran={ng1} nav={ng1nav} renderVals={ng1v} ({len(QUALITY_DATA)} dil)")
+
     # ── R-AÇIKLAMA: her sayfaya "Bu sayfa ne anlatıyor?" bölümü (Kognat'taki desenin aynısı) ──
     # nedir / neyi gösterir / neden önemli + kaynak satırı. Doğal Türkçe; ekranın <section> kapanışından önce girer.
     def _help_block(paras, source):
@@ -2943,6 +3038,11 @@ def main():
             "<b>Nasıl kullanılır?</b> Bir kök yaz, dilini seç, İsim ya da Fiil moduna geç ve öznitelikleri tıkla. “Üret” dediğinde sonuç ortaya çıkar ve hemen eklerine bölünüp gösterilir — ör. <i>ev + çokluk + iyelik(benim) + bulunma → evlerimde</i>.",
             "<b>Neden önemli?</b> Bir biçimi tanımak başka, onu sıfırdan <b>kurabilmek</b> başkadır. Üretim, eklemeli morfolojinin mantığını etkin biçimde öğretir; her dilin hangi birleşimleri ürettiğini (ve üretmediğini) dürüstçe gösterir.",
         ], "Apertium FST üretimi (autogen) · canlı /generate ucu · üretilen biçim /segment ile bölünür"),
+        "isQuality": ([
+            "<b>Ölçüm, iddia değil.</b> Bu sayfa 20 Türk dilinde morfoloji motorunun başarısını gerçek sayılarla gösterir; her rakam depodaki çalıştırılabilir bir betikten ve canlı FST’den gelir. Akademik dürüstlük için üç ekseni <b>ayrı</b> tutarız.",
+            "<b>Üç eksen neden ayrı?</b> <i>Tutarlılık</i> motorun kendi içinde çelişmediğini (üret→çöz round-trip); <i>doğruluk</i> insan-küratörlü UniMorph gold’una uyduğunu; <i>olgunluk</i> ise FST’nin geliştirme seviyesini ölçer. Bunları karıştırmak yanıltıcı olur — düşük kapsam çoğu zaman sözlük olgunluğudur, motor hatası değil.",
+            "<b>Neden önemli?</b> Bir platformun “çalışıyor” demesi kolaydır; <b>ne kadar</b> çalıştığını kaynaklı ve tekrar-üretilebilir biçimde göstermek araştırmacı güveninin temelidir. Boşluklar (gold yok, yazı uyumsuz) gizlenmez, işaretlenir.",
+        ], "Veri: segment_eval.py (round-trip) + unimorph_eval.py (UniMorph 4.0 gold, N=1500) · canlı Apertium FST · ölçüm 28 Haz 2026"),
         "isResearch": ([
             "<b>Çözümlemeyi dışa aktar.</b> Bir sözcük yaz, dilini seç; Apertium FST motoru onu çözer ve sonucu <b>JSON · CoNLL-U · CSV</b> olarak indirip kopyalayabilirsin — kaynak ve lisans alanlarıyla.",
             "<b>Kimin için?</b> Çıktıyı kendi çalışmasına taşımak isteyen araştırmacı için: sonuç makine-okunur ve alıntılanabilir. Sağdaki “Açık API” kutusu, ileride yayımlanacak genel REST ucunun taslağıdır (şu an yerel/geliştirme).",

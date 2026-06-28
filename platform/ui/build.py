@@ -1627,21 +1627,10 @@ def main():
     live.append((
         "  active(){ return this.WORDS[this.state.activeWordId]; }",
         "  active(){ return this.state.activeWordId==='__api' && this.state.apiWord ? this.state.apiWord : this.WORDS[this.state.activeWordId]; }"))
-    # 5) runSearch(): eşleşme yoksa canlı /analyze; "auto" ise /analyze_all (multi-dil) — apiWordFrom ortak
-    live.append((
-        "  runSearch(){\n"
-        "    const q = (this.state.query||'').trim().toLowerCase();\n"
-        "    if (!q) return;\n"
-        "    for (const id in this.WORDS){ const w = this.WORDS[id];\n"
-        "      if ([w.gloss, w.surface, w.translit].some(s=>String(s).toLowerCase().includes(q))){\n"
-        "        this.setState({ screen:'analiz', activeWordId:id, selMorphIdx:0, stripCount:0 }); return; } }\n"
-        "  }",
-        "  runSearch(){\n"
-        "    const q = (this.state.query||'').trim().toLowerCase();\n"
-        "    if (!q) return;\n"
-        "    for (const id in this.WORDS){ const w = this.WORDS[id];\n"
-        "      if ([w.gloss, w.surface, w.translit].some(s=>String(s).toLowerCase().includes(q))){\n"
-        "        this.setState({ screen:'analiz', activeWordId:id, selMorphIdx:0, stripCount:0 }); return; } }\n"
+    # 5) runSearch(): HERO akıllı yönlendirici (rs_new) + eşleşme yoksa CANLI /analyze (auto→/analyze_all).
+    #    HERO rs_old→rs_new'i zaten yaptı; burada rs_new'in "analiz'e geç" kuyruğunu canlı /analyze ile değiştiriyoruz.
+    #    (Eskiden orijinal runSearch'e anchor'lıydı; HERO onu değiştirince kırılmıştı → rs_new'e taşındı.)
+    _analyze_tail = (
         "    const word = (this.state.query||'').trim(); const lg = this.state.searchLang||'chv';\n"
         "    if (lg==='auto'){\n"
         "      fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{\n"
@@ -1654,8 +1643,8 @@ def main():
         "    }\n"
         "    fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{\n"
         "      this.setState({ apiWord:this.apiWordFrom(lg, word, d.analyses), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0 });\n"
-        "    }).catch(()=>{});\n"
-        "  }"))
+        "    }).catch(()=>{});\n")
+    live.append((rs_new, rs_new.replace("    this.setState({screen:'analiz'});\n  }", _analyze_tail + "  }")))
     # 6) USAGE: paradigma demo'dan çıktı (canlı FST)
     live.append(("    {mod:'Paradigma Gezgini', srcs:['fst','unimorph','demo']},",
                  "    {mod:'Paradigma Gezgini', srcs:['fst','unimorph']},"))
@@ -1737,8 +1726,9 @@ def main():
     else:
         print("  ! onParadigmFreeKey eşleşmedi")
 
-    # methods: runParadigm (auto) + runCompare — runSearch'ten ÖNCE
-    m_anchor = "  runSearch(){\n    const q = (this.state.query||'').trim().toLowerCase();\n    if (!q) return;\n    for (const id in this.WORDS){ const w = this.WORDS[id];"
+    # methods: runParadigm (auto) + runCompare — kararlı active() metodunun ÖNÜNE (eskiden orijinal
+    # runSearch'e anchor'lıydı; HERO runSearch'i yeniden yazınca kırıldı → active()'e taşındı).
+    m_anchor = "  active(){ return this.state.activeWordId==='__api' && this.state.apiWord ? this.state.apiWord : this.WORDS[this.state.activeWordId]; }"
     m_new = (
         "  runParadigm(lemma){\n"
         "    const fp=(l)=>fetch(this.KOKEN_API+'/paradigm/'+l+'/'+encodeURIComponent(lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma, lang:l, langName:(this.LIVE_LN[l]||l), rows:(d.noun&&d.noun.rows)||d.rows||[], verb:(d.verb&&d.verb.tenses)||[]}})).catch(()=>{});\n"
@@ -2698,6 +2688,162 @@ def main():
         "isAbout:S.screen==='about', isHeart:S.screen==='heart', heartLearn:this.go('learn'), heartProfile:()=>this.setState({screen:'profile',profileSel:'chv'}), heartCognate:this.go('cognate'), heartCompare:this.go('compare'),", 1)
     print(f"  Çuvaşça Dilin Kalbi (3.1): ekran={nheart}, ses={len(SES)} özg={len(OZG)} tarih={len(TARIH)}")
 
+    # ============================================================
+    #  C2 — MORFOLOJİK ÜRETEÇ (analizin tersi): kök + öznitelik → /generate → yüzey biçim
+    #  Backend /generate (autogen FST) zaten var. İsim: lemma<n>[<pl>][<px>]<case> (her dilde sağlam);
+    #  Fiil: lemma<v><tv|iv><zaman><kişi><sayı> (desteklenen yerde üretir, gerisi dürüst "üretilemedi").
+    #  Üretilen biçim ardından /segment ile eklerine bölünür (reçete → biçim → ekler döngüsü).
+    # ============================================================
+    GEN_LANGS = [("chv", "Çuvaşça"), ("tur", "Türkçe"), ("tat", "Tatarca"), ("bak", "Başkurtça"),
+                 ("kaz", "Kazakça"), ("kir", "Kırgızca"), ("uzb", "Özbekçe"), ("uig", "Uygurca"),
+                 ("aze", "Azerice"), ("sah", "Yakutça")]
+    genlangopts = "".join('<option value="%s">%s</option>' % (c, n) for c, n in GEN_LANGS)
+    INPG = ("padding:11px 14px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;"
+            "font-size:15px;font-family:inherit;color:#211d17;outline:none")
+    LBLG = "font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;min-width:62px"
+
+    def _featrow(label, forname):
+        return ('        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:14px">\n'
+                '          <span style="' + LBLG + '">' + label + '</span>\n'
+                '          <sc-for list="{{ ' + forname + ' }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.go }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>\n'
+                '        </div>\n')
+    GEN_SCREEN = (
+        '      <sc-if value="{{ isGenerate }}" hint-placeholder-val="{{ false }}">\n'
+        '      <section style="max-width:1000px;margin:0 auto;padding:34px 40px 70px">\n'
+        "        <div style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a\">ÜRETEÇ</div>\n"
+        "        <h2 style=\"font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 8px\">Morfolojik üretim</h2>\n"
+        '        <p style="font-size:15px;line-height:1.7;color:#5f574b;max-width:78ch;margin:0 0 4px">Analizin tersi: bir kök seç, üstüne dilbilgisi özniteliklerini ekle — Apertium sonlu-durum dilbilgisi (FST) doğru yüzey biçimini senin için kursun.</p>\n'
+        '        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:22px 0 0">\n'
+        '          <input value="{{ genLemma }}" onInput="{{ onGenLemma }}" onKeyDown="{{ onGenLemmaKey }}" placeholder="Bir kök yaz (ör. ev · хӗр) — sonra öznitelik seç" style="flex:1;min-width:240px;max-width:400px;' + INPG + '">\n'
+        '          <select value="{{ genLang }}" onInput="{{ onGenLang }}" title="Üretim dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:10px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:160px">' + genlangopts + '</select>\n'
+        '          <button onClick="{{ runGen }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:14px;font-family:inherit;font-weight:600">▷ Üret</button>\n'
+        '        </div>\n'
+        '        <div style="margin-top:12px;display:flex;gap:9px;flex-wrap:wrap;align-items:center">\n'
+        '          <span style="' + LBLG + '">ÖRNEKLER</span>\n'
+        '          <sc-for list="{{ genExamples }}" as="e" hint-placeholder-count="5"><button onClick="{{ e.go }}" style="{{ e.style }}"><span style="font-family:\'Spectral\',serif;font-weight:600;font-size:14px">{{ e.label }}</span><span style="{{ e.glossStyle }}">{{ e.kind }}</span></button></sc-for>\n'
+        '        </div>\n'
+        '        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:24px">\n'
+        '          <span style="' + LBLG + '">TÜR</span>\n'
+        '          <sc-for list="{{ genPosTabs }}" as="o" hint-placeholder-count="2"><button onClick="{{ o.go }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>\n'
+        '        </div>\n'
+        '        <sc-if value="{{ genIsNoun }}" hint-placeholder-val="{{ false }}">\n'
+        + _featrow("SAYI", "genNums")
+        + _featrow("İYELİK", "genPxs")
+        + _featrow("HÂL", "genCases")
+        + '        </sc-if>\n'
+        '        <sc-if value="{{ genIsVerb }}" hint-placeholder-val="{{ false }}">\n'
+        + _featrow("ZAMAN", "genTenses")
+        + _featrow("KİŞİ", "genPersons")
+        + _featrow("SAYI", "genVNums")
+        + '        </sc-if>\n'
+        '        <sc-if value="{{ genHasResult }}" hint-placeholder-val="{{ false }}">\n'
+        '        <div style="margin-top:26px;background:#211d17;color:#f4f1ea;border-radius:18px;padding:26px 30px">\n'
+        '          <div style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;color:rgba(244,241,234,.6);letter-spacing:.5px">{{ genRecipe }} · {{ genLangName }}</div>\n'
+        '          <div style="font-family:\'Spectral\',serif;font-weight:600;font-size:46px;line-height:1.12;margin:8px 0 6px">{{ genForm }}</div>\n'
+        '          <div style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;color:rgba(244,241,234,.45)">{{ genQuery }}</div>\n'
+        '          <sc-if value="{{ genAltShow }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:rgba(244,241,234,.6);margin-top:8px">başka biçimler: {{ genAlt }}</div></sc-if>\n'
+        '          <sc-if value="{{ genHasMorph }}" hint-placeholder-val="{{ false }}">\n'
+        '          <div style="margin-top:16px;padding-top:15px;border-top:1px dashed rgba(244,241,234,.18);display:flex;gap:8px;flex-wrap:wrap;align-items:center">\n'
+        '            <span style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:rgba(244,241,234,.5);letter-spacing:.5px">EKLER</span>\n'
+        '            <sc-for list="{{ genMorphemes }}" as="m" hint-placeholder-count="3"><span style="{{ m.style }}"><span style="font-family:\'Spectral\',serif;font-weight:600">{{ m.text }}</span><span style="opacity:.7;margin-left:7px">{{ m.feat }}</span></span></sc-for>\n'
+        '          </div>\n'
+        '          </sc-if>\n'
+        '        </div>\n'
+        '        </sc-if>\n'
+        '        <sc-if value="{{ genEmpty }}" hint-placeholder-val="{{ false }}">\n'
+        '        <div style="margin-top:26px;background:#fbf3ea;border:1px solid rgba(217,139,74,.35);border-radius:14px;padding:18px 22px;font-size:14px;line-height:1.6;color:#7a5230">\n'
+        '          <b>{{ genLemma }}</b> kökü bu dilde <b>{{ genRecipe }}</b> birleşimini doğrudan üretmedi. Bazı diller belirli zaman/kişi eklerini kopula gibi farklı yollarla kurar — başka bir birleşim ya da dil dene. <span style="font-family:\'IBM Plex Mono\',monospace;font-size:11.5px;color:#9a9082">({{ genQuery }})</span>\n'
+        '        </div>\n'
+        '        </sc-if>\n'
+        '      </section>\n'
+        '      </sc-if>\n')
+    gen_anchor = "      <!-- ===================== TARİH & KÖKEN ===================== -->"
+    ngen = 1 if gen_anchor in html else 0
+    html = html.replace(gen_anchor, GEN_SCREEN + "\n" + gen_anchor, 1)
+    # nav öğesi (ANALİZ grubu, Paradigma Gezgini'nin altına)
+    ngennav = 0
+    nav_par = "      {id:'paradigm', label:'Paradigma Gezgini'},\n"
+    if nav_par in html:
+        html = html.replace(nav_par, nav_par + "      {id:'generate', label:'Üreteç'},\n", 1); ngennav = 1
+    # methods: runGenerate + _genFetch (mevcut runParadigm'in hemen önüne)
+    gen_method = (
+        "  runGenerate(){\n"
+        "    const S=this.state; const lg=S.genLang||'chv'; const lemma=(S.genLemma||'').trim(); if(!lemma) return;\n"
+        "    const CT={nom:'yalın',gen:'ilgi',dat:'yönelme',acc:'belirtme',loc:'bulunma',abl:'ayrılma',ins:'araç'};\n"
+        "    const PT={px1sg:'iyelik(benim)',px2sg:'iyelik(senin)',px3sp:'iyelik(onun)'};\n"
+        "    const TT={pres:'şimdiki/geniş',past:'geçmiş',ifi:'görülen geçmiş',fut:'gelecek',aor:'geniş',cond:'şart'};\n"
+        "    const PR={p1:'1.',p2:'2.',p3:'3.'};\n"
+        "    let queries, recipe;\n"
+        "    if((S.genPos||'n')==='n'){\n"
+        "      const num=S.genNum||'sg', px=S.genPx||'', cs=S.genCase||'nom';\n"
+        "      queries=[lemma+'<n>'+(num==='pl'?'<pl>':'')+(px?('<'+px+'>'):'')+'<'+cs+'>'];\n"
+        "      recipe=['isim',(num==='pl'?'çokluk':''),(px?PT[px]:''),CT[cs]].filter(Boolean).join(' · ');\n"
+        "    } else {\n"
+        "      const tn=S.genTense||'past', pr=S.genPerson||'p1', vn=S.genVNum||'sg';\n"
+        "      queries=[lemma+'<v><tv><'+tn+'><'+pr+'><'+vn+'>', lemma+'<v><iv><'+tn+'><'+pr+'><'+vn+'>'];\n"
+        "      recipe=['fiil',TT[tn],PR[pr]+(vn==='pl'?' çoğul':' tekil')].filter(Boolean).join(' · ');\n"
+        "    }\n"
+        "    this._genFetch(lg, queries, recipe, lemma);\n"
+        "  }\n"
+        "  _genFetch(lg, queries, recipe, lemma){\n"
+        "    const ln=(this.LIVE_LN[lg]||lg);\n"
+        "    const tryQ=(i)=>{\n"
+        "      if(i>=queries.length){ this.setState({genResult:{empty:true, recipe, query:queries[0], lemma, langName:ln}}); return; }\n"
+        "      fetch(this.KOKEN_API+'/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg, query:queries[i]})}).then(r=>r.json()).then(d=>{\n"
+        "        const forms=(d&&d.forms)||[]; if(!forms.length){ tryQ(i+1); return; }\n"
+        "        const surf=forms[0].surface, q=queries[i], alt=forms.slice(1).map(f=>f.surface);\n"
+        "        const done=(ms)=>this.setState({genResult:{empty:false, form:surf, alt, recipe, query:q, lemma, langName:ln, morphemes:ms}});\n"
+        "        fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg, word:surf})}).then(r=>r.json()).then(s=>done((s&&s.morphemes)||null)).catch(()=>done(null));\n"
+        "      }).catch(()=>{ tryQ(i+1); });\n"
+        "    };\n"
+        "    tryQ(0);\n"
+        "  }\n"
+        "  runParadigm(lemma){")
+    ngenm = 0
+    if "  runParadigm(lemma){" in html:
+        html = html.replace("  runParadigm(lemma){", gen_method, 1); ngenm = 1
+    # renderVals: isGenerate + seçici dizileri (isAbout bayrağının yanına)
+    EX = ("[{lang:'chv',lemma:'хӗр',pos:'n'},{lang:'tur',lemma:'ev',pos:'n'},"
+          "{lang:'kaz',lemma:'бала',pos:'n'},{lang:'tur',lemma:'gel',pos:'v',t:'ifi'},"
+          "{lang:'chv',lemma:'вула',pos:'v',t:'past'}]")
+
+    def CM(field, arr, sv, dv):
+        cond = "((S." + sv + ("||'" + dv + "'" if dv != "" else "||''") + ")===o[0])"
+        return (field + ":" + arr + ".map(o=>({label:o[1], go:()=>this.setState({" + sv + ":o[0]}), "
+                "style:`cursor:pointer;border:1.5px solid ${" + cond + "?'#211d17':'rgba(33,29,23,.16)'};"
+                "background:${" + cond + "?'#211d17':'#fff'};color:${" + cond + "?'#f4f1ea':'#211d17'};"
+                "border-radius:9px;padding:7px 13px;font-size:12.5px;font-family:inherit`})), ")
+    gen_vals = (
+        "isGenerate:S.screen==='generate', "
+        "genLemma:S.genLemma||'', genLang:S.genLang||'chv', genIsNoun:(S.genPos||'n')==='n', genIsVerb:S.genPos==='v', "
+        "onGenLemma:(e)=>this.setState({genLemma:e.target.value}), onGenLemmaKey:(e)=>{ if(e.key==='Enter') this.runGenerate(); }, "
+        "onGenLang:(e)=>this.setState({genLang:e.target.value}), runGen:()=>this.runGenerate(), "
+        "genPosTabs:[['n','İsim'],['v','Fiil']].map(o=>({label:o[1], go:()=>this.setState({genPos:o[0]}), "
+        "style:`cursor:pointer;border:1.5px solid ${((S.genPos||'n')===o[0])?'#211d17':'rgba(33,29,23,.16)'};"
+        "background:${((S.genPos||'n')===o[0])?'#211d17':'#fff'};color:${((S.genPos||'n')===o[0])?'#f4f1ea':'#211d17'};"
+        "border-radius:9px;padding:8px 18px;font-size:13.5px;font-weight:600;font-family:inherit`})), "
+        + CM("genNums", "[['sg','Tekil'],['pl','Çoğul']]", "genNum", "sg")
+        + CM("genPxs", "[['','—'],['px1sg','+benim'],['px2sg','+senin'],['px3sp','+onun']]", "genPx", "")
+        + CM("genCases", "[['nom','Yalın'],['gen','İlgi'],['dat','Yönelme'],['acc','Belirtme'],['loc','Bulunma'],['abl','Ayrılma'],['ins','Araç']]", "genCase", "nom")
+        + CM("genTenses", "[['pres','Şimdiki/geniş'],['ifi','Görülen geçmiş'],['past','Geçmiş'],['fut','Gelecek'],['aor','Geniş'],['cond','Şart']]", "genTense", "past")
+        + CM("genPersons", "[['p1','1. kişi'],['p2','2. kişi'],['p3','3. kişi']]", "genPerson", "p1")
+        + CM("genVNums", "[['sg','Tekil'],['pl','Çoğul']]", "genVNum", "sg")
+        + "genExamples:" + EX + ".map(e=>({ label:e.lemma, kind:(this.LIVE_LN[e.lang]||e.lang)+(e.pos==='v'?' · fiil':''), "
+        "glossStyle:'font-size:10.5px;color:#9a9082;margin-left:7px', "
+        "go:()=>{ const st={genLang:e.lang, genLemma:e.lemma, genPos:e.pos}; if(e.pos==='v'){ st.genTense=e.t||'past'; st.genPerson='p1'; st.genVNum='sg'; } else { st.genNum='sg'; st.genPx=''; st.genCase='nom'; } this.setState(st); setTimeout(()=>this.runGenerate(),0); }, "
+        "style:'cursor:pointer;display:inline-flex;align-items:center;border:1.5px solid rgba(33,29,23,.14);background:#fff;border-radius:11px;padding:8px 13px;font-family:inherit' })), "
+        "genHasResult:!!(S.genResult&&!S.genResult.empty), genEmpty:!!(S.genResult&&S.genResult.empty), "
+        "genForm:(S.genResult&&S.genResult.form)||'', genRecipe:(S.genResult&&S.genResult.recipe)||'', "
+        "genQuery:(S.genResult&&S.genResult.query)||'', genLangName:(S.genResult&&S.genResult.langName)||'', "
+        "genAlt:((S.genResult&&S.genResult.alt)||[]).join(', '), genAltShow:!!(S.genResult&&S.genResult.alt&&S.genResult.alt.length), "
+        "genHasMorph:!!(S.genResult&&S.genResult.morphemes&&S.genResult.morphemes.length), "
+        "genMorphemes:((S.genResult&&S.genResult.morphemes)||[]).map((m,i)=>({text:m.surface, feat:m.feat, "
+        "style:`display:inline-flex;align-items:center;background:${i===0?'rgba(244,241,234,.16)':'rgba(217,139,74,.22)'};border-radius:13px;padding:4px 12px;font-size:13px;color:#f4f1ea`})), ")
+    ngenv = 0
+    if "isAbout:S.screen==='about'," in html:
+        html = html.replace("isAbout:S.screen==='about',", "isAbout:S.screen==='about', " + gen_vals, 1); ngenv = 1
+    print(f"  C2 URETEC (uretim arayuzu): ekran={ngen} nav={ngennav} method={ngenm} renderVals={ngenv}")
+
     # ── R-AÇIKLAMA: her sayfaya "Bu sayfa ne anlatıyor?" bölümü (Kognat'taki desenin aynısı) ──
     # nedir / neyi gösterir / neden önemli + kaynak satırı. Doğal Türkçe; ekranın <section> kapanışından önce girer.
     def _help_block(paras, source):
@@ -2750,6 +2896,11 @@ def main():
             "<b>Tabloyu okumak.</b> Satır ve sütunlar dilbilgisel boyutları (hâl, sayı, kişi, zaman) gösterir; her hücre o birleşimin gerçek yüzey biçimidir. “Tabloyu kopyala” ile dışarı alabilirsin.",
             "<b>Neden önemli?</b> Bir kelimeyi görmek başka, onun <b>tüm biçimlerini</b> sistematik görmek başkadır. Paradigma, bir dilin morfolojik mantığını bütün hâlinde ortaya koyar.",
         ], "Apertium FST üretimi · canlı /paradigm ucu"),
+        "isGenerate": ([
+            "<b>Analizin tersi.</b> Morfolojik analiz bir kelimeyi parçalarına ayırır; üreteç tam tersini yapar: sen bir kök ve dilbilgisi özniteliklerini (çokluk, iyelik, hâl — ya da zaman, kişi) seçersin, Apertium sonlu-durum dilbilgisi (FST) doğru yüzey biçimini kurar.",
+            "<b>Nasıl kullanılır?</b> Bir kök yaz, dilini seç, İsim ya da Fiil moduna geç ve öznitelikleri tıkla. “Üret” dediğinde sonuç ortaya çıkar ve hemen eklerine bölünüp gösterilir — ör. <i>ev + çokluk + iyelik(benim) + bulunma → evlerimde</i>.",
+            "<b>Neden önemli?</b> Bir biçimi tanımak başka, onu sıfırdan <b>kurabilmek</b> başkadır. Üretim, eklemeli morfolojinin mantığını etkin biçimde öğretir; her dilin hangi birleşimleri ürettiğini (ve üretmediğini) dürüstçe gösterir.",
+        ], "Apertium FST üretimi (autogen) · canlı /generate ucu · üretilen biçim /segment ile bölünür"),
         "isResearch": ([
             "<b>Çözümlemeyi dışa aktar.</b> Bir sözcük yaz, dilini seç; Apertium FST motoru onu çözer ve sonucu <b>JSON · CoNLL-U · CSV</b> olarak indirip kopyalayabilirsin — kaynak ve lisans alanlarıyla.",
             "<b>Kimin için?</b> Çıktıyı kendi çalışmasına taşımak isteyen araştırmacı için: sonuç makine-okunur ve alıntılanabilir. Sağdaki “Açık API” kutusu, ileride yayımlanacak genel REST ucunun taslağıdır (şu an yerel/geliştirme).",

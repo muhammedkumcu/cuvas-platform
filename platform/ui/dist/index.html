@@ -1176,6 +1176,83 @@
 </section>
       </sc-if>
 
+      <sc-if value="{{ isGenerate }}" hint-placeholder-val="{{ false }}">
+      <section style="max-width:1000px;margin:0 auto;padding:34px 40px 70px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">ÜRETEÇ</div>
+        <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 8px">Morfolojik üretim</h2>
+        <p style="font-size:15px;line-height:1.7;color:#5f574b;max-width:78ch;margin:0 0 4px">Analizin tersi: bir kök seç, üstüne dilbilgisi özniteliklerini ekle — Apertium sonlu-durum dilbilgisi (FST) doğru yüzey biçimini senin için kursun.</p>
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:22px 0 0">
+          <input value="{{ genLemma }}" onInput="{{ onGenLemma }}" onKeyDown="{{ onGenLemmaKey }}" placeholder="Bir kök yaz (ör. ev · хӗр) — sonra öznitelik seç" style="flex:1;min-width:240px;max-width:400px;padding:11px 14px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
+          <select value="{{ genLang }}" onInput="{{ onGenLang }}" title="Üretim dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:10px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:160px"><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="aze">Azerice</option><option value="sah">Yakutça</option></select>
+          <button onClick="{{ runGen }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:14px;font-family:inherit;font-weight:600">▷ Üret</button>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:9px;flex-wrap:wrap;align-items:center">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;min-width:62px">ÖRNEKLER</span>
+          <sc-for list="{{ genExamples }}" as="e" hint-placeholder-count="5"><button onClick="{{ e.go }}" style="{{ e.style }}"><span style="font-family:'Spectral',serif;font-weight:600;font-size:14px">{{ e.label }}</span><span style="{{ e.glossStyle }}">{{ e.kind }}</span></button></sc-for>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:24px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;min-width:62px">TÜR</span>
+          <sc-for list="{{ genPosTabs }}" as="o" hint-placeholder-count="2"><button onClick="{{ o.go }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+        </div>
+        <sc-if value="{{ genIsNoun }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:14px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;min-width:62px">SAYI</span>
+          <sc-for list="{{ genNums }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.go }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:14px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;min-width:62px">İYELİK</span>
+          <sc-for list="{{ genPxs }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.go }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:14px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;min-width:62px">HÂL</span>
+          <sc-for list="{{ genCases }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.go }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+        </div>
+        </sc-if>
+        <sc-if value="{{ genIsVerb }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:14px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;min-width:62px">ZAMAN</span>
+          <sc-for list="{{ genTenses }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.go }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:14px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;min-width:62px">KİŞİ</span>
+          <sc-for list="{{ genPersons }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.go }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:14px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;min-width:62px">SAYI</span>
+          <sc-for list="{{ genVNums }}" as="o" hint-placeholder-count="4"><button onClick="{{ o.go }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>
+        </div>
+        </sc-if>
+        <sc-if value="{{ genHasResult }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:26px;background:#211d17;color:#f4f1ea;border-radius:18px;padding:26px 30px">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(244,241,234,.6);letter-spacing:.5px">{{ genRecipe }} · {{ genLangName }}</div>
+          <div style="font-family:'Spectral',serif;font-weight:600;font-size:46px;line-height:1.12;margin:8px 0 6px">{{ genForm }}</div>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(244,241,234,.45)">{{ genQuery }}</div>
+          <sc-if value="{{ genAltShow }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:rgba(244,241,234,.6);margin-top:8px">başka biçimler: {{ genAlt }}</div></sc-if>
+          <sc-if value="{{ genHasMorph }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:16px;padding-top:15px;border-top:1px dashed rgba(244,241,234,.18);display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(244,241,234,.5);letter-spacing:.5px">EKLER</span>
+            <sc-for list="{{ genMorphemes }}" as="m" hint-placeholder-count="3"><span style="{{ m.style }}"><span style="font-family:'Spectral',serif;font-weight:600">{{ m.text }}</span><span style="opacity:.7;margin-left:7px">{{ m.feat }}</span></span></sc-for>
+          </div>
+          </sc-if>
+        </div>
+        </sc-if>
+        <sc-if value="{{ genEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="margin-top:26px;background:#fbf3ea;border:1px solid rgba(217,139,74,.35);border-radius:14px;padding:18px 22px;font-size:14px;line-height:1.6;color:#7a5230">
+          <b>{{ genLemma }}</b> kökü bu dilde <b>{{ genRecipe }}</b> birleşimini doğrudan üretmedi. Bazı diller belirli zaman/kişi eklerini kopula gibi farklı yollarla kurar — başka bir birleşim ya da dil dene. <span style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:#9a9082">({{ genQuery }})</span>
+        </div>
+        </sc-if>
+              <div style="margin-top:34px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:24px 28px">
+          <div style="font-family:'Spectral',serif;font-weight:600;font-size:20px;margin-bottom:12px">Bu sayfa ne anlatıyor?</div>
+          <div style="font-size:14px;line-height:1.7;color:#3f3a32;display:flex;flex-direction:column;gap:11px">
+            <p style="margin:0"><b>Analizin tersi.</b> Morfolojik analiz bir kelimeyi parçalarına ayırır; üreteç tam tersini yapar: sen bir kök ve dilbilgisi özniteliklerini (çokluk, iyelik, hâl — ya da zaman, kişi) seçersin, Apertium sonlu-durum dilbilgisi (FST) doğru yüzey biçimini kurar.</p>
+            <p style="margin:0"><b>Nasıl kullanılır?</b> Bir kök yaz, dilini seç, İsim ya da Fiil moduna geç ve öznitelikleri tıkla. “Üret” dediğinde sonuç ortaya çıkar ve hemen eklerine bölünüp gösterilir — ör. <i>ev + çokluk + iyelik(benim) + bulunma → evlerimde</i>.</p>
+            <p style="margin:0"><b>Neden önemli?</b> Bir biçimi tanımak başka, onu sıfırdan <b>kurabilmek</b> başkadır. Üretim, eklemeli morfolojinin mantığını etkin biçimde öğretir; her dilin hangi birleşimleri ürettiğini (ve üretmediğini) dürüstçe gösterir.</p>
+          </div>
+          <div style="margin-top:15px;font-size:11.5px;color:#9a9082;font-family:'IBM Plex Mono',monospace">Apertium FST üretimi (autogen) · canlı /generate ucu · üretilen biçim /segment ile bölünür</div>
+        </div>
+</section>
+      </sc-if>
+
       <!-- ===================== TARİH & KÖKEN ===================== -->
       <sc-if value="{{ isHistory }}" hint-placeholder-val="{{ false }}">
       <section style="max-width:900px;margin:0 auto;padding:34px 40px 70px">
@@ -1906,6 +1983,7 @@ class Component extends DCLogic {
     {group:'ANALİZ', items:[
       {id:'analiz', label:'Morfolojik Analiz'},
       {id:'paradigm', label:'Paradigma Gezgini'},
+      {id:'generate', label:'Üreteç'},
       {id:'cognate', label:'Kognat Ağı'},
       {id:'compare', label:'Karşılaştır'},
       {id:'distance', label:'Uzaklık Gezgini'},
@@ -2115,11 +2193,84 @@ class Component extends DCLogic {
     const ce=Object.entries(this.COGNATES||{}); const cm=ce.find(([k,v])=>n(v.gloss)===q)||(q.length>=3&&ce.find(([k,v])=>n(v.gloss).startsWith(q)));
     if(cm){ this.setState({screen:'cognate', cognateMode:'deep', cognateKey:cm[0], cognateCat:'all', cognateQ:''}); return; }
     for(const id in this.WORDS){ const w=this.WORDS[id]; if([w.gloss,w.surface,w.translit].some(s=>n(s).includes(q))){ this.setState({screen:'analiz', activeWordId:id, selMorphIdx:0, stripCount:0}); return; } }
-    this.setState({screen:'analiz'});
+    const word = (this.state.query||'').trim(); const lg = this.state.searchLang||'chv';
+    if (lg==='auto'){
+      fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{
+        const langs=d.langs||{}; const codes=Object.keys(langs);
+        if (!codes.length){ this.setState({ apiWord:this.apiWordFrom('chv', word, null), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0 }); return; }
+        const first=codes[0];
+        this.setState({ apiAllLangs:langs, apiMatchCodes:codes, apiMatchLang:first, apiWord:this.apiWordFrom(first, word, langs[first]), activeWordId:'__api', screen:'analiz', selMorphIdx:0, stripCount:0 });
+        this.applySegment(first, word);
+      }).catch(()=>{});
+      return;
+    }
+    fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{
+      this.setState({ apiWord:this.apiWordFrom(lg, word, d.analyses), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0 });
+      this.applySegment(lg, word);
+    }).catch(()=>{});
   }
   atlasPanStart(e){ const z=(this.state.atlasZoom||1); if(z<=1.01)return; const t=e.currentTarget; this._pan={x:e.clientX,y:e.clientY,cx:(this.state.atlasCx||50),cy:(this.state.atlasCy||45),w:(t&&t.clientWidth)||800,h:(t&&t.clientHeight)||500}; }
   atlasPanMove(e){ if(!this._pan)return; const z=(this.state.atlasZoom||1); const lo=50/z, hi=100-50/z; const dx=e.clientX-this._pan.x, dy=e.clientY-this._pan.y; const cx=Math.max(lo,Math.min(hi,this._pan.cx - dx*100/(this._pan.w*z))); const cy=Math.max(lo,Math.min(hi,this._pan.cy - dy*100/(this._pan.h*z))); this.setState({atlasCx:cx,atlasCy:cy}); }
   atlasPanEnd(){ this._pan=null; }
+  applySegment(lg, word){
+    if(!lg || lg==='auto' || !word) return;
+    fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{
+      if(!d || !d.morphemes || !d.morphemes.length) return;
+      const ms = d.morphemes.map((m,i)=>({ text:m.surface, tag:m.tag, type:m.type||'kök', label:(i===0?'kök':'ek')+' · '+m.feat, gloss:m.feat, gItem:m.surface, note:(i===0?'Apertium çözümlemesinin köküdür.':('Apertium üretiminden çıkarılan yüzey eki — işlevi: '+m.feat+'.')) }));
+      this.setState(s=>{ if(!s.apiWord || s.apiWord.surface!==word) return {}; return { apiWord: Object.assign({}, s.apiWord, {morphemes: ms, soundChanges: d.sound_changes||[], forms: d.forms||null}) }; });
+    }).catch(()=>{});
+  }
+  runGenerate(){
+    const S=this.state; const lg=S.genLang||'chv'; const lemma=(S.genLemma||'').trim(); if(!lemma) return;
+    const CT={nom:'yalın',gen:'ilgi',dat:'yönelme',acc:'belirtme',loc:'bulunma',abl:'ayrılma',ins:'araç'};
+    const PT={px1sg:'iyelik(benim)',px2sg:'iyelik(senin)',px3sp:'iyelik(onun)'};
+    const TT={pres:'şimdiki/geniş',past:'geçmiş',ifi:'görülen geçmiş',fut:'gelecek',aor:'geniş',cond:'şart'};
+    const PR={p1:'1.',p2:'2.',p3:'3.'};
+    let queries, recipe;
+    if((S.genPos||'n')==='n'){
+      const num=S.genNum||'sg', px=S.genPx||'', cs=S.genCase||'nom';
+      queries=[lemma+'<n>'+(num==='pl'?'<pl>':'')+(px?('<'+px+'>'):'')+'<'+cs+'>'];
+      recipe=['isim',(num==='pl'?'çokluk':''),(px?PT[px]:''),CT[cs]].filter(Boolean).join(' · ');
+    } else {
+      const tn=S.genTense||'past', pr=S.genPerson||'p1', vn=S.genVNum||'sg';
+      queries=[lemma+'<v><tv><'+tn+'><'+pr+'><'+vn+'>', lemma+'<v><iv><'+tn+'><'+pr+'><'+vn+'>'];
+      recipe=['fiil',TT[tn],PR[pr]+(vn==='pl'?' çoğul':' tekil')].filter(Boolean).join(' · ');
+    }
+    this._genFetch(lg, queries, recipe, lemma);
+  }
+  _genFetch(lg, queries, recipe, lemma){
+    const ln=(this.LIVE_LN[lg]||lg);
+    const tryQ=(i)=>{
+      if(i>=queries.length){ this.setState({genResult:{empty:true, recipe, query:queries[0], lemma, langName:ln}}); return; }
+      fetch(this.KOKEN_API+'/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg, query:queries[i]})}).then(r=>r.json()).then(d=>{
+        const forms=(d&&d.forms)||[]; if(!forms.length){ tryQ(i+1); return; }
+        const surf=forms[0].surface, q=queries[i], alt=forms.slice(1).map(f=>f.surface);
+        const done=(ms)=>this.setState({genResult:{empty:false, form:surf, alt, recipe, query:q, lemma, langName:ln, morphemes:ms}});
+        fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg, word:surf})}).then(r=>r.json()).then(s=>done((s&&s.morphemes)||null)).catch(()=>done(null));
+      }).catch(()=>{ tryQ(i+1); });
+    };
+    tryQ(0);
+  }
+  runParadigm(lemma){
+    const fp=(l)=>fetch(this.KOKEN_API+'/paradigm/'+l+'/'+encodeURIComponent(lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma, lang:l, langName:(this.LIVE_LN[l]||l), rows:(d.noun&&d.noun.rows)||d.rows||[], verb:(d.verb&&d.verb.tenses)||[]}})).catch(()=>{});
+    const lg=this.state.searchLang;
+    if(lg && lg!=='auto'){ fp(lg); }
+    else { fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word:lemma})}).then(r=>r.json()).then(d=>{ const c=Object.keys(d.langs||{}); fp(c[0]||'chv'); }).catch(()=>{}); }
+  }
+  runCompare(word, srcLang){
+    const run=(src)=>{
+      fetch(this.KOKEN_API+'/crosslang',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:src,word})}).then(r=>r.json()).then(d=>{
+        const results=(d.results&&d.results.length)?d.results:[{lang:src,surface:word,self:true}];
+        Promise.all(results.map(rr=>fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:rr.lang,word:rr.surface})}).then(r=>r.json()).then(s=>[rr.lang,{surface:rr.surface,lemma:rr.lemma,self:!!rr.self,morphemes:(s&&s.morphemes)||null}]).catch(()=>[rr.lang,{surface:rr.surface,lemma:rr.lemma,self:!!rr.self,morphemes:null}]))).then(pairs=>{
+          const rows={}; pairs.forEach(p=>{rows[p[0]]=p[1];}); const sr=(rows[src]&&rows[src].morphemes)||[];
+          const selfM = sr.length ? sr.map((m,i)=>({text:m.surface, tag:m.tag, type:m.type||'kök', label:(i===0?'kök':'ek')+' · '+m.feat, gloss:m.feat, gItem:m.surface, note:''})) : [{text:word, tag:'KÖK', type:'kök', label:'kök', gloss:'', gItem:word, note:''}];
+          this.setState({ apiWord:{lang:'cv', langName:(this.LIVE_LN[src]||src)+' · canlı', surface:word, translit:'', gloss:'', morphemes:selfM, cognates:[]}, activeWordId:'__api', apiMatchLang:src, compareApi:{word, src, rows}, screen:'compare', compareTab:'rows', selMorphIdx:0, stripCount:0 });
+        });
+      }).catch(()=>{});
+    };
+    if(srcLang && srcLang!=='auto'){ run(srcLang); return; }
+    fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{ const c=Object.keys(d.langs||{}); run(c[0]||'tur'); }).catch(()=>{});
+  }
   active(){ return this.state.activeWordId==='__api' && this.state.apiWord ? this.state.apiWord : this.WORDS[this.state.activeWordId]; }
 
   styleBlock(type, selected){
@@ -2261,7 +2412,7 @@ class Component extends DCLogic {
       hubXp:S.xp, hubDoneCount:S.completed.length, hubTotal:this.LESSONS.length,
       ...this.modeVals(),
       isHome:S.screen==='home', isAnaliz:S.screen==='analiz', isCompare:S.screen==='compare', isLearn:S.screen==='learn',
-      isDistance:S.screen==='distance', isProfile:S.screen==='profile', isHistory:S.screen==='history', isAbout:S.screen==='about', isHeart:S.screen==='heart', heartLearn:this.go('learn'), heartProfile:()=>this.setState({screen:'profile',profileSel:'chv'}), heartCognate:this.go('cognate'), heartCompare:this.go('compare'), isParadigm:S.screen==='paradigm', isResearch:S.screen==='research', isEco:S.screen==='eco', ecoTabs:this.ECOCATMETA.map(c=>({title:c.title, go:()=>this.setState({ecoCat:c.key}), style:((S.ecoCat||'llm')===c.key?"cursor:pointer;background:#211d17;color:#f4f1ea;border:1px solid #211d17;border-radius:8px;padding:6px 11px;font-size:11.5px;font-family:'IBM Plex Mono',monospace":"cursor:pointer;background:transparent;color:#5f574b;border:1px solid rgba(33,29,23,.2);border-radius:8px;padding:6px 11px;font-size:11.5px;font-family:'IBM Plex Mono',monospace")})), eco_llm:(S.ecoCat||'llm')==='llm', eco_encoder:S.ecoCat==='encoder', eco_asr:S.ecoCat==='asr', eco_tts:S.ecoCat==='tts', eco_data:S.ecoCat==='data', eco_bench:S.ecoCat==='bench', eco_tools:S.ecoCat==='tools', eco_orgs:S.ecoCat==='orgs', eco_discover:S.ecoCat==='discover', isCognate:S.screen==='cognate',
+      isDistance:S.screen==='distance', isProfile:S.screen==='profile', isHistory:S.screen==='history', isAbout:S.screen==='about', isGenerate:S.screen==='generate', genLemma:S.genLemma||'', genLang:S.genLang||'chv', genIsNoun:(S.genPos||'n')==='n', genIsVerb:S.genPos==='v', onGenLemma:(e)=>this.setState({genLemma:e.target.value}), onGenLemmaKey:(e)=>{ if(e.key==='Enter') this.runGenerate(); }, onGenLang:(e)=>this.setState({genLang:e.target.value}), runGen:()=>this.runGenerate(), genPosTabs:[['n','İsim'],['v','Fiil']].map(o=>({label:o[1], go:()=>this.setState({genPos:o[0]}), style:`cursor:pointer;border:1.5px solid ${((S.genPos||'n')===o[0])?'#211d17':'rgba(33,29,23,.16)'};background:${((S.genPos||'n')===o[0])?'#211d17':'#fff'};color:${((S.genPos||'n')===o[0])?'#f4f1ea':'#211d17'};border-radius:9px;padding:8px 18px;font-size:13.5px;font-weight:600;font-family:inherit`})), genNums:[['sg','Tekil'],['pl','Çoğul']].map(o=>({label:o[1], go:()=>this.setState({genNum:o[0]}), style:`cursor:pointer;border:1.5px solid ${((S.genNum||'sg')===o[0])?'#211d17':'rgba(33,29,23,.16)'};background:${((S.genNum||'sg')===o[0])?'#211d17':'#fff'};color:${((S.genNum||'sg')===o[0])?'#f4f1ea':'#211d17'};border-radius:9px;padding:7px 13px;font-size:12.5px;font-family:inherit`})), genPxs:[['','—'],['px1sg','+benim'],['px2sg','+senin'],['px3sp','+onun']].map(o=>({label:o[1], go:()=>this.setState({genPx:o[0]}), style:`cursor:pointer;border:1.5px solid ${((S.genPx||'')===o[0])?'#211d17':'rgba(33,29,23,.16)'};background:${((S.genPx||'')===o[0])?'#211d17':'#fff'};color:${((S.genPx||'')===o[0])?'#f4f1ea':'#211d17'};border-radius:9px;padding:7px 13px;font-size:12.5px;font-family:inherit`})), genCases:[['nom','Yalın'],['gen','İlgi'],['dat','Yönelme'],['acc','Belirtme'],['loc','Bulunma'],['abl','Ayrılma'],['ins','Araç']].map(o=>({label:o[1], go:()=>this.setState({genCase:o[0]}), style:`cursor:pointer;border:1.5px solid ${((S.genCase||'nom')===o[0])?'#211d17':'rgba(33,29,23,.16)'};background:${((S.genCase||'nom')===o[0])?'#211d17':'#fff'};color:${((S.genCase||'nom')===o[0])?'#f4f1ea':'#211d17'};border-radius:9px;padding:7px 13px;font-size:12.5px;font-family:inherit`})), genTenses:[['pres','Şimdiki/geniş'],['ifi','Görülen geçmiş'],['past','Geçmiş'],['fut','Gelecek'],['aor','Geniş'],['cond','Şart']].map(o=>({label:o[1], go:()=>this.setState({genTense:o[0]}), style:`cursor:pointer;border:1.5px solid ${((S.genTense||'past')===o[0])?'#211d17':'rgba(33,29,23,.16)'};background:${((S.genTense||'past')===o[0])?'#211d17':'#fff'};color:${((S.genTense||'past')===o[0])?'#f4f1ea':'#211d17'};border-radius:9px;padding:7px 13px;font-size:12.5px;font-family:inherit`})), genPersons:[['p1','1. kişi'],['p2','2. kişi'],['p3','3. kişi']].map(o=>({label:o[1], go:()=>this.setState({genPerson:o[0]}), style:`cursor:pointer;border:1.5px solid ${((S.genPerson||'p1')===o[0])?'#211d17':'rgba(33,29,23,.16)'};background:${((S.genPerson||'p1')===o[0])?'#211d17':'#fff'};color:${((S.genPerson||'p1')===o[0])?'#f4f1ea':'#211d17'};border-radius:9px;padding:7px 13px;font-size:12.5px;font-family:inherit`})), genVNums:[['sg','Tekil'],['pl','Çoğul']].map(o=>({label:o[1], go:()=>this.setState({genVNum:o[0]}), style:`cursor:pointer;border:1.5px solid ${((S.genVNum||'sg')===o[0])?'#211d17':'rgba(33,29,23,.16)'};background:${((S.genVNum||'sg')===o[0])?'#211d17':'#fff'};color:${((S.genVNum||'sg')===o[0])?'#f4f1ea':'#211d17'};border-radius:9px;padding:7px 13px;font-size:12.5px;font-family:inherit`})), genExamples:[{lang:'chv',lemma:'хӗр',pos:'n'},{lang:'tur',lemma:'ev',pos:'n'},{lang:'kaz',lemma:'бала',pos:'n'},{lang:'tur',lemma:'gel',pos:'v',t:'ifi'},{lang:'chv',lemma:'вула',pos:'v',t:'past'}].map(e=>({ label:e.lemma, kind:(this.LIVE_LN[e.lang]||e.lang)+(e.pos==='v'?' · fiil':''), glossStyle:'font-size:10.5px;color:#9a9082;margin-left:7px', go:()=>{ const st={genLang:e.lang, genLemma:e.lemma, genPos:e.pos}; if(e.pos==='v'){ st.genTense=e.t||'past'; st.genPerson='p1'; st.genVNum='sg'; } else { st.genNum='sg'; st.genPx=''; st.genCase='nom'; } this.setState(st); setTimeout(()=>this.runGenerate(),0); }, style:'cursor:pointer;display:inline-flex;align-items:center;border:1.5px solid rgba(33,29,23,.14);background:#fff;border-radius:11px;padding:8px 13px;font-family:inherit' })), genHasResult:!!(S.genResult&&!S.genResult.empty), genEmpty:!!(S.genResult&&S.genResult.empty), genForm:(S.genResult&&S.genResult.form)||'', genRecipe:(S.genResult&&S.genResult.recipe)||'', genQuery:(S.genResult&&S.genResult.query)||'', genLangName:(S.genResult&&S.genResult.langName)||'', genAlt:((S.genResult&&S.genResult.alt)||[]).join(', '), genAltShow:!!(S.genResult&&S.genResult.alt&&S.genResult.alt.length), genHasMorph:!!(S.genResult&&S.genResult.morphemes&&S.genResult.morphemes.length), genMorphemes:((S.genResult&&S.genResult.morphemes)||[]).map((m,i)=>({text:m.surface, feat:m.feat, style:`display:inline-flex;align-items:center;background:${i===0?'rgba(244,241,234,.16)':'rgba(217,139,74,.22)'};border-radius:13px;padding:4px 12px;font-size:13px;color:#f4f1ea`})),  isHeart:S.screen==='heart', heartLearn:this.go('learn'), heartProfile:()=>this.setState({screen:'profile',profileSel:'chv'}), heartCognate:this.go('cognate'), heartCompare:this.go('compare'), isParadigm:S.screen==='paradigm', isResearch:S.screen==='research', isEco:S.screen==='eco', ecoTabs:this.ECOCATMETA.map(c=>({title:c.title, go:()=>this.setState({ecoCat:c.key}), style:((S.ecoCat||'llm')===c.key?"cursor:pointer;background:#211d17;color:#f4f1ea;border:1px solid #211d17;border-radius:8px;padding:6px 11px;font-size:11.5px;font-family:'IBM Plex Mono',monospace":"cursor:pointer;background:transparent;color:#5f574b;border:1px solid rgba(33,29,23,.2);border-radius:8px;padding:6px 11px;font-size:11.5px;font-family:'IBM Plex Mono',monospace")})), eco_llm:(S.ecoCat||'llm')==='llm', eco_encoder:S.ecoCat==='encoder', eco_asr:S.ecoCat==='asr', eco_tts:S.ecoCat==='tts', eco_data:S.ecoCat==='data', eco_bench:S.ecoCat==='bench', eco_tools:S.ecoCat==='tools', eco_orgs:S.ecoCat==='orgs', eco_discover:S.ecoCat==='discover', isCognate:S.screen==='cognate',
       isSoon:false, soonLabel:'',
       ...this.distanceVals(),
       ...this.paradigmVals(),

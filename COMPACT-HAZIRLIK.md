@@ -48,19 +48,24 @@ morfem dökümü; isim her dilde, fiil tv→iv; üretilemeyende dürüst boş). 
 HERO akıllı-arama runSearch'i değiştirince runParadigm/runCompare/applySegment TANIMSIZ kalmıştı (Paradigma/
 Karşılaştır çöküyordu) → anchor'lar kararlı noktalara taşındı, hepsi düzeldi (Preview'da doğrulandı).
 
-**★ MORFOLOJİ ODAĞI (28 Haz, kullanıcı kararı: C1/C3'ten ÖNCE):** "en güçlü yerimiz; ölç+genişlet+göster." Plan E/T/G/U (todolist #16-29). **YAPILDI:** B1 (Analiz "ev"→Kognat bug'ı; 0d92be3) · E1 (10 yeni FST indi → 20 dil) · E2 (backend 20 dil + QUALITY tier, VM deploy; 4800da1) · E4 (UI 20 dil + Türkmen nom bare-retry; a0ab150). **20 dil Analiz+Üreteç+Paradigma'da canlı.** Round-trip ölçüldü: align %100, yeniden-üretim ~%95.
+**★★ MORFOLOJİ ODAĞI (28-29 Haz, kullanıcı kararı: C1/C3'ten ÖNCE) — TAMAMLANDI.** "en güçlü yerimiz; ölç+genişlet+göster." Plan E/T/G/U (todolist #16-29) BİTTİ:
+- **Dil kapsamı 10→20** (B1 bug + E1/E2/E4): tüm apertium Türk dilleri Analiz+Üreteç+Paradigma'da canlı.
+- **Ölçüm (T):** E5 round-trip (align %100, recon %92-95) · T1 UniMorph doğruluk (lemma %91-100) · T2 UD ikinci gold (uig "yazı uyumsuz" çözüldü) · T3 sözlük kök sayısı türüne göre (continuation-sınıfı, 20 dil kesin) · T4 korpus kapsamı (FLORES 10 dil + HF nog/kjh = 12/20; kalan 8 Leipzig-bloke).
+- **Gösterim (G):** G1 "Kalite & Kapsam" 5-eksen sayfası (Sözlük tıkla-aç POS dökümü · Tutarlılık · Doğruluk UniMorph+UD · Olgunluk · Kapsam) + G2 sayfa-içi mini rozetler.
+- **Entegrasyon (U):** U1 Üreteç dile-duyarlı hâller (Çuvaşça acc yok → soluk) · U2 round-trip köprüsü (Üreteç→"bu biçimi analiz et").
+- **DERS/uyarı:** ① VM uvicorn flaky olabilir (10054 connection reset → `bash /root/koken_api/start.sh` ile restart, §4.6). ② Leipzig bu ortamdan bağlantı-bloke. ③ Büyük korpus/parquet host'ta (pyarrow var) indir → scp → VM'de FST-direct ölç (HTTP'den hızlı).
 
-**SIRADAKİ = morfoloji planı devam:**
-- **E3** dil-bazlı özellik envanteri (FST'den) · **E5** round-trip eval 20 dil+fiil.
-- **T1** UniMorph DOĞRULUK (öncelik) · **T2** UD kapsam · **T3** lexicon · **T4** korpus *(kaynak Wikipedia DEĞİL → resmi haber/akademik; indirmeden önce kullanıcıya sun)*.
-- **G1** Kalite & Kapsam sayfası + **G2** mini rozetler · **U1** Üreteç dile-duyarlı + **U2** çapraz-link/round-trip köprüsü.
-- **ÇERÇEVE:** 3 eksen AYRI (tutarlılık≠doğruluk≠kapsam); prototype FST düşük=olgunluk değil hata değil; her metrik commit'li betik+tarih+kaynak; diller-özelinde test.
-- **SONRA Bölüm C:** C1 ses motoru (en büyük) · C3 Ekosistem CRON. **Bölüm D — EN SON.**
-- **NOT:** VM uvicorn canlı (20 dil FST), `/generate` host'tan çalışıyor; doğrulama için açık kalmalı (§2/§4.6). repo↔VM app.py md5 eşit tutulmalı (deploy: scp + start.sh).
+**SIRADAKİ:**
+- **T4 kalanı (opsiyonel):** chv/sah/gag/kaa/alt/krc/kum/tyv kapsam — Leipzig başka ortam/VPN gerektirir.
+- **★ BÖLÜM C:** C1 gerçek ses motoru (Piper/MMS/eSpeak+FastAPI; VM; en büyük lokma) · C3 Ekosistem HfApi-CRON. **Bölüm D — EN SON** (eğitim portalı + Saha/Şor "Dilin Kalbi" şablonu).
+- **GELECEK-PLANLAR'da (ne+ne zaman):** OOV→CC0 açık veri · tam-etiket doğruluğu (T5) · apertium'a geri katkı · paper (20 FST birleşik değerlendirme).
+- **ÇERÇEVE (DEĞİŞMEZ):** 3 eksen AYRI (tutarlılık≠doğruluk≠kapsam); prototip FST düşük skor=olgunluk, hata değil; her metrik commit'li betik+tarih+kaynak; boşluk gizlenmez işaretlenir.
+- **NOT:** VM uvicorn 20 dil FST canlı; `/generate` host'tan çalışır; doğrulama için açık+restart-edilebilir olmalı (§2/§4.6). repo↔VM app.py md5 eşit tut (deploy: scp + start.sh).
 
 ## 5) COMPACT SONRASI YAZILACAK RESUME PROMPTU
 
-> **DEVAM.md §0 ★★★'ı oku (önce `COMPACT-HAZIRLIK.md`'ye de bak). İNCELEME + C2 + morfoloji-odağı B1/E1/E2/E4
-> (20 dile genişleme) bitti; morfoloji planından devam — E3/E5 (özellik envanteri + round-trip 20 dil),
-> sonra T1 (UniMorph doğruluk) / T2-T4 / G1-G2 / U1-U2. C1/C3 bunlardan SONRA. Önce DEVAM §0'daki YAPILDI'yı
-> oku, kaldığımız yeri özetle, plan öner, onayımla devam et.**
+> **DEVAM.md §0 ★★★'ı oku (önce `COMPACT-HAZIRLIK.md`'ye de bak). MORFOLOJİ ODAĞI (dil kapsamı 10→20 + T/G/U
+> ölçüm-gösterim-entegrasyon) BİTTİ; site "Kalite & Kapsam" sayfasıyla 20 dilde ölçülü+dürüst. Kullanıcı
+> siteyi kendi test edip yorum yapacak — onun geri bildirimini bekle. Sıradaki potansiyel: T4-kalanı (8 dil
+> Leipzig, ayrı ortam) ya da Bölüm C (C1 ses motoru / C3 CRON). Önce DEVAM §0'daki YAPILDI'yı oku, kaldığımız
+> yeri özetle, kullanıcının test yorumlarını al, plan öner, onayıyla devam et. C1/C3 kullanıcı onayıyla.**

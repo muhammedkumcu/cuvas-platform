@@ -80,6 +80,13 @@ Kullanıcı ayrıntılı sayfa-sayfa inceleme yaptı. İşlenenler ve sıralı k
 
 ---
 
+## MORFOLOJİ DEĞERLENDİRME — gelecek genişletmeler (28-29 Haz; G1 "Kalite & Kapsam" üstüne)
+Bağlam: 20 apertium Türk dili FST'si **ölçüldü** (sözlük kök sayısı T3 · round-trip tutarlılık E5 · UniMorph+UD doğruluk T1/T2 · korpus kapsamı T4). Sıradakiler:
+- **OOV → CC0 AÇIK VERİ KATKISI (gelecek; T4 Common Voice ayağında):** T4'te **Common Voice (CC0)** metinlerini motordan geçirip **tanınmayan kelimeleri (OOV)** topla → CC0 lisanslı "KÖKEN OOV" veri seti olarak yayınla. **İki kazanç:** (1) paper artısı (açık veri katkısı), (2) bu OOV listeleri **apertium sözlüğünü büyütmenin** ham maddesi (misyon: dijital kapsayıcılık). **Ne zaman:** T4'ün Common Voice ayağı koşulduktan sonra.
+- **TAM ETİKET DOĞRULUĞU (T5, orta vade):** Şu an doğruluk = lemma-only. **Ne:** apertium etiketleri ↔ UniMorph/UD özellik şeması arasında **etiket haritası** yaz (ör. `<n><pl><dat>` ↔ `N;PL;DAT`), `/analyze` tam etiketini gold ile karşılaştır → **tam morfolojik etiket doğruluğu** (daha güçlü benchmark iddiası, SIGMORPHON tarzı). **Ne zaman:** G1 yerleştikten sonra, T4'le birlikte/sonra; orta vadeli ayrı faz.
+- **APERTIUM'A GERİ KATKI (sürekli; felsefe gereği):** Ölçtüğümüz **boşluklar** (Altayca 282 kök, Hakasça 15 fiil, düşük tanıma dilleri) + `segment_eval`/round-trip'te çıkan **hatalar** → apertium'a **issue/PR**. **Ne:** en kritik 1-2 dilde OOV→stem listesi katkısı + segment hata raporu. **Ne zaman:** T4 OOV listesi çıkınca başla, sürekli sürdür ("hatalar yüzeye çıkınca motora geri ver").
+- **PAPER (ana çıktı):** Bu Kalite & Kapsam çalışması = **20 apertium Türk dili FST'sinin ilk birleşik değerlendirmesi** (tutarlılık + doğruluk + sözlük + kapsam, tek çerçevede). **Ne:** metodoloji (üç-eksen ayrımı, çift-gold, continuation-sınıfı sözlük sayımı) + sonuç tablosu makaleleştir. **Ne zaman:** T4 bitip tüm eksenler tamamlanınca → UBMK/TurkLang ya da LREC/SIGMORPHON.
+
 ## Diğer gelecek fikirleri (yer tutucu)
 - Kullanıcı katkısı / topluluk düzeltmeleri (kognat, çeviri, örnek cümle). · Apertium'a geri hata-düzeltme katkısı. · Tarihsel metin/yazıt katmanı (Orhun, Dîvân). · Mobil/PWA. · Kognat motoruna izogloss RegEx; chv px+hâl portmanteau'yu ayrı etiketleme; harita S.Sibirya etiket nudge.
 

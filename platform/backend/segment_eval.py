@@ -22,6 +22,17 @@ SEEDS = {
     "bak": ["өй", "китап", "күҙ", "бала", "юл", "ат", "ел", "һыу", "ҡыҙ"],
     "chv": ["ҫурт", "кӗнеке", "куҫ", "ача", "ҫул", "хӗр", "ял", "ал", "вӑрман"],
     "sah": ["дьиэ", "кинигэ", "харах", "оҕо", "суол", "ат", "ыал", "уу", "кыыс"],
+    # --- E5: 10 yeni dil (geniş aday havuzu; geçersizler gen(<n><nom>) ile otomatik elenir) ---
+    "tuk": ["kitap", "at", "öý", "göz", "suw", "ýol", "gün", "el", "baş", "daş", "gyz", "ene"],
+    "crh": ["kitap", "at", "ev", "köz", "suv", "yol", "kün", "el", "qol", "baş", "taş", "qız"],
+    "gag": ["kitap", "ev", "göz", "su", "yol", "gün", "el", "kol", "baş", "taş", "dil", "ana"],
+    "kaa": ["kitap", "at", "úy", "kóz", "suw", "jol", "kún", "el", "qol", "bas", "tas", "qız"],
+    "alt": ["ат", "айыл", "кӧс", "суу", "јол", "кӱн", "эл", "кол", "баш", "таш", "бичик", "эне"],
+    "kjh": ["ат", "иб", "харах", "суг", "чол", "кӱн", "чир", "хол", "пас", "тас", "ном", "ине"],
+    "krc": ["ат", "юй", "кёз", "суу", "джол", "кюн", "эл", "къол", "баш", "таш", "китап", "ана"],
+    "kum": ["ат", "уьй", "гёз", "сув", "ёл", "гюн", "эл", "къол", "баш", "таш", "китап", "ана"],
+    "nog": ["ат", "уьй", "коьз", "сув", "йол", "кун", "эл", "кол", "бас", "тас", "китап", "ана"],
+    "tyv": ["ат", "ӧг", "карак", "суг", "орук", "хүн", "чер", "хол", "баш", "даш", "ном", "ие"],
 }
 CASES = ["nom", "gen", "dat", "acc", "loc", "abl"]
 PXS = ["px1sg", "px1pl", "px3sp"]
@@ -40,6 +51,9 @@ def get(path):
 def gen(lang, query):
     d = post("/generate", {"lang": lang, "query": query})
     fs = d.get("forms", [])
+    if not fs and query.endswith("<nom>"):   # Türkmen vb. yalın hâl İŞARETSİZ → <nom>'suz tekrar dene
+        d = post("/generate", {"lang": lang, "query": query[:-5]})
+        fs = d.get("forms", [])
     return fs[0]["surface"] if fs else None
 
 

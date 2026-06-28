@@ -2891,72 +2891,77 @@ def main():
     #  Veri: platform/backend/segment_eval.py (round-trip, 28 Haz) + unimorph_eval.py (UniMorph doğruluk,
     #  N=1500, 28 Haz) — canlı VM'e karşı. 3 EKSEN AYRI: tutarlılık ≠ doğruluk ≠ olgunluk. Uydurma yok.
     # ============================================================
-    # code, ad, tier, round-trip yeniden-üretim%, UniMorph (lemma%,tanıma%) | yoksa sebep
+    # code, ad, tier, round-trip yeniden-üretim%
     QUALITY_DATA = [
-        ("tur", "Türkçe", "production", 94.8, (96.4, 63.1)),
-        ("kaz", "Kazakça", "production", 95.2, (99.7, 80.1)),
-        ("tat", "Tatarca", "production", 95.2, "UniMorph Latin ↔ FST Kiril (yazı uyumsuz)"),
-        ("aze", "Azerbaycanca", "stable", 95.2, (91.1, 10.5)),
-        ("kir", "Kırgızca", "stable", 95.2, "UniMorph yalnız fiil (isim gold yok)"),
-        ("uzb", "Özbekçe", "stable", 95.2, (100.0, 63.8)),
-        ("bak", "Başkurtça", "beta", 95.2, (99.6, 91.5)),
-        ("chv", "Çuvaşça", "beta", 94.4, "UniMorph yok (dış gold yok)"),
-        ("crh", "Kırım Tatarcası", "beta", 95.2, "UniMorph yok"),
-        ("tuk", "Türkmence", "beta", 95.2, "UniMorph yok"),
-        ("uig", "Uygurca", "beta", 94.2, "UniMorph Latin ↔ FST Arap (yazı uyumsuz)"),
-        ("sah", "Sahaca (Yakut)", "prototype", 92.6, (100.0, 97.1)),
-        ("alt", "Altayca", "prototype", 94.1, "UniMorph yok"),
-        ("gag", "Gagavuzca", "prototype", 95.2, "UniMorph yok"),
-        ("kaa", "Karakalpakça", "prototype", 95.2, "UniMorph yok"),
-        ("kjh", "Hakasça", "prototype", 95.0, "UniMorph yok"),
-        ("krc", "Karaçay-Balkar", "prototype", 95.2, "UniMorph yok"),
-        ("kum", "Kumukça", "prototype", 95.2, "UniMorph yok"),
-        ("nog", "Nogayca", "prototype", 95.2, "UniMorph yok"),
-        ("tyv", "Tuvaca", "prototype", 95.2, "UniMorph yok"),
+        ("tur", "Türkçe", "production", 94.8), ("kaz", "Kazakça", "production", 95.2),
+        ("tat", "Tatarca", "production", 95.2), ("aze", "Azerbaycanca", "stable", 95.2),
+        ("kir", "Kırgızca", "stable", 95.2), ("uzb", "Özbekçe", "stable", 95.2),
+        ("bak", "Başkurtça", "beta", 95.2), ("chv", "Çuvaşça", "beta", 94.4),
+        ("crh", "Kırım Tatarcası", "beta", 95.2), ("tuk", "Türkmence", "beta", 95.2),
+        ("uig", "Uygurca", "beta", 94.2), ("sah", "Sahaca (Yakut)", "prototype", 92.6),
+        ("alt", "Altayca", "prototype", 94.1), ("gag", "Gagavuzca", "prototype", 95.2),
+        ("kaa", "Karakalpakça", "prototype", 95.2), ("kjh", "Hakasça", "prototype", 95.0),
+        ("krc", "Karaçay-Balkar", "prototype", 95.2), ("kum", "Kumukça", "prototype", 95.2),
+        ("nog", "Nogayca", "prototype", 95.2), ("tyv", "Tuvaca", "prototype", 95.2),
     ]
     TIER_COL = {"production": "#3f8a5c", "stable": "#2f7f8a", "beta": "#c08a3a", "prototype": "#9a8f82"}
     TIER_TR = {"production": "üretim", "stable": "kararlı", "beta": "beta", "prototype": "prototip"}
-    # T3 — apertium .lexc KÖK sayıları (türüne göre), lexicon_count.py, 28 Haz. (isim, fiil, içerik-toplam, not)
-    #   None = giella yapısı (Root İngilizce POS'a dallanmıyor) → bu yöntemle sayılamadı (dürüst).
-    #   "*" = olağandışı büyük otomatik listeler (bak: ABBR 135K + oto-fiil) → toplam şişkin.
+    # T3 — apertium .lexc KÖK sayıları TÜRÜNE GÖRE (continuation-sınıfı yöntemi, lexicon_count.py, 29 Haz).
+    #   (isim, fiil, sıfat, zarf, özel ad, sayı) — 20 dilin TAMAMI kesin sayıldı (giella dahil; artefakt yok).
     LEXICON = {
-        "tur": (28751, 3842, 37295, ""), "aze": (5335, 721, 7954, ""), "kaz": None,
-        "kir": (4877, 1340, 8135, ""), "uzb": None, "uig": (1216, 410, 1735, ""),
-        "tat": (27128, 2057, 32440, ""), "bak": (13860, 69116, 86050, "*"), "chv": (11511, 8172, 25906, ""),
-        "sah": (16743, 12647, 40874, ""), "tuk": (1881, 145, 2804, ""), "crh": (6335, 1121, 9278, ""),
-        "gag": (1908, 410, 2851, ""), "kaa": (2367, 1541, 5024, ""), "alt": (146, 44, 222, ""),
-        "kjh": (546, 8, 592, ""), "krc": (3581, 340, 5856, ""), "kum": (2620, 423, 3421, ""),
-        "nog": (651, 165, 1079, ""), "tyv": (4217, 1400, 7442, ""),
+        "tur": (28637, 4212, 3640, 992, 11022, 99), "aze": (5367, 730, 715, 205, 3412, 42),
+        "kaz": (15308, 4857, 5554, 1154, 9961, 146), "kir": (4900, 1475, 1332, 467, 6797, 84),
+        "uzb": (21686, 6638, 5529, 761, 27161, 54), "uig": (15332, 4453, 3143, 630, 1728, 49),
+        "tat": (26606, 2252, 2834, 410, 25643, 97), "bak": (58469, 20408, 11431, 3038, 40089, 179),
+        "chv": (12223, 7969, 3669, 1923, 30988, 93), "sah": (16756, 12742, 6980, 4293, 3977, 200),
+        "tuk": (1906, 187, 639, 101, 186, 25), "crh": (6451, 1171, 1499, 139, 4236, 71),
+        "gag": (1926, 483, 344, 102, 3451, 55), "kaa": (12096, 8692, 3898, 339, 5443, 91),
+        "alt": (188, 75, 17, 2, 23, 14), "kjh": (546, 15, 20, 0, 129, 12),
+        "krc": (3586, 383, 1679, 145, 2659, 105), "kum": (2912, 1691, 895, 74, 1486, 91),
+        "nog": (676, 193, 157, 47, 271, 46), "tyv": (4248, 1555, 1604, 129, 4216, 86),
     }
+    # Dış-gold DOĞRULUK: (lemma%, tanıma%, gold). gold: "UD"=gerçek cümle / "UM"=UniMorph paradigma.
+    #   uig UD ile ÇÖZÜLDÜ (Arap yazı). None = dış gold yok (düşük-kaynaklı dil gerçeği).
+    ACC = {
+        "tur": (96.9, 80.7, "UD"), "kaz": (99.0, 91.7, "UD"), "uig": (97.4, 99.7, "UD"),
+        "sah": (100.0, 97.1, "UM"), "bak": (99.6, 91.5, "UM"), "uzb": (100.0, 63.8, "UM"),
+        "aze": (91.1, 10.5, "UM"),
+    }
+    _POS = [("isim", "isim"), ("fiil", "fiil"), ("sıfat", "sıfat"), ("zarf", "zarf"), ("sayı", "sayı")]
 
     def _k(n):
         return (f"{n/1000:.1f}K" if n >= 1000 else str(n))
 
     def _q_rows():
         out = ""
-        for code, name, tier, recon, um in QUALITY_DATA:
+        for code, name, tier, recon in QUALITY_DATA:
             tcol = TIER_COL[tier]
             badge = (f'<span style="display:inline-block;font-family:\'IBM Plex Mono\',monospace;font-size:10px;'
                      f'letter-spacing:.5px;color:#fff;background:{tcol};border-radius:5px;padding:2px 7px">{TIER_TR[tier]}</span>')
-            if isinstance(um, tuple):
-                umcell = (f'<b style="color:#211d17">{um[0]:.0f}%</b> '
-                          f'<span style="color:#9a9082;font-size:12px">lemma · {um[1]:.0f}% tanıma</span>')
+            isim, fiil, sif, zar, ozel, say = LEXICON[code]
+            tot = isim + fiil + sif + zar + say
+            vals = {"isim": isim, "fiil": fiil, "sıfat": sif, "zarf": zar, "sayı": say}
+            detail = " · ".join(f"<b>{_k(vals[k])}</b> {lbl}" for k, lbl in _POS) + f' · <b>{_k(ozel)}</b> özel ad'
+            lxcell = ('<details><summary style="cursor:pointer;outline:none;list-style:none">'
+                      f'<b style="color:#211d17;font-size:15px">{_k(tot)}</b> <span style="color:#9a9082;font-size:12px">kök ▾</span>'
+                      '</summary>'
+                      f'<div style="margin-top:8px;font-size:12px;color:#5f574b;line-height:1.85;max-width:200px;border-left:2px solid rgba(217,139,74,.4);padding-left:10px">{detail}</div>'
+                      '</details>')
+            acc = ACC.get(code)
+            if acc:
+                lemma, recog, src = acc
+                srclbl = "UD · gerçek cümle" if src == "UD" else "UniMorph · paradigma"
+                acccell = (f'<b style="color:#211d17">{lemma:.0f}%</b> <span style="color:#9a9082;font-size:12px">lemma · {recog:.0f}% tanıma</span>'
+                           f'<br><span style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:#b09a7a">{srclbl}</span>')
             else:
-                umcell = f'<span style="color:#b3a99c;font-size:12.5px">— {um}</span>'
-            lx = LEXICON.get(code)
-            if lx is None:
-                lxcell = '<span style="color:#b3a99c;font-size:12.5px">— yapı farklı (giella)</span>'
-            else:
-                isim, fiil, tot, star = lx
-                lxcell = (f'<b style="color:#211d17">{_k(tot)}{star}</b> '
-                          f'<span style="color:#9a9082;font-size:12px">kök · {_k(isim)} isim · {_k(fiil)} fiil</span>')
+                acccell = '<span style="color:#b3a99c;font-size:12.5px">— dış gold yok</span>'
             out += (
-                '<tr style="border-top:1px solid rgba(33,29,23,.07)">'
+                '<tr style="border-top:1px solid rgba(33,29,23,.07);vertical-align:top">'
                 f'<td style="padding:11px 14px"><span style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;color:#211d17">{name}</span> '
                 f'<span style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#9a9082">{code}</span><br>{badge}</td>'
                 f'<td style="padding:11px 14px">{lxcell}</td>'
                 f'<td style="padding:11px 14px;text-align:center"><span style="font-family:\'Spectral\',serif;font-weight:600;font-size:17px;color:#3f8a5c">{recon:.1f}%</span></td>'
-                f'<td style="padding:11px 14px">{umcell}</td>'
+                f'<td style="padding:11px 14px">{acccell}</td>'
                 '</tr>')
         return out
 
@@ -2966,11 +2971,12 @@ def main():
         "        <div style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a\">KALİTE & KAPSAM</div>\n"
         "        <h2 style=\"font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 8px\">Morfoloji ne kadar iyi çalışıyor?</h2>\n"
         '        <p style="font-size:15px;line-height:1.7;color:#5f574b;max-width:80ch;margin:0 0 6px">20 Türk dilinde analiz/üretim/paradigma motorunun ölçülmüş başarısı. İddia değil <b>ölçüm</b>: her sayı, çalıştırılabilir bir betikten ve canlı FST\'den gelir. Üç ekseni <b>ayrı</b> tutarız.</p>\n'
-        # 3 eksen açıklama kutusu
-        '        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0 8px">\n'
-        '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:14px 16px"><div style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;margin-bottom:4px">Tutarlılık</div><div style="font-size:12.5px;line-height:1.5;color:#5f574b">Üret→çöz→üret aynı sonucu veriyor mu (round-trip). FST\'nin kendi içinde tutarlılığı.</div></div>\n'
-        '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:14px 16px"><div style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;margin-bottom:4px">Doğruluk</div><div style="font-size:12.5px;line-height:1.5;color:#5f574b">İnsan-küratörlü <b>UniMorph</b> gold\'una karşı: çözüm doğru mu (lemmatizasyon). Bağımsız, döngüsel değil.</div></div>\n'
-        '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:14px 16px"><div style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;margin-bottom:4px">Olgunluk</div><div style="font-size:12.5px;line-height:1.5;color:#5f574b">Apertium FST kalite seviyesi (üretim/kararlı/beta/prototip). Prototip düşük kapsam = olgunluk, hata değil.</div></div>\n'
+        # 4 eksen açıklama kutusu (tabloyla aynı 4 sütun; lemma/tanıma TANIMI burada)
+        '        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0 8px">\n'
+        '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:14px 16px"><div style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;margin-bottom:4px">① Sözlük <span style="font-weight:400;color:#9a9082;font-size:12.5px">— kök sayısı</span></div><div style="font-size:12.5px;line-height:1.5;color:#5f574b">Sözlükteki kök sayısı, türüne göre (isim/fiil/sıfat…). <b>Üstüne tıkla, dökümü gör.</b> Aynı FST hem analizde hem üretimde bu kökleri kullanır — kapsamın tavanı.</div></div>\n'
+        '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:14px 16px"><div style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;margin-bottom:4px">② Tutarlılık <span style="font-weight:400;color:#9a9082;font-size:12.5px">— round-trip</span></div><div style="font-size:12.5px;line-height:1.5;color:#5f574b">Üret→çöz→üret aynı sonucu veriyor mu. FST’nin kendi içinde tutarlılığı (doğruluk değil).</div></div>\n'
+        '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:14px 16px"><div style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;margin-bottom:4px">③ Doğruluk <span style="font-weight:400;color:#9a9082;font-size:12.5px">— dış gold</span></div><div style="font-size:12.5px;line-height:1.5;color:#5f574b">İnsan-küratörlü gold’a karşı (<b>UniMorph</b> paradigma + <b>UD</b> gerçek cümle). <b>lemma%</b> = kökü doğru buldu mu; <b>tanıma%</b> = kelimeyi hiç tanıdı mı (kapsam). İki ayrı şey.</div></div>\n'
+        '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:14px 16px"><div style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;margin-bottom:4px">④ Olgunluk <span style="font-weight:400;color:#9a9082;font-size:12.5px">— FST seviyesi</span></div><div style="font-size:12.5px;line-height:1.5;color:#5f574b">Apertium’un dil için geliştirme düzeyi (üretim/kararlı/beta/prototip). Prototipte düşük sayı = sözlük olgunluğu, motor hatası değil.</div></div>\n'
         '        </div>\n'
         # tablo
         '        <div style="margin-top:20px;background:#fff;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">\n'
@@ -2979,16 +2985,20 @@ def main():
         "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">DİL · OLGUNLUK</th>"
         "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">SÖZLÜK<br><span style=\"opacity:.6\">kök sayısı</span></th>"
         "            <th style=\"text-align:center;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">TUTARLILIK<br><span style=\"opacity:.6\">round-trip</span></th>"
-        "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">DOĞRULUK<br><span style=\"opacity:.6\">UniMorph gold</span></th>"
+        "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">DOĞRULUK<br><span style=\"opacity:.6\">UniMorph + UD gold</span></th>"
         '          </tr></thead>\n'
         '          <tbody>' + _q_rows() + '</tbody>\n'
         '        </table>\n'
         '        </div>\n'
-        # dürüstlük notları
-        '        <div style="margin-top:16px;background:#fbf3ea;border:1px solid rgba(217,139,74,.3);border-radius:12px;padding:15px 18px;font-size:13px;line-height:1.6;color:#6b4f33">\n'
-        '          <b>Dürüst okuma.</b> <b>Sözlük</b> kökleri morfolojinin yakıtıdır — aynı FST hem analizde hem üretimde bu kökleri kullanır, dolayısıyla kök sayısı kapsamın tavanını belirler. Türkçe ~37 bin köke karşı Altayca yalnız <b>222</b>: dijital zenginlik uçurumu tam burada görünür (prototip diller). <b>Tutarlılık</b> 20 dilde %92–95. <b>Doğruluk</b> yalnız UniMorph gold\'u olan + yazısı uyuşan dillerde ölçülebildi; oralarda lemma doğruluğu <b>%91–100</b> — <b>FST çözdüğünde doğru çözüyor</b>; tanıma% (kapsam) ise sözlük büyüklüğü+yazıyla sınırlı (ayrı eksen). Boşluklar gizlenmez: Kazakça/Özbekçe sözlüğü farklı yapıda (giella) sayılamadı; bak* olağandışı büyük otomatik liste içerir; Çuvaşça\'da UniMorph yok; Tatarca/Uygurca UniMorph farklı yazıda. <b>Korpus kapsamı (Leipzig/Common Voice)</b> sıradaki ölçüm.\n'
+        # dürüstlük notları — tabloyu nasıl okumalı
+        '        <div style="margin-top:16px;background:#fbf3ea;border:1px solid rgba(217,139,74,.3);border-radius:12px;padding:16px 20px;font-size:13px;line-height:1.65;color:#6b4f33">\n'
+        '          <div style="font-family:\'Spectral\',serif;font-weight:600;font-size:16px;color:#5a3f28;margin-bottom:8px">Bu tabloyu nasıl okumalı?</div>\n'
+        '          <div style="margin-bottom:7px"><b>Sözlük (①).</b> Kökler morfolojinin yakıtıdır; sayı arttıkça FST daha çok kelimeyi hem çözer hem üretir. Uçurum çarpıcı: Türkçe <b>37 bin</b> içerik kökü → Altayca yalnız <b>282</b>, Hakasça’da <b>15 fiil</b>. Bu, motorun değil <b>sözlüğün</b> eksikliğidir — ve projenin neden var olduğunu gösterir. Üstüne tıkla, türlere göre dökümü gör.</div>\n'
+        '          <div style="margin-bottom:7px"><b>Tutarlılık (②).</b> 20 dilde %92–95: motor ne ürettiyse onu tutarlı biçimde geri çözüyor. (Sahaca biraz düşük — zengin Sibirya morfolojisi, daha çok portmanto ek.)</div>\n'
+        '          <div style="margin-bottom:7px"><b>Doğruluk (③).</b> Bağımsız insan-gold’a karşı — iki kaynak: <b>UniMorph</b> (paradigma tablosu) ve <b>UD</b> (gerçek cümle). Ölçülebilen her dilde <b>lemma %91–100</b>: FST bir kelimeyi tanıdığında <b>doğru</b> çözüyor. <i>tanıma%</i> ise sözlük büyüklüğüne bağlı, ayrı eksen (ör. Azerice sözlüğü küçük → az tanıyor ama tanıdığını doğru çözüyor). “Dış gold yok” olanlar düşük-kaynaklı dillerdir: onlar için henüz insan-anotasyonlu değerlendirme seti üretilmemiş — gerçek bir boşluk, gizlenmiyor.</div>\n'
+        '          <div><b>Olgunluk (④).</b> Sözlük büyüklüğünden farklıdır: Sahaca “prototip” ama 41 bin köklü; tier morfotaktik kuralların cilasını, sözlük sütunu ise kelime hazinesini gösterir.</div>\n'
         '        </div>\n'
-        '        <div style="margin-top:14px;font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;line-height:1.6">Kaynak: sözlük = <b>lexicon_count.py</b> (apertium .lexc, GPL-3.0) · round-trip = <b>segment_eval.py</b> · doğruluk = <b>unimorph_eval.py</b> (N=1500, UniMorph 4.0 insan-gold) · olgunluk = apertium/turkicnlp catalog · canlı Apertium FST. Ölçüm: 28 Haz 2026. Betikler depoda, tekrar-üretilebilir.</div>\n'
+        '        <div style="margin-top:14px;font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;line-height:1.6">Kaynak: sözlük = <b>lexicon_count.py</b> (apertium .lexc continuation-sınıfı, GPL-3.0) · tutarlılık = <b>segment_eval.py</b> · doğruluk = <b>unimorph_eval.py</b> (UniMorph 4.0) + <b>ud_eval.py</b> (Universal Dependencies treebank, gerçek cümle) · olgunluk = apertium/turkicnlp catalog · canlı Apertium FST. Ölçüm: 29 Haz 2026. Betikler depoda, tekrar-üretilebilir.</div>\n'
         '      </section>\n'
         '      </sc-if>\n')
     g1_anchor = "      <!-- ===================== TARİH & KÖKEN ===================== -->"
@@ -3066,7 +3076,7 @@ def main():
             "<b>Ölçüm, iddia değil.</b> Bu sayfa 20 Türk dilinde morfoloji motorunun başarısını gerçek sayılarla gösterir; her rakam depodaki çalıştırılabilir bir betikten ve canlı FST’den gelir. Akademik dürüstlük için üç ekseni <b>ayrı</b> tutarız.",
             "<b>Üç eksen neden ayrı?</b> <i>Tutarlılık</i> motorun kendi içinde çelişmediğini (üret→çöz round-trip); <i>doğruluk</i> insan-küratörlü UniMorph gold’una uyduğunu; <i>olgunluk</i> ise FST’nin geliştirme seviyesini ölçer. Bunları karıştırmak yanıltıcı olur — düşük kapsam çoğu zaman sözlük olgunluğudur, motor hatası değil.",
             "<b>Neden önemli?</b> Bir platformun “çalışıyor” demesi kolaydır; <b>ne kadar</b> çalıştığını kaynaklı ve tekrar-üretilebilir biçimde göstermek araştırmacı güveninin temelidir. Boşluklar (gold yok, yazı uyumsuz) gizlenmez, işaretlenir.",
-        ], "Veri: segment_eval.py (round-trip) + unimorph_eval.py (UniMorph 4.0 gold, N=1500) · canlı Apertium FST · ölçüm 28 Haz 2026"),
+        ], "Veri: lexicon_count.py (sözlük) + segment_eval.py (round-trip) + unimorph_eval.py & ud_eval.py (UniMorph + UD insan-gold) · canlı Apertium FST · ölçüm 29 Haz 2026"),
         "isResearch": ([
             "<b>Çözümlemeyi dışa aktar.</b> Bir sözcük yaz, dilini seç; Apertium FST motoru onu çözer ve sonucu <b>JSON · CoNLL-U · CSV</b> olarak indirip kopyalayabilirsin — kaynak ve lisans alanlarıyla.",
             "<b>Kimin için?</b> Çıktıyı kendi çalışmasına taşımak isteyen araştırmacı için: sonuç makine-okunur ve alıntılanabilir. Sağdaki “Açık API” kutusu, ileride yayımlanacak genel REST ucunun taslağıdır (şu an yerel/geliştirme).",

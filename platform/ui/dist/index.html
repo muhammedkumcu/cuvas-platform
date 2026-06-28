@@ -132,7 +132,7 @@
         </div>
 
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:24px 0 0">
-          <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz" style="flex:1;min-width:260px;max-width:480px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
+          <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onAnalyzeKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz" style="flex:1;min-width:260px;max-width:480px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
           <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:9px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:170px;flex-shrink:0"><option value="auto">Otomatik (dil algıla)</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option></select>
         </div>
         <!-- morpheme blocks -->
@@ -2251,6 +2251,23 @@ class Component extends DCLogic {
     };
     tryQ(0);
   }
+  runAnalyze(){
+    const word=(this.state.query||'').trim(); if(!word) return; const lg=this.state.searchLang||'auto';
+    if(lg==='auto'){
+      fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{
+        const langs=d.langs||{}; const codes=Object.keys(langs);
+        if(!codes.length){ this.setState({ apiWord:this.apiWordFrom('chv', word, null), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0 }); return; }
+        const first=codes[0];
+        this.setState({ apiAllLangs:langs, apiMatchCodes:codes, apiMatchLang:first, apiWord:this.apiWordFrom(first, word, langs[first]), activeWordId:'__api', screen:'analiz', selMorphIdx:0, stripCount:0 });
+        this.applySegment(first, word);
+      }).catch(()=>{});
+    } else {
+      fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{
+        this.setState({ apiWord:this.apiWordFrom(lg, word, d.analyses), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0 });
+        this.applySegment(lg, word);
+      }).catch(()=>{});
+    }
+  }
   runParadigm(lemma){
     const fp=(l)=>fetch(this.KOKEN_API+'/paradigm/'+l+'/'+encodeURIComponent(lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma, lang:l, langName:(this.LIVE_LN[l]||l), rows:(d.noun&&d.noun.rows)||d.rows||[], verb:(d.verb&&d.verb.tenses)||[]}})).catch(()=>{});
     const lg=this.state.searchLang;
@@ -2398,13 +2415,13 @@ class Component extends DCLogic {
       onCompareInput:(e)=>this.setState({compareQ:e.target.value}),
       onCompareKey:(e)=>{ if(e.key!=='Enter') return; const w=(this.state.compareQ||'').trim(); if(w) this.runCompare(w, this.state.searchLang); },
       onSearchLang:(e)=>{ const v=e.target.value; this.setState({searchLang:v}); const s=this.state.screen; setTimeout(()=>{
-        if(s==='analiz' && (this.state.query||'').trim()) this.runSearch();
+        if(s==='analiz' && (this.state.query||'').trim()) this.runAnalyze();
         else if(s==='research' && (this.state.researchQ||'').trim()) this.runResearch(v, this.state.researchQ.trim());
         else if(s==='paradigm' && (this.state.paradigmFreeQ||'').trim()) this.runParadigm(this.state.paradigmFreeQ.trim());
         else if(s==='compare' && (this.state.compareQ||'').trim()) this.runCompare(this.state.compareQ.trim(), this.state.searchLang);
       },0); },
       onQuery:(e)=>this.setState({query:e.target.value}),
-      onSearchKey:(e)=>{ if(e.key==='Enter') this.runSearch(); },
+      onSearchKey:(e)=>{ if(e.key==='Enter') this.runSearch(); }, onAnalyzeKey:(e)=>{ if(e.key==='Enter') this.runAnalyze(); },
       homeModules:this.NAVGROUPS.flatMap(g=>g.items.filter(it=>it.id!=='home').map(it=>({
         label:it.label, group:g.group, go:this.go(it.id),
         style:`cursor:pointer;text-align:left;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:11px;padding:12px 15px;font-family:inherit;display:flex;flex-direction:column;gap:2px;transition:border-color .15s,transform .12s`,

@@ -2844,6 +2844,43 @@ def main():
         html = html.replace("isAbout:S.screen==='about',", "isAbout:S.screen==='about', " + gen_vals, 1); ngenv = 1
     print(f"  C2 URETEC (uretim arayuzu): ekran={ngen} nav={ngennav} method={ngenm} renderVals={ngenv}")
 
+    # ── B1: Analiz girişi DOĞRUDAN analize (akıllı-yönlendirici runSearch'e değil) ──
+    #    Bug: Analiz ekranı input'u onSearchKey→runSearch (akıllı yönlendirici) kullanıyordu; "ev" gibi
+    #    bir KOGNAT gloss'u yazınca Kognat sayfasına atıyordu. Analiz kutusu + dil seçici artık runAnalyze.
+    #    (Ana sayfa hero arama kutusu onSearchKey/runSearch'te KALIR — akıllı yönlendirme orada doğru.)
+    run_analyze = (
+        "  runAnalyze(){\n"
+        "    const word=(this.state.query||'').trim(); if(!word) return; const lg=this.state.searchLang||'auto';\n"
+        "    if(lg==='auto'){\n"
+        "      fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{\n"
+        "        const langs=d.langs||{}; const codes=Object.keys(langs);\n"
+        "        if(!codes.length){ this.setState({ apiWord:this.apiWordFrom('chv', word, null), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0 }); return; }\n"
+        "        const first=codes[0];\n"
+        "        this.setState({ apiAllLangs:langs, apiMatchCodes:codes, apiMatchLang:first, apiWord:this.apiWordFrom(first, word, langs[first]), activeWordId:'__api', screen:'analiz', selMorphIdx:0, stripCount:0 });\n"
+        "        this.applySegment(first, word);\n"
+        "      }).catch(()=>{});\n"
+        "    } else {\n"
+        "      fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{\n"
+        "        this.setState({ apiWord:this.apiWordFrom(lg, word, d.analyses), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0 });\n"
+        "        this.applySegment(lg, word);\n"
+        "      }).catch(()=>{});\n"
+        "    }\n"
+        "  }\n"
+        "  runParadigm(lemma){")
+    nb1 = 0
+    if "  runParadigm(lemma){" in html:
+        html = html.replace("  runParadigm(lemma){", run_analyze, 1); nb1 += 1
+    if "onSearchKey:(e)=>{ if(e.key==='Enter') this.runSearch(); }," in html:
+        html = html.replace("onSearchKey:(e)=>{ if(e.key==='Enter') this.runSearch(); },",
+                            "onSearchKey:(e)=>{ if(e.key==='Enter') this.runSearch(); }, onAnalyzeKey:(e)=>{ if(e.key==='Enter') this.runAnalyze(); },", 1); nb1 += 1
+    if 'onKeyDown="{{ onSearchKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz"' in html:
+        html = html.replace('onKeyDown="{{ onSearchKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz"',
+                            'onKeyDown="{{ onAnalyzeKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz"', 1); nb1 += 1
+    if "if(s==='analiz' && (this.state.query||'').trim()) this.runSearch();" in html:
+        html = html.replace("if(s==='analiz' && (this.state.query||'').trim()) this.runSearch();",
+                            "if(s==='analiz' && (this.state.query||'').trim()) this.runAnalyze();", 1); nb1 += 1
+    print(f"  B1 Analiz girisi dogrudan analize (runAnalyze): {nb1}/4 yama")
+
     # ── R-AÇIKLAMA: her sayfaya "Bu sayfa ne anlatıyor?" bölümü (Kognat'taki desenin aynısı) ──
     # nedir / neyi gösterir / neden önemli + kaynak satırı. Doğal Türkçe; ekranın <section> kapanışından önce girer.
     def _help_block(paras, source):

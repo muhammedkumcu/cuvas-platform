@@ -2608,6 +2608,72 @@ def main():
         "isAbout:S.screen==='about', isHeart:S.screen==='heart', heartLearn:this.go('learn'), heartProfile:()=>this.setState({screen:'profile',profileSel:'chv'}), heartCognate:this.go('cognate'), heartCompare:this.go('compare'),", 1)
     print(f"  Çuvaşça Dilin Kalbi (3.1): ekran={nheart}, ses={len(SES)} özg={len(OZG)} tarih={len(TARIH)}")
 
+    # ── R-AÇIKLAMA: her sayfaya "Bu sayfa ne anlatıyor?" bölümü (Kognat'taki desenin aynısı) ──
+    # nedir / neyi gösterir / neden önemli + kaynak satırı. Doğal Türkçe; ekranın <section> kapanışından önce girer.
+    def _help_block(paras, source):
+        body = "".join('            <p style="margin:0">' + p + '</p>\n' for p in paras)
+        return ('        <div style="margin-top:34px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:24px 28px">\n'
+                '          <div style="font-family:\'Spectral\',serif;font-weight:600;font-size:20px;margin-bottom:12px">Bu sayfa ne anlatıyor?</div>\n'
+                '          <div style="font-size:14px;line-height:1.7;color:#3f3a32;display:flex;flex-direction:column;gap:11px">\n'
+                + body +
+                '          </div>\n'
+                '          <div style="margin-top:15px;font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace">' + source + '</div>\n'
+                '        </div>\n')
+    PAGE_HELP = {
+        "isAtlas": ([
+            "<b>Bu harita ne?</b> Türk dillerinin coğrafi yayılımı. Her nokta bir dili, rengi ait olduğu <b>kolu</b> (Oğuz, Kıpçak, Karluk, Sibirya, Oğur, Argu) gösterir; koyu gri noktalar artık konuşulmayan tarihsel dillerdir.",
+            "<b>Nasıl okunur?</b> Tekerlekle yakınlaş, sürükleyerek gez; bir noktaya tıklayınca o dilin kısa kartı açılır — kol, konuşur sayısı ve ayırt edici özelliği. Konumlar Glottolog'un dil merkezlerine dayanır (şematik projeksiyon, birebir sınır değil).",
+            "<b>Neden önemli?</b> Kolların coğrafyaya dağılışı, dillerin göç ve temas hikâyesini görünür kılar: Oğuz batıda, Kıpçak bozkırda, Sibirya kuzeyde; tek yaşayan Oğur dili Çuvaşça ise İdil (Volga) boyunda yalnız durur.",
+        ], "Koordinatlar: Glottolog 5 (CC BY 4.0) · kol tasnifi: Johanson (2021)"),
+        "isProfile": ([
+            "<b>Bu sayfa ne?</b> Her Türk dili için tek bakışta künye: konuşur sayısı, yazı sistemi, ait olduğu kol, canlılık durumu ve dijital kaynak sınıfı. Soldaki listeden dil seçilir; arama ve kola göre süzme vardır.",
+            "<b>Renkler ve rozetler.</b> Kenar rengi ile EGIDS rozeti dilin <b>canlılık durumunu</b> gösterir (yeşil = güçlü, kırmızı = ölmekte). UNESCO etiketi tehlike düzeyini; konuşur sayısının altındaki küçük yazı ise o rakamın kaynağını ve yılını verir.",
+            "<b>Neden önemli?</b> Türk dilleri uçtan uca devasa bir güç farkı taşır: 83 milyon konuşurlu Türkçeden, son 44 konuşuruna kalmış Çulımcaya. Bu künyeler hangi dilin neye ihtiyacı olduğunu — ve neyin kaybolmak üzere olduğunu — gösterir.",
+        ], "Konuşur · EGIDS · UNESCO: Ethnologue, UNESCO, Glottolog derlemesi · kaynak sınıfı: Joshi vd. (2020)"),
+        "isHistory": ([
+            "<b>Bu sayfa ne?</b> Türk dillerinin Proto-Türkçeden bugüne ~2.000 yıllık serüveni: kökler (Bayesçi soy ağacı), aileyi altı kola ayıran ses yasaları ve dönüm noktalarının zaman çizelgesi.",
+            "<b>Nasıl okunur?</b> Üstteki koyu kutu ailenin yaşını ve ilk ayrışmaları verir; ortadaki kartlar her kolu ayıran <b>izoglosu</b> (düzenli ses değişimi) örnekler; alttaki çizelgenin renkleri zamana göre akar: kök → erken göç → klasik → orta çağ → modern → bugün.",
+            "<b>Neden önemli?</b> “Diller neden bu kadar farklılaştı?” sorusunun cevabı buradadır: rotasizm Çuvaşçayı, önses ötümlüleşmesi Oğuzcayı işaretler. Tarih, bugünkü haritanın ve akrabalıkların gerekçesidir.",
+        ], "Savelyev & Robbeets (2020); Johanson (2021); Tekin, Arat, Dankoff & Kelly, Golden, Erdal vb."),
+        "isCompare": ([
+            "<b>Bu sayfa ne?</b> Aynı kelime ya da kavramın diller arası karşılaştırması, üç bakışla: <b>Dizilim</b> (kelimenin her dildeki biçimi), <b>Ses denklikleri</b> (kolları ayıran düzenli ses kuralları) ve <b>Soy ağacı</b> (akrabalık ve zaman derinliği).",
+            "<b>Nasıl okunur?</b> Bir kelime ara; sistem onu canlı morfoloji motoruyla her dilde üretir ve yan yana dizer. Ses denklikleri sekmesi, gördüğün farkların arkasındaki kuralı (ör. <i>z ↔ r</i>) açıklar.",
+            "<b>Neden önemli?</b> İki dilin ne kadar yakın olduğunu tek tek kelimelerle değil, <b>düzenli denkliklerle</b> anlarız. Bu, tarihsel dilbilimin karşılaştırmalı yönteminin kalbidir.",
+        ], "Morfoloji: Apertium FST'leri · ses denklikleri & soy ağacı: Savelyev & Robbeets (2020)"),
+        "isDistance": ([
+            "<b>Bu sayfa ne?</b> İki dilin birbirine ne kadar “uzak” olduğunu çok boyutlu ölçer: ortak kelime hazinesi (leksikal), soy ağacındaki mesafe (filogenetik), dilbilgisi tipi (tipolojik), coğrafya ve karşılıklı anlaşılabilirlik.",
+            "<b>Nasıl okunur?</b> Soldan bir <b>taban dil</b>, sağdan <b>karşılaştırılacak dilleri</b> seç; radar her eksende uzaklığı çizer. Küçük alan = yakın diller, geniş alan = uzaklaşma.",
+            "<b>Neden önemli?</b> “Yakınlık” tek boyutlu değildir: iki dil kelime olarak yakın ama dilbilgisi olarak uzak olabilir. Çok eksenli bakış, basit “şuna benziyor” sezgisinin ötesine geçer.",
+        ], "Leksikal/filogenetik: Savelyev & Robbeets (2020) · tipolojik: WALS · anlaşılabilirlik: Lindsay vd."),
+        "isEco": ([
+            "<b>Bu sayfa ne?</b> Türk dilleri için açık kaynak <b>dil teknolojisi</b> haritası: üretken modeller, ASR/TTS, veri setleri, morfoloji araçları (Apertium, Zemberek…) ve topluluklar — kategori kategori, doğrudan bağlantılarla.",
+            "<b>Nasıl kullanılır?</b> Üstteki sekmelerden bir kategori seç; her dilin altında hem “güncel takip” arama bağlantısı hem de öne çıkan çalışmaların doğrudan linkleri var. Araştırmacının ilk uğrağı olacak şekilde tasarlandı.",
+            "<b>Neden önemli?</b> Düşük kaynaklı diller için “ne var, ne yok” bilgisi dağınıktır. Burada tek yerde toplanır — hangi dilin modeli/verisi var, hangisi “geride bırakılmış” görünür hâle gelir.",
+        ], "Hugging Face Hub + proje web araştırması (nötr derleme) · bağlantılar doğrulandı, uydurma link yok"),
+        "isAnaliz": ([
+            "<b>Bu sayfa ne?</b> Bir kelimeyi yaz; sistem onu <b>morfolojik</b> olarak çözer: kökünü, eklerini ve her ekin dilbilgisel işlevini (çoğul, hâl, kişi…) canlı olarak gösterir.",
+            "<b>Nasıl okunur?</b> Sonuç, kelimeyi gerçek yüzey eklerine böler (ör. <i>ev·ler·de</i>) ve ses olaylarını (ünsüz yumuşaması gibi) işaretler. “Otomatik” seçiliyse kelimenin hangi dil(ler)de geçtiğini de bulur.",
+            "<b>Neden önemli?</b> Türk dilleri <b>eklemeli</b>dir: anlam, köke eklenen katmanlarla kurulur. Morfolojik analiz bu katmanları ayırarak hem öğrenmeyi hem de dil işlemeyi mümkün kılar.",
+        ], "Apertium sonlu-durum çevirici (FST) · canlı /analyze + /segment uçları"),
+        "isParadigm": ([
+            "<b>Bu sayfa ne?</b> Bir kökün <b>tüm çekim tablosu</b>: ismin hâl × sayı, fiilin zaman × kişi hücreleri canlı üretilir. Kökü yaz, dilini seç, tablo anında dolar.",
+            "<b>Nasıl okunur?</b> Satır ve sütunlar dilbilgisel boyutları (hâl, sayı, kişi, zaman) gösterir; her hücre o kombinasyonun gerçek yüzey biçimidir. Tabloyu kopyalayıp kullanabilirsin.",
+            "<b>Neden önemli?</b> Bir kelimeyi görmek başka, onun <b>tüm biçimlerini</b> sistematik görmek başkadır. Paradigma, bir dilin morfolojik mantığını bütün hâlinde ortaya koyar.",
+        ], "Apertium FST üretimi · canlı /paradigm ucu"),
+        "isHeart": ([
+            "<b>Bu sayfa ne?</b> Çuvaşçaya adanmış bir anlatı: ailenin en eski ve en farklı kolu olan <b>Oğur</b>'un tek yaşayan dili. Sesleri, özgün yapıları ve hayatta kalma mücadelesi tek bir hikâyede.",
+            "<b>Neden Çuvaşça?</b> Çünkü Çuvaşça, diğer tüm Türk dillerinin <b>2.000 yıl öncesine</b> açılan penceresidir: rotasizm (<i>z ↔ r</i>) ve lambdasizm (<i>ş ↔ l</i>) gibi yasalar yalnızca onda yaşar. Onu kaybetmek, ailenin kökünü kaybetmektir.",
+            "<b>Neden önemli?</b> Konuşur sayısı on yılda ~%30 düştü. Bu sayfa, bu projenin kalbinin neden burada attığını — dijital kapsayıcılığın neden bir aciliyet olduğunu — anlatır.",
+        ], "İdil Bulgar yazıtları (Erdal 1993); N. İ. Aşmarin, 17 ciltlik Çuvaşça sözlük; 2020 Rusya Nüfus Sayımı"),
+    }
+    naciklama = 0
+    for sc, (paras, source) in PAGE_HELP.items():
+        pat = re.compile(r'(<sc-if value="\{\{ ' + re.escape(sc) + r' \}\}"[^>]*>\s*<section[^>]*>)(.*?)(</section>)', re.S)
+        hb = _help_block(paras, source)
+        html, n = pat.subn(lambda m, _hb=hb: m.group(1) + m.group(2) + _hb + m.group(3), html, count=1)
+        naciklama += n
+    print(f"  R-ACIKLAMA 'Bu sayfa ne anlatiyor?': {naciklama}/{len(PAGE_HELP)} sayfa")
+
     (DIST / "index.html").write_text(html, encoding="utf-8")
     shutil.copy(UI / "support.js", DIST / "support.js")
 

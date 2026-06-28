@@ -730,7 +730,6 @@ def main():
         '        <div style="display:flex;gap:15px;flex-wrap:wrap;margin-top:14px;padding:0 2px;align-items:center">\n'
         '          <sc-for list="{{ mapLegend }}" as="l"><span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:11px;height:11px;border-radius:50%;background:{{ l.hue }}"></span>{{ l.label }} kolu</span></sc-for>\n'
         '          <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:#5f574b"><span style="width:10px;height:10px;border-radius:50%;background:#fbfaf6;border:2px solid #9a9082"></span>tarihsel · ölü dil</span>\n'
-        '          <span style="font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;margin-left:auto">yakınlaştıkça daha çok isim açılır</span>\n'
         '        </div>')
     # bölge odak düğmeleri (zoom + pan preset) + zoom +/− kontrolleri
     region_row = (
@@ -1053,7 +1052,7 @@ def main():
         "    const _pbl=Object.keys(_pbc).sort((a,b)=>a.localeCompare(b,'tr'));\n"
         "    const _pmk=(key,label,nn)=>{ const s=_pcat===key; return {key,label:label+(nn!=null?' \\u00b7 '+nn:''),go:()=>this.setState({profileCat:key}),style:`cursor:pointer;border:1px solid ${s?'#d98b4a':'rgba(33,29,23,.16)'};background:${s?'#d98b4a':'#fff'};color:${s?'#211d17':'#5f574b'};border-radius:13px;padding:4px 11px;font-size:11.5px;font-family:'IBM Plex Mono',monospace;font-weight:${s?600:400}`}; };\n"
         "    const profileCats=[_pmk('all','Tümü',this.LANGPROFILE.length)].concat(_pbl.map(b=>_pmk(b,b,_pbc[b])));\n"
-        "    const _pfilt=this.LANGPROFILE.filter(l=>{ if(_pcat!=='all'&&(l.branch||'?')!==_pcat) return false; if(_pq && _pn(l.name).indexOf(_pq)<0) return false; return true; });\n"
+        "    const _pfilt=this.LANGPROFILE.filter(l=>{ if(_pcat!=='all'&&(l.branch||'?')!==_pcat) return false; if(_pq && _pn(l.name).indexOf(_pq)<0) return false; return true; }).sort((a,b)=>((b.vit||0)-(a.vit||0))||a.name.localeCompare(b.name,'tr'));\n"
         "    const cards = _pfilt.map(l=>{\n      const sel = l.code===S.profileSel, vc = this.vitColor(l.vit);")
     if pf_old in html:
         html = html.replace(pf_old, pf_new, 1); npf += 1
@@ -1065,7 +1064,7 @@ def main():
         html = html.replace(pf_ret_old, pf_ret_new, 1); npf += 1
     # (4) h2 stale "14 dil" → dinamik sayı + süzme ipucu
     pf_h2_old = '>14 dil · soldan kenar rengi = canlılık</h2>'
-    pf_h2_new = '>{{ profileTotal }} dil · ara, kola göre süz · kenar = canlılık</h2>'
+    pf_h2_new = '>{{ profileTotal }} dil ve lehçe · ad ya da kola göre filtrele</h2>'
     if pf_h2_old in html:
         html = html.replace(pf_h2_old, pf_h2_new, 1); npf += 1
     # (5) markup: liste üstüne arama kutusu + kol çipleri (sabit), liste ayrı kaydırılır
@@ -1165,30 +1164,12 @@ def main():
 
     # ---- A3: ana sayfa (landing) güncelliği — kapsam sayıları VERİDEN, footer düzelt ----
     na3 = 0
-    # (1) kenar çubuğu footer: "5 KOL · 14 DİL" hem stale hem yanlış (gerçek: 6 kol, 32 dil atlas)
+    # (1) kenar çubuğu footer: kullanıcı isteği — "KOL · DİL · ÇUVAŞ ÇEKİRDEK" kaldırıldı, yalnız sürüm
     a3_foot_old = "5 KOL · 14 DİL · ÇUVAŞ ÇEKİRDEK · v0.4"
-    a3_foot_new = f"{n_branch} KOL · {n_geo} DİL · ÇUVAŞ ÇEKİRDEK · v0.4"
+    a3_foot_new = "KÖKEN · v0.4"
     if a3_foot_old in html:
         html = html.replace(a3_foot_old, a3_foot_new, 1); na3 += 1
-    # (2) landing'e KATMANLI KAPSAM şeridi (dürüst: analiz 10 < profil 23 < atlas 32; yatay ölçek ipucu)
-    a3_strip = (
-        '        <div style="margin-top:30px;display:flex;gap:10px;flex-wrap:wrap">\n'
-        + "".join(
-            '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:11px 16px;display:flex;flex-direction:column;gap:2px">\n'
-            f'            <span style="font-family:\'Spectral\',serif;font-size:24px;font-weight:700;color:{col};line-height:1">{num}</span>\n'
-            f'            <span style="font-size:11.5px;color:#5f574b;font-family:\'IBM Plex Mono\',monospace;letter-spacing:.3px">{lab}</span>\n'
-            '          </div>\n'
-            for num, lab, col in [
-                (n_live, "dil · canlı FST analizi", "#b8602e"),
-                (n_prof, "dil · derin profil", "#2f6fb0"),
-                (n_geo, "dil · karşılaştırmalı atlas", "#2f8a5b"),
-                (n_branch, "kol · Türk dil ailesi", "#8a6d2e"),
-            ])
-        + '          <div style="align-self:center;font-size:11.5px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;max-width:16ch;line-height:1.4">…yatay ölçekte tüm Türk dillerine açılıyor</div>\n'
-        + '        </div>\n')
-    a3_anchor = '        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:42px">'
-    if a3_anchor in html:
-        html = html.replace(a3_anchor, a3_strip + a3_anchor, 1); na3 += 1
+    # (2) ana sayfa kapsam şeridi KALDIRILDI (kullanıcı isteği — gereksiz bulundu).
     # (3) landing kartındaki "yedi dilde" stale-sayısı → ölçek-dayanıklı "diller arasında"
     a3_card_old = "desc:'Aynı anlamı yedi dilde yan yana diz; ç↔ş, z↔r ses denkliklerini ve soy ağacını gör.'"
     a3_card_new = "desc:'Aynı anlamı diller arasında yan yana diz; ç↔ş, z↔r ses denkliklerini ve soy ağacını gör.'"
@@ -1934,7 +1915,7 @@ def main():
          [("*-G korunur", "dağlık → tağlıq"),
           ("Ünlü uyumu zayıflar", "güzel → gözal (Özbek)")]),
         ("Kıpçak (Kuzeybatı)", "Bozkır · geniş yayılım", "oklch(0.5 0.13 150)",
-         "Karadeniz kuzeyinden Orta Asya bozkırlarına uzanan göçebe kol. Kazak, Tatar, Kırgız, Başkurt, Karakalpak…",
+         "Karadeniz kuzeyinden Orta Asya bozkırlarına uzanan göçebe kol. Kazak, Tatar, Kırgız, Başkurt, Karakalpak, Nogay, Kumuk gibi geniş bir grup.",
          [("*-G &gt; -w", "dağlı → tawlı"),
           ("Söz başı *y- &gt; c/j", "yol → col / jol")]),
         ("Oğuz (Güneybatı)", "Anadolu–Kafkas–Balkan", "oklch(0.55 0.13 35)",
@@ -2279,10 +2260,10 @@ def main():
         '        <div style="background:#211d17;color:#f4f1ea;border-radius:22px;padding:34px 36px;margin-bottom:30px">\n'
         "          <div style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:2px;color:#e9a978\">ÇEKİRDEK DİL</div>\n"
         "          <h2 style=\"font-family:'Spectral',serif;font-weight:600;font-size:42px;margin:10px 0 6px\">Çuvaşça — Dilin Kalbi</h2>\n"
-        '          <p style="font-size:16px;line-height:1.7;color:rgba(244,241,234,.85);max-width:64ch;margin:0">Yaşayan tek <b>Oğur (Bulgar)</b> Türk dili. Türk dil ailesinden binlerce yıl önce ilk ayrılan kolun son temsilcisi — ve bu yüzden Ana Türkçenin yeniden kurulduğu paha biçilmez bir laboratuvar.</p>\n'
+        '          <p style="font-size:16px;line-height:1.7;color:rgba(244,241,234,.85);max-width:64ch;margin:0">Yaşayan tek <b>Oğur (Bulgar)</b> Türk dili. Türk dil ailesinden binlerce yıl önce ilk ayrılan kolun son temsilcisi — bu yüzden Ana Türkçeyi yeniden kurmada eşsiz bir anahtardır.</p>\n'
         '          <div style="display:flex;gap:26px;flex-wrap:wrap;margin-top:20px">\n'
         "            <div><div style=\"font-family:'Spectral',serif;font-size:24px;font-weight:700\">~740 bin</div><div style=\"font-size:11px;color:rgba(244,241,234,.55);font-family:'IBM Plex Mono',monospace\">KONUŞUR (2020)</div></div>\n"
-        "            <div><div style=\"font-family:'Spectral',serif;font-size:24px;font-weight:700\">Oğur</div><div style=\"font-size:11px;color:rgba(244,241,234,.55);font-family:'IBM Plex Mono',monospace\">KOL (tek üye)</div></div>\n"
+        "            <div><div style=\"font-family:'Spectral',serif;font-size:24px;font-weight:700\">Oğur</div><div style=\"font-size:11px;color:rgba(244,241,234,.55);font-family:'IBM Plex Mono',monospace\">KOL</div></div>\n"
         "            <div><div style=\"font-family:'Spectral',serif;font-size:24px;font-weight:700\">EGIDS 6b</div><div style=\"font-size:11px;color:rgba(244,241,234,.55);font-family:'IBM Plex Mono',monospace\">TEHLİKEDE</div></div>\n"
         '          </div>\n'
         '        </div>\n'
@@ -2291,7 +2272,7 @@ def main():
         '        <p style="font-size:15px;line-height:1.75;color:#3f3a32;max-width:74ch;margin:0 0 28px">Çuvaşça, Ortak (Şaz) Türkçeden çok erken ayrıldığı için karşılıklı anlaşılabilirliği sıfıra yakındır. Ama tam da bu uzaklık onu değerli kılar: düzenli ses denklikleri (rotasizm, lambdasizm), Ana Türkçe ve hatta Transavrasya rekonstrüksiyonlarında bir <b>anahtar dil</b> yapar. İdil-Ural havzasında Fin-Ugor (Mari) ve Rusça ile yüzyıllarca temas, ona benzersiz areal özellikler kazandırmıştır.</p>\n'
         # ses kanunları
         "        <h3 style=\"font-family:'Spectral',serif;font-size:24px;font-weight:600;margin:0 0 6px\">Ses kanunları</h3>\n"
-        '        <p style="font-size:13.5px;line-height:1.6;color:#5f574b;max-width:74ch;margin:0 0 14px">Ortak Türkçedeki bir ses, Çuvaşçada düzenli olarak başka bir sese karşılık gelir. Bu kurallar Savelyev kognat verimizde kanıtlıdır: <b>36</b> rotasizm (*z→r), <b>29</b> lambdasizm (*š→l), <b>14</b> söz başı *y→ś çifti.</p>\n'
+        '        <p style="font-size:13.5px;line-height:1.6;color:#5f574b;max-width:74ch;margin:0 0 14px">Ortak Türkçedeki bir ses, Çuvaşçada düzenli olarak başka bir sese karşılık gelir. Savelyev’in karşılaştırmalı kognat veri tabanında bu kuralların görüldüğü kökteş çifti sayısı: <b>36</b> rotasizm (*z↔r), <b>29</b> lambdasizm (*š↔l), <b>14</b> söz başı *y↔ś.</p>\n'
         '        <div style="border:1px solid rgba(33,29,23,.1);border-radius:14px;overflow:hidden;margin-bottom:30px">\n'
         '          <table style="border-collapse:collapse;width:100%">\n'
         "            <thead><tr style=\"background:#fbfaf6\"><th style=\"text-align:left;padding:9px 12px;font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px\">ORTAK TÜRKÇE</th><th style=\"text-align:left;padding:9px 12px;font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px\">ÇUVAŞÇA</th><th style=\"text-align:left;padding:9px 12px;font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px\">KURAL</th></tr></thead>\n"
@@ -2326,7 +2307,7 @@ def main():
     # nav (KEŞFET'e Çuvaşça Kalbi, Tarih & Köken'den sonra) + isHeart + CTA handler'ları
     html = html.replace(
         "      {id:'history', label:'Tarih & Köken'},\n      {id:'about', label:'Hakkında'},",
-        "      {id:'history', label:'Tarih & Köken'},\n      {id:'heart', label:'Çuvaşça Kalbi'},\n      {id:'about', label:'Hakkında'},", 1)
+        "      {id:'history', label:'Tarih & Köken'},\n      {id:'heart', label:'Dilin Kalbi'},\n      {id:'about', label:'Hakkında'},", 1)
     html = html.replace(
         "isAbout:S.screen==='about',",
         "isAbout:S.screen==='about', isHeart:S.screen==='heart', heartLearn:this.go('learn'), heartProfile:()=>this.setState({screen:'profile',profileSel:'chv'}), heartCognate:this.go('cognate'), heartCompare:this.go('compare'),", 1)
@@ -2341,7 +2322,7 @@ def main():
     print(f"  Uzaklık matrisleri (Savelyev+WALS+coğrafi): val patch={ndist}, REAL_DIST enjekte")
     print(f"  Kognat Ağı (SavelyevTurkic): {ncog} blok, {len(cog_obj)} kavram (default '{cog_default}')")
     print(f"  A1 kognat kelime-seçici (kategorili+aranabilir): {na1}/3 yama")
-    print(f"  A3 landing kapsam (veriden: {n_live}/{n_prof}/{n_geo} dil, {n_branch} kol) + footer + kart: {na3}/3 yama")
+    print(f"  A3 landing footer + kart (kapsam şeridi kaldırıldı): {na3}/2 yama")
     print(f"  A5 Uzaklık radar kutusu kompakt + OKUMA sağ sütuna (denge): {na5}/3 yama")
     print(f"  A6 Kaynaklar sayfası kategorize (araç/veri/literatür/sentez): {na6}/5 yama")
     print(f"  Kopya düzeltmeleri: {nfix}")

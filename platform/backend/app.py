@@ -59,7 +59,25 @@ TAG_TR = {"pl": "çokluk", "nom": "yalın", "gen": "ilgi", "dat": "yönelme", "a
           "loc": "bulunma", "abl": "ayrılma", "ins": "araç", "cop": "ek-fiil", "ifi": "görülen geçmiş",
           "past": "geçmiş", "pres": "şimdiki/geniş", "fut": "gelecek", "aor": "geniş", "cond": "şart",
           "p1": "1. kişi", "p2": "2. kişi", "p3": "3. kişi", "sg": "tekil", "imp": "emir", "attr": "sıfat",
-          "px1sg": "iyelik (benim)", "px2sg": "iyelik (senin)", "px3sp": "iyelik (onun)"}
+          "px1sg": "iyelik (benim)", "px2sg": "iyelik (senin)", "px3sp": "iyelik (onun)",
+          # genişletme (UI humanizer ile hizalı; segment feat'i hiçbir dilde ham kalmasın)
+          "px1pl": "iyelik (bizim)", "px2pl": "iyelik (sizin)", "px3pl": "iyelik (onların)",
+          "px3sg": "iyelik (onun)", "prog": "şimdiki/süren", "npst": "geniş/şimdiki", "opt": "istek",
+          "qst": "soru eki", "neg": "olumsuzluk", "pass": "edilgen", "caus": "ettirgen", "refl": "dönüşlü",
+          "recip": "işteş", "coop": "işteş", "equ": "eşitlik", "dist": "üleştirme", "n": "ad", "v": "fiil",
+          "adj": "sıfat", "adv": "zarf", "num": "sayı", "ord": "sıra sayısı", "prn": "zamir",
+          "dem": "işaret", "itg": "soru", "qnt": "nicelik", "np": "özel ad", "top": "yer adı",
+          "ant": "kişi adı", "cog": "soyadı", "mod_ass": "kesinlik kipi", "cnjcoo": "bağlaç",
+          "subst": "adlaşmış", "ger": "isim-fiil", "ger_past": "geçmiş isim-fiili", "ger_fut": "gelecek isim-fiili",
+          "ger_aor": "geniş isim-fiili", "ger_impf": "süren isim-fiili", "ger_perf": "bitmiş isim-fiili",
+          "ger_pabs": "geçmiş isim-fiili", "ger_ppot": "olasılık isim-fiili", "gpr": "ortaç",
+          "gpr_past": "geçmiş ortaç", "gpr_fut": "gelecek ortaç", "gpr_aor": "geniş ortaç",
+          "gpr_impf": "süren ortaç", "gpr_perf": "bitmiş ortaç", "gpr_pot": "olasılık ortacı",
+          "gpr_ppot": "olasılık ortacı", "gpr_rsub": "ilgi ortacı", "prc_perf": "bitmiş sıfat-fiil",
+          "prc_impf": "süren sıfat-fiil", "prc_past": "geçmiş sıfat-fiil", "prc_fut": "gelecek sıfat-fiil",
+          "prc_aor": "geniş sıfat-fiil", "prc_cond": "şart ortacı", "prc_irre": "gerçeküstü sıfat-fiil",
+          "gna_cond": "şart ulacı", "gna_impf": "süren ulaç", "err_orth": "yazım/standart-dışı",
+          "par": "kısmî", "phrase": "öbek", "advl": "zarf", "inf": "mastar"}
 
 _cache = {}
 
@@ -489,23 +507,57 @@ V_TENSE_TAGS = {"pres", "past", "ifi", "fut", "aor", "cond", "imp", "prc_perf", 
                 "ger", "ger_past", "ger_perf", "gpr_past", "gpr_pot"}
 
 
+_VERB_PERS = {"cop", "p1", "p2", "p3"}  # bu etiketten İTİBAREN kişi/kopula bloğu başlar
+
+
 def _segment_verb_align(gen, lemma, tags, word):
-    """FİİL: kök (yalın gövde) + kaynaşık zaman·kişi eki. NW-align ile gövde sınırı + ses olayı.
-    Türk dillerinde zaman+kişi çoğu zaman portmanteau → 2 katman (kök + çekim eki) DÜRÜST seçimdir.
-    Üretim eksikse None → çağıran fallback'e düşer."""
+    """FİİL: kök + ZAMAN eki + KİŞİ/kopula eki (kümülatif, 3 katman). geldiler→gel+di+ler,
+    geliyorum→gel+iyor+um. Türk dilleri eklemelidir: zaman ile kişi AYRILABİLİR → dürüst incelik.
+    Yöntem: yalın gövde (s0) + ZAMAN gövdesi (s1=lemma<v><tr><tense>[<p3><sg>]) üret; kelimeyi
+    s0|s1 sınırlarından böl → zaman eki = s1-s0, kişi eki = kelime-s1. Kopula-zamanlarında da
+    çalışır çünkü s1 (geliyor) ÜRETİLİR ve kalan (um) kelimeden kesilir (üretim gerektirmez).
+    3-katman tutmazsa kök + kaynaşık ek (2 katman) FALLBACK (portmanteau dürüstlüğü). Üretim
+    yoksa None → çağıran genel fallback'e düşer."""
     if not tags or tags[0] != "v":
         return None
     trans = "tv" if "tv" in tags else ("iv" if "iv" in tags else "")
     if not trans:
         return None
-    stem = _gen1(gen, f"{lemma}<v><{trans}><imp><p2><sg>") or lemma
-    # gövde kelimenin başına makul oturmuyorsa güvenme
+    base = f"{lemma}<v><{trans}>"
+    stem = _gen1(gen, f"{base}<imp><p2><sg>") or lemma  # yalın gövde (gel)
     if _nw_score(stem, word[:len(stem) + 2]) < len(stem):
         return None
+    feats = [t for t in tags if t not in ("v", "tv", "iv")]
+
+    # ── 3-KATMAN deneme: feats'i ZAMAN | KİŞİ olarak böl (ilk {cop,p1,p2,p3} öncesi = zaman) ──
+    ci = next((i for i, t in enumerate(feats) if t in _VERB_PERS), len(feats))
+    tense_tags, pers_tags = feats[:ci], feats[ci:]
+    if tense_tags and pers_tags:
+        tq = "".join(f"<{t}>" for t in tense_tags)
+        tform = None
+        for suff in ("", "<p3><sg>", "<p3><pl>"):  # zaman gövdesi (kişisiz/asgari kişi)
+            tform = _gen1(gen, base + tq + suff)
+            if tform:
+                break
+        if tform and len(tform) > len(stem):
+            t_aff = _trailing_affix(stem, tform)       # di / iyor
+            p_aff = _trailing_affix(tform, word)       # ler / um
+            if t_aff and p_aff and word.endswith(p_aff) and word[:len(word) - len(p_aff)].endswith(t_aff):
+                feat_t = " · ".join(TAG_TR.get(t, t) for t in tense_tags) or "zaman"
+                feat_p = " · ".join(TAG_TR.get(t, t) for t in pers_tags) or "kişi"
+                morphs = [
+                    {"surface": lemma, "tag": "KÖK", "feat": "fiil kökü", "type": "kök"},
+                    {"surface": t_aff, "tag": "+".join(t.upper() for t in tense_tags), "feat": feat_t, "type": "zaman"},
+                    {"surface": p_aff, "tag": "+".join(t.upper() for t in pers_tags) or "KİŞİ", "feat": feat_p, "type": "kişi"},
+                ]
+                surface_stem = word[:len(word) - len(t_aff) - len(p_aff)]
+                forms = [stem, word[:len(word) - len(p_aff)], word]
+                return morphs, _sound_changes(lemma, surface_stem), forms
+
+    # ── FALLBACK: kök + TEK kaynaşık ek (zaman+kişi portmanteau ya da 3-katman tutmadı) ──
     aff = _trailing_affix(stem, word)
     if not aff or not word.endswith(aff):
         return None
-    feats = [t for t in tags if t not in ("v", "tv", "iv")]
     morphs = [{"surface": lemma, "tag": "KÖK", "feat": "fiil kökü", "type": "kök"},
               {"surface": aff, "tag": "+".join(t.upper() for t in feats) or "EK",
                "feat": " · ".join(TAG_TR.get(t, t) for t in feats) or "çekim", "type": "zaman"}]
@@ -625,9 +677,9 @@ def crosslang(req: AnalyzeReq):
             continue
         surf = used = None
         for lemma, tags in cands:
-            tl = _map_lemma(req.lang, tgt, lemma)
-            if not tl:
-                continue
+            # .dix eşlemesi; yoksa KÖK-FALLBACK: kökü hedefte AYNEN dene (aynı/kognat kök, çoğu
+            # zaman aynı yazı sistemindeki diller — hedef FST üretirse kök doğrulanmış olur, uydurma yok).
+            tl = _map_lemma(req.lang, tgt, lemma) or lemma
             # önce ham etiket, tutmazsa TAM-normalize edilmiş etiketle dene (fiil taşınabilirliği)
             g = _gen1(_fst(tgt, "autogen"), tl + "".join(f"<{t}>" for t in tags))
             if not g:

@@ -2271,7 +2271,7 @@ class Component extends DCLogic {
     if(!lg || lg==='auto' || !word){ this.setState({segPending:false}); return; }
     fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{
       if(!d || !d.morphemes || !d.morphemes.length){ this.setState({segPending:false}); return; }
-      const ms = d.morphemes.map((m,i)=>({ text:m.surface, tag:m.tag, type:m.type||'kök', label:(i===0?'kök':'ek')+' · '+m.feat, gloss:m.feat, gItem:m.surface, note:(i===0?'Apertium çözümlemesinin köküdür.':('Apertium üretiminden çıkarılan yüzey eki — işlevi: '+m.feat+'.')) }));
+      const ms = d.morphemes.map((m,i)=>({ text:m.surface, tag:this.humanBadge(m.tag), type:m.type||'kök', label:(i===0?'kök':'ek')+' · '+m.feat, gloss:m.feat, gItem:m.surface, note:(i===0?'Apertium çözümlemesinin köküdür.':('Apertium üretiminden çıkarılan yüzey eki — işlevi: '+m.feat+'.')) }));
       this.setState(s=>{ if(!s.apiWord || s.apiWord.surface!==word) return {segPending:false}; return { segPending:false, apiWord: Object.assign({}, s.apiWord, {morphemes: ms, soundChanges: d.sound_changes||[], forms: d.forms||null}) }; });
     }).catch(()=>{ this.setState({segPending:false}); });
   }
@@ -2338,7 +2338,7 @@ class Component extends DCLogic {
         const results=(d.results&&d.results.length)?d.results:[{lang:src,surface:word,self:true}];
         Promise.all(results.map(rr=>fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:rr.lang,word:rr.surface})}).then(r=>r.json()).then(s=>[rr.lang,{surface:rr.surface,lemma:rr.lemma,self:!!rr.self,morphemes:(s&&s.morphemes)||null}]).catch(()=>[rr.lang,{surface:rr.surface,lemma:rr.lemma,self:!!rr.self,morphemes:null}]))).then(pairs=>{
           const rows={}; pairs.forEach(p=>{rows[p[0]]=p[1];}); const sr=(rows[src]&&rows[src].morphemes)||[];
-          const selfM = sr.length ? sr.map((m,i)=>({text:m.surface, tag:m.tag, type:m.type||'kök', label:(i===0?'kök':'ek')+' · '+m.feat, gloss:m.feat, gItem:m.surface, note:''})) : [{text:word, tag:'KÖK', type:'kök', label:'kök', gloss:'', gItem:word, note:''}];
+          const selfM = sr.length ? sr.map((m,i)=>({text:m.surface, tag:this.humanBadge(m.tag), type:m.type||'kök', label:(i===0?'kök':'ek')+' · '+m.feat, gloss:m.feat, gItem:m.surface, note:''})) : [{text:word, tag:'KÖK', type:'kök', label:'kök', gloss:'', gItem:word, note:''}];
           this.setState({ apiWord:{lang:'cv', langName:(this.LIVE_LN[src]||src)+' · canlı', surface:word, translit:'', gloss:'', morphemes:selfM, cognates:[]}, activeWordId:'__api', apiMatchLang:src, compareApi:{word, src, rows}, screen:'compare', compareTab:'rows', selMorphIdx:0, stripCount:0 });
         });
       }).catch(()=>{});

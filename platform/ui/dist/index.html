@@ -76,6 +76,13 @@
     #content-scroll [style*="overflow: auto"]::-webkit-scrollbar{ width:6px; height:6px; }
     #content-scroll [style*="overflow: auto"]::-webkit-scrollbar-thumb{ background:rgba(33,29,23,.30); border-radius:4px; }
     #content-scroll [style*="overflow: auto"]{ scrollbar-width:thin; }
+    /* Uzaklık iki liste: her iki listenin butonları EŞİT boyut (taban küçük durmasın) */
+    #content-scroll [style*="max-height: 404px"] button{ width:100% !important; box-sizing:border-box; padding:8px 11px !important; font-size:13px !important; justify-content:flex-start !important; }
+    /* Üreteç öznitelik etiketleri (TÜR/SAYI/İYELİK/HÂL, min-width:62px) tam satır → butonlar altında düzenli blok */
+    #content-scroll [style*="min-width: 62px"]{ flex-basis:100% !important; min-width:0 !important; margin-bottom:1px; }
+    /* Kognat genel kelime-seçici (254 kavram) kompakt: iç-scroll (uzun uzun sayfa kaydırma bitsin) */
+    .kn-cogpick{ max-height:188px !important; overflow-y:auto; scrollbar-width:thin; }
+    .kn-cogpick::-webkit-scrollbar{ width:6px; } .kn-cogpick::-webkit-scrollbar-thumb{ background:rgba(33,29,23,.3); border-radius:4px; }
   }
 </style>
 </helmet>
@@ -210,6 +217,7 @@
           <input value="{{ aquery }}" onInput="{{ onAquery }}" onKeyDown="{{ onAnalyzeKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz" style="flex:1;min-width:260px;max-width:480px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
           <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:9px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:170px;flex-shrink:0"><option value="auto">Otomatik (dil algıla)</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option><option value="tuk">Türkmence</option><option value="crh">Kırım Tatarca</option><option value="gag">Gagavuzca</option><option value="kaa">Karakalpakça</option><option value="alt">Altayca</option><option value="kjh">Hakasça</option><option value="krc">Karaçay-Balkar</option><option value="kum">Kumukça</option><option value="nog">Nogayca</option><option value="tyv">Tuvaca</option></select>
           <sc-if value="{{ qbActive }}" hint-placeholder-val="{{ false }}"><button onClick="{{ goQuality }}" title="Bu motorun olculmus kalitesi" style="cursor:pointer;display:inline-flex;align-items:center;gap:7px;background:#fbfaf6;border:1px solid rgba(33,29,23,.14);border-radius:20px;padding:6px 13px;font-size:11.5px;font-family:inherit;color:#5f574b"><span style="font-family:'IBM Plex Mono',monospace;color:#9a9082;font-size:10px;letter-spacing:.5px">KALİTE</span> {{ qbActive.tier }} · round-trip %{{ qbActive.r }} <span style="color:#d98b4a">↗ Kalite &amp; Kapsam</span></button></sc-if>
+          <button onClick="{{ analizRun }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:12px 18px;font-size:14px;font-family:inherit;font-weight:600;white-space:nowrap;flex-shrink:0">▷ Çözümle</button>
         </div>
         <!-- morpheme blocks -->
         <div style="margin-top:30px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:34px 30px">
@@ -361,6 +369,7 @@
           <input value="{{ compareQ }}" onInput="{{ onCompareInput }}" onKeyDown="{{ onCompareKey }}" placeholder="Kelime yaz + Enter — diller arası canlı çözümle" style="flex:1;min-width:260px;max-width:480px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
           <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:9px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:170px;flex-shrink:0"><option value="auto">Otomatik (dil algıla)</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option><option value="tuk">Türkmence</option><option value="crh">Kırım Tatarca</option><option value="gag">Gagavuzca</option><option value="kaa">Karakalpakça</option><option value="alt">Altayca</option><option value="kjh">Hakasça</option><option value="krc">Karaçay-Balkar</option><option value="kum">Kumukça</option><option value="nog">Nogayca</option><option value="tyv">Tuvaca</option></select>
           <sc-if value="{{ qbActive }}" hint-placeholder-val="{{ false }}"><button onClick="{{ goQuality }}" title="Bu motorun olculmus kalitesi" style="cursor:pointer;display:inline-flex;align-items:center;gap:7px;background:#fbfaf6;border:1px solid rgba(33,29,23,.14);border-radius:20px;padding:6px 13px;font-size:11.5px;font-family:inherit;color:#5f574b"><span style="font-family:'IBM Plex Mono',monospace;color:#9a9082;font-size:10px;letter-spacing:.5px">KALİTE</span> {{ qbActive.tier }} · round-trip %{{ qbActive.r }} <span style="color:#d98b4a">↗ Kalite &amp; Kapsam</span></button></sc-if>
+          <button onClick="{{ cmpRun }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:12px 18px;font-size:14px;font-family:inherit;font-weight:600;white-space:nowrap;flex-shrink:0">▷ Karşılaştır</button>
         </div>
                 <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:8px">
           <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:0">{{ compareHeadline }}</h2>
@@ -882,7 +891,7 @@
             </div>
           </div>
           <div style="display:flex;flex-direction:column;gap:18px">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1.5px;color:#9a9082;margin:0 0 10px">UZAKLIK RADARI</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start">
             <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:14px;display:flex;align-items:center;justify-content:center">
               <svg viewBox="0 0 360 330" style="width:100%;height:auto">
                 <sc-for list="{{ radarRings }}" as="r"><polygon points="{{ r.points }}" fill="none" stroke="rgba(33,29,23,.1)" stroke-width="1"></polygon></sc-for>
@@ -941,6 +950,7 @@
           <input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — canlı çekim" style="flex:1;min-width:260px;max-width:440px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
           <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:9px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:170px;flex-shrink:0"><option value="auto">Otomatik (dil algıla)</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option><option value="tuk">Türkmence</option><option value="crh">Kırım Tatarca</option><option value="gag">Gagavuzca</option><option value="kaa">Karakalpakça</option><option value="alt">Altayca</option><option value="kjh">Hakasça</option><option value="krc">Karaçay-Balkar</option><option value="kum">Kumukça</option><option value="nog">Nogayca</option><option value="tyv">Tuvaca</option></select>
           <sc-if value="{{ qbActive }}" hint-placeholder-val="{{ false }}"><button onClick="{{ goQuality }}" title="Bu motorun olculmus kalitesi" style="cursor:pointer;display:inline-flex;align-items:center;gap:7px;background:#fbfaf6;border:1px solid rgba(33,29,23,.14);border-radius:20px;padding:6px 13px;font-size:11.5px;font-family:inherit;color:#5f574b"><span style="font-family:'IBM Plex Mono',monospace;color:#9a9082;font-size:10px;letter-spacing:.5px">KALİTE</span> {{ qbActive.tier }} · round-trip %{{ qbActive.r }} <span style="color:#d98b4a">↗ Kalite &amp; Kapsam</span></button></sc-if>
+          <button onClick="{{ parRun }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:12px 18px;font-size:14px;font-family:inherit;font-weight:600;white-space:nowrap;flex-shrink:0">▷ Çek</button>
         </div>
         <div style="display:none"><sc-for list="{{ paradigmExamples }}" as="r" hint-placeholder-count="3">
             <button onClick="{{ r.go }}" style="{{ r.style }}"><span style="font-family:'Spectral',serif;font-size:17px;font-weight:700">{{ r.label }}</span><span style="{{ r.glossStyle }}">{{ r.gloss }} · {{ r.kind }}</span></button>
@@ -2555,6 +2565,7 @@ class Component extends DCLogic {
       toggleNav:()=>{try{document.body.classList.toggle('kn-nav-open');}catch(e){}},
       navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, compareQ:S.compareQ||'',
       aquery:(S.aquery!=null?S.aquery:''), onAquery:(e)=>this.setState({aquery:e.target.value}),
+      analizRun:()=>this.runAnalyze(), parRun:()=>{ const lemma=(this.state.paradigmFreeQ||'').trim(); if(lemma) this.runParadigm(lemma); }, cmpRun:()=>{ const w=(this.state.compareQ||'').trim(); if(w) this.runCompare(w, this.state.searchLang); },
       onCompareInput:(e)=>this.setState({compareQ:e.target.value}),
       onCompareKey:(e)=>{ if(e.key!=='Enter') return; const w=(this.state.compareQ||'').trim(); if(w) this.runCompare(w, this.state.searchLang); },
       onSearchLang:(e)=>{ const v=e.target.value; this.setState({searchLang:v}); const s=this.state.screen; setTimeout(()=>{

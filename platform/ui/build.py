@@ -1116,6 +1116,9 @@ def main():
         print("  Kognat 2-graf (genel mod split): enjekte edildi")
     else:
         print("  ! Kognat 2-graf anchor bulunamadi")
+    # Kognat kelime-seçiciye class (mobilde iç-scroll cap; 254 kavram uzun scroll çözümü)
+    html = html.replace('<div style="display:flex;gap:8px;flex-wrap:wrap">\n          <sc-for list="{{ cognateKeys }}"',
+                        '<div class="kn-cogpick" style="display:flex;gap:8px;flex-wrap:wrap">\n          <sc-for list="{{ cognateKeys }}"', 1)
     # Karşılaştır harita SEKMESİ KALDIRILDI + atlas "← Karşılaştır" → Dizilim sekmesi (eski harita önizlemesi öldürüldü).
     html = html.replace("    const compareTabs = [['rows','Dizilim'],['sound','Ses denklikleri'],['tree','Soy ağacı'],['map','Harita']]",
                         "    const compareTabs = [['rows','Dizilim'],['sound','Ses denklikleri'],['tree','Soy ağacı']]", 1)
@@ -1439,6 +1442,9 @@ def main():
                     '            <div style="display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start">')
     if a5_inner_old in html:
         html = html.replace(a5_inner_old, a5_inner_new, 1); na5 += 1
+    # M10-1: radar görünümüne başlık (dilleri seçtikten sonra "direkt başlaması garip" → başlık)
+    html = html.replace('<div style="display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start">',
+        '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:1.5px;color:#9a9082;margin:0 0 10px">UZAKLIK RADARI</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start">', 1)
     # (3) OKUMA kutusunu sağ sütuna taşı (radar/eksen altına) → sağdaki boşluğu doldurur, denge kurar
     a5_okuma_old = (
         '          </div>\n'
@@ -1798,6 +1804,7 @@ def main():
     rb_old = "      navGroups, wordChips, screenTag:tag, query:S.query,"
     rb_new = ("      navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, compareQ:S.compareQ||'',\n"
               "      aquery:(S.aquery!=null?S.aquery:''), onAquery:(e)=>this.setState({aquery:e.target.value}),\n"
+              "      analizRun:()=>this.runAnalyze(), parRun:()=>{ const lemma=(this.state.paradigmFreeQ||'').trim(); if(lemma) this.runParadigm(lemma); }, cmpRun:()=>{ const w=(this.state.compareQ||'').trim(); if(w) this.runCompare(w, this.state.searchLang); },\n"
               "      onCompareInput:(e)=>this.setState({compareQ:e.target.value}),\n"
               "      onCompareKey:(e)=>{ if(e.key!=='Enter') return; const w=(this.state.compareQ||'').trim(); if(w) this.runCompare(w, this.state.searchLang); },\n"
               "      onSearchLang:(e)=>{ const v=e.target.value; this.setState({searchLang:v}); const s=this.state.screen; setTimeout(()=>{\n"
@@ -1817,6 +1824,7 @@ def main():
     analiz_new = ('        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:24px 0 0">\n'
                   '          <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz" style="flex:1;min-width:260px;max-width:480px;' + INP + '">\n'
                   '          ' + SELBOX + '\n'
+                  '          <button onClick="{{ analizRun }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:12px 18px;font-size:14px;font-family:inherit;font-weight:600;white-space:nowrap;flex-shrink:0">▷ Çözümle</button>\n'
                   '        </div>\n' + analiz_old)
     if analiz_old in html:
         html = html.replace(analiz_old, analiz_new, 1); nsel += 1
@@ -1829,6 +1837,7 @@ def main():
                '        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px">\n'
                '          <input value="{{ compareQ }}" onInput="{{ onCompareInput }}" onKeyDown="{{ onCompareKey }}" placeholder="Kelime yaz + Enter — diller arası canlı çözümle" style="flex:1;min-width:260px;max-width:480px;' + INP + '">\n'
                '          ' + SELBOX + '\n'
+               '          <button onClick="{{ cmpRun }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:12px 18px;font-size:14px;font-family:inherit;font-weight:600;white-space:nowrap;flex-shrink:0">▷ Karşılaştır</button>\n'
                '        </div>')
     if cmp_old in html:
         html = html.replace(cmp_old, cmp_new, 1); nsel += 1
@@ -1837,7 +1846,8 @@ def main():
 
     # Paradigma: giriş kutusunun yanına dil seçici + placeholder (artık üst barda değil)
     par_inp = '<input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — sağ üstteki dilde canlı çekim" style="flex:1;min-width:300px;max-width:520px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">'
-    par_new = ('<input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — canlı çekim" style="flex:1;min-width:260px;max-width:440px;' + INP + '">\n          ' + SELBOX)
+    par_new = ('<input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — canlı çekim" style="flex:1;min-width:260px;max-width:440px;' + INP + '">\n          ' + SELBOX
+               + '\n          <button onClick="{{ parRun }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:12px 18px;font-size:14px;font-family:inherit;font-weight:600;white-space:nowrap;flex-shrink:0">▷ Çek</button>')
     if par_inp in html:
         html = html.replace(par_inp, par_new, 1); nsel += 1
     else:
@@ -3622,6 +3632,13 @@ def main():
     #content-scroll [style*="overflow: auto"]::-webkit-scrollbar{ width:6px; height:6px; }
     #content-scroll [style*="overflow: auto"]::-webkit-scrollbar-thumb{ background:rgba(33,29,23,.30); border-radius:4px; }
     #content-scroll [style*="overflow: auto"]{ scrollbar-width:thin; }
+    /* Uzaklık iki liste: her iki listenin butonları EŞİT boyut (taban küçük durmasın) */
+    #content-scroll [style*="max-height: 404px"] button{ width:100% !important; box-sizing:border-box; padding:8px 11px !important; font-size:13px !important; justify-content:flex-start !important; }
+    /* Üreteç öznitelik etiketleri (TÜR/SAYI/İYELİK/HÂL, min-width:62px) tam satır → butonlar altında düzenli blok */
+    #content-scroll [style*="min-width: 62px"]{ flex-basis:100% !important; min-width:0 !important; margin-bottom:1px; }
+    /* Kognat genel kelime-seçici (254 kavram) kompakt: iç-scroll (uzun uzun sayfa kaydırma bitsin) */
+    .kn-cogpick{ max-height:188px !important; overflow-y:auto; scrollbar-width:thin; }
+    .kn-cogpick::-webkit-scrollbar{ width:6px; } .kn-cogpick::-webkit-scrollbar-thumb{ background:rgba(33,29,23,.3); border-radius:4px; }
   }
 """
     _mob_pairs = [

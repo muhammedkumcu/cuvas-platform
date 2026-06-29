@@ -38,12 +38,13 @@
 `DEVAM.md §0 ★★★ oku` → `build.py'ye yama` → `python platform/ui/build.py` →
 `Claude_Preview'da doğrula (reload + ayrı eval, async)` → `ayrı commit + push` → `MD güncelle`.
 
-## 4) ŞU AN NEREDE KALDIK (29 Haz · YAYIN)
+## 4) ŞU AN NEREDE KALDIK (29 Haz · YAYIN + MOBİL TAM)
 
-**★ PLATFORM CANLI — İLK YAYIN BİTTİ** (en güncel tek-bakış: **DEVAM §0 ★★★★★ YAYIN** + GELISTIRME-GUNLUGU **devam-33**). Tree temiz, push'lu.
+**★ PLATFORM CANLI + MOBİL TAM UYUMLU — BİTTİ** (en güncel tek-bakış: **DEVAM §0 ★★★★★ YAYIN+MOBİL** + GELISTIRME-GUNLUGU **devam-33..38**). Tree temiz, push'lu.
 - **CANLI:** UI **https://koken-morfoloji.web.app** (Firebase) · API **https://koken-api-1087019161757.europe-west3.run.app** (Cloud Run, sıfıra-inme, soğuk ~1.4sn).
 - **GCP:** proje `koken-morfoloji` · `europe-west3` · billing `01642B-2CB63A-E78542` · hesap ymuhammedk61@gmail.com. **Runbook: `deploy/README.md`.**
-- **Güvenlik (canlı doğrulandı):** CORS allowlist (evil engellendi ✓) · rate-limit 60/dk (burst 60/10×429 ✓) · girdi sınırları · başlıklar · /docs kapalı (404) · non-root · salt-okunur. Env-güdümlü → VM dev AYNI.
+- **Güvenlik (canlı doğrulandı):** CORS allowlist (evil engellendi ✓) · **rate-limit 600/dk/IP** (60→600, kullanıcı onayı; Karşılaştır ~20 istek/aksiyon) · girdi sınırları · başlıklar · /docs kapalı (404) · non-root · salt-okunur. Env-güdümlü → VM dev AYNI.
+- **MOBİL TAM UYUMLU — BİTTİ (v1→v5, devam-34..38):** hamburger drawer + üst-bar (tıklanabilir→home, "KÖKEN Türk Dilleri Atlası + Laboratuvarı") · `overflow-x:hidden` (sayfa yana kaymaz) + zoom:0.92 · 2-sütun→tek · Kognat 2-graf+Tümü kaldır · Paradigma 3-sütun tablo · morfem orantı + aksiyon butonları · Harita touch-pan. **360px 14/14 sıfır taşma, masaüstü değişmedi.**
 - **app.py VM↔repo md5 `e42e88be78b3964c6a8e6f7f424c0f15`** (sertleştirme sonrası, eşit). repo dist=localhost (dev); prod dist Firebase'e ayrı build.
 - **YENİDEN DEPLOY:** backend → `bash deploy/stage.sh` + `gcloud run deploy --source deploy/_ctx` (CORS env korunur). UI → `KOKEN_API_URL=<api> python platform/ui/build.py` + `firebase deploy --only hosting --project=koken-morfoloji`.
 - **SIRADAKİ (kullanıcı: yayından HEMEN sonra):** **C1 ses motoru** (Piper/MMS/eSpeak) → **C3 Ekosistem CRON**. Sonra tüm-dil güçlendirme, Bölüm D, paper.
@@ -94,11 +95,14 @@ Karşılaştır çöküyordu) → anchor'lar kararlı noktalara taşındı, heps
 
 ## 5) COMPACT SONRASI YAZILACAK RESUME PROMPTU
 
-> **DEVAM.md §0'daki ★★★★★ YAYIN (en üst) bloğunu oku — PLATFORM CANLI: UI https://koken-morfoloji.web.app
-> (Firebase) + API https://koken-api-1087019161757.europe-west3.run.app (Cloud Run, sıfıra-inme, soğuk ~1.4sn).
-> Tree temiz, push'lu. Detay: GELISTIRME-GUNLUGU devam-33, runbook deploy/README.md. GCP proje koken-morfoloji /
-> europe-west3 / billing 01642B-2CB63A-E78542. Güvenlik canlı doğrulandı: CORS allowlist, rate-limit 60/dk
-> (60/10×429), girdi sınırları, başlıklar, /docs kapalı, non-root, salt-okunur — hepsi env-güdümlü (VM dev AYNI).
+> **DEVAM.md §0'daki ★★★★★ YAYIN+MOBİL (en üst) bloğunu oku — PLATFORM CANLI + MOBİL TAM UYUMLU: UI
+> https://koken-morfoloji.web.app (Firebase) + API https://koken-api-1087019161757.europe-west3.run.app (Cloud
+> Run, sıfıra-inme, soğuk ~1.4sn). Tree temiz, push'lu. Detay: GELISTIRME-GUNLUGU devam-33..38, runbook
+> deploy/README.md. GCP proje koken-morfoloji / europe-west3 / billing 01642B-2CB63A-E78542. Güvenlik canlı
+> doğrulandı: CORS allowlist, rate-limit 600/dk, girdi sınırları, başlıklar, /docs kapalı, non-root, salt-okunur
+> — hepsi env-güdümlü (VM dev AYNI). MOBİL (v1→v5): hamburger drawer, overflow-x:hidden (sayfa yana kaymaz),
+> Kognat 2-graf+Tümü-kaldır, Paradigma 3-sütun tablo, üst-bar tıklanabilir→home, aksiyon butonları, Harita
+> touch-pan — 360px 14/14 sıfır taşma, masaüstü korundu.
 > app.py VM↔repo md5 e42e88be (eşit). YENİDEN DEPLOY: backend→`bash deploy/stage.sh`+`gcloud run deploy --source
 > deploy/_ctx` (CORS env korunur); UI→`KOKEN_API_URL=<api> python platform/ui/build.py`+`firebase deploy --only
 > hosting --project=koken-morfoloji`. repo dist=localhost(dev), prod dist Firebase'e ayrı build.

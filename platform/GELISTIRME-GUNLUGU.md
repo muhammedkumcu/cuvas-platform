@@ -322,6 +322,13 @@ devam-27'nin devamı. **BİTEN (hepsi canlı doğrulandı + commit):**
 **KÖK NEDEN cevapları (kullanıcı sordu) → plan #54/#55/#56:** Üreteç boş üretim = apertium dilden-dile zaman etiketi farkı; humanizer kontrollü-yol garanti+Analiz +24; Karşılaştır statik≠dinamik segmentasyon.
 **Bu oturum toplam ~33 commit, tree temiz.** SIRADAKİ kalan: #51-derin/#47-zaman-çizelgesi opsiyonel · #40 Tarih box-içi kaynak SİL (alt zaten var) · #45 Üreteç kaynakça · #48 Uzaklık okuma-doğrula · #49 Ekosistem yeni-kaynak · #43 ağaç-toggle taşı + kalite-özeti · #35 flicker · **#54/#55/#56** morfoloji-doğruluk · **#57** GeoJSON harita · **Yayın** (C1/C3 sonrası: Cloudflare Pages + HF Space/Cloud Run).
 
+## EK-OTURUM (29 Haz, devam-38) — MOBİL v5: Kognat "Tümü" kaldır + üst-bar tam-ad/tıklanabilir + home label
+**Kullanıcı son 3 UI isteği (ekran görüntülü) → tek patch, canlı.** 14/14 OK, masaüstü korundu.
+- **Kognat GENİŞ "Tümü" kaldırıldı (kullanıcı önerisi "sorun çözülür"):** broad'da 'all' kategori chip'i `((S.cognateMode==='broad')?[]:[...])` ile düşürüldü; `_eff = (broad && _ccat==='all') ? _catList[0] : _ccat` → varsayılan ilk kategoriye (28 kelime, 254 değil) düşer; _mkCat sel + filtre `_eff` kullanır. 254-kavram uzun-scroll KÖKTEN çözüldü (kn-cogpick cap'i de kalıyor).
+- **Üst bar (kn-mbar):** "KÖKEN · Türk Dilleri" → iki-tonlu `<b>KÖKEN</b>` (Spectral 16px) + `.kn-mbar-sub` "Türk Dilleri Atlası + Laboratuvarı" (10.5px açık, tek satır ellipsis); **TIKLANABİLİR → ana sayfa** (`goHome:this.go('home')` rb_new'e eklendi).
+- **Ana sayfa:** üstteki turuncu "TÜRK DİLLERİ ATLASI + LABORATUVARI" etiketi KALDIRILDI (üst-bar zaten gösteriyor) + hero üst padding `56→30px` (boşluk azaldı, başlık yukarı). Hem masaüstü hem mobil.
+- **DERS:** ① mod-koşullu kategori: `S.cognateMode==='broad'` cat-building scope'unda mevcut (SRC/_broad enjeksiyonu önce). ② üst-bar nav = `goHome:this.go('home')` (go closure döner). **MOBİL TAM UYUMLULUK TAMAMLANDI (v1→v5).**
+
 ## EK-OTURUM (29 Haz, devam-37) — MOBİL v4: kalan 4 kalem (Uzaklık/Üreteç/Kognat-seçici/aksiyon-butonları)
 **Kullanıcı: "devam-36'da ertelediğin 4 kalemi de bu patch'te yap."** → tek patch, canlı deploy. 14/14 OK, masaüstü korundu, konsol temiz.
 - **Uzaklık iki liste EŞİT:** taban dil küçük duruyordu → `[style*="max-height: 404px"] button{ width:100%; padding/font uniform }`; **radar görünümüne "UZAKLIK RADARI" başlık** (`1fr 1fr;gap:26px` grid'inden önce; "direkt başlaması garip" çözüldü); scrollbar görünür.

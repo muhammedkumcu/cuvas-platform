@@ -3538,6 +3538,69 @@ def main():
     # #61c — KAYNAKLAR'ı EN SON enjekte et (açıklama kutusu eklendikten sonra → en dipte).
     html = _inject_psrc(html)
 
+    # ===== MOBİL RESPONSIVE (M1) — kabuk hook'ları + hamburger drawer + responsive stylesheet =====
+    # İnline stiller media query ile ezilemez → kabuk elemanlarına class ekle, !important'lı <style> enjekte.
+    # Drawer durumu React state yerine body.kn-nav-open class'ında yaşar (re-render fragility yok).
+    _MOB_CSS = """  /* ===== KÖKEN mobil responsive (build.py M1) ===== */
+  .kn-burger{ display:none; }
+  .kn-nav-overlay{ display:none; }
+  .kn-mbar{ display:none; }
+  @media (max-width: 860px){
+    .kn-aside{ position:fixed !important; left:0; top:0; z-index:60; width:264px !important; max-width:84vw;
+      transform:translateX(-100%); transition:transform .25s ease; box-shadow:0 0 44px rgba(0,0,0,.45); }
+    body.kn-nav-open .kn-aside{ transform:translateX(0); }
+    .kn-nav-overlay{ display:block; position:fixed; inset:0; z-index:55; background:rgba(0,0,0,.46);
+      opacity:0; pointer-events:none; transition:opacity .25s ease; }
+    body.kn-nav-open .kn-nav-overlay{ opacity:1; pointer-events:auto; }
+    .kn-burger{ display:inline-flex; align-items:center; justify-content:center; width:42px; height:42px;
+      flex-shrink:0; cursor:pointer; border:1px solid rgba(33,29,23,.18); border-radius:9px;
+      background:#fff; color:#211d17; font-size:20px; line-height:1; }
+    .kn-mbar{ display:flex; align-items:center; gap:12px; padding:9px 13px; position:sticky; top:0; z-index:45;
+      background:#faf8f2; border-bottom:1px solid rgba(33,29,23,.1); }
+    .kn-mbar-title{ font-family:'Spectral',serif; font-weight:600; font-size:16px; color:#211d17; }
+    #content-scroll section{ padding-left:16px !important; padding-right:16px !important; max-width:100% !important; }
+    #content-scroll h1{ font-size:31px !important; line-height:1.12 !important; }
+    #content-scroll input{ min-width:0 !important; max-width:100% !important; font-size:16px !important; }
+    #content-scroll table{ display:block; overflow-x:auto; max-width:100%; -webkit-overflow-scrolling:touch; }
+    /* NOT: framework inline stilleri boşlukla normalize eder → değer kısmına göre eşleştir */
+    /* Kognat grafiği: 2-sütun (graf | 300px SES NOTU) → tek sütun; graf full-width sığsın, not altına yığılsın */
+    #content-scroll [style*="1fr 300px"]{ grid-template-columns:1fr !important; }
+    /* çok-sütunlu kart/ızgara düzenleri mobilde tek sütun (genel) */
+    #content-scroll [style*="repeat(2"]{ grid-template-columns:1fr !important; }
+    #content-scroll [style*="1fr 1fr"]{ grid-template-columns:1fr !important; }
+  }
+"""
+    _mob_pairs = [
+        # kök kabuk → class
+        ('<div style="height:100vh;overflow:hidden;display:flex;background:#f4f1ea;color:#211d17;font-family:\'IBM Plex Sans\',sans-serif">',
+         '<div class="kn-shell" style="height:100vh;overflow:hidden;display:flex;background:#f4f1ea;color:#211d17;font-family:\'IBM Plex Sans\',sans-serif">'),
+        # aside → class
+        ('<aside style="width:230px;flex-shrink:0;background:#211d17;color:#f4f1ea;display:flex;flex-direction:column;position:sticky;top:0;height:100vh">',
+         '<aside class="kn-aside" style="width:230px;flex-shrink:0;background:#211d17;color:#f4f1ea;display:flex;flex-direction:column;position:sticky;top:0;height:100vh">'),
+        # mobil bar (main başına): üst context-bar build.py'de kaldırılmış → hamburger için slim mobil-only bar
+        ('<main style="flex:1;min-width:0;display:flex;flex-direction:column">',
+         '<main style="flex:1;min-width:0;display:flex;flex-direction:column">\n    <div class="kn-mbar"><button class="kn-burger" onClick="{{ toggleNav }}" aria-label="Menü">☰</button><span class="kn-mbar-title">KÖKEN · Türk Dilleri</span></div>'),
+        # overlay (aside ile main arasına, shell kökünde)
+        ('  <!-- ============ MAIN ============ -->',
+         '  <div class="kn-nav-overlay" onClick="{{ toggleNav }}"></div>\n  <!-- ============ MAIN ============ -->'),
+        # toggleNav handler (renderVals return başı)
+        ('    return {\n      navGroups, wordChips, screenTag:tag, query:S.query,',
+         '    return {\n      toggleNav:()=>{try{document.body.classList.toggle(\'kn-nav-open\');}catch(e){}},\n      navGroups, wordChips, screenTag:tag, query:S.query,'),
+        # go() nav → seçince drawer kapansın
+        ('go(screen){ return () => { this.setState({ screen }); this.scrollTop(); }; }',
+         'go(screen){ return () => { this.setState({ screen }); this.scrollTop(); try{document.body.classList.remove(\'kn-nav-open\');}catch(e){} }; }'),
+        # responsive stylesheet → mevcut helmet <style>'ına ekle
+        ('  button { font: inherit; }\n</style>',
+         '  button { font: inherit; }\n' + _MOB_CSS + '</style>'),
+    ]
+    nmob = 0
+    for _old, _new in _mob_pairs:
+        if _old in html:
+            html = html.replace(_old, _new, 1); nmob += 1
+        else:
+            print("  ! MOBIL anchor bulunamadi:", _old[:54])
+    print(f"  MOBIL responsive (M1 kabuk+drawer+stylesheet): {nmob}/{len(_mob_pairs)} yama")
+
     (DIST / "index.html").write_text(html, encoding="utf-8")
     shutil.copy(UI / "support.js", DIST / "support.js")
 

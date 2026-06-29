@@ -3211,6 +3211,52 @@ def main():
         html = html.replace("      {id:'about', label:'Hakkında'},\n", "", 1); n42 += 1
     print(f"  #42 Hakkında ana sayfaya taşındı + nav'dan çıkarıldı: {n42}/2")
 
+    # ── #31 — sayfa-altı "Kaynaklar" bölümü (Tarih/Uzaklık/Harita/Kognat). En önemli kaynak başta,
+    # "ne için kullandık" notuyla. (Quality + Dilin Kalbi zaten yapıldı; Ekosistem'de gerek yok.) ──
+    def _psrc(items):
+        lis = "".join('            <li style="margin-bottom:5px"><b>%s</b> — <span style="color:#5f574b">%s</span></li>\n' % (k, n) for k, n in items)
+        return ('        <div style="margin-top:38px;padding-top:18px;border-top:1px solid rgba(33,29,23,.1)">\n'
+                "          <div style=\"font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:10px\">KAYNAKLAR</div>\n"
+                '          <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;color:#211d17">\n'
+                + lis +
+                '          </ul>\n'
+                '        </div>')
+    _psrc_pages = [
+        ("YAKINDA (planlanan modüller)", [
+            ("Savelyev &amp; Robbeets (2020), <i>JoLE</i>", "Bayesçi soy ağacı + ses yasaları (rotasizm/lambdasizm) ve ayrışma düğümleri"),
+            ("Johanson (2021)", "altı kol tasnifi ve izogloslar"),
+            ("Tekin · Arat · Dankoff &amp; Kelly · Golden · Erdal · Róna-Tas", "zaman çizelgesi: yazıtlar, sözlükler, tarihsel diller"),
+        ]),
+        ("PARADİGMA GEZGİNİ", [
+            ("Savelyev &amp; Robbeets (2020), SavelyevTurkic CLDF (CC BY 4.0)", "leksikal + filogenetik uzaklık (kognat matrisi)"),
+            ("WALS — World Atlas of Language Structures", "tipolojik özellik uzaklığı"),
+            ("Lindsay vd.", "karşılıklı anlaşılabilirlik"),
+            ("Glottolog 5 (CC BY 4.0)", "coğrafi koordinatlar"),
+        ]),
+        ("OGREN", [
+            ("Glottolog 5 (CC BY 4.0)", "dil merkez koordinatları (şematik projeksiyon)"),
+            ("Johanson (2021)", "kol tasnifi ve renk kodu"),
+        ]),
+        ("DİL PROFİLLERİ + CANLILIK", [
+            ("Savelyev &amp; Robbeets (2020), SavelyevTurkic CLDF (CC BY 4.0)", "kognat setleri, ses kuralları, boşluk tespiti"),
+            ("Clauson, <i>An Etymological Dictionary of Pre-Thirteenth-Century Turkish</i>", "Ana Türkçe yeniden kurulan kök biçimleri"),
+            ("Wiktionary", "biçim/yazım çapraz-kontrolü"),
+        ]),
+    ]
+    n31 = 0
+    for _nc, _items in _psrc_pages:
+        _ins = _psrc(_items)
+        _cmt = '<!-- ===================== ' + _nc + ' ===================== -->'
+        _a2 = '      </section>\n      </sc-if>\n\n      ' + _cmt   # blank satırlı
+        _a1 = '      </section>\n      </sc-if>\n      ' + _cmt      # blank satırsız (ör. ATLAS)
+        if _a2 in html:
+            html = html.replace(_a2, _ins + '\n' + _a2, 1); n31 += 1
+        elif _a1 in html:
+            html = html.replace(_a1, _ins + '\n' + _a1, 1); n31 += 1
+        else:
+            print("  ! #31 Kaynaklar anchor eşleşmedi:", _nc)
+    print(f"  #31 sayfa-altı Kaynaklar (Tarih/Uzaklık/Harita/Kognat): {n31}/4")
+
     # ============================================================
     #  G2 (mini kalite rozeti → Kalite & Kapsam) + U2 (round-trip köprüsü: Üreteç sonucu → Analiz)
     # ============================================================

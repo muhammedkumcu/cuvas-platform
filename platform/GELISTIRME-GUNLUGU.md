@@ -322,6 +322,13 @@ devam-27'nin devamı. **BİTEN (hepsi canlı doğrulandı + commit):**
 **KÖK NEDEN cevapları (kullanıcı sordu) → plan #54/#55/#56:** Üreteç boş üretim = apertium dilden-dile zaman etiketi farkı; humanizer kontrollü-yol garanti+Analiz +24; Karşılaştır statik≠dinamik segmentasyon.
 **Bu oturum toplam ~33 commit, tree temiz.** SIRADAKİ kalan: #51-derin/#47-zaman-çizelgesi opsiyonel · #40 Tarih box-içi kaynak SİL (alt zaten var) · #45 Üreteç kaynakça · #48 Uzaklık okuma-doğrula · #49 Ekosistem yeni-kaynak · #43 ağaç-toggle taşı + kalite-özeti · #35 flicker · **#54/#55/#56** morfoloji-doğruluk · **#57** GeoJSON harita · **Yayın** (C1/C3 sonrası: Cloudflare Pages + HF Space/Cloud Run).
 
+## EK-OTURUM (29 Haz, devam-39) — MOBİL v6 (son UI cila): üst-boşluk standart + buton/rozet tutarlılık
+**Kullanıcı son UI istekleri → tek patch, canlı. 14/14 OK, konsol temiz, masaüstü korundu.**
+- **Üst boşluk STANDART (kullanıcı: sayfa üstü etiket/başlıklar farklı uzaklıklarda):** mobilde tüm `#content-scroll section{ padding-top:16px }` + `section > :first-child{ margin-top:0 }` → bar→turuncu-etiket/başlık her sayfada EŞİT. Home hero `padding:56→30` (başlık-bar arası fazla boşluk gitti).
+- **Aksiyon butonları tutarlı (kullanıcı: Analiz Çözümle'yi Üreteç/Paradigma ile tıpatıp aynı):** 3 buton padding `12px 18px → 11px 22px` (Üreteç ÜRET ile bire bir); Çözümle artık dil-seçicinin sağında (rozet aradan kalktı). Paradigma "Çek" → "**Çekimle**".
+- **KALİTE rozeti (kullanıcı: Üreteç'te yukarıda kalmış, butonların altına + küçült):** `_qchip` SELBOX-yanı yerine **aksiyon butonunun HEMEN ALTINA** (`flex-basis:100%` kendi satırı; Analiz+Paradigma+Karşılaştır+Üreteç tutarlı); Üreteç rozeti intro'dan ÜRET-altına taşındı; rozet küçültüldü (padding 6→4px, font 11.5→10.5px). Canlı doğrulama: Analiz "KALİTE olgun·%94.8" + Üreteç "beta·%94.4" butonların ALTINDA.
+- **DERS:** üst-boşluk standardı = section padding-top + first-child margin:0 (inline marjlar değişken). **MOBİL TAM UYUMLULUK + UI CİLA TAMAMLANDI (v1→v6).**
+
 ## EK-OTURUM (29 Haz, devam-38) — MOBİL v5: Kognat "Tümü" kaldır + üst-bar tam-ad/tıklanabilir + home label
 **Kullanıcı son 3 UI isteği (ekran görüntülü) → tek patch, canlı.** 14/14 OK, masaüstü korundu.
 - **Kognat GENİŞ "Tümü" kaldırıldı (kullanıcı önerisi "sorun çözülür"):** broad'da 'all' kategori chip'i `((S.cognateMode==='broad')?[]:[...])` ile düşürüldü; `_eff = (broad && _ccat==='all') ? _catList[0] : _ccat` → varsayılan ilk kategoriye (28 kelime, 254 değil) düşer; _mkCat sel + filtre `_eff` kullanır. 254-kavram uzun-scroll KÖKTEN çözüldü (kn-cogpick cap'i de kalıyor).

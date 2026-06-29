@@ -1692,14 +1692,16 @@ def main():
         "      this.setState({genSeeded:true, genLemma:(this.state.genLemma||'хӗр'), genLang:(this.state.genLang||'chv'), genPos:(this.state.genPos||'n'), genNum:(this.state.genNum||'sg'), genPx:(this.state.genPx||''), genCase:(this.state.genCase||'dat')});\n"
         "      setTimeout(()=>this.runGenerate(),0);\n"
         "    }\n"
-        # #55 — Karşılaştır TUTARLILIK: analiz edilen (API) bir kelimeyle compare ekranına gelince, statik
-        # (boş cognates → kırık) yerine canlı /crosslang DİNAMİĞİ otomatik çalışsın. Dinamik = otorite (ek
-        # yazımı gold round-trip doğrulandı). Curated varsayılan kelimenin statik kognat showcase'i KORUNUR
-        # (activeWordId!=='__api' → tetiklenmez). _cmpSeed guard'ı uçuştaki tekrar-tetiklemeyi önler.\n"
-        "    if (this.state.screen==='compare' && this.state.activeWordId==='__api' && this.state.apiWord && this.state.apiWord.surface\n"
-        "        && !(this.state.compareApi && this.state.compareApi.word===this.state.apiWord.surface)){\n"
-        "      const _sfc=this.state.apiWord.surface, _lg=this.state.apiMatchLang||this.state.searchLang||'auto';\n"
-        "      if(this._cmpSeed!==_sfc){ this._cmpSeed=_sfc; setTimeout(()=>this.runCompare(_sfc,_lg),0); }\n"
+        # #55b (kullanıcı) — Karşılaştır ARTIK HER ZAMAN DİNAMİK: statik (cognates_deep) ekrandan kurtulduk.
+        # Compare ekranına gelince AKTİF kelimenin (API ya da curated varsayılan) yüzeyi için otomatik
+        # /crosslang çalışır → tek otorite canlı FST (statik≠dinamik tutarsızlığı biter). _cmpSeed guard.\n"
+        "    if (this.state.screen==='compare'){\n"
+        "      const _w=this.active();\n"
+        "      const _sfc=(this.state.activeWordId==='__api' && this.state.apiWord) ? this.state.apiWord.surface : (_w&&_w.surface);\n"
+        "      const _lg=(this.state.activeWordId==='__api') ? (this.state.apiMatchLang||this.state.searchLang||'auto') : 'auto';\n"
+        "      if(_sfc && !(this.state.compareApi && this.state.compareApi.word===_sfc) && this._cmpSeed!==_sfc){\n"
+        "        this._cmpSeed=_sfc; setTimeout(()=>this.runCompare(_sfc,_lg),0);\n"
+        "      }\n"
         "    }\n"
         "  }"))
     # 3) paradigmVals: API satırları varsa onları kullan
@@ -2269,7 +2271,8 @@ def main():
         "    const CBR = {tur:'Oğuz',aze:'Oğuz',tuk:'Oğuz',kaz:'Kıpçak',kir:'Kıpçak',tat:'Kıpçak',bak:'Kıpçak',uzb:'Karluk',uig:'Karluk',chv:'Ogur',sah:'Sibirya'};\n"
         "    const allLangs = cmpRows\n"
         "      ? Object.entries(cmpRows).map(([lc,info])=>{ const seg=info.morphemes; const ms = (seg && seg.length) ? seg.map(m=>[m.surface, this.humanBadge(m.tag||''), (m.type||'kök')]) : [[info.surface,'KÖK','kök']]; return {lang:lc, langName:(this.LIVE_LN[lc]||lc), branch:(CBR[lc]||'—'), translit:info.surface, morphemes:ms, self:!!info.self}; })\n"
-        "      : [{lang:w.lang,langName:w.langName,branch:'Ogur',translit:w.translit,morphemes:w.morphemes.map(m=>[m.text,m.tag,m.type]),self:true}, ...w.cognates];"))
+        # #55b — statik cognates fallback KALDIRILDI: dinamik gelene kadar yalnız self-satır (statik ekran yok).
+        "      : [{lang:w.lang,langName:w.langName,branch:(CBR[w.lang]||'—'),translit:(w.surface||w.translit),morphemes:w.morphemes.map(m=>[m.text,m.tag,m.type]),self:true}];"))
     # başlık: A2 — sekmeye-duyarlı. Dizilim'de canlı kelimenin yüzey biçimi + "— diller arası";
     # mantıksız sekmelerde (ses denklikleri/soy ağacı/harita) kelime referansı YOK, sekme başlığı.
     dfix.append(("compare başlık binding (A2 sekmeye-duyarlı)",
@@ -2429,10 +2432,13 @@ def main():
               "kindLabel:({kok:'KÖK',goc:'ERKEN GÖÇ',klasik:'KLASİK',ortacag:'ORTA ÇAĞ',modern:'MODERN',bugun:'BUGÜN'})[h.kind]||''})),")
     nhr = 1 if hr_old in html else 0
     html = html.replace(hr_old, hr_new, 1)
-    # #40: timeline per-satır KAYNAK atıfı kaldırıldı — kronoloji kaynakları artık yalnız sayfa-altı
-    # KAYNAKLAR'da (Tekin · Arat · Dankoff & Kelly · Golden · Erdal · Róna-Tas). src alanı veride durur,
-    # UI'a basılmaz (çift kaynak temizlendi). HISTORY içeriği (era/title/desc) DEĞİŞMEDİ.
-    ntl = 0
+    # #40b (kullanıcı GERİ İSTEDİ): kronolojide HER OLAYIN kendi kaynağı (Tekin 1968 · Arat 1947 ·
+    # Dankoff & Kelly 1982 …) per-satır geri getirildi — bilgi-bazlı, farklı farklı atıflar. Tarih
+    # sayfasında AYRICA sayfa-altı KAYNAKLAR İSTENMİYOR (per-olay yeterli) → isHistory _kaynak'tan çıkarılır.
+    tl_old = '<div style="font-size:14px;line-height:1.6;color:#5f574b;max-width:64ch">{{ h.desc }}</div>'
+    tl_new = (tl_old + '\n              <div style="font-size:11px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;margin-top:5px">{{ h.src }}</div>')
+    ntl = 1 if tl_old in html else 0
+    html = html.replace(tl_old, tl_new, 1)
     print(f"  R5b-3 Tarih zenginlestirme (ds20): bayes_blok=1 kol_detay={len(KOLLAR)} timeline={nhist}x{len(HIST15)}satir historyRows={nhr} kaynak_satiri={ntl}")
 
     old_family = (
@@ -3269,9 +3275,9 @@ def main():
         '          <div style="margin-top:15px;padding-top:14px;border-top:1px dashed rgba(33,29,23,.16);font-size:12.5px;line-height:1.6;color:#3f3a32">\n'
         '            <b>Fiil çekim tipleri (neden bazı diller farklı davranır):</b>\n'
         '            <div style="margin-top:7px;display:flex;flex-direction:column;gap:6px">\n'
-        '              <div><b style="color:#3f8a5c">① Doğrudan-kişi</b> — kişi eki gövdeye doğrudan eklenir; <b>tüm zamanlar kişi-çekimli üretilir</b>. Çuvaşça, Kıpçak (Kazak·Kırgız·Tatar·Başkurt·Karakalpak·Kumuk·Nogay), Karluk (Özbek·Uygur), Sahaca, Kırım Tatar.</div>\n'
-        '              <div><b style="color:#b8602e">② Oğuz-kopula</b> — şimdiki/gelecek/geniş zaman <b>ek-fiil (kopula)</b> ile kurulur; apertium üreteci bunları kişi-çekimli üretmez → Üreteç <b>yalın biçimi</b> (geliyor/gelecek/gelir) gösterir, analiz biçimi yine de tam çözer. <b>Türkçe</b> (Azerice/Gagavuz/Türkmen daha çok kişili üretir).</div>\n'
-        '              <div><b style="color:#9a8f82">③ Zayıf prototip</b> — fiil üreticisi henüz sınırlı; isim çalışır, fiil çekimi eksik. Altayca·Hakasça·Karaçay-Balkar·Tuvaca. Bu, dilin değil <b>FST gelişim düzeyinin</b> sınırıdır.</div>\n'
+        '              <div><b>1) Doğrudan-kişi</b> — kişi eki gövdeye doğrudan eklenir; <b>tüm zamanlar kişi-çekimli üretilir</b>. Çuvaşça, Kıpçak (Kazak·Kırgız·Tatar·Başkurt·Karakalpak·Kumuk·Nogay), Karluk (Özbek·Uygur), Sahaca, Kırım Tatar.</div>\n'
+        '              <div><b>2) Oğuz-kopula</b> — şimdiki/gelecek/geniş zaman <b>ek-fiil (kopula)</b> ile kurulur; apertium üreteci bunları doğrudan üretmez. <b>Türkçe</b>de bunu <b>kopula-birleştirici</b> ile çözdük: yalın zaman gövdesi (geliyor) + dilin gerçek ek-fiil eki + morfofonoloji (ünlü uyumu, ünsüz yumuşaması) → <b>geliyorum · geleceğim · gelirim</b> kişi-çekimli üretilir (Üreteç\'te "birleştirilerek üretildi" notuyla işaretli). Azerice/Gagavuz/Türkmen bunları FST\'de zaten doğrudan üretir.</div>\n'
+        '              <div><b>3) Zayıf prototip</b> — fiil üreticisi henüz sınırlı; isim çalışır, fiil çekimi eksik. Altayca·Hakasça·Karaçay-Balkar·Tuvaca. Bu, dilin değil <b>FST gelişim düzeyinin</b> sınırıdır (genel güçlendirme planda).</div>\n'
         '            </div>\n'
         '          </div>\n'
         '        </div>\n'
@@ -3362,9 +3368,8 @@ def main():
         "isProfile": [("Savelyev &amp; Robbeets (2020), SavelyevTurkic CLDF (CC BY 4.0)", "kognat setleri ve ses kuralları"),
                       ("Ethnologue · UNESCO · Glottolog derlemesi", "konuşur sayısı, canlılık (EGIDS) ve tehlike durumu"),
                       ("Clauson, <i>EDT</i> · Wiktionary", "Ana Türkçe kök ve biçim çapraz-kontrolü")],
-        "isHistory": [("Savelyev &amp; Robbeets (2020), <i>JoLE</i>", "Bayesçi soy ağacı + ses yasaları (rotasizm/lambdasizm) ve ayrışma düğümleri"),
-                      ("Johanson (2021)", "altı kol tasnifi ve izogloslar"),
-                      ("Tekin · Arat · Dankoff &amp; Kelly · Golden · Erdal · Róna-Tas", "zaman çizelgesi: yazıtlar, sözlükler, tarihsel diller")],
+        # isHistory: sayfa-altı KAYNAKLAR İSTENMİYOR (kullanıcı) — kronolojide per-olay kaynak yeterli.
+        # isEco: bu sayfada KAYNAKLAR gerek yok (kullanıcı).
         "isDistance": [("Savelyev &amp; Robbeets (2020), SavelyevTurkic CLDF (CC BY 4.0)", "leksikal + filogenetik uzaklık (kognat matrisi)"),
                        ("WALS — World Atlas of Language Structures", "tipolojik özellik uzaklığı"),
                        ("Lindsay vd.", "karşılıklı anlaşılabilirlik"),
@@ -3375,10 +3380,6 @@ def main():
                       ("Wiktionary", "biçim/yazım çapraz-kontrolü")],
         "isGenerate": [("Apertium FST'leri (GPL-3.0)", "morfolojik üretim (autogen) ve yüzey morfem bölümleme; 20 Türk dili"),
                        ("UniMorph 4.0 · UD treebank'leri", "üretilen biçimlerin doğruluk denetimi (bkz. Kalite &amp; Kapsam)")],
-        "isEco": [("Hugging Face Hub", "model/veri kartları, pipeline aramaları, leaderboard'lar"),
-                  ("GitHub · Zenodo", "açık kaynak araç depoları ve arşivlenmiş veri setleri"),
-                  ("Mozilla Common Voice", "topluluk-katkılı açık konuşma verisi"),
-                  ("Apertium · Zemberek · TRmorph · VNLP", "açık morfoloji / NLP araç projeleri")],
         "isQuality": [("Apertium FST'leri (GPL-3.0)", "20 Türk dili canlı morfoloji motoru (sözlük · tutarlılık · olgunluk)"),
                       ("UniMorph 4.0 · Universal Dependencies", "doğruluk için insan-küratörlü gold (lemma + cümle)"),
                       ("FLORES-200 (CC-BY-SA) · HF açık korpuslar / fineweb-2", "kapsam (gerçek metin recall)"),
@@ -3388,24 +3389,28 @@ def main():
                     ("Erdal (1993), İdil Bulgar yazıtları", "Oğur/Bulgar kolunun tarihsel kaydı"),
                     ("Savelyev &amp; Robbeets (2020)", "rotasizm/lambdasizm ve Oğur ayrımı (Bayes filogeni)")],
     }
-    n31 = 0
-    for _sid, _items in _kaynak_by_screen.items():
-        _m = re.search(r'<sc-if value="\{\{ ' + _sid + r' \}\}"', html)
-        if not _m:
-            print("  ! #61 ekran bulunamadı:", _sid); continue
-        _start = _m.start()
-        # bu ekranın bölgesi: kendi sc-if'inden BİR SONRAKİ EKRAN sc-if'ine kadar (nested tab'lar atlanır)
-        _end = len(html)
-        for _nm in re.finditer(r'<sc-if value="\{\{ (is[A-Z]\w+) \}\}"', html[_start + 12:]):
-            if _nm.group(1) in _SCREENS:
-                _end = _start + 12 + _nm.start(); break
-        _region = html[_start:_end]
-        _li = _region.rfind('      </section>')
-        if _li < 0:
-            print("  ! #61 section-kapanışı yok:", _sid); continue
-        _abs = _start + _li
-        html = html[:_abs] + _psrc(_items) + '\n' + html[_abs:]; n31 += 1
-    print(f"  #61 KAYNAKLAR ekran-id tabanlı (analiz/karşılaştır/harita/profil/tarih/uzaklık/paradigma/kognat): {n31}/8")
+    # #61c — _psrc enjeksiyonu FONKSİYON; PAGE_HELP (açıklama kutusu) enjeksiyonundan SONRA çağrılır ki
+    # KAYNAKLAR "Bu sayfa ne anlatıyor?" kutusunun da ALTINA (sayfanın en dibine) gelsin (kullanıcı).
+    def _inject_psrc(html):
+        n31 = 0
+        for _sid, _items in _kaynak_by_screen.items():
+            _m = re.search(r'<sc-if value="\{\{ ' + _sid + r' \}\}"', html)
+            if not _m:
+                print("  ! #61 ekran bulunamadı:", _sid); continue
+            _start = _m.start()
+            _end = len(html)
+            for _nm in re.finditer(r'<sc-if value="\{\{ (is[A-Z]\w+) \}\}"', html[_start + 12:]):
+                if _nm.group(1) in _SCREENS:
+                    _end = _start + 12 + _nm.start(); break
+            _region = html[_start:_end]
+            # PAGE_HELP açıklama enjekte edince </section> önündeki 6-boşluk girinti bozulabilir → girintisiz ara.
+            _li = _region.rfind('</section>')
+            if _li < 0:
+                print("  ! #61 section-kapanışı yok:", _sid); continue
+            _abs = _start + _li
+            html = html[:_abs] + _psrc(_items) + '\n        ' + html[_abs:]; n31 += 1
+        print(f"  #61 KAYNAKLAR ekran-id tabanlı (açıklama kutusunun altında): {n31}/{len(_kaynak_by_screen)}")
+        return html
 
     # ============================================================
     #  G2 (mini kalite rozeti → Kalite & Kapsam) + U2 (round-trip köprüsü: Üreteç sonucu → Analiz)
@@ -3527,6 +3532,9 @@ def main():
         html, n = pat.subn(lambda m, _hb=hb: m.group(1) + m.group(2) + _hb + m.group(3), html, count=1)
         naciklama += n
     print(f"  R-ACIKLAMA 'Bu sayfa ne anlatiyor?': {naciklama}/{len(PAGE_HELP)} sayfa")
+
+    # #61c — KAYNAKLAR'ı EN SON enjekte et (açıklama kutusu eklendikten sonra → en dipte).
+    html = _inject_psrc(html)
 
     (DIST / "index.html").write_text(html, encoding="utf-8")
     shutil.copy(UI / "support.js", DIST / "support.js")

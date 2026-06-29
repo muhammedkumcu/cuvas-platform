@@ -38,9 +38,11 @@
 `DEVAM.md §0 ★★★ oku` → `build.py'ye yama` → `python platform/ui/build.py` →
 `Claude_Preview'da doğrula (reload + ayrı eval, async)` → `ayrı commit + push` → `MD güncelle`.
 
-## 4) ŞU AN NEREDE KALDIK (29 Haz gece-5)
+## 4) ŞU AN NEREDE KALDIK (29 Haz gece-6)
 
-**★ TÜM İNCELEME + DERİN MORFOLOJİ ONARIMI BİTTİ** (en güncel tek-bakış: **DEVAM §0 ★★★★★** + GELISTIRME-GUNLUGU **devam-29/30/31**). Tree temiz, push'lu. **VM app.py deploy md5 senkron (cac90d4).** Kullanıcının ~50 maddelik inceleme + 2 tur derin geri bildirim BİTTİ:
+**★ TÜM İNCELEME + DERİN MORFOLOJİ ONARIMI + UI CİLA BİTTİ** (en güncel tek-bakış: **DEVAM §0 ★★★★★** + GELISTIRME-GUNLUGU **devam-29..32**). Tree temiz, push'lu. **VM app.py deploy md5 senkron (cac90d4).**
+- **gece-6 deltaları:** **STATİK COMPARE KALDIRILDI** (Karşılaştır hep dinamik, okuduk вуларӑмӑр/аахтыбыт doğru) · **Tarih per-olay kaynak GERİ** (Tekin/Arat…) + Tarih/Eko sayfa-altı KAYNAKLAR YOK · **KAYNAKLAR açıklama kutusunun ALTINA** (_psrc PAGE_HELP'ten sonra) · Quality "Motor neyi yapabiliyor" combiner-güncel + 1)/2)/3) düz sayı renksiz · **20-dil doğrulama: ham-etiket 0/20.**
+Kullanıcının ~50 maddelik inceleme + 3 tur derin geri bildirim BİTTİ:
 - **MORFOLOJİ DERİN ONARIM (en kritik):** ① **fiil segment inceltme** (`_segment_verb_align` kümülatif kök+zaman+kişi: geliyorum→gel·iyor·um). ② **ham etiket** (backend TAG_TR 90+, UI humanBadge → sızıntı yok). ③ **KOPULA-BİRLEŞTİRİCİ** (`_copula_combine`+`_tr_copula`: tur şimdiki/gelecek/geniş kişi-çekimli — geliyorum/geleceğim; yalın gövde FST + ek-fiil eki kod, morfofonoloji; COPULA_RULES={tur} probe-gated). ④ **#54 FEATTENSE** dile-duyarlı zaman gate. ⑤ **#55 crosslang** gold round-trip %97 + dinamik-otorite. ⑥ **#56 humanizer** tam denetim (0 kapsanmayan). ⑦ sıfat/zarf/edat analiz+POS.
 - **KAYNAKLAR TEK SİSTEM:** chip-strip (`showSrcStrip:false`) KAPALI; tüm KAYNAKLAR **_psrc ekran-id** (12 sayfa, birebir aynı biçim, çift YOK).
 - **HARİTA:** gerçek **GeoJSON** kara+ülke sınırları (Natural Earth 110m, `build_map_geojson.py`→`map_geo.py`); eski elle-süsler kaldırıldı, yalnız 5 bölge adı.
@@ -86,7 +88,8 @@ Karşılaştır çöküyordu) → anchor'lar kararlı noktalara taşındı, heps
 > fiil segment inceltme (geliyorum→gel·iyor·um), ham-etiket humanize, **KOPULA-BİRLEŞTİRİCİ** (tur şimdiki/
 > gelecek/geniş kişi-çekimli üretir: geliyorum/geleceğim; COPULA_RULES={tur} probe-gated), FEATTENSE dile-duyarlı
 > zaman, crosslang gold %97, humanizer tam denetim, sıfat/zarf POS, **KAYNAKLAR tek-sistem** (_psrc ekran-id 12
-> sayfa, chip-strip kapalı), **GeoJSON harita** (Natural Earth, sade), Kalite&Kapsam dürüst yetenek kartı.
+> sayfa, chip-strip kapalı, açıklama-altında), **STATİK COMPARE KALDIRILDI** (Karşılaştır hep dinamik),
+> Tarih per-olay kaynak, **GeoJSON harita** (Natural Earth, sade), Kalite&Kapsam dürüst yetenek kartı.
 > KALAN: **yayın** (GELECEK-PLANLAR C4: **Cloud Run min-instance** [HF Space uyur] + Cloudflare) · **tüm-dil
 > güçlendirme** (prototip fiil sözlüğü→apertium katkı/OOV, misyon) · **C1 ses** · **C3 CRON** · **Bölüm D**
 > eğitim portalı · paper. DOKUNULMAZ: Öğren+Araştırmacı Merkezi · Tarih UI · .dc.html (build.py). Backend

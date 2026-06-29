@@ -7,7 +7,15 @@
 
 ## 0) ŞU AN NEREDE KALDIK — TEK BAKIŞ
 
-### ★★★★★ EN GÜNCEL (29 Haz gece-5) — KOPULA-BİRLEŞTİRİCİ + KAYNAKLAR TEK-SİSTEM + HARİTA SADELEŞTİRME (compact-sonrası İLK BUNU OKU)
+### ★★★★★ EN GÜNCEL (29 Haz gece-6) — KAYNAKLAR YERLEŞİM/TEMİZLİK + STATİK COMPARE KALDIRILDI + 20-DİL DOĞRULAMA (compact-sonrası İLK BUNU OKU)
+**Kullanıcı geri bildirim (ekran görüntüleri) → 2 commit (`2b2f843`+docs), tree temiz, push'lu.** Kullanıcı: "BUNLARI DA HALLEDİNCE COMPACT EDİCEM."
+- **STATİK COMPARE EKRANI KALDIRILDI** (kullanıcı "kurtulalım madem hatalı"): Karşılaştır **ARTIK HER ZAMAN DİNAMİK** — ekrana gelince aktif kelimenin /crosslang'i otomatik; statik `cognates_deep` fallback silindi (self-satır + dinamik). **okuduk Çuvaşça/Yakutça** artık tek-otorite doğru dinamik (вуларӑмӑр / аахтыбыт). statik≠dinamik tutarsızlığı KÖKTEN bitti.
+- **TARİH:** kronolojide **her olayın kendi kaynağı GERİ** (Tekin 1968/Arat 1947/Dankoff…, #40'ta silinmişti); o sayfada sayfa-altı KAYNAKLAR İSTENMİYOR (isHistory _kaynak'tan çıktı).
+- **KAYNAKLAR yerleşim/temizlik:** _psrc artık PAGE_HELP'ten SONRA → "Bu sayfa ne anlatıyor?" kutusunun **ALTINA** (en dip). **Ekosistem KAYNAKLAR kaldırıldı.** Denetim: 10 içerik sayfası, her biri TEK, çift yok (isHome/isResearch/isEco/isHistory/isSources = 0, doğru).
+- **KALİTE & KAPSAM:** "Motor neyi yapabiliyor" 2) Oğuz-kopula → kopula-birleştirici güncellemesi; 1)/2)/3) maddeler **düz sayı** (daire ① yok) + **başlık renkleri kaldırıldı**.
+- **20-DİL DOĞRULAMA:** humanize **20/20 (hiç ham etiket yok)**, isim-üretim 19/20, fiil-üretim 16/20 (alt/kjh/krc/tyv prototip zayıf — dürüst tabloyla tutarlı). Teknik güncellemeler tüm dillerde çalışıyor.
+
+### ★★★★ (29 Haz gece-5) — KOPULA-BİRLEŞTİRİCİ + KAYNAKLAR TEK-SİSTEM + HARİTA SADELEŞTİRME
 **Kullanıcı yeni geri bildirim (kaynaklar hâlâ çift+format farklı, harita eski süsler, Türkçe kopula-zaman kişi-çekimli üretilsin, prototip-güçlendirme planına) → 3 commit, tree temiz, push'lu (`184b26d..c120c0f`). VM app.py deploy md5 senkron (cac90d4).**
 - **KOPULA-BİRLEŞTİRİCİ (en önemli, backend):** apertium-tur şimdiki/gelecek/geniş zamanı KOPULA (`<cop>`) ile kurar ve kişi-çekimli ÜRETMEZ (gel<v><iv><prog><cop>... → BOŞ). Çözüm `app.py _copula_combine + _tr_copula`: FST boş dönünce yalın gövde (geliyor/gelir/gelecek) üret + **gerçek ek-fiil şahıs eki + morfofonoloji** (4'lü/2'li ünlü uyumu, k→ğ/p→b/ç→c/t→d) ekle → **geliyorum/geliyorsun/geleceğim/gelirim** (hepsi doğru). `derived:true`. **Probe: yalnız tur gerekiyor** (aze/gag/tuk doğrudan üretir) → COPULA_RULES={tur}. UI: pres→prog öncelik (geliyorum), şeffaf "ek-fiil ile birleştirildi" notu. Preview ✓.
 - **KAYNAKLAR TEK SİSTEM:** İKİ sistem çakışıyordu — eski tasarım **chip-strip** (`showSrcStrip`/`pageSources`, "Tüm kaynaklar →") + benim ul-listem. chip-strip **KAPATILDI** (`showSrcStrip:false`); inline'lar (Generate/Eco/Heart/Quality) da **_psrc ekran-id sistemine** taşındı → **12 içerik sayfası, her birinde TEK, birebir aynı biçim, çift YOK.**

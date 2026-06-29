@@ -7,7 +7,15 @@
 
 ## 0) ŞU AN NEREDE KALDIK — TEK BAKIŞ
 
-### ★★★★★ EN GÜNCEL (29 Haz gece-4) — DERİN MORFOLOJİ ONARIMI + 8-İŞ BATCH BİTTİ (compact-sonrası İLK BUNU OKU)
+### ★★★★★ EN GÜNCEL (29 Haz gece-5) — KOPULA-BİRLEŞTİRİCİ + KAYNAKLAR TEK-SİSTEM + HARİTA SADELEŞTİRME (compact-sonrası İLK BUNU OKU)
+**Kullanıcı yeni geri bildirim (kaynaklar hâlâ çift+format farklı, harita eski süsler, Türkçe kopula-zaman kişi-çekimli üretilsin, prototip-güçlendirme planına) → 3 commit, tree temiz, push'lu (`184b26d..c120c0f`). VM app.py deploy md5 senkron (cac90d4).**
+- **KOPULA-BİRLEŞTİRİCİ (en önemli, backend):** apertium-tur şimdiki/gelecek/geniş zamanı KOPULA (`<cop>`) ile kurar ve kişi-çekimli ÜRETMEZ (gel<v><iv><prog><cop>... → BOŞ). Çözüm `app.py _copula_combine + _tr_copula`: FST boş dönünce yalın gövde (geliyor/gelir/gelecek) üret + **gerçek ek-fiil şahıs eki + morfofonoloji** (4'lü/2'li ünlü uyumu, k→ğ/p→b/ç→c/t→d) ekle → **geliyorum/geliyorsun/geleceğim/gelirim** (hepsi doğru). `derived:true`. **Probe: yalnız tur gerekiyor** (aze/gag/tuk doğrudan üretir) → COPULA_RULES={tur}. UI: pres→prog öncelik (geliyorum), şeffaf "ek-fiil ile birleştirildi" notu. Preview ✓.
+- **KAYNAKLAR TEK SİSTEM:** İKİ sistem çakışıyordu — eski tasarım **chip-strip** (`showSrcStrip`/`pageSources`, "Tüm kaynaklar →") + benim ul-listem. chip-strip **KAPATILDI** (`showSrcStrip:false`); inline'lar (Generate/Eco/Heart/Quality) da **_psrc ekran-id sistemine** taşındı → **12 içerik sayfası, her birinde TEK, birebir aynı biçim, çift YOK.**
+- **HARİTA SADELEŞTİRME:** eski elle-çizim süsler (deniz daireleri, dağ ▲, nehirler, Boğaz, grid, Kıbrıs) **KALDIRILDI**; yalnız **gerçek GeoJSON kara + ince ülke sınırları** + **5 bölge adı** (ANADOLU/KAFKASYA/İDİL-URAL/TURAN/SİBİRYA). Tertemiz.
+- **GELECEK-PLANLAR:** C4 **yayın** (HF Space uyur → **Cloud Run min-instance** öneri + Cloudflare; kullanıcı "Google kolaysa") + **tüm-dil genel güçlendirme** (prototip fiil sözlüğü → apertium katkı, OOV, misyon: uçurumu kapat).
+- **DERS:** ① kopula-zamanı = yalın gövde FST'den + şahıs eki kod'dan (morfofonoloji); probe-gated, uydurma yok. ② KAYNAKLAR tek sistemde tut (iki footer mekanizması çakışır) — chip-strip kapalı, _psrc ekran-id tek otorite. ③ harita: gerçek GeoJSON varken elle-süs gereksiz.
+
+### ★★★★ (29 Haz gece-4) — DERİN MORFOLOJİ ONARIMI + 8-İŞ BATCH BİTTİ
 **Kullanıcı geri bildirimi (geliyorum/geldiler kalıp veriyor, ham etiket, Türkçe zamanlar yok, kaynaklar yanlış yer) → DÜRÜST DERİN TANI + onaylı 9-iş todolist → 8 commit, tree temiz, push'lu (`8240471..c6e6f02`).**
 - **KÖK NEDEN (kanıtlı):** `_segment_verb_align` fiili tasarımca "kök+kaynaşık ek" 2 parçaya bölüyordu; apertium kopula (`<cop>`) ayrı token → kümülatif üretim kırılıp kaba kalıyordu + üretilemiyordu + badge ham büyük-harf basıyordu. → `capability_probe.py` dürüst tablo: isim 19/20, fiil 16/20 üretim, fiil-segment 20/20 yalnız-2-parça, kopula-kişili yalnız 5/20.
 - **#58 BACKEND fiil segment inceltme** (deploy'lu): kümülatif **kök+zaman+kişi** (geliyorum→gel+iyor+um, geldiler→gel+di+ler). 11/16 dil 3-katman, kalan zarif 2-katman fallback. İsim regresyonsuz.

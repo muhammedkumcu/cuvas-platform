@@ -1023,7 +1023,7 @@
                 <div style="font-size:14px;color:#5f574b">{{ profileSel.region }}</div>
               </div>
               <div style="text-align:right">
-                <div style="display:inline-flex;align-items:center;gap:7px;border:1.5px solid {{ profileSel.vc }};color:{{ profileSel.vc }};border-radius:10px;padding:8px 14px;font-size:13px;font-weight:600"><span style="width:9px;height:9px;border-radius:50%;background:{{ profileSel.vc }}"></span>EGIDS {{ profileSel.egids }}</div><sc-if value="{{ profileSel.unesco }}" hint-placeholder-val="{{ true }}"><div style="margin-top:7px;font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace">UNESCO: {{ profileSel.unesco }}</div></sc-if><details style="margin-top:10px;text-align:left"><summary style="cursor:pointer;font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace;display:inline-block">EGIDS ölçeği nedir? ▾</summary><div style="margin-top:8px;display:flex;flex-direction:column;gap:2px;max-width:330px"><sc-for list="{{ egidsScale }}" as="e"><div style="{{ e.style }}"><span style="{{ e.lvlStyle }}">{{ e.lvl }}</span><span>{{ e.label }}</span></div></sc-for><div style="margin-top:6px;font-size:10px;color:#b0a89a;font-family:'IBM Plex Mono',monospace">Kaynak: Lewis &amp; Simons (2010), EGIDS</div></div></details>
+                <div style="display:inline-flex;align-items:center;gap:7px;border:1.5px solid {{ profileSel.vc }};color:{{ profileSel.vc }};border-radius:10px;padding:8px 14px;font-size:13px;font-weight:600"><span style="width:9px;height:9px;border-radius:50%;background:{{ profileSel.vc }}"></span>EGIDS {{ profileSel.egids }}</div><sc-if value="{{ profileSel.unesco }}" hint-placeholder-val="{{ true }}"><div style="margin-top:7px;font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace">UNESCO: {{ profileSel.unesco }}</div></sc-if>
               </div>
             </div>
             <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:24px">
@@ -1032,6 +1032,7 @@
               <div style="background:#fff;border:1px solid rgba(33,29,23,.08);border-radius:11px;padding:14px 16px"><div style="font-size:11px;color:#9a9082;letter-spacing:.5px">KOL</div><div style="font-family:'Spectral',serif;font-size:18px;font-weight:600;margin-top:3px">{{ profileSel.branch }}</div></div>
               <div style="background:#fff;border:1px solid rgba(33,29,23,.08);border-radius:11px;padding:14px 16px" title="Joshi ve ark. 2020 — dijital/NLP kaynak zenginliği sınıfı (0=aşırı düşük … 5=yüksek)"><div style="font-size:11px;color:#9a9082;letter-spacing:.5px">NLP KAYNAK SINIFI</div><div style="font-family:'Spectral',serif;font-size:18px;font-weight:600;margin-top:3px">{{ profileSel.joshi }}</div></div>
             </div>
+            <details style="margin-top:20px"><summary style="cursor:pointer;font-size:12px;color:#9a9082;font-family:'IBM Plex Mono',monospace;display:inline-block">EGIDS ölçeği nedir? (canlılık derecelendirmesi) ▾</summary><div style="margin-top:11px;display:grid;grid-template-columns:1fr 1fr;gap:3px 20px;max-width:780px"><sc-for list="{{ egidsScale }}" as="e"><div style="{{ e.style }}"><span style="{{ e.lvlStyle }}">{{ e.lvl }}</span><span>{{ e.label }}</span></div></sc-for></div><div style="margin-top:9px;font-size:10.5px;color:#b0a89a;font-family:'IBM Plex Mono',monospace">Kaynak: Lewis &amp; Simons (2010), EGIDS</div></details>
             <p style="font-size:15px;line-height:1.7;color:#3f3a32;margin:22px 0 0">{{ profileSel.note }}</p>
           </div>
         </div>
@@ -2215,7 +2216,8 @@ class Component extends DCLogic {
       recipe=['isim',(num==='pl'?'çokluk':''),(px?PT[px]:''),CT[cs]].filter(Boolean).join(' · ');
     } else {
       const tn=S.genTense||'past', pr=S.genPerson||'p1', vn=S.genVNum||'sg';
-      queries=[lemma+'<v><tv><'+tn+'><'+pr+'><'+vn+'>', lemma+'<v><iv><'+tn+'><'+pr+'><'+vn+'>'];
+      const TA={past:['ifi'],ifi:['past'],pres:['aor'],aor:['pres']}; const tns=[tn].concat(TA[tn]||[]);
+      queries=[]; tns.forEach(function(tt){ queries.push(lemma+'<v><tv><'+tt+'><'+pr+'><'+vn+'>'); queries.push(lemma+'<v><iv><'+tt+'><'+pr+'><'+vn+'>'); });
       recipe=['fiil',TT[tn],PR[pr]+(vn==='pl'?' çoğul':' tekil')].filter(Boolean).join(' · ');
     }
     this._genFetch(lg, queries, recipe, lemma);

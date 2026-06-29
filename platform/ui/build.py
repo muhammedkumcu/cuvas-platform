@@ -558,12 +558,18 @@ def main():
         "<span style=\"width:9px;height:9px;border-radius:50%;background:{{ profileSel.vc }}\"></span>EGIDS {{ profileSel.egids }}</div>\n              </div>",
         "<span style=\"width:9px;height:9px;border-radius:50%;background:{{ profileSel.vc }}\"></span>EGIDS {{ profileSel.egids }}</div>"
         "<sc-if value=\"{{ profileSel.unesco }}\" hint-placeholder-val=\"{{ true }}\">"
-        "<div style=\"margin-top:7px;font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace\">UNESCO: {{ profileSel.unesco }}</div></sc-if>"
-        "<details style=\"margin-top:10px;text-align:left\"><summary style=\"cursor:pointer;font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace;display:inline-block\">EGIDS ölçeği nedir? ▾</summary>"
-        "<div style=\"margin-top:8px;display:flex;flex-direction:column;gap:2px;max-width:330px\">"
-        "<sc-for list=\"{{ egidsScale }}\" as=\"e\"><div style=\"{{ e.style }}\"><span style=\"{{ e.lvlStyle }}\">{{ e.lvl }}</span><span>{{ e.label }}</span></div></sc-for>"
-        "<div style=\"margin-top:6px;font-size:10px;color:#b0a89a;font-family:'IBM Plex Mono',monospace\">Kaynak: Lewis &amp; Simons (2010), EGIDS</div>"
-        "</div></details>\n              </div>", 1)
+        "<div style=\"margin-top:7px;font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace\">UNESCO: {{ profileSel.unesco }}</div></sc-if>\n              </div>", 1)
+    # #38 — EGIDS ölçeği <details> SAĞ sütundan ÇIKARILIP stats grid'in altına TAM GENİŞLİK (2 sütun)
+    # taşındı (kullanıcı: sağ sütunda rozeti kaydırıyordu → "bozuk"). note <p>'sinden ÖNCE girer.
+    _egd = ("<details style=\"margin-top:20px\"><summary style=\"cursor:pointer;font-size:12px;color:#9a9082;font-family:'IBM Plex Mono',monospace;display:inline-block\">EGIDS ölçeği nedir? (canlılık derecelendirmesi) ▾</summary>"
+            "<div style=\"margin-top:11px;display:grid;grid-template-columns:1fr 1fr;gap:3px 20px;max-width:780px\">"
+            "<sc-for list=\"{{ egidsScale }}\" as=\"e\"><div style=\"{{ e.style }}\"><span style=\"{{ e.lvlStyle }}\">{{ e.lvl }}</span><span>{{ e.label }}</span></div></sc-for>"
+            "</div><div style=\"margin-top:9px;font-size:10.5px;color:#b0a89a;font-family:'IBM Plex Mono',monospace\">Kaynak: Lewis &amp; Simons (2010), EGIDS</div></details>\n            ")
+    _note_anchor = "<p style=\"font-size:15px;line-height:1.7;color:#3f3a32;margin:22px 0 0\">{{ profileSel.note }}</p>"
+    if _note_anchor in html:
+        html = html.replace(_note_anchor, _egd + _note_anchor, 1)
+    else:
+        print("  ! #38 EGIDS details note-anchor eşleşmedi")
 
     # ── Dil Profilleri 14 → 47: master'dan 33 YENİ dili EKLE (14'ün zengin pipeline'ına dokunma) ──
     PROF14_ISO = {"tur", "azj", "tuk", "kaz", "kir", "uig", "sah", "tyv", "kjh", "tat", "bak", "chv", "cjs", "klj"}
@@ -2842,7 +2848,10 @@ def main():
         "      recipe=['isim',(num==='pl'?'çokluk':''),(px?PT[px]:''),CT[cs]].filter(Boolean).join(' · ');\n"
         "    } else {\n"
         "      const tn=S.genTense||'past', pr=S.genPerson||'p1', vn=S.genVNum||'sg';\n"
-        "      queries=[lemma+'<v><tv><'+tn+'><'+pr+'><'+vn+'>', lemma+'<v><iv><'+tn+'><'+pr+'><'+vn+'>'];\n"
+        # #45 — zaman fallback: apertium dilleri farklı etiket kullanır (tur -di = <ifi>, chv = <past>;
+        # kaz/kir şimdiki ~ <aor>). İstenen zaman üretmezse eşdeğerini dene → "gel·Geçmiş·3.tekil" artık üretir.
+        "      const TA={past:['ifi'],ifi:['past'],pres:['aor'],aor:['pres']}; const tns=[tn].concat(TA[tn]||[]);\n"
+        "      queries=[]; tns.forEach(function(tt){ queries.push(lemma+'<v><tv><'+tt+'><'+pr+'><'+vn+'>'); queries.push(lemma+'<v><iv><'+tt+'><'+pr+'><'+vn+'>'); });\n"
         "      recipe=['fiil',TT[tn],PR[pr]+(vn==='pl'?' çoğul':' tekil')].filter(Boolean).join(' · ');\n"
         "    }\n"
         "    this._genFetch(lg, queries, recipe, lemma);\n"

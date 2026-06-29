@@ -1,0 +1,277 @@
+{
+  "FEATTENSE_UI": {
+    "alt": [
+      "past",
+      "ifi"
+    ],
+    "aze": [
+      "pres",
+      "past",
+      "ifi",
+      "fut",
+      "aor",
+      "cond"
+    ],
+    "bak": [
+      "pres",
+      "past",
+      "ifi",
+      "fut",
+      "aor"
+    ],
+    "chv": [
+      "pres",
+      "past",
+      "ifi",
+      "fut",
+      "aor",
+      "cond"
+    ],
+    "crh": [
+      "pres",
+      "past",
+      "ifi",
+      "fut",
+      "aor"
+    ],
+    "gag": [
+      "pres",
+      "past",
+      "ifi",
+      "fut",
+      "aor",
+      "cond"
+    ],
+    "kaa": [
+      "pres",
+      "past",
+      "ifi",
+      "fut",
+      "aor"
+    ],
+    "kaz": [
+      "pres",
+      "past",
+      "ifi",
+      "fut",
+      "aor"
+    ],
+    "kir": [
+      "pres",
+      "past",
+      "ifi",
+      "fut",
+      "aor"
+    ],
+    "kjh": [],
+    "krc": [
+      "pres",
+      "past",
+      "ifi",
+      "aor"
+    ],
+    "kum": [
+      "pres",
+      "past",
+      "ifi",
+      "fut",
+      "aor"
+    ],
+    "nog": [
+      "pres",
+      "past",
+      "ifi",
+      "fut",
+      "aor"
+    ],
+    "sah": [
+      "pres",
+      "past",
+      "ifi",
+      "fut",
+      "aor"
+    ],
+    "tat": [
+      "pres",
+      "past",
+      "ifi",
+      "fut",
+      "aor"
+    ],
+    "tuk": [
+      "pres",
+      "past",
+      "ifi",
+      "fut",
+      "aor",
+      "cond"
+    ],
+    "tur": [
+      "past",
+      "ifi",
+      "cond"
+    ],
+    "tyv": [
+      "pres",
+      "past",
+      "ifi",
+      "aor"
+    ],
+    "uig": [
+      "pres",
+      "past",
+      "ifi",
+      "fut",
+      "aor"
+    ],
+    "uzb": [
+      "pres",
+      "past",
+      "ifi",
+      "fut",
+      "aor"
+    ]
+  },
+  "examples": {
+    "alt": {
+      "past": "алдым",
+      "ifi": "алдым"
+    },
+    "aze": {
+      "pres": "oxurum",
+      "past": "oxudum",
+      "ifi": "oxudum",
+      "fut": "oxuyacakım",
+      "aor": "oxurum",
+      "cond": "oxusam"
+    },
+    "bak": {
+      "pres": "алам",
+      "past": "алғанмын",
+      "ifi": "алдым",
+      "fut": "алырмын",
+      "aor": "алам"
+    },
+    "chv": {
+      "pres": "айтаратӑп",
+      "past": "айтартӑм",
+      "ifi": "айтартӑм",
+      "fut": "айтарӑп",
+      "aor": "айтаратӑп",
+      "cond": "айтарӑттӑм"
+    },
+    "crh": {
+      "pres": "alam",
+      "past": "alğanım",
+      "ifi": "aldım",
+      "fut": "alırım",
+      "aor": "alam"
+    },
+    "gag": {
+      "pres": "okuêrım",
+      "past": "okudum",
+      "ifi": "okudum",
+      "fut": "okuyacam",
+      "aor": "okuêrım",
+      "cond": "okusam"
+    },
+    "kaa": {
+      "pres": "oqıyman",
+      "past": "oqıǵanman",
+      "ifi": "oqıdım",
+      "fut": "oqıarman",
+      "aor": "oqıyman"
+    },
+    "kaz": {
+      "pres": "білемін",
+      "past": "білгенмін",
+      "ifi": "білдім",
+      "fut": "білермін",
+      "aor": "білемін"
+    },
+    "kir": {
+      "pres": "билем",
+      "past": "билгенмин",
+      "ifi": "билдим",
+      "fut": "билермин",
+      "aor": "билем"
+    },
+    "kjh": {},
+    "krc": {
+      "pres": "окъуама",
+      "past": "окъугъанма",
+      "ifi": "окъудум",
+      "aor": "окъуама"
+    },
+    "kum": {
+      "pres": "охуйман",
+      "past": "охугъанман",
+      "ifi": "охудум",
+      "fut": "охурман",
+      "aor": "охуйман"
+    },
+    "nog": {
+      "pres": "окыйман",
+      "past": "окыганман",
+      "ifi": "окыдым",
+      "fut": "окырман",
+      "aor": "окыйман"
+    },
+    "sah": {
+      "pres": "ааҕабын",
+      "past": "аахпыппын",
+      "ifi": "аахтым",
+      "fut": "ааҕыаҕым",
+      "aor": "ааҕабын"
+    },
+    "tat": {
+      "pres": "алам",
+      "past": "алганмын",
+      "ifi": "алдым",
+      "fut": "алырмын",
+      "aor": "алам"
+    },
+    "tuk": {
+      "pres": "okaýan",
+      "past": "okadym",
+      "ifi": "okadym",
+      "fut": "okajagym",
+      "aor": "okaerim",
+      "cond": "okasam"
+    },
+    "tur": {
+      "past": "aldım",
+      "ifi": "aldım",
+      "cond": "alsam"
+    },
+    "tyv": {
+      "pres": "алыр мен",
+      "past": "алган мен",
+      "ifi": "алдым",
+      "aor": "алыр мен"
+    },
+    "uig": {
+      "pres": "بىلىمەن",
+      "past": "بىلگەنمەن",
+      "ifi": "بىلدىم",
+      "fut": "بىلمەكچىمەن",
+      "aor": "بىلىمەن"
+    },
+    "uzb": {
+      "pres": "bilaman",
+      "past": "bilganman",
+      "ifi": "bildim",
+      "fut": "biladiganman",
+      "aor": "bilaman"
+    }
+  },
+  "ui_tenses": [
+    "pres",
+    "past",
+    "ifi",
+    "fut",
+    "aor",
+    "cond"
+  ],
+  "note": "UI-zaman gecerli = o dilde kisi-cekimli (p1.sg) URETIYOR (bant-aid etiketleriyle). Bos = FST o UI-zamani kisi-cekimli uretemiyor (or. tur kopula-zamanlari)."
+}

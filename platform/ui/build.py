@@ -709,6 +709,11 @@ def main():
             "  LIVE_LN = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça',tuk:'Türkmence',crh:'Kırım Tatarca',gag:'Gagavuzca',kaa:'Karakalpakça',alt:'Altayca',kjh:'Hakasça',krc:'Karaçay-Balkar',kum:'Kumukça',nog:'Nogayca',tyv:'Tuvaca'};\n"
             # U1 — her dilin GEÇERLİ hâl envanteri (feature_probe.py, FST'den): Çuvaşça acc yok, Sahaca gen/loc yok…
             "  FEATCASE = {tur:['nom','gen','dat','acc','loc','abl','ins'],aze:['nom','gen','dat','acc','loc','abl','ins'],kaz:['nom','gen','dat','acc','loc','abl','ins'],kir:['nom','gen','dat','acc','loc','abl'],uzb:['nom','gen','dat','acc','loc','abl'],uig:['nom','gen','dat','acc','loc','abl'],tat:['nom','gen','dat','acc','loc','abl'],bak:['nom','gen','dat','acc','loc','abl'],chv:['nom','gen','dat','loc','abl','ins'],sah:['nom','dat','acc','abl','ins'],tuk:['nom','gen','dat','acc','loc','abl'],crh:['nom','gen','dat','acc','loc','abl','ins'],gag:['nom','gen','dat','acc','loc','abl','ins'],kaa:['nom','gen','dat','acc','loc','abl','ins'],alt:['nom','gen','dat','acc','loc','abl','ins'],kjh:['nom','gen','dat','acc','loc','abl','ins'],krc:['nom','gen','dat','acc','loc','abl'],kum:['nom','gen','dat','acc','loc','abl'],nog:['nom','gen','dat','acc','loc','abl'],tyv:['nom','gen','dat','acc','loc','abl']};\n"
+            # #54 — her dilin GEÇERLİ UI-zaman envanteri (tense_probe.py, FST'den /generate ile probe'lu).
+            # Apertium zaman kodlaması dilden dile etiket+YAPI olarak farklı: tur aorist/şimdiki/gelecek
+            # KOPULA ile kurulur ve kişi-çekimli üretilemez → tur yalnız past/ifi/cond. chv/aze/tuk/gag tam.
+            # kjh fiil-gen üretmiyor → haritada YOK = gate'siz (tüm zamanlar gösterilir, band-aid). Diğer 19 gate'li.
+            "  FEATTENSE = {tur:['past','ifi','cond'],aze:['pres','past','ifi','fut','aor','cond'],kaz:['pres','past','ifi','fut','aor'],kir:['pres','past','ifi','fut','aor'],uzb:['pres','past','ifi','fut','aor'],uig:['pres','past','ifi','fut','aor'],tat:['pres','past','ifi','fut','aor'],bak:['pres','past','ifi','fut','aor'],chv:['pres','past','ifi','fut','aor','cond'],sah:['pres','past','ifi','fut','aor'],tuk:['pres','past','ifi','fut','aor','cond'],crh:['pres','past','ifi','fut','aor'],gag:['pres','past','ifi','fut','aor','cond'],kaa:['pres','past','ifi','fut','aor'],alt:['past','ifi'],krc:['pres','past','ifi','aor'],kum:['pres','past','ifi','fut','aor'],nog:['pres','past','ifi','fut','aor'],tyv:['pres','past','ifi','aor']};\n"
             # G2 — kalite meta (Kalite & Kapsam sayfasından): [tier, round-trip%, kapsam% | null]
             "  QMETA = {tur:['production',94.8,90.3],kaz:['production',95.2,93.4],tat:['production',95.2,94.3],aze:['stable',95.2,35.1],kir:['stable',95.2,88.3],uzb:['stable',95.2,81.2],bak:['beta',95.2,87.0],chv:['beta',94.4,null],crh:['beta',95.2,84.5],tuk:['beta',95.2,64.1],uig:['beta',94.2,86.5],sah:['prototype',92.6,null],alt:['prototype',94.1,null],gag:['prototype',95.2,null],kaa:['prototype',95.2,null],kjh:['prototype',95.0,28.6],krc:['prototype',95.2,null],kum:['prototype',95.2,null],nog:['prototype',95.2,70.6],tyv:['prototype',95.2,null]};\n"
             "  QTIER = {production:['olgun','#3f8a5c'],stable:['kararlı','#2f7f8a'],beta:['beta','#c08a3a'],prototype:['prototip','#9a8f82']};\n"
@@ -3021,7 +3026,11 @@ def main():
         "isGenerate:S.screen==='generate', "
         "genLemma:S.genLemma||'', genLang:S.genLang||'chv', genIsNoun:(S.genPos||'n')==='n', genIsVerb:S.genPos==='v', "
         "onGenLemma:(e)=>this.setState({genLemma:e.target.value}), onGenLemmaKey:(e)=>{ if(e.key==='Enter') this.runGenerate(); }, "
-        "onGenLang:(e)=>this.setState({genLang:e.target.value}), runGen:()=>this.runGenerate(), "
+        # #54 — dil değişince geçersiz zaman/hâl'i (FEATTENSE/FEATCASE) otomatik geçerliye çek; sonuç varsa yenile.
+        "onGenLang:(e)=>{ const lg=e.target.value; const cs=this.state; const st={genLang:lg}; "
+        "const tv=this.FEATTENSE[lg]; if(tv&&tv.length&&tv.indexOf(cs.genTense||'past')<0){ st.genTense=(tv.indexOf('past')>=0?'past':tv[0]); } "
+        "const cv=this.FEATCASE[lg]; if(cv&&cv.length&&cv.indexOf(cs.genCase||'nom')<0){ st.genCase=(cv.indexOf('nom')>=0?'nom':cv[0]); } "
+        "this.setState(st); if(cs.genResult) setTimeout(()=>this.runGenerate(),0); }, runGen:()=>this.runGenerate(), "
         "genPosTabs:[['n','İsim'],['v','Fiil']].map(o=>({label:o[1], go:()=>this.setState({genPos:o[0]}), "
         "style:`cursor:pointer;border:1.5px solid ${((S.genPos||'n')===o[0])?'#211d17':'rgba(33,29,23,.16)'};"
         "background:${((S.genPos||'n')===o[0])?'#211d17':'#fff'};color:${((S.genPos||'n')===o[0])?'#f4f1ea':'#211d17'};"
@@ -3033,7 +3042,12 @@ def main():
            "return {label:o[1], go:()=>this.setState({genCase:o[0]}), title:(ok?'':'bu dilde bu hâl yok'), "
            "style:`cursor:${ok?'pointer':'not-allowed'};opacity:${ok?1:.3};border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.16)'};"
            "background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:9px;padding:7px 13px;font-size:12.5px;font-family:inherit`};}), ")
-        + CM("genTenses", "[['pres','Şimdiki/geniş'],['ifi','Görülen geçmiş'],['past','Geçmiş'],['fut','Gelecek'],['aor','Geniş'],['cond','Şart']]", "genTense", "past")
+        # #54 — ZAMAN butonları FEATTENSE ile dile-duyarlı gate'li (FST üretmeyen zaman gri + seçilemez).
+        + ("genTenses:[['pres','Şimdiki/geniş'],['ifi','Görülen geçmiş'],['past','Geçmiş'],['fut','Gelecek'],['aor','Geniş'],['cond','Şart']]"
+           ".map(o=>{var inv=this.FEATTENSE[S.genLang]; var ok=(!inv)||inv.indexOf(o[0])>=0; var sel=((S.genTense||'past')===o[0]); "
+           "return {label:o[1], go:()=>{ if(ok) this.setState({genTense:o[0]}); }, title:(ok?'':'bu dilin FST\\'si bu zamanı kişi-çekimli üretmiyor'), "
+           "style:`cursor:${ok?'pointer':'not-allowed'};opacity:${ok?1:.32};border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.16)'};"
+           "background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:9px;padding:7px 13px;font-size:12.5px;font-family:inherit`};}), ")
         + CM("genPersons", "[['p1','1. kişi'],['p2','2. kişi'],['p3','3. kişi']]", "genPerson", "p1")
         + CM("genVNums", "[['sg','Tekil'],['pl','Çoğul']]", "genVNum", "sg")
         + "genExamples:" + EX + ".map(e=>({ label:e.lemma, kind:(this.LIVE_LN[e.lang]||e.lang)+(e.pos==='v'?' · fiil':''), "

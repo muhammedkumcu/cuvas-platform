@@ -3227,6 +3227,10 @@ def main():
                 '          </ul>\n'
                 '        </div>')
     _psrc_pages = [
+        ("ATLAS (büyük harita)", [
+            ("Apertium FST'leri (GPL-3.0)", "diller-arası canlı morfolojik üretim ve yüzey bölümleme"),
+            ("Savelyev &amp; Robbeets (2020), SavelyevTurkic CLDF (CC BY 4.0)", "ses denklikleri (izogloslar) + soy ağacı ve zaman derinliği"),
+        ]),
         ("YAKINDA (planlanan modüller)", [
             ("Savelyev &amp; Robbeets (2020), <i>JoLE</i>", "Bayesçi soy ağacı + ses yasaları (rotasizm/lambdasizm) ve ayrışma düğümleri"),
             ("Johanson (2021)", "altı kol tasnifi ve izogloslar"),
@@ -3260,7 +3264,7 @@ def main():
             html = html.replace(_a1, _ins + '\n' + _a1, 1); n31 += 1
         else:
             print("  ! #31 Kaynaklar anchor eşleşmedi:", _nc)
-    print(f"  #31 sayfa-altı Kaynaklar (Tarih/Uzaklık/Harita/Kognat): {n31}/4")
+    print(f"  #31 sayfa-altı Kaynaklar (Karşılaştır/Tarih/Uzaklık/Harita/Kognat): {n31}/5")
 
     # ============================================================
     #  G2 (mini kalite rozeti → Kalite & Kapsam) + U2 (round-trip köprüsü: Üreteç sonucu → Analiz)

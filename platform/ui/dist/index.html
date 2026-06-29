@@ -41,7 +41,14 @@
     #content-scroll{ overflow-x:hidden !important; zoom:0.92; }
     #content-scroll section{ padding-left:14px !important; padding-right:14px !important; max-width:100% !important; }
     #content-scroll h1{ font-size:30px !important; line-height:1.12 !important; }
-    #content-scroll input, #content-scroll select, #content-scroll textarea{ min-width:0 !important; max-width:100% !important; font-size:16px !important; }
+    #content-scroll input, #content-scroll textarea{ min-width:0 !important; max-width:100% !important; font-size:16px !important; }
+    #content-scroll select{ min-width:0 !important; max-width:100% !important; font-size:13.5px !important; padding:9px 12px !important; }
+    /* giriş satırları sarsın + input KENDİ satırını alsın (paradigma input'u küçücük kalmasın) */
+    #content-scroll [style*="display: flex"]:has(> input), #content-scroll [style*="display: flex"]:has(> select){ flex-wrap:wrap !important; }
+    #content-scroll [style*="display: flex"] > input{ flex:1 1 100% !important; }
+    /* Analiz/Üreteç/Karşılaştır renkli morfem kartları (border-radius:13px, kelime 30px) mobilde orantılı küçült */
+    #content-scroll [style*="border-radius: 13px"]{ padding:9px 13px !important; }
+    #content-scroll [style*="border-radius: 13px"] > span:first-child{ font-size:19px !important; }
     #content-scroll table{ display:block; overflow-x:auto; max-width:100%; -webkit-overflow-scrolling:touch; }
     /* çok/iki-sütun grid → tek sütun (framework inline stili boşluk-normalize eder → DEĞER-kısmı eşleşmesi) */
     #content-scroll [style*="repeat("]{ grid-template-columns:1fr !important; }
@@ -57,9 +64,18 @@
     /* Kognat graf düğüm kutuları mobilde küçült (kenar=border-radius 11px; merkez baloncuk 50% hariç) — örtüşme azalsın */
     #content-scroll [style*="aspect-ratio: 1 / 1"] [style*="border-radius: 11px"]{ min-width:0 !important; padding:2px 6px !important; }
     /* Paradigma çekim tablosu (etiket 150px | tekil | çoğul): 1fr 1fr kuralı yanlış çökertiyordu → kompakt 3-sütun KAL */
-    #content-scroll [style*="150px 1fr 1fr"]{ grid-template-columns:52px 1fr 1fr !important; align-items:center !important; gap:4px !important; }
-    #content-scroll [style*="150px 1fr 1fr"] *{ font-size:13.5px !important; }
-    #content-scroll [style*="150px 1fr 1fr"] [style*="border-radius"]{ padding:6px 5px !important; min-width:0 !important; }
+    #content-scroll [style*="150px 1fr 1fr"]{ grid-template-columns:58px 1fr 1fr !important; align-items:center !important; gap:4px !important; }
+    #content-scroll [style*="150px 1fr 1fr"] *{ font-size:13px !important; }
+    #content-scroll [style*="150px 1fr 1fr"] > :first-child{ font-size:10.5px !important; line-height:1.15 !important; }
+    #content-scroll [style*="150px 1fr 1fr"] [style*="border-radius"]{ padding:5px 4px !important; min-width:0 !important; }
+    /* Dil Profilleri kaydırma listesi: ekranda ~5 dil (7 yerine) */
+    #content-scroll [style*="max-height: 520px"]{ max-height:344px !important; }
+    /* Uzaklık iki liste: ~5 satır görünür */
+    #content-scroll [style*="max-height: 404px"]{ max-height:250px !important; }
+    /* kaydırma kutuları: scrollbar GÖRÜNÜR olsun (kaydırılabildiği belli olsun) */
+    #content-scroll [style*="overflow: auto"]::-webkit-scrollbar{ width:6px; height:6px; }
+    #content-scroll [style*="overflow: auto"]::-webkit-scrollbar-thumb{ background:rgba(33,29,23,.30); border-radius:4px; }
+    #content-scroll [style*="overflow: auto"]{ scrollbar-width:thin; }
   }
 </style>
 </helmet>
@@ -110,7 +126,7 @@
 
         <div style="margin-top:32px;max-width:580px">
           <div style="position:relative">
-            <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Dil, kavram ya da kelime ara — Çuvaşça · göz · okuduk" style="width:100%;padding:15px 16px 15px 48px;border:1.5px solid rgba(33,29,23,.18);border-radius:14px;background:#fff;font-size:16px;font-family:inherit;color:#211d17;outline:none;box-shadow:0 2px 12px rgba(33,29,23,.05)">
+            <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Dil, kavram ya da kelime ara" style="width:100%;padding:15px 16px 15px 48px;border:1.5px solid rgba(33,29,23,.18);border-radius:14px;background:#fff;font-size:16px;font-family:inherit;color:#211d17;outline:none;box-shadow:0 2px 12px rgba(33,29,23,.05)">
             <span style="position:absolute;left:18px;top:50%;transform:translateY(-50%);color:#9a9082;font-size:18px">⌕</span>
           </div>
           <div style="margin-top:13px;display:flex;gap:8px;flex-wrap:wrap">
@@ -925,7 +941,6 @@
           <input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — canlı çekim" style="flex:1;min-width:260px;max-width:440px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
           <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:9px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:170px;flex-shrink:0"><option value="auto">Otomatik (dil algıla)</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option><option value="tuk">Türkmence</option><option value="crh">Kırım Tatarca</option><option value="gag">Gagavuzca</option><option value="kaa">Karakalpakça</option><option value="alt">Altayca</option><option value="kjh">Hakasça</option><option value="krc">Karaçay-Balkar</option><option value="kum">Kumukça</option><option value="nog">Nogayca</option><option value="tyv">Tuvaca</option></select>
           <sc-if value="{{ qbActive }}" hint-placeholder-val="{{ false }}"><button onClick="{{ goQuality }}" title="Bu motorun olculmus kalitesi" style="cursor:pointer;display:inline-flex;align-items:center;gap:7px;background:#fbfaf6;border:1px solid rgba(33,29,23,.14);border-radius:20px;padding:6px 13px;font-size:11.5px;font-family:inherit;color:#5f574b"><span style="font-family:'IBM Plex Mono',monospace;color:#9a9082;font-size:10px;letter-spacing:.5px">KALİTE</span> {{ qbActive.tier }} · round-trip %{{ qbActive.r }} <span style="color:#d98b4a">↗ Kalite &amp; Kapsam</span></button></sc-if>
-          <button onClick="{{ paradigmToGenerate }}" title="Bu kökü Üreteç'te aç" style="cursor:pointer;background:#fff;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;padding:11px 15px;font-size:13px;font-family:inherit;color:#211d17;white-space:nowrap;flex-shrink:0">Üreteç'te üret →</button>
         </div>
         <div style="display:none"><sc-for list="{{ paradigmExamples }}" as="r" hint-placeholder-count="3">
             <button onClick="{{ r.go }}" style="{{ r.style }}"><span style="font-family:'Spectral',serif;font-size:17px;font-weight:700">{{ r.label }}</span><span style="{{ r.glossStyle }}">{{ r.gloss }} · {{ r.kind }}</span></button>
@@ -1029,7 +1044,7 @@
           <sc-if value="{{ cognateEmpty }}" hint-placeholder-val="{{ false }}"><div style="font-size:13px;color:#9a9082;font-family:'IBM Plex Mono',monospace;padding:6px 2px">Eşleşen kavram yok — aramayı veya kategoriyi değiştir.</div></sc-if>
         </div>
         <div style="display:grid;grid-template-columns:1fr 300px;gap:24px;margin-top:22px;align-items:start">
-          <div style="position:relative;width:100%;max-width:600px;aspect-ratio:1/1;margin:0 auto">
+          <div style="display:flex;flex-direction:column"><div style="position:relative;width:100%;max-width:600px;aspect-ratio:1/1;margin:0 auto">
             <svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">
               <sc-for list="{{ cognateNodes }}" as="n"><line x1="50" y1="50" x2="{{ n.xp }}" y2="{{ n.yp }}" stroke="{{ n.edgeStroke }}" stroke-width="{{ n.edgeWidth }}" stroke-dasharray="{{ n.edgeDash }}" vector-effect="non-scaling-stroke"></line></sc-for>
             </svg>
@@ -1041,7 +1056,7 @@
               <div style="{{ n.nodeStyle }}"><span style="{{ n.wordStyle }}">{{ n.word }}</span><span style="{{ n.langStyle }}">{{ n.lang }}</span></div>
             </sc-for>
           </div>
-          <div style="background:#211d17;color:#f4f1ea;border-radius:16px;padding:24px">
+          <sc-if value="{{ cognateSplit }}"><div style="position:relative;width:100%;max-width:600px;aspect-ratio:1/1;margin:18px auto 0"><svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%"><sc-for list="{{ cognateNodes2 }}" as="n"><line x1="50" y1="50" x2="{{ n.xp }}" y2="{{ n.yp }}" stroke="{{ n.edgeStroke }}" stroke-width="{{ n.edgeWidth }}" stroke-dasharray="{{ n.edgeDash }}" vector-effect="non-scaling-stroke"></line></sc-for></svg><div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#d98b4a;color:#211d17;border-radius:50%;width:104px;height:104px;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3;box-shadow:0 4px 16px rgba(217,139,74,.4)"><span style="font-size:9px;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px">ANA TÜRKÇE</span><span style="{{ cognateProtoStyle }}">{{ cognateProto }}</span></div><sc-for list="{{ cognateNodes2 }}" as="n"><div style="{{ n.nodeStyle }}"><span style="{{ n.wordStyle }}">{{ n.word }}</span><span style="{{ n.langStyle }}">{{ n.lang }}</span></div></sc-for></div></sc-if></div><div style="background:#211d17;color:#f4f1ea;border-radius:16px;padding:24px">
             <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:rgba(244,241,234,.5)">SES NOTU</div>
             <div style="font-size:14.5px;line-height:1.6;margin-top:10px">{{ cognateNote }}</div>
             <div style="margin-top:18px;padding-top:16px;border-top:1px solid rgba(244,241,234,.14);display:flex;flex-direction:column;gap:9px">
@@ -2603,7 +2618,7 @@ class Component extends DCLogic {
       goCompareActive:()=>{ if(this.state.activeWordId==='__api' && this.state.apiWord){ this.runCompare(this.state.apiWord.surface, this.state.apiMatchLang || this.state.searchLang); } else { this.setState({screen:'compare', compareTab:'rows'}); } },
       // compare
       compareTabs, isCmpRows:S.compareTab==='rows', isCmpSound:S.compareTab==='sound', isCmpTree:S.compareTab==='tree', isCmpMap:S.compareTab==='map',
-      compareRows, compareHeadline:(S.compareTab==='sound' ? 'Ses denklikleri' : S.compareTab==='tree' ? 'Soy ağacı & zaman çizelgesi' : S.compareTab==='map' ? 'Dil haritası' : ('\u201C'+((S.activeWordId==='__api' && w && w.surface) ? w.surface : (w?w.gloss:''))+'\u201D — diller arası')), legend, soundCards, familyRows, timeline,
+      compareRows, compareHeadline:(S.compareTab==='sound' ? 'Ses denklikleri' : S.compareTab==='tree' ? 'Soy ağacı & zaman çizelgesi' : S.compareTab==='map' ? 'Dil haritası' : ('\u201C'+((S.activeWordId==='__api' && w && w.surface) ? w.surface : (w?w.gloss:''))+'\u201D — diller\u00A0arası')), legend, soundCards, familyRows, timeline,
       mapNodes:this.MAP.map(m=>{
         const col = this.BRANCHCOLOR[m.branch] || '#9a9082';
         const _hist = m.era && m.era!=='living', _big = this.state.screen==='atlas', _z = (this.state.atlasZoom||1);
@@ -2811,13 +2826,14 @@ class Component extends DCLogic {
         style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:18px;padding:7px 16px;font-size:14px;font-family:'Spectral',serif;font-weight:600` };
     });
     const _ns = [...c.nodes].sort((a,b)=>String(a.lang).localeCompare(String(b.lang),'tr'));
-    const n = _ns.length;
-    const _rings = n>22 ? 3 : n>11 ? 2 : 1;
-    const _radii = _rings===3 ? [25,36,46] : _rings===2 ? [29,44] : [40];
-    const _ringOf = _ns.map((_,i)=> i % _rings); const _cnt = new Array(_rings).fill(0); _ringOf.forEach(r=>_cnt[r]++);
+    const _split = _ns.length > 20; const _half = Math.ceil(_ns.length/2);
+    const _mk = (_arr)=>{ const n = _arr.length;
+    const _rings = n>22 ? 3 : n>10 ? 2 : 1;
+    const _radii = _rings===3 ? [24,34,44] : _rings===2 ? [29,43] : [40];
+    const _ringOf = _arr.map((_,i)=> i % _rings); const _cnt = new Array(_rings).fill(0); _ringOf.forEach(r=>_cnt[r]++);
     const _seen = new Array(_rings).fill(0); const _idxR = _ringOf.map(r=>_seen[r]++);
-    const _mw = n>24 ? 24 : n>12 ? 44 : 60, _pad = n>24 ? '3px 6px' : n>12 ? '4px 7px' : '8px 13px', _wf = n>24 ? 12 : n>12 ? 15 : 20;
-    const nodes = _ns.map((nd,i)=>{
+    const _mw = n>22 ? 24 : n>10 ? 40 : 58, _pad = n>22 ? '3px 6px' : n>10 ? '4px 7px' : '7px 12px', _wf = n>22 ? 12 : n>10 ? 14 : 19;
+    return _arr.map((nd,i)=>{
       const _ri = _ringOf[i], _cr = _cnt[_ri], _off = _ri*(180/_cr);
       const a = (-90 + _off + _idxR[i]*(360/_cr))*Math.PI/180;
       const _r = _radii[_ri];
@@ -2830,7 +2846,9 @@ class Component extends DCLogic {
         nodeStyle:`position:absolute;left:${xp.toFixed(2)}%;top:${yp.toFixed(2)}%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;background:${nd.shift?'#211d17':'#fff'};border:2px solid ${col};border-radius:11px;padding:${_pad};min-width:${_mw}px;box-shadow:0 3px 10px rgba(33,29,23,.1);z-index:2`,
         wordStyle:`font-family:'Spectral',serif;font-size:${_wf}px;font-weight:700;color:${nd.shift?'#f4f1ea':'#211d17'}`,
         langStyle:`font-size:${n>24?'7px':'9px'};font-family:'IBM Plex Mono',monospace;color:${nd.shift?'rgba(244,241,234,.6)':'#9a9082'};white-space:nowrap` };
-    });
+    }); };
+    const nodes = _split ? _mk(_ns.slice(0,_half)) : _mk(_ns);
+    const nodes2 = _split ? _mk(_ns.slice(_half)) : [];
     const gaps = _ns.filter(nd=>nd.shift).map(nd=>nd.lang);
     const cells = _ns.map(nd=>{ const col=this.BRANCHCOLOR[nd.branch]||'#7d6a55';
       const fd = (nd.native && nd.native!==nd.word) ? (nd.native+' · '+nd.word) : nd.word;
@@ -2842,7 +2860,7 @@ class Component extends DCLogic {
     });
     return { ..._modeVals, cognateKeys:keys, cognateCats, cognateEmpty:keys.length===0, cognateQ:S.cognateQ||'',
       onCognateInput:(e)=>this.setState({cognateQ:e.target.value}),
-      cognateGloss:c.gloss, cognateProto:c.proto, cognateNote:c.note, cognateNodes:nodes,
+      cognateGloss:c.gloss, cognateProto:c.proto, cognateNote:c.note, cognateNodes:nodes, cognateNodes2:nodes2, cognateSplit:_split,
       cognateProtoStyle:("font-family:'Spectral',serif;font-weight:700;line-height:1.05;text-align:center;color:#211d17;font-size:"+((c.proto||'').length>11?'11px':(c.proto||'').length>6?'15px':'18px')),
       cognateCol3:(S.cognateMode==='broad'?'Segment':'Ses kuralı'),
       cognateCells:cells, cognateGap:gaps, cognateCatName:(c.cat||''),

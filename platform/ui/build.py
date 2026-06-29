@@ -964,7 +964,7 @@ def main():
     a1_ret_old = "    return { cognateKeys:keys, cognateGloss:c.gloss, cognateProto:c.proto, cognateNote:c.note, cognateNodes:nodes };"
     a1_ret_new = ("    return { cognateKeys:keys, cognateCats, cognateEmpty:keys.length===0, cognateQ:S.cognateQ||'',\n"
                   "      onCognateInput:(e)=>this.setState({cognateQ:e.target.value}),\n"
-                  "      cognateGloss:c.gloss, cognateProto:c.proto, cognateNote:c.note, cognateNodes:nodes,\n"
+                  "      cognateGloss:c.gloss, cognateProto:c.proto, cognateNote:c.note, cognateNodes:nodes, cognateNodes2:nodes2, cognateSplit:_split,\n"
                   "      cognateProtoStyle:(\"font-family:'Spectral',serif;font-weight:700;line-height:1.05;text-align:center;color:#211d17;font-size:\"+((c.proto||'').length>11?'11px':(c.proto||'').length>6?'15px':'18px')),\n"
                   "      cognateCol3:(S.cognateMode==='broad'?'Segment':'Ses kuralı'),\n"
                   "      cognateCells:cells, cognateGap:gaps, cognateCatName:(c.cat||''),\n"
@@ -1008,14 +1008,15 @@ def main():
         "    });")
     deep_geo_new = (
         "    const _ns = [...c.nodes].sort((a,b)=>String(a.lang).localeCompare(String(b.lang),'tr'));\n"
-        "    const n = _ns.length;\n"
-        # EŞMERKEZLİ HALKALAR (kullanıcı): çok düğüm tek halkada saçılmasın → 2-3 halka, her birinde az düğüm.
-        "    const _rings = n>22 ? 3 : n>11 ? 2 : 1;\n"
-        "    const _radii = _rings===3 ? [25,36,46] : _rings===2 ? [29,44] : [40];\n"
-        "    const _ringOf = _ns.map((_,i)=> i % _rings); const _cnt = new Array(_rings).fill(0); _ringOf.forEach(r=>_cnt[r]++);\n"
+        # EŞMERKEZLİ HALKALAR + 2-GRAF (kullanıcı): >20 düğüm → 2 ayrı graf (her biri merkez + yarı diller); her graf 2-3 halka.
+        "    const _split = _ns.length > 20; const _half = Math.ceil(_ns.length/2);\n"
+        "    const _mk = (_arr)=>{ const n = _arr.length;\n"
+        "    const _rings = n>22 ? 3 : n>10 ? 2 : 1;\n"
+        "    const _radii = _rings===3 ? [24,34,44] : _rings===2 ? [29,43] : [40];\n"
+        "    const _ringOf = _arr.map((_,i)=> i % _rings); const _cnt = new Array(_rings).fill(0); _ringOf.forEach(r=>_cnt[r]++);\n"
         "    const _seen = new Array(_rings).fill(0); const _idxR = _ringOf.map(r=>_seen[r]++);\n"
-        "    const _mw = n>24 ? 24 : n>12 ? 44 : 60, _pad = n>24 ? '3px 6px' : n>12 ? '4px 7px' : '8px 13px', _wf = n>24 ? 12 : n>12 ? 15 : 20;\n"
-        "    const nodes = _ns.map((nd,i)=>{\n"
+        "    const _mw = n>22 ? 24 : n>10 ? 40 : 58, _pad = n>22 ? '3px 6px' : n>10 ? '4px 7px' : '7px 12px', _wf = n>22 ? 12 : n>10 ? 14 : 19;\n"
+        "    return _arr.map((nd,i)=>{\n"
         "      const _ri = _ringOf[i], _cr = _cnt[_ri], _off = _ri*(180/_cr);\n"
         "      const a = (-90 + _off + _idxR[i]*(360/_cr))*Math.PI/180;\n"
         "      const _r = _radii[_ri];\n"
@@ -1028,7 +1029,9 @@ def main():
         "        nodeStyle:`position:absolute;left:${xp.toFixed(2)}%;top:${yp.toFixed(2)}%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;background:${nd.shift?'#211d17':'#fff'};border:2px solid ${col};border-radius:11px;padding:${_pad};min-width:${_mw}px;box-shadow:0 3px 10px rgba(33,29,23,.1);z-index:2`,\n"
         "        wordStyle:`font-family:'Spectral',serif;font-size:${_wf}px;font-weight:700;color:${nd.shift?'#f4f1ea':'#211d17'}`,\n"
         "        langStyle:`font-size:${n>24?'7px':'9px'};font-family:'IBM Plex Mono',monospace;color:${nd.shift?'rgba(244,241,234,.6)':'#9a9082'};white-space:nowrap` };\n"
-        "    });\n"
+        "    }); };\n"
+        "    const nodes = _split ? _mk(_ns.slice(0,_half)) : _mk(_ns);\n"
+        "    const nodes2 = _split ? _mk(_ns.slice(_half)) : [];\n"
         "    const gaps = _ns.filter(nd=>nd.shift).map(nd=>nd.lang);\n"
         "    const cells = _ns.map(nd=>{ const col=this.BRANCHCOLOR[nd.branch]||'#7d6a55';\n"
         "      const fd = (nd.native && nd.native!==nd.word) ? (nd.native+' · '+nd.word) : nd.word;\n"
@@ -1096,6 +1099,23 @@ def main():
     # kullanıcı isteğiyle üstteki "nasıl çalışır?" yardımına taşındı (aşağıda helpblk'e eklendi).
     html = html.replace('grid-template-columns:1fr 290px;gap:24px;margin-top:22px;align-items:center',
                         'grid-template-columns:1fr 300px;gap:24px;margin-top:22px;align-items:start', 1)
+    # ── KOGNAT 2-GRAF (kullanıcı, genel mod): graf1'i col1 wrapper'a al + sc-if cognateSplit ile graf2 (cognateNodes2) ekle ──
+    _g2html = ('<sc-if value="{{ cognateSplit }}"><div style="position:relative;width:100%;max-width:600px;aspect-ratio:1/1;margin:18px auto 0">'
+        '<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">'
+        '<sc-for list="{{ cognateNodes2 }}" as="n"><line x1="50" y1="50" x2="{{ n.xp }}" y2="{{ n.yp }}" stroke="{{ n.edgeStroke }}" stroke-width="{{ n.edgeWidth }}" stroke-dasharray="{{ n.edgeDash }}" vector-effect="non-scaling-stroke"></line></sc-for></svg>'
+        '<div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#d98b4a;color:#211d17;border-radius:50%;width:104px;height:104px;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3;box-shadow:0 4px 16px rgba(217,139,74,.4)">'
+        '<span style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;letter-spacing:.5px">ANA TÜRKÇE</span>'
+        '<span style="{{ cognateProtoStyle }}">{{ cognateProto }}</span></div>'
+        '<sc-for list="{{ cognateNodes2 }}" as="n"><div style="{{ n.nodeStyle }}"><span style="{{ n.wordStyle }}">{{ n.word }}</span><span style="{{ n.langStyle }}">{{ n.lang }}</span></div></sc-for>'
+        '</div></sc-if>')
+    _g1open = '<div style="position:relative;width:100%;max-width:600px;aspect-ratio:1/1;margin:0 auto">'
+    _sesnotu = '<div style="background:#211d17;color:#f4f1ea;border-radius:16px;padding:24px">'
+    if _g1open in html and _sesnotu in html:
+        html = html.replace(_g1open, '<div style="display:flex;flex-direction:column">' + _g1open, 1)
+        html = html.replace(_sesnotu, _g2html + '</div>' + _sesnotu, 1)
+        print("  Kognat 2-graf (genel mod split): enjekte edildi")
+    else:
+        print("  ! Kognat 2-graf anchor bulunamadi")
     # Karşılaştır harita SEKMESİ KALDIRILDI + atlas "← Karşılaştır" → Dizilim sekmesi (eski harita önizlemesi öldürüldü).
     html = html.replace("    const compareTabs = [['rows','Dizilim'],['sound','Ses denklikleri'],['tree','Soy ağacı'],['map','Harita']]",
                         "    const compareTabs = [['rows','Dizilim'],['sound','Ses denklikleri'],['tree','Soy ağacı']]", 1)
@@ -1340,7 +1360,7 @@ def main():
     # (2) bağlam çubuğu arama placeholder'ı: kapsamı yansıt
     if 'placeholder="Kelime ara, Enter’a bas — örn. okuduk, ormanda, kızlar…"' in html:
         html = html.replace('placeholder="Kelime ara, Enter’a bas — örn. okuduk, ormanda, kızlar…"',
-                            'placeholder="Dil, kavram ya da kelime ara — Çuvaşça · göz · okuduk"', 1); nhome += 1
+                            'placeholder="Dil, kavram ya da kelime ara"', 1); nhome += 1
     # (3) ana sayfaya belirgin hero arama + hızlı-eylem çipleri (giriş metninden sonra)
     chip = ("cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:20px;"
             "padding:8px 15px;font-size:13.5px;font-family:inherit;color:#211d17")
@@ -1349,7 +1369,7 @@ def main():
     hero_block = (
         '        <div style="margin-top:32px;max-width:580px">\n'
         '          <div style="position:relative">\n'
-        '            <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Dil, kavram ya da kelime ara — Çuvaşça · göz · okuduk" style="width:100%;padding:15px 16px 15px 48px;border:1.5px solid rgba(33,29,23,.18);border-radius:14px;background:#fff;font-size:16px;font-family:inherit;color:#211d17;outline:none;box-shadow:0 2px 12px rgba(33,29,23,.05)">\n'
+        '            <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Dil, kavram ya da kelime ara" style="width:100%;padding:15px 16px 15px 48px;border:1.5px solid rgba(33,29,23,.18);border-radius:14px;background:#fff;font-size:16px;font-family:inherit;color:#211d17;outline:none;box-shadow:0 2px 12px rgba(33,29,23,.05)">\n'
         '            <span style="position:absolute;left:18px;top:50%;transform:translateY(-50%);color:#9a9082;font-size:18px">⌕</span>\n'
         '          </div>\n'
         '          <div style="margin-top:13px;display:flex;gap:8px;flex-wrap:wrap">\n'
@@ -1817,8 +1837,7 @@ def main():
 
     # Paradigma: giriş kutusunun yanına dil seçici + placeholder (artık üst barda değil)
     par_inp = '<input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — sağ üstteki dilde canlı çekim" style="flex:1;min-width:300px;max-width:520px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">'
-    par_new = ('<input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — canlı çekim" style="flex:1;min-width:260px;max-width:440px;' + INP + '">\n          ' + SELBOX
-               + '\n          <button onClick="{{ paradigmToGenerate }}" title="Bu kökü Üreteç\'te aç" style="cursor:pointer;background:#fff;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;padding:11px 15px;font-size:13px;font-family:inherit;color:#211d17;white-space:nowrap;flex-shrink:0">Üreteç\'te üret →</button>')
+    par_new = ('<input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — canlı çekim" style="flex:1;min-width:260px;max-width:440px;' + INP + '">\n          ' + SELBOX)
     if par_inp in html:
         html = html.replace(par_inp, par_new, 1); nsel += 1
     else:
@@ -2285,7 +2304,7 @@ def main():
     # mantıksız sekmelerde (ses denklikleri/soy ağacı/harita) kelime referansı YOK, sekme başlığı.
     dfix.append(("compare başlık binding (A2 sekmeye-duyarlı)",
         "      compareRows, legend, soundCards, familyRows, timeline,",
-        "      compareRows, compareHeadline:(S.compareTab==='sound' ? 'Ses denklikleri' : S.compareTab==='tree' ? 'Soy ağacı & zaman çizelgesi' : S.compareTab==='map' ? 'Dil haritası' : ('\\u201C'+((S.activeWordId==='__api' && w && w.surface) ? w.surface : (w?w.gloss:''))+'\\u201D — diller arası')), legend, soundCards, familyRows, timeline,"))
+        "      compareRows, compareHeadline:(S.compareTab==='sound' ? 'Ses denklikleri' : S.compareTab==='tree' ? 'Soy ağacı & zaman çizelgesi' : S.compareTab==='map' ? 'Dil haritası' : ('\\u201C'+((S.activeWordId==='__api' && w && w.surface) ? w.surface : (w?w.gloss:''))+'\\u201D — diller\\u00A0arası')), legend, soundCards, familyRows, timeline,"))
     dfix.append(("compare başlık markup (A2 wrapper kaldır)",
         '<h2 style="font-family:\'Spectral\',serif;font-weight:600;font-size:38px;margin:0">“{{ active.gloss }}” — diller arası</h2>',
         '<h2 style="font-family:\'Spectral\',serif;font-weight:600;font-size:38px;margin:0">{{ compareHeadline }}</h2>'))
@@ -3568,7 +3587,14 @@ def main():
     #content-scroll{ overflow-x:hidden !important; zoom:0.92; }
     #content-scroll section{ padding-left:14px !important; padding-right:14px !important; max-width:100% !important; }
     #content-scroll h1{ font-size:30px !important; line-height:1.12 !important; }
-    #content-scroll input, #content-scroll select, #content-scroll textarea{ min-width:0 !important; max-width:100% !important; font-size:16px !important; }
+    #content-scroll input, #content-scroll textarea{ min-width:0 !important; max-width:100% !important; font-size:16px !important; }
+    #content-scroll select{ min-width:0 !important; max-width:100% !important; font-size:13.5px !important; padding:9px 12px !important; }
+    /* giriş satırları sarsın + input KENDİ satırını alsın (paradigma input'u küçücük kalmasın) */
+    #content-scroll [style*="display: flex"]:has(> input), #content-scroll [style*="display: flex"]:has(> select){ flex-wrap:wrap !important; }
+    #content-scroll [style*="display: flex"] > input{ flex:1 1 100% !important; }
+    /* Analiz/Üreteç/Karşılaştır renkli morfem kartları (border-radius:13px, kelime 30px) mobilde orantılı küçült */
+    #content-scroll [style*="border-radius: 13px"]{ padding:9px 13px !important; }
+    #content-scroll [style*="border-radius: 13px"] > span:first-child{ font-size:19px !important; }
     #content-scroll table{ display:block; overflow-x:auto; max-width:100%; -webkit-overflow-scrolling:touch; }
     /* çok/iki-sütun grid → tek sütun (framework inline stili boşluk-normalize eder → DEĞER-kısmı eşleşmesi) */
     #content-scroll [style*="repeat("]{ grid-template-columns:1fr !important; }
@@ -3584,9 +3610,18 @@ def main():
     /* Kognat graf düğüm kutuları mobilde küçült (kenar=border-radius 11px; merkez baloncuk 50% hariç) — örtüşme azalsın */
     #content-scroll [style*="aspect-ratio: 1 / 1"] [style*="border-radius: 11px"]{ min-width:0 !important; padding:2px 6px !important; }
     /* Paradigma çekim tablosu (etiket 150px | tekil | çoğul): 1fr 1fr kuralı yanlış çökertiyordu → kompakt 3-sütun KAL */
-    #content-scroll [style*="150px 1fr 1fr"]{ grid-template-columns:52px 1fr 1fr !important; align-items:center !important; gap:4px !important; }
-    #content-scroll [style*="150px 1fr 1fr"] *{ font-size:13.5px !important; }
-    #content-scroll [style*="150px 1fr 1fr"] [style*="border-radius"]{ padding:6px 5px !important; min-width:0 !important; }
+    #content-scroll [style*="150px 1fr 1fr"]{ grid-template-columns:58px 1fr 1fr !important; align-items:center !important; gap:4px !important; }
+    #content-scroll [style*="150px 1fr 1fr"] *{ font-size:13px !important; }
+    #content-scroll [style*="150px 1fr 1fr"] > :first-child{ font-size:10.5px !important; line-height:1.15 !important; }
+    #content-scroll [style*="150px 1fr 1fr"] [style*="border-radius"]{ padding:5px 4px !important; min-width:0 !important; }
+    /* Dil Profilleri kaydırma listesi: ekranda ~5 dil (7 yerine) */
+    #content-scroll [style*="max-height: 520px"]{ max-height:344px !important; }
+    /* Uzaklık iki liste: ~5 satır görünür */
+    #content-scroll [style*="max-height: 404px"]{ max-height:250px !important; }
+    /* kaydırma kutuları: scrollbar GÖRÜNÜR olsun (kaydırılabildiği belli olsun) */
+    #content-scroll [style*="overflow: auto"]::-webkit-scrollbar{ width:6px; height:6px; }
+    #content-scroll [style*="overflow: auto"]::-webkit-scrollbar-thumb{ background:rgba(33,29,23,.30); border-radius:4px; }
+    #content-scroll [style*="overflow: auto"]{ scrollbar-width:thin; }
   }
 """
     _mob_pairs = [

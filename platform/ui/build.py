@@ -698,13 +698,22 @@ def main():
             "  QMETA = {tur:['production',94.8,90.3],kaz:['production',95.2,93.4],tat:['production',95.2,94.3],aze:['stable',95.2,35.1],kir:['stable',95.2,88.3],uzb:['stable',95.2,81.2],bak:['beta',95.2,87.0],chv:['beta',94.4,null],crh:['beta',95.2,84.5],tuk:['beta',95.2,64.1],uig:['beta',94.2,86.5],sah:['prototype',92.6,null],alt:['prototype',94.1,null],gag:['prototype',95.2,null],kaa:['prototype',95.2,null],kjh:['prototype',95.0,28.6],krc:['prototype',95.2,null],kum:['prototype',95.2,null],nog:['prototype',95.2,70.6],tyv:['prototype',95.2,null]};\n"
             "  QTIER = {production:['üretim','#3f8a5c'],stable:['kararlı','#2f7f8a'],beta:['beta','#c08a3a'],prototype:['prototip','#9a8f82']};\n"
             "  qBadge(code){const m=this.QMETA[code]; if(!m)return null; const t=this.QTIER[m[0]]; return {tier:t[0], col:t[1], r:m[1], c:m[2], ln:(this.LIVE_LN[code]||code)};}\n"
+            # HUMANIZER — apertium ham etiketleri (n/attr/cop/px1sg/ger_past...) okunur Türkçeye çevirir.
+            # SHORT = renkli morfem kutusu rozeti; LONG = açıklama/üst satır. Ham etiket kullanıcıya SIZMAZ.
+            "  TAGSHORT = {n:'AD',v:'FİİL',adj:'SIFAT',attr:'SIFAT',adv:'ZARF',cop:'EK-FİİL',pl:'ÇOĞUL',sg:'TEKİL',nom:'YALIN',gen:'İLGİ',dat:'YÖNELME',acc:'BELİRTME',loc:'BULUNMA',abl:'AYRILMA',ins:'ARAÇ',px1sg:'İYE.1T',px2sg:'İYE.2T',px3sp:'İYE.3',px1pl:'İYE.1Ç',px2pl:'İYE.2Ç',px3pl:'İYE.3Ç',past:'GEÇMİŞ',ifi:'GÖR.GEÇMİŞ',pres:'GENİŞ',fut:'GELECEK',aor:'GENİŞ',cond:'ŞART',imp:'EMİR',p1:'1.KİŞİ',p2:'2.KİŞİ',p3:'3.KİŞİ',ger:'ZARF-FİİL',ger_past:'ORTAÇ.GEÇMİŞ',ger_perf:'ZARF-FİİL',gpr_past:'ORTAÇ.GEÇMİŞ',gpr_pot:'ORTAÇ',prc_perf:'ORTAÇ',prc_impf:'ORTAÇ'};\n"
+            "  TAGLONG = {n:'ad',v:'fiil',adj:'sıfat',attr:'sıfat',adv:'zarf',cop:'ek-fiil',pl:'çokluk',sg:'tekil',nom:'yalın',gen:'ilgi (-in)',dat:'yönelme (-e)',acc:'belirtme (-i)',loc:'bulunma (-de)',abl:'ayrılma (-den)',ins:'araç (-le)',px1sg:'iyelik · benim',px2sg:'iyelik · senin',px3sp:'iyelik · onun',px1pl:'iyelik · bizim',px2pl:'iyelik · sizin',px3pl:'iyelik · onların',past:'geçmiş zaman',ifi:'görülen geçmiş',pres:'geniş/şimdiki zaman',fut:'gelecek zaman',aor:'geniş zaman',cond:'şart',imp:'emir',p1:'1. kişi',p2:'2. kişi',p3:'3. kişi',ger:'zarf-fiil',ger_past:'geçmiş ortaç',ger_perf:'bitmiş zarf-fiil',gpr_past:'geçmiş ortaç',gpr_pot:'olasılık ortacı',prc_perf:'bitmiş ortaç',prc_impf:'süren ortaç'};\n"
+            "  humanShort(t){ if(!t) return ''; const k=String(t).toLowerCase(); return this.TAGSHORT[k] || k.toUpperCase(); }\n"
+            "  humanLong(t){ if(!t) return ''; const k=String(t).toLowerCase(); return this.TAGLONG[k] || k; }\n"
+            "  humanBadge(tag){ return String(tag||'').split('+').map(p=>this.humanShort(p)).join('+'); }\n"
+            "  humanGloss(a){ if(!a) return 'çözümlenemedi'; const ts=(a.tags||[]).map(t=>this.humanLong(t)).filter(Boolean); return a.lemma + (ts.length? ' · ' + ts.join(' · ') : ''); }\n"
+            "  humanizeQuery(q){ if(!q) return ''; const lm=String(q).split('<')[0]; const tags=(String(q).match(/<([^>]+)>/g)||[]).map(x=>x.slice(1,-1)); const ts=tags.map(t=>this.humanLong(t)).filter(Boolean); return lm + (ts.length? ' · ' + ts.join(' · ') : ''); }\n"
             "  apiWordFrom(lg, word, analyses){\n"
             "    const TT = {n:'kök',v:'kök',pl:'çokluk',nom:'hâl',gen:'hâl',dat:'hâl',acc:'hâl',loc:'hâl',abl:'hâl',ins:'hâl',px1sg:'iyelik',px2sg:'iyelik',px3sp:'iyelik',pres:'zaman',past:'zaman',fut:'zaman',p1:'kişi',p2:'kişi',p3:'kişi'};\n"
             "    const a = (analyses && analyses[0]) || null;\n"
             "    const ms = a ? [{text:a.lemma, tag:'KÖK', type:'kök', label:'kök (apertium FST)', gloss:a.lemma, gItem:a.lemma, note:'Apertium morfolojik çözümlemesi.'}]\n"
-            "        .concat((a.tags||[]).map(t=>({text:t, tag:String(t).toUpperCase(), type:(TT[t]||'kök'), label:'etiket: '+t, gloss:t, gItem:t, note:'Apertium etiketi.'})))\n"
+            "        .concat((a.tags||[]).map(t=>({text:this.humanShort(t), tag:this.humanShort(t), type:(TT[t]||'kök'), label:'işlev: '+this.humanLong(t), gloss:this.humanLong(t), gItem:t, note:('İşlev: '+this.humanLong(t)+'  (apertium etiketi: '+t+')')})))\n"
             "      : [{text:word, tag:'?', type:'kök', label:'çözümlenemedi', gloss:'?', gItem:word, note:'Apertium bu biçimi tanımadı.'}];\n"
-            "    return {lang:'cv', langName:(this.LIVE_LN[lg]||lg)+' · canlı FST', surface:word, translit:'', gloss:(a?('apertium: '+a.raw):'çözümlenemedi'), morphemes:ms, cognates:[]};\n"
+            "    return {lang:'cv', langName:(this.LIVE_LN[lg]||lg)+' · canlı FST', surface:word, translit:'', gloss:(a?this.humanGloss(a):'çözümlenemedi'), morphemes:ms, cognates:[]};\n"
             "  }"
         ) % API
         html = html.replace("class Component extends DCLogic {", helper, 1)
@@ -1928,8 +1937,8 @@ def main():
         "    const S = this.state;\n"
         "    let w = this.WORDS[S.researchWord];\n"
         "    if (S.researchApi){ const R=S.researchApi; const a=(R.analyses&&R.analyses[0])||null;\n"
-        "      const ms = a ? [{text:a.lemma, gItem:a.lemma, gloss:'lemma', type:'kök'}].concat((a.tags||[]).map(t=>({text:'', gItem:'', gloss:t, type:(/^(pres|past|fut|aor)$/.test(t)?'zaman':/^p[123]/.test(t)?'kişi':'etiket')}))) : [{text:R.word, gItem:R.word, gloss:'?', type:'kök'}];\n"
-        "      w = { lang:R.lang, langName:(this.LIVE_LN[R.lang]||R.lang), surface:R.word, translit:'', gloss:(a?('apertium: '+a.raw):'çözümlenemedi'), morphemes:ms };\n"
+        "      const ms = a ? [{text:a.lemma, gItem:a.lemma, gloss:'lemma', type:'kök'}].concat((a.tags||[]).map(t=>({text:'', gItem:'', gloss:this.humanLong(t), type:(/^(pres|past|fut|aor|ifi)$/.test(t)?'zaman':/^p[123]/.test(t)?'kişi':'etiket')}))) : [{text:R.word, gItem:R.word, gloss:'?', type:'kök'}];\n"
+        "      w = { lang:R.lang, langName:(this.LIVE_LN[R.lang]||R.lang), surface:R.word, translit:'', gloss:(a?this.humanGloss(a):'çözümlenemedi'), morphemes:ms };\n"
         "    }\n"
         "    if (!w) return {};"))
     bfix.append(("research çip sel",
@@ -2116,7 +2125,7 @@ def main():
         "    const cmpRows = cmpA ? cmpA.rows : null;\n"
         "    const CBR = {tur:'Oğuz',aze:'Oğuz',tuk:'Oğuz',kaz:'Kıpçak',kir:'Kıpçak',tat:'Kıpçak',bak:'Kıpçak',uzb:'Karluk',uig:'Karluk',chv:'Ogur',sah:'Sibirya'};\n"
         "    const allLangs = cmpRows\n"
-        "      ? Object.entries(cmpRows).map(([lc,info])=>{ const seg=info.morphemes; const ms = (seg && seg.length) ? seg.map(m=>[m.surface, (m.tag||'').toString(), (m.type||'kök')]) : [[info.surface,'KÖK','kök']]; return {lang:lc, langName:(this.LIVE_LN[lc]||lc), branch:(CBR[lc]||'—'), translit:info.surface, morphemes:ms, self:!!info.self}; })\n"
+        "      ? Object.entries(cmpRows).map(([lc,info])=>{ const seg=info.morphemes; const ms = (seg && seg.length) ? seg.map(m=>[m.surface, this.humanBadge(m.tag||''), (m.type||'kök')]) : [[info.surface,'KÖK','kök']]; return {lang:lc, langName:(this.LIVE_LN[lc]||lc), branch:(CBR[lc]||'—'), translit:info.surface, morphemes:ms, self:!!info.self}; })\n"
         "      : [{lang:w.lang,langName:w.langName,branch:'Ogur',translit:w.translit,morphemes:w.morphemes.map(m=>[m.text,m.tag,m.type]),self:true}, ...w.cognates];"))
     # başlık: A2 — sekmeye-duyarlı. Dizilim'de canlı kelimenin yüzey biçimi + "— diller arası";
     # mantıksız sekmelerde (ses denklikleri/soy ağacı/harita) kelime referansı YOK, sekme başlığı.
@@ -2750,7 +2759,7 @@ def main():
         '        <div style="margin-top:26px;background:#211d17;color:#f4f1ea;border-radius:18px;padding:26px 30px">\n'
         '          <div style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;color:rgba(244,241,234,.6);letter-spacing:.5px">{{ genRecipe }} · {{ genLangName }}</div>\n'
         '          <div style="font-family:\'Spectral\',serif;font-weight:600;font-size:46px;line-height:1.12;margin:8px 0 6px">{{ genForm }}</div>\n'
-        '          <div style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;color:rgba(244,241,234,.45)">{{ genQuery }}</div>\n'
+        '          <div title="{{ genQuery }}" style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;color:rgba(244,241,234,.45)">{{ genQueryHuman }}</div>\n'
         '          <sc-if value="{{ genAltShow }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:rgba(244,241,234,.6);margin-top:8px">başka biçimler: {{ genAlt }}</div></sc-if>\n'
         '          <sc-if value="{{ genHasMorph }}" hint-placeholder-val="{{ false }}">\n'
         '          <div style="margin-top:16px;padding-top:15px;border-top:1px dashed rgba(244,241,234,.18);display:flex;gap:8px;flex-wrap:wrap;align-items:center">\n'
@@ -2762,7 +2771,7 @@ def main():
         '        </sc-if>\n'
         '        <sc-if value="{{ genEmpty }}" hint-placeholder-val="{{ false }}">\n'
         '        <div style="margin-top:26px;background:#fbf3ea;border:1px solid rgba(217,139,74,.35);border-radius:14px;padding:18px 22px;font-size:14px;line-height:1.6;color:#7a5230">\n'
-        '          <b>{{ genLemma }}</b> kökü bu dilde <b>{{ genRecipe }}</b> birleşimini doğrudan üretmedi. Bazı diller belirli zaman/kişi eklerini kopula gibi farklı yollarla kurar — başka bir birleşim ya da dil dene. <span style="font-family:\'IBM Plex Mono\',monospace;font-size:11.5px;color:#9a9082">({{ genQuery }})</span>\n'
+        '          <b>{{ genLemma }}</b> kökü bu dilde <b>{{ genRecipe }}</b> birleşimini doğrudan üretmedi. Bazı diller belirli zaman/kişi eklerini kopula gibi farklı yollarla kurar — başka bir birleşim ya da dil dene. <span title="{{ genQuery }}" style="font-family:\'IBM Plex Mono\',monospace;font-size:11.5px;color:#9a9082">({{ genQueryHuman }})</span>\n'
         '        </div>\n'
         '        </sc-if>\n'
         '      </section>\n'
@@ -2849,7 +2858,7 @@ def main():
         "style:'cursor:pointer;display:inline-flex;align-items:center;border:1.5px solid rgba(33,29,23,.14);background:#fff;border-radius:11px;padding:8px 13px;font-family:inherit' })), "
         "genHasResult:!!(S.genResult&&!S.genResult.empty), genEmpty:!!(S.genResult&&S.genResult.empty), "
         "genForm:(S.genResult&&S.genResult.form)||'', genRecipe:(S.genResult&&S.genResult.recipe)||'', "
-        "genQuery:(S.genResult&&S.genResult.query)||'', genLangName:(S.genResult&&S.genResult.langName)||'', "
+        "genQuery:(S.genResult&&S.genResult.query)||'', genQueryHuman:this.humanizeQuery((S.genResult&&S.genResult.query)||''), genLangName:(S.genResult&&S.genResult.langName)||'', "
         "genAlt:((S.genResult&&S.genResult.alt)||[]).join(', '), genAltShow:!!(S.genResult&&S.genResult.alt&&S.genResult.alt.length), "
         "genHasMorph:!!(S.genResult&&S.genResult.morphemes&&S.genResult.morphemes.length), "
         "genMorphemes:((S.genResult&&S.genResult.morphemes)||[]).map((m,i)=>({text:m.surface, feat:m.feat, "
@@ -3071,7 +3080,7 @@ def main():
     if nchip:
         html = html.replace(SELBOX, SELBOX + "\n          " + _qchip("qbActive"))
     # Üreteç: round-trip butonu (result card, genQuery'den sonra)
-    gq = "<div style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(244,241,234,.45)\">{{ genQuery }}</div>\n"
+    gq = "<div title=\"{{ genQuery }}\" style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(244,241,234,.45)\">{{ genQueryHuman }}</div>\n"
     nrt = 0
     if gq in html:
         html = html.replace(gq, gq + '          <button onClick="{{ analyzeGenForm }}" style="cursor:pointer;margin-top:14px;background:rgba(244,241,234,.12);color:#f4f1ea;border:1px solid rgba(244,241,234,.28);border-radius:9px;padding:8px 16px;font-size:13px;font-family:inherit">↻ Bu biçimi analiz et</button>\n', 1); nrt = 1

@@ -20,6 +20,15 @@ SRC = UI / "Morfoloji Platformu.dc.html"
 DATA = UI.parent / "data"
 DIST = UI / "dist"; DIST.mkdir(exist_ok=True)
 
+# #65 — GERÇEK GeoJSON harita arka planı (Natural Earth 110m, public-domain; build_map_geojson.py üretir).
+_MAP_GEO = {}
+try:
+    exec((UI / "map_geo.py").read_text(encoding="utf-8"), _MAP_GEO)
+except Exception as _e:
+    print("  ! map_geo.py yüklenemedi (build_map_geojson.py çalıştır):", _e)
+GEO_LAND = _MAP_GEO.get("LAND_PATH", "")
+GEO_BORDER = _MAP_GEO.get("BORDER_PATH", "")
+
 # UI kodu -> profiles.json iso
 CODE2ISO = {"tr":"tur","az":"azj","tk":"tuk","kk":"kaz","kg":"kir","tt":"tat","bak":"bak",
             "ug":"uig","chv":"chv","sah":"sah","tyv":"tyv","kjh":"kjh","shor":"cjs","clw":"klj"}
@@ -386,6 +395,9 @@ def build_map_bg():
     seg = lambda pts: "".join(f"L {_pj(lo,la)[0]} {_pj(lo,la)[1]} " for lo, la in pts)
     land = (f"M -5 -5 L 105 -5 L 105 {_pj(148,60)[1]} " + seg(EAST) + seg(SOUTH)
             + f"L -5 {_pj(20,41)[1]} L -5 -5 Z")
+    # #65 — gerçek GeoJSON kıyı varsa onu kullan (elle-çizim fallback kalır). Sınırlar ince üst-katman.
+    if GEO_LAND:
+        land = GEO_LAND
     # iç denizler/göller: (boylam, enlem, boylam_açıklık°, enlem_açıklık°)
     # +İstanbul Boğazı (su), +Ege/Akdeniz, +Kızıldeniz (güneydeki kanal/deniz) — kullanıcı isteği
     seas = [(34.5, 43.2, 13.0, 4.6), (50.5, 41.7, 7.0, 10.6), (59.5, 45.0, 3.2, 2.8),
@@ -434,7 +446,8 @@ def build_map_bg():
             '<linearGradient id="mSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cbd8d9"></stop><stop offset="1" stop-color="#b9c9ca"></stop></linearGradient>'
             '</defs>'
             '<rect x="0" y="0" width="100" height="100" fill="url(#mSea)"></rect>'
-            f'<path d="{land}" fill="url(#mLand)" stroke="#c2b393" stroke-width="0.6" vector-effect="non-scaling-stroke"></path>'
+            f'<path d="{land}" fill="url(#mLand)" stroke="#c2b393" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>'
+            + (f'<path d="{GEO_BORDER}" fill="none" stroke="#c4ab82" stroke-width="0.28" stroke-linejoin="round" vector-effect="non-scaling-stroke" opacity="0.5"></path>' if GEO_BORDER else '')
             + '<g stroke="rgba(33,29,23,.07)" stroke-width="0.5" vector-effect="non-scaling-stroke">' + "".join(grat) + '</g>'
             + "".join(riv_svg)
             + "".join(sea_svg)

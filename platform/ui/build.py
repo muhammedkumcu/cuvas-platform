@@ -1830,7 +1830,7 @@ def main():
     analiz_new = ('        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:24px 0 0">\n'
                   '          <input value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onSearchKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz" style="flex:1;min-width:260px;max-width:480px;' + INP + '">\n'
                   '          ' + SELBOX + '\n'
-                  '          <button onClick="{{ analizRun }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:12px 18px;font-size:14px;font-family:inherit;font-weight:600;white-space:nowrap;flex-shrink:0">▷ Çözümle</button>\n'
+                  '          <button onClick="{{ analizRun }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:14px;font-family:inherit;font-weight:600;white-space:nowrap;flex-shrink:0">▷ Çözümle</button>\n'
                   '        </div>\n' + analiz_old)
     if analiz_old in html:
         html = html.replace(analiz_old, analiz_new, 1); nsel += 1
@@ -1843,7 +1843,7 @@ def main():
                '        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px">\n'
                '          <input value="{{ compareQ }}" onInput="{{ onCompareInput }}" onKeyDown="{{ onCompareKey }}" placeholder="Kelime yaz + Enter — diller arası canlı çözümle" style="flex:1;min-width:260px;max-width:480px;' + INP + '">\n'
                '          ' + SELBOX + '\n'
-               '          <button onClick="{{ cmpRun }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:12px 18px;font-size:14px;font-family:inherit;font-weight:600;white-space:nowrap;flex-shrink:0">▷ Karşılaştır</button>\n'
+               '          <button onClick="{{ cmpRun }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:14px;font-family:inherit;font-weight:600;white-space:nowrap;flex-shrink:0">▷ Karşılaştır</button>\n'
                '        </div>')
     if cmp_old in html:
         html = html.replace(cmp_old, cmp_new, 1); nsel += 1
@@ -1853,7 +1853,7 @@ def main():
     # Paradigma: giriş kutusunun yanına dil seçici + placeholder (artık üst barda değil)
     par_inp = '<input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — sağ üstteki dilde canlı çekim" style="flex:1;min-width:300px;max-width:520px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">'
     par_new = ('<input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — canlı çekim" style="flex:1;min-width:260px;max-width:440px;' + INP + '">\n          ' + SELBOX
-               + '\n          <button onClick="{{ parRun }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:12px 18px;font-size:14px;font-family:inherit;font-weight:600;white-space:nowrap;flex-shrink:0">▷ Çek</button>')
+               + '\n          <button onClick="{{ parRun }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:14px;font-family:inherit;font-weight:600;white-space:nowrap;flex-shrink:0">▷ Çekimle</button>')
     if par_inp in html:
         html = html.replace(par_inp, par_new, 1); nsel += 1
     else:
@@ -3470,23 +3470,26 @@ def main():
         return ('<sc-if value="{{ ' + field + ' }}" hint-placeholder-val="{{ false }}">'
                 '<button onClick="{{ goQuality }}" title="Bu motorun olculmus kalitesi" '
                 'style="cursor:pointer;display:inline-flex;align-items:center;gap:7px;background:#fbfaf6;border:1px solid rgba(33,29,23,.14);'
-                'border-radius:20px;padding:6px 13px;font-size:11.5px;font-family:inherit;color:#5f574b">'
-                "<span style=\"font-family:'IBM Plex Mono',monospace;color:#9a9082;font-size:10px;letter-spacing:.5px\">KALİTE</span> "
+                'border-radius:20px;padding:4px 11px;font-size:10.5px;font-family:inherit;color:#5f574b">'
+                "<span style=\"font-family:'IBM Plex Mono',monospace;color:#9a9082;font-size:9px;letter-spacing:.5px\">KALİTE</span> "
                 '{{ ' + field + '.tier }} · round-trip %{{ ' + field + '.r }} <span style="color:#d98b4a">↗ Kalite &amp; Kapsam</span></button></sc-if>')
     # SELBOX yanına rozet (Analiz/Paradigma/Karşılaştır hepsi SELBOX kullanır)
     nchip = html.count(SELBOX)
-    if nchip:
-        html = html.replace(SELBOX, SELBOX + "\n          " + _qchip("qbActive"))
+    # KALİTE rozeti artık SELBOX yanına DEĞİL → aksiyon butonlarının HEMEN ALTINA (kullanıcı); flex-basis:100% → kendi satırı
+    _qbline = lambda fld: '<div style="flex-basis:100%;margin-top:7px">' + _qchip(fld) + '</div>'
+    for _abtn in ['flex-shrink:0">▷ Çözümle</button>', 'flex-shrink:0">▷ Çekimle</button>', 'flex-shrink:0">▷ Karşılaştır</button>']:
+        if _abtn in html:
+            html = html.replace(_abtn, _abtn + _qbline("qbActive"), 1)
     # Üreteç: round-trip butonu (result card, genQuery'den sonra)
     gq = "<div title=\"{{ genQuery }}\" style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(244,241,234,.45)\">{{ genQueryHuman }}</div>\n"
     nrt = 0
     if gq in html:
         html = html.replace(gq, gq + '          <button onClick="{{ analyzeGenForm }}" style="cursor:pointer;margin-top:14px;background:rgba(244,241,234,.12);color:#f4f1ea;border:1px solid rgba(244,241,234,.28);border-radius:9px;padding:8px 16px;font-size:13px;font-family:inherit">↻ Bu biçimi analiz et</button>\n', 1); nrt = 1
-    # Üreteç: kalite rozeti (intro'dan sonra)
-    gi = "doğru yüzey biçimini senin için kursun.</p>\n"
+    # Üreteç: kalite rozeti ÜRET butonunun HEMEN ALTINA (Analiz ile tutarlı; eskiden intro'da üstte kalıyordu)
     nub = 0
-    if gi in html:
-        html = html.replace(gi, gi + '        <div style="margin-top:12px">' + _qchip("qbUretec") + '</div>\n', 1); nub = 1
+    _uretbtn = 'font-weight:600">▷ Üret</button>'
+    if _uretbtn in html:
+        html = html.replace(_uretbtn, _uretbtn + _qbline("qbUretec"), 1); nub = 1
     print(f"  G2 rozet (SELBOX={nchip}) + U2 round-trip (uretec={nrt}) + rozet(uretec={nub}) + renderVals={ng2v}")
 
     # ── R-AÇIKLAMA: her sayfaya "Bu sayfa ne anlatıyor?" bölümü (Kognat'taki desenin aynısı) ──
@@ -3603,7 +3606,9 @@ def main():
     .kn-mbar-sub{ font-size:10.5px; font-weight:400; color:#5f574b; font-family:'IBM Plex Sans',sans-serif; letter-spacing:.2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     /* HARD garanti: sayfa ASLA yana kaymaz (tablolar kendi içinde scroll) + uniform çok hafif küçültme (zoom) */
     #content-scroll{ overflow-x:hidden !important; zoom:0.92; }
-    #content-scroll section{ padding-left:14px !important; padding-right:14px !important; max-width:100% !important; }
+    #content-scroll section{ padding-left:14px !important; padding-right:14px !important; padding-top:16px !important; max-width:100% !important; }
+    /* sayfa üstü boşluk STANDART: bar→ilk eleman (turuncu etiket/başlık) her sayfada eşit (ilk-eleman üst-marjı sıfır) */
+    #content-scroll section > :first-child{ margin-top:0 !important; }
     #content-scroll h1{ font-size:30px !important; line-height:1.12 !important; }
     #content-scroll input, #content-scroll textarea{ min-width:0 !important; max-width:100% !important; font-size:16px !important; }
     #content-scroll select{ min-width:0 !important; max-width:100% !important; font-size:13.5px !important; padding:9px 12px !important; }

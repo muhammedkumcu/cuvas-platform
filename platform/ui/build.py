@@ -3359,45 +3359,52 @@ def main():
                 + lis +
                 '          </ul>\n'
                 '        </div>')
-    _psrc_pages = [
-        ("ATLAS (büyük harita)", [
-            ("Apertium FST'leri (GPL-3.0)", "diller-arası canlı morfolojik üretim ve yüzey bölümleme"),
-            ("Savelyev &amp; Robbeets (2020), SavelyevTurkic CLDF (CC BY 4.0)", "ses denklikleri (izogloslar) + soy ağacı ve zaman derinliği"),
-        ]),
-        ("YAKINDA (planlanan modüller)", [
-            ("Savelyev &amp; Robbeets (2020), <i>JoLE</i>", "Bayesçi soy ağacı + ses yasaları (rotasizm/lambdasizm) ve ayrışma düğümleri"),
-            ("Johanson (2021)", "altı kol tasnifi ve izogloslar"),
-            ("Tekin · Arat · Dankoff &amp; Kelly · Golden · Erdal · Róna-Tas", "zaman çizelgesi: yazıtlar, sözlükler, tarihsel diller"),
-        ]),
-        ("PARADİGMA GEZGİNİ", [
-            ("Savelyev &amp; Robbeets (2020), SavelyevTurkic CLDF (CC BY 4.0)", "leksikal + filogenetik uzaklık (kognat matrisi)"),
-            ("WALS — World Atlas of Language Structures", "tipolojik özellik uzaklığı"),
-            ("Lindsay vd.", "karşılıklı anlaşılabilirlik"),
-            ("Glottolog 5 (CC BY 4.0)", "coğrafi koordinatlar"),
-        ]),
-        ("OGREN", [
-            ("Glottolog 5 (CC BY 4.0)", "dil merkez koordinatları (şematik projeksiyon)"),
-            ("Johanson (2021)", "kol tasnifi ve renk kodu"),
-        ]),
-        ("DİL PROFİLLERİ + CANLILIK", [
-            ("Savelyev &amp; Robbeets (2020), SavelyevTurkic CLDF (CC BY 4.0)", "kognat setleri, ses kuralları, boşluk tespiti"),
-            ("Clauson, <i>An Etymological Dictionary of Pre-Thirteenth-Century Turkish</i>", "Ana Türkçe yeniden kurulan kök biçimleri"),
-            ("Wiktionary", "biçim/yazım çapraz-kontrolü"),
-        ]),
-    ]
+    # #61 — KAYNAKLAR EKRAN-ID TABANLI (güvenilir, tek + standart). Eski anchor sistemi KAYNAKLAR'ı bir
+    # önceki ekrana/nested-tab'a kaydırıyordu (Karşılaştır→isCmpMap'te sıkışıyordu). Artık her ekranın
+    # KENDİ section-kapanışından (en alt) önce enjekte edilir. eco/generate/heart inline (zaten doğru) → atla.
+    _SCREENS = {"isHome", "isAnaliz", "isCompare", "isLearn", "isDistance", "isProfile", "isHistory",
+                "isAbout", "isQuality", "isGenerate", "isHeart", "isParadigm", "isResearch", "isEco",
+                "isCognate", "isAtlas", "isSources"}
+    _kaynak_by_screen = {
+        "isAnaliz": [("Apertium FST'leri (GPL-3.0)", "canlı morfolojik analiz ve yüzey morfem bölümleme (20 Türk dili)"),
+                     ("Needleman–Wunsch (1970) hizalama", "kök ile yüzey gövdesi farkından ses olaylarının çıkarımı")],
+        "isCompare": [("Apertium FST'leri (GPL-3.0)", "diller-arası canlı morfolojik üretim ve yüzey bölümleme"),
+                      ("Savelyev &amp; Robbeets (2020), SavelyevTurkic CLDF (CC BY 4.0)", "ses denklikleri (izogloslar) + soy ağacı ve zaman derinliği")],
+        "isAtlas": [("Glottolog 5 (CC BY 4.0)", "dil merkez koordinatları (şematik projeksiyon)"),
+                    ("Johanson (2021)", "kol tasnifi ve renk kodu")],
+        "isProfile": [("Savelyev &amp; Robbeets (2020), SavelyevTurkic CLDF (CC BY 4.0)", "kognat setleri ve ses kuralları"),
+                      ("Ethnologue · UNESCO · Glottolog derlemesi", "konuşur sayısı, canlılık (EGIDS) ve tehlike durumu"),
+                      ("Clauson, <i>EDT</i> · Wiktionary", "Ana Türkçe kök ve biçim çapraz-kontrolü")],
+        "isHistory": [("Savelyev &amp; Robbeets (2020), <i>JoLE</i>", "Bayesçi soy ağacı + ses yasaları (rotasizm/lambdasizm) ve ayrışma düğümleri"),
+                      ("Johanson (2021)", "altı kol tasnifi ve izogloslar"),
+                      ("Tekin · Arat · Dankoff &amp; Kelly · Golden · Erdal · Róna-Tas", "zaman çizelgesi: yazıtlar, sözlükler, tarihsel diller")],
+        "isDistance": [("Savelyev &amp; Robbeets (2020), SavelyevTurkic CLDF (CC BY 4.0)", "leksikal + filogenetik uzaklık (kognat matrisi)"),
+                       ("WALS — World Atlas of Language Structures", "tipolojik özellik uzaklığı"),
+                       ("Lindsay vd.", "karşılıklı anlaşılabilirlik"),
+                       ("Glottolog 5 (CC BY 4.0)", "coğrafi koordinatlar")],
+        "isParadigm": [("Apertium FST'leri (GPL-3.0)", "isim (hâl×sayı×iyelik) ve fiil (zaman×kişi) çekim tablolarının canlı üretimi")],
+        "isCognate": [("Savelyev &amp; Robbeets (2020), SavelyevTurkic CLDF (CC BY 4.0)", "kognat setleri, ses kuralları, boşluk tespiti"),
+                      ("Clauson, <i>An Etymological Dictionary of Pre-Thirteenth-Century Turkish</i>", "Ana Türkçe yeniden kurulan kök biçimleri"),
+                      ("Wiktionary", "biçim/yazım çapraz-kontrolü")],
+    }
     n31 = 0
-    for _nc, _items in _psrc_pages:
-        _ins = _psrc(_items)
-        _cmt = '<!-- ===================== ' + _nc + ' ===================== -->'
-        _a2 = '      </section>\n      </sc-if>\n\n      ' + _cmt   # blank satırlı
-        _a1 = '      </section>\n      </sc-if>\n      ' + _cmt      # blank satırsız (ör. ATLAS)
-        if _a2 in html:
-            html = html.replace(_a2, _ins + '\n' + _a2, 1); n31 += 1
-        elif _a1 in html:
-            html = html.replace(_a1, _ins + '\n' + _a1, 1); n31 += 1
-        else:
-            print("  ! #31 Kaynaklar anchor eşleşmedi:", _nc)
-    print(f"  #31 sayfa-altı Kaynaklar (Karşılaştır/Tarih/Uzaklık/Harita/Kognat): {n31}/5")
+    for _sid, _items in _kaynak_by_screen.items():
+        _m = re.search(r'<sc-if value="\{\{ ' + _sid + r' \}\}"', html)
+        if not _m:
+            print("  ! #61 ekran bulunamadı:", _sid); continue
+        _start = _m.start()
+        # bu ekranın bölgesi: kendi sc-if'inden BİR SONRAKİ EKRAN sc-if'ine kadar (nested tab'lar atlanır)
+        _end = len(html)
+        for _nm in re.finditer(r'<sc-if value="\{\{ (is[A-Z]\w+) \}\}"', html[_start + 12:]):
+            if _nm.group(1) in _SCREENS:
+                _end = _start + 12 + _nm.start(); break
+        _region = html[_start:_end]
+        _li = _region.rfind('      </section>')
+        if _li < 0:
+            print("  ! #61 section-kapanışı yok:", _sid); continue
+        _abs = _start + _li
+        html = html[:_abs] + _psrc(_items) + '\n' + html[_abs:]; n31 += 1
+    print(f"  #61 KAYNAKLAR ekran-id tabanlı (analiz/karşılaştır/harita/profil/tarih/uzaklık/paradigma/kognat): {n31}/8")
 
     # ============================================================
     #  G2 (mini kalite rozeti → Kalite & Kapsam) + U2 (round-trip köprüsü: Üreteç sonucu → Analiz)

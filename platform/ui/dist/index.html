@@ -284,6 +284,13 @@
             </div>
           </div>
         </div>
+        <div style="margin-top:38px;padding-top:18px;border-top:1px solid rgba(33,29,23,.1)">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:10px">KAYNAKLAR</div>
+          <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;color:#211d17">
+            <li style="margin-bottom:5px"><b>Apertium FST'leri (GPL-3.0)</b> — <span style="color:#5f574b">canlı morfolojik analiz ve yüzey morfem bölümleme (20 Türk dili)</span></li>
+            <li style="margin-bottom:5px"><b>Needleman–Wunsch (1970) hizalama</b> — <span style="color:#5f574b">kök ile yüzey gövdesi farkından ses olaylarının çıkarımı</span></li>
+          </ul>
+        </div>
       </section>
       </sc-if>
 
@@ -960,6 +967,12 @@
         </div>
         </sc-if>
         <div style="margin-top:14px;display:flex;gap:16px;flex-wrap:wrap"><sc-for list="{{ legend }}" as="l" hint-placeholder-count="4"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#5f574b"><span style="width:10px;height:10px;border-radius:3px;background:{{ l.hue }}"></span>{{ l.label }}</span></sc-for></div>
+        <div style="margin-top:38px;padding-top:18px;border-top:1px solid rgba(33,29,23,.1)">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:10px">KAYNAKLAR</div>
+          <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;color:#211d17">
+            <li style="margin-bottom:5px"><b>Apertium FST'leri (GPL-3.0)</b> — <span style="color:#5f574b">isim (hâl×sayı×iyelik) ve fiil (zaman×kişi) çekim tablolarının canlı üretimi</span></li>
+          </ul>
+        </div>
       </section>
       </sc-if>
 
@@ -1100,6 +1113,14 @@
               <p style="font-size:14px;line-height:1.65;color:#3f3a32;margin:8px 0 0">{{ d.body }}</p>
             </div>
           </sc-for>
+        </div>
+        <div style="margin-top:38px;padding-top:18px;border-top:1px solid rgba(33,29,23,.1)">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:10px">KAYNAKLAR</div>
+          <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;color:#211d17">
+            <li style="margin-bottom:5px"><b>Savelyev &amp; Robbeets (2020), SavelyevTurkic CLDF (CC BY 4.0)</b> — <span style="color:#5f574b">kognat setleri ve ses kuralları</span></li>
+            <li style="margin-bottom:5px"><b>Ethnologue · UNESCO · Glottolog derlemesi</b> — <span style="color:#5f574b">konuşur sayısı, canlılık (EGIDS) ve tehlike durumu</span></li>
+            <li style="margin-bottom:5px"><b>Clauson, <i>EDT</i> · Wiktionary</b> — <span style="color:#5f574b">Ana Türkçe kök ve biçim çapraz-kontrolü</span></li>
+          </ul>
         </div>
               <div style="margin-top:34px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:24px 28px">
           <div style="font-family:'Spectral',serif;font-weight:600;font-size:20px;margin-bottom:12px">Bu sayfa ne anlatıyor?</div>
@@ -1422,14 +1443,6 @@
             </div>
           </sc-for>
         </div>
-        <div style="margin-top:38px;padding-top:18px;border-top:1px solid rgba(33,29,23,.1)">
-          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:10px">KAYNAKLAR</div>
-          <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;color:#211d17">
-            <li style="margin-bottom:5px"><b>Savelyev &amp; Robbeets (2020), <i>JoLE</i></b> — <span style="color:#5f574b">Bayesçi soy ağacı + ses yasaları (rotasizm/lambdasizm) ve ayrışma düğümleri</span></li>
-            <li style="margin-bottom:5px"><b>Johanson (2021)</b> — <span style="color:#5f574b">altı kol tasnifi ve izogloslar</span></li>
-            <li style="margin-bottom:5px"><b>Tekin · Arat · Dankoff &amp; Kelly · Golden · Erdal · Róna-Tas</b> — <span style="color:#5f574b">zaman çizelgesi: yazıtlar, sözlükler, tarihsel diller</span></li>
-          </ul>
-        </div>
       </section>
       </sc-if>
 
@@ -1441,6 +1454,14 @@
         <p style="font-size:16px;line-height:1.7;color:#5f574b;margin:0 auto;max-width:56ch">Bu modül yol haritasında. Çekirdek — Morfolojik Analiz, Karşılaştır, Uzaklık Gezgini ve Çuvaşça Atölyesi — şu an çalışır durumda; bu bölüm sıradaki fazda veri ve API katmanıyla geliyor.</p>
         <div style="margin-top:28px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
           <sc-for list="{{ wordChips }}" as="w" hint-placeholder-count="3"><button onClick="{{ w.goAnaliz }}" style="cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.14);border-radius:20px;padding:8px 16px;font-size:14px;font-family:'Spectral',serif;font-weight:500;color:#211d17">{{ w.surface }}</button></sc-for>
+        </div>
+        <div style="margin-top:38px;padding-top:18px;border-top:1px solid rgba(33,29,23,.1)">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:10px">KAYNAKLAR</div>
+          <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;color:#211d17">
+            <li style="margin-bottom:5px"><b>Savelyev &amp; Robbeets (2020), <i>JoLE</i></b> — <span style="color:#5f574b">Bayesçi soy ağacı + ses yasaları (rotasizm/lambdasizm) ve ayrışma düğümleri</span></li>
+            <li style="margin-bottom:5px"><b>Johanson (2021)</b> — <span style="color:#5f574b">altı kol tasnifi ve izogloslar</span></li>
+            <li style="margin-bottom:5px"><b>Tekin · Arat · Dankoff &amp; Kelly · Golden · Erdal · Róna-Tas</b> — <span style="color:#5f574b">zaman çizelgesi: yazıtlar, sözlükler, tarihsel diller</span></li>
+          </ul>
         </div>
       </section>
       </sc-if>

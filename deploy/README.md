@@ -4,6 +4,11 @@
 > (always-on CDN, anında, bedava). UI cross-origin API'ye bağlanır → CORS allowlist ile kilitli.
 > **Salt-okunur API** (veri yazmaz/silmez). Tüm güvenlik env-güdümlü (bkz. `platform/backend/app.py`).
 
+## ✅ CANLI (29 Haz 2026 deploy edildi)
+- **UI:** https://koken-morfoloji.web.app  (Firebase Hosting)
+- **API:** https://koken-api-1087019161757.europe-west3.run.app  (Cloud Run `koken-api`, sıfıra-inme)
+- Yeniden deploy için aşağıdaki adımlar (ilk kurulum adım 1-2 atlanır; backend→3-4, UI→5).
+
 ## 0) Değişkenler (tek yerde)
 ```
 PROJ=koken-morfoloji          # globalde benzersiz olmalı; alınmışsa -1, -tr vb. ekle

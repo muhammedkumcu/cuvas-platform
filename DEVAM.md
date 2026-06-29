@@ -1,13 +1,25 @@
 # DEVAM — Oturum Devir Notu (KÖKEN · Türk Dilleri Morfoloji Platformu)
 
 > **Compact sonrası / yeni oturumda İLK BUNU OKU.** Bu §0 = güncel tek-bakış. Sonra: §2 (VM erişimi), §3 (apertium), §4.5 (FELSEFE), §4.6 (HATALAR+ÇÖZÜMLER), §7 (konvansiyonlar).
-> **Güncelleme: 28 Haziran 2026.** Repo: github.com/muhammedkumcu/cuvas-platform (main, push'lu, temiz).
+> **Güncelleme: 29 Haziran 2026.** Repo: github.com/muhammedkumcu/cuvas-platform (main, push'lu, temiz). **CANLI: https://koken-morfoloji.web.app**
 
 ---
 
 ## 0) ŞU AN NEREDE KALDIK — TEK BAKIŞ
 
-### ★★★★★ EN GÜNCEL (29 Haz gece-6) — KAYNAKLAR YERLEŞİM/TEMİZLİK + STATİK COMPARE KALDIRILDI + 20-DİL DOĞRULAMA (compact-sonrası İLK BUNU OKU)
+### ★★★★★ EN GÜNCEL (29 Haz · YAYIN) — PLATFORM CANLI! API Cloud Run + UI Firebase (compact-sonrası İLK BUNU OKU)
+**KÖKEN ilk kez yayında.** Kullanıcı kararı: ayrı mimari (UI static instant + API Cloud Run sıfıra-inme bedava), güvenlik öncelikli ilk-deploy. Tree temiz, push'lu.
+- **CANLI ADRESLER:** **UI → https://koken-morfoloji.web.app** (Firebase Hosting, always-on CDN, bedava) · **API → https://koken-api-1087019161757.europe-west3.run.app** (Cloud Run, sıfıra-inme).
+- **GCP:** proje `koken-morfoloji` · bölge `europe-west3` (Frankfurt) · faturalandırma `01642B-2CB63A-E78542` (Firebase Payment) · hesap ymuhammedk61@gmail.com. Cloud Run `koken-api` (min=0/max=3, concurrency=20, 1cpu/2Gi, timeout=30). **Soğuk başlangıç ölçüldü ~1.4 sn** (HF Space uyumasından çok iyi).
+- **GÜVENLİK (canlı doğrulandı):** CORS allowlist (web.app/firebaseapp izinli, evil engellendi ✓) · **rate-limit 60/dk/IP** (burst testi: 60 geçti / 10×429 ✓, slowapi, X-Forwarded-For) · girdi sınırları (kelime≤80/sorgu≤200/gövde≤8KB) · güvenlik başlıkları (nosniff/DENY/no-referrer) · `/docs`+`/openapi` prod'da kapalı (404 ✓) · root-olmayan konteyner · **salt-okunur API**. Hepsi env-güdümlü (`KOKEN_ENV/KOKEN_ALLOWED_ORIGINS/KOKEN_RATE_LIMIT/KOKEN_MAX_BODY`) → dev davranışı (VM) AYNI.
+- **CANLI TEST:** health 20 dil ✓ · analyze evler→3 / chv вуларӑмӑр→2 ✓ · **generate geliyorum (kopula-birleştirici) → derived:true ✓** · segment вула+рӑмӑр ✓.
+- **MİMARİ/BETİKLER:** API yalnız `hfst` Python binding + `.hfst` model dosyaları (apertium CLI YOK). `deploy/`: **Dockerfile** (python:3.11-slim, hfst manylinux_2_28 cp311 wheel, non-root), **requirements** (ince: fastapi/uvicorn/pydantic/hfst/slowapi — numpy/turkicnlp/regex GEREKMEZ), **stage.sh** (model+dix VM'den `deploy/_ctx`'e ~213MB, gitignore'lu), **README.md = TAM RUNBOOK**. `firebase.json` (Hosting `platform/ui/dist` + güvenlik başlıkları). build.py `KOKEN_API` artık env-güdümlü (`KOKEN_API_URL`; dev=localhost, prod build=Cloud Run URL).
+- **app.py VM↔repo md5 = `e42e88be78b3964c6a8e6f7f424c0f15`** (sertleştirme sonrası; VM'e deploy edildi, eşit). dist repo'da localhost (dev); prod dist Firebase'e ayrı build edilir.
+- **YENİDEN DEPLOY:** Backend değişti → `bash deploy/stage.sh` + adım-4 (CORS env korunur). UI değişti → `KOKEN_API_URL=<API> python build.py` + `firebase deploy --only hosting --project=koken-morfoloji`. (Detay: `deploy/README.md`.)
+- **SIRADAKİ (kullanıcı: yayından HEMEN sonra):** **C1 gerçek ses motoru** (Piper/MMS/eSpeak — en büyük lokma) → **C3 Ekosistem HfApi-CRON** (küçük). Sonra: tüm-dil güçlendirme (prototip fiil sözlüğü→apertium katkı), Bölüm D eğitim portalı, paper. (Opsiyonel: özel alan adı ~yıllık 10-15$; sürekli-sıcak `--min-instances=1` ~aylık 10-30$.)
+- **DERS:** ① hfst manylinux_2_28 cp311 wheel var → slim konteynerde pip ile kurulur (apt/derleme gerekmez). ② gcloud `run deploy --source` ilk seferde `--quiet` (Artifact Registry deposu otomatik). ③ gcloud `--set-env-vars` virgül-içeren değer için `^##^` ayraç hilesi. ④ Windows bash konsolu Kiril'i cp1254'te `?`'e çevirir → canlı API'yi Kiril ile test ederken UTF-8 dosyadan `--data-binary @file` gönder. ⑤ güvenlik env-güdümlü → VM dev davranışı bozulmaz, md5 senkron kalır.
+
+### ★★★★ (29 Haz gece-6) — KAYNAKLAR YERLEŞİM/TEMİZLİK + STATİK COMPARE KALDIRILDI + 20-DİL DOĞRULAMA
 **Kullanıcı geri bildirim (ekran görüntüleri) → 2 commit (`2b2f843`+docs), tree temiz, push'lu.** Kullanıcı: "BUNLARI DA HALLEDİNCE COMPACT EDİCEM."
 - **STATİK COMPARE EKRANI KALDIRILDI** (kullanıcı "kurtulalım madem hatalı"): Karşılaştır **ARTIK HER ZAMAN DİNAMİK** — ekrana gelince aktif kelimenin /crosslang'i otomatik; statik `cognates_deep` fallback silindi (self-satır + dinamik). **okuduk Çuvaşça/Yakutça** artık tek-otorite doğru dinamik (вуларӑмӑр / аахтыбыт). statik≠dinamik tutarsızlığı KÖKTEN bitti.
 - **TARİH:** kronolojide **her olayın kendi kaynağı GERİ** (Tekin 1968/Arat 1947/Dankoff…, #40'ta silinmişti); o sayfada sayfa-altı KAYNAKLAR İSTENMİYOR (isHistory _kaynak'tan çıktı).

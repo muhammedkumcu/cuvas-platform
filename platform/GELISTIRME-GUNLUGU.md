@@ -322,6 +322,30 @@ devam-27'nin devamı. **BİTEN (hepsi canlı doğrulandı + commit):**
 **KÖK NEDEN cevapları (kullanıcı sordu) → plan #54/#55/#56:** Üreteç boş üretim = apertium dilden-dile zaman etiketi farkı; humanizer kontrollü-yol garanti+Analiz +24; Karşılaştır statik≠dinamik segmentasyon.
 **Bu oturum toplam ~33 commit, tree temiz.** SIRADAKİ kalan: #51-derin/#47-zaman-çizelgesi opsiyonel · #40 Tarih box-içi kaynak SİL (alt zaten var) · #45 Üreteç kaynakça · #48 Uzaklık okuma-doğrula · #49 Ekosistem yeni-kaynak · #43 ağaç-toggle taşı + kalite-özeti · #35 flicker · **#54/#55/#56** morfoloji-doğruluk · **#57** GeoJSON harita · **Yayın** (C1/C3 sonrası: Cloudflare Pages + HF Space/Cloud Run).
 
+## EK-OTURUM (29 Haz, devam-33) — İLK YAYIN: API Cloud Run + UI Firebase (güvenlik öncelikli)
+**Kullanıcı kararı: "yayını yapalım, ilk defa API yayını, dikkatli ol+güvenlik önlemleri, çoğu işi sen yap, zorunlu olanları aşama-aşama söyle." + "C1 ve C3'ü yayından hemen sonraya al."** Compact sonrası DEVAM/COMPACT §0'ı okudum → yayını önerdim → onaylandı. **Tree temiz, push'lu. CANLI: https://koken-morfoloji.web.app + API https://koken-api-1087019161757.europe-west3.run.app**
+
+**Mimari kararı (kullanıcıyla, AskUserQuestion):** *ayrı* — UI static instant CDN + API Cloud Run sıfıra-inme. Gerekçe: kullanıcı sıfıra-inme (bedava) + bekleme-hassasiyeti seçti → ayrı yapıda site HEP anında açılır, yalnız ilk analiz ~3-8sn soğuk (co-host'ta ana sayfa da soğuk başlardı). UI host = **Firebase** (Google, bedava, firebase CLI zaten kuruluydu; kullanıcı "neden firebase/cloudflare değil?" diye sordu → Cloudflare eşdeğer ama Google-dışı ayrı hesap; Firebase hazırdı).
+
+**KEŞİF (deploy öncesi):** VM'de apertium/lttoolbox rpm YOK → app.py yalnız `hfst` Python binding + `.hfst` model dosyaları kullanıyor (apertium CLI gerekmez!). Modeller `~/.turkicnlp/models` 196MB/20 dil, dix 18MB/14 dosya. Runtime importları: fastapi/uvicorn/pydantic/hfst — **numpy/turkicnlp/regex GEREKMEZ** (grep'le doğrulandı). Host'ta gcloud SDK 571 + firebase 15.19 + node24 kurulu, Docker YOK → `gcloud run deploy --source` (Cloud Build, yerel Docker'sız).
+
+**P1 hfst wheel:** PyPI JSON → `hfst-3.16.0.1-cp311-manylinux_2_28_x86_64.whl` VAR → `python:3.11-slim-bookworm` (glibc 2.36) tabanında pip ile kurulur (apt/derleme yok).
+
+**P2 backend güvenlik sertleştirme** (`app.py`, env-güdümlü → VM dev davranışı AYNI, md5 senkron, probe'lar serbest): CORS `*`→`KOKEN_ALLOWED_ORIGINS` allowlist (salt GET/POST) · per-IP **rate-limit slowapi** (prod-gated, X-Forwarded-For, default 60/dk; import try-bloğu içinde → VM'de slowapi gerekmez) · pydantic `Field` girdi sınırları (kelime≤80/sorgu≤200) + gövde≤8KB middleware · güvenlik başlıkları (nosniff/DENY/no-referrer) · `/docs`+`/openapi` prod'da kapalı · `/health`'ten dosya-yolu sızıntısı kaldırıldı · `BASE`/`DIX_DIR` env-override. VM'e deploy, md5 `cac90d4`→**`e42e88be`** eşit; health+başlıklar doğrulandı.
+
+**P3 Dockerfile + context** (`deploy/`): slim+non-root, ince requirements, `stage.sh` (app.py+models+dix → `deploy/_ctx` ~213MB, gitignore'lu; model nested glob yapısı korunur — chv.autogen/automorf bulundu). **P4** build.py `KOKEN_API`→`KOKEN_API_URL` env (dev=localhost test, prod URL test ✓; sondaki `/` strip). `firebase.json` (Hosting+başlıklar).
+
+**P5 deploy** (kullanıcı onayıyla, billable):
+- Kullanıcının TEK interaktif adımı `firebase login` (ilk seferde tamamlanmamış → cmd'den yaptı, doğrulandı ymuhammedk61@gmail.com).
+- `gcloud projects create koken-morfoloji` → billing link `01642B-…` → 4 API enable (run/cloudbuild/artifactregistry/firebasehosting) → `firebase projects:addfirebase`.
+- `gcloud run deploy koken-api --source deploy/_ctx --region europe-west3 --allow-unauthenticated --min=0/max=3 --concurrency=20 --cpu=1 --memory=2Gi --timeout=30 --set-env KOKEN_ENV=prod --quiet` → revizyon 00001, **soğuk başlangıç 1.4sn**.
+- UI: `KOKEN_API_URL=<api> build.py` → `firebase deploy --only hosting` (3 dosya: index.html+support.js+cognates_broad.json; gerisi gömülü) → https://koken-morfoloji.web.app.
+- CORS kilitle: `gcloud run services update --set-env-vars="^##^KOKEN_ENV=prod##KOKEN_RATE_LIMIT=60/minute##KOKEN_ALLOWED_ORIGINS=...web.app,...firebaseapp.com"` (virgül için `^##^` ayraç) → revizyon 00002.
+
+**P6 canlı doğrulama:** health 20dil ✓ · analyze evler→3 / **chv вуларӑмӑр→2** (UTF-8 dosyadan; konsol cp1254 Kiril'i `?`'e çevirdi) · **generate geliyorum derived:true** (kopula-birleştirici prod'da ✓) · segment вула+рӑмӑр ✓ · /docs **404** ✓ · güvenlik başlıkları ✓ · CORS web.app→ACAO, evil→engellendi ✓ · **rate-limit burst 70 istek → 60×200 + 10×429 ✓** · site 200 + API'ye bağlı ✓.
+
+**DERS:** ① hfst manylinux wheel → slim pip (apt yok). ② `run deploy --source` ilk sefer `--quiet` (AR deposu oto). ③ gcloud `--set-env-vars` virgüllü değer = `^##^` ayraç. ④ canlı API Kiril testi = UTF-8 dosya `--data-binary @file` (konsol değil). ⑤ güvenlik env-güdümlü tut → VM dev/md5 bozulmaz. ⑥ rate-limit import'u prod-gated blok içinde → dev dependency'siz. **SIRADAKİ:** C1 ses motoru → C3 CRON (kullanıcı yayından hemen sonraya aldı).
+
 ## EK-OTURUM (29 Haz, devam-32) — KAYNAKLAR YERLEŞİM/TEMİZLİK + STATİK COMPARE KALDIRILDI + 20-DİL DOĞRULAMA (kullanıcı ekran görüntüleri)
 Kullanıcı geri bildirim (Dizilim/Uzaklık/Ekosistem/Tarih ekran görüntüleri) → **2 commit `2b2f843`+docs, tree temiz, push'lu.** "BUNLARI DA HALLEDİNCE COMPACT EDİCEM."
 - **STATİK COMPARE KALDIRILDI (kullanıcı: "kurtulalım madem hatalı"):** componentDidUpdate compare auto-seed artık HER kelime için (API ya da curated) /crosslang otomatik çalışır (`_cmpSeed` guard); allLangs statik `...w.cognates` fallback'i SİLİNDİ → yalnız self-satır + dinamik. Karşılaştır artık **tek otorite canlı FST**; okuduk Çuvaşça вуларӑмӑр / Yakutça аахтыбыт doğru (statik≠dinamik tutarsızlığı kökten bitti). Statik ekran TAMAMEN gitti.

@@ -38,8 +38,19 @@
 `DEVAM.md §0 ★★★ oku` → `build.py'ye yama` → `python platform/ui/build.py` →
 `Claude_Preview'da doğrula (reload + ayrı eval, async)` → `ayrı commit + push` → `MD güncelle`.
 
-## 4) ŞU AN NEREDE KALDIK (29 Haz gece-6)
+## 4) ŞU AN NEREDE KALDIK (29 Haz · YAYIN)
 
+**★ PLATFORM CANLI — İLK YAYIN BİTTİ** (en güncel tek-bakış: **DEVAM §0 ★★★★★ YAYIN** + GELISTIRME-GUNLUGU **devam-33**). Tree temiz, push'lu.
+- **CANLI:** UI **https://koken-morfoloji.web.app** (Firebase) · API **https://koken-api-1087019161757.europe-west3.run.app** (Cloud Run, sıfıra-inme, soğuk ~1.4sn).
+- **GCP:** proje `koken-morfoloji` · `europe-west3` · billing `01642B-2CB63A-E78542` · hesap ymuhammedk61@gmail.com. **Runbook: `deploy/README.md`.**
+- **Güvenlik (canlı doğrulandı):** CORS allowlist (evil engellendi ✓) · rate-limit 60/dk (burst 60/10×429 ✓) · girdi sınırları · başlıklar · /docs kapalı (404) · non-root · salt-okunur. Env-güdümlü → VM dev AYNI.
+- **app.py VM↔repo md5 `e42e88be78b3964c6a8e6f7f424c0f15`** (sertleştirme sonrası, eşit). repo dist=localhost (dev); prod dist Firebase'e ayrı build.
+- **YENİDEN DEPLOY:** backend → `bash deploy/stage.sh` + `gcloud run deploy --source deploy/_ctx` (CORS env korunur). UI → `KOKEN_API_URL=<api> python platform/ui/build.py` + `firebase deploy --only hosting --project=koken-morfoloji`.
+- **SIRADAKİ (kullanıcı: yayından HEMEN sonra):** **C1 ses motoru** (Piper/MMS/eSpeak) → **C3 Ekosistem CRON**. Sonra tüm-dil güçlendirme, Bölüm D, paper.
+
+---
+
+**[ALT: 29 Haz gece-6 — KAYNAKLAR/STATİK COMPARE/20-DİL]**
 **★ TÜM İNCELEME + DERİN MORFOLOJİ ONARIMI + UI CİLA BİTTİ** (en güncel tek-bakış: **DEVAM §0 ★★★★★** + GELISTIRME-GUNLUGU **devam-29..32**). Tree temiz, push'lu. **VM app.py deploy md5 senkron (cac90d4).**
 - **gece-6 deltaları:** **STATİK COMPARE KALDIRILDI** (Karşılaştır hep dinamik, okuduk вуларӑмӑр/аахтыбыт doğru) · **Tarih per-olay kaynak GERİ** (Tekin/Arat…) + Tarih/Eko sayfa-altı KAYNAKLAR YOK · **KAYNAKLAR açıklama kutusunun ALTINA** (_psrc PAGE_HELP'ten sonra) · Quality "Motor neyi yapabiliyor" combiner-güncel + 1)/2)/3) düz sayı renksiz · **20-dil doğrulama: ham-etiket 0/20.**
 Kullanıcının ~50 maddelik inceleme + 3 tur derin geri bildirim BİTTİ:
@@ -83,15 +94,15 @@ Karşılaştır çöküyordu) → anchor'lar kararlı noktalara taşındı, heps
 
 ## 5) COMPACT SONRASI YAZILACAK RESUME PROMPTU
 
-> **DEVAM.md §0'daki ★★★★★ (en üst) bloğunu oku — tüm sayfa-sayfa inceleme + DERİN MORFOLOJİ ONARIMI bitti
-> (tree temiz, push'lu; VM app.py md5 senkron cac90d4). Detay: GELISTIRME-GUNLUGU devam-29/30/31. İşlenenler:
-> fiil segment inceltme (geliyorum→gel·iyor·um), ham-etiket humanize, **KOPULA-BİRLEŞTİRİCİ** (tur şimdiki/
-> gelecek/geniş kişi-çekimli üretir: geliyorum/geleceğim; COPULA_RULES={tur} probe-gated), FEATTENSE dile-duyarlı
-> zaman, crosslang gold %97, humanizer tam denetim, sıfat/zarf POS, **KAYNAKLAR tek-sistem** (_psrc ekran-id 12
-> sayfa, chip-strip kapalı, açıklama-altında), **STATİK COMPARE KALDIRILDI** (Karşılaştır hep dinamik),
-> Tarih per-olay kaynak, **GeoJSON harita** (Natural Earth, sade), Kalite&Kapsam dürüst yetenek kartı.
-> KALAN: **yayın** (GELECEK-PLANLAR C4: **Cloud Run min-instance** [HF Space uyur] + Cloudflare) · **tüm-dil
-> güçlendirme** (prototip fiil sözlüğü→apertium katkı/OOV, misyon) · **C1 ses** · **C3 CRON** · **Bölüm D**
-> eğitim portalı · paper. DOKUNULMAZ: Öğren+Araştırmacı Merkezi · Tarih UI · .dc.html (build.py). Backend
-> değişikliğinde scp+start.sh, md5 senkron tut. Önce DEVAM §0 ★★★★★'i oku, kullanıcının test/yorumunu bekle ya
-> da yayın/güçlendirme/C planını öner, onayıyla devam et.**
+> **DEVAM.md §0'daki ★★★★★ YAYIN (en üst) bloğunu oku — PLATFORM CANLI: UI https://koken-morfoloji.web.app
+> (Firebase) + API https://koken-api-1087019161757.europe-west3.run.app (Cloud Run, sıfıra-inme, soğuk ~1.4sn).
+> Tree temiz, push'lu. Detay: GELISTIRME-GUNLUGU devam-33, runbook deploy/README.md. GCP proje koken-morfoloji /
+> europe-west3 / billing 01642B-2CB63A-E78542. Güvenlik canlı doğrulandı: CORS allowlist, rate-limit 60/dk
+> (60/10×429), girdi sınırları, başlıklar, /docs kapalı, non-root, salt-okunur — hepsi env-güdümlü (VM dev AYNI).
+> app.py VM↔repo md5 e42e88be (eşit). YENİDEN DEPLOY: backend→`bash deploy/stage.sh`+`gcloud run deploy --source
+> deploy/_ctx` (CORS env korunur); UI→`KOKEN_API_URL=<api> python platform/ui/build.py`+`firebase deploy --only
+> hosting --project=koken-morfoloji`. repo dist=localhost(dev), prod dist Firebase'e ayrı build.
+> **SIRADAKİ (kullanıcı: yayından HEMEN sonra): C1 gerçek ses motoru (Piper/MMS/eSpeak — en büyük lokma) → C3
+> Ekosistem HfApi-CRON (küçük).** Sonra: tüm-dil güçlendirme (prototip fiil sözlüğü→apertium katkı/OOV), Bölüm D
+> eğitim portalı, paper. DOKUNULMAZ: Öğren+Araştırmacı Merkezi · Tarih UI · .dc.html (build.py). Backend
+> değişikliğinde VM'e de scp+start.sh, md5 senkron tut. Önce DEVAM §0 ★★★★★ YAYIN'ı oku, sonra C1'i öner+onayla.**

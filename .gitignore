@@ -23,3 +23,7 @@ platform/etl/geo/*.geojson
 
 # Yayın build-context staging (modeller ~196MB + dix ~18MB VM'den toplanır; git'e girmez)
 deploy/_ctx/
+deploy/_body.json
+
+# Firebase CLI yerel önbellek (deploy hash'leri; commitlenmez)
+.firebase/

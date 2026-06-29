@@ -7,6 +7,9 @@
 
 ## 0) ŞU AN NEREDE KALDIK — TEK BAKIŞ
 
+### ★★★★ EN GÜNCEL (29 Haz akşam) — KULLANICI SAYFA-SAYFA İNCELEME → BUG+UI BATCH (compact-sonrası İLK BUNU OKU)
+Kullanıcı tüm siteyi test edip **~50 maddelik** ayrıntılı geri bildirim verdi → task #30-52 (görev listesinde). Sıralı işleniyor. **BİTEN (7 iş, hepsi canlı doğrulandı + commit; detay: GELISTIRME-GUNLUGU devam-26):** humanizer (#32 — ham apertium etiketi artık okunur Türkçe, her yerde) · Analiz arama senkronu (#33) · Profil sol renk şeridi (#34, DesignCanvas border-shorthand ezme dersi) · "Bu sayfa ne anlatıyor?" 9 sayfadan kaldırıldı (#30) · Paradigma çekimli-giriş geri bildirimi (#37) · **crosslang+segment sonlu fiil okuma (#36, BACKEND deploy'lu, chv okuduk→вуларӑмӑр)** · sol menü Öğren kaldır + Harita/Tarih swap (#52). **SIRADAKİ:** #35 (flicker kalan), **#31 Kaynakça standardizasyonu**, sayfa-sayfa içerik #38-51 (Codex Cumanicus adı, Harita gerçek GeoJSON arka plan, Tarih kaynak taşı [UI'ya DOKUNMA], Hakkında→ana sayfa, Analiz `[]`/seslendir/toggle, Ekosistem "NÖTR launchpad" paragrafı tamamen kaldır, Kalite&Kapsam daire/robotik temizlik, Kaynaklar overhaul). **DOKUNULMAZ:** Öğren + Araştırmacı Merkezi (kullanıcı: ileride büyük güncelleme). **Gelecek-track** (OOV→CC0, T5 tam-etiket, apertium katkı, paper, a11y/mobil, yayın: site Cloudflare Pages + API HF Space/Cloud Run önünde Cloudflare) C1/C3 SONRASI. Harita kararı: hafif **gerçek GeoJSON** sınır, mevcut palet (dış tile servisi YOK).
+
 ### ★★★ EN GÜNCEL (28 Haz) — KULLANICI İNCELEME NOTLARI + R-FAZLARI (compact-sonrası ÖNCE BUNU OKU)
 **Bölüm B (yatay ölçek) içerik+UI bitti; kullanıcı AYRINTILI sayfa-sayfa inceleme yaptı → R1-R8 fazları. ★ TÜM İNCELEME (R1-R8) TAMAMLANDI (28 Haz).** Tümü Claude_Preview'da doğrulandı, ayrı commit'lerle push'lu, tree temiz. Felsefe §4.5 DEĞİŞMEZ. **Sıralı detay: `plan/GELECEK-PLANLAR.md` "★ İNCELEME NOTLARI" bölümü.**
 

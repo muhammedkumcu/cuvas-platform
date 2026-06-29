@@ -3094,6 +3094,25 @@ def main():
         html = html.replace("isAbout:S.screen==='about',", "isAbout:S.screen==='about', isQuality:S.screen==='quality',", 1); ng1v = 1
     print(f"  G1 KALITE & KAPSAM sayfasi: ekran={ng1} nav={ng1nav} renderVals={ng1v} ({len(QUALITY_DATA)} dil)")
 
+    # ── #52 — sol menü sadeleştirme (kullanıcı): Öğren grubunu kaldır (Atölye'ye Dilin Kalbi'nden
+    # erişilecek), Harita ↔ Tarih & Köken yer değiştir. (Hakkında'nın menüden çıkıp ana sayfaya taşınması
+    # #42 ile birlikte — erişim kopmasın diye.) Tüm nav yamalarından SONRA çalışır.
+    nmenu = 0
+    _ogren = ("    {group:'ÖĞREN', items:[\n"
+              "      {id:'learn', label:'Çuvaşça Atölyesi'},\n"
+              "    ]},\n")
+    if _ogren in html:
+        html = html.replace(_ogren, "", 1); nmenu += 1
+    else:
+        print("  ! #52 Öğren grubu eşleşmedi")
+    _hatswap_old = "      {id:'atlas', label:'Harita'},\n      {id:'history', label:'Tarih & Köken'},"
+    _hatswap_new = "      {id:'history', label:'Tarih & Köken'},\n      {id:'atlas', label:'Harita'},"
+    if _hatswap_old in html:
+        html = html.replace(_hatswap_old, _hatswap_new, 1); nmenu += 1
+    else:
+        print("  ! #52 Harita/Tarih swap eşleşmedi")
+    print(f"  #52 sol menü (Öğren kaldır + Harita/Tarih swap): {nmenu}/2")
+
     # ============================================================
     #  G2 (mini kalite rozeti → Kalite & Kapsam) + U2 (round-trip köprüsü: Üreteç sonucu → Analiz)
     # ============================================================

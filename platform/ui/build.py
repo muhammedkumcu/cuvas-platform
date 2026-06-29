@@ -713,7 +713,7 @@ def main():
             # Apertium zaman kodlaması dilden dile etiket+YAPI olarak farklı: tur aorist/şimdiki/gelecek
             # KOPULA ile kurulur ve kişi-çekimli üretilemez → tur yalnız past/ifi/cond. chv/aze/tuk/gag tam.
             # kjh fiil-gen üretmiyor → haritada YOK = gate'siz (tüm zamanlar gösterilir, band-aid). Diğer 19 gate'li.
-            "  FEATTENSE = {tur:['past','ifi','cond'],aze:['pres','past','ifi','fut','aor','cond'],kaz:['pres','past','ifi','fut','aor'],kir:['pres','past','ifi','fut','aor'],uzb:['pres','past','ifi','fut','aor'],uig:['pres','past','ifi','fut','aor'],tat:['pres','past','ifi','fut','aor'],bak:['pres','past','ifi','fut','aor'],chv:['pres','past','ifi','fut','aor','cond'],sah:['pres','past','ifi','fut','aor'],tuk:['pres','past','ifi','fut','aor','cond'],crh:['pres','past','ifi','fut','aor'],gag:['pres','past','ifi','fut','aor','cond'],kaa:['pres','past','ifi','fut','aor'],alt:['past','ifi'],krc:['pres','past','ifi','aor'],kum:['pres','past','ifi','fut','aor'],nog:['pres','past','ifi','fut','aor'],tyv:['pres','past','ifi','aor']};\n"
+            "  FEATTENSE = {tur:['pres','past','ifi','fut','aor','cond'],aze:['pres','past','ifi','fut','aor','cond'],kaz:['pres','past','ifi','fut','aor'],kir:['pres','past','ifi','fut','aor'],uzb:['pres','past','ifi','fut','aor'],uig:['pres','past','ifi','fut','aor'],tat:['pres','past','ifi','fut','aor'],bak:['pres','past','ifi','fut','aor'],chv:['pres','past','ifi','fut','aor','cond'],sah:['pres','past','ifi','fut','aor'],tuk:['pres','past','ifi','fut','aor','cond'],crh:['pres','past','ifi','fut','aor'],gag:['pres','past','ifi','fut','aor','cond'],kaa:['pres','past','ifi','fut','aor'],alt:['past','ifi'],krc:['pres','past','ifi','aor'],kum:['pres','past','ifi','fut','aor'],nog:['pres','past','ifi','fut','aor'],tyv:['pres','past','ifi','aor']};\n"
             # G2 — kalite meta (Kalite & Kapsam sayfasından): [tier, round-trip%, kapsam% | null]
             "  QMETA = {tur:['production',94.8,90.3],kaz:['production',95.2,93.4],tat:['production',95.2,94.3],aze:['stable',95.2,35.1],kir:['stable',95.2,88.3],uzb:['stable',95.2,81.2],bak:['beta',95.2,87.0],chv:['beta',94.4,null],crh:['beta',95.2,84.5],tuk:['beta',95.2,64.1],uig:['beta',94.2,86.5],sah:['prototype',92.6,null],alt:['prototype',94.1,null],gag:['prototype',95.2,null],kaa:['prototype',95.2,null],kjh:['prototype',95.0,28.6],krc:['prototype',95.2,null],kum:['prototype',95.2,null],nog:['prototype',95.2,70.6],tyv:['prototype',95.2,null]};\n"
             "  QTIER = {production:['olgun','#3f8a5c'],stable:['kararlı','#2f7f8a'],beta:['beta','#c08a3a'],prototype:['prototip','#9a8f82']};\n"
@@ -2938,6 +2938,8 @@ def main():
         '          <div style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;color:rgba(244,241,234,.6);letter-spacing:.5px">{{ genRecipe }} · {{ genLangName }}</div>\n'
         '          <div style="font-family:\'Spectral\',serif;font-weight:600;font-size:46px;line-height:1.12;margin:8px 0 6px">{{ genForm }}</div>\n'
         '          <div title="{{ genQuery }}" style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;color:rgba(244,241,234,.45)">{{ genQueryHuman }}</div>\n'
+        # #60 — kopula-zamanı yalın-biçim notu (tur şimdiki/gelecek/geniş: kişi çekimi FST'de üretilmiyor)
+        '          <sc-if value="{{ genBareOnly }}" hint-placeholder-val="{{ false }}"><div style="margin-top:12px;font-size:12.5px;line-height:1.55;color:rgba(244,241,234,.72);background:rgba(217,139,74,.16);border:1px solid rgba(217,139,74,.3);border-radius:10px;padding:9px 13px">Bu dilde bu zamanın <b>kişi çekimi</b> apertium üreticisinde üretilmiyor (kopula ayrı kurulur) — <b>yalın (3. kişi)</b> biçim gösteriliyor. Analiz bu biçimi yine de tam çözer.</div></sc-if>\n'
         '          <sc-if value="{{ genAltShow }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:rgba(244,241,234,.6);margin-top:8px">başka biçimler: {{ genAlt }}</div></sc-if>\n'
         '          <sc-if value="{{ genHasMorph }}" hint-placeholder-val="{{ false }}">\n'
         '          <div style="margin-top:16px;padding-top:15px;border-top:1px dashed rgba(244,241,234,.18);display:flex;gap:8px;flex-wrap:wrap;align-items:center">\n'
@@ -2988,20 +2990,25 @@ def main():
         "      const tn=S.genTense||'past', pr=S.genPerson||'p1', vn=S.genVNum||'sg';\n"
         # #45 — zaman fallback: apertium dilleri farklı etiket kullanır (tur -di = <ifi>, chv = <past>;
         # kaz/kir şimdiki ~ <aor>). İstenen zaman üretmezse eşdeğerini dene → "gel·Geçmiş·3.tekil" artık üretir.
-        "      const TA={past:['ifi'],ifi:['past'],pres:['aor'],aor:['pres']}; const tns=[tn].concat(TA[tn]||[]);\n"
+        "      const TA={past:['ifi'],ifi:['past'],pres:['aor','prog'],aor:['pres'],fut:['fut']}; const tns=[tn].concat(TA[tn]||[]);\n"
         "      queries=[]; tns.forEach(function(tt){ queries.push(lemma+'<v><tv><'+tt+'><'+pr+'><'+vn+'>'); queries.push(lemma+'<v><iv><'+tt+'><'+pr+'><'+vn+'>'); });\n"
+        # #60 — YALIN biçim fallback: kopula-zamanlarında (tur şimdiki/gelecek/geniş) kişi-çekimi FST'de
+        # üretilemiyor → yalın gövdeyi (geliyor/gelecek/gelir) dene (bareStart sonrası). bareOnly notla işaretlenir.
+        "      const BARE={pres:['prog','pres','aor'],fut:['fut'],aor:['aor','pres'],past:['ifi','past'],ifi:['ifi','past'],cond:['cond']}; this._genBareStart=queries.length;\n"
+        "      (BARE[tn]||[]).forEach(function(tt){ queries.push(lemma+'<v><tv><'+tt+'>'); queries.push(lemma+'<v><iv><'+tt+'>'); });\n"
         "      recipe=['fiil',TT[tn],PR[pr]+(vn==='pl'?' çoğul':' tekil')].filter(Boolean).join(' · ');\n"
         "    }\n"
+        "    if((S.genPos||'n')==='n'){ this._genBareStart=999; }\n"
         "    this._genFetch(lg, queries, recipe, lemma);\n"
         "  }\n"
         "  _genFetch(lg, queries, recipe, lemma){\n"
-        "    const ln=(this.LIVE_LN[lg]||lg);\n"
+        "    const ln=(this.LIVE_LN[lg]||lg); const bareStart=(this._genBareStart!=null?this._genBareStart:999);\n"
         "    const tryQ=(i)=>{\n"
         "      if(i>=queries.length){ this.setState({genResult:{empty:true, recipe, query:queries[0], lemma, langName:ln}}); return; }\n"
         "      fetch(this.KOKEN_API+'/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg, query:queries[i]})}).then(r=>r.json()).then(d=>{\n"
         "        const forms=(d&&d.forms)||[]; if(!forms.length){ tryQ(i+1); return; }\n"
-        "        const surf=forms[0].surface, q=queries[i], alt=forms.slice(1).map(f=>f.surface);\n"
-        "        const done=(ms)=>this.setState({genResult:{empty:false, form:surf, alt, recipe, query:q, lemma, langName:ln, morphemes:ms}});\n"
+        "        const surf=forms[0].surface, q=queries[i], alt=forms.slice(1).map(f=>f.surface), bareOnly=(i>=bareStart);\n"
+        "        const done=(ms)=>this.setState({genResult:{empty:false, form:surf, alt, recipe, query:q, lemma, langName:ln, morphemes:ms, bareOnly:bareOnly}});\n"
         "        fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg, word:surf})}).then(r=>r.json()).then(s=>done((s&&s.morphemes)||null)).catch(()=>done(null));\n"
         "      }).catch(()=>{ tryQ(i+1); });\n"
         "    };\n"
@@ -3054,7 +3061,7 @@ def main():
         "glossStyle:'font-size:10.5px;color:#9a9082;margin-left:7px', "
         "go:()=>{ const st={genLang:e.lang, genLemma:e.lemma, genPos:e.pos}; if(e.pos==='v'){ st.genTense=e.t||'past'; st.genPerson='p1'; st.genVNum='sg'; } else { st.genNum='sg'; st.genPx=''; st.genCase='nom'; } this.setState(st); setTimeout(()=>this.runGenerate(),0); }, "
         "style:'cursor:pointer;display:inline-flex;align-items:center;border:1.5px solid rgba(33,29,23,.14);background:#fff;border-radius:11px;padding:8px 13px;font-family:inherit' })), "
-        "genHasResult:!!(S.genResult&&!S.genResult.empty), genEmpty:!!(S.genResult&&S.genResult.empty), "
+        "genHasResult:!!(S.genResult&&!S.genResult.empty), genEmpty:!!(S.genResult&&S.genResult.empty), genBareOnly:!!(S.genResult&&S.genResult.bareOnly), "
         "genForm:(S.genResult&&S.genResult.form)||'', genRecipe:(S.genResult&&S.genResult.recipe)||'', "
         "genQuery:(S.genResult&&S.genResult.query)||'', genQueryHuman:this.humanizeQuery((S.genResult&&S.genResult.query)||''), genLangName:(S.genResult&&S.genResult.langName)||'', "
         "genAlt:((S.genResult&&S.genResult.alt)||[]).join(', '), genAltShow:!!(S.genResult&&S.genResult.alt&&S.genResult.alt.length), "

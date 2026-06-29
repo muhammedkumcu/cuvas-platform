@@ -1522,6 +1522,7 @@ def main():
             ("Róna-Tas, A. (1999). <i>Hungarians and Europe in the Early Middle Ages.</i> CEU Press.", None),
             ("Erdal, M. (1991). <i>Old Turkic Word Formation.</i> Harrassowitz.", None),
             ("Erdal, M. (1993). <i>Die Sprache der wolgabolgarischen Inschriften.</i> Harrassowitz. (İdil Bulgar / Oğur)", None),
+            ("Clauson, G. (1972). <i>An Etymological Dictionary of Pre-Thirteenth-Century Turkish.</i> Oxford University Press. (Kognat Ağı: Ana Türkçe yeniden kurulan kök biçimleri)", None),
             ("Drimba, V. (2000). <i>Codex Comanicus.</i> Bucureşti.", None),
             ("Boeschoten, H. &amp; Vandamme, M. (1998). “Chaghatay”, içinde <i>The Turkic Languages.</i> Routledge.", None),
             ("Laitin, D. (1998). <i>Identity in Formation: The Russian-Speaking Populations in the Near Abroad.</i> Cornell UP. (Sovyet alfabe siyaseti)", None),
@@ -1566,7 +1567,11 @@ def main():
             ("Campbell, L. vd. — <i>ELCat: Catalogue of Endangered Languages.</i>", "https://www.endangeredlanguages.com"),
             ("Dellert, J. vd. — <i>NorthEuraLex</i> leksikal veritabanı. CC BY 4.0.", "https://northeuralex.org"),
             ("<i>Universal Dependencies</i> — Türkçe/Türk dilleri ağaç bankaları. CC BY-SA 4.0.", "https://universaldependencies.org"),
-            ("<i>UniMorph</i> — morfolojik paradigma hizalaması. CC BY 4.0.", "https://unimorph.github.io"),
+            ("<i>UniMorph</i> — morfolojik paradigma hizalaması. CC BY 4.0. (Kalite & Kapsam: doğruluk gold'u)", "https://unimorph.github.io"),
+            ("<i>FLORES-200</i> — NLLB çok-dilli değerlendirme korpusu (1012 cümle/dil, sıfır-gürültü insan çevirisi). CC BY-SA 4.0. (Kalite & Kapsam: korpus recall)", "https://github.com/facebookresearch/flores"),
+            ("<i>FineWeb-2</i> (HuggingFaceFW/fineweb-2) — 1000+ dilli açık web korpusu. (düşük-kaynaklı dillerde kapsam ölçümü)", "https://huggingface.co/datasets/HuggingFaceFW/fineweb-2"),
+            ("Açık HF tek-dilli korpuslar: <i>alexantonov/chuvash_mono</i> · <i>bekan/karakalpak</i> · Nogai-Unified · khakas-monolingual. (FLORES dışı dillerde kapsam)", "https://huggingface.co/datasets"),
+            ("Lindsay vd. — Türk dilleri arası karşılıklı anlaşılabilirlik. (Uzaklık Gezgini: anlaşılabilirlik ekseni)", None),
         ]),
     ]
     def _biblio_entry(kunye, url):

@@ -1597,16 +1597,18 @@ def main():
         "    const hasNounF = !!(F && Array.isArray(F.rows) && F.rows.length);\n"
         "    const hasVerbF = !!(F && Array.isArray(F.verb) && F.verb.length);\n"
         "    const isFree = hasNounF || hasVerbF;\n"
+        "    const attemptedF = !!F; const notFoundF = attemptedF && !isFree;\n"
         "    let posF = this.state.paradigmPos || 'noun';\n"
         "    if (isFree){ if(posF==='noun' && !hasNounF && hasVerbF) posF='verb'; if(posF==='verb' && !hasVerbF) posF='noun'; }\n"
         "    const freeRows = (isFree && posF==='noun' && hasNounF) ? F.rows.map(r=>({ caseLabel:r.case_tr, tag:(r.case||'').toUpperCase(), sg:cF(r.sg), pl:cF(r.pl), trSg:'', trPl:'' })) : null;\n"
         "    const verbBlocks = (isFree && posF==='verb' && hasVerbF) ? F.verb.map(b=>({ tense:b.tense, cells:b.cells.map(c=>({ person:c.person, surface:c.surface?this.disp(c.surface):'—' })) })) : null;\n"
         "    const posTabs = isFree ? [['noun','İsim çekimi',hasNounF],['verb','Fiil çekimi',hasVerbF]].filter(t=>t[2]).map(t=>({ label:t[1], go:()=>this.setState({paradigmPos:t[0]}), style:`cursor:pointer;border:none;border-radius:8px;padding:8px 15px;font-size:13px;font-weight:600;font-family:inherit;background:${posF===t[0]?'#211d17':'transparent'};color:${posF===t[0]?'#f4f1ea':'#5f574b'}` })) : [];\n"
         "    const LNp = {chv:'Çuvaşça',tur:'Türkçe',aze:'Azerice',kaz:'Kazakça',kir:'Kırgızca',uzb:'Özbekçe',uig:'Uygurca',tat:'Tatarca',bak:'Başkurtça',sah:'Yakutça',tuk:'Türkmence',crh:'Kırım Tatarca',gag:'Gagavuzca',kaa:'Karakalpakça',alt:'Altayca',kjh:'Hakasça',krc:'Karaçay-Balkar',kum:'Kumukça',nog:'Nogayca',tyv:'Tuvaca'};\n"
-        "    return { paradigmRoots:roots, paradigmIsVerb:isVerb && !isFree, paradigmIsNoun: isFree ? (posF==='noun') : !isVerb, paradigmIsVerbView: isFree && posF==='verb', paradigmRows: freeRows||rows, paradigmVerbBlocks: verbBlocks||[], paradigmPosTabs: posTabs, paradigmHasPosTabs: posTabs.length>1,\n"
-        "      paradigmTitle: isFree ? this.disp(F.lemma) : this.disp(p.root, p.rootLat),\n"
-        "      paradigmGloss: isFree ? ('· '+F.langName) : `“${p.gloss}”`,\n"
-        "      paradigmSub: isFree ? ('canlı apertium çekimi · '+F.langName) : (isVerb ? (p.label+' · şahıs çekimi') : 'Ad çekimi · hâl × sayı'),\n"
+        "    return { paradigmRoots:roots, paradigmIsVerb:(!notFoundF) && isVerb && !isFree, paradigmIsNoun: (!notFoundF) && (isFree ? (posF==='noun') : !isVerb), paradigmIsVerbView: isFree && posF==='verb', paradigmRows: freeRows||(attemptedF?[]:rows), paradigmVerbBlocks: verbBlocks||[], paradigmPosTabs: posTabs, paradigmHasPosTabs: posTabs.length>1,\n"
+        "      paradigmShowTable: !notFoundF, paradigmNotFound: notFoundF, paradigmHasNote: !!(F&&F.note), paradigmNote:(F&&F.note)||'', paradigmInput:(F&&(F.input||F.lemma))||'',\n"
+        "      paradigmTitle: attemptedF ? this.disp(F.lemma||F.input) : this.disp(p.root, p.rootLat),\n"
+        "      paradigmGloss: attemptedF ? (notFoundF ? '· bulunamadı' : ('· '+F.langName)) : `“${p.gloss}”`,\n"
+        "      paradigmSub: attemptedF ? (notFoundF ? '' : ('canlı apertium çekimi · '+F.langName)) : (isVerb ? (p.label+' · şahıs çekimi') : 'Ad çekimi · hâl × sayı'),\n"
         "      paradigmFreeQ: this.state.paradigmFreeQ||'',\n"
         "      onParadigmFreeInput:(e)=>this.setState({paradigmFreeQ:e.target.value}),\n"
         "      onParadigmFreeKey:(e)=>{ if(e.key!=='Enter') return; const lemma=(this.state.paradigmFreeQ||'').trim(); if(!lemma) return; const lg=this.state.searchLang||'chv'; fetch(this.KOKEN_API+'/paradigm/'+lg+'/'+encodeURIComponent(lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma, langName:(LNp[lg]||lg), rows:(d&&d.rows)||[]}})).catch(()=>{}); } };"))
@@ -1761,10 +1763,13 @@ def main():
     m_anchor = "  active(){ return this.state.activeWordId==='__api' && this.state.apiWord ? this.state.apiWord : this.WORDS[this.state.activeWordId]; }"
     m_new = (
         "  runParadigm(lemma){\n"
-        "    const fp=(l)=>fetch(this.KOKEN_API+'/paradigm/'+l+'/'+encodeURIComponent(lemma)).then(r=>r.json()).then(d=>this.setState({paradigmFree:{lemma, lang:l, langName:(this.LIVE_LN[l]||l), rows:(d.noun&&d.noun.rows)||d.rows||[], verb:(d.verb&&d.verb.tenses)||[]}})).catch(()=>{});\n"
+        # #37 — once ANALIZ et: cekimli giris (evler) ham kok sanilmasin; gercek kok (ev) cekimlensin,
+        # not gosterilsin; hic taninmazsa SESSIZ degil GERI BILDIRIM (notFound) ver, ornege geri dusme.
+        "    const fp=(l,root,note,input)=>fetch(this.KOKEN_API+'/paradigm/'+l+'/'+encodeURIComponent(root)).then(r=>r.json()).then(d=>{ const rows=(d.noun&&d.noun.rows)||d.rows||[]; const verb=(d.verb&&d.verb.tenses)||[]; this.setState({paradigmFree:{lemma:root, input:(input||root), lang:l, langName:(this.LIVE_LN[l]||l), rows:rows, verb:verb, note:(note||''), notFound:(!rows.length && !verb.length)}}); }).catch(()=>this.setState({paradigmFree:{lemma:root, input:(input||root), lang:l, langName:(this.LIVE_LN[l]||l), rows:[], verb:[], note:'', notFound:true}}));\n"
+        "    const pick=(l)=>fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:l,word:lemma})}).then(r=>r.json()).then(d=>{ const a=(d.analyses&&d.analyses[0])||null; const root=(a&&a.lemma)?a.lemma:lemma; const note=(a&&a.lemma&&a.lemma!==lemma)?('“'+lemma+'” çekimli bir biçim — kökü “'+a.lemma+'”. Aşağıda “'+a.lemma+'” kökünün çekim tablosu:'):''; fp(l,root,note,lemma); }).catch(()=>fp(l,lemma,'',lemma));\n"
         "    const lg=this.state.searchLang;\n"
-        "    if(lg && lg!=='auto'){ fp(lg); }\n"
-        "    else { fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word:lemma})}).then(r=>r.json()).then(d=>{ const c=Object.keys(d.langs||{}); fp(c[0]||'chv'); }).catch(()=>{}); }\n"
+        "    if(lg && lg!=='auto'){ pick(lg); }\n"
+        "    else { fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word:lemma})}).then(r=>r.json()).then(d=>{ const c=Object.keys(d.langs||{}); if(c.length){ pick(c[0]); } else { this.setState({paradigmFree:{lemma:lemma, input:lemma, lang:(this.state.searchLang||'chv'), langName:'—', rows:[], verb:[], note:'', notFound:true}}); } }).catch(()=>{}); }\n"
         "  }\n"
         "  runCompare(word, srcLang){\n"
         "    const run=(src)=>{\n"
@@ -1897,11 +1902,20 @@ def main():
     # G1 — Paradigma tablosuna "Tabloyu kopyala" (export tablolarda kopyalama olur)
     html = html.replace(
         '        <div style="margin-top:22px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">',
+        # #37 — kök düzeltme notu (çekimli giriş → kök) + "bulunamadı" geri bildirimi + tablo gating
+        '        <sc-if value="{{ paradigmHasNote }}" hint-placeholder-val="{{ false }}">\n'
+        '        <div style="margin-top:18px;background:#fbf3ea;border:1px solid rgba(217,139,74,.35);border-radius:12px;padding:13px 17px;font-size:13.5px;line-height:1.55;color:#7a5230">{{ paradigmNote }}</div>\n'
+        '        </sc-if>\n'
+        '        <sc-if value="{{ paradigmNotFound }}" hint-placeholder-val="{{ false }}">\n'
+        '        <div style="margin-top:18px;background:#fbf3ea;border:1px solid rgba(217,139,74,.4);border-radius:14px;padding:18px 22px;font-size:14px;line-height:1.6;color:#7a5230"><b>“{{ paradigmInput }}”</b> için çekim tablosu üretilemedi — bu bir kök/lemma gibi görünmüyor ya da seçili dilde tanınmıyor. Çekimsiz bir kök gir (ör. <i>ev</i>, <i>gel</i>) ya da sağ üstten dili değiştir.</div>\n'
+        '        </sc-if>\n'
+        '        <sc-if value="{{ paradigmShowTable }}" hint-placeholder-val="{{ true }}">\n'
         '        <div style="margin-top:22px;display:flex;align-items:center;gap:10px">\n'
         "          <span style=\"font-size:11px;font-family:'IBM Plex Mono',monospace;color:#9a9082;letter-spacing:.5px\">ÇEKİM TABLOSU</span>\n"
         '          <button onClick="{{ copyParadigm }}" style="margin-left:auto;cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:8px;padding:6px 12px;font-size:12px;font-family:inherit;color:#211d17">⧉ Tabloyu kopyala</button>\n'
         '        </div>\n'
         '        <div id="paradigm-table" style="margin-top:10px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">', 1)
+    # (#37 paradigmShowTable sc-if KAPANIŞI cfix fiil-tablosu yamasından SONRA yapılır — çakışmasın)
     # copyParadigm handler (DOM → pano; tablodan bağımsız, güvenli)
     html = html.replace(
         "      goResearch:()=>this.setState({screen:'research'}),",
@@ -2036,6 +2050,12 @@ def main():
         else:
             print("  ! C(paradigma) eşleşmedi:", label)
     print(f"  Paradigma isim/fiil sekmeleri + fiil tablosu: {ncfix}/{len(cfix)}")
+    # #37 — paradigmShowTable sc-if'ini tablo+legend'dan ÖNCE kapat (cfix verbview eklendikten SONRA çalışır)
+    _p37close = '        </div>\n        <div style="margin-top:14px;display:flex;gap:16px;flex-wrap:wrap"><sc-for list="{{ legend }}"'
+    if _p37close in html:
+        html = html.replace(_p37close, '        </div>\n        </sc-if>\n        <div style="margin-top:14px;display:flex;gap:16px;flex-wrap:wrap"><sc-for list="{{ legend }}"', 1)
+    else:
+        print("  ! #37 paradigm sc-if kapanis eslesmedi")
 
     # ============================================================
     #  AÇIK API dürüst etiket (planlanan genel API) + "nasıl çalışır?" aç-kapa ipuçları (çift kitle)

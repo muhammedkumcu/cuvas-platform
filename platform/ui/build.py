@@ -1597,14 +1597,38 @@ def main():
     # kopya/metin düzeltmeleri — yalnız NET redundant/teknik ifadeler (tasarımı bozmadan, minimal)
     copy_fix = {
         "14 dil · soldan kenar rengi = canlılık": "Türk dilleri ve canlılık durumları",
-        "Kaynak: SavelyevTurkic CLDF · NorthEuraLex — örnek/illüstratif değerler":
-            "Kaynak: Savelyev (leksikal+filogenetik) · WALS (tipolojik) · koordinat (coğrafi) · Lindsay (anlaşılabilirlik)",
         "örn. okuduk, ormanda, kızlar": "seçili dilde canlı FST analizi",
     }
     nfix = 0
     for old, new in copy_fix.items():
         if old in html:
             html = html.replace(old, new); nfix += 1
+    # #48 — Uzaklık: radar-altı kaynak legend'i KALDIR (sayfa-altı KAYNAKLAR aynı bilgiyi veriyor → çift)
+    _uz_legend = ('        <div style="margin-top:14px;display:inline-flex;align-items:center;gap:8px;font-size:11px;'
+                  'color:#9a9082;font-family:\'IBM Plex Mono\',monospace"><span style="width:8px;height:8px;'
+                  'border-radius:2px;background:#cbbfa8"></span>Kaynak: SavelyevTurkic CLDF · NorthEuraLex — '
+                  'örnek/illüstratif değerler</div>\n')
+    if _uz_legend in html:
+        html = html.replace(_uz_legend, ""); print("  #48 Uzaklık radar-altı kaynak legend kaldırıldı: 1")
+    else:
+        print("  ! #48 Uzaklık legend eşleşmedi")
+    # #48 — OKUMA doğruluğu: fallback anlatısı "en büyük mesafe filogenetik eksende" diye SABİT iddia
+    # ediyordu; gerçekte en büyük eksen leksikal/tipolojik/coğrafi de olabilir. Beş eksenin gerçek
+    # maksimumunu hesaplayıp ona uygun cümleyi kur (yanlış okuma düzeltildi). Branch 1-3 zaten doğru.
+    _narr_old = ('      narr = `${base.name} ile ${t.name} arasında en büyük mesafe filogenetik eksende '
+                 '(${vf.toFixed(2)}); ortak köken derinde ama dallar ayrılmış.`;')
+    _narr_new = ("      const _mx=[['filogenetik',vf,'ortak köken derinde ama dallar ayrılmış'],"
+                 "['leksikal',vl,'kelime hazineleri belirgin biçimde ayrışmış'],"
+                 "['tipolojik',val('tipo'),'dilbilgisi tipleri farklılaşmış'],"
+                 "['coğrafi',vc,'birbirinden uzakta konuşuluyorlar'],"
+                 "['anlaşılabilirlik',va,'konuşurları birbirini güçlükle anlıyor']]"
+                 ".sort((a,b)=>b[1]-a[1])[0];\n"
+                 "      narr = `${base.name} ile ${t.name} arasında en büyük mesafe ${_mx[0]} eksende "
+                 "(${_mx[1].toFixed(2)}); ${_mx[2]}.`;")
+    if _narr_old in html:
+        html = html.replace(_narr_old, _narr_new, 1); print("  #48 Uzaklık OKUMA fallback gerçek-max eksene düzeltildi: 1")
+    else:
+        print("  ! #48 Uzaklık narr fallback eşleşmedi")
 
     # --- CANLI API bağlama (Paradigma + Analiz) — VM kapalıysa illüstratife düşer ---
     nlive = 0
@@ -2316,7 +2340,7 @@ def main():
         """              <div><b style="color:#211d17">Sarı Uygurca</b> — adı yanıltıcıdır: Sincan'daki Karluk Uygurcasıyla akraba <b>değil</b>; arkaik bir <b>Güney Sibirya</b> (Yenisey) dilidir.</div>\n"""
         """            </div>\n"""
         """          </div>\n"""
-        """          <div style="margin-top:14px;font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace">Kaynaklar: Johanson (2021) altı-kol tasnifi · Savelyev &amp; Robbeets (2020) Bayes doğrulaması · Doerfer (Argu) · Kaşgarlı Mahmud, DLT.</div>\n"""
+        # #40: box-içi kaynak satırı kaldırıldı → tek ev sayfa-altı KAYNAKLAR (Johanson 2021 + Savelyev & Robbeets orada).
         """        </div>\n""")
     # ds20 — Bayesçi filogeni açıklama bloğu: veri seti + 3 anahtar ayrışma düğümü (tarih + %95 güven aralığı).
     bayes_block = (
@@ -2338,7 +2362,7 @@ def main():
             ]) +
         """          </div>\n"""
         """          <p style="font-size:12px;line-height:1.6;color:rgba(244,241,234,.6);max-width:80ch;margin:15px 0 0">Oğuz, Kıpçak ve Karluk gibi modern kolların ayrışma tarihleri <b>şaşırtıcı derecede sığ</b> çıkar. Savelyev &amp; Robbeets bunu göçebe yaşamın getirdiği <b>diyalekt sürekliliğine</b> bağlar: sürekli göçler ve boyların iç içe geçmesi, dilbilimsel yeniliklerin birden çok kola eşzamanlı yayılmasına yol açmış, keskin sınırları silmiştir.</p>\n"""
-        """          <div style="margin-top:13px;font-size:11px;color:rgba(244,241,234,.4);font-family:'IBM Plex Mono',monospace">Savelyev &amp; Robbeets (2020), Journal of Language Evolution · DOI: 10.1093/jole/lzz010</div>\n"""
+        # #40: box-içi kaynak satırı kaldırıldı → tek ev sayfa-altı KAYNAKLAR (Savelyev & Robbeets 2020 JoLE + DOI orada).
         """        </div>\n""")
     hist_anchor = """        <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 18px">Proto-Türkçeden bugüne</h2>\n"""
     nkol = 1 if hist_anchor in html else 0
@@ -2375,11 +2399,10 @@ def main():
               "kindLabel:({kok:'KÖK',goc:'ERKEN GÖÇ',klasik:'KLASİK',ortacag:'ORTA ÇAĞ',modern:'MODERN',bugun:'BUGÜN'})[h.kind]||''})),")
     nhr = 1 if hr_old in html else 0
     html = html.replace(hr_old, hr_new, 1)
-    # timeline satırına KAYNAK (academic atıf) alt-satırı
-    tl_old = '<div style="font-size:14px;line-height:1.6;color:#5f574b;max-width:64ch">{{ h.desc }}</div>'
-    tl_new = (tl_old + '\n              <div style="font-size:11px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace;margin-top:5px">{{ h.src }}</div>')
-    ntl = 1 if tl_old in html else 0
-    html = html.replace(tl_old, tl_new, 1)
+    # #40: timeline per-satır KAYNAK atıfı kaldırıldı — kronoloji kaynakları artık yalnız sayfa-altı
+    # KAYNAKLAR'da (Tekin · Arat · Dankoff & Kelly · Golden · Erdal · Róna-Tas). src alanı veride durur,
+    # UI'a basılmaz (çift kaynak temizlendi). HISTORY içeriği (era/title/desc) DEĞİŞMEDİ.
+    ntl = 0
     print(f"  R5b-3 Tarih zenginlestirme (ds20): bayes_blok=1 kol_detay={len(KOLLAR)} timeline={nhist}x{len(HIST15)}satir historyRows={nhr} kaynak_satiri={ntl}")
 
     old_family = (
@@ -2601,6 +2624,17 @@ def main():
         '          <sc-for list="{{ ecoTabs }}" as="t" hint-placeholder-count="8"><button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.title }}</button></sc-for>\n'
         '        </div>\n'
         + cat_blocks +
+        # #49 — sayfa-altı KAYNAKLAR: katalog provenansı GERÇEK platformlar (deepsearch DEĞİL). Nötr derleme.
+        '        <div style="margin-top:38px;padding-top:18px;border-top:1px solid rgba(33,29,23,.1)">\n'
+        "          <div style=\"font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:10px\">KAYNAKLAR</div>\n"
+        '          <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;color:#211d17">\n'
+        '            <li style="margin-bottom:5px"><b>Hugging Face Hub</b> — <span style="color:#5f574b">model/veri kartları, pipeline aramaları, leaderboard\'lar</span></li>\n'
+        '            <li style="margin-bottom:5px"><b>GitHub · Zenodo</b> — <span style="color:#5f574b">açık kaynak araç depoları ve arşivlenmiş veri setleri</span></li>\n'
+        '            <li style="margin-bottom:5px"><b>Mozilla Common Voice</b> — <span style="color:#5f574b">topluluk-katkılı açık konuşma verisi</span></li>\n'
+        '            <li style="margin-bottom:5px"><b>Apertium · Zemberek · TRmorph · VNLP</b> — <span style="color:#5f574b">açık morfoloji / NLP araç projeleri</span></li>\n'
+        '          </ul>\n'
+        '          <div style="margin-top:10px;font-size:11px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace">Nötr derleme · bağlantılar elle doğrulandı, uydurma link yok · olgunluk yargısı içermez.</div>\n'
+        '        </div>\n'
         '      </section>\n'
         '      </sc-if>\n')
     eco_screen_anchor = "      <!-- ===================== TARİH & KÖKEN ===================== -->"
@@ -2880,6 +2914,14 @@ def main():
         '          <b>{{ genLemma }}</b> kökü bu dilde <b>{{ genRecipe }}</b> birleşimini doğrudan üretmedi. Bazı diller belirli zaman/kişi eklerini kopula gibi farklı yollarla kurar — başka bir birleşim ya da dil dene. <span title="{{ genQuery }}" style="font-family:\'IBM Plex Mono\',monospace;font-size:11.5px;color:#9a9082">({{ genQueryHuman }})</span>\n'
         '        </div>\n'
         '        </sc-if>\n'
+        # #45 — sayfa-altı KAYNAKLAR (Üreteç motoru = Apertium autogen + segment; doğruluk Kalite & Kapsam'da)
+        '        <div style="margin-top:38px;padding-top:18px;border-top:1px solid rgba(33,29,23,.1)">\n'
+        "          <div style=\"font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:10px\">KAYNAKLAR</div>\n"
+        '          <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;color:#211d17">\n'
+        '            <li style="margin-bottom:5px"><b>Apertium FST\'leri (GPL-3.0)</b> — <span style="color:#5f574b">morfolojik üretim (autogen) ve yüzey morfem bölümleme; 20 Türk dili</span></li>\n'
+        '            <li style="margin-bottom:5px"><b>UniMorph 4.0 · UD treebank\'leri</b> — <span style="color:#5f574b">üretilen biçimlerin doğruluk denetimi (bkz. Kalite &amp; Kapsam)</span></li>\n'
+        '          </ul>\n'
+        '        </div>\n'
         '      </section>\n'
         '      </sc-if>\n')
     gen_anchor = "      <!-- ===================== TARİH & KÖKEN ===================== -->"

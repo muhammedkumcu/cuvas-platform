@@ -440,6 +440,8 @@ def build_map_bg():
         x, _ = _pj(lon, 45); grat.append(f'<line x1="{x}" y1="0" x2="{x}" y2="100"/>')
     for lat in (30, 40, 50, 60):
         _, y = _pj(70, lat); grat.append(f'<line x1="0" y1="{y}" x2="100" y2="{y}"/>')
+    # #65b (kullanıcı) — eski elle-çizim süsleri KALDIRILDI (deniz daireleri, dağ ▲, nehirler, Boğaz,
+    # grid/graticule, Kıbrıs). Yalnız GERÇEK GeoJSON kara + ince ülke sınırları kalır; etiketler ayrı (bölge adları).
     return ('<svg viewBox="0 0 100 100" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">'
             '<defs>'
             '<linearGradient id="mLand" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ece4d3"></stop><stop offset="1" stop-color="#e0d7c2"></stop></linearGradient>'
@@ -448,42 +450,17 @@ def build_map_bg():
             '<rect x="0" y="0" width="100" height="100" fill="url(#mSea)"></rect>'
             f'<path d="{land}" fill="url(#mLand)" stroke="#c2b393" stroke-width="0.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>'
             + (f'<path d="{GEO_BORDER}" fill="none" stroke="#c4ab82" stroke-width="0.28" stroke-linejoin="round" vector-effect="non-scaling-stroke" opacity="0.5"></path>' if GEO_BORDER else '')
-            + '<g stroke="rgba(33,29,23,.07)" stroke-width="0.5" vector-effect="non-scaling-stroke">' + "".join(grat) + '</g>'
-            + "".join(riv_svg)
-            + "".join(sea_svg)
-            + "".join(isl_svg)
-            + f'<path d="{" ".join(peaks)}" fill="none" stroke="#b7a378" stroke-width="0.7" stroke-linejoin="round" vector-effect="non-scaling-stroke" opacity="0.85"></path>'
             + '</svg>')
 
 
-# Atlas (büyük harita) için zengin coğrafya etiketleri — HTML span'leri (projeksiyon %'sinde konum).
-# Denizler/dağlar/nehirler/boğaz + bölgeler; "İstanbul Boğazı ve bilinen yer şekilleri" (kullanıcı).
+# #65b (kullanıcı) — yalnızca BÖLGE adları kalır (denizler/dağlar/nehirler/Boğaz etiketleri kaldırıldı).
+# Gerçek GeoJSON kara + sınırlar zaten coğrafyayı veriyor; çok az sayıda yön-verici bölge yazısı yeter.
 def atlas_feature_labels():
-    seas = [(34, 43, "Karadeniz"), (51.5, 39, "Hazar Denizi"), (59.5, 45.6, "Aral G."),
-            (27, 33.5, "Akdeniz"), (74, 46.3, "Balkaş G."), (108, 53.5, "Baykal G."), (77, 42.6, "Issık G.")]
-    mts = [(45.5, 43.3, "Kafkaslar"), (80, 41.5, "Tien Şan"), (89, 50, "Altay Dağları"),
-           (60, 57.5, "Ural Dağları"), (72.5, 37.5, "Pamir")]
-    rivers = [(50, 51.5, "İdil"), (63, 41, "Amu Derya")]
-    marks = [(28.8, 41.2, "İstanbul Boğazı")]
-    regions = [(33, 38.5, "ANADOLU"), (52, 56, "İDİL-URAL"), (69, 44.5, "TURAN"), (96, 60, "SİBİRYA")]
-    out = []
+    regions = [(33, 38.5, "ANADOLU"), (45.5, 42.5, "KAFKASYA"), (52, 56, "İDİL-URAL"),
+               (69, 44.5, "TURAN"), (96, 60, "SİBİRYA")]
     sty = ("position:absolute;transform:translate(-50%,-50%);pointer-events:none;white-space:nowrap;"
-           "font-family:'Spectral',serif;letter-spacing:.2px")
-    for lo, la, nm in seas:
-        x, y = _pj(lo, la)
-        out.append(f'<span style="{sty};left:{x}%;top:{y}%;font-style:italic;font-size:11px;color:#6f8e9b">{nm}</span>')
-    for lo, la, nm in rivers:
-        x, y = _pj(lo, la)
-        out.append(f'<span style="{sty};left:{x}%;top:{y}%;font-style:italic;font-size:10px;color:#8aa6b0">{nm}</span>')
-    for lo, la, nm in mts:
-        x, y = _pj(lo, la)
-        out.append(f'<span style="{sty};left:{x}%;top:{y}%;font-size:10.5px;color:#9a7d4e">▲ {nm}</span>')
-    for lo, la, nm in marks:
-        x, y = _pj(lo, la)
-        out.append(f'<span style="{sty};left:{x}%;top:{y}%;font-size:10px;color:#b8602e;font-weight:600">◦ {nm}</span>')
-    for lo, la, nm in regions:
-        x, y = _pj(lo, la)
-        out.append(f'<span style="{sty};left:{x}%;top:{y}%;font-family:\'IBM Plex Mono\',monospace;font-size:11px;letter-spacing:2px;color:rgba(122,110,90,.6)">{nm}</span>')
+           "font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:2px;color:rgba(122,110,90,.6)")
+    out = [f'<span style="{sty};left:{_pj(lo,la)[0]}%;top:{_pj(lo,la)[1]}%">{nm}</span>' for lo, la, nm in regions]
     return "\n            ".join(out)
 
 
@@ -1465,7 +1442,9 @@ def main():
     a6_grp_new = ("    const CAT_ORDER=['araç','veri','literatür','sentez'];\n"
                   "    const CAT_LABEL={'araç':'Araçlar & motorlar','veri':'Veri setleri','literatür':'Akademik literatür','sentez':'Derin araştırma & derlemeler'};\n"
                   "    const sourceGroups = CAT_ORDER.map(cat=>{ const rows=sourceRows.filter(r=>r.kind===cat); return {cat, catLabel:CAT_LABEL[cat]||cat, hue:(kindHue[cat]||'#9a9082'), rows, count:rows.length}; }).filter(g=>g.count>0);\n"
-                  "    return { showSrcStrip:!!usage, pageSources,")
+                  # #61b — eski chip-strip ("KAYNAKLAR [çipler] Tüm kaynaklar →") KAPATILDI; tek KAYNAKLAR
+                  # sistemi = sayfa-altı ekran-id tabanlı ul (#61). İki sistem çakışıyordu (kullanıcı).
+                  "    return { showSrcStrip:false, pageSources,")
     if a6_grp_old in html:
         html = html.replace(a6_grp_old, a6_grp_new, 1); na6 += 1
     a6_ret_old = "isSources:S.screen==='sources', sourceRows };"
@@ -2675,17 +2654,8 @@ def main():
         '          <sc-for list="{{ ecoTabs }}" as="t" hint-placeholder-count="8"><button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.title }}</button></sc-for>\n'
         '        </div>\n'
         + cat_blocks +
-        # #49 — sayfa-altı KAYNAKLAR: katalog provenansı GERÇEK platformlar (deepsearch DEĞİL). Nötr derleme.
-        '        <div style="margin-top:38px;padding-top:18px;border-top:1px solid rgba(33,29,23,.1)">\n'
-        "          <div style=\"font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:10px\">KAYNAKLAR</div>\n"
-        '          <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;color:#211d17">\n'
-        '            <li style="margin-bottom:5px"><b>Hugging Face Hub</b> — <span style="color:#5f574b">model/veri kartları, pipeline aramaları, leaderboard\'lar</span></li>\n'
-        '            <li style="margin-bottom:5px"><b>GitHub · Zenodo</b> — <span style="color:#5f574b">açık kaynak araç depoları ve arşivlenmiş veri setleri</span></li>\n'
-        '            <li style="margin-bottom:5px"><b>Mozilla Common Voice</b> — <span style="color:#5f574b">topluluk-katkılı açık konuşma verisi</span></li>\n'
-        '            <li style="margin-bottom:5px"><b>Apertium · Zemberek · TRmorph · VNLP</b> — <span style="color:#5f574b">açık morfoloji / NLP araç projeleri</span></li>\n'
-        '          </ul>\n'
-        '          <div style="margin-top:10px;font-size:11px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace">Nötr derleme · bağlantılar elle doğrulandı, uydurma link yok · olgunluk yargısı içermez.</div>\n'
-        '        </div>\n'
+        # #61b — sayfa-altı KAYNAKLAR ekran-id _psrc'den (isEco), tek standart biçim. Nötr-derleme notu burada kalır.
+        '        <div style="margin-top:20px;font-size:11px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace">Nötr derleme · bağlantılar elle doğrulandı, uydurma link yok · olgunluk yargısı içermez.</div>\n'
         '      </section>\n'
         '      </sc-if>\n')
     eco_screen_anchor = "      <!-- ===================== TARİH & KÖKEN ===================== -->"
@@ -2874,17 +2844,7 @@ def main():
         '        <div style="display:flex;flex-wrap:wrap;gap:10px">\n'
         '          <button onClick="{{ heartLearn }}" style="cursor:pointer;background:#b8602e;color:#fff;border:none;border-radius:10px;padding:11px 18px;font-size:14px;font-family:\'Spectral\',serif;font-weight:600">Çuvaşça Atölyesi →</button>\n'
         '        </div>\n'
-        # #41 — kullanıcı: "Çuvaşçayı keşfet"te şimdilik yalnız Çuvaşça Atölyesi (diğer 3 buton kaldırıldı)
-        # + sayfa-altı Kaynakça eklendi.
-        '        <div style="margin-top:38px;padding-top:18px;border-top:1px solid rgba(33,29,23,.1)">\n'
-        "          <div style=\"font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:10px\">KAYNAKLAR</div>\n"
-        '          <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;color:#211d17">\n'
-        '            <li><b>2020 Rusya Nüfus Sayımı</b> — Çuvaşça L1 konuşur sayısı (740 bin)</li>\n'
-        '            <li><b>N. İ. Aşmarin (1928–1950), 17 ciltlik Çuvaşça sözlük</b> — sözvarlığı ve kültürel temel</li>\n'
-        '            <li><b>Erdal (1993), İdil Bulgar yazıtları</b> — Oğur/Bulgar kolunun tarihsel kaydı</li>\n'
-        '            <li><b>Savelyev &amp; Robbeets (2020)</b> — rotasizm/lambdasizm ve Oğur ayrımı (Bayes filogeni)</li>\n'
-        '          </ul>\n'
-        '        </div>\n'
+        # #61b — sayfa-altı KAYNAKLAR ekran-id _psrc'den (isHeart), tek standart biçim.
         '      </section>\n'
         '      </sc-if>\n')
     heart_anchor = "      <!-- ===================== KAYNAKLAR & LİSANSLAR ===================== -->"
@@ -2967,14 +2927,7 @@ def main():
         '          <b>{{ genLemma }}</b> kökü bu dilde <b>{{ genRecipe }}</b> birleşimini doğrudan üretmedi. Bazı diller belirli zaman/kişi eklerini kopula gibi farklı yollarla kurar — başka bir birleşim ya da dil dene. <span title="{{ genQuery }}" style="font-family:\'IBM Plex Mono\',monospace;font-size:11.5px;color:#9a9082">({{ genQueryHuman }})</span>\n'
         '        </div>\n'
         '        </sc-if>\n'
-        # #45 — sayfa-altı KAYNAKLAR (Üreteç motoru = Apertium autogen + segment; doğruluk Kalite & Kapsam'da)
-        '        <div style="margin-top:38px;padding-top:18px;border-top:1px solid rgba(33,29,23,.1)">\n'
-        "          <div style=\"font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:10px\">KAYNAKLAR</div>\n"
-        '          <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;color:#211d17">\n'
-        '            <li style="margin-bottom:5px"><b>Apertium FST\'leri (GPL-3.0)</b> — <span style="color:#5f574b">morfolojik üretim (autogen) ve yüzey morfem bölümleme; 20 Türk dili</span></li>\n'
-        '            <li style="margin-bottom:5px"><b>UniMorph 4.0 · UD treebank\'leri</b> — <span style="color:#5f574b">üretilen biçimlerin doğruluk denetimi (bkz. Kalite &amp; Kapsam)</span></li>\n'
-        '          </ul>\n'
-        '        </div>\n'
+        # #61b — sayfa-altı KAYNAKLAR artık ekran-id tabanlı _psrc'den (isGenerate) gelir, tek standart biçim.
         '      </section>\n'
         '      </sc-if>\n')
     gen_anchor = "      <!-- ===================== TARİH & KÖKEN ===================== -->"
@@ -3320,16 +3273,7 @@ def main():
         '            </div>\n'
         '          </div>\n'
         '        </div>\n'
-        # #61/#64 — Quality KAYNAKLAR standart biçime çevrildi (yoğun "Kaynak:" satırı yerine).
-        '        <div style="margin-top:38px;padding-top:18px;border-top:1px solid rgba(33,29,23,.1)">\n'
-        "          <div style=\"font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:10px\">KAYNAKLAR</div>\n"
-        '          <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;color:#211d17">\n'
-        '            <li style="margin-bottom:5px"><b>Apertium FST\'leri (GPL-3.0)</b> — <span style="color:#5f574b">20 Türk dili canlı morfoloji motoru (sözlük · tutarlılık · olgunluk)</span></li>\n'
-        '            <li style="margin-bottom:5px"><b>UniMorph 4.0 · Universal Dependencies</b> — <span style="color:#5f574b">doğruluk için insan-küratörlü gold (lemma + cümle)</span></li>\n'
-        '            <li style="margin-bottom:5px"><b>FLORES-200 (CC-BY-SA) · HF açık korpuslar / fineweb-2</b> — <span style="color:#5f574b">kapsam (gerçek metin recall)</span></li>\n'
-        '            <li style="margin-bottom:5px"><b>Ölçüm betikleri (depoda, tekrar-üretilebilir)</b> — <span style="color:#5f574b">lexicon_count · segment_eval · unimorph_eval · ud_eval · flores_coverage · corpus_coverage · capability_probe · ölçüm 29 Haz 2026</span></li>\n'
-        '          </ul>\n'
-        '        </div>\n'
+        # #61b — sayfa-altı KAYNAKLAR ekran-id _psrc'den (isQuality), tek standart biçim.
         '      </section>\n'
         '      </sc-if>\n')
     g1_anchor = "      <!-- ===================== TARİH & KÖKEN ===================== -->"
@@ -3427,6 +3371,20 @@ def main():
         "isCognate": [("Savelyev &amp; Robbeets (2020), SavelyevTurkic CLDF (CC BY 4.0)", "kognat setleri, ses kuralları, boşluk tespiti"),
                       ("Clauson, <i>An Etymological Dictionary of Pre-Thirteenth-Century Turkish</i>", "Ana Türkçe yeniden kurulan kök biçimleri"),
                       ("Wiktionary", "biçim/yazım çapraz-kontrolü")],
+        "isGenerate": [("Apertium FST'leri (GPL-3.0)", "morfolojik üretim (autogen) ve yüzey morfem bölümleme; 20 Türk dili"),
+                       ("UniMorph 4.0 · UD treebank'leri", "üretilen biçimlerin doğruluk denetimi (bkz. Kalite &amp; Kapsam)")],
+        "isEco": [("Hugging Face Hub", "model/veri kartları, pipeline aramaları, leaderboard'lar"),
+                  ("GitHub · Zenodo", "açık kaynak araç depoları ve arşivlenmiş veri setleri"),
+                  ("Mozilla Common Voice", "topluluk-katkılı açık konuşma verisi"),
+                  ("Apertium · Zemberek · TRmorph · VNLP", "açık morfoloji / NLP araç projeleri")],
+        "isQuality": [("Apertium FST'leri (GPL-3.0)", "20 Türk dili canlı morfoloji motoru (sözlük · tutarlılık · olgunluk)"),
+                      ("UniMorph 4.0 · Universal Dependencies", "doğruluk için insan-küratörlü gold (lemma + cümle)"),
+                      ("FLORES-200 (CC-BY-SA) · HF açık korpuslar / fineweb-2", "kapsam (gerçek metin recall)"),
+                      ("Ölçüm betikleri (depoda)", "lexicon_count · segment_eval · unimorph_eval · ud_eval · flores_coverage · corpus_coverage · capability_probe · ölçüm 29 Haz 2026")],
+        "isHeart": [("2020 Rusya Nüfus Sayımı", "Çuvaşça L1 konuşur sayısı (740 bin)"),
+                    ("N. İ. Aşmarin (1928–1950), 17 ciltlik Çuvaşça sözlük", "sözvarlığı ve kültürel temel"),
+                    ("Erdal (1993), İdil Bulgar yazıtları", "Oğur/Bulgar kolunun tarihsel kaydı"),
+                    ("Savelyev &amp; Robbeets (2020)", "rotasizm/lambdasizm ve Oğur ayrımı (Bayes filogeni)")],
     }
     n31 = 0
     for _sid, _items in _kaynak_by_screen.items():

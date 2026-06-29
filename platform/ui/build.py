@@ -2783,9 +2783,17 @@ def main():
         "        <div style=\"font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:10px\">ÇUVAŞÇAYI KEŞFET</div>\n"
         '        <div style="display:flex;flex-wrap:wrap;gap:10px">\n'
         '          <button onClick="{{ heartLearn }}" style="cursor:pointer;background:#b8602e;color:#fff;border:none;border-radius:10px;padding:11px 18px;font-size:14px;font-family:\'Spectral\',serif;font-weight:600">Çuvaşça Atölyesi →</button>\n'
-        '          <button onClick="{{ heartProfile }}" style="cursor:pointer;background:#fff;color:#211d17;border:1px solid rgba(33,29,23,.18);border-radius:10px;padding:11px 18px;font-size:14px;font-family:\'Spectral\',serif;font-weight:600">Dil profili →</button>\n'
-        '          <button onClick="{{ heartCognate }}" style="cursor:pointer;background:#fff;color:#211d17;border:1px solid rgba(33,29,23,.18);border-radius:10px;padding:11px 18px;font-size:14px;font-family:\'Spectral\',serif;font-weight:600">Kognat ağı →</button>\n'
-        '          <button onClick="{{ heartCompare }}" style="cursor:pointer;background:#fff;color:#211d17;border:1px solid rgba(33,29,23,.18);border-radius:10px;padding:11px 18px;font-size:14px;font-family:\'Spectral\',serif;font-weight:600">Ses denklikleri →</button>\n'
+        '        </div>\n'
+        # #41 — kullanıcı: "Çuvaşçayı keşfet"te şimdilik yalnız Çuvaşça Atölyesi (diğer 3 buton kaldırıldı)
+        # + sayfa-altı Kaynakça eklendi.
+        '        <div style="margin-top:38px;padding-top:18px;border-top:1px solid rgba(33,29,23,.1)">\n'
+        "          <div style=\"font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;margin-bottom:10px\">KAYNAKLAR</div>\n"
+        '          <ul style="margin:0;padding-left:18px;font-size:12.5px;line-height:1.7;color:#211d17">\n'
+        '            <li><b>2020 Rusya Nüfus Sayımı</b> — Çuvaşça L1 konuşur sayısı (740 bin)</li>\n'
+        '            <li><b>N. İ. Aşmarin (1928–1950), 17 ciltlik Çuvaşça sözlük</b> — sözvarlığı ve kültürel temel</li>\n'
+        '            <li><b>Erdal (1993), İdil Bulgar yazıtları</b> — Oğur/Bulgar kolunun tarihsel kaydı</li>\n'
+        '            <li><b>Savelyev &amp; Robbeets (2020)</b> — rotasizm/lambdasizm ve Oğur ayrımı (Bayes filogeni)</li>\n'
+        '          </ul>\n'
         '        </div>\n'
         '      </section>\n'
         '      </sc-if>\n')

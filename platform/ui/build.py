@@ -1180,6 +1180,18 @@ def main():
         "    const cards = _pfilt.map(l=>{\n      const sel = l.code===S.profileSel, vc = this.vitColor(l.vit);")
     if pf_old in html:
         html = html.replace(pf_old, pf_new, 1); npf += 1
+    # #34 BUG — seçilince sol canlılık şeridi (border-left:4px vc) kaybolur: DesignCanvas runtime
+    # re-render'da değişen `border` shorthand'ini yeniden uygular ve border-left'i ezer (border-left
+    # değişmediğinden yeniden uygulanmaz). Çözüm: shorthand'i longhand'e böl → ezecek shorthand kalmaz.
+    pf_bl_old = "border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.1)'};border-left:4px solid ${vc};border-radius:12px"
+    pf_bl_new = ("border-top:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.1)'};"
+                 "border-right:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.1)'};"
+                 "border-bottom:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.1)'};"
+                 "border-left:4px solid ${vc};border-radius:12px")
+    if pf_bl_old in html:
+        html = html.replace(pf_bl_old, pf_bl_new, 1); npf += 1
+    else:
+        print("  ! #34 profil border-left yamasi eslesmedi")
     # (3) return'e yeni alanlar
     pf_ret_old = "    return { profileCards:cards,"
     pf_ret_new = ("    return { profileCards:cards, profileCats, profileTotal:this.LANGPROFILE.length,\n"
@@ -1691,6 +1703,7 @@ def main():
     # render bağları: searchLang + compare girişi + ekran-duyarlı onSearchLang (dil değişince o ekranı yineler)
     rb_old = "      navGroups, wordChips, screenTag:tag, query:S.query,"
     rb_new = ("      navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, compareQ:S.compareQ||'',\n"
+              "      aquery:(S.aquery!=null?S.aquery:''), onAquery:(e)=>this.setState({aquery:e.target.value}),\n"
               "      onCompareInput:(e)=>this.setState({compareQ:e.target.value}),\n"
               "      onCompareKey:(e)=>{ if(e.key!=='Enter') return; const w=(this.state.compareQ||'').trim(); if(w) this.runCompare(w, this.state.searchLang); },\n"
               "      onSearchLang:(e)=>{ const v=e.target.value; this.setState({searchLang:v}); const s=this.state.screen; setTimeout(()=>{\n"
@@ -2874,7 +2887,7 @@ def main():
     #    (Ana sayfa hero arama kutusu onSearchKey/runSearch'te KALIR — akıllı yönlendirme orada doğru.)
     run_analyze = (
         "  runAnalyze(){\n"
-        "    const word=(this.state.query||'').trim(); if(!word) return; const lg=this.state.searchLang||'auto';\n"
+        "    const word=((this.state.aquery && this.state.aquery.trim()) ? this.state.aquery : (this.state.query||'')).trim(); if(!word) return; const lg=this.state.searchLang||'auto';\n"
         "    if(lg==='auto'){\n"
         "      fetch(this.KOKEN_API+'/analyze_all',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({word})}).then(r=>r.json()).then(d=>{\n"
         "        const langs=d.langs||{}; const codes=Object.keys(langs);\n"
@@ -2900,10 +2913,14 @@ def main():
     if 'onKeyDown="{{ onSearchKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz"' in html:
         html = html.replace('onKeyDown="{{ onSearchKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz"',
                             'onKeyDown="{{ onAnalyzeKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz"', 1); nb1 += 1
+    # #33 — Analiz input'u AYRI state (aquery): hero kutusuyla senkron sızıntısı giderildi.
+    if 'value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onAnalyzeKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz"' in html:
+        html = html.replace('value="{{ query }}" onInput="{{ onQuery }}" onKeyDown="{{ onAnalyzeKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz"',
+                            'value="{{ aquery }}" onInput="{{ onAquery }}" onKeyDown="{{ onAnalyzeKey }}" placeholder="Kelime yaz + Enter — canlı morfolojik analiz"', 1); nb1 += 1
     if "if(s==='analiz' && (this.state.query||'').trim()) this.runSearch();" in html:
         html = html.replace("if(s==='analiz' && (this.state.query||'').trim()) this.runSearch();",
                             "if(s==='analiz' && (this.state.query||'').trim()) this.runAnalyze();", 1); nb1 += 1
-    print(f"  B1 Analiz girisi dogrudan analize (runAnalyze): {nb1}/4 yama")
+    print(f"  B1 Analiz girisi dogrudan analize (runAnalyze): {nb1}/5 yama")
 
     # ============================================================
     #  G1 — "KALİTE & KAPSAM" sayfası (morfoloji ölçümleri; dürüst, kaynaklı, eksen-ayrımlı)

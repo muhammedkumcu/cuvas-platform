@@ -711,7 +711,7 @@ def main():
             "  FEATCASE = {tur:['nom','gen','dat','acc','loc','abl','ins'],aze:['nom','gen','dat','acc','loc','abl','ins'],kaz:['nom','gen','dat','acc','loc','abl','ins'],kir:['nom','gen','dat','acc','loc','abl'],uzb:['nom','gen','dat','acc','loc','abl'],uig:['nom','gen','dat','acc','loc','abl'],tat:['nom','gen','dat','acc','loc','abl'],bak:['nom','gen','dat','acc','loc','abl'],chv:['nom','gen','dat','loc','abl','ins'],sah:['nom','dat','acc','abl','ins'],tuk:['nom','gen','dat','acc','loc','abl'],crh:['nom','gen','dat','acc','loc','abl','ins'],gag:['nom','gen','dat','acc','loc','abl','ins'],kaa:['nom','gen','dat','acc','loc','abl','ins'],alt:['nom','gen','dat','acc','loc','abl','ins'],kjh:['nom','gen','dat','acc','loc','abl','ins'],krc:['nom','gen','dat','acc','loc','abl'],kum:['nom','gen','dat','acc','loc','abl'],nog:['nom','gen','dat','acc','loc','abl'],tyv:['nom','gen','dat','acc','loc','abl']};\n"
             # G2 — kalite meta (Kalite & Kapsam sayfasından): [tier, round-trip%, kapsam% | null]
             "  QMETA = {tur:['production',94.8,90.3],kaz:['production',95.2,93.4],tat:['production',95.2,94.3],aze:['stable',95.2,35.1],kir:['stable',95.2,88.3],uzb:['stable',95.2,81.2],bak:['beta',95.2,87.0],chv:['beta',94.4,null],crh:['beta',95.2,84.5],tuk:['beta',95.2,64.1],uig:['beta',94.2,86.5],sah:['prototype',92.6,null],alt:['prototype',94.1,null],gag:['prototype',95.2,null],kaa:['prototype',95.2,null],kjh:['prototype',95.0,28.6],krc:['prototype',95.2,null],kum:['prototype',95.2,null],nog:['prototype',95.2,70.6],tyv:['prototype',95.2,null]};\n"
-            "  QTIER = {production:['üretim','#3f8a5c'],stable:['kararlı','#2f7f8a'],beta:['beta','#c08a3a'],prototype:['prototip','#9a8f82']};\n"
+            "  QTIER = {production:['olgun','#3f8a5c'],stable:['kararlı','#2f7f8a'],beta:['beta','#c08a3a'],prototype:['prototip','#9a8f82']};\n"
             "  qBadge(code){const m=this.QMETA[code]; if(!m)return null; const t=this.QTIER[m[0]]; return {tier:t[0], col:t[1], r:m[1], c:m[2], ln:(this.LIVE_LN[code]||code)};}\n"
             # HUMANIZER — apertium ham etiketleri (n/attr/cop/px1sg/ger_past...) okunur Türkçeye çevirir.
             # SHORT = renkli morfem kutusu rozeti; LONG = açıklama/üst satır. Ham etiket kullanıcıya SIZMAZ.
@@ -2588,6 +2588,18 @@ def main():
                "    ]},")
     if nav_old in html:
         html = html.replace(nav_old, nav_new, 1); nnav = 1
+    # #49 — Ekosistem: "NÖTR launchpad: …" paragrafını TAMAMEN kaldır + üst açıklamayı kısalt/doğallaştır.
+    _eco_nesir = '<p style="font-size:12px;line-height:1.6;color:#9a9082;max-width:82ch;margin:0 0 16px">NÖTR launchpad: araştırmacıyı doğrudan çalışmaya götüren bağlantılar. \'Hub\' = güncel takip (HF arama, leaderboard, awesome-liste). Olgunluk/yeterlilik yargısı YOK — değerlendirme araştırmacıya aittir. Uydurma bağlantı yok; bulunamayan dil/kategori boş bırakılır.</p>'
+    if _eco_nesir in html:
+        html = html.replace(_eco_nesir, "", 1)
+    else:
+        print("  ! #49 Ekosistem NÖTR paragrafı eşleşmedi")
+    _eco_intro_old = '<p style="font-size:15px;line-height:1.7;color:#5f574b;max-width:82ch;margin:0 0 8px">Türk dilleri için açık kaynak yapay zeka/DDİ çalışmalarına doğrudan bağlanan bir başlangıç noktası. Her kategoride: önce güncelliği takip için \'hub\' bağlantıları (HuggingFace aramaları, leaderboard\'lar, derli toplu listeler), sonra dil bazında öne çıkan model/veri/araç bağlantıları. Listeler tam değildir ve ekosistem hızla büyür — hub bağlantıları her zaman en güncele götürür.</p>'
+    _eco_intro_new = '<p style="font-size:15px;line-height:1.7;color:#5f574b;max-width:82ch;margin:0 0 18px">Türk dilleri için açık kaynak yapay zekâ çalışmalarına doğrudan açılan bir başlangıç noktası. Her kategoride önce güncelliği izleyen <i>hub</i> bağlantıları (HF aramaları, leaderboard\'lar, derli toplu listeler), sonra dil bazında öne çıkan model/veri/araç linkleri. Hub\'lar her zaman en güncele götürür.</p>'
+    if _eco_intro_old in html:
+        html = html.replace(_eco_intro_old, _eco_intro_new, 1)
+    else:
+        print("  ! #49 Ekosistem intro eşleşmedi")
     # renderVals: isEco + ecoTabs (sekme butonları) + kategori bayrakları (varsayılan llm)
     TAB_ACT = "cursor:pointer;background:#211d17;color:#f4f1ea;border:1px solid #211d17;border-radius:8px;padding:6px 11px;font-size:11.5px;font-family:'IBM Plex Mono',monospace"
     TAB_INACT = "cursor:pointer;background:transparent;color:#5f574b;border:1px solid rgba(33,29,23,.2);border-radius:8px;padding:6px 11px;font-size:11.5px;font-family:'IBM Plex Mono',monospace"
@@ -3068,7 +3080,7 @@ def main():
         '      <section style="max-width:1180px;margin:0 auto;padding:34px 40px 70px">\n'
         "        <div style=\"font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a\">KALİTE & KAPSAM</div>\n"
         "        <h2 style=\"font-family:'Spectral',serif;font-weight:600;font-size:38px;margin:8px 0 8px\">Morfoloji ne kadar iyi çalışıyor?</h2>\n"
-        '        <p style="font-size:15px;line-height:1.7;color:#5f574b;max-width:80ch;margin:0 0 6px">20 Türk dilinde analiz/üretim/paradigma motorunun ölçülmüş başarısı. İddia değil <b>ölçüm</b>: her sayı, çalıştırılabilir bir betikten ve canlı FST\'den gelir. Üç ekseni <b>ayrı</b> tutarız.</p>\n'
+        '        <p style="font-size:15px;line-height:1.7;color:#5f574b;max-width:80ch;margin:0 0 6px">20 Türk dilinde analiz, üretim ve paradigma motorunun başarısı — söylemle değil, gerçek sayılarla. Her rakam, depodaki çalıştırılabilir bir betikten ve canlı FST\'den gelir. Tutarlılık, doğruluk ve kapsamı ayrı ayrı ölçeriz: bir motor kendi içinde tutarlı olup bir dilde yine de az kelime tanıyabilir — bunları karıştırmak yanıltır.</p>\n'
         # 4 eksen açıklama kutusu (tabloyla aynı 4 sütun; lemma/tanıma TANIMI burada)
         '        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0 8px">\n'
         '          <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:12px;padding:14px 16px"><div style="font-family:\'Spectral\',serif;font-weight:600;font-size:15px;margin-bottom:4px">① Sözlük <span style="font-weight:400;color:#9a9082;font-size:12.5px">— kök sayısı</span></div><div style="font-size:12.5px;line-height:1.5;color:#5f574b">Sözlükteki kök sayısı, türüne göre (isim/fiil/sıfat…). <b>Üstüne tıkla, dökümü gör.</b> Aynı FST hem analizde hem üretimde bu kökleri kullanır — kapsamın tavanı.</div></div>\n'
@@ -3092,7 +3104,7 @@ def main():
         '        </div>\n'
         # dürüstlük notları — tabloyu nasıl okumalı
         '        <div style="margin-top:16px;background:#fbf3ea;border:1px solid rgba(217,139,74,.3);border-radius:12px;padding:16px 20px;font-size:13px;line-height:1.65;color:#6b4f33">\n'
-        '          <div style="font-family:\'Spectral\',serif;font-weight:600;font-size:16px;color:#5a3f28;margin-bottom:8px">Bu tabloyu nasıl okumalı?</div>\n'
+        '          <div style="font-family:\'Spectral\',serif;font-weight:600;font-size:16px;color:#5a3f28;margin-bottom:8px">Bu tablo nasıl okunmalı?</div>\n'
         '          <div style="margin-bottom:7px"><b>Sözlük (①).</b> Kökler morfolojinin yakıtıdır; sayı arttıkça FST daha çok kelimeyi hem çözer hem üretir. Uçurum çarpıcı: Türkçe <b>37 bin</b> içerik kökü → Altayca yalnız <b>282</b>, Hakasça’da <b>15 fiil</b>. Bu, motorun değil <b>sözlüğün</b> eksikliğidir — ve projenin neden var olduğunu gösterir. Üstüne tıkla, türlere göre dökümü gör.</div>\n'
         '          <div style="margin-bottom:7px"><b>Tutarlılık (②).</b> 20 dilde %92–95: motor ne ürettiyse onu tutarlı biçimde geri çözüyor. (Sahaca biraz düşük — zengin Sibirya morfolojisi, daha çok portmanto ek.)</div>\n'
         '          <div style="margin-bottom:7px"><b>Doğruluk (③).</b> Bağımsız insan-gold’a karşı — iki kaynak: <b>UniMorph</b> (paradigma tablosu) ve <b>UD</b> (gerçek cümle). Ölçülebilen her dilde <b>lemma %91–100</b>: FST bir kelimeyi tanıdığında <b>doğru</b> çözüyor. <i>tanıma%</i> ise sözlük büyüklüğüne bağlı, ayrı eksen (ör. Azerice sözlüğü küçük → az tanıyor ama tanıdığını doğru çözüyor). “Dış gold yok” olanlar düşük-kaynaklı dillerdir: onlar için henüz insan-anotasyonlu değerlendirme seti üretilmemiş — gerçek bir boşluk, gizlenmiyor.</div>\n'

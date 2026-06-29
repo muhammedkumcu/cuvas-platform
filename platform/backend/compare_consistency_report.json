@@ -1,0 +1,300 @@
+{
+  "summary": {
+    "round_trip_ok": 36,
+    "round_trip_total": 37,
+    "pct": 97.3
+  },
+  "tests": [
+    {
+      "src": "tur",
+      "word": "okuduk",
+      "tags": [
+        "v",
+        "tv",
+        "ifi",
+        "p1",
+        "pl"
+      ],
+      "n_langs": 9,
+      "rows": [
+        {
+          "lang": "tur",
+          "surface": "okuduk",
+          "seg": "oku{fiil kökü} + duk{görülen geçmiş · 1. kişi · çokluk}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "kaz",
+          "surface": "оқыдық",
+          "seg": "оқы{fiil kökü} + дық{görülen geçmiş · 1. kişi · çokluk}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "kir",
+          "surface": "окудук",
+          "seg": "оку{fiil kökü} + дук{görülen geçmiş · 1. kişi · çokluk}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "uzb",
+          "surface": "oʻqidik",
+          "seg": "oʻqi{fiil kökü} + dik{görülen geçmiş · 1. kişi · çokluk}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "tat",
+          "surface": "укыдык",
+          "seg": "укы{fiil kökü} + дык{görülen geçmiş · 1. kişi · çokluk}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "bak",
+          "surface": "уҡыныҡ",
+          "seg": "уҡы{fiil kökü} + ныҡ{görülen geçmiş · 1. kişi · çokluk}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "chv",
+          "surface": "вуларӑмӑр",
+          "seg": "вула{fiil kökü} + рӑмӑр{geçmiş · 1. kişi · çokluk}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "sah",
+          "surface": "аахтыбыт",
+          "seg": "аах{fiil kökü} + тыбыт{görülen geçmiş · 1. kişi · çokluk}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "crh",
+          "surface": "oqudıq",
+          "seg": "oqu{fiil kökü} + dıq{görülen geçmiş · 1. kişi · çokluk}",
+          "round_trip": "OK"
+        }
+      ],
+      "rt_ok": 9,
+      "rt_total": 9
+    },
+    {
+      "src": "tur",
+      "word": "evlerde",
+      "tags": [
+        "n",
+        "pl",
+        "loc"
+      ],
+      "n_langs": 9,
+      "rows": [
+        {
+          "lang": "tur",
+          "surface": "evlerde",
+          "seg": "ev{kök} + ler{çokluk} + de{Bulunma hâli}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "aze",
+          "surface": "evlerde",
+          "seg": "ev{kök} + ler{çokluk} + de{Bulunma hâli}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "kaz",
+          "surface": "үйлерде",
+          "seg": "үй{kök} + лер{çokluk} + де{Bulunma hâli}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "kir",
+          "surface": "үйлөрдө",
+          "seg": "үй{kök} + лөр{çokluk} + дө{Bulunma hâli}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "uzb",
+          "surface": "uylarda",
+          "seg": "uy{kök} + lar{çokluk} + da{Bulunma hâli}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "tat",
+          "surface": "өйләрдә",
+          "seg": "өй{kök} + ләр{çokluk} + дә{Bulunma hâli}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "bak",
+          "surface": "өйҙәрҙә",
+          "seg": "өй{kök} + ҙәр{çokluk} + ҙә{Bulunma hâli}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "chv",
+          "surface": "ҫуртсенче",
+          "seg": "ҫурт{kök} + сен{çokluk} + че{Bulunma hâli}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "crh",
+          "surface": "evlerde",
+          "seg": "ev{kök} + ler{çokluk} + de{Bulunma hâli}",
+          "round_trip": "OK"
+        }
+      ],
+      "rt_ok": 9,
+      "rt_total": 9
+    },
+    {
+      "src": "kaz",
+      "word": "кітаптар",
+      "tags": [
+        "n",
+        "pl",
+        "nom"
+      ],
+      "n_langs": 9,
+      "rows": [
+        {
+          "lang": "kaz",
+          "surface": "кітаптар",
+          "seg": "кітап{kök} + тар{çokluk}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "tur",
+          "surface": "kitaplar",
+          "seg": "kitap{kök} + lar{çokluk}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "kir",
+          "surface": "китептер",
+          "seg": "китеп{kök} + тер{çokluk}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "uzb",
+          "surface": "kitoblar",
+          "seg": "kitob{kök} + lar{çokluk}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "tat",
+          "surface": "китаблар",
+          "seg": "китап{kök} + лар{çokluk}",
+          "round_trip": "FARK:китаплар"
+        },
+        {
+          "lang": "bak",
+          "surface": "китаптар",
+          "seg": "китап{kök} + тар{çokluk}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "chv",
+          "surface": "кӗнекесем",
+          "seg": "кӗнеке{kök} + сем{çokluk}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "sah",
+          "surface": "кинигэлэр",
+          "seg": "кинигэ{kök} + лэр{çokluk}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "crh",
+          "surface": "kitaplar",
+          "seg": "kitap{kök} + lar{çokluk}",
+          "round_trip": "OK"
+        }
+      ],
+      "rt_ok": 8,
+      "rt_total": 9
+    },
+    {
+      "src": "tur",
+      "word": "geldim",
+      "tags": [
+        "v",
+        "iv",
+        "ifi",
+        "p1",
+        "sg"
+      ],
+      "n_langs": 10,
+      "rows": [
+        {
+          "lang": "tur",
+          "surface": "geldim",
+          "seg": "gel{fiil kökü} + dim{görülen geçmiş · 1. kişi · tekil}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "kaz",
+          "surface": "келдім",
+          "seg": "кел{fiil kökü} + дім{görülen geçmiş · 1. kişi · tekil}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "kir",
+          "surface": "келдим",
+          "seg": "кел{fiil kökü} + дим{görülen geçmiş · 1. kişi · tekil}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "uzb",
+          "surface": "keldim",
+          "seg": "kel{fiil kökü} + dim{görülen geçmiş · 1. kişi · tekil}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "uig",
+          "surface": "كەلدىم",
+          "seg": "كەل{fiil kökü} + دىم{görülen geçmiş · 1. kişi · tekil}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "tat",
+          "surface": "килдем",
+          "seg": "кил{fiil kökü} + дем{görülen geçmiş · 1. kişi · tekil}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "bak",
+          "surface": "килдем",
+          "seg": "кил{fiil kökü} + дем{görülen geçmiş · 1. kişi · tekil}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "chv",
+          "surface": "антӑм",
+          "seg": "ант{kök} + ӑм{iyelik (benim)}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "sah",
+          "surface": "кэллим",
+          "seg": "кэл{fiil kökü} + лим{görülen geçmiş · 1. kişi · tekil}",
+          "round_trip": "OK"
+        },
+        {
+          "lang": "crh",
+          "surface": "keldim",
+          "seg": "kel{fiil kökü} + dim{görülen geçmiş · 1. kişi · tekil}",
+          "round_trip": "OK"
+        }
+      ],
+      "rt_ok": 10,
+      "rt_total": 10
+    },
+    {
+      "src": "chv",
+      "word": "хӗре",
+      "tags": null,
+      "n_langs": 0,
+      "rows": [],
+      "rt_ok": 0,
+      "rt_total": 0
+    }
+  ]
+}

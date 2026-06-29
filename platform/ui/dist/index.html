@@ -1752,6 +1752,11 @@ class Component extends DCLogic {
       this.setState({genSeeded:true, genLemma:(this.state.genLemma||'хӗр'), genLang:(this.state.genLang||'chv'), genPos:(this.state.genPos||'n'), genNum:(this.state.genNum||'sg'), genPx:(this.state.genPx||''), genCase:(this.state.genCase||'dat')});
       setTimeout(()=>this.runGenerate(),0);
     }
+    if (this.state.screen==='compare' && this.state.activeWordId==='__api' && this.state.apiWord && this.state.apiWord.surface
+        && !(this.state.compareApi && this.state.compareApi.word===this.state.apiWord.surface)){
+      const _sfc=this.state.apiWord.surface, _lg=this.state.apiMatchLang||this.state.searchLang||'auto';
+      if(this._cmpSeed!==_sfc){ this._cmpSeed=_sfc; setTimeout(()=>this.runCompare(_sfc,_lg),0); }
+    }
   }
   saveProgress(xp, completed){ try { localStorage.setItem('koken_progress', JSON.stringify({ xp, completed })); } catch(e){} }
   saveSrs(map){ try { localStorage.setItem('koken_srs', JSON.stringify(map)); } catch(e){} }

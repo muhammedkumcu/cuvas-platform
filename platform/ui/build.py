@@ -1695,6 +1695,15 @@ def main():
         "      this.setState({genSeeded:true, genLemma:(this.state.genLemma||'хӗр'), genLang:(this.state.genLang||'chv'), genPos:(this.state.genPos||'n'), genNum:(this.state.genNum||'sg'), genPx:(this.state.genPx||''), genCase:(this.state.genCase||'dat')});\n"
         "      setTimeout(()=>this.runGenerate(),0);\n"
         "    }\n"
+        # #55 — Karşılaştır TUTARLILIK: analiz edilen (API) bir kelimeyle compare ekranına gelince, statik
+        # (boş cognates → kırık) yerine canlı /crosslang DİNAMİĞİ otomatik çalışsın. Dinamik = otorite (ek
+        # yazımı gold round-trip doğrulandı). Curated varsayılan kelimenin statik kognat showcase'i KORUNUR
+        # (activeWordId!=='__api' → tetiklenmez). _cmpSeed guard'ı uçuştaki tekrar-tetiklemeyi önler.\n"
+        "    if (this.state.screen==='compare' && this.state.activeWordId==='__api' && this.state.apiWord && this.state.apiWord.surface\n"
+        "        && !(this.state.compareApi && this.state.compareApi.word===this.state.apiWord.surface)){\n"
+        "      const _sfc=this.state.apiWord.surface, _lg=this.state.apiMatchLang||this.state.searchLang||'auto';\n"
+        "      if(this._cmpSeed!==_sfc){ this._cmpSeed=_sfc; setTimeout(()=>this.runCompare(_sfc,_lg),0); }\n"
+        "    }\n"
         "  }"))
     # 3) paradigmVals: API satırları varsa onları kullan
     live.append((

@@ -1,0 +1,109 @@
+{
+  "summary": {
+    "known_count": 92,
+    "uncovered_total": 0,
+    "uncovered_tags": {}
+  },
+  "per_lang": {
+    "alt": {
+      "n_forms": 42,
+      "n_tags": 15,
+      "uncovered": {}
+    },
+    "aze": {
+      "n_forms": 60,
+      "n_tags": 27,
+      "uncovered": {}
+    },
+    "bak": {
+      "n_forms": 52,
+      "n_tags": 28,
+      "uncovered": {}
+    },
+    "chv": {
+      "n_forms": 39,
+      "n_tags": 27,
+      "uncovered": {}
+    },
+    "crh": {
+      "n_forms": 58,
+      "n_tags": 28,
+      "uncovered": {}
+    },
+    "gag": {
+      "n_forms": 110,
+      "n_tags": 33,
+      "uncovered": {}
+    },
+    "kaa": {
+      "n_forms": 54,
+      "n_tags": 27,
+      "uncovered": {}
+    },
+    "kaz": {
+      "n_forms": 54,
+      "n_tags": 33,
+      "uncovered": {}
+    },
+    "kir": {
+      "n_forms": 48,
+      "n_tags": 33,
+      "uncovered": {}
+    },
+    "kjh": {
+      "n_forms": 46,
+      "n_tags": 12,
+      "uncovered": {}
+    },
+    "krc": {
+      "n_forms": 32,
+      "n_tags": 21,
+      "uncovered": {}
+    },
+    "kum": {
+      "n_forms": 48,
+      "n_tags": 28,
+      "uncovered": {}
+    },
+    "nog": {
+      "n_forms": 52,
+      "n_tags": 23,
+      "uncovered": {}
+    },
+    "sah": {
+      "n_forms": 40,
+      "n_tags": 40,
+      "uncovered": {}
+    },
+    "tat": {
+      "n_forms": 52,
+      "n_tags": 30,
+      "uncovered": {}
+    },
+    "tuk": {
+      "n_forms": 50,
+      "n_tags": 29,
+      "uncovered": {}
+    },
+    "tur": {
+      "n_forms": 48,
+      "n_tags": 27,
+      "uncovered": {}
+    },
+    "tyv": {
+      "n_forms": 36,
+      "n_tags": 20,
+      "uncovered": {}
+    },
+    "uig": {
+      "n_forms": 52,
+      "n_tags": 25,
+      "uncovered": {}
+    },
+    "uzb": {
+      "n_forms": 64,
+      "n_tags": 32,
+      "uncovered": {}
+    }
+  }
+}

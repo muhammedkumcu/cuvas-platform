@@ -3181,6 +3181,12 @@ def main():
             "<b>Neden önemli?</b> Konuşur sayısı on yılda ~%30 düştü. Bu sayfa, bu projenin kalbinin neden burada attığını — dijital kapsayıcılığın neden bir aciliyet olduğunu — anlatır.",
         ], "İdil Bulgar yazıtları (Erdal 1993); N. İ. Aşmarin, 17 ciltlik Çuvaşça sözlük; 2020 Rusya Nüfus Sayımı"),
     }
+    # #30 — kullanıcı: çoğu sayfada "Bu sayfa ne anlatıyor?" kutusu kaldırılsın; yalnız Profiller,
+    # Uzaklık, Araştırmacı Merkezi kalsın (Kognat'ın kendi ayrı bloğu var). Kaldırılanların kaynakları
+    # sayfa-altı "Kaynaklar" bölümüne taşınır (#31). Araştırmacı Merkezi ileride büyük güncelleme alacak.
+    for _drop in ("isAtlas", "isHistory", "isCompare", "isEco", "isAnaliz",
+                  "isParadigm", "isGenerate", "isQuality", "isHeart"):
+        PAGE_HELP.pop(_drop, None)
     naciklama = 0
     for sc, (paras, source) in PAGE_HELP.items():
         pat = re.compile(r'(<sc-if value="\{\{ ' + re.escape(sc) + r' \}\}"[^>]*>\s*<section[^>]*>)(.*?)(</section>)', re.S)

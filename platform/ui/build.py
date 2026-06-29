@@ -1859,7 +1859,7 @@ def main():
     scfix = []
     scfix.append(("ses olayı render",
         "      active:{surface:w.surface, translit:w.translit, gloss:w.gloss, langName:w.langName, headword:this.disp(w.surface,w.translit), morphemes},",
-        "      active:{surface:w.surface, translit:w.translit, gloss:w.gloss, langName:w.langName, headword:this.disp(w.surface,w.translit), morphemes},\n"
+        "      active:{surface:w.surface, translit:w.translit, translitBr:(w.translit?('['+w.translit+']'):''), gloss:w.gloss, langName:w.langName, headword:this.disp(w.surface,w.translit), morphemes},\n"
         "      soundChanges:((w&&w.soundChanges)||[]).map(c=>({disp:c.from+' → '+c.to, type:c.type})), hasSoundChanges:!!(w&&w.soundChanges&&w.soundChanges.length),"))
     scfix.append(("ses olayı markup",
         "{{ fstSource }} · {{ fstLicense }}</span>\n          </div>\n          </sc-if>",
@@ -1924,8 +1924,29 @@ def main():
     html = html.replace(
         "      goParadigm:()=>this.setState({screen:'paradigm'}),",
         "      goParadigm:()=>this.setState({screen:'paradigm'}),\n"
+        # #43 — Analiz panelindeki Paradigma/Üret butonları ANALİZ EDİLEN kelimeyi taşısın (yalnız sayfa açmasın).
+        "      analizParadigm:()=>{ const w=this.active(); if(!w)return; const lemma=(((w.morphemes&&w.morphemes[0])&&(w.morphemes[0].gItem||w.morphemes[0].text))||w.surface||'').trim(); const lg=this.state.apiMatchLang||this.state.searchLang||'chv'; if(lemma){ this.setState({screen:'paradigm', searchLang:(lg==='auto'?'chv':lg), paradigmFreeQ:lemma, paradigmFree:null}); setTimeout(()=>this.runParadigm(lemma),0); } },\n"
+        "      analizGenerate:()=>{ const w=this.active(); if(!w)return; const lemma=(((w.morphemes&&w.morphemes[0])&&(w.morphemes[0].gItem||w.morphemes[0].text))||w.surface||'').trim(); const lg=this.state.apiMatchLang||this.state.searchLang||'chv'; if(lemma){ this.setState({screen:'generate', genLemma:lemma, genLang:(lg==='auto'?'chv':lg), genPos:'n', genNum:'sg', genPx:'', genCase:'nom', genSeeded:true, genResult:null}); setTimeout(()=>this.runGenerate(),0); } },\n"
         "      paradigmExamples: [{lang:'chv', lemma:'хӗр', gloss:'kız', name:'Çuvaşça'}, {lang:'tur', lemma:'ev', gloss:'ev', name:'Türkçe'}, {lang:'tat', lemma:'кул', gloss:'el', name:'Tatarca'}, {lang:'kaz', lemma:'бала', gloss:'çocuk', name:'Kazakça'}, {lang:'sah', lemma:'ат', gloss:'at', name:'Yakutça'}].map(e=>{ const sel = this.state.paradigmFree && this.state.paradigmFree.lemma===e.lemma && this.state.searchLang===e.lang; return { label:e.lemma, gloss:e.gloss, kind:e.name, go:()=>{ this.setState({searchLang:e.lang, paradigmFreeQ:e.lemma}); setTimeout(()=>this.runParadigm(e.lemma),0); }, style:`cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:11px;padding:10px 15px;font-family:inherit`, glossStyle:`font-size:11px;color:${sel?'rgba(244,241,234,.6)':'#9a9082'}` }; }),", 1)
 
+    # #43 — Analiz: boş [translit] köşeli ayracı gizle (canlı kelimede translit='' → "[]" görünüyordu).
+    html = html.replace(
+        "<span style=\"font-family:'IBM Plex Mono',monospace;font-size:13px;color:#9a9082\">[{{ active.translit }}]</span>",
+        "<span style=\"font-family:'IBM Plex Mono',monospace;font-size:13px;color:#9a9082\">{{ active.translitBr }}</span>", 1)
+    # #43 — Analiz panelindeki Paradigma/Kognat butonları yerine Paradigma + Üret (ikisi de ANALİZ EDİLEN
+    # kelimeyi taşır). Kognat kavram-tabanlı olduğundan keyfi çekimli kelimeyi taşıyamaz → sol menüden erişilir.
+    _apanel_old = ('            <div style="margin-top:10px;display:flex;gap:8px">\n'
+                   '              <button onClick="{{ goParadigm }}" style="flex:1;cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:8px;padding:9px;font-size:12px;font-family:inherit">Paradigma</button>\n'
+                   '              <button onClick="{{ goCognate }}" style="flex:1;cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:8px;padding:9px;font-size:12px;font-family:inherit">Kognat ağı</button>\n'
+                   '            </div>')
+    _apanel_new = ('            <div style="margin-top:10px;display:flex;gap:8px">\n'
+                   '              <button onClick="{{ analizParadigm }}" style="flex:1;cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:8px;padding:9px;font-size:12px;font-family:inherit">Paradigma →</button>\n'
+                   '              <button onClick="{{ analizGenerate }}" style="flex:1;cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:8px;padding:9px;font-size:12px;font-family:inherit">Üret →</button>\n'
+                   '            </div>')
+    if _apanel_old in html:
+        html = html.replace(_apanel_old, _apanel_new, 1)
+    else:
+        print("  ! #43 Analiz panel butonları eşleşmedi")
     # G1 — Paradigma tablosuna "Tabloyu kopyala" (export tablolarda kopyalama olur)
     html = html.replace(
         '        <div style="margin-top:22px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">',

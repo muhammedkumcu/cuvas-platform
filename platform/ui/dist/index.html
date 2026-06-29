@@ -120,7 +120,7 @@
             <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:1.5px;color:#d98b4a">ANALİZ · {{ active.langName }}</div>
             <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:46px;margin:8px 0 4px">{{ active.headword }}</h2>
             <div style="font-size:15px;color:#5f574b;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-              <span><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#9a9082">[{{ active.translit }}]</span> &nbsp;“{{ active.gloss }}”</span>
+              <span><span style="font-family:'IBM Plex Mono',monospace;font-size:13px;color:#9a9082">{{ active.translitBr }}</span> &nbsp;“{{ active.gloss }}”</span>
               <button onClick="{{ speakActive }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:18px;padding:5px 13px;font-size:12.5px;font-family:inherit;color:#211d17">▷ Seslendir</button>
             </div>
           </div>
@@ -250,8 +250,8 @@
             </div>
             <button onClick="{{ goCompareActive }}" style="margin-top:auto;cursor:pointer;background:#d98b4a;color:#211d17;border:none;border-radius:9px;padding:11px;font-size:13.5px;font-weight:600;font-family:inherit">Bu kelimeyi dillerde karşılaştır →</button>
             <div style="margin-top:10px;display:flex;gap:8px">
-              <button onClick="{{ goParadigm }}" style="flex:1;cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:8px;padding:9px;font-size:12px;font-family:inherit">Paradigma</button>
-              <button onClick="{{ goCognate }}" style="flex:1;cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:8px;padding:9px;font-size:12px;font-family:inherit">Kognat ağı</button>
+              <button onClick="{{ analizParadigm }}" style="flex:1;cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:8px;padding:9px;font-size:12px;font-family:inherit">Paradigma →</button>
+              <button onClick="{{ analizGenerate }}" style="flex:1;cursor:pointer;background:rgba(244,241,234,.1);color:#f4f1ea;border:none;border-radius:8px;padding:9px;font-size:12px;font-family:inherit">Üret →</button>
             </div>
           </div>
         </div>
@@ -2430,6 +2430,8 @@ class Component extends DCLogic {
       atlasRegions:[['Tüm dünya',1,50,45],['Anadolu–Kafkas',2.7,15,49],['İdil-Ural',2.7,23,26],['Orta Asya',2.4,37,45],['Batı Sibirya',2.3,53,28],['Doğu (Saha)',2.0,72,13]].map(rr=>{ const sel=Math.abs((S.atlasZoom||1)-rr[1])<0.05 && Math.abs((S.atlasCx||50)-rr[2])<0.6; return { label:rr[0], go:()=>this.setState({atlasZoom:rr[1],atlasCx:rr[2],atlasCy:rr[3]}), style:`cursor:pointer;border:1px solid ${sel?'#211d17':'rgba(33,29,23,.16)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#5f574b'};border-radius:14px;padding:5px 12px;font-size:12px;font-family:'IBM Plex Sans',sans-serif;font-weight:${sel?600:500}` }; }),
       goCompareSound:()=>{ const cg=this.COGNATES[this.state.cognateKey]; this.setState({screen:'compare', compareTab:'sound', soundSel:(cg && cg.ruleIdx!=null)?cg.ruleIdx:this.state.soundSel}); },
       goParadigm:()=>this.setState({screen:'paradigm'}),
+      analizParadigm:()=>{ const w=this.active(); if(!w)return; const lemma=(((w.morphemes&&w.morphemes[0])&&(w.morphemes[0].gItem||w.morphemes[0].text))||w.surface||'').trim(); const lg=this.state.apiMatchLang||this.state.searchLang||'chv'; if(lemma){ this.setState({screen:'paradigm', searchLang:(lg==='auto'?'chv':lg), paradigmFreeQ:lemma, paradigmFree:null}); setTimeout(()=>this.runParadigm(lemma),0); } },
+      analizGenerate:()=>{ const w=this.active(); if(!w)return; const lemma=(((w.morphemes&&w.morphemes[0])&&(w.morphemes[0].gItem||w.morphemes[0].text))||w.surface||'').trim(); const lg=this.state.apiMatchLang||this.state.searchLang||'chv'; if(lemma){ this.setState({screen:'generate', genLemma:lemma, genLang:(lg==='auto'?'chv':lg), genPos:'n', genNum:'sg', genPx:'', genCase:'nom', genSeeded:true, genResult:null}); setTimeout(()=>this.runGenerate(),0); } },
       paradigmExamples: [{lang:'chv', lemma:'хӗр', gloss:'kız', name:'Çuvaşça'}, {lang:'tur', lemma:'ev', gloss:'ev', name:'Türkçe'}, {lang:'tat', lemma:'кул', gloss:'el', name:'Tatarca'}, {lang:'kaz', lemma:'бала', gloss:'çocuk', name:'Kazakça'}, {lang:'sah', lemma:'ат', gloss:'at', name:'Yakutça'}].map(e=>{ const sel = this.state.paradigmFree && this.state.paradigmFree.lemma===e.lemma && this.state.searchLang===e.lang; return { label:e.lemma, gloss:e.gloss, kind:e.name, go:()=>{ this.setState({searchLang:e.lang, paradigmFreeQ:e.lemma}); setTimeout(()=>this.runParadigm(e.lemma),0); }, style:`cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:11px;padding:10px 15px;font-family:inherit`, glossStyle:`font-size:11px;color:${sel?'rgba(244,241,234,.6)':'#9a9082'}` }; }),
       goResearch:()=>this.setState({screen:'research'}),
       help_research:this.state.helpOpen==='research', toggleHelp_research:()=>this.setState(s=>({helpOpen:s.helpOpen==='research'?'':'research'})),
@@ -2441,7 +2443,7 @@ class Component extends DCLogic {
       ...this.sourceVals(),
       homeCards, goHomeAnaliz:this.go('analiz'), goHomeCompare:this.go('compare'), goHomeProfile:this.go('profile'), goHomeAtlas:this.go('atlas'), goHomeHeart:this.go('heart'),
       // analiz
-      active:{surface:w.surface, translit:w.translit, gloss:w.gloss, langName:w.langName, headword:this.disp(w.surface,w.translit), morphemes},
+      active:{surface:w.surface, translit:w.translit, translitBr:(w.translit?('['+w.translit+']'):''), gloss:w.gloss, langName:w.langName, headword:this.disp(w.surface,w.translit), morphemes},
       soundChanges:((w&&w.soundChanges)||[]).map(c=>({disp:c.from+' → '+c.to, type:c.type})), hasSoundChanges:!!(w&&w.soundChanges&&w.soundChanges.length),
       fstAnalysis: (w.morphemes[0].gItem||'').replace(/-/g,'') + w.morphemes.slice(1).map(m=>'+'+m.gloss).join(''),
       fstSource:this.SOURCES.fst.label, fstLicense:this.SOURCES.fst.lic,

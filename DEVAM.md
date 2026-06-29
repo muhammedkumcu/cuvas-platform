@@ -7,7 +7,20 @@
 
 ## 0) ŞU AN NEREDE KALDIK — TEK BAKIŞ
 
-### ★★★★★ EN GÜNCEL (29 Haz gece-3) — KALINTILAR + MORFOLOJİ-DOĞRULUK TRACK BİTTİ (compact-sonrası İLK BUNU OKU)
+### ★★★★★ EN GÜNCEL (29 Haz gece-4) — DERİN MORFOLOJİ ONARIMI + 8-İŞ BATCH BİTTİ (compact-sonrası İLK BUNU OKU)
+**Kullanıcı geri bildirimi (geliyorum/geldiler kalıp veriyor, ham etiket, Türkçe zamanlar yok, kaynaklar yanlış yer) → DÜRÜST DERİN TANI + onaylı 9-iş todolist → 8 commit, tree temiz, push'lu (`8240471..c6e6f02`).**
+- **KÖK NEDEN (kanıtlı):** `_segment_verb_align` fiili tasarımca "kök+kaynaşık ek" 2 parçaya bölüyordu; apertium kopula (`<cop>`) ayrı token → kümülatif üretim kırılıp kaba kalıyordu + üretilemiyordu + badge ham büyük-harf basıyordu. → `capability_probe.py` dürüst tablo: isim 19/20, fiil 16/20 üretim, fiil-segment 20/20 yalnız-2-parça, kopula-kişili yalnız 5/20.
+- **#58 BACKEND fiil segment inceltme** (deploy'lu): kümülatif **kök+zaman+kişi** (geliyorum→gel+iyor+um, geldiler→gel+di+ler). 11/16 dil 3-katman, kalan zarif 2-katman fallback. İsim regresyonsuz.
+- **#59 ham etiket**: backend `TAG_TR` 29→90+ (UI ile hizalı) + UI `applySegment/selfM` `tag→humanBadge`. Badge "PROG+COP+AOR+P1+SG"→"EK-FİİL+GENİŞ+1.KİŞİ+TEKİL". Preview sızıntı YOK.
+- **#60 Üreteç Oğuz kopula**: tur şimdiki/gelecek/geniş **yalın biçim** (geliyor/gelecek/gelir) + dürüst not ("kişi çekimi FST'de üretilmiyor"); FEATTENSE tur 6 zamana açıldı.
+- **#61 KAYNAKLAR ekran-id tabanlı**: eski anchor sistemi KAYNAKLAR'ı bir önceki ekrana/nested-tab'a kaydırıyordu (Karşılaştır→isCmpMap'te sıkışıktı, Analiz/Paradigma/Profil'de yoktu). Artık her ekranın KENDİ section-altına TEK standart KAYNAKLAR. 11 içerik sayfası ✓ çift yok.
+- **#62 crosslang kök-fallback**: .dix yoksa kökü hedefte aynen dene → okudum 9→10, evler→11, geldiler→12 dil (20 deneniyor).
+- **#63 sıfat/zarf**: 20 dilde doğru analiz; POS gloss'ta (güzel·sıfat); post/ij humanize.
+- **#64 Kalite & Kapsam**: "Motor neyi yapabiliyor" dürüst kartı (isim/fiil/sıfat-zarf/incelik + **3 fiil-çekim tipi**: doğrudan-kişi / Oğuz-kopula / zayıf-prototip) + Quality KAYNAKLAR standartlaştırıldı.
+- **#65 GERÇEK GeoJSON harita**: Natural Earth 110m (public-domain) land+sınırlar → projeksiyon+DP-basitleştir → `map_geo.py` → build_map_bg. Tanınabilir Avrasya + ülke sınırları, noktalar hizalı. (kullanıcı blanket-indirme-onayı verdi.)
+- **YENİ BETİKLER:** capability_probe.py · build_map_geojson.py · map_geo.py (+ raporlar). **VM app.py deploy md5 senkron** (250bd559). **DERS:** ① fiil segment = kümülatif kök|zaman-gövde|kişi (kelimeyi kes, üretim gerektirmez → kopula da bölünür). ② KAYNAKLAR ekran-id ile enjekte (anchor kırılgan). ③ Türkçe kopula-zamanları /generate'te kişi-çekilmez (analyze≠generate) → Üreteç yalın+not dürüstlüğü.
+
+### ★★★★ (29 Haz gece-3) — KALINTILAR + MORFOLOJİ-DOĞRULUK TRACK BİTTİ
 **6 commit, tree temiz, push'lu** (`1cf00e0..479b3d7`). Kullanıcı "sırayla yap, bitince özet" dedi → **9/10 iş bitti.**
 - **Öbek 1 — kalıntılar (BİTEN):** **#40** Tarih box-içi kaynak SİL (bayes DOI + kollar footer + timeline per-satır src → tek ev sayfa-altı KAYNAKLAR; UI yapısı korundu) · **#45** Üreteç sayfa-altı KAYNAKLAR · **#48** Uzaklık (radar-altı kaynak legend sil + **OKUMA fallback gerçek-max eksene düzeltildi**: eskiden sabit "filogenetik" diyordu, artık 5 eksenin gerçek max'ı — anla distance-yönlü teyit) · **#49** Ekosistem sayfa-altı KAYNAKLAR (gerçek platformlar) · **#43** Analiz görünüm toggle grid üstüne taşındı (kalite-özeti=qbActive zaten var) · **#35** flicker (segPending iskeleti: apiWordFrom↔applySegment çift-render → "çözümleniyor…" tek-settle; chip+4 analyze yolu).
 - **Öbek 2 — MORFOLOJİ-DOĞRULUK TRACK (BİTEN, kullanıcı "emin ol" dedi, kanıtlı):**

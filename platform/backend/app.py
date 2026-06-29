@@ -77,7 +77,9 @@ TAG_TR = {"pl": "çokluk", "nom": "yalın", "gen": "ilgi", "dat": "yönelme", "a
           "prc_impf": "süren sıfat-fiil", "prc_past": "geçmiş sıfat-fiil", "prc_fut": "gelecek sıfat-fiil",
           "prc_aor": "geniş sıfat-fiil", "prc_cond": "şart ortacı", "prc_irre": "gerçeküstü sıfat-fiil",
           "gna_cond": "şart ulacı", "gna_impf": "süren ulaç", "err_orth": "yazım/standart-dışı",
-          "par": "kısmî", "phrase": "öbek", "advl": "zarf", "inf": "mastar"}
+          "par": "kısmî", "phrase": "öbek", "advl": "zarf", "inf": "mastar",
+          "post": "son çekim edatı", "po": "son çekim edatı", "preadv": "edat-zarf", "cnjadv": "bağlaç-zarf",
+          "cnjsub": "yan-cümle bağlacı", "ij": "ünlem", "abbr": "kısaltma", "sent": "noktalama"}
 
 _cache = {}
 

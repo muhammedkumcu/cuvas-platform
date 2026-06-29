@@ -38,8 +38,19 @@
 `DEVAM.md §0 ★★★ oku` → `build.py'ye yama` → `python platform/ui/build.py` →
 `Claude_Preview'da doğrula (reload + ayrı eval, async)` → `ayrı commit + push` → `MD güncelle`.
 
-## 4) ŞU AN NEREDE KALDIK (28 Haz)
+## 4) ŞU AN NEREDE KALDIK (29 Haz gece-2)
 
+**★ SAYFA-SAYFA İNCELEME BÜYÜK BATCH ~BİTTİ** (en güncel tek-bakış: **DEVAM §0 ★★★★★** + GELISTIRME-GUNLUGU **devam-26/27/28**). ~33 commit, tree temiz, push'lu. Kullanıcının ~50 maddelik sayfa-sayfa inceleme notlarının BÜYÜK ÇOĞUNLUĞU işlendi:
+- **Bug'lar:** humanizer ham-etiket sızıntısı · Analiz arama senkronu · profil renk şeridi (DesignCanvas border-shorthand ezme dersi) · paradigma feedback · **crosslang+segment SONLU fiil** (chv okuduk→вуларӑмӑр; `_verb_rank` backend, VM deploy'lu).
+- **Menü/yapı:** Öğren çıkar · Hakkında→ana sayfa altına · Harita↔Tarih swap · 9 yardım kutusu kaldır.
+- **Veri/içerik:** #53 master **288 PDF-çıkarım bozukluğu** (curated, fabrikasyonsuz) · Codex adı · Profiller EGIDS skala tıkla-aç · #39 harita (büyük renkli nokta + en-geniş etiket gizle) · **#31 sayfa-altı KAYNAKLAR 5 sayfa** (_psrc) · #51 Kaynaklar 55 künye · sayfa temizliği (örnek/launchpad/turuncu-satır kaldır, **ds18→gerçek kaynak** [KIRMIZI ÇİZGİ]) · Üreteç auto-örnek + **zaman fallback** (gel→geldi) · humanizer **+24 etiket**.
+- **KALAN (opsiyonel/track):** #40 Tarih box-içi kaynak sil · #45 Üreteç kaynakça · #48 Uzaklık okuma-doğrula · #49 Ekosistem yeni-kaynak · #43-kalıntı ağaç-toggle+kalite-özeti (**seslendir→C1**) · #35 flicker · **#57 GeoJSON harita** (veri-sourcing) · **morfoloji-doğruluk track #54/#55/#56** (GELECEK-PLANLAR) · **yayın** Cloudflare Pages + HF Space/Cloud Run (C1/C3 sonrası).
+- **DOKUNULMAZ:** Öğren + Araştırmacı Merkezi (ileride büyük güncelleme) · Tarih & Köken UI (çok beğenildi) · `.dc.html` (build.py).
+- **DERS (bu batch):** ① DesignCanvas re-render'da `border` shorthand'i `border-left`'i ezer → longhand kullan. ② apertium zaman/görünüş etiketi **dilden dile farklı** (tur -di=`<ifi>`, kaz/kir şimdiki~`<aor>`) → Üreteç/crosslang etiket fallback/normalizasyon şart (#54). ③ apertium ham etiketi UI'a sızmasın → merkezî humanizer.
+
+---
+
+**[ALT: 28-29 Haz kaydı — İNCELEME R-fazları + MORFOLOJİ ODAĞI]**
 **★ İNCELEME (R1-R8 + R6b) + C2 BİTTİ.** Hepsi push'lu, tree temiz.
 İnceleme: R5b-2 (47-dil kaynaklı demografi) · R5b-3 (Tarih ds20) · R-AÇIKLAMA (10 sayfa doğal copy) ·
 R6/R6b (gerçek atıflar + 50 künye) · R7 (analiz MD) · R8.
@@ -64,8 +75,11 @@ Karşılaştır çöküyordu) → anchor'lar kararlı noktalara taşındı, heps
 
 ## 5) COMPACT SONRASI YAZILACAK RESUME PROMPTU
 
-> **DEVAM.md §0 ★★★'ı oku (önce `COMPACT-HAZIRLIK.md`'ye de bak). MORFOLOJİ ODAĞI (dil kapsamı 10→20 + T/G/U
-> ölçüm-gösterim-entegrasyon) BİTTİ; site "Kalite & Kapsam" sayfasıyla 20 dilde ölçülü+dürüst. Kullanıcı
-> siteyi kendi test edip yorum yapacak — onun geri bildirimini bekle. Sıradaki potansiyel: T4-kalanı (8 dil
-> Leipzig, ayrı ortam) ya da Bölüm C (C1 ses motoru / C3 CRON). Önce DEVAM §0'daki YAPILDI'yı oku, kaldığımız
-> yeri özetle, kullanıcının test yorumlarını al, plan öner, onayıyla devam et. C1/C3 kullanıcı onayıyla.**
+> **DEVAM.md §0'daki ★★★★★ (en üst) bloğunu oku — sayfa-sayfa inceleme BÜYÜK BATCH ~bitti (~33 commit, tree
+> temiz). Detay: GELISTIRME-GUNLUGU devam-26/27/28. Kullanıcının ~50 maddelik notlarının büyük çoğunluğu
+> işlendi (tüm bug'lar, menü, #53 veri-QA, #31 sayfa-altı Kaynaklar 5 sayfa, #51 Kaynaklar 55 künye, #39
+> harita, Üreteç zaman fallback, humanizer +24). KALAN: opsiyonel kalıntılar (#40/#45/#48/#49/#43-toggle) ·
+> #35 flicker · #57 GeoJSON harita · morfoloji-doğruluk track #54/#55/#56 · yayın (Cloudflare Pages + HF
+> Space, C1/C3 SONRASI). seslendir→C1. DOKUNULMAZ: Öğren+Araştırmacı Merkezi · Tarih UI · .dc.html. Önce DEVAM
+> §0 ★★★★★'i oku, kaldığımız yeri özetle, kullanıcının test/yorumunu bekle ya da kalan opsiyonel/track işi öner,
+> onayıyla devam et. C1/C3 kullanıcı onayıyla.**

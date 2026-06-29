@@ -307,6 +307,21 @@ devam-26'nın devamı; aynı oturumda büyük batch'ler. **BİTEN (hepsi canlı 
 **★ KÖK NEDEN bulguları (kullanıcı sordu):** (1) Üreteç boş üretim = apertium **dilden dile farklı zaman etiketi** → kalıcı çözüm #54 (dile-duyarlı zaman/kişi/iyelik envanteri). (2) Humanizer: kontrollü yollar (Üreteç/Paradigma) garanti kapsanıyor, Analiz +24 etiketle güçlendi, tam denetim #56. (3) Karşılaştır statik vs dinamik segmentasyon farkı → #55 (doğruyu tek otorite yap + ek yazımı gold doğrulama).
 **SIRADAKİ (kalan):** #31 kaynakça standardizasyonu (her sayfa altı Kaynaklar + gömülü atıf taşı) · #39 Harita gerçek GeoJSON arka plan · #42 Hakkında→ana sayfa taşı + de-robotik · #51 Kaynaklar overhaul · #40/#41/#48 kaynak→alt (#31 ile) · #46/#47/#49 küçük kalıntı · #35 flicker · #50 kalanı (eksen-kutu metni de-robotik) · #54/#55/#56 (morfoloji doğruluk track, orta vade).
 
+## EK-OTURUM (29 Haz, devam-28) — sayfa-içerik + kaynakça turu (büyük batch, kullanıcı: "çoğunu bitir hallet")
+devam-27'nin devamı. **BİTEN (hepsi canlı doğrulandı + commit):**
+- **#31 kaynakça** (`_psrc` helper): **5 sayfaya** sayfa-altı standart "KAYNAKLAR" bölümü — Karşılaştır, Tarih, Uzaklık, Harita, Kognat (en önemli kaynak başta + "ne için kullandık" notu). Quality + Dilin Kalbi önceden. Anchor: sonraki-bölüm yorumu (çift/tek newline ikisi de denenir; ATLAS tek newline).
+- **#39 Harita** (a699e74): nokta stili — renkli kısım çok daha büyük (_d 9→12/15) + ince beyaz halka ("renk baskın"); ölü diller koyu gri dolu nokta. **En geniş planda (z≤1.05) dil etiketleri GİZLİ** (yakınlaşınca belirir). Üst açıklama güncel. *GeoJSON arka plan → #57 (ertelendi, veri-sourcing+SVG dönüşümü, ayrı tur).*
+- **#42 Hakkında** (7b39dd6): isAbout `<section>` regex ile yakalanıp ANA SAYFA (landing) altına taşındı + nav'dan çıktı + "Muhammed Kumcu" bold'suz + UBMK cümlesi kaldırıldı. Başka `go('about')` yok → güvenli.
+- **#41 Dilin Kalbi** (48f142f): "Çuvaşçayı keşfet"te yalnız Çuvaşça Atölyesi (diğer 3 buton kaldırıldı) + sayfa-altı Kaynakça (Aşmarin/2020 Rusya Sayımı/Erdal 1993/Savelyev).
+- **#50 Kalite&Kapsam** (59d6d1e): daireli numara→düz numara · **tablo table-layout:fixed + colgroup** (kök `<details>` açılınca sütun KAYMIYOR, doğrulandı) · "Bu tablo nasıl okunmalı?" · intro de-robotik · tier `üretim→olgun` (her yerde).
+- **#43 Analiz** (f72d8b8): boş `[translit]` ("[]") gizlendi · panel butonları ANALİZ EDİLEN kelimeyi taşır (Paradigma→ev paradigması, Üret→Üreteç dolu); Kognat panelden çıkarıldı (kavram-tabanlı). **seslendir gerçek TTS → C1'e ertelendi.**
+- **#44 Paradigma** (98fb24a): örnek kökler kaldırıldı + "Üreteç'te üret →" butonu.
+- **#51 Kaynaklar overhaul** (1a1ac75): Tam kaynakça **48→55 künye** — Clauson EDT (Kognat), FLORES-200 + fineweb-2 + HF tek-dilli korpuslar (Kalite&Kapsam kapsam), Lindsay (Uzaklık) + kullanım (kim-nerede) notları.
+- **#47 Karşılaştır** (e48bd10): sayfa-altı Kaynaklar (Apertium FST + Savelyev); kognat-buton/savelyev-rozet/help önceki commit'lerde; zaman çizelgesi kullanıcı kabulüyle korundu.
+- **Humanizer +24 etiket** (num/ord/prn/pass/caus/refl/neg/özel ad… sızıntı↓) · **Üreteç auto-örnek** (chv хӗр+yönelme→хӗрре) · **Üreteç zaman fallback** (past↔ifi, pres↔aor; gel→geldi).
+**KÖK NEDEN cevapları (kullanıcı sordu) → plan #54/#55/#56:** Üreteç boş üretim = apertium dilden-dile zaman etiketi farkı; humanizer kontrollü-yol garanti+Analiz +24; Karşılaştır statik≠dinamik segmentasyon.
+**Bu oturum toplam ~33 commit, tree temiz.** SIRADAKİ kalan: #51-derin/#47-zaman-çizelgesi opsiyonel · #40 Tarih box-içi kaynak SİL (alt zaten var) · #45 Üreteç kaynakça · #48 Uzaklık okuma-doğrula · #49 Ekosistem yeni-kaynak · #43 ağaç-toggle taşı + kalite-özeti · #35 flicker · **#54/#55/#56** morfoloji-doğruluk · **#57** GeoJSON harita · **Yayın** (C1/C3 sonrası: Cloudflare Pages + HF Space/Cloud Run).
+
 ## Sıradaki / açık işler — bkz `plan/GELECEK-PLANLAR.md` (sıralı: A UI-öncesi · B yatay ölçek · C altyapı · D eğitim portalı)
 1. **YATAY ÖLÇEK (★ SIRADAKİ):** UI cilası (Bölüm A) **✅ bitti** (26 Haz). Deepsearch 11-18 çıktıları geldi (`arastirma/11..18*.pdf`) → locale çek (pdfminer→`_*.txt`), çapraz-kontrol, tüm modülleri tüm dillere aç (A1 taksonomi+COG_CONC genişlet, profiller 14→tüm, harita/uzaklık/ses-denklikleri/ekosistem ölçekle).
 2. (Opsiyonel) Türkçe Zemberek (JPype) üst-kalite — NW zaten %98.8, acil değil.

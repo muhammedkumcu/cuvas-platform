@@ -946,11 +946,12 @@ def main():
         "    const _norm = (s)=>String(s||'').toLocaleLowerCase('tr');\n"
         "    const _catCount = {}; Object.values(this.COGNATES).forEach(v=>{ const kk=v.cat||'Diğer'; _catCount[kk]=(_catCount[kk]||0)+1; });\n"
         "    const _catList = Object.keys(_catCount).sort((a,b)=>a.localeCompare(b,'tr'));\n"
-        "    const _mkCat = (key,label,nn)=>{ const sel=_ccat===key; return { key, label: label+(nn!=null?' · '+nn:''), go:()=>this.setState({cognateCat:key}),\n"
+        "    const _eff = ((S.cognateMode==='broad') && (_ccat==='all' || !_catCount[_ccat])) ? (_catList[0]||'all') : _ccat;\n"
+        "    const _mkCat = (key,label,nn)=>{ const sel=_eff===key; return { key, label: label+(nn!=null?' · '+nn:''), go:()=>this.setState({cognateCat:key}),\n"
         "      style:`cursor:pointer;border:1px solid ${sel?'#d98b4a':'rgba(33,29,23,.16)'};background:${sel?'#d98b4a':'#fff'};color:${sel?'#211d17':'#5f574b'};border-radius:14px;padding:5px 13px;font-size:12.5px;font-family:'IBM Plex Mono',monospace;font-weight:${sel?600:400}` }; };\n"
         "    const cognateCats = [_mkCat('all','Tümü',Object.keys(this.COGNATES).length)].concat(_catList.map(k=>_mkCat(k,k,_catCount[k])));\n"
         "    const keys = Object.entries(this.COGNATES).filter(([k,v])=>{\n"
-        "      if (_ccat!=='all' && (v.cat||'Diğer')!==_ccat) return false;\n"
+        "      if (_eff!=='all' && (v.cat||'Diğer')!==_eff) return false;\n"
         "      if (_cq && _norm(v.gloss).indexOf(_cq)<0 && _norm(k).indexOf(_cq)<0) return false;\n"
         "      return true;\n"
         "    }).map(([k,v])=>{\n"
@@ -1313,7 +1314,7 @@ def main():
     # (4) A1 filtre/sayaç this.COGNATES → SRC (aktif kaynak), seçili anahtar _ck
     for a, b in [("Object.entries(this.COGNATES).filter(([k,v])=>{", "Object.entries(SRC).filter(([k,v])=>{"),
                  ("Object.values(this.COGNATES).forEach(v=>{", "Object.values(SRC).forEach(v=>{"),
-                 ("[_mkCat('all','Tümü',Object.keys(this.COGNATES).length)]", "[_mkCat('all','Tümü',Object.keys(SRC).length)]"),
+                 ("[_mkCat('all','Tümü',Object.keys(this.COGNATES).length)]", "((S.cognateMode==='broad') ? [] : [_mkCat('all','Tümü',Object.keys(SRC).length)])"),
                  ("      const sel = k===S.cognateKey;\n      return { key:k, label:v.gloss, sel,", "      const sel = k===_ck;\n      return { key:k, label:v.gloss, sel,")]:
         if a in html:
             html = html.replace(a, b, 1); nbr += 1
@@ -1338,6 +1339,11 @@ def main():
         html = html.replace('>Dil dil ses kuralı</span>', '>{{ cognateTableTitle }}</span>', 1); nbr += 1
     # NOT: geometri kademeleri (n>24/n>12) + alternatif yarıçap artık deep_geo_new'de (R4) — ayrı geo3 yaması yok.
     print(f"  Kognat GENİŞ (Savelyev 254) lazy-fetch + Derin/Geniş toggle: {nbr}/11 yama")
+
+    # ---- Ana sayfa: üstteki "TÜRK DİLLERİ ATLASI + LABORATUVARI" etiketini KALDIR (üst-bar zaten gösteriyor) + üst boşluğu azalt (kullanıcı) ----
+    html = html.replace('<div style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;letter-spacing:2px;color:#d98b4a;text-transform:uppercase">Türk Dilleri Atlası + Laboratuvarı</div>', '', 1)
+    html = html.replace('<section style="max-width:1040px;margin:0 auto;padding:56px 40px 70px">',
+                        '<section style="max-width:1040px;margin:0 auto;padding:30px 40px 70px">', 1)
 
     # ---- Ana sayfa hero: akıllı arama (dil→profil, kavram→kognat, kelime→analiz) + hızlı eylemler ----
     nhome = 0
@@ -1804,7 +1810,7 @@ def main():
     rb_old = "      navGroups, wordChips, screenTag:tag, query:S.query,"
     rb_new = ("      navGroups, wordChips, screenTag:tag, query:S.query, searchLang:S.searchLang, compareQ:S.compareQ||'',\n"
               "      aquery:(S.aquery!=null?S.aquery:''), onAquery:(e)=>this.setState({aquery:e.target.value}),\n"
-              "      analizRun:()=>this.runAnalyze(), parRun:()=>{ const lemma=(this.state.paradigmFreeQ||'').trim(); if(lemma) this.runParadigm(lemma); }, cmpRun:()=>{ const w=(this.state.compareQ||'').trim(); if(w) this.runCompare(w, this.state.searchLang); },\n"
+              "      analizRun:()=>this.runAnalyze(), parRun:()=>{ const lemma=(this.state.paradigmFreeQ||'').trim(); if(lemma) this.runParadigm(lemma); }, cmpRun:()=>{ const w=(this.state.compareQ||'').trim(); if(w) this.runCompare(w, this.state.searchLang); }, goHome:this.go('home'),\n"
               "      onCompareInput:(e)=>this.setState({compareQ:e.target.value}),\n"
               "      onCompareKey:(e)=>{ if(e.key!=='Enter') return; const w=(this.state.compareQ||'').trim(); if(w) this.runCompare(w, this.state.searchLang); },\n"
               "      onSearchLang:(e)=>{ const v=e.target.value; this.setState({searchLang:v}); const s=this.state.screen; setTimeout(()=>{\n"
@@ -3592,7 +3598,9 @@ def main():
       background:#fff; color:#211d17; font-size:20px; line-height:1; }
     .kn-mbar{ display:flex; align-items:center; gap:12px; padding:9px 13px; position:sticky; top:0; z-index:45;
       background:#faf8f2; border-bottom:1px solid rgba(33,29,23,.1); }
-    .kn-mbar-title{ font-family:'Spectral',serif; font-weight:600; font-size:16px; color:#211d17; }
+    .kn-mbar-title{ font-family:'Spectral',serif; color:#211d17; cursor:pointer; display:flex; align-items:baseline; gap:7px; min-width:0; overflow:hidden; }
+    .kn-mbar-title b{ font-weight:700; font-size:16px; flex-shrink:0; }
+    .kn-mbar-sub{ font-size:10.5px; font-weight:400; color:#5f574b; font-family:'IBM Plex Sans',sans-serif; letter-spacing:.2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     /* HARD garanti: sayfa ASLA yana kaymaz (tablolar kendi içinde scroll) + uniform çok hafif küçültme (zoom) */
     #content-scroll{ overflow-x:hidden !important; zoom:0.92; }
     #content-scroll section{ padding-left:14px !important; padding-right:14px !important; max-width:100% !important; }
@@ -3650,7 +3658,7 @@ def main():
          '<aside class="kn-aside" style="width:230px;flex-shrink:0;background:#211d17;color:#f4f1ea;display:flex;flex-direction:column;position:sticky;top:0;height:100vh">'),
         # mobil bar (main başına): üst context-bar build.py'de kaldırılmış → hamburger için slim mobil-only bar
         ('<main style="flex:1;min-width:0;display:flex;flex-direction:column">',
-         '<main style="flex:1;min-width:0;display:flex;flex-direction:column">\n    <div class="kn-mbar"><button class="kn-burger" onClick="{{ toggleNav }}" aria-label="Menü">☰</button><span class="kn-mbar-title">KÖKEN · Türk Dilleri</span></div>'),
+         '<main style="flex:1;min-width:0;display:flex;flex-direction:column">\n    <div class="kn-mbar"><button class="kn-burger" onClick="{{ toggleNav }}" aria-label="Menü">☰</button><span class="kn-mbar-title" onClick="{{ goHome }}"><b>KÖKEN</b><span class="kn-mbar-sub">Türk Dilleri Atlası + Laboratuvarı</span></span></div>'),
         # overlay (aside ile main arasına, shell kökünde)
         ('  <!-- ============ MAIN ============ -->',
          '  <div class="kn-nav-overlay" onClick="{{ toggleNav }}"></div>\n  <!-- ============ MAIN ============ -->'),

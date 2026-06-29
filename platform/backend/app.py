@@ -147,6 +147,29 @@ def _norm_tags(tags, tgt):
     return tags if not m else [m.get(t, t) for t in tags]
 
 
+# crosslang: SONLU fiil okumasını ortaç/isimleştirmeye TERCİH ET. apertium analiz sırası ortacı
+# önce verebilir (ör. "okuduk" -> [ger_past,nom] ... [ifi,p1,pl] en sonda); finite okuma seçilmezse
+# diller-arası üretim yanlış biçim (вуланӑ ortaç) verir. Sonlu = kişi + zaman, ortaç/isim değil.
+_FINITE_TENSE = {"ifi", "past", "pres", "fut", "aor", "cond", "imp"}
+_NONFINITE = {"ger", "ger_past", "ger_perf", "ger_pres", "gpr_past", "gpr_pot", "gpr",
+              "prc_perf", "prc_impf", "subst", "attr", "inf"}
+
+
+def _verb_rank(tags):
+    """0 = sonlu fiil (kişi+zaman, ortaç/kopula değil) → en çok yeğlenir; 2 = diğer (isim/ortaç)."""
+    if not tags or tags[0] != "v":
+        return 2
+    person = any(t in ("p1", "p2", "p3") for t in tags)
+    tense = any(t in _FINITE_TENSE for t in tags)
+    nonfin = any(t in _NONFINITE for t in tags)
+    cop = "cop" in tags
+    if person and tense and not nonfin and not cop:
+        return 0
+    if tense and not nonfin and not cop:
+        return 1
+    return 2
+
+
 def _map_lemma(src, tgt, lemma):
     """src dilindeki lemma'yı tgt diline .dix grafiğinde (BFS pivot) eşle; yoksa None."""
     if src == tgt:
@@ -593,6 +616,7 @@ def crosslang(req: AnalyzeReq):
     # eşlenebilir kök tercih et: ilk analizi al, ama .dix'te kökü olan bir analiz varsa onu yeğle
     # tüm analiz adayları (lemma, etiketler) — her hedef için EN İYİ üreteni dene (fiil/dayanıklılık)
     cands = [(p["lemma"], p["tags"]) for p in (_parse(r[0]) for r in res)]
+    cands.sort(key=lambda c: _verb_rank(c[1]))  # sonlu fiil okumasını öne al (kararlı; isimler korunur)
     disp = next((c for c in cands
                  if any(c[0] in DIX.get((req.lang, nb), {}) for nb in DIX_ADJ.get(req.lang, ()))), cands[0])
     results = [{"lang": req.lang, "lemma": disp[0], "surface": word, "self": True}]
@@ -642,8 +666,9 @@ def segment(req: AnalyzeReq):
                 chosen = (r[0], rp["lemma"], rp["tags"], morphs, sc, "nw-align", forms)
                 break
     if chosen is None:
-        # align eden isim yoksa: align eden FİİL (kök + kaynaşık çekim eki, NW-align + ses olayı)
-        for r in res:
+        # align eden isim yoksa: align eden FİİL (kök + kaynaşık çekim eki, NW-align + ses olayı).
+        # SONLU fiil okumasını ortaç/isimleştirmeye tercih et (okuduk -> ifi,p1,pl; ger_past değil).
+        for r in sorted(res, key=lambda x: _verb_rank(_parse(x[0])["tags"])):
             rp = _parse(r[0])
             if rp["tags"] and rp["tags"][0] == "v":
                 va = _segment_verb_align(gen, rp["lemma"], rp["tags"], word)

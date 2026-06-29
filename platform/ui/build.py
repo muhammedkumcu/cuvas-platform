@@ -2911,7 +2911,8 @@ def main():
         '          <div style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;color:rgba(244,241,234,.6);letter-spacing:.5px">{{ genRecipe }} · {{ genLangName }}</div>\n'
         '          <div style="font-family:\'Spectral\',serif;font-weight:600;font-size:46px;line-height:1.12;margin:8px 0 6px">{{ genForm }}</div>\n'
         '          <div title="{{ genQuery }}" style="font-family:\'IBM Plex Mono\',monospace;font-size:12px;color:rgba(244,241,234,.45)">{{ genQueryHuman }}</div>\n'
-        # #60 — kopula-zamanı yalın-biçim notu (tur şimdiki/gelecek/geniş: kişi çekimi FST'de üretilmiyor)
+        # #60/#kopula — kopula-birleştirici notu (derived) + nadiren yalın-biçim notu (bareOnly)
+        '          <sc-if value="{{ genDerived }}" hint-placeholder-val="{{ false }}"><div style="margin-top:12px;font-size:12.5px;line-height:1.55;color:rgba(244,241,234,.72);background:rgba(217,139,74,.14);border:1px solid rgba(217,139,74,.28);border-radius:10px;padding:9px 13px">Bu zamanın <b>kişi çekimini</b> apertium üreticisi doğrudan üretmez (ek-fiil/kopula ayrı kurulur); biçim, dilin gerçek <b>ek-fiil paradigması</b> + morfofonoloji (ünlü uyumu, ünsüz yumuşaması) ile <b>birleştirilerek</b> üretildi. Analiz bu biçimi tam çözer.</div></sc-if>\n'
         '          <sc-if value="{{ genBareOnly }}" hint-placeholder-val="{{ false }}"><div style="margin-top:12px;font-size:12.5px;line-height:1.55;color:rgba(244,241,234,.72);background:rgba(217,139,74,.16);border:1px solid rgba(217,139,74,.3);border-radius:10px;padding:9px 13px">Bu dilde bu zamanın <b>kişi çekimi</b> apertium üreticisinde üretilmiyor (kopula ayrı kurulur) — <b>yalın (3. kişi)</b> biçim gösteriliyor. Analiz bu biçimi yine de tam çözer.</div></sc-if>\n'
         '          <sc-if value="{{ genAltShow }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:rgba(244,241,234,.6);margin-top:8px">başka biçimler: {{ genAlt }}</div></sc-if>\n'
         '          <sc-if value="{{ genHasMorph }}" hint-placeholder-val="{{ false }}">\n'
@@ -2956,7 +2957,8 @@ def main():
         "      const tn=S.genTense||'past', pr=S.genPerson||'p1', vn=S.genVNum||'sg';\n"
         # #45 — zaman fallback: apertium dilleri farklı etiket kullanır (tur -di = <ifi>, chv = <past>;
         # kaz/kir şimdiki ~ <aor>). İstenen zaman üretmezse eşdeğerini dene → "gel·Geçmiş·3.tekil" artık üretir.
-        "      const TA={past:['ifi'],ifi:['past'],pres:['aor','prog'],aor:['pres'],fut:['fut']}; const tns=[tn].concat(TA[tn]||[]);\n"
+        # pres -> prog ÖNCE (kopula-birleştirici 'geliyorum' üretsin; sonra aor 'gelirim')
+        "      const TA={past:['ifi'],ifi:['past'],pres:['prog','aor'],aor:['pres'],fut:['fut']}; const tns=[tn].concat(TA[tn]||[]);\n"
         "      queries=[]; tns.forEach(function(tt){ queries.push(lemma+'<v><tv><'+tt+'><'+pr+'><'+vn+'>'); queries.push(lemma+'<v><iv><'+tt+'><'+pr+'><'+vn+'>'); });\n"
         # #60 — YALIN biçim fallback: kopula-zamanlarında (tur şimdiki/gelecek/geniş) kişi-çekimi FST'de
         # üretilemiyor → yalın gövdeyi (geliyor/gelecek/gelir) dene (bareStart sonrası). bareOnly notla işaretlenir.
@@ -2973,8 +2975,8 @@ def main():
         "      if(i>=queries.length){ this.setState({genResult:{empty:true, recipe, query:queries[0], lemma, langName:ln}}); return; }\n"
         "      fetch(this.KOKEN_API+'/generate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg, query:queries[i]})}).then(r=>r.json()).then(d=>{\n"
         "        const forms=(d&&d.forms)||[]; if(!forms.length){ tryQ(i+1); return; }\n"
-        "        const surf=forms[0].surface, q=queries[i], alt=forms.slice(1).map(f=>f.surface), bareOnly=(i>=bareStart);\n"
-        "        const done=(ms)=>this.setState({genResult:{empty:false, form:surf, alt, recipe, query:q, lemma, langName:ln, morphemes:ms, bareOnly:bareOnly}});\n"
+        "        const surf=forms[0].surface, q=queries[i], alt=forms.slice(1).map(f=>f.surface), bareOnly=(i>=bareStart), derived=!!(d&&d.derived);\n"
+        "        const done=(ms)=>this.setState({genResult:{empty:false, form:surf, alt, recipe, query:q, lemma, langName:ln, morphemes:ms, bareOnly:(bareOnly&&!derived), derived:derived}});\n"
         "        fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg, word:surf})}).then(r=>r.json()).then(s=>done((s&&s.morphemes)||null)).catch(()=>done(null));\n"
         "      }).catch(()=>{ tryQ(i+1); });\n"
         "    };\n"
@@ -3027,7 +3029,7 @@ def main():
         "glossStyle:'font-size:10.5px;color:#9a9082;margin-left:7px', "
         "go:()=>{ const st={genLang:e.lang, genLemma:e.lemma, genPos:e.pos}; if(e.pos==='v'){ st.genTense=e.t||'past'; st.genPerson='p1'; st.genVNum='sg'; } else { st.genNum='sg'; st.genPx=''; st.genCase='nom'; } this.setState(st); setTimeout(()=>this.runGenerate(),0); }, "
         "style:'cursor:pointer;display:inline-flex;align-items:center;border:1.5px solid rgba(33,29,23,.14);background:#fff;border-radius:11px;padding:8px 13px;font-family:inherit' })), "
-        "genHasResult:!!(S.genResult&&!S.genResult.empty), genEmpty:!!(S.genResult&&S.genResult.empty), genBareOnly:!!(S.genResult&&S.genResult.bareOnly), "
+        "genHasResult:!!(S.genResult&&!S.genResult.empty), genEmpty:!!(S.genResult&&S.genResult.empty), genBareOnly:!!(S.genResult&&S.genResult.bareOnly), genDerived:!!(S.genResult&&S.genResult.derived), "
         "genForm:(S.genResult&&S.genResult.form)||'', genRecipe:(S.genResult&&S.genResult.recipe)||'', "
         "genQuery:(S.genResult&&S.genResult.query)||'', genQueryHuman:this.humanizeQuery((S.genResult&&S.genResult.query)||''), genLangName:(S.genResult&&S.genResult.langName)||'', "
         "genAlt:((S.genResult&&S.genResult.alt)||[]).join(', '), genAltShow:!!(S.genResult&&S.genResult.alt&&S.genResult.alt.length), "

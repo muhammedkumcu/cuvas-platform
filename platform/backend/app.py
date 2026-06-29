@@ -645,14 +645,80 @@ def analyze_all(req: AnalyzeAllReq):
     return {"word": word, "count": len(out), "langs": out, "_source": SOURCE}
 
 
+# ── KOPULA-BİRLEŞTİRİCİ (#kullanıcı) ──────────────────────────────────────────────────────────
+# apertium-tur (ve bazı Oğuz FST'leri) ŞİMDİKİ/GENİŞ/GELECEK zamanı KOPULA (<cop>) ile kurar ve bu
+# biçimleri KİŞİ-ÇEKİMLİ ÜRETMEZ (analyze≠generate): gel<v><iv><prog> → "geliyor" üretir, ama
+# gel<v><iv><prog><cop><aor><p1><sg> → BOŞ. Çözüm: yalın zaman gövdesini üret (geliyor) + dilin
+# kopula/şahıs ekini MORFOFONOLOJİK olarak ekle. Yalnız COPULA_RULES'taki diller için (probe ile
+# saptanır); uydurma yok — ekler o dilin gerçek ek-fiil paradigmasıdır.
+_VOWELS = "aeıioöuü"
+_I4 = {"a": "ı", "ı": "ı", "o": "u", "u": "u", "e": "i", "i": "i", "ö": "ü", "ü": "ü"}
+_SOFTEN = {"k": "ğ", "p": "b", "ç": "c", "t": "d"}
+
+
+def _tr_copula(stem: str, person: str, number: str) -> Optional[str]:
+    """Türkçe ek-fiil (geniş zaman) şahıs eki + ünlü uyumu + son ünsüz yumuşaması.
+    geliyor+um, gelir+sin, gelecek→geleceğ+im (k→ğ), geliyor+lar …"""
+    lv = next((c for c in reversed(stem) if c in _VOWELS), "e")
+    I = _I4[lv]
+    A = "a" if lv in "aıou" else "e"
+    pn = (person, number)
+    if pn == ("p3", "sg"):
+        return stem
+    if pn == ("p3", "pl"):
+        return stem + "l" + A + "r"
+    if pn == ("p2", "sg"):
+        return stem + "s" + I + "n"
+    if pn == ("p2", "pl"):
+        return stem + "s" + I + "n" + I + "z"
+    s = stem[:-1] + _SOFTEN[stem[-1]] if (stem and stem[-1] in _SOFTEN) else stem  # ünlü-başı ekten önce
+    if pn == ("p1", "sg"):
+        return s + I + "m"
+    if pn == ("p1", "pl"):
+        return s + I + "z"
+    return None
+
+
+COPULA_RULES = {"tur": _tr_copula}              # probe ile saptanan, combiner gereken diller
+_COP_TENSES = {"prog", "aor", "fut", "pres", "npst"}  # kopula ile kurulan zamanlar (past/ifi/cond hariç)
+
+
+def _copula_combine(lang, query):
+    """FST kişi-çekimli kopula-zamanı üretemediğinde: yalın gövde + dilin kopula/şahıs eki."""
+    rule = COPULA_RULES.get(lang)
+    if not rule:
+        return None
+    p = _parse(query)
+    tags = p["tags"]
+    if not tags or tags[0] != "v":
+        return None
+    trans = "tv" if "tv" in tags else ("iv" if "iv" in tags else "")
+    tense = next((t for t in tags if t in _COP_TENSES), None)
+    person = next((t for t in tags if t in ("p1", "p2", "p3")), None)
+    number = "pl" if "pl" in tags else ("sg" if "sg" in tags else None)
+    if not (trans and tense and person and number):
+        return None
+    stem = _gen1(_fst(lang, "autogen"), f"{p['lemma']}<v><{trans}><{tense}>")  # geliyor/gelir/gelecek
+    if not stem:
+        return None
+    out = rule(stem, person, number)
+    return out or None
+
+
 @app.post("/generate")
 def generate(req: GenerateReq):
     if req.lang not in LANGS:
         raise HTTPException(400, f"desteklenmeyen dil: {req.lang}")
     fst = _fst(req.lang, "autogen")
     res = fst.lookup(req.query.strip())
-    return {"lang": req.lang, "query": req.query,
-            "forms": [{"surface": r[0], "weight": r[1]} for r in res], "_source": SOURCE}
+    forms = [{"surface": r[0], "weight": r[1]} for r in res]
+    derived = False
+    if not forms:  # FST üretemedi → kopula-birleştiriciyi dene (tur şimdiki/gelecek/geniş kişili)
+        comb = _copula_combine(req.lang, req.query.strip())
+        if comb:
+            forms = [{"surface": comb, "weight": 0.0}]
+            derived = True
+    return {"lang": req.lang, "query": req.query, "forms": forms, "derived": derived, "_source": SOURCE}
 
 
 @app.post("/crosslang")

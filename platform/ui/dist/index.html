@@ -145,11 +145,6 @@
               <button onClick="{{ speakActive }}" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:18px;padding:5px 13px;font-size:12.5px;font-family:inherit;color:#211d17">▷ Seslendir</button>
             </div>
           </div>
-          <div style="display:flex;gap:8px;background:#ece7dc;padding:5px;border-radius:11px">
-            <sc-for list="{{ viewTabs }}" as="t" hint-placeholder-count="2">
-              <button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.label }}</button>
-            </sc-for>
-          </div>
         </div>
 
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:24px 0 0">
@@ -159,6 +154,10 @@
         </div>
         <!-- morpheme blocks -->
         <div style="margin-top:30px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:34px 30px">
+          <sc-if value="{{ segPending }}" hint-placeholder-val="{{ false }}">
+          <div style="color:#9a9082;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.5px;padding:8px 2px">çözümleniyor…</div>
+          </sc-if>
+          <sc-if value="{{ segReady }}" hint-placeholder-val="{{ true }}">
           <div style="display:flex;align-items:stretch;gap:10px;flex-wrap:wrap">
             <sc-for list="{{ active.morphemes }}" as="m" hint-placeholder-count="3">
               <button onClick="{{ m.select }}" style="{{ m.blockStyle }}">
@@ -180,6 +179,7 @@
               </sc-for>
             </div>
           </div>
+          </sc-if>
 
           <sc-if value="{{ isExpert }}" hint-placeholder-val="{{ false }}">
           <div style="margin-top:20px;padding-top:18px;border-top:1px dashed rgba(33,29,23,.16);display:flex;align-items:center;gap:14px;flex-wrap:wrap">
@@ -202,7 +202,15 @@
           <sc-for list="{{ apiMatches }}" as="m" hint-placeholder-count="3"><button onClick="{{ m.go }}" style="{{ m.style }}">{{ m.label }}</button></sc-for>
         </div>
         </sc-if>
-        <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:20px;margin-top:20px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:24px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9a9082;letter-spacing:1px">GÖRÜNÜM</span>
+          <div style="display:flex;gap:8px;background:#ece7dc;padding:5px;border-radius:11px">
+            <sc-for list="{{ viewTabs }}" as="t" hint-placeholder-count="2">
+              <button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:20px;margin-top:12px">
           <!-- left: tree OR strip -->
           <sc-if value="{{ isTreeView }}" hint-placeholder-val="{{ true }}">
           <div style="background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:26px 28px">
@@ -2240,13 +2248,13 @@ class Component extends DCLogic {
         const langs=d.langs||{}; const codes=Object.keys(langs);
         if (!codes.length){ this.setState({ apiWord:this.apiWordFrom('chv', word, null), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0 }); return; }
         const first=codes[0];
-        this.setState({ apiAllLangs:langs, apiMatchCodes:codes, apiMatchLang:first, apiWord:this.apiWordFrom(first, word, langs[first]), activeWordId:'__api', screen:'analiz', selMorphIdx:0, stripCount:0 });
+        this.setState({ apiAllLangs:langs, apiMatchCodes:codes, apiMatchLang:first, apiWord:this.apiWordFrom(first, word, langs[first]), activeWordId:'__api', screen:'analiz', selMorphIdx:0, stripCount:0, segPending:true });
         this.applySegment(first, word);
       }).catch(()=>{});
       return;
     }
     fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{
-      this.setState({ apiWord:this.apiWordFrom(lg, word, d.analyses), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0 });
+      this.setState({ apiWord:this.apiWordFrom(lg, word, d.analyses), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0, segPending:true });
       this.applySegment(lg, word);
     }).catch(()=>{});
   }
@@ -2254,12 +2262,12 @@ class Component extends DCLogic {
   atlasPanMove(e){ if(!this._pan)return; const z=(this.state.atlasZoom||1); const lo=50/z, hi=100-50/z; const dx=e.clientX-this._pan.x, dy=e.clientY-this._pan.y; const cx=Math.max(lo,Math.min(hi,this._pan.cx - dx*100/(this._pan.w*z))); const cy=Math.max(lo,Math.min(hi,this._pan.cy - dy*100/(this._pan.h*z))); this.setState({atlasCx:cx,atlasCy:cy}); }
   atlasPanEnd(){ this._pan=null; }
   applySegment(lg, word){
-    if(!lg || lg==='auto' || !word) return;
+    if(!lg || lg==='auto' || !word){ this.setState({segPending:false}); return; }
     fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{
-      if(!d || !d.morphemes || !d.morphemes.length) return;
+      if(!d || !d.morphemes || !d.morphemes.length){ this.setState({segPending:false}); return; }
       const ms = d.morphemes.map((m,i)=>({ text:m.surface, tag:m.tag, type:m.type||'kök', label:(i===0?'kök':'ek')+' · '+m.feat, gloss:m.feat, gItem:m.surface, note:(i===0?'Apertium çözümlemesinin köküdür.':('Apertium üretiminden çıkarılan yüzey eki — işlevi: '+m.feat+'.')) }));
-      this.setState(s=>{ if(!s.apiWord || s.apiWord.surface!==word) return {}; return { apiWord: Object.assign({}, s.apiWord, {morphemes: ms, soundChanges: d.sound_changes||[], forms: d.forms||null}) }; });
-    }).catch(()=>{});
+      this.setState(s=>{ if(!s.apiWord || s.apiWord.surface!==word) return {segPending:false}; return { segPending:false, apiWord: Object.assign({}, s.apiWord, {morphemes: ms, soundChanges: d.sound_changes||[], forms: d.forms||null}) }; });
+    }).catch(()=>{ this.setState({segPending:false}); });
   }
   runGenerate(){
     const S=this.state; const lg=S.genLang||'chv'; const lemma=(S.genLemma||'').trim(); if(!lemma) return;
@@ -2301,12 +2309,12 @@ class Component extends DCLogic {
         const langs=d.langs||{}; const codes=Object.keys(langs);
         if(!codes.length){ this.setState({ apiWord:this.apiWordFrom('chv', word, null), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0 }); return; }
         const first=codes[0];
-        this.setState({ apiAllLangs:langs, apiMatchCodes:codes, apiMatchLang:first, apiWord:this.apiWordFrom(first, word, langs[first]), activeWordId:'__api', screen:'analiz', selMorphIdx:0, stripCount:0 });
+        this.setState({ apiAllLangs:langs, apiMatchCodes:codes, apiMatchLang:first, apiWord:this.apiWordFrom(first, word, langs[first]), activeWordId:'__api', screen:'analiz', selMorphIdx:0, stripCount:0, segPending:true });
         this.applySegment(first, word);
       }).catch(()=>{});
     } else {
       fetch(this.KOKEN_API+'/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{
-        this.setState({ apiWord:this.apiWordFrom(lg, word, d.analyses), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0 });
+        this.setState({ apiWord:this.apiWordFrom(lg, word, d.analyses), activeWordId:'__api', apiAllLangs:{}, apiMatchCodes:[], apiMatchLang:null, screen:'analiz', selMorphIdx:0, stripCount:0, segPending:true });
         this.applySegment(lg, word);
       }).catch(()=>{});
     }
@@ -2501,8 +2509,8 @@ class Component extends DCLogic {
       help_cognate:this.state.helpOpen==='cognate', toggleHelp_cognate:()=>this.setState(s=>({helpOpen:s.helpOpen==='cognate'?'':'cognate'})),
       help_compare:this.state.helpOpen==='compare', toggleHelp_compare:()=>this.setState(s=>({helpOpen:s.helpOpen==='compare'?'':'compare'})),
       copyParadigm:()=>{ try{ const t=document.getElementById('paradigm-table'); if(t) navigator.clipboard.writeText(t.innerText); }catch(e){} },
-      apiMatches: (this.state.apiMatchCodes||[]).map(lc=>{ const sel=lc===this.state.apiMatchLang; return { label:(this.LIVE_LN[lc]||lc), go:()=>{ const wd=(this.state.apiWord&&this.state.apiWord.surface)||''; this.setState({apiMatchLang:lc, apiWord:this.apiWordFrom(lc, wd, (this.state.apiAllLangs||{})[lc]), selMorphIdx:0}); this.applySegment(lc, wd); }, style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.16)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:16px;padding:5px 13px;font-size:12.5px;font-family:inherit` }; }),
-      hasApiMatches: (this.state.apiMatchCodes||[]).length>1,
+      apiMatches: (this.state.apiMatchCodes||[]).map(lc=>{ const sel=lc===this.state.apiMatchLang; return { label:(this.LIVE_LN[lc]||lc), go:()=>{ const wd=(this.state.apiWord&&this.state.apiWord.surface)||''; this.setState({apiMatchLang:lc, apiWord:this.apiWordFrom(lc, wd, (this.state.apiAllLangs||{})[lc]), selMorphIdx:0, segPending:true}); this.applySegment(lc, wd); }, style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.16)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:16px;padding:5px 13px;font-size:12.5px;font-family:inherit` }; }),
+      hasApiMatches: (this.state.apiMatchCodes||[]).length>1, segPending:!!this.state.segPending, segReady:!this.state.segPending,
       ...this.sourceVals(),
       homeCards, goHomeAnaliz:this.go('analiz'), goHomeCompare:this.go('compare'), goHomeProfile:this.go('profile'), goHomeAtlas:this.go('atlas'), goHomeHeart:this.go('heart'),
       // analiz

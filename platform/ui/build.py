@@ -1857,12 +1857,12 @@ def main():
     seg.append(("applySegment method",
         "  runParadigm(lemma){",
         "  applySegment(lg, word){\n"
-        "    if(!lg || lg==='auto' || !word) return;\n"
+        "    if(!lg || lg==='auto' || !word){ this.setState({segPending:false}); return; }\n"
         "    fetch(this.KOKEN_API+'/segment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:lg,word})}).then(r=>r.json()).then(d=>{\n"
-        "      if(!d || !d.morphemes || !d.morphemes.length) return;\n"
+        "      if(!d || !d.morphemes || !d.morphemes.length){ this.setState({segPending:false}); return; }\n"
         "      const ms = d.morphemes.map((m,i)=>({ text:m.surface, tag:m.tag, type:m.type||'kök', label:(i===0?'kök':'ek')+' · '+m.feat, gloss:m.feat, gItem:m.surface, note:(i===0?'Apertium çözümlemesinin köküdür.':('Apertium üretiminden çıkarılan yüzey eki — işlevi: '+m.feat+'.')) }));\n"
-        "      this.setState(s=>{ if(!s.apiWord || s.apiWord.surface!==word) return {}; return { apiWord: Object.assign({}, s.apiWord, {morphemes: ms, soundChanges: d.sound_changes||[], forms: d.forms||null}) }; });\n"
-        "    }).catch(()=>{});\n"
+        "      this.setState(s=>{ if(!s.apiWord || s.apiWord.surface!==word) return {segPending:false}; return { segPending:false, apiWord: Object.assign({}, s.apiWord, {morphemes: ms, soundChanges: d.sound_changes||[], forms: d.forms||null}) }; });\n"
+        "    }).catch(()=>{ this.setState({segPending:false}); });\n"
         "  }\n"
         "  runParadigm(lemma){"))
     seg.append(("runSearch single segment",
@@ -2002,7 +2002,7 @@ def main():
         "      goResearch:()=>this.setState({screen:'research'}),\n"
         "      copyParadigm:()=>{ try{ const t=document.getElementById('paradigm-table'); if(t) navigator.clipboard.writeText(t.innerText); }catch(e){} },\n"
         "      apiMatches: (this.state.apiMatchCodes||[]).map(lc=>{ const sel=lc===this.state.apiMatchLang; return { label:(this.LIVE_LN[lc]||lc), go:()=>{ const wd=(this.state.apiWord&&this.state.apiWord.surface)||''; this.setState({apiMatchLang:lc, apiWord:this.apiWordFrom(lc, wd, (this.state.apiAllLangs||{})[lc]), selMorphIdx:0}); this.applySegment(lc, wd); }, style:`cursor:pointer;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.16)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:16px;padding:5px 13px;font-size:12.5px;font-family:inherit` }; }),\n"
-        "      hasApiMatches: (this.state.apiMatchCodes||[]).length>1,", 1)
+        "      hasApiMatches: (this.state.apiMatchCodes||[]).length>1, segPending:!!this.state.segPending, segReady:!this.state.segPending,", 1)
 
     # A — Analiz ekranına "bu kelime şu dillerde" çip satırı (otomatik/multi-dil sonucu)
     html = html.replace(
@@ -2020,6 +2020,30 @@ def main():
         "    demo:   {label:'Örnek veri (illüstratif)', detail:'gerçek backend bağlanınca değişecek', lic:'—', kind:'geçici', url:'—'},\n", "")
 
     print(f"  Güncelleme temizliği (XP/export barları): {ngfix}/3")
+
+    # #43 — ağaç/şerit görünüm toggle'ı header üst-sağından, kontrol ettiği ağaç/şerit grid'inin HEMEN ÜSTÜNE
+    # taşı (toggle ile etkilediği görünüm yan yana → daha okunur). Header tek başlık bloğuyla kalır.
+    # NOT: "BU KELİME ŞU DİLLERDE" çip enjeksiyonundan (yukarıda) SONRA çalışır; grid div o aşamada yeniden
+    # eklenmiş olur → çakışma yok. Sıra: morfem blokları → çip satırı → GÖRÜNÜM toggle → ağaç/şerit grid.
+    _vt_block = ('          <div style="display:flex;gap:8px;background:#ece7dc;padding:5px;border-radius:11px">\n'
+                 '            <sc-for list="{{ viewTabs }}" as="t" hint-placeholder-count="2">\n'
+                 '              <button onClick="{{ t.go }}" style="{{ t.style }}">{{ t.label }}</button>\n'
+                 '            </sc-for>\n'
+                 '          </div>\n')
+    _vt_grid_old = ('        <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:20px;margin-top:20px">\n'
+                    '          <!-- left: tree OR strip -->')
+    _vt_grid_new = ('        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:24px">\n'
+                    "          <span style=\"font-family:'IBM Plex Mono',monospace;font-size:11px;color:#9a9082;letter-spacing:1px\">GÖRÜNÜM</span>\n"
+                    + _vt_block +
+                    '        </div>\n'
+                    '        <div style="display:grid;grid-template-columns:1.2fr .8fr;gap:20px;margin-top:12px">\n'
+                    '          <!-- left: tree OR strip -->')
+    if (_vt_block in html) and (_vt_grid_old in html):
+        html = html.replace(_vt_block, "", 1)              # header'dan kaldır
+        html = html.replace(_vt_grid_old, _vt_grid_new, 1) # grid üstüne ekle (çip satırının altında)
+        print("  #43 Analiz gorunum toggle grid ustune tasindi: 1")
+    else:
+        print("  ! #43 Analiz toggle tasima eslesmedi:", _vt_block in html, _vt_grid_old in html)
 
     # ============================================================
     #  B — ARAŞTIRMACI MERKEZİ CANLI (serbest sözcük + sağ-üst dil → /analyze → gerçek JSON/CoNLL-U/CSV + indir)
@@ -3059,6 +3083,43 @@ def main():
         html = html.replace("if(s==='analiz' && (this.state.query||'').trim()) this.runSearch();",
                             "if(s==='analiz' && (this.state.query||'').trim()) this.runAnalyze();", 1); nb1 += 1
     print(f"  B1 Analiz girisi dogrudan analize (runAnalyze): {nb1}/5 yama")
+
+    # #35 — FLICKER: apiWordFrom (analyze) ile applySegment (/segment) farklı okuma verince morfemler
+    # "yanlış→doğru" zıplıyordu (ör. ata→fiil-ortaç sonra ata-kök). Çözüm: applySegment'in HEMEN ardından
+    # gelen setState'lere segPending:true ekle → o ~40ms'de morfem kartı SAKİN "çözümleniyor…" gösterir,
+    # /segment yerleşince morfemler tek seferde belirir. Yalnız applySegment'li çağrılar hedeflenir (no-codes
+    # fallback + compare ETKİLENMEZ). Kök tutarsızlık #55'te (backend analyze_all↔segment sırası) çözülecek.
+    import re as _re35
+    html, _n35a = _re35.subn(r'selMorphIdx:0, stripCount:0 \}\);(\s*\n\s*this\.applySegment\()',
+                             r'selMorphIdx:0, stripCount:0, segPending:true });\1', html)
+    html, _n35b = _re35.subn(r'selMorphIdx:0\}\);(\s*this\.applySegment\(lc)',
+                             r'selMorphIdx:0, segPending:true});\1', html)
+    print(f"  #35 flicker segPending enjeksiyonu: analyze-yollari={_n35a} chip={_n35b}")
+    # #35 — morfem kartı: segPending iken SAKİN "çözümleniyor…", hazır olunca morfem blokları + glossing tek
+    # seferde. Yalnız blok+glossing gate'lenir (FST/ses kendi sc-if'lerinde). Header/arama/kalite rozeti durur.
+    _mk_open = ('          <div style="display:flex;align-items:stretch;gap:10px;flex-wrap:wrap">\n'
+                '            <sc-for list="{{ active.morphemes }}" as="m" hint-placeholder-count="3">')
+    _mk_open_new = ('          <sc-if value="{{ segPending }}" hint-placeholder-val="{{ false }}">\n'
+                    "          <div style=\"color:#9a9082;font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.5px;padding:8px 2px\">çözümleniyor…</div>\n"
+                    '          </sc-if>\n'
+                    '          <sc-if value="{{ segReady }}" hint-placeholder-val="{{ true }}">\n'
+                    '          <div style="display:flex;align-items:stretch;gap:10px;flex-wrap:wrap">\n'
+                    '            <sc-for list="{{ active.morphemes }}" as="m" hint-placeholder-count="3">')
+    _mk_close = ('          </div>\n'
+                 '\n'
+                 '          <sc-if value="{{ isExpert }}" hint-placeholder-val="{{ false }}">')
+    _mk_close_new = ('          </div>\n'
+                     '          </sc-if>\n'
+                     '\n'
+                     '          <sc-if value="{{ isExpert }}" hint-placeholder-val="{{ false }}">')
+    _n35c = 0
+    if (_mk_open in html) and (_mk_close in html):
+        html = html.replace(_mk_open, _mk_open_new, 1)
+        html = html.replace(_mk_close, _mk_close_new, 1)
+        _n35c = 1
+    else:
+        print("  ! #35 morfem karti iskelet eslesmedi:", _mk_open in html, _mk_close in html)
+    print(f"  #35 morfem karti segPending iskeleti: {_n35c}")
 
     # ============================================================
     #  G1 — "KALİTE & KAPSAM" sayfası (morfoloji ölçümleri; dürüst, kaynaklı, eksen-ayrımlı)

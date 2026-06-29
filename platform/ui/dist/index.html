@@ -37,16 +37,23 @@
     .kn-mbar{ display:flex; align-items:center; gap:12px; padding:9px 13px; position:sticky; top:0; z-index:45;
       background:#faf8f2; border-bottom:1px solid rgba(33,29,23,.1); }
     .kn-mbar-title{ font-family:'Spectral',serif; font-weight:600; font-size:16px; color:#211d17; }
-    #content-scroll section{ padding-left:16px !important; padding-right:16px !important; max-width:100% !important; }
-    #content-scroll h1{ font-size:31px !important; line-height:1.12 !important; }
-    #content-scroll input{ min-width:0 !important; max-width:100% !important; font-size:16px !important; }
+    /* HARD garanti: sayfa ASLA yana kaymaz (tablolar kendi içinde scroll) + uniform çok hafif küçültme (zoom) */
+    #content-scroll{ overflow-x:hidden !important; zoom:0.92; }
+    #content-scroll section{ padding-left:14px !important; padding-right:14px !important; max-width:100% !important; }
+    #content-scroll h1{ font-size:30px !important; line-height:1.12 !important; }
+    #content-scroll input, #content-scroll select, #content-scroll textarea{ min-width:0 !important; max-width:100% !important; font-size:16px !important; }
     #content-scroll table{ display:block; overflow-x:auto; max-width:100%; -webkit-overflow-scrolling:touch; }
-    /* NOT: framework inline stilleri boşlukla normalize eder → değer kısmına göre eşleştir */
-    /* Kognat grafiği: 2-sütun (graf | 300px SES NOTU) → tek sütun; graf full-width sığsın, not altına yığılsın */
-    #content-scroll [style*="1fr 300px"]{ grid-template-columns:1fr !important; }
-    /* çok-sütunlu kart/ızgara düzenleri mobilde tek sütun (genel) */
-    #content-scroll [style*="repeat(2"]{ grid-template-columns:1fr !important; }
+    /* çok/iki-sütun grid → tek sütun (framework inline stili boşluk-normalize eder → DEĞER-kısmı eşleşmesi) */
+    #content-scroll [style*="repeat("]{ grid-template-columns:1fr !important; }
     #content-scroll [style*="1fr 1fr"]{ grid-template-columns:1fr !important; }
+    #content-scroll [style*="1fr 300px"], #content-scroll [style*="1fr 290px"]{ grid-template-columns:1fr !important; }
+    /* sabit-kolonlu / oransal 2-sütun "içerik + yan panel" düzenleri (Uzaklık 380px / Profil 310px / Analiz 1.2fr 0.8fr) */
+    #content-scroll [style*="380px 1fr"], #content-scroll [style*="310px 1fr"],
+    #content-scroll [style*="300px 1fr"], #content-scroll [style*="320px 1fr"],
+    #content-scroll [style*="1.2fr 0.8fr"], #content-scroll [style*="0.8fr 1.2fr"],
+    #content-scroll [style*="2fr 1fr"], #content-scroll [style*="1fr 2fr"]{ grid-template-columns:1fr !important; }
+    /* Karşılaştır dizilim satırı (dil | morfem kartları | yüzey biçim) flex-row → dikey yığ (yüzey biçim kesilmesin) */
+    #content-scroll [style*="display: flex"][style*="gap: 18px"][style*="background"]{ flex-direction:column !important; align-items:flex-start !important; }
   }
 </style>
 </helmet>

@@ -536,7 +536,11 @@ def main():
         "speakers:(_sm.sp||sel.speakers), egids:(_sm.eg||sel.egids), "
         "spkcap:(_sm.cap||''), unesco:(_sm.un||''), "
         "vc:this.vitColor((_sm.vt!=null&&_sm.vt>=0)?_sm.vt:sel.vit), "
-        "branchColor:this.BRANCHCOLOR[sel.branch]||'#5f574b'};})(),", 1)
+        "branchColor:this.BRANCHCOLOR[sel.branch]||'#5f574b'};})(),\n"
+        # #38 — EGIDS ölçeği (Lewis & Simons 2010): tıkla-aç tam derecelendirme, seçili dilin seviyesi vurgulu.
+        "      egidsScale:(()=>{const _e=String(((this.SPKMETA&&this.SPKMETA[sel.code]||{}).eg)||sel.egids||'').trim(); const _lv=_e.split('·')[0].trim(); "
+        "const L=[['0','Uluslararası — birçok ülkede ortak/ticaret dili'],['1','Ulusal — resmî/eğitim dili, devlet düzeyinde'],['2','Bölgesel — bir bölgede resmî kullanım'],['3','Geniş iletişim — bölgeler/lehçeler arası ortak dil'],['4','Eğitimsel — okullarda standart, yazılı kullanım yaygın'],['5','Gelişmekte — yazılı gelenek var, henüz yaygın değil'],['6a','Güçlü — tüm kuşaklar evde konuşuyor, sözlü canlı'],['6b','Tehditte — çocuklara aktarım zayıflıyor'],['7','Geçişte — konuşanlar var ama çocuklar öğrenmiyor'],['8a','Ölmekte — yalnız büyük yaş kuşağı akıcı'],['8b','Neredeyse ölü — çok az yaşlı konuşur kaldı'],['9','Uykuda — simgesel kimlik, akıcı konuşan yok'],['10','Ölü — kimse konuşmuyor']]; "
+        "return L.map(r=>{var cur=(_lv===r[0]||(_lv==='8a–8b'&&(r[0]==='8a'||r[0]==='8b'))); return {lvl:r[0], label:r[1], style:`display:grid;grid-template-columns:34px 1fr;gap:7px;align-items:baseline;padding:3px 8px;border-radius:6px;font-size:11.5px;line-height:1.4;${cur?'background:#211d17;color:#f4f1ea;font-weight:600':'color:#5f574b'}`, lvlStyle:`font-family:'IBM Plex Mono',monospace;font-weight:600;${cur?'color:#f4f1ea':'color:#9a9082'}`};});})(),", 1)
 
     # R5b-2: profil liste kartı konuşur sayısı da SPKMETA'dan (master tek kaynak; 14 base + 33 yeni tutarlı)
     html = html.replace(
@@ -554,7 +558,12 @@ def main():
         "<span style=\"width:9px;height:9px;border-radius:50%;background:{{ profileSel.vc }}\"></span>EGIDS {{ profileSel.egids }}</div>\n              </div>",
         "<span style=\"width:9px;height:9px;border-radius:50%;background:{{ profileSel.vc }}\"></span>EGIDS {{ profileSel.egids }}</div>"
         "<sc-if value=\"{{ profileSel.unesco }}\" hint-placeholder-val=\"{{ true }}\">"
-        "<div style=\"margin-top:7px;font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace\">UNESCO: {{ profileSel.unesco }}</div></sc-if>\n              </div>", 1)
+        "<div style=\"margin-top:7px;font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace\">UNESCO: {{ profileSel.unesco }}</div></sc-if>"
+        "<details style=\"margin-top:10px;text-align:left\"><summary style=\"cursor:pointer;font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace;display:inline-block\">EGIDS ölçeği nedir? ▾</summary>"
+        "<div style=\"margin-top:8px;display:flex;flex-direction:column;gap:2px;max-width:330px\">"
+        "<sc-for list=\"{{ egidsScale }}\" as=\"e\"><div style=\"{{ e.style }}\"><span style=\"{{ e.lvlStyle }}\">{{ e.lvl }}</span><span>{{ e.label }}</span></div></sc-for>"
+        "<div style=\"margin-top:6px;font-size:10px;color:#b0a89a;font-family:'IBM Plex Mono',monospace\">Kaynak: Lewis &amp; Simons (2010), EGIDS</div>"
+        "</div></details>\n              </div>", 1)
 
     # ── Dil Profilleri 14 → 47: master'dan 33 YENİ dili EKLE (14'ün zengin pipeline'ına dokunma) ──
     PROF14_ISO = {"tur", "azj", "tuk", "kaz", "kir", "uig", "sah", "tyv", "kjh", "tat", "bak", "chv", "cjs", "klj"}
@@ -3165,9 +3174,9 @@ def main():
             "<b>Neden önemli?</b> Kolların coğrafyaya dağılışı, dillerin göç ve temas hikâyesini görünür kılar: Oğuz batıda, Kıpçak bozkırda, Sibirya kuzeyde; tek yaşayan Oğur dili Çuvaşça ise İdil (Volga) boyunda yalnız durur.",
         ], "Koordinatlar: Glottolog 5 (CC BY 4.0) · kol tasnifi: Johanson (2021)"),
         "isProfile": ([
-            "<b>Bir dilin künyesi.</b> Soldan bir dil seç; sağda konuşur sayısı, yazısı, kolu, canlılık durumu ve dijital kaynak sınıfı tek karede toplanır. Arama ve kola göre süzme de var.",
-            "<b>Renkler ne anlatıyor?</b> Kenar rengi ve EGIDS rozeti canlılığı gösterir — yeşil güçlü, kırmızı ölmekte. UNESCO etiketi tehlike düzeyini; konuşur sayısının altındaki küçük satır o rakamın kaynağını ve yılını verir.",
-            "<b>Neden önemli?</b> Türk dilleri uçtan uca devasa bir güç farkı taşır: 83 milyon konuşurlu Türkçeden, son 44 konuşuruna kalmış Çulımcaya. Bu künyeler hangi dilin neye ihtiyacı olduğunu — ve neyin kaybolmak üzere olduğunu — gösterir.",
+            "<b>Bir dilin künyesi.</b> Soldan bir dil seç; sağda konuşur sayısı, yazısı, kolu, canlılık durumu ve dijital kaynak sınıfı tek karede toplanır. Arama ve kola göre de süzebilirsin.",
+            "<b>Renklerin dili.</b> Kenar rengi ve EGIDS rozeti canlılığı söyler — yeşil güçlü, kırmızı sönmekte. UNESCO etiketi tehlike düzeyini; konuşur sayısının altındaki küçük satır da o rakamın nereden ve hangi yıldan geldiğini gösterir. EGIDS rozetine basınca tüm ölçeği görebilirsin.",
+            "<b>Uçtan uca bir güç farkı.</b> 83 milyon konuşurlu Türkçeden son 44 konuşuruna kalmış Çulımcaya uzanan bu künyeler, hangi dilin neye ihtiyacı olduğunu — ve neyin kaybolmak üzere olduğunu — görünür kılar.",
         ], "Konuşur · EGIDS · UNESCO: Ethnologue, UNESCO, Glottolog derlemesi · kaynak sınıfı: Joshi vd. (2020)"),
         "isHistory": ([
             "<b>İki bin yıllık bir yolculuk.</b> Proto-Türkçeden bugüne: aileyi doğuran kökler (Bayesçi soy ağacı), onu altı kola ayıran ses yasaları ve dönüm noktalarının zaman çizelgesi.",

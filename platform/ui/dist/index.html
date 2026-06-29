@@ -443,7 +443,7 @@
         <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin:6px 0 2px">
           <h2 style="font-family:'Spectral',serif;font-weight:600;font-size:36px;margin:0">Türk dilleri haritası</h2>
         </div>
-        <p style="font-size:14.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 4px">Türk dillerinin coğrafi dağılımı; denizler, dağlar ve nehirlerle birlikte. Üstten bir bölge seçin ya da +/− ile yakınlaştırıp haritayı sürükleyerek gezin. Ölü ve tarihsel diller içi boş halkayla, eğik yazıyla gösterilir.</p>
+        <p style="font-size:14.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 4px">Türk dillerinin coğrafi dağılımı; her nokta bir dil, rengi ait olduğu kolu gösterir. Üstten bir bölge seçin ya da +/− ile yakınlaştırın; yakınlaştıkça dil adları belirir. Ölü ve tarihsel diller koyu gri noktayla, eğik yazıyla gösterilir.</p>
         <div style="display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 0;align-items:center">
           <span style="font-size:11px;color:#9a9082;font-family:'IBM Plex Mono',monospace;letter-spacing:.5px;margin-right:2px">ODAK:</span>
           <sc-for list="{{ atlasRegions }}" as="r"><button onClick="{{ r.go }}" style="{{ r.style }}">{{ r.label }}</button></sc-for>
@@ -2499,10 +2499,10 @@ class Component extends DCLogic {
         const col = this.BRANCHCOLOR[m.branch] || '#9a9082';
         const _hist = m.era && m.era!=='living', _big = this.state.screen==='atlas', _z = (this.state.atlasZoom||1);
         const _cs = _big ? (1/_z) : 1;
-        const _d = m.hi?10:9, _show = _big && m.lz>0 && _z>=m.lz;
+        const _d = m.hi?15:12, _show = _big && m.lz>0 && _z>=m.lz && _z>1.05;
         return { name:m.name, branch:m.branch, col, go:()=>this.setState({mapSel:m.code}),
           dotStyle:`position:absolute;left:${m.x}%;top:${m.y}%;transform:translate(-50%,-50%) scale(${_cs});display:flex;flex-direction:${m.ldir===2?'column-reverse':'column'};align-items:center;gap:2px;z-index:${m.hi?6:(_show?4:2)}`,
-          ball:`width:${_d}px;height:${_d}px;border-radius:50%;background:${_hist?'#6f665a':col};border:2px solid #fbfaf6;box-shadow:0 0 0 ${m.hi?'3px':'1px'} ${m.hi?'rgba(184,96,46,.30)':'rgba(33,29,23,.14)'}`,
+          ball:`width:${_d}px;height:${_d}px;border-radius:50%;background:${_hist?'#6f665a':col};border:1.5px solid rgba(251,250,246,.85);box-shadow:0 1px 2px rgba(33,29,23,.22)${m.hi?', 0 0 0 3px rgba(184,96,46,.30)':''}`,
           label:`${_show?'':'display:none;'}font-size:11px;font-weight:${m.hi?'600':'500'};font-family:'Spectral',serif;color:${_hist?'#6f665a':'#211d17'};${_hist?'font-style:italic;':''}white-space:nowrap;background:rgba(251,250,246,.94);padding:0 5px;border-radius:5px;box-shadow:0 1px 3px rgba(33,29,23,.08)` };
       }),
       mapLegend:Object.entries(this.BRANCHCOLOR).map(([k,v])=>({label:k, hue:v})),

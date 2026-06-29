@@ -748,11 +748,11 @@ def main():
          "        const col = this.BRANCHCOLOR[m.branch] || '#9a9082';\n"
          "        const _hist = m.era && m.era!=='living', _big = this.state.screen==='atlas', _z = (this.state.atlasZoom||1);\n"
          "        const _cs = _big ? (1/_z) : 1;\n"   # zoom-wrapper'a karşı ekran-sabit (nokta+etiket büyümez, AYRILIR)
-         "        const _d = m.hi?10:9, _show = _big && m.lz>0 && _z>=m.lz;"),   # TEK boyut (konuşur-bazlı kademe kaldırıldı); yalnız Çuvaşça bir tık büyük
+         "        const _d = m.hi?15:12, _show = _big && m.lz>0 && _z>=m.lz && _z>1.05;"),   # #39 daha büyük nokta + EN GENİŞ planda (z=1) etiket YOK
         ("transform:translate(-50%,-50%);display:flex;flex-direction:${m.below?'column-reverse':'column'};align-items:center;gap:4px;z-index:${m.hi?3:2}",
          "transform:translate(-50%,-50%) scale(${_cs});display:flex;flex-direction:${m.ldir===2?'column-reverse':'column'};align-items:center;gap:2px;z-index:${m.hi?6:(_show?4:2)}"),
         ("ball:`width:${m.hi?18:13}px;height:${m.hi?18:13}px;border-radius:50%;background:${col};border:2px solid #fbfaf6;box-shadow:0 0 0 ${m.hi?'4px':'1px'} ${m.hi?'rgba(184,96,46,.25)':'rgba(33,29,23,.12)'}`,",
-         "ball:`width:${_d}px;height:${_d}px;border-radius:50%;background:${_hist?'#6f665a':col};border:2px solid #fbfaf6;box-shadow:0 0 0 ${m.hi?'3px':'1px'} ${m.hi?'rgba(184,96,46,.30)':'rgba(33,29,23,.14)'}`,"),   # ölü/tarihsel diller: tek koyu gri dolu nokta (kol rengi/çerçeve yok)
+         "ball:`width:${_d}px;height:${_d}px;border-radius:50%;background:${_hist?'#6f665a':col};border:1.5px solid rgba(251,250,246,.85);box-shadow:0 1px 2px rgba(33,29,23,.22)${m.hi?', 0 0 0 3px rgba(184,96,46,.30)':''}`,"),   # #39 daha büyük renkli nokta, ince beyaz halka (renk baskın); ölü diller koyu gri
         ("label:`font-size:${m.hi?'13px':'12px'};font-weight:${m.hi?'700':'500'};font-family:'Spectral',serif;color:#211d17;white-space:nowrap;background:rgba(251,250,246,.85);padding:1px 6px;border-radius:5px` };",
          "label:`${_show?'':'display:none;'}font-size:11px;font-weight:${m.hi?'600':'500'};font-family:'Spectral',serif;color:${_hist?'#6f665a':'#211d17'};${_hist?'font-style:italic;':''}white-space:nowrap;background:rgba(251,250,246,.94);padding:0 5px;border-radius:5px;box-shadow:0 1px 3px rgba(33,29,23,.08)` };"),
     ]
@@ -846,7 +846,7 @@ def main():
         '        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:18px;flex-wrap:wrap;margin:6px 0 2px">\n'
         '          <h2 style="font-family:\'Spectral\',serif;font-weight:600;font-size:36px;margin:0">Türk dilleri haritası</h2>\n'
         '        </div>\n'
-        '        <p style="font-size:14.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 4px">Türk dillerinin coğrafi dağılımı; denizler, dağlar ve nehirlerle birlikte. Üstten bir bölge seçin ya da +/− ile yakınlaştırıp haritayı sürükleyerek gezin. Ölü ve tarihsel diller içi boş halkayla, eğik yazıyla gösterilir.</p>\n'
+        '        <p style="font-size:14.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 4px">Türk dillerinin coğrafi dağılımı; her nokta bir dil, rengi ait olduğu kolu gösterir. Üstten bir bölge seçin ya da +/− ile yakınlaştırın; yakınlaştıkça dil adları belirir. Ölü ve tarihsel diller koyu gri noktayla, eğik yazıyla gösterilir.</p>\n'
         + region_row + '\n'
         '        <div onMouseDown="{{ atlasDown }}" onMouseMove="{{ atlasMove }}" onMouseUp="{{ atlasUp }}" onMouseLeave="{{ atlasUp }}" style="position:relative;width:100%;aspect-ratio:1.62;background:#ece5d5;border:1px solid rgba(33,29,23,.12);border-radius:18px;overflow:hidden;margin-top:10px;cursor:{{ atlasCursor }};user-select:none">\n'
         '          <div style="{{ atlasWrapStyle }}">\n'

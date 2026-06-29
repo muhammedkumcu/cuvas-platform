@@ -1772,7 +1772,8 @@ def main():
 
     # Paradigma: giriş kutusunun yanına dil seçici + placeholder (artık üst barda değil)
     par_inp = '<input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — sağ üstteki dilde canlı çekim" style="flex:1;min-width:300px;max-width:520px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">'
-    par_new = ('<input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — canlı çekim" style="flex:1;min-width:260px;max-width:440px;' + INP + '">\n          ' + SELBOX)
+    par_new = ('<input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — canlı çekim" style="flex:1;min-width:260px;max-width:440px;' + INP + '">\n          ' + SELBOX
+               + '\n          <button onClick="{{ paradigmToGenerate }}" title="Bu kökü Üreteç\'te aç" style="cursor:pointer;background:#fff;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;padding:11px 15px;font-size:13px;font-family:inherit;color:#211d17;white-space:nowrap;flex-shrink:0">Üreteç\'te üret →</button>')
     if par_inp in html:
         html = html.replace(par_inp, par_new, 1); nsel += 1
     else:
@@ -1927,6 +1928,8 @@ def main():
         # #43 — Analiz panelindeki Paradigma/Üret butonları ANALİZ EDİLEN kelimeyi taşısın (yalnız sayfa açmasın).
         "      analizParadigm:()=>{ const w=this.active(); if(!w)return; const lemma=(((w.morphemes&&w.morphemes[0])&&(w.morphemes[0].gItem||w.morphemes[0].text))||w.surface||'').trim(); const lg=this.state.apiMatchLang||this.state.searchLang||'chv'; if(lemma){ this.setState({screen:'paradigm', searchLang:(lg==='auto'?'chv':lg), paradigmFreeQ:lemma, paradigmFree:null}); setTimeout(()=>this.runParadigm(lemma),0); } },\n"
         "      analizGenerate:()=>{ const w=this.active(); if(!w)return; const lemma=(((w.morphemes&&w.morphemes[0])&&(w.morphemes[0].gItem||w.morphemes[0].text))||w.surface||'').trim(); const lg=this.state.apiMatchLang||this.state.searchLang||'chv'; if(lemma){ this.setState({screen:'generate', genLemma:lemma, genLang:(lg==='auto'?'chv':lg), genPos:'n', genNum:'sg', genPx:'', genCase:'nom', genSeeded:true, genResult:null}); setTimeout(()=>this.runGenerate(),0); } },\n"
+        # #44 — Paradigma'dan Üreteç'e köprü (kullanıcı: Üret butonunu Paradigma'ya da ekle).
+        "      paradigmToGenerate:()=>{ const lemma=((this.state.paradigmFree&&(this.state.paradigmFree.input||this.state.paradigmFree.lemma))||this.state.paradigmFreeQ||'').trim(); const lg=this.state.searchLang||'chv'; if(lemma){ this.setState({screen:'generate', genLemma:lemma, genLang:(lg==='auto'?'chv':lg), genPos:'n', genSeeded:true, genResult:null}); setTimeout(()=>this.runGenerate(),0); } },\n"
         "      paradigmExamples: [{lang:'chv', lemma:'хӗр', gloss:'kız', name:'Çuvaşça'}, {lang:'tur', lemma:'ev', gloss:'ev', name:'Türkçe'}, {lang:'tat', lemma:'кул', gloss:'el', name:'Tatarca'}, {lang:'kaz', lemma:'бала', gloss:'çocuk', name:'Kazakça'}, {lang:'sah', lemma:'ат', gloss:'at', name:'Yakutça'}].map(e=>{ const sel = this.state.paradigmFree && this.state.paradigmFree.lemma===e.lemma && this.state.searchLang===e.lang; return { label:e.lemma, gloss:e.gloss, kind:e.name, go:()=>{ this.setState({searchLang:e.lang, paradigmFreeQ:e.lemma}); setTimeout(()=>this.runParadigm(e.lemma),0); }, style:`cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1.5px solid ${sel?'#211d17':'rgba(33,29,23,.14)'};background:${sel?'#211d17':'#fff'};color:${sel?'#f4f1ea':'#211d17'};border-radius:11px;padding:10px 15px;font-family:inherit`, glossStyle:`font-size:11px;color:${sel?'rgba(244,241,234,.6)':'#9a9082'}` }; }),", 1)
 
     # #43 — Analiz: boş [translit] köşeli ayracı gizle (canlı kelimede translit='' → "[]" görünüyordu).
@@ -3117,7 +3120,9 @@ def main():
         '        </div>\n'
         # tablo
         '        <div style="margin-top:20px;background:#fff;border:1px solid rgba(33,29,23,.1);border-radius:16px;overflow:hidden">\n'
-        '        <table style="width:100%;border-collapse:collapse;font-family:inherit">\n'
+        # #50 — table-layout:fixed + colgroup: kök <details> açılınca sütunlar KAYMAZ (cell genişliği sabit).
+        '        <table style="width:100%;border-collapse:collapse;font-family:inherit;table-layout:fixed">\n'
+        '          <colgroup><col style="width:19%"><col style="width:17%"><col style="width:14%"><col style="width:26%"><col style="width:24%"></colgroup>\n'
         '          <thead><tr style="background:#211d17;color:#f4f1ea">'
         "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">DİL · OLGUNLUK</th>"
         "            <th style=\"text-align:left;padding:11px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.5px;font-weight:500\">SÖZLÜK<br><span style=\"opacity:.6\">kök sayısı</span></th>"

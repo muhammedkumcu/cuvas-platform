@@ -311,7 +311,7 @@
         <sc-if value="{{ isCmpSound }}" hint-placeholder-val="{{ true }}">
         <div style="margin-top:24px">
           <p style="font-size:15px;line-height:1.6;color:#5f574b;max-width:74ch;margin:0 0 14px">Türk dilleri ailesini kollara ayıran <strong>düzenli ses yasaları</strong> (izoglosslar). Her kart bir Proto-Türkçe fonemin farklı kollardaki refleksini ve örneklerini gösterir — Çuvaşça (Oğur) ile başlayıp tüm kol-çiftlerine açılır.</p>
-          <button onClick="{{ goCognate }}" style="cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:8px 14px;font-size:13px;font-family:inherit;color:#2f6fb0;margin-bottom:18px">Bu denklikleri kognat ağında gör →</button>
+          
           <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
             <sc-for list="{{ soundCards }}" as="s" hint-placeholder-count="4">
               <button onClick="{{ s.select }}" style="{{ s.cardStyle }}">
@@ -839,9 +839,7 @@
           <select value="{{ searchLang }}" onInput="{{ onSearchLang }}" title="Çözümleme dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:9px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:170px;flex-shrink:0"><option value="auto">Otomatik (dil algıla)</option><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="aze">Azerice</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="sah">Yakutça</option><option value="tuk">Türkmence</option><option value="crh">Kırım Tatarca</option><option value="gag">Gagavuzca</option><option value="kaa">Karakalpakça</option><option value="alt">Altayca</option><option value="kjh">Hakasça</option><option value="krc">Karaçay-Balkar</option><option value="kum">Kumukça</option><option value="nog">Nogayca</option><option value="tyv">Tuvaca</option></select>
           <sc-if value="{{ qbActive }}" hint-placeholder-val="{{ false }}"><button onClick="{{ goQuality }}" title="Bu motorun olculmus kalitesi" style="cursor:pointer;display:inline-flex;align-items:center;gap:7px;background:#fbfaf6;border:1px solid rgba(33,29,23,.14);border-radius:20px;padding:6px 13px;font-size:11.5px;font-family:inherit;color:#5f574b"><span style="font-family:'IBM Plex Mono',monospace;color:#9a9082;font-size:10px;letter-spacing:.5px">KALİTE</span> {{ qbActive.tier }} · round-trip %{{ qbActive.r }} <span style="color:#d98b4a">↗ Kalite &amp; Kapsam</span></button></sc-if>
         </div>
-        <div style="font-size:11px;letter-spacing:1px;color:#9a9082;margin-top:18px;font-family:monospace">ÖRNEK KÖKLER (farklı dillerden)</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-          <sc-for list="{{ paradigmExamples }}" as="r" hint-placeholder-count="3">
+        <div style="display:none"><sc-for list="{{ paradigmExamples }}" as="r" hint-placeholder-count="3">
             <button onClick="{{ r.go }}" style="{{ r.style }}"><span style="font-family:'Spectral',serif;font-size:17px;font-weight:700">{{ r.label }}</span><span style="{{ r.glossStyle }}">{{ r.gloss }} · {{ r.kind }}</span></button>
           </sc-for>
         </div>
@@ -957,7 +955,7 @@
               <span style="display:inline-flex;align-items:center;gap:9px;font-size:12.5px"><span style="width:22px;height:0;border-top:1.5px solid rgba(244,241,234,.4)"></span>doğrudan kökteş</span>
             </div>
             <button onClick="{{ goCompareSound }}" style="margin-top:18px;cursor:pointer;width:100%;background:#d98b4a;color:#211d17;border:none;border-radius:9px;padding:10px;font-size:13px;font-weight:600;font-family:inherit">Ses denkliklerinde incele →</button>
-            <div style="margin-top:14px;font-size:11px;color:rgba(244,241,234,.4);font-family:'IBM Plex Mono',monospace">Kaynak: KÖKEN derin araştırma (ds18) · Savelyev 2020 + Cambridge Turkic + Wiktionary</div>
+            <div style="margin-top:14px;font-size:11px;color:rgba(244,241,234,.4);font-family:'IBM Plex Mono',monospace">Kaynak: Savelyev &amp; Robbeets (2020), <i>SavelyevTurkic</i> CLDF · Clauson, <i>EDT</i> · Wiktionary çapraz-kontrol</div>
           </div>
         </div>
         <div style="margin-top:32px">
@@ -977,7 +975,6 @@
               </div>
             </sc-for>
           </div>
-          <div style="margin-top:10px;font-size:12px;color:#9a9082;font-family:'IBM Plex Mono',monospace"><b style="color:#b8602e">Turuncu satır</b> = kognat boşluğu: o dil bu kavramı farklı bir kökten (ya da alıntıdan) karşılar — yani ortak atadan gelmez.</div>
         </div>
         <div style="margin-top:34px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:24px 28px;max-width:840px">
           <div style="font-family:'Spectral',serif;font-weight:600;font-size:20px;margin-bottom:12px">Bu sayfa ne anlatıyor?</div>
@@ -1154,10 +1151,6 @@
           <input value="{{ genLemma }}" onInput="{{ onGenLemma }}" onKeyDown="{{ onGenLemmaKey }}" placeholder="Bir kök yaz (ör. ev · хӗр) — sonra öznitelik seç" style="flex:1;min-width:240px;max-width:400px;padding:11px 14px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">
           <select value="{{ genLang }}" onInput="{{ onGenLang }}" title="Üretim dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:10px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:160px"><option value="chv">Çuvaşça</option><option value="tur">Türkçe</option><option value="tat">Tatarca</option><option value="bak">Başkurtça</option><option value="kaz">Kazakça</option><option value="kir">Kırgızca</option><option value="uzb">Özbekçe</option><option value="uig">Uygurca</option><option value="aze">Azerice</option><option value="sah">Yakutça</option><option value="tuk">Türkmence</option><option value="crh">Kırım Tatarca</option><option value="gag">Gagavuzca</option><option value="kaa">Karakalpakça</option><option value="alt">Altayca</option><option value="kjh">Hakasça</option><option value="krc">Karaçay-Balkar</option><option value="kum">Kumukça</option><option value="nog">Nogayca</option><option value="tyv">Tuvaca</option></select>
           <button onClick="{{ runGen }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:14px;font-family:inherit;font-weight:600">▷ Üret</button>
-        </div>
-        <div style="margin-top:12px;display:flex;gap:9px;flex-wrap:wrap;align-items:center">
-          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;min-width:62px">ÖRNEKLER</span>
-          <sc-for list="{{ genExamples }}" as="e" hint-placeholder-count="5"><button onClick="{{ e.go }}" style="{{ e.style }}"><span style="font-family:'Spectral',serif;font-weight:600;font-size:14px">{{ e.label }}</span><span style="{{ e.glossStyle }}">{{ e.kind }}</span></button></sc-for>
         </div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:24px">
           <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:1px;color:#9a9082;min-width:62px">TÜR</span>
@@ -2379,7 +2372,7 @@ class Component extends DCLogic {
     const _scol = (b)=>{ const bc=this.BRANCHCOLOR; if(/Oğur|Çuvaş/.test(b))return bc['Ogur']; if(/Argu|Halaç/.test(b))return bc['Argu']||'#8a7a2e'; if(/Yakut|Sibirya|Hakas|Şor|Tuva/.test(b))return bc['Sibirya']; if(/Kıpçak/.test(b))return bc['Kıpçak']; if(/Karluk/.test(b))return bc['Karluk']; if(/Oğuz/.test(b))return bc['Oğuz']; return '#9a9082'; };
     const soundCards = this.SOUND.map((s,i)=>({
       proto:s.proto, name:s.name, desc:s.desc, evid:(s.evid||''),
-      evidStyle: s.evid ? "font-size:10.5px;font-family:'IBM Plex Mono',monospace;letter-spacing:.3px;color:#2f8a5b;background:rgba(47,138,91,.1);border-radius:6px;padding:2px 8px;margin-left:auto" : 'display:none',
+      evidStyle: 'display:none',
       reflexes: s.reflexes.map(r=>({ branch:r.branch, val:r.val, ex:r.ex, dotColor:_scol(r.branch) })),
       select:()=>this.setState({soundSel:i}),
       cardStyle:`cursor:pointer;text-align:left;background:${i===S.soundSel?'#fff':'#fbfaf6'};border:2px solid ${i===S.soundSel?'#d98b4a':'rgba(33,29,23,.1)'};border-radius:14px;padding:20px 22px;font-family:inherit;box-shadow:${i===S.soundSel?'0 8px 20px rgba(33,29,23,.08)':'none'};transition:all .15s`,
@@ -2641,7 +2634,7 @@ class Component extends DCLogic {
       goCogDeep:()=>this.setState({cognateMode:'deep',cognateCat:'all',cognateQ:'',cognateKey:'goz'}),
       goCogBroad:()=>{ this.ensureBroad(); this.setState({cognateMode:'broad',cognateCat:'all',cognateQ:''}); },
       cognateLoading:(_broad && !this.COGNATES_BROAD),
-      cognateModeNote:(_broad ? 'Savelyev · akademik yazım · 254 kavram × ≤32 dil' : 'ds18 · yerel yazı + IPA + ses kuralı · 11 kavram × 18 dil'),
+      cognateModeNote:(_broad ? 'Savelyev &amp; Robbeets 2020 · akademik yazım · 254 kavram × ≤32 dil' : 'Savelyev &amp; Robbeets 2020 · yerel yazı + IPA + ses kuralı · 11 kavram × 18 dil'),
       cognateTableTitle:(_broad ? 'Dil dil biçim & segment' : 'Dil dil ses kuralı'),
       deepBtnStyle:'cursor:pointer;border-radius:9px;padding:6px 15px;font-size:12.5px;font-family:inherit;border:1.5px solid '+(!_broad?'#211d17':'rgba(33,29,23,.18)')+';background:'+(!_broad?'#211d17':'#fff')+';color:'+(!_broad?'#f4f1ea':'#5f574b'),
       broadBtnStyle:'cursor:pointer;border-radius:9px;padding:6px 15px;font-size:12.5px;font-family:inherit;border:1.5px solid '+(_broad?'#211d17':'rgba(33,29,23,.18)')+';background:'+(_broad?'#211d17':'#fff')+';color:'+(_broad?'#f4f1ea':'#5f574b') };

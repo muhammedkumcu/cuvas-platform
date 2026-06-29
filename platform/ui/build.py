@@ -1044,7 +1044,7 @@ def main():
         '        </div>\n'
         '      </section>')
     deep_mk_new = (
-        '            <div style="margin-top:14px;font-size:11px;color:rgba(244,241,234,.4);font-family:\'IBM Plex Mono\',monospace">Kaynak: KÖKEN derin araştırma (ds18) · Savelyev 2020 + Cambridge Turkic + Wiktionary</div>\n'
+        '            <div style="margin-top:14px;font-size:11px;color:rgba(244,241,234,.4);font-family:\'IBM Plex Mono\',monospace">Kaynak: Savelyev &amp; Robbeets (2020), <i>SavelyevTurkic</i> CLDF · Clauson, <i>EDT</i> · Wiktionary çapraz-kontrol</div>\n'
         '          </div>\n'
         '        </div>\n'
         '        <div style="margin-top:32px">\n'
@@ -1064,7 +1064,7 @@ def main():
         '              </div>\n'
         '            </sc-for>\n'
         '          </div>\n'
-        '          <div style="margin-top:10px;font-size:12px;color:#9a9082;font-family:\'IBM Plex Mono\',monospace"><b style="color:#b8602e">Turuncu satır</b> = kognat boşluğu: o dil bu kavramı farklı bir kökten (ya da alıntıdan) karşılar — yani ortak atadan gelmez.</div>\n'
+        # #46 — "Turuncu satır = kognat boşluğu" açıklaması kaldırıldı (alttaki "Bu sayfa ne anlatıyor?" kutusunda zaten var).
         '        </div>\n'
         '        <div style="margin-top:34px;background:#fbfaf6;border:1px solid rgba(33,29,23,.1);border-radius:16px;padding:24px 28px;max-width:840px">\n'
         '          <div style="font-family:\'Spectral\',serif;font-weight:600;font-size:20px;margin-bottom:12px">Bu sayfa ne anlatıyor?</div>\n'
@@ -1096,6 +1096,12 @@ def main():
     # Karşılaştır harita SEKMESİ KALDIRILDI + atlas "← Karşılaştır" → Dizilim sekmesi (eski harita önizlemesi öldürüldü).
     html = html.replace("    const compareTabs = [['rows','Dizilim'],['sound','Ses denklikleri'],['tree','Soy ağacı'],['map','Harita']]",
                         "    const compareTabs = [['rows','Dizilim'],['sound','Ses denklikleri'],['tree','Soy ağacı']]", 1)
+    # #47 — Karşılaştır/Ses denklikleri: "Bu denklikleri kognat ağında gör →" butonu kaldırıldı (kullanıcı).
+    _kbtn = '<button onClick="{{ goCognate }}" style="cursor:pointer;background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:8px 14px;font-size:13px;font-family:inherit;color:#2f6fb0;margin-bottom:18px">Bu denklikleri kognat ağında gör →</button>'
+    if _kbtn in html:
+        html = html.replace(_kbtn, "", 1)
+    else:
+        print("  ! #47 'kognat ağında gör' butonu eşleşmedi")
     html = html.replace("goCompareMap:()=>this.setState({screen:'compare', compareTab:'map'}),",
                         "goCompareMap:()=>this.setState({screen:'compare', compareTab:'rows'}),", 1)
     print(f"  ds18 Kognat: dokum + proto-fit + tablo baslik + GRAF buyutme + SES NOTU dolu + Harita-sekme->atlas: {ndeep}/5")
@@ -1118,7 +1124,7 @@ def main():
         "    const _scol = (b)=>{ const bc=this.BRANCHCOLOR; if(/Oğur|Çuvaş/.test(b))return bc['Ogur']; if(/Argu|Halaç/.test(b))return bc['Argu']||'#8a7a2e'; if(/Yakut|Sibirya|Hakas|Şor|Tuva/.test(b))return bc['Sibirya']; if(/Kıpçak/.test(b))return bc['Kıpçak']; if(/Karluk/.test(b))return bc['Karluk']; if(/Oğuz/.test(b))return bc['Oğuz']; return '#9a9082'; };\n"
         "    const soundCards = this.SOUND.map((s,i)=>({\n"
         "      proto:s.proto, name:s.name, desc:s.desc, evid:(s.evid||''),\n"
-        "      evidStyle: s.evid ? \"font-size:10.5px;font-family:'IBM Plex Mono',monospace;letter-spacing:.3px;color:#2f8a5b;background:rgba(47,138,91,.1);border-radius:6px;padding:2px 8px;margin-left:auto\" : 'display:none',\n"
+        "      evidStyle: 'display:none',\n"
         "      reflexes: s.reflexes.map(r=>({ branch:r.branch, val:r.val, ex:r.ex, dotColor:_scol(r.branch) })),\n"
         "      select:()=>this.setState({soundSel:i}),\n"
         "      cardStyle:`cursor:pointer;text-align:left;background:${i===S.soundSel?'#fff':'#fbfaf6'};border:2px solid ${i===S.soundSel?'#d98b4a':'rgba(33,29,23,.1)'};border-radius:14px;padding:20px 22px;font-family:inherit;box-shadow:${i===S.soundSel?'0 8px 20px rgba(33,29,23,.08)':'none'};transition:all .15s`,\n"
@@ -1270,7 +1276,7 @@ def main():
         "      goCogDeep:()=>this.setState({cognateMode:'deep',cognateCat:'all',cognateQ:'',cognateKey:'goz'}),\n"
         "      goCogBroad:()=>{ this.ensureBroad(); this.setState({cognateMode:'broad',cognateCat:'all',cognateQ:''}); },\n"
         "      cognateLoading:(_broad && !this.COGNATES_BROAD),\n"
-        "      cognateModeNote:(_broad ? 'Savelyev · akademik yazım · 254 kavram × ≤32 dil' : 'ds18 · yerel yazı + IPA + ses kuralı · 11 kavram × 18 dil'),\n"
+        "      cognateModeNote:(_broad ? 'Savelyev &amp; Robbeets 2020 · akademik yazım · 254 kavram × ≤32 dil' : 'Savelyev &amp; Robbeets 2020 · yerel yazı + IPA + ses kuralı · 11 kavram × 18 dil'),\n"
         "      cognateTableTitle:(_broad ? 'Dil dil biçim & segment' : 'Dil dil ses kuralı'),\n"
         "      deepBtnStyle:'cursor:pointer;border-radius:9px;padding:6px 15px;font-size:12.5px;font-family:inherit;border:1.5px solid '+(!_broad?'#211d17':'rgba(33,29,23,.18)')+';background:'+(!_broad?'#211d17':'#fff')+';color:'+(!_broad?'#f4f1ea':'#5f574b'),\n"
         "      broadBtnStyle:'cursor:pointer;border-radius:9px;padding:6px 15px;font-size:12.5px;font-family:inherit;border:1.5px solid '+(_broad?'#211d17':'rgba(33,29,23,.18)')+';background:'+(_broad?'#211d17':'#fff')+';color:'+(_broad?'#f4f1ea':'#5f574b') };\n"
@@ -1633,8 +1639,9 @@ def main():
         '        <div style="display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap">\n'
         '          <input value="{{ paradigmFreeQ }}" onInput="{{ onParadigmFreeInput }}" onKeyDown="{{ onParadigmFreeKey }}" placeholder="Bir kök yaz + Enter — sağ üstteki dilde canlı çekim" style="flex:1;min-width:300px;max-width:520px;padding:12px 15px;border:1.5px solid rgba(33,29,23,.18);border-radius:10px;background:#fff;font-size:15px;font-family:inherit;color:#211d17;outline:none">\n'
         '        </div>\n'
-        '        <div style="font-size:11px;letter-spacing:1px;color:#9a9082;margin-top:18px;font-family:monospace">ÖRNEK KÖKLER (farklı dillerden)</div>\n'
-        '        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">\n          <sc-for list="{{ paradigmExamples }}"'))
+        # #44 — kullanıcı: örnek kökler kısmını komple kaldır. Örnek sc-for'u display:none sarmalayıcıya
+        # al (orijinal markup'taki sc-for+butonlar gizlenir; paradigmExamples referansı kalır, hata vermez).
+        '        <div style="display:none"><sc-for list="{{ paradigmExamples }}"'))
     # 2) componentDidUpdate → ekrana girince paradigma çek
     live.append((
         "  componentDidUpdate(prevProps, prevState){\n"
@@ -2785,10 +2792,7 @@ def main():
         '          <select value="{{ genLang }}" onInput="{{ onGenLang }}" title="Üretim dili" style="background:#fff;border:1px solid rgba(33,29,23,.16);border-radius:9px;padding:10px 9px;font-size:12.5px;font-family:inherit;color:#211d17;cursor:pointer;max-width:160px">' + genlangopts + '</select>\n'
         '          <button onClick="{{ runGen }}" style="cursor:pointer;background:#d98b4a;color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:14px;font-family:inherit;font-weight:600">▷ Üret</button>\n'
         '        </div>\n'
-        '        <div style="margin-top:12px;display:flex;gap:9px;flex-wrap:wrap;align-items:center">\n'
-        '          <span style="' + LBLG + '">ÖRNEKLER</span>\n'
-        '          <sc-for list="{{ genExamples }}" as="e" hint-placeholder-count="5"><button onClick="{{ e.go }}" style="{{ e.style }}"><span style="font-family:\'Spectral\',serif;font-weight:600;font-size:14px">{{ e.label }}</span><span style="{{ e.glossStyle }}">{{ e.kind }}</span></button></sc-for>\n'
-        '        </div>\n'
+        # #45 — kullanıcı: Üreteç örnek kelimeler kısmı kaldırıldı.
         '        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:24px">\n'
         '          <span style="' + LBLG + '">TÜR</span>\n'
         '          <sc-for list="{{ genPosTabs }}" as="o" hint-placeholder-count="2"><button onClick="{{ o.go }}" style="{{ o.style }}">{{ o.label }}</button></sc-for>\n'

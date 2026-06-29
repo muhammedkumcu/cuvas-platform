@@ -3178,6 +3178,31 @@ def main():
         print("  ! #52 Harita/Tarih swap eşleşmedi")
     print(f"  #52 sol menü (Öğren kaldır + Harita/Tarih swap): {nmenu}/2")
 
+    # ── #42 — Hakkında: içerik düzelt + nav'dan çıkar + ANA SAYFA (landing) altına taşı ──
+    # (a) içerik düzeltmeleri (kullanıcı): "Muhammed Kumcu" bold'dan çık; alttaki UBMK cümlesini kaldır.
+    html = html.replace("Geliştirici: <b>Muhammed Kumcu</b> — Marmara Üniversitesi.",
+                        "Geliştirici: Muhammed Kumcu — Marmara Üniversitesi.")
+    html = html.replace('<p style="font-size:12.5px;color:#9a9082;margin:14px 0 0;line-height:1.6">Açık kaynak. Akademik hedef: UBMK/TurkLang ve ötesi. Apertium GPL-3.0 motorunun üstünde, verisi kaynaklı bir erişim/araştırma katmanı.</p>', "")
+    # (b) isAbout <section>'ı yakala → bloğu kaldır → landing kapanışından önce yerleştir (üstünde ayraç)
+    n42 = 0
+    _am = re.search(r'\s*<sc-if value="\{\{ isAbout \}\}"[^>]*>\s*(<section.*?</section>)\s*</sc-if>', html, re.S)
+    if _am:
+        _about = _am.group(1)
+        html = html[:_am.start()] + html[_am.end():]
+        _hc = '      </section>\n      </sc-if>\n\n      <!-- ===================== ANALIZ'
+        if _hc in html:
+            _ins = ('      <div style="max-width:1040px;margin:60px auto 0;border-top:1px solid rgba(33,29,23,.12)"></div>\n      '
+                    + _about + '\n      </section>\n      </sc-if>\n\n      <!-- ===================== ANALIZ')
+            html = html.replace(_hc, _ins, 1); n42 += 1
+        else:
+            print("  ! #42 landing kapanış anchor eşleşmedi")
+    else:
+        print("  ! #42 isAbout bloğu eşleşmedi")
+    # (c) nav'dan 'Hakkında' çıkar (artık ana sayfada)
+    if "      {id:'about', label:'Hakkında'},\n" in html:
+        html = html.replace("      {id:'about', label:'Hakkında'},\n", "", 1); n42 += 1
+    print(f"  #42 Hakkında ana sayfaya taşındı + nav'dan çıkarıldı: {n42}/2")
+
     # ============================================================
     #  G2 (mini kalite rozeti → Kalite & Kapsam) + U2 (round-trip köprüsü: Üreteç sonucu → Analiz)
     # ============================================================

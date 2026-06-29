@@ -20,3 +20,6 @@ Thumbs.db
 # Deepsearch sonuç PDF'leri (büyük ikili; çıkarılan _*.txt commitlenir)
 arastirma/*.pdf
 platform/etl/geo/*.geojson
+
+# Yayın build-context staging (modeller ~196MB + dix ~18MB VM'den toplanır; git'e girmez)
+deploy/_ctx/

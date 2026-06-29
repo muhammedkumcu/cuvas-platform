@@ -12,7 +12,7 @@ Bu adım: LANGPROFILE canlılık alanlarını Glottolog AES (CC BY 4.0) ile değ
 profil modülünün "⚠ örnek" rozetini kaldırır, ve canlı API tabanını (KOKEN_API) ekler.
 Sonraki adımlar: Analiz/Paradigma → canlı API; Kognat/Harita/Uzaklık → ilgili JSON.
 """
-import json, re, shutil
+import json, re, shutil, os
 from pathlib import Path
 
 UI = Path(__file__).resolve().parent
@@ -36,7 +36,9 @@ CODE2ISO = {"tr":"tur","az":"azj","tk":"tuk","kk":"kaz","kg":"kir","tt":"tat","b
 AES_VIT = {1: 6, 2: 4, 3: 3, 4: 2, 5: 1, 6: 0}
 AES_TR = {"not endangered": "güvende", "threatened": "tehdit altında", "shifting": "değişen",
           "moribund": "ölmekte", "nearly extinct": "kritik", "extinct": "ölü"}
-API = "http://127.0.0.1:8000"
+# Canlı API tabanı: yerel dev = VM (127.0.0.1:8000); PROD build'i KOKEN_API_URL env ile Cloud Run
+# URL'sini alır (ör. https://koken-api-xxx.run.app). Sondaki '/' temizlenir ('//analyze' olmasın).
+API = os.environ.get("KOKEN_API_URL", "http://127.0.0.1:8000").rstrip("/")
 
 # Harita: Glottolog enlem/boylam -> UI şematik harita yüzdesi (Türkçe & Yakut çapalarıyla doğrusal fit)
 MAP_ISOS = ["tur", "azj", "tuk", "chv", "tat", "bak", "kaz", "kir", "uig", "sah", "tyv", "kjh", "klj", "cjs"]

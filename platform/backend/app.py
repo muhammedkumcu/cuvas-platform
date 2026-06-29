@@ -13,12 +13,15 @@ Diller  : MVP 10 — tur, aze, kaz, kir, uzb, uig, tat, bak, chv, sah.
 """
 import os, glob, re
 from typing import Optional
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from fastapi.responses import JSONResponse
+from pydantic import BaseModel, Field
 import hfst
 
-BASE = os.path.expanduser("~/.turkicnlp/models")
+# Model/dix yolu env ile geçersiz kılınabilir (konteynerde KOKEN_MODELS_DIR/KOKEN_DIX_DIR);
+# ayarlanmazsa VM'deki ev-dizini varsayılanı (md5-davranış aynı kalır).
+BASE = os.environ.get("KOKEN_MODELS_DIR") or os.path.expanduser("~/.turkicnlp/models")
 SOURCE = {"source": "Apertium FST", "license": "GPL-3.0", "via": "turkicnlp"}
 
 LANG_INFO = {
@@ -115,7 +118,7 @@ def _gen1(gen, query: str):
 # --- DİLLER-ARASI: apertium iki-dilli sözlükler (.dix) → çapraz-dil kök grafiği (deepsearch kararı) ---
 # Boru hattı: kaynak dilde analiz (lemma+etiket) → .dix ile kök eşle → hedefte AYNI etiketlerle ÜRET.
 # Doğrudan çift yoksa diller-grafiğinde pivot (tur→tat→bak). chv/sah/uig pair yok → o hedefler atlanır.
-DIX_DIR = os.path.expanduser("~/koken_api/dix")
+DIX_DIR = os.environ.get("KOKEN_DIX_DIR") or os.path.expanduser("~/koken_api/dix")
 DIX = {}        # (srcL, tgtL) -> {src_lemma: tgt_lemma}
 DIX_ADJ = {}    # langL -> {komşu diller}
 
@@ -586,27 +589,78 @@ def _build_verb(gen, lemma):
     return blocks
 
 
-app = FastAPI(title="KÖKEN Morfoloji API", version="0.1")
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+# ── ORTAM / GÜVENLİK YAPILANDIRMASI (env-güdümlü; dev'de güvenli varsayılan) ──────────────────
+# KOKEN_ENV=prod            → /docs kapalı, rate-limit varsayılan açık
+# KOKEN_ALLOWED_ORIGINS     → virgülle ayrılmış izinli origin'ler (ayarsız=her yer; dev için *)
+# KOKEN_RATE_LIMIT          → ör. "60/minute" (ayarsız+dev=kapalı, prod=60/minute) — dev probe'ları engellenmez
+# KOKEN_MAX_BODY            → en büyük istek gövdesi (bayt; varsayılan 8192)
+_PROD = os.environ.get("KOKEN_ENV") == "prod"
+_origins_env = os.environ.get("KOKEN_ALLOWED_ORIGINS", "").strip()
+ALLOW_ORIGINS = [o.strip() for o in _origins_env.split(",") if o.strip()] if _origins_env else ["*"]
+MAX_BODY = int(os.environ.get("KOKEN_MAX_BODY", "8192"))
+
+app = FastAPI(title="KÖKEN Morfoloji API", version="0.1",
+              docs_url=(None if _PROD else "/docs"), redoc_url=None,
+              openapi_url=(None if _PROD else "/openapi.json"))
+# Salt-okunur API: yalnız GET/POST. Origin'ler prod'da env ile kısıtlanır.
+app.add_middleware(CORSMiddleware, allow_origins=ALLOW_ORIGINS,
+                   allow_methods=["GET", "POST"], allow_headers=["*"])
 
 
+@app.middleware("http")
+async def _security_mw(request: Request, call_next):
+    """Gövde-boyut sınırı + güvenlik başlıkları (her ortamda; zararsız)."""
+    cl = request.headers.get("content-length")
+    if cl and cl.isdigit() and int(cl) > MAX_BODY:
+        return JSONResponse(status_code=413, content={"detail": "istek gövdesi çok büyük"})
+    resp = await call_next(request)
+    resp.headers["X-Content-Type-Options"] = "nosniff"
+    resp.headers["X-Frame-Options"] = "DENY"
+    resp.headers["Referrer-Policy"] = "no-referrer"
+    return resp
+
+
+# Per-IP rate-limit — yalnız prod ya da KOKEN_RATE_LIMIT ayarlıysa (dev'de kapalı → probe'lar serbest).
+_RL = os.environ.get("KOKEN_RATE_LIMIT", "60/minute" if _PROD else "")
+if _RL:
+    try:
+        from slowapi import Limiter, _rate_limit_exceeded_handler
+        from slowapi.errors import RateLimitExceeded
+        from slowapi.middleware import SlowAPIMiddleware
+        from slowapi.util import get_remote_address
+
+        def _client_ip(request: Request):
+            # Cloud Run/proxy arkasında gerçek istemci IP'si X-Forwarded-For'un ilk girdisidir.
+            xff = request.headers.get("x-forwarded-for")
+            return xff.split(",")[0].strip() if xff else get_remote_address(request)
+
+        limiter = Limiter(key_func=_client_ip, default_limits=[_RL])
+        app.state.limiter = limiter
+        app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+        app.add_middleware(SlowAPIMiddleware)
+    except Exception as _e:                       # slowapi yoksa dev çalışmaya devam eder
+        print("slowapi yok, rate-limit atlandi:", _e)
+
+
+# Girdi-uzunluk sınırları (kötüye kullanım/DoS savunması): morfolojik kelime asla ~80 karakteri,
+# üretim sorgusu ~200 karakteri geçmez. Pydantic doğrulaması aşan girdiyi 422 ile reddeder.
 class AnalyzeReq(BaseModel):
-    lang: str
-    word: str
+    lang: str = Field(..., min_length=2, max_length=12)
+    word: str = Field(..., min_length=1, max_length=80)
 
 
 class GenerateReq(BaseModel):
-    lang: str
-    query: str          # ör. "хӗр<n><pl><dat>"
+    lang: str = Field(..., min_length=2, max_length=12)
+    query: str = Field(..., min_length=1, max_length=200)   # ör. "хӗр<n><pl><dat>"
 
 
 class AnalyzeAllReq(BaseModel):
-    word: str
+    word: str = Field(..., min_length=1, max_length=80)
 
 
 @app.get("/health")
 def health():
-    return {"ok": True, "langs": LANGS, "models_base": BASE, "_source": SOURCE}
+    return {"ok": True, "langs": LANGS, "_source": SOURCE}
 
 
 @app.get("/languages")
@@ -831,6 +885,8 @@ def paradigm(lang: str, lemma: str, pos: str = "n"):
     Lemma hem isim hem fiil olabilir; her ikisinin tablosu da döner (UI sekmelerle gösterir)."""
     if lang not in LANGS:
         raise HTTPException(400, f"desteklenmeyen dil: {lang}")
+    if len(lemma) > 80:
+        raise HTTPException(400, "lemma çok uzun")
     gen = _fst(lang, "autogen")
     rows = []
     for case in CASES:

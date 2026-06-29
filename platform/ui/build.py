@@ -845,7 +845,7 @@ def main():
         '        </div>\n'
         '        <p style="font-size:14.5px;line-height:1.6;color:#5f574b;max-width:82ch;margin:0 0 4px">Türk dillerinin coğrafi dağılımı; her nokta bir dil, rengi ait olduğu kolu gösterir. Üstten bir bölge seçin ya da +/− ile yakınlaştırın; yakınlaştıkça dil adları belirir. Ölü ve tarihsel diller koyu gri noktayla, eğik yazıyla gösterilir.</p>\n'
         + region_row + '\n'
-        '        <div onMouseDown="{{ atlasDown }}" onMouseMove="{{ atlasMove }}" onMouseUp="{{ atlasUp }}" onMouseLeave="{{ atlasUp }}" style="position:relative;width:100%;aspect-ratio:1.62;background:#ece5d5;border:1px solid rgba(33,29,23,.12);border-radius:18px;overflow:hidden;margin-top:10px;cursor:{{ atlasCursor }};user-select:none">\n'
+        '        <div onMouseDown="{{ atlasDown }}" onMouseMove="{{ atlasMove }}" onMouseUp="{{ atlasUp }}" onMouseLeave="{{ atlasUp }}" onTouchStart="{{ atlasTouchStart }}" onTouchMove="{{ atlasTouchMove }}" onTouchEnd="{{ atlasUp }}" style="position:relative;width:100%;aspect-ratio:1.62;background:#ece5d5;border:1px solid rgba(33,29,23,.12);border-radius:18px;overflow:hidden;margin-top:10px;cursor:{{ atlasCursor }};user-select:none;touch-action:none">\n'
         '          <div style="{{ atlasWrapStyle }}">\n'
         '            ' + build_map_bg() + '\n'
         '            ' + atlas_feature_labels() + '\n'
@@ -873,6 +873,7 @@ def main():
         "      goCognate:()=>this.setState({screen:'cognate'}),\n"
         "      isAtlas:S.screen==='atlas', goAtlas:()=>this.setState({screen:'atlas'}), goCompareMap:()=>this.setState({screen:'compare', compareTab:'map'}),\n"
         "      atlasDown:(e)=>this.atlasPanStart(e), atlasMove:(e)=>this.atlasPanMove(e), atlasUp:()=>this.atlasPanEnd(), atlasCursor:((S.atlasZoom||1)>1.01?'grab':'default'),\n"
+        "      atlasTouchStart:(e)=>{const t=e.touches&&e.touches[0]; if(t)this.atlasPanStart({clientX:t.clientX,clientY:t.clientY,currentTarget:e.currentTarget});}, atlasTouchMove:(e)=>{const t=e.touches&&e.touches[0]; if(this._pan&&t)this.atlasPanMove({clientX:t.clientX,clientY:t.clientY});},\n"
         "      atlasWrapStyle:(()=>{ const z=S.atlasZoom||1, cx=S.atlasCx||50, cy=S.atlasCy||45; return `position:absolute;inset:0;transform-origin:0 0;transition:transform .3s ease;transform:scale(${z}) translate(${(50/z-cx).toFixed(2)}%, ${(50/z-cy).toFixed(2)}%)`; })(),\n"
         "      atlasZoomPct:'%'+Math.round((S.atlasZoom||1)*100),\n"
         "      atlasZoomIn:()=>this.setState(s=>({atlasZoom:Math.min(4,Math.round((((s.atlasZoom||1))+0.5)*10)/10)})),\n"
@@ -1008,11 +1009,16 @@ def main():
     deep_geo_new = (
         "    const _ns = [...c.nodes].sort((a,b)=>String(a.lang).localeCompare(String(b.lang),'tr'));\n"
         "    const n = _ns.length;\n"
-        "    const _r0 = n>26 ? 42 : n>12 ? 42 : 38, _alt = n>26 ? 7 : 0, _rm = n>26 ? 2 : 1;\n"   # graf büyütüldü → ≤26 düğüm TEK halka (derin 18 dahil); 32 düğümde 2 halka
+        # EŞMERKEZLİ HALKALAR (kullanıcı): çok düğüm tek halkada saçılmasın → 2-3 halka, her birinde az düğüm.
+        "    const _rings = n>22 ? 3 : n>11 ? 2 : 1;\n"
+        "    const _radii = _rings===3 ? [25,36,46] : _rings===2 ? [29,44] : [40];\n"
+        "    const _ringOf = _ns.map((_,i)=> i % _rings); const _cnt = new Array(_rings).fill(0); _ringOf.forEach(r=>_cnt[r]++);\n"
+        "    const _seen = new Array(_rings).fill(0); const _idxR = _ringOf.map(r=>_seen[r]++);\n"
         "    const _mw = n>24 ? 24 : n>12 ? 44 : 60, _pad = n>24 ? '3px 6px' : n>12 ? '4px 7px' : '8px 13px', _wf = n>24 ? 12 : n>12 ? 15 : 20;\n"
         "    const nodes = _ns.map((nd,i)=>{\n"
-        "      const a = (-90 + i*(360/n))*Math.PI/180;\n"
-        "      const _r = _r0 + (i%_rm)*_alt;\n"
+        "      const _ri = _ringOf[i], _cr = _cnt[_ri], _off = _ri*(180/_cr);\n"
+        "      const a = (-90 + _off + _idxR[i]*(360/_cr))*Math.PI/180;\n"
+        "      const _r = _radii[_ri];\n"
         "      const xp = 50 + _r*Math.cos(a), yp = 50 + _r*Math.sin(a);\n"
         "      const col = this.BRANCHCOLOR[nd.branch] || '#7d6a55';\n"
         "      return { lang:nd.lang, word:this.disp(nd.word, null, nd.lang==='Çuvaşça'?'chv':'gen'), branch:nd.branch, shift:!!nd.shift,\n"
@@ -3575,6 +3581,12 @@ def main():
     #content-scroll [style*="2fr 1fr"], #content-scroll [style*="1fr 2fr"]{ grid-template-columns:1fr !important; }
     /* Karşılaştır dizilim satırı (dil | morfem kartları | yüzey biçim) flex-row → dikey yığ (yüzey biçim kesilmesin) */
     #content-scroll [style*="display: flex"][style*="gap: 18px"][style*="background"]{ flex-direction:column !important; align-items:flex-start !important; }
+    /* Kognat graf düğüm kutuları mobilde küçült (kenar=border-radius 11px; merkez baloncuk 50% hariç) — örtüşme azalsın */
+    #content-scroll [style*="aspect-ratio: 1 / 1"] [style*="border-radius: 11px"]{ min-width:0 !important; padding:2px 6px !important; }
+    /* Paradigma çekim tablosu (etiket 150px | tekil | çoğul): 1fr 1fr kuralı yanlış çökertiyordu → kompakt 3-sütun KAL */
+    #content-scroll [style*="150px 1fr 1fr"]{ grid-template-columns:52px 1fr 1fr !important; align-items:center !important; gap:4px !important; }
+    #content-scroll [style*="150px 1fr 1fr"] *{ font-size:13.5px !important; }
+    #content-scroll [style*="150px 1fr 1fr"] [style*="border-radius"]{ padding:6px 5px !important; min-width:0 !important; }
   }
 """
     _mob_pairs = [
